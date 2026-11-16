@@ -1,58 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794820943;
-	b=jG0llurG1JZgfhNUQtlJ5tcPiIH+NNOQCo4XqeQOZDE/EhOje6DvovzTrLP3p/7OnKID
-	 mV80AtH+Xqi2qofT+Z75/+4Ue4zuZIum1lzzKMx4vmZ/QE6MewjxcwlA1vg2yNJVFQBwb
-	 4XwL1Cz6P2u7Uxnr0OIQ3r2NiJBmFaDZsrrqKYIAECcwQi386fbhLSYihmUbMyA7oRkaB
-	 t1Hyz1AZzRUmbkJ+Vkh5ClEC1YfFwaUz8ycmOsyeCP6VR9IwtmN+uv+f/jG6n4oX1FxWQ
-	 0C3MKnafDibOvu1Ihd2f71L4WMFHlqKaxjeM+j7ZSHIQCPrVFWsVtg8F7sArsubXgcQ==
+	t=1794821067;
+	b=RZtto6ZJGkwk/egAWNQSahYt9pgy3Ugyt71VBiD57ilgefYcNyPV6vxo6P/pjpCHTwPA
+	 2DAl7uYkVEuc0Vs8ywONFscnLaXxbM2P33OXEsE+WVF0oi3iN4zXntw28jWIskKn799c8
+	 TJSjh3tp1D6iTX9jgQSlHf/NE532RhjwkqknHgIgxBHDkWekaytP+/ZwRnTVcq3QvVWVL
+	 tZ/hXFVa7u5VGpsVuQ0Nqa5qS4YinciaCMwJiKNhT1L732FgywQSWqZJDszUgbgLBI2Ka
+	 EYndLAUxfPqvHHD6fqvyVG4mUKIEysDBwwvNo/PX91ortS0Jn1SB2nic87XK5ceqLAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794820943;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-ID:X-MBO-RS-META;
-	bh=Y6QRPXFup/9XWuMG6qmhWGclh7A4WKa63q/MtCTrYJ4=;
-	b=T/b011UwLav+9wM35noG3BvaSpQv/MsEqNVchokoVhOExyY6NYdluLd/VQiqWl3OiFiw
-	 mMcGR+jYgWXICfhqqpOa/kwTMoX1w5irsgixwUTDv/2fOYnpC8YVEVE/tmAs8BENiUnkP
-	 OTiDHPgA4q9fLm4Y/0tSVu3VDsWKeceIAqBX886jg0lZC3BCJ59Fjvo5Udzd91BXmx2AT
-	 DBE8w6R36A2cyEuzSm6NxYI/sw0Ma1IcjMfhDF3u/YhUnsEMVKZxqwuSTVKtuf38xxVH4
-	 Pdv1/SGPpFZxfvn+KtaKGnNYjYkySQU4jgUn3YmFAEa5A9MApVwwHsZvWFF43Qn4N5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821067;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=cucuRiAtyyJedRw49cmsQXrkLhK0VoK8rf13ct59K5U=;
+	b=ofZrQ8TJV6HSFSpntppCPqscysDqnL1xEfNL/uJj9ZenAPH92U1BWeeQPmZDb6jMtRsR
+	 rVqT3vdtbPt2wYe0Vnkjs3p3+DjkhD22jsr1ur0WWopNrACb7qx9qbjHRH3Nc5i8RcY2z
+	 FLIwwq+qcii2mtLUlGZrlGndsOEgmn7DxQVpm9msKvhaUgD/0L8DJg+TPAxuZlf1z9Rbt
+	 EQZb4j9SdCMV6CYP9fgJQxliaI6V290gLZkQskjLxJZRyvDt0X+3qPAMY0Z7PEHg+vkgr
+	 pqvVdCq1F8yJPlRvAOrlYNy6IusT5W+56YRgty9lAdBaE/EKULLL2TBRBzB/bCwQJ8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b="kQBYJq/y";
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CkuKJxjR;
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54FE606A32C;
-	Mon, 16 Nov 2026 09:22:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E54FE606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D82606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 09:24:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5D82606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=kQBYJq/y
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jSj7F4j94zMlJh;
-	Mon, 16 Nov 2026 10:22:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794820937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y6QRPXFup/9XWuMG6qmhWGclh7A4WKa63q/MtCTrYJ4=;
-	b=kQBYJq/yUy5/67zh6X5VKjbF2EPNVuL/az7R+I8hZi2PJrrGifKhxhPOQjSYdRU29UiL9l
-	OL3jqqLS3ihMDxzW0WVnKYFOZeACvbzOEds8kr7LHYW/ExcwfNrtllrjRXEVrgEAamCTRi
-	PEuVk8SaPzrocXohnkfowet0qnQQe7ODvEor3Yo8mhoH0tko8d9jR5lIUAPljsrkYRt1nK
-	9eQAZXo1toqrt3FJCzhGC9nv3dY8OCWUR45hCP/71vq+h1GSX9dcrGv4bRp3EribvaEXOY
-	pIxk8blwuv39NVwSj9KbnVhyH9oLVye0k4Kzi4bcqOxU4MJIbQeuoIK/8G2Hsg==
-Message-ID: <fd865483-1485-4042-b938-2012eaa65043@mailbox.org>
-Date: Mon, 16 Nov 2026 10:22:14 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CkuKJxjR
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cc751eddf25so2576038a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:24:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794821066; x=1795425866; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cucuRiAtyyJedRw49cmsQXrkLhK0VoK8rf13ct59K5U=;
+        b=CkuKJxjRDvsygZgd+aU9GZgl95fYcdfhBJvAGAKqyxvJaXrARgzSJYh8vG1obxOYj6
+         Hiq8QBBTu/FBed1FFeE6pzSA2rjI4msRNQYZWbfN6pZ2aGioVQPhZ8k8pz6bMcXzMeC1
+         KbSWr9EefxOFm59PXzFvms9ZImD51K8iWrPSOGfbl1G4zxjUBMpMdNR17CmqweJIlfpa
+         NAgXhjQgW1O2fap99pGikhVU5jE1gSyJLECQ10l1slmhJ54h0FY1IKxDigvfe4jKexRf
+         ibKbEx92bhobUUTRrJaWc1YTGHAJgp/HWTXY+yie45acO8jIoK2SkNcmd4jywIIcSMzx
+         ranw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794821066; x=1795425866;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cucuRiAtyyJedRw49cmsQXrkLhK0VoK8rf13ct59K5U=;
+        b=BX3HP+kvqhya6tC/QlDvQw+72jp9sZh1D3k1tsPo6WBwC3G/xxcDkR/r6qgqyswufo
+         hNMLyBv5lJD0mbcBBUQtwfZZ0MhenyxuUZ19iqGLPhOIHPBG6GCz9UV9MPshng2Ltjtl
+         5nS6Q7XXlpSjZnyiIxrb8R23ZaaqrpxrMUF4F+VDmRhVRG/nqzb2h8TFo0cHB73SpLW3
+         ogrkRoQdW8N8dRcvUWEqbBUgp2cnUwgvr8JFdLStVIGQth9RirAKWCTDFpFco3XA4Uul
+         OdNl17qKYD54EcjFG73/2KaaYe9l3rx8JizCvlhCrO0yIQk89e931IebfqDgCJjrcSQI
+         4c9Q==
+X-Forwarded-Encrypted: i=1; AL+hErEz/S8RtF50ieH3aIAZMpXVlIZmtlE4h5b4nMBeT36wCqlfrtRcq0p7vxBo50W09PR+UNx15ECh0RMBGw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z967tIJlf8p5kVDrcGGeO8xoM+f8He7ehJKMf4u9ytH+nOsreYx
+	hJmPVPE7g4vvNNOj1aEaRpLox6jQQZa3wLE0EdIyUas+VYqvyQsXrToa
+X-Gm-Gg: AZFdTZfdgKFyvpZr1PmgjCo4Sunq+O9C/I56Bhyy5nIl213zJjvQBNtDWxBYhChW09b
+	Ih+FGb3mD+R8tKhxKoS0Z3a/D3PpDRzyKCQSN9Oi24qzohx4MUJJwxaIWmuFPYKWf65ZGHngR3Z
+	DBB7o4NKGZezWE+buuO/1JRohXjXXTnak6hSderyIrsj6TjCM3RHwAkotQ4lJnyfyZriEVUuKw7
+	GaNTRc4iB7m6rNgundyKLBfi27JRlFTazGsIcVcmkZ3vP8YxoUINpQLd2+zj6hOIPVWVGuX+R6m
+	i6JHxF0tr26rEZZp7oglmOQY7ucMT8r7xPrP8DBZtS695UsQnRPhMAt3O41Wi+kYNCEyBqFx6zI
+	XE1Lk3U1t2jaNBRQMiwYtKVlJnzPHWOulBR49Lt7TTj/h63cXeDolpog2Co26OZVjvVZ7TcsEiW
+	M4Ub2vxV/tY1z4TtpfIe/ALgUwz5psJuzvD9hP14W5Aq8UYgoRZWdq/CuklTKiK9x9ZofLy9+ch
+	6ugugIhzfuSzlVz3rk9Hyh2/IwKHpBF2k6rwmjyfN20q1zH/qgREVt///ha6jbdQTNbC1rFEk/X
+	6rSSPgjVCaHf+5u5Ya2vJlM+L6HUSKQkUajBP/l4Kg1m6ERS3fZP9bqZcFFHmSXzT0RmqWzi6W+
+	T8Gxo0/U2iw0f8a9s/Jo/ieKabHVFEnjbupGHZ0tTq5w0XAhzyQAGaq3A0+nXS/H9Rg==
+X-Received: by 2002:a17:90b:4d06:b0:3ab:884b:65b7 with SMTP id 98e67ed59e1d1-3b1b0ba1321mr8970677a91.25.1794821066118;
+        Mon, 16 Nov 2026 01:24:26 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aec43699sm15661189a91.10.2026.11.16.01.24.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 01:24:25 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Andrei Simion <andrei.simion@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/3] ASoC: atmel: mchp-i2s-mcc: Improve clock and IRQ handling
+Date: Mon, 16 Nov 2026 16:24:03 +0700
+Message-ID: <20261116092407.514998-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,61 +104,28 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: doc: cs35l56: Point to kernel.org firmware
- repository
-To: linux-sound@vger.kernel.org
-Cc: David Rhodes <david.rhodes@cirrus.com>, Jaroslav Kysela <perex@perex.cz>,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Takashi Iwai <tiwai@suse.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 5f70c5e78e4e3c85d5b
-X-MBO-RS-META: jx3otgz355xkrtsxxwdwbsfbnfho5qyn
+Content-Transfer-Encoding: 8bit
 
-On 9/14/26 5:12 AM, Marek Vasut wrote:
-> Use the primary mirror of linux-firmware at kernel.org.
-> No functional change.
-> 
-> Fixes: 088fb4ee17fc ("ALSA: doc: cs35l56: Add information about Cirrus Logic CS35L54/56/57")
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-> ---
-> Cc: David Rhodes <david.rhodes@cirrus.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-sound@vger.kernel.org
-> Cc: patches@opensource.cirrus.com
-> ---
->   Documentation/sound/codecs/cs35l56.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/sound/codecs/cs35l56.rst b/Documentation/sound/codecs/cs35l56.rst
-> index b3f8c1c238518..4a246f535d260 100644
-> --- a/Documentation/sound/codecs/cs35l56.rst
-> +++ b/Documentation/sound/codecs/cs35l56.rst
-> @@ -50,7 +50,7 @@ DSP. Firmware files are essential to enable the full capabilities of the
->   amplifier.
->   
->   Firmware is distributed in the linux-firmware repository:
-> -https://gitlab.com/kernel-firmware/linux-firmware.git
-> +https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/
->   
->   On most SoundWire systems the amplifier has a default minimum capability to
->   produce audio. However this will be
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Is there anything left over to do with this change ?
+Hi all,
 
-Thank you for your help !
+This series simplifies clock management using devm APIs and ensures
+the peripheral clock is enabled before requesting the IRQ.
+
+Compile-tested only.
+
+Best regards,
+Phuc
+
+bui duc phuc (3):
+  ASoC: atmel: mchp-i2s-mcc: Use devm_clk_get_optional() for gclk
+  ASoC: atmel: mchp-i2s-mcc: Use devm_clk_get_enabled() for pclk
+  ASoC: atmel: mchp-i2s-mcc: Request IRQ after enabling pclk
+
+ sound/soc/atmel/mchp-i2s-mcc.c | 46 ++++++++--------------------------
+ 1 file changed, 11 insertions(+), 35 deletions(-)
+
+-- 
+2.43.0
+
