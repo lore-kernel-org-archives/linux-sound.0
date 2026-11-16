@@ -1,62 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794871011;
-	b=UVSN8JnYcDn6AEAmvTZWEMKy+ZkPFDIPcx+oBxwXiQhB7WWx7dGL8BDsHnnzutmwn2uh
-	 AY7NUyRxf4TbyNSAbM9CE39fWMkudaW6UTcAgHh1utaGd1JxeFljsXR4Iq8b2LeknR9Ea
-	 OOcs/XZPazT8cF9ehv5CrcYPd95aUFtIVFo3Bjg1JLoiSoMpVHdtT2hN08Gbc7IryL3Wz
-	 NjubM2ltcun/mIi1sIimD/ePQspzMbsna7oxY3XEi9aSE8Kmyv7wCFuHgUyOUP2vGEsbz
-	 IWJwMO4j2dWYmtj5de19KhFmvutm9+py/Eq2fDqTYsUHgwXml2Lk+gxuqY4ryYNLkIQ==
+	t=1794871954;
+	b=bO5gFWtGJ19eYjnHTooR/biyH4TSNmNGp96GE7HpF+fmcaOmG/sZBmMrcccIMpm7gA1H
+	 bJr6liXPODfqvTuPo/yy6dN+PpzVZiDaK1e3BwfNsEGYqAHy9wvQQ9ncUS1RguO6Cz8KH
+	 /RK+0EVsQfromdCPQKT5uHdHQ7a7Ju1mIOCVQkWdgIetbq5pulaiNoBmTLpGhQ91xy6NQ
+	 4I/CwsMoS3N6telBcYPyd2Zzk2vEYJdPr8l+BxA5RylwJRgf8cAoq0+8XEnWR9lAlUCji
+	 EKcr1BBRBCTT4SKf8t2AwQrjNXjRfw9E09ZjK/bv75Q7/VzdzD11X11asf6jJ8FVWKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794871011;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794871954;
+	h=Received:DKIM-Signature:From:To:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=D744codKNdjWB0cIKo4OC/V775hatd/33THb99xe3yY=;
-	b=JOZNuuzUPZaqfwdVdbzAn1XKj8dargVtp7nogQwla0HjQbb1ymxBDOThXol59UTBUvIs
-	 hhholf7JxdE2zLQyDG4dGb1vDeW6Cd0P+LQtOGU5TrimOvJsnyo+7BEEIahllAdtv7+oi
-	 YOKq5di1uF7CRGvPU9fMBybnQsOSsHiOr9IqjGtCFA/lJ32OIzOd+mobo4ww3ri05TNBM
-	 7jO5QGR4wq5yHM+u4uh6jG9e8Jr27V29LlicI7xf9qPMC025GYOFq8ZVBk4xPYLeFWPQe
-	 FquYAOVnITN7bVTWE1mpuil4YPpbg0p7NnDuLDOZ+e0Q9Q3OeRgN6k2lanDEp3ZivgA==
+	bh=axD6JuqYYkHzHzkkogAs5CL/17/Z9QAyU95DACYygPA=;
+	b=eO3LzKAqa8fd7MEpyP0c7+iYlqaELmq3w3UJLHG1AadwTRjdlYb/8qzjBSNuyAXOCEzh
+	 D0uJV7MrZZb9eTFeHFgRUIgDhNjdpGSFTAgdIWACsu0Xm+rDsDBJn2D/WySJiehaTAxAC
+	 DMQa4sVrCnldAEgegYXl3hwUjro9amzDfqX6Qsf0euExPtej6vxJnPea/s8GNKtxVjnGK
+	 f/9ffKccSm9EZlAHkbhPrbVR1b3MGdRgl5VTLbHvpRAv9q15UZXzTNT5A4AR138gKZP1+
+	 E4kXd3EUyk2yXTok2Aw3FXN4xffLdfe3F1MUERTlPOuNcC0Xf2Fdh0x8d5S4R4qm/ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="IZ/dM1u6";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SmrF1IRU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90240606A31C;
-	Mon, 16 Nov 2026 23:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932C9606A31C;
+	Mon, 16 Nov 2026 23:32:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IZ/dM1u6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D43E11F000C4;
-	Mon, 16 Nov 2026 23:16:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SmrF1IRU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B29491F000C4;
+	Mon, 16 Nov 2026 23:32:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794871011;
-	bh=D744codKNdjWB0cIKo4OC/V775hatd/33THb99xe3yY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IZ/dM1u68/w4ysDuF2c/9CTIYBd8/rFn5rCBuddDvWtSTc4jm3uO+TCFPOfimXYSz
-	 t8JmCxAfr+W425w+VYBo9mBMQMa/YxwMecLbewFm6yXjEZp+OAjE5TlqPKwTE8nc8K
-	 +gkYfojo8Jk+EN8F2g01KQ8p8kyXahhMagLjnu401xUHol7LTWXQ8cjPuGg8cF3QKv
-	 K9ast/IxtW9TP+dTJ5mp1g6c0Q3YuVPr80OKJlP5VfYwqzZgnwL78gks74c2qSO3s0
-	 J/i9DphSXgS62lUxieCZv/CS1km+yTO6GNrBDVt4ndV2QIPzVvG/zbemvxwFbFpndZ
-	 o3Uf7zZ1pyuFA==
+	s=k20260515; t=1794871954;
+	bh=axD6JuqYYkHzHzkkogAs5CL/17/Z9QAyU95DACYygPA=;
+	h=From:To:In-Reply-To:References:Subject:Date;
+	b=SmrF1IRUbYwqe1+x6yB4Ez/4EaMOqP05/mxdGLEnNuvKAKoOsYGtm0z75f3Bqs+hk
+	 VM/l8fit9ynw9XP8rVSnF4YncYEakYzNUK3XeXFV4fYqyV1oXh6hx7Z4403cRJUecd
+	 eV2wA+zUzOWmTfr/hPBWVY/bYEZYf7V9qOPy5/irD0ABiejdGDKHs3eJToxh3ySwVc
+	 NwhmdqFRLM7oUHC3MuUr3YdZ/durabFO9HQTzwPqjnnmeIKwizF7N0nVrsLvzDolRc
+	 YTmsXB8rREUDdzlX3+UYgWC+ThWcwmcXXNbYA88NWmhLduMpTD9RMHU8bIQR+TXoU6
+	 LsZlbrsgbQZIQ==
 From: Mark Brown <broonie@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Christian Hewitt <christianshewitt@gmail.com>, 
- Valerio Setti <vsetti@baylibre.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261113-aiu-fifo-fix-sleep-on-spinlock-v2-1-f72015c933bf@baylibre.com>
-References: <20261113-aiu-fifo-fix-sleep-on-spinlock-v2-1-f72015c933bf@baylibre.com>
-Subject: Re: [PATCH v2] ASoC: meson: aiu-fifo: prevent sleeping when
- spinlock is held
-Message-Id: <179485994155.2504946.8052884083469699014.b4-ty@b4>
-Date: Mon, 16 Nov 2026 20:12:21 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Christian Marangi <ansuelsmth@gmail.com>
+In-Reply-To: <20261026101026.34318-1-ansuelsmth@gmail.com>
+References: <20261026101026.34318-1-ansuelsmth@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: an7581-afe: add support for reset
+ and secondary IRQ conf
+Message-Id: <179486030880.2504946.8819617613005483492.b4-ty@b4>
+Date: Mon, 16 Nov 2026 20:18:28 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,26 +64,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YoWPz3fhDSUGPyw/AXIX0PwVKHHA0Y9uh1d/YQgfCLQ=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+993bumy3uZLDM+M/qUWzL133LQhcMW93+QKdmB1TF
- i7eJL74XUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAm4iDC8FfmtI6mlqnJ1wX7
- Z01zdc73m8ehtmeF0TS9Fb33LhxLPVrC8N8n8ECJcFeYUdvV2R0zrzWoheWauH9dt2bpb6nn9Xm
- rZJkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1173; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=aGoCOZP/Q4l/zUrAd/k8dCC8y4drCbim83cX8HAtjrI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+T+oL67Sf+a67bvIDOUHrhpW7AuRWngtX2Ppq8qIV1
+ vYp/ktudpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiJrcY/orFTpRtaG7pLt30
+ o3cGs67hiq/Gq3wcwn6XB9qsyda7a8XwP8rqQoyFBLdQBHNos2Hw1lyNx3sXiCy9cOmwfPxKj6c
+ 7eQE=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 13 Nov 2026 14:56:34 +0100, Valerio Setti wrote:
-> ASoC: meson: aiu-fifo: prevent sleeping when spinlock is held
+On Mon, 26 Oct 2026 11:10:24 +0100, Christian Marangi wrote:
+> ASoC: dt-bindings: an7581-afe: add support for reset and secondary IRQ conf
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
 Thanks!
 
-[1/1] ASoC: meson: aiu-fifo: prevent sleeping when spinlock is held
-      https://git.kernel.org/broonie/sound/c/0d40a91ca56e
+[1/1] ASoC: dt-bindings: an7581-afe: add support for reset and secondary IRQ conf
+      https://git.kernel.org/broonie/sound/c/2efe1bb1edd3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
