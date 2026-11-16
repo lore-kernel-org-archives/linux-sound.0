@@ -1,110 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794843966;
-	b=EDgMahIcgoBRGwq1fQ6KQ7oNihZlsi9o/vPhz0jBNzLIcRENFheMeDvSrysKQAwHEoK9
-	 o0yKViLIKjM1XP0WVuKXXIsGzZrXN1zgpyQjSNugIBhtoPypBBH87t41KFTnjPmKxW4EB
-	 D/eHenaBB+b3m8XOT5b8y/+kT2D97YcmccyGyXd8zcmcQBl9V8OPw7Zq8uJVx30hfGBKw
-	 GMhl+TuvIcZ5WQE7hQR4e8ArlERhPPp2x8QtrS96TE0Tb+7wh4sRpvUSqpqNm7a2wSvt9
-	 JFgJWDEm3yxn4EFQa2Qh+VSbtVFw3R4dQQLlwh/ZpPmy6I7604PVplmRYuCaRqHzp4A==
+	t=1794844336;
+	b=hAlX8ZexkL701fd0zbJOElrEDoV2bl/nkay/G2UxggQb6bhj6BXtmXOjxToZEPxgF1ij
+	 B9RR3IGyKyME5cUM9Jsvtu/ZphenxSVjx9U1gskHqhIzEgi2bOGvVAe0+PzLt9vNjju9p
+	 WyIohJFe45LEXfLZi+LMX07mSYd2N8lyxboRDLYnMZsQER5HcGYDGuG/rQ1Ip740pR8jh
+	 VdUK7L041YnCgVZTcW22/0reLrJu3iCEJAizu3KNFGZpOH2YV1G7+FPpvMycUGO8VBlmZ
+	 dL/7tYd8RaQWVeZbY2jWxjlMKoehZYOFoNLybgC8dVptdy0uyWrHG5dj7q/ED5NZtUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794843966;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=ZsLcpSlu0xOtB99tdS5E7q9n/YT6799JHqXWdfxhZo8=;
-	b=quXhIiGs9EdVaUUdYE+FrUlkLCRR+q5QqPOPBTZUCfxTZxji/6c1qHbsvlSKFbALT47T
-	 6/qcSpZtT50dgp3M/Setnp3jGva9xrHY9PvbMt3VI/nvanCceHek7KF6CB9fmTOSKDkpf
-	 pCjor7+J3wUZ3rrYOzOYWaKYUpVdJKNAmZBaRza89aEgEsrSrWninok5T4CH5waFEpUFJ
-	 2ghNyJg18HULSybIBSnaSyWXMhn1wD4JlxdBgXPFX0WABJg/aAiD/i56iUEY1IE0bpoRO
-	 qnzX04IFYrtmbXyg13DO1kDWY4bt0d8xbo3AC4SwQyOZzxGOWMoQye6ZbSS+zylm6Zw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794844336;
+	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=tc6KfHj5fySnLDo/yssasn7KXGGvXcSn8JCgqMRWVxQ=;
+	b=M/iaVomGYpVSksW1KdJggGVP9jcu05FHF5h4deKEQ+fN0q3dOyqoGDCMYXE+3DuGU8MP
+	 lX5p3SGlYyqLFpFDdEm2DyZ+Ahju/dZbI1EYYKvBG7aHgrAwPMn8sJfUuSaYAePo6pvQx
+	 /uougziPd8hA2kWyih4ttV32snqF+KfM4jWYpXbLuTz/gcEgAkgfytiSfmnM6rHX4b81D
+	 ZtrhgJifiTcNU0Eepe0AqIh2QHZ9FpX9ACxqv4ToED270PROhCVaaBiBW41pgad5iwwL8
+	 vuydK0N+TXr4V4zuf5F6GWNeUQ7yvwvp1c9mRZxfG0GvsI3hla4prXIEazb2oGlFnew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yOwJkUDg;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=J7bRhhE9;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KsFApR+i;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PaCckNme;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=ideasonboard.com;
+	spf=pass smtp.mailfrom=ideasonboard.com;
+	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=NusKEKiY;
+	arc=none smtp.remote-ip=213.167.242.64
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1A2606A32F;
-	Mon, 16 Nov 2026 15:46:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E1A2606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D21F606A331;
+	Mon, 16 Nov 2026 15:52:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D21F606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yOwJkUDg;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=J7bRhhE9;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KsFApR+i;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=PaCckNme
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0B0B91F83B;
-	Mon, 16 Nov 2026 15:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794843963; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZsLcpSlu0xOtB99tdS5E7q9n/YT6799JHqXWdfxhZo8=;
-	b=yOwJkUDgiFXnugsqmiSpX3119tzGEvaCu5sQV/RTvV5mpqZBtggax6g42INI2PLVHFbQ2O
-	o5GlmNUVX198qrXEu8Lwo/4ZIe3QYqaZUKc7KKwxAsoeyP676tc0thy/4c1lno+6nslzY5
-	lHqwr9etSrD0YKEztpI01zEeS4atjdc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794843963;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZsLcpSlu0xOtB99tdS5E7q9n/YT6799JHqXWdfxhZo8=;
-	b=J7bRhhE9tJMXPZWRkNX57ENbybpqVSLrVlMja3soQX+tCxwcEHN7ZsSc2fYp8oR8ZP4X4X
-	k6B7wkht8RRYtkBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KsFApR+i;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=PaCckNme
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794843962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZsLcpSlu0xOtB99tdS5E7q9n/YT6799JHqXWdfxhZo8=;
-	b=KsFApR+ipCGQGiSHXQ3J4jkq9kUW+2WVgp0RUd5NzXrSl9GK6Jwm65/T8Rx3DRsPvePwzu
-	O1fVeeXQ6ZsHyf0+qqn/Syju2F2GnkwxsKUu+ezwt2XkMrNL9MZam432mVQ8ePADo3sc1N
-	vNsj7sQ4KOq0mBlHN7e0yEOwk9MrgNw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794843962;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZsLcpSlu0xOtB99tdS5E7q9n/YT6799JHqXWdfxhZo8=;
-	b=PaCckNmeU9U8M2mLIHyWUe8Kd+Ifp8hLUJPXyCuLhu08TwZRd0AnfetQnJQxp5a7PFH+nr
-	pcNcbF4rObS0fBDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B054A13408;
-	Mon, 16 Nov 2026 15:46:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 82yKITkl+2q2QQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 15:46:01 +0000
-Date: Mon, 16 Nov 2026 16:46:01 +0100
-Message-ID: <8733t0ye2u.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: jack: Fix jack control cleanup on error paths
-In-Reply-To: <20261115114315.3679-1-sreekuttan2156239@gmail.com>
-References: <20261115101949.2483-1-sreekuttan2156239@gmail.com>
-	<20261115114315.3679-1-sreekuttan2156239@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=NusKEKiY
+Received: from killaraus.ideasonboard.com (2001-14ba-7086-3000--a06.rev.dnainternet.fi [IPv6:2001:14ba:7086:3000::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED0204BB;
+	Mon, 16 Nov 2026 16:49:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1794844186;
+	bh=dmodi+YIJbHNHccq3QM7tWgiNzPRHtMFkx//VJBaXh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NusKEKiY4bzAOfEoYrIhBXyGlIkZI3PnloPf2BxBVRwuEIJvmtu+vw7O/jc41VQuU
+	 J3Ty1U67T4ibE4hILXY3O/CpMrCBJQpictxpRHUyim+WJ3gBdqwhQf8GriCHlXRv3w
+	 cuUezGZlAQGClI/3BR6NS7TrNFoxwJ2vIQYfr6tw=
+Date: Mon, 16 Nov 2026 17:52:11 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-pm@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+	Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+	Alessio Belle <alessio.belle@imgtec.com>,
+	Luigi Santivetti <luigi.santivetti@imgtec.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Robin Murphy <robin.murphy@arm.com>, Yong Wu <yong.wu@mediatek.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Will Deacon <will@kernel.org>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	dri-devel@lists.freedesktop.org, imagination@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	sound-open-firmware@alsa-project.org, imx@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] PM: runtime: fix stub pm_runtime_get_if_in_use()
+ for !CONFIG_PM
+Message-ID: <20261116155211.GB1763340@killaraus.ideasonboard.com>
+References: <20261116152513.2676573-1-Frank.Li@oss.nxp.com>
+ <20261116152513.2676573-2-Frank.Li@oss.nxp.com>
+ <20261116153139.GB1763944@killaraus.ideasonboard.com>
+ <avskkbztzVF_SRo6@SMW015318>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -113,65 +98,167 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 0B0B91F83B
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <avskkbztzVF_SRo6@SMW015318>
 
-On Sun, 15 Nov 2026 12:43:15 +0100,
-Sreeraj S Kurup wrote:
+On Mon, Nov 16, 2026 at 09:43:13AM -0600, Frank Li wrote:
+> On Mon, Nov 16, 2026 at 05:31:39PM +0200, Laurent Pinchart wrote:
+> > On Mon, Nov 16, 2026 at 10:25:11AM -0500, Frank.Li@oss.nxp.com wrote:
+> > > From: Frank Li <Frank.Li@nxp.com>
+> > >
+> > > The stub for pm_runtime_get_if_in_use() under !CONFIG_PM currently
+> > > returns -EINVAL.  The real implementation returns:
+> > >   1  - device is active and its usage counter is non-zero (bumped)
+> > >   0  - device is not in use or not active (counter not bumped)
+> > >  -EINVAL - runtime PM disabled for this device
+> > >
+> > > When CONFIG_PM is not set every device is permanently "active" and
+> > > always considered "in use", so the stub must return 1, mirroring
+> > > __pm_runtime_resume() which already returns 1 in the same build.
+> > >
+> > > Returning -EINVAL breaks callers that test the return value with
+> > > comparisons other than "!= 0 / == 0":
+> > >
+> > > drivers/gpu/drm/i915/intel_runtime_pm.c:
+> > >   if (intel_runtime_pm_get_if_in_use(rpm))
+> > >   which wraps to: ret = pm_runtime_get_if_in_use(); return ret > 0;
+> > >   With -EINVAL the wrapper returns false, causing an incorrect error
+> > >   path in the GT fence revocation code.
+> > >
+> > > drivers/gpu/drm/xe/xe_pm.c:
+> > >   if (pm_runtime_get_if_in_use(xe->drm.dev) > 0)
+> > >   With -EINVAL the condition is false; xe_pm_runtime_get_if_in_use()
+> > >   returns false, so callers believe the device is not usable.
+> > >
+> > > drivers/gpu/drm/gma500/power.c:
+> > >   return pm_runtime_get_if_in_use(dev) == 1;
+> > >   -EINVAL != 1, so the helper always returns false when !CONFIG_PM.
+> > >
+> > > drivers/gpu/drm/imagination/pvr_power.c:
+> > >   if (pm_runtime_get_if_in_use(...) <= 0)
+> > >   -EINVAL <= 0 is true, so the driver always takes the "requeue" error
+> > >   path instead of proceeding with the active device.
+> > >
+> > > sound/soc/sof/debug.c:
+> > >   if (pm_runtime_get_if_in_use(sdev->dev) == 1)
+> > >   -EINVAL != 1, so d3_prevented is never set, corrupting exception
+> > >   debug accounting.
+> > >
+> > > drivers/iommu/mtk_iommu.c:
+> > >   if (pm_runtime_get_if_in_use(dom->plat_dev->dev) <= 0)
+> > >   -EINVAL <= 0 skips the TLB flush, leaving stale IOMMU mappings.
+> > >
+> > > drivers/iommu/rockchip-iommu.c:
+> > >   Three call sites use WARN_ON_ONCE(err < 0) or similar patterns.
+> > >   -EINVAL < 0 triggers a spurious WARNING on every call.
+> > >
+> > > drivers/media/i2c/isl7998x.c:
+> > >   if (pm_runtime_get_if_in_use(dev) <= 0)  (two call sites)
+> > >   -EINVAL <= 0 causes the driver to always skip register programming
+> > >   when !CONFIG_PM.
+> > >
+> > > drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:
+> > >   if (pm_runtime_get_if_in_use(dev) <= 0)  (two call sites)
+> > >   -EINVAL <= 0 prevents any debug statistics from being collected.
+> > >
+> > > Fixes: 9d58aa46291d ("drm/i915: Fix the GT fence revocation runtime PM logic")
+> > > Fixes: cbb6a7413b17 ("drm/xe: Introduce xe_pm_runtime_get_noresume for inner callers")
+> > > Fixes: 672c473576ca ("drm/gma500: Rewrite power management code")
+> > > Fixes: 727538a4bbff ("drm/imagination: Implement power management")
+> > > Fixes: b30289e7fa92 ("ASoC: SOF: Fix runtime pm usage counter balance after fw exception")
+> > > Fixes: c0b57581b73b ("iommu/mediatek: Add power-domain operation")
+> > > Fixes: 0f181d3cf7d9 ("iommu/rockchip: Add runtime PM support")
+> > > Fixes: 51ef2be546e2 ("media: i2c: isl7998x: Add driver for Intersil ISL7998x")
+> > > Fixes: cbb819c363c5 ("media: rkisp1: debug: Collect input status by sampling ISP_FLAGS_SHD")
+> >
+> > I don't think this one is right. The rkisp1 driver only runs on ARCH_MXC
+> > and ARCH_ROCKCHIP, which select CONFIG_PM. The same may be true for some
+> > of the other fixes tags.
 > 
-> snd_jack_new() creates an ALSA jack control before allocating
-> the jack structure.
-> 
-> If a later allocation or device registration fails, the
-> function returns without removing the previously created
-> control. This leaves the control attached to the sound card
-> and can cause invalid list operations during card teardown.
-> 
-> Initialize the control list in snd_jack_kctl_new() so that
-> the private_free callback can safely remove the list entry.
-> 
-> Route all failure paths in snd_jack_new() through common
-> cleanup labels to remove the control and free allocated
-> resources.
-> 
-> Fixes: 4e3f0dc65883 ("ALSA: jack: extend snd_jack_new to support phantom jack")
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+> But code itself should be wrong even though these platform force enable
+> CONFIG_PM.
 
-Applied to for-next branch now, as it's no urgent fix that can trigger
-a crash or such.
+How does it make the code wrong in the rkisp1 driver ? There's nothing
+to fix there, because there's no bug.
 
+I'm not saying this patch is wrong (I'll let the runtime PM folks
+provide expert feedback), but I think some of the Fixes: tags are not
+correct.
 
-thanks,
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > > Change in v2
+> > > - new patches.
+> > >
+> > > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > > Cc: linux-pm@vger.kernel.org
+> > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > Cc: Maxime Ripard <mripard@kernel.org>
+> > > Cc: "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>
+> > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > Cc: David Airlie <airlied@gmail.com>
+> > > Cc: Matthew Brost <matthew.brost@intel.com>
+> > > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > > Cc: Alessio Belle <alessio.belle@imgtec.com>
+> > > Cc: Luigi Santivetti <luigi.santivetti@imgtec.com>
+> > > Cc: Liam Girdwood <lgirdwood@gmail.com>
+> > > Cc: Mark Brown <broonie@kernel.org>
+> > > Cc: Jaroslav Kysela <perex@perex.cz>
+> > > Cc: Takashi Iwai <tiwai@suse.com>
+> > > Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> > > Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+> > > Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> > > Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> > > Cc: Robin Murphy <robin.murphy@arm.com>
+> > > Cc: Yong Wu <yong.wu@mediatek.com>
+> > > Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > > Cc: Heiko Stuebner <heiko@sntech.de>
+> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > Cc: Dafna Hirschfeld <dafna@fastmail.com>
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Michael Tretter <m.tretter@pengutronix.de>
+> > > Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> > > Cc: Will Deacon <will@kernel.org>
+> > > Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Cc: imagination@lists.freedesktop.org
+> > > Cc: intel-gfx@lists.freedesktop.org
+> > > Cc: intel-xe@lists.freedesktop.org
+> > > Cc: iommu@lists.linux.dev
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > Cc: linux-mediatek@lists.infradead.org
+> > > Cc: linux-media@vger.kernel.org
+> > > Cc: linux-rockchip@lists.infradead.org
+> > > Cc: linux-sound@vger.kernel.org
+> > > Cc: sound-open-firmware@alsa-project.org
+> > > Cc: imx@lists.linux.dev
+> > > ---
+> > >  include/linux/pm_runtime.h | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
+> > > index de9e7518ecef2..1d983fe55a16a 100644
+> > > --- a/include/linux/pm_runtime.h
+> > > +++ b/include/linux/pm_runtime.h
+> > > @@ -276,7 +276,7 @@ static inline int pm_schedule_suspend(struct device *dev, unsigned int delay)
+> > >  }
+> > >  static inline int pm_runtime_get_if_in_use(struct device *dev)
+> > >  {
+> > > -	return -EINVAL;
+> > > +	return 1;
+> > >  }
+> > >  static inline int pm_runtime_get_if_active(struct device *dev)
+> > >  {
 
-Takashi
+-- 
+Regards,
+
+Laurent Pinchart
