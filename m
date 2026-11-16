@@ -1,78 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.68.63.162
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794816668;
-	b=yfleWpZmo9GkYBxjwVc+g5/HjcRTPlb4U+Pi6NBJg6SVBxb7z18+BfwVG4epvoj0cqB2
-	 13zqYjMNc4zabwZNRx0w8h36JZpFoF/bkGbFAD4b9hPmvshWP4Xc7XVsz507hLEk6S0db
-	 /2jP5RiZaTZN+EmyuMAK3uSLz6NJfydnGWvg+kHL9HD79v5U2aTfkHpLKJmp0G/RRAz0/
-	 Vlb39kmJSepA+F7p287wRLLq+24kVGjBxL06kEcIy1k74DtszPyXyBJjrqVW+u9gcrXEK
-	 uiMM8lbsz6kEqoX2eGM+nP5+77cjkqLP2VWos5D57gKhaxlHL3prAFIVovbTrb1YwCA==
+	t=1794817837;
+	b=F9bxOnuXMQeUdPZhyazWM/fUkh1hwVtU0u6C5QSozSPK38Q8Wq6eDwDLJTtYykAX+HHW
+	 9Y3Kh3EidUnovL0r5+ijiW3UGEKBA9/1Ux/oHbWbPjeAWpg/U0KGxPEZhXj0Ib27kdWji
+	 7DJZCyMaRNRl3aAKTCGHC2RnJxkXg7XzVVlloU5S9t28iowpK8Mcqsl7IAzgi3+/giUtS
+	 Vd8fnkViE0BiKb9s44iQghS9dnYYIlz5uX9TD52Hp1rFAXW8ZxpGcGESCg4PMdYOfLUjj
+	 /IinN7x6VuSBgGTWD/2Cuxw8KdevIdH1+VF/5xkxE6EdxEI2ddG/ig+Iy6kdmTAyjTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794816668;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:Date:X-OQ-MSGID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=XusKqhnxM/yWQdrnmEkU+hu9+GGtSe+ZGMgwKQgdJAI=;
-	b=eGJ2xDL87RTHBZQyN/12Ljr6dwWXQYxUGaNKkFY2TU9I/hNlMn81OUZjQZFJaD/jaSjE
-	 5110w3Znj3EV16Xk3nLmOzqnu7nYtZAFwtgYOsrTzM6/ppBZQ155gSQ7/fxaOGUjNC4kD
-	 3LsSmkYc1mYQvCi1xz+E3jQxWyep7i6PdBdTFbKMTiY0pSLeF2Mf2nrxw0rT9atMwLBOH
-	 lXvMWqACj2R/6TkzSQOw/9Lb/Njs5xtGeo/hTYEIrwb4Rua+jYClnkGlHkWzddMNZMMQI
-	 dK/n4GEIAHPkvCj0TJ+HYYsaqUykIS5Bb9G/LOliCHIOGCBEd9LuBLCo9YleITUUFNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794817837;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-PPP-Message-ID:X-NC-CID;
+	bh=stLAgc75/toghgFHRoMTWr8wGTVjN6A6wa8FXSVhWeE=;
+	b=2SyA1n7eCtW+JZjWiqm6Rpz/PRjlTfo+mB9w/Gk+/LY++gqxBSKyehBRUoAI93ZPXWQA
+	 MuMQ4+i21QmeMyaVox7CLlYi8FbfQhFMtEH141XsQmZ1sPeIL30k1IfS7djFyjhbDb2k8
+	 XYGferbAdWIEF5xs3zsPKpgvR17N0p5HKvRv/Isqix/4j9xqNsiLgBf42ZSdTrvYbI8FI
+	 bMOWDNBHIU9npFPpJ+Vr1S5yIfI9bShutj61d4RIBWIZa6zAocCqvfdaJeaj8KoIh/TFS
+	 nWt8hjFmWrZ/+xVHYqfWGF9Zjb0aw9MzImce9m9AqBWVtAXO7Mj0YC5JsYa2m4a/OUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=FPRWlP4P;
-	arc=none smtp.remote-ip=162.62.57.64
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=leemhuis.info;
+	spf=pass smtp.mailfrom=leemhuis.info;
+	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=FG6OLmW8;
+	arc=none smtp.remote-ip=188.68.63.162
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D22606A323;
-	Mon, 16 Nov 2026 08:11:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57D22606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F00A606A323;
+	Mon, 16 Nov 2026 08:30:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F00A606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=FPRWlP4P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794816654; bh=XusKqhnxM/yWQdrnmEkU+hu9+GGtSe+ZGMgwKQgdJAI=;
-	h=From:Date:Subject:To:Cc;
-	b=FPRWlP4P4HOyMGheFZ7wlvbtlYdPW7bv34aE2uLrid0UchNj4lBEVJQ73/uj+UdcZ
-	 p0wD5dRPds/7toLeyZ8/9IMET1yQXW26XzUAGpJEf3aFcgD68SgAJX1Hu6zsWWefi6
-	 bzzpP869HsmRC7fLr8HDsQN3mt7VYgUvS73qXJI0=
-Received: from 2508871010 ([240e:36f:15d5:9321:d492:2643:ce55:ff7e])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 2B422A84; Mon, 16 Nov 2026 16:10:52 +0800
-X-QQ-mid: xmsmtpt1794816652tb8u1sujy
-Message-ID: <tencent_4D458B8B4F511E5B0F06C5C858627990C306@qq.com>
-X-QQ-XMAILINFO: MllZffuBkEb5NI1TIG5SPgjauQhtlI8otlmJIpTkeKE4nyh3+pnZvnLpZeHCHK
-	 WYG4fDGByf0oSQ5ekYkhCNmOas61Y/VHyKVld/08994HkCHixYctnPU7jNJMQZx+xAjATf8KUc59
-	 QkHmPwzJimcC/iQQv1uvpiPgI1HmbPzS2StRscJyBX6hwBR82EKzYta9D4D2jS8v9OrZM3XM3H05
-	 1Y/Y2dLDWou/mg6TEdI9y+76jY37UlQ8hqJfZb4rMKSaBv2efgxHeE7Yo858vVL6TGu7Htb+MIDg
-	 SBN/oaGEx7uDC5H8Ve8tqoO2kdzXxxzfk+OopOkaSbu6moSCaV0kgSLkbOtlIT4rJQXujWpvoLKe
-	 /Vl7gnggClDyc7scfAdxcG7zOLTkXtzQlAsjTKKh/dAmrO9KBdyQCc5RiEhs0PrBHb1ez+0ZmEFt
-	 L6rwZIRanP3UHHWmDA8BrtLZtJlGhwKrXfMfpj8B8vQjpYIN10S6kue/GqEIWdGh9VDEIHT6XCWU
-	 cOmvbwdBGlFxgjUIO+2/HYlwcPJt02z0z3NnnvtMdsk4jh4s+AM3dccE/Bl0tvcDvEe8188m3CUQ
-	 8onpEOO74x024dyqAD8vG50kjGlSKjy5ERFAA9f393eipyhh8kxyl+h/saMYuv8/1J/iPxwyMF5I
-	 nOssYIwcD2UdLHcqqBh+NeyJ2csnKFBvusJyyWsQInVolxBXEGIoJKVzR1fpXBN3tgnp9xYTMV/m
-	 zPNUvyy5GEYs7HkzkwN5+jdVY1BPmIZQnA3GbErdqQVCdHOw37p2Pl8rY0+qLeDFZrQF0ztgMyCZ
-	 h9YktZs1RTsHI0fTtnldAjIhjLJhHWK4XjXSGFAX7pryf5oBMNmIH/ufM4NsDejtvoPGqpD2mhJ4
-	 daaltlVC5E7vP/NWmegm4rWW8lPe9mRlx8C9/iz8ZJQE3RmQW86DlELhyVkkRqUfPevmBeFO0eHs
-	 gDB92uyK2IEF1kOCvLQno+M2889avOP6xPARba/xF2klpZTM2XEdCrq30ezDM0ueZvrfnL5xyLKe
-	 Li8ULU2aIFrMdehQVDW0XuAzQxY1p6dK67oeaLi7SpT7POm4/Tdhiu+JCpk4UZXg8ZxDg7ogec5F
-	 z4hLQ7SfnnHERhYaA=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Chen Liu <2508871010@qq.com>
-Date: Mon, 16 Nov 2026 16:10:52 +0800
-X-OQ-MSGID: <179481665225.482942.4973717177724251703@qq.com>
-Subject:
- [PATCH v2] ASoC: wcd937x: bound the DT channel mapping to the channel tables
-To: linux-sound@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- 2508871010@qq.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=FG6OLmW8
+Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4jSgyy4c5Tz3wFW;
+	Mon, 16 Nov 2026 09:30:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1794817802;
+	bh=DZTBprXxK7kjJ5gp7FXYKcB+Rb/buuRguswOL+ZnbEo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FG6OLmW86jfyOMU+R6zPiTLbzHk18vBdKvo/fD5Ot6MKf4vWvYIH62bjCUooqcg0k
+	 uom2OoV9H/uXi61VkySBhUzI+O8XCWKi9cNcdMERK94mviWOhQM1tfDhyoe8hTVhFi
+	 OE8cY4s0V2ONH9F6RLpO7PufJ4Y/d8SqGPE0BKb2TGHPnXUtJM/j0sqAytxa3p8yJr
+	 1hy6+OMQLbX9uZ0jCz+FdUYxIwuAWFRr6T6fT0DW1tqw87Qq5MaFtbaeAjAbbTL2R2
+	 bfgpWVk8LN8Wb6PGjK8k/LEUfX1wwQ0lnFasmrZL/pBNAnlly4bWCwDP5n5JZeJAKa
+	 rwefq9b2y44og==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4jSgyy19RTz42QT;
+	Mon, 16 Nov 2026 09:30:02 +0100 (CET)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4jSgyx1Mb0z8tHp;
+	Mon, 16 Nov 2026 09:30:01 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 6B4945F9EB;
+	Mon, 16 Nov 2026 09:29:46 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <380ce8f7-1d88-4d5c-bf3d-108be7055ec9@leemhuis.info>
+Date: Mon, 16 Nov 2026 09:29:45 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,123 +73,90 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] ALSA: hda/realtek: no speaker sound on Lenovo Legion
+ 16IRX9H since f2293e7b2ddd (PCI SSID 17aa:3842 shared with ThinkBook X G2
+ IAH)
+To: Greg KH <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>
+Cc: tiwai@suse.de, william <assassinshalo29@gmail.com>, evgeny@devduty.com,
+ stable@vger.kernel.org, regressions@lists.linux.dev,
+ linux-sound@vger.kernel.org
+References: 
+ <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: 
+ <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <179481778690.466935.124532524917592183@mxe9fb.netcup.net>
+X-NC-CID: cUG7y3e30E7GrDwrudyUN+lU/QL7i9S2qYrjAbXb5gRBUO6D5yg=
 
->From 1121be9da86c87962c365f844af9b13dce9a64e3 Mon Sep 17 00:00:00 2001
-From: Chen Liu <2508871010@qq.com>
-Date: Mon, 16 Nov 2026 14:16:10 +0800
-Subject: [PATCH v2] ASoC: wcd937x: bound the DT channel mapping to the channel
- tables
+On 11/16/26 02:24, william wrote:
+> Commit f2293e7b2ddd ("ALSA: hda/realtek: Enable all four speaker amps on Lenovo
+> ThinkBook X G2 IAH", Cc: stable) matches the laptop by PCI SSID
+> 17aa:3842, on the
+> assumption that this SSID had no quirk entry. The Lenovo Legion 16IRX9H (83DE)
+> has the same PCI SSID, so its internal speakers are silent on kernels that carry
+> this commit. Headphones work.
 
-wcd9370_probe() copies qcom,{tx,rx}-channel-mapping into the per-channel
-tables with the length of the DT property as the loop bound.  Nothing
-checks that the property describes no more channels than
-wcd937x_sdw_tx_ch_info[] (11 entries) and wcd937x_sdw_rx_ch_info[]
-(8 entries) hold.
+Greg, Sasha, that change made it to 7.3.y already, but is in the current
+6.18.y-rc afaics -- so might be something to drop until this is sorted out.
 
-The DT binding requires exactly 12 entries for qcom,tx-channel-mapping
-("adc1, adc2, adc3, dmic0, dmic1, mbhc, dmic2, dmic3, dmic4, dmic5,
-dmic6, dmic7"), while the driver's table stops at WCD937X_DMIC6, i.e. 11
-channels.  Any board that follows the binding therefore writes one entry
-past the end of the table; both boards in mainline that use the property
-do so (qcm6490-idp.dts and sm7150-xiaomi-davinci.dtsi both spell out 12
-values).
+Ciao, Thorsten
 
-Both tables live in .data right next to each other, so the stray write
-lands in wcd937x_sdw_rx_ch_info[0].ch_mask.  The 12th value, 4, stores
-WCD937X_SWRM_CH_MASK(4) =3D=3D 0x8 into HPH_L; the codec then asks for
-SoundWire RX channel 4 (EN_CHAN =3D 0x8) while the AFE keeps sending two
-channels (active_channels_mask =3D 0x3).  The CDC DMA never completes a
-block, the DSP never reports WRITE_DONE, and playback on the RX codec
-DMA path fails with -EIO after the wait_for_avail() timeout.
-
-Bound the length to the scratch buffer before reading the property and to
-the table size before filling it in, so that an over-long mapping is
-truncated instead of corrupting the RX table.  Only the upper bound is
-involved: a missing property still yields a negative count, so the
-existing fallback (the read fails, "Static channel mapping not
-specified ..." is printed) keeps working unchanged.
-
-The overflow was found while debugging RX codec DMA playback (no
-WRITE_DONE from the DSP, playback failing with -EIO) on an SM7150 phone:
-a temporary printk showed exactly one entry of the runtime table
-differing from .data, which led to the 12th iteration of the loop.
-Diagnosis, patch and this changelog were produced with the help of an AI
-coding assistant (Claude, Anthropic); the submitter reviewed the change,
-built it for arm64 with W=3D1 and verified on that phone that playback now
-completes and that the codec enables the SoundWire RX channel it actually
-needs (EN_CHAN =3D 0x1 for HPH_L) instead of channel 4 (EN_CHAN =3D 0x8).
-
-Not done: qcm6490-idp was not booted, there was no KASAN or reproducer
-other than the phone, and the DT binding still advertises 12 TX channels
-while the table holds 11, so the last entry of a conforming mapping is now
-ignored instead of written out of bounds (binding update left as a
-follow-up).
-
-Fixes: c06c4f7cbea1 ("ASoC: codecs: wcd937x: Add static channel mapping suppo=
-rt in wcd937x-sdw")
-Signed-off-by: Chen Liu <2508871010@qq.com>
----
-v2: this is the first resend of the patch.  v1 reached the archive with a
-truncated Subject header ("...to the channel"), because the sending script
-did not unfold the RFC822 continuation line of the long Subject.
-
-It also addresses the Sashiko review of v1:
-
-  - The fallback diagnostic is preserved: bound the length with min_t()
-    instead of clamp(), so a missing property still yields a negative
-    count, of_property_read_u8_array() still fails and
-    "Static channel mapping not specified ..." is still printed.  Only the
-    upper bound changes, so boards without the property see no difference.
-  - Fixes: now points at c06c4f7cbea1 ("ASoC: codecs: wcd937x: Add static
-    channel mapping support in wcd937x-sdw"), which added the property
-    parsing and made the tables writable, instead of the original
-    SoundWire driver import.
-  - Author/Signed-off-by: full name instead of a single-word handle.
- sound/soc/codecs/wcd937x-sdw.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 575495187..5ad6b30d6 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -1003,6 +1003,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 	if (wcd->is_tx) {
- 		master_ch_mask_size =3D of_property_count_u8_elems(dev->of_node,
- 								 "qcom,tx-channel-mapping");
-+		master_ch_mask_size =3D min_t(int, master_ch_mask_size,
-+					    ARRAY_SIZE(master_ch_mask));
-=20
- 		if (master_ch_mask_size)
- 			ret =3D of_property_read_u8_array(dev->of_node, "qcom,tx-channel-mapping",
-@@ -1010,6 +1012,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 	} else {
- 		master_ch_mask_size =3D of_property_count_u8_elems(dev->of_node,
- 								 "qcom,rx-channel-mapping");
-+		master_ch_mask_size =3D min_t(int, master_ch_mask_size,
-+					    ARRAY_SIZE(master_ch_mask));
-=20
- 		if (master_ch_mask_size)
- 			ret =3D of_property_read_u8_array(dev->of_node, "qcom,rx-channel-mapping",
-@@ -1023,6 +1027,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 		pdev->prop.source_ports =3D GENMASK(WCD937X_MAX_TX_SWR_PORTS, 0);
- 		pdev->prop.src_dpn_prop =3D wcd937x_dpn_prop;
- 		wcd->ch_info =3D &wcd937x_sdw_tx_ch_info[0];
-+		master_ch_mask_size =3D min_t(int, master_ch_mask_size,
-+					    ARRAY_SIZE(wcd937x_sdw_tx_ch_info));
-=20
- 		for (i =3D 0; i < master_ch_mask_size; i++)
- 			wcd->ch_info[i].master_ch_mask =3D WCD937X_SWRM_CH_MASK(master_ch_mask[i]=
-);
-@@ -1040,6 +1046,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 		pdev->prop.sink_ports =3D GENMASK(WCD937X_MAX_SWR_PORTS - 1, 0);
- 		pdev->prop.sink_dpn_prop =3D wcd937x_dpn_prop;
- 		wcd->ch_info =3D &wcd937x_sdw_rx_ch_info[0];
-+		master_ch_mask_size =3D min_t(int, master_ch_mask_size,
-+					    ARRAY_SIZE(wcd937x_sdw_rx_ch_info));
-=20
- 		for (i =3D 0; i < master_ch_mask_size; i++)
- 			wcd->ch_info[i].master_ch_mask =3D WCD937X_SWRM_CH_MASK(master_ch_mask[i]=
-);
---=20
-2.43.0
+> Hardware
+> Lenovo Legion 16IRX9H, product 83DE, BIOS N2CN32WW
+> Codec: Realtek ALC287, codec SSID 17aa:38cd, PCI SSID 17aa:3842
+> Amplifier: ACPI TIAS2781:00 (i2c-TIAS2781:00 on i2c_designware.2),
+> driver snd_hda_scodec_tas2781_i2c
+> Kernels
+> Works: 7.2.10-200.nobara.fc44, 7.1.6-1-cachyos (live ISO)
+> Fails: 7.3.4-201.nobara.fc44, 7.3.4-1-cachyos
+> The 3842 entry is absent from v7.2 and v7.3, present in v7.3.4, and still
+> present in v7.4-rc1 and master as of 2026-11-15 (checked via the GitHub mirror).
+> Analysis
+> snd_hda_pick_fixup() walks the table and matches PCI-SSID entries before the
+> codec-SSID fallback. Before the commit, 17aa:3842 had no entry, so this machine
+> fell through to the existing codec-SSID entry
+> SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+> which works. With the commit, the 3842 entry wins and chains to
+> cs35l41_fixup_i2c_four(), so the codec master waits for four CS35L41 components
+> that do not exist on this machine.
+> Evidence on 7.3.4
+> dmesg: "ALC287: picked fixup for PCI SSID 17aa:3842"; no "bound i2c-TIAS2781:00"
+> line (on 7.2.10 that line is present).
+> /sys/kernel/debug/device_component/hdaudioC0D0: master "not bound",
+> four entries "(unknown) not registered".
+> With dyndbg, after "echo 1 > /sys/class/sound/hwC0D0/reconfig":
+> hdaudioC0D0: trying to bring up adev
+> hdaudioC0D0: Looking for component 0
+> hdaudioC0D0: master has incomplete components
+> After unbinding/binding i2c-TIAS2781:00, tas2781-hda logs "adding component"
+> but the master still reports incomplete components.
+> Workaround confirmed
+> Booting with snd_hda_intel.model=17aa:38cd (alias SSID, handled first by the
+> picker) gives:
+> ALC287: picked fixup for alias SSID 17aa:38cd
+> bound i2c-TIAS2781:00 (ops tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
+> and the speakers work.
+> Possible direction
+> Since both laptops share the PCI SSID, the ThinkBook entry cannot be fixed by
+> PCI SSID alone. One option is a codec-SSID entry for this machine placed before
+> the 0x3842 line, e.g.
+> HDA_CODEC_QUIRK(0x17aa, 0x38cd, "Legion 16IRX9H / Y790 VECO DUAL",
+> ALC287_FIXUP_TAS2781_I2C),
+> I have not compiled or tested a patch, only the model= alias above. I am happy
+> to test patches on this hardware.
+> Separate observation
+> After the workaround, speakers still stopped after some idle time. It went away
+> with snd_hda_intel power_save=0 power_save_controller=N and keeping
+> i2c-TIAS2781:00 power/control at "on". I applied both at once, so I do not know
+> which is required. This looks unrelated to the regression above.
+> 
+> I'd really appreciate it if the issue is fixed, as I'm now having the
+> same problem when the laptop is turned on after being suspended for a
+> while, and I haven't been able to solve it.
+> Thanks,
+> William
 
