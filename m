@@ -1,107 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794831478;
-	b=X5ytdyyMaXjJbzYmHwGe74NCccaa9JvqH1cB11aI7hFym8y4CdINmgAIGHEudIlI3PZS
-	 Rme04L99lYSV6KzeAGUAzMtTqnzTNv1bCn9nqwo/PqZPgNVGKObIgvNwirxstjOiMOPgl
-	 v8HR8B1mBR3rjCCUKrji0Ga/I916yXGp44Yg051EA3TZIsRIk+JPPpfpDYzHOTRJqg1pm
-	 weuXaFWogEakO2xgtPosiQiXFFM9t/lr7+YPt9Tol34uufjrif69VhpotPQgGL3yJ5rBq
-	 /lphQS0XXNc05pNflKQ0NedoV/rg+lU62lkuf+Ns/0sZuqiJ3lXYW9FF2kzUZQuF9pg==
+	t=1794831514;
+	b=Zjtvu37d/p7g/9EpXZIrKH+H0hlsEW4VhvqVqGq3DlQaiEgZTOhppWhxfe+YfOeiiD36
+	 poNDVuXdpcgBABTAsYNoxxjB6BrcDd6IJarJQ9jEV3vw0GNBv9Dt7T7xf3AH8vXXgz6yI
+	 E1BVteUi4xio0GTL4VxTwUMd/pArY4V274goSbAiibEVV6Adx1IJfj4VkmVphKs1V0kRN
+	 9kkfQ+jXgb2QnGbOURXmx0agPUIxtvc4xnFIxckt2lL5HQ+shBgtpgz2zZoC8iLKnHGet
+	 6gFyaIwutBjktWgex/5oRlKnR0UDDkISS3i8dMP6k8ABeqrsnIjsadDy0OhaklHOpFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794831478;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794831514;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=iYmNMjvL7eqXS0nOpp2ykcQs55RTDoJm1RUBdh5TpA4=;
-	b=lHBYQOigfCq/RH/H88clrO+tuNvcKUTjVesFoni2EqoH/8GHySb/WODCynU9D3RJzhLK
-	 3HZ5GNSOdlO43fuHXajGwwW0QeACX2BJyBztowHvT7ma3Qs7ghdLEdaHzY+51ftkPCKdZ
-	 yRfXelWJHKCsTrl4drbU7Q+w1p/V/tPHjA16F/oYs8uw66j9bOmgIaq7kztiJoXpIRlgD
-	 7c/P1r5ETfyWszv6co5eUSULVT4nLble2CruU0tt0hz2u+LBOlN64RC5Sh3/CT3IO1mLU
-	 1LJZzfwnV6aD5Y0yYjAI7Tv+4sBqoOcGbfcmF4/XQuDp544XIH7YTJwaJ7kYETxFuDg==
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=fHuC57dmgSbzUer9VdrtoxBcg+j0iH/hERY3kZ71ZUA=;
+	b=dyKNs0sgas0D01HEOxJo0tryEf31vUqX+gGiKP5KK+t9amF1ROzhxsDmQhka/6pkxyHU
+	 5vwdl3UeKGKrh9cyBdw478H/L5HD4Kr4Omzasbvf5JeoUBibt+za866MtmGy2ZulUV9VT
+	 9Vtnegv08LCytoSEgjoHzA02Frrba8yBbPXiJDVcamzrmnaP6q+Bk89gSYYSdJmBMHuIu
+	 d0TdXSxydh5yUF+ZfNMp/JznsebEDzQZIAaY49Ek0DtXycFcNrzaCUU+fQZk068yDnyre
+	 gC5iyq4s+Xue1LV5PRPS3fWehzOA2x7pdXNhFE0pBsCSKShuozAOT74qeNuyzTfM+UA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d0g9Cl6O;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dwqtrSqP;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d0g9Cl6O;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dwqtrSqP;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0HhFT7Pw;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="olQ9jo/G";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zsRx0fYh;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=MtbfuDXe;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61112606A32F;
-	Mon, 16 Nov 2026 12:17:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61112606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139FD606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 12:18:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 139FD606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d0g9Cl6O;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dwqtrSqP;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d0g9Cl6O;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dwqtrSqP
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=0HhFT7Pw;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=olQ9jo/G;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zsRx0fYh;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=MtbfuDXe
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F67B1FBA8;
-	Mon, 16 Nov 2026 12:17:56 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DDC67221BE;
+	Mon, 16 Nov 2026 12:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794831476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794831512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iYmNMjvL7eqXS0nOpp2ykcQs55RTDoJm1RUBdh5TpA4=;
-	b=d0g9Cl6OXgaASlNcbqWMPR2+9XybqQ/HVrowoyg8gFNE4MvRU++8pMCGJt0Yfb1wrKF6rP
-	h8yfdcFSvHnjNTwHWteWRJ//H7rLg6z0ZTezgvJPExuuS5OdRqGSI+82S/D6woEjQZr8Us
-	Rl+aFXAU/AF2LLQnIlHFSM87Vfev08c=
+	bh=fHuC57dmgSbzUer9VdrtoxBcg+j0iH/hERY3kZ71ZUA=;
+	b=0HhFT7PwpDwfbaQMRUhyaGfk1kfVjNPhl9zcaBgyJ0zPwb3+U946sKC+Vpst1PiUG/UhCt
+	5Ksa17emO80yPWHQDjyjK9Mk9/p8kNaw4D/RAFcNo5ym+FG5p+tWkeVl75StCggpJzJl9u
+	kCNgauAuUCc+cm/vRtmOitecSUNHZtM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794831476;
+	s=susede2_ed25519; t=1794831512;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iYmNMjvL7eqXS0nOpp2ykcQs55RTDoJm1RUBdh5TpA4=;
-	b=dwqtrSqP8QkKz+etI2liiGk0g7/lBq0Jj/bd451RrWeLG3rqqkanZ3j6Z19J7TMQCezmwt
-	qT1LN3Y71arbCJDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=fHuC57dmgSbzUer9VdrtoxBcg+j0iH/hERY3kZ71ZUA=;
+	b=olQ9jo/GdYYzoEmZSpId6dJpWSIP0pPLpGmsSEjnxb87TiAz3O0qSjHi8BrxDoOFJn8/Rr
+	8Ba3Cr0w8ZH4mRBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zsRx0fYh;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MtbfuDXe
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794831476; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794831511; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iYmNMjvL7eqXS0nOpp2ykcQs55RTDoJm1RUBdh5TpA4=;
-	b=d0g9Cl6OXgaASlNcbqWMPR2+9XybqQ/HVrowoyg8gFNE4MvRU++8pMCGJt0Yfb1wrKF6rP
-	h8yfdcFSvHnjNTwHWteWRJ//H7rLg6z0ZTezgvJPExuuS5OdRqGSI+82S/D6woEjQZr8Us
-	Rl+aFXAU/AF2LLQnIlHFSM87Vfev08c=
+	bh=fHuC57dmgSbzUer9VdrtoxBcg+j0iH/hERY3kZ71ZUA=;
+	b=zsRx0fYhZNottxTeyCUk3tMcsD2M71B7nyxQZhEdZMRcpQ0P/rmaweAyCM263FULGdVKRV
+	swox/+439IPpVgcbmoDYLsC5xjJNqdt1Uai6JTx4t2f6uEB9hDVm5WXdJz7Y/LMnh/zB9t
+	JvmXNJvkcTEjAcjloQ4H76TFQTvO8mU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794831476;
+	s=susede2_ed25519; t=1794831511;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iYmNMjvL7eqXS0nOpp2ykcQs55RTDoJm1RUBdh5TpA4=;
-	b=dwqtrSqP8QkKz+etI2liiGk0g7/lBq0Jj/bd451RrWeLG3rqqkanZ3j6Z19J7TMQCezmwt
-	qT1LN3Y71arbCJDA==
+	bh=fHuC57dmgSbzUer9VdrtoxBcg+j0iH/hERY3kZ71ZUA=;
+	b=MtbfuDXeYjOgNfUSb4eEEGZzRCbHMkk61mjir56/gaU/d3FWBEQV2O1sCO04Nq8rFYlaVv
+	hlzK1V2MCDHm5DCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1DAC4134B8;
-	Mon, 16 Nov 2026 12:17:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94FFD1334C;
+	Mon, 16 Nov 2026 12:18:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hHVXO3P0+mqeXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 12:17:56 +0000
-Date: Mon, 16 Nov 2026 13:17:55 +0100
-Message-ID: <875wxxynpo.wl-tiwai@suse.de>
+	id eyzAGpf0+mrwXAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 12:18:31 +0000
+Date: Mon, 16 Nov 2026 13:18:31 +0100
+Message-ID: <874idhynoo.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Vytautas Liuolia <vytautas@liuolia.eu>
-Cc: Takashi Iwai <tiwai@suse.com>,
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add quirk for VF0790
-In-Reply-To: <20261115181324.97843-1-vytautas@liuolia.eu>
-References: <20261115181324.97843-1-vytautas@liuolia.eu>
+	Frank Slotta <frank.slotta@posteo.de>
+Subject: Re: [PATCH] ALSA: usb-audio: Add always_set_rate quirk for Yamaha MODX M
+In-Reply-To: <avnJGI3L/sf7KQCi@m.b4.vu>
+References: <avnJGI3L/sf7KQCi@m.b4.vu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -113,61 +114,64 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	URIBL_BLOCKED(0.00)[suse.de:dkim,posteo.de:email,linuxmusicians.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: DDC67221BE
 
-On Sun, 15 Nov 2026 19:13:24 +0100,
-Vytautas Liuolia wrote:
+On Sun, 15 Nov 2026 16:00:40 +0100,
+Geoffrey D. Bennett wrote:
 > 
-> The Creative Live! Cam Chat HD VF0790 (041e:4097) has the same audio
-> interface layout as the VF0770: interface 3 offers S16_LE and S24_3LE
-> capture altsettings at 8, 16, 44.1 and 48 kHz. The 24-bit altsettings
-> advertise the same wMaxPacketSize as their 16-bit counterparts, e.g.
-> 216 bytes at 48 kHz, which holds 54 frames of S16_LE but only 36 frames
-> of S24_3LE instead of the 48 needed per 1 ms packet. The device then
-> delivers only 36 frames per packet.
+> The Yamaha MODX M uses a different USB ID for each combination of its
+> audio mode and MIDI version settings:
 > 
-> PipeWire picks S24_3LE by default, so 1/4 of the samples are lost: the
-> captured audio sounds chopped and carries a constant 1333 Hz buzz, one
-> discontinuity every 0.75 ms. Timed raw captures at 48 kHz with arecord
-> deliver about 36000 frames/s with S24_3LE and 48000 frames/s with
-> S16_LE.
+>   0499:1772  2 stereo, 44.1-96 kHz, MIDI 1.0
+>   0499:1763  2 stereo, 44.1-96 kHz, MIDI 2.0
+>   0499:1773  5 stereo, 44.1 kHz, MIDI 1.0
+>   0499:1764  5 stereo, 44.1 kHz, MIDI 2.0
 > 
-> As done for the VF0770, only report the 16-bit 48 kHz altsetting. The
-> other 16-bit rates have not been verified, so leave them out as well.
+> With 0499:1773 and 0499:1764 playback is silent. With the
+> always_set_rate quirk flag set for them it plays. 0499:1772 and
+> 0499:1763 play without it.
 > 
-> Tested with this patch applied to snd-usb-audio from v7.0: the capture
-> stream now only lists the S16_LE 48 kHz altsetting, PipeWire uses it
-> without any local configuration, and recordings no longer show the
-> 1333 Hz artifact.
+> Tested on a MODX M6 with the quirk_flags module parameter set to
+> 0499:1773:always_set_rate and to 0499:1764:always_set_rate.
 > 
-> The problem was diagnosed, and this patch written, with the help of an
-> AI coding assistant (Claude Code).
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vytautas Liuolia <vytautas@liuolia.eu>
+> Reported-by: Frank Slotta <frank.slotta@posteo.de>
+> Closes: https://linuxmusicians.com/viewtopic.php?p=186121
+> Cc: <stable@vger.kernel.org> # 7.3.x
+> Tested-by: Frank Slotta <frank.slotta@posteo.de>
+> Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
 
-Applied to for-next branch now.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
