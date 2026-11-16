@@ -1,77 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794813002;
-	b=uPZWfsq0b6zBsSCVn0K6yx6soPUTnBmPsMN6ZWitAHDt69IDsY4ez/kxJho73fFIfIBE
-	 vpxQ/cxy1Vuqt3HG2mMepa1T3dAqKpG39IvPz2+rKo3C9uZid7eX0kQamMirEeXGiGlO/
-	 geMSS9sQcpHQdxA9/RJvwSJkr96MYbU3d0JvPHPE9R4g9mC7FtDX9fwsLobITjdMQSPIU
-	 EVnGYnY6cg+ToA6Ow8G9CRdbPbIMz0N3diGcfwhSdaQbgnswrTL/CYk+M/I6B89+VvWd2
-	 bDUo067h4W/wFLme/4J9AZb0Ak5jXvyNjl5nVVh+Q5ziBkgu88rPOGZpAVevSeoAmvg==
+	t=1794813460;
+	b=KHRtEnrxA7iPatvkfYtPtWYWG/BhfSsG13eaDT5SfCnNtLUl2Fbr70S66rfH+ah4Yk3e
+	 nkjK82eykoOwyz/HfM7t9d+TeP/TQXsV7af/gMDw6sENuYZMX6HtNdrO/xRvy5cSZ3AAA
+	 azpdffvBSPiQi7QM/rGHVeuKO4xePIEK9UT97hi4LtTulbMET0Y3FxFXa5netBf6uqtOP
+	 PFtdLWZfyL6twWJvqXsq4gZlUnA7SzOpQgkkooXoB3/RiFQ1hyiB3iku4p0k1+3eoxFM6
+	 usuWIAY6G6nz1E9wyz4ST+60o2yNH/eI15IygPxlireBZOnV4g0/ddfNKsUccp2PB4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794813002;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:Date:X-OQ-MSGID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=6Vw4vQqbY4ssaiJU7C/osmchRqBIQKw09s/DP5o3N54=;
-	b=mk4RP4AJnmK2dapz2WCoIDyGUfu1hYjBczTC1ISBL1H3FwBb6VGoo2Lgwm8gA1s6k5aQ
-	 ESProWJ3TDefsnRKKY6Ro7VRn+wIX9/HqCzO5J3q9QeW00xXrF69q/RX4GNnEZFrFJzeu
-	 nByGR+df0VVLsq/WqPhKZVnlAiJz/1pZ+flptvGyGQ1Po1P0W3Zm2EfbZm8VgLcIsIp8/
-	 0n/EwrOW1y+Hvjgl7mTY7EUjB8sUIFJ8ajJEdHpVZzb9iQXvCffm3Dwg6jyCf+cYqzvCP
-	 NI/oBhImIwxYtCe1qGp4GOF9irM3vPOslKBOUSsLlheMof/A44zJ6XCfFl9aumsVLtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794813460;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=KZWLSazTcz/mu2ScepEs7bxsTPuGDUzfcRzi4Nrn8ag=;
+	b=l/ZE1AUv6SYVbfv5z1LPQ+L6lWBj23SU2D/zXLjXU6MEEfUAq/u04BoioUSHCd4D6OFK
+	 KxmKwi9rIHhpKyDizfh1g+ryhvMHg/EWFI0Dj27nieQ4LNx2aaV+iBi+muDo6yBrokIBi
+	 M1nMww/c18OTELwZ3WxLwvx0f96514cYIRVM0uzjc2c4HiNDb4vB4uie0eg5i8dkBe67Q
+	 G+Pl55/pOauZQ76tZ9R/IpIGqsAT3gAM2/IAn4pKXObwNT9A+aGvp6qQbjrcB2Mj2cPBC
+	 hFsGZRKd5wtjAs1IKAW6FPg14ZEsEzAVta/xI7tHI3WW2oEogc9JRDWX5lGyO0LG+kA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=poZfvpl1;
-	arc=none smtp.remote-ip=162.62.57.64
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=becholey.ch;
+	spf=pass smtp.mailfrom=becholey.ch;
+	dkim=pass header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=FIgfEf7+;
+	arc=none smtp.remote-ip=185.70.43.18
+Received: from mail-4318.protonmail.ch (mail-4318.protonmail.ch [185.70.43.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473EC606A31C;
-	Mon, 16 Nov 2026 07:09:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 473EC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DAD606A32C;
+	Mon, 16 Nov 2026 07:17:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93DAD606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=becholey.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becholey.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=poZfvpl1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794812995; bh=6Vw4vQqbY4ssaiJU7C/osmchRqBIQKw09s/DP5o3N54=;
-	h=From:Date:Subject:To:Cc;
-	b=poZfvpl168pAMkk4+xT6S2SApHnhWHb8+WcayQ+nDPs9C+kRKTXr5uDIeyMx0Lmyi
-	 TlztWwd3hcTdLErz36nz+8KLANFUBHyEldBGCsuKEJy4L8GUqVwOkFKCisYqeTWPZU
-	 LzxiH2EZr+MSpLQ7cGWgSfI15f6Vy1xpiiIG6kfo=
-Received: from 2508871010 ([240e:36f:15d5:9321:d492:2643:ce55:ff7e])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id 27487458; Mon, 16 Nov 2026 15:09:52 +0800
-X-QQ-mid: xmsmtpt1794812992t95pdm71j
-Message-ID: <tencent_5E8B535138DB2906DF4871E24590DA458A06@qq.com>
-X-QQ-XMAILINFO: MllZffuBkEb5NI1TIG5SPgh2grt3SLbTsU6jvSwK7417bQoWRF5vSW5DyuGoXr
-	 TemuERD7Nen+wVpBIUNBUJEUIZsUKE5cHc9oIn+xnnfiqlyz88l0ByCTNuBOcaFo72AIa0TYd4Hs
-	 38ioIJYbm5vjFjS9ao9sDnkc53eNyFoPrIhzxrf9ncU6GItrf9jYugidqLeM/Ljjtt84aHkPnLYA
-	 bRVXlTGsyoNZ89eoabwr+ijFhOj5w1QVSru+xds9fOBOZsQdYUP8A9VvWILGwGwASOS7orIeqLtw
-	 fOXA0xAxdyF0LGlxSN+HWMZWJjLVS3Vy+DasLixkXEJpxHnB+dgRRf5TuHK5BDhUumBx8nZi+DqL
-	 DSXZnVXQhBWk2cPDK5V9XdefkLnVSWABJWHcC7ix8HDyt74glyEjpVBoxtz662G9Woek2KrLCRH1
-	 +BDFwKEB9nri/Gaz6/JQ93vc7yw3j6qQh1LYceEi1n5+gHUWcwog1TLtKbGyzoVpMe6HkHE83PPa
-	 gXwl/qei2VxZ6vZ3aXR4CMxKB3sKQF2zhpiwjtOU3Gg+9vDdBsbU/H/a8jccXVDGE1hgg04sopq+
-	 tSo1MshQLVpQhAvFvVmUcTkcEbUX7hkKjJ+6zdWxLC7mwJvExr1sW7Ks+UKQfxToQRrYwKiYGQ6b
-	 3kTj0YQ/YeywuCZQkp+kj8fRp4UfCh22tmcRb59ed82dhkor/h9yjfnODjJLShCVzqkq4eBvbOhf
-	 F/Cx09p0Eq8lNWpY/M/BK2XMYLzKVZs0c54oFPMKeKm7BtRYc9Wt2w+NJePkSkESJN7pprLMkLmt
-	 RzRsqISRIiF9X4sH+hBuqt5htAxq3M4DQqDqk73STGhPaquGaK9WxCJ4bgsXoF+Bv66qgcpUOVm2
-	 Y1nM8lR7SWr+EMdUKqQ3mS0WBVjza267U2UEJJ59s+PXBhSd4E+AxY0i1fjxx9XlCxP0TeWYWRHI
-	 682+lMh56nXhcSsZ1MkfGc3heyfyNGnxGzSJlk9Jkfpkv4eWFASqzSx0l9e2fTf8OWFUs6VLHkaN
-	 CYVthTKhAAtUDTSce4ufWLELXzlIi1rIePQctTCyXdx968KpEEjYYrinyTcqmL87MrziwNihjR6C
-	 B1ZdaQ
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-From: liuchen <2508871010@qq.com>
-Date: Mon, 16 Nov 2026 15:09:52 +0800
-X-OQ-MSGID: <179481299238.413640.12279841344606740793@qq.com>
-Subject: [PATCH] ASoC: wcd937x: bound the DT channel mapping to the channel
-To: linux-sound@vger.kernel.org
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- 2508871010@qq.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=FIgfEf7+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=becholey.ch;
+	s=protonmail; t=1794813457; x=1795072657;
+	bh=KZWLSazTcz/mu2ScepEs7bxsTPuGDUzfcRzi4Nrn8ag=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=FIgfEf7+GKoeKbDFQkHuBEHMfAdG9FNClJa3IBtPR95NtjS6mwJTzXf5nPUqKXmFN
+	 y0T7QdE37WHopmVPw2xlHK4qnmqgscJcrtAk1Xwz8uFGDCPRi9VJiYg6yhNeEMizu1
+	 b6/Fapl/Qniv5xAh8yuY/DVJHA727adtLcsqUbAwmB2uM0+TBetnG/Dl7Cl1DWIlmI
+	 zUGprzncxmln+i1u3RASFnGeyf2L3JZaXKj+UHbdTV7KhZDL2Oo//N6uaBB0r/7S6H
+	 ogTWQOCB1cSfNGOp9RgOiSShlQHxqaQjsmBcoO6FE7e0N52cUYPjqjtXUumz196yWb
+	 I9ZrCXxlaQjhw==
+Date: Mon, 16 Nov 2026 07:17:33 +0000
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, =?utf-8?Q?=C5=A0erif_Rami?= <ramiserifpersia@gmail.com>
+From: Alexandre Becholey <alex@becholey.ch>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Hanxiang Xu <xuhx@hust.edu.cn>, Alexandre Becholey <alex@becholey.ch>, stable@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v2 1/5] ALSA: usx2y: us144mkii: fix stop_pcm_work race with PCM close
+Message-ID: <20261116071707.217448-2-alex@becholey.ch>
+In-Reply-To: <20261116071707.217448-1-alex@becholey.ch>
+References: <20261116071707.217448-1-alex@becholey.ch>
+Feedback-ID: 60743817:user:proton
+X-Pm-Message-ID: d59f15a6d6bc4233242fd987d628ee34c4903ce0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -81,101 +64,195 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
->From 82eb1b88f7971375fbca3c8aedce2da80b189da5 Mon Sep 17 00:00:00 2001
-From: liuchen <2508871010@qq.com>
-Date: Mon, 16 Nov 2026 14:16:10 +0800
-Subject: [PATCH] ASoC: wcd937x: bound the DT channel mapping to the channel
- tables
+The feedback URB completion handler schedules stop_pcm_work when the
+device stops sending valid feedback. The work handler then calls
+snd_pcm_stop() on tascam->playback_substream and
+tascam->capture_substream without the stream lock, and nothing keeps
+these substreams open while it runs: the PCM .close callbacks only clear
+the pointers and do not wait for the work.
 
-wcd9370_probe() copies qcom,{tx,rx}-channel-mapping into the per-channel
-tables with the length of the DT property as the loop bound.  Nothing
-checks that the property describes no more channels than
-wcd937x_sdw_tx_ch_info[] (11 entries) and wcd937x_sdw_rx_ch_info[]
-(8 entries) hold.
+If the PCM is closed while the work is running, snd_pcm_detach_substream()
+frees the runtime under it, and the work then accesses the freed runtime
+in snd_pcm_post_stop(), or dereferences a NULL substream->runtime in
+snd_pcm_do_stop(), depending on how far the close has got. A USB device
+can fire the work whenever it wants by sending bad feedback packets, so
+a malicious device plus a process closing the PCM can trigger this.
+With KASAN, on torvalds/master 067c5c24cef2:
 
-The DT binding requires exactly 12 entries for qcom,tx-channel-mapping
-("adc1, adc2, adc3, dmic0, dmic1, mbhc, dmic2, dmic3, dmic4, dmic5,
-dmic6, dmic7"), while the driver's table stops at WCD937X_DMIC6, i.e. 11
-channels.  Any board that follows the binding therefore writes one entry
-past the end of the table; both boards in mainline that use the property
-do so (qcm6490-idp.dts and sm7150-xiaomi-davinci.dtsi both spell out 12
-values).
+  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0xb0/0x104
+  Workqueue: events tascam_stop_pcm_work_handler
 
-Both tables live in .data right next to each other, so the stray write
-lands in wcd937x_sdw_rx_ch_info[0].ch_mask.  The 12th value, 4, stores
-WCD937X_SWRM_CH_MASK(4) == 0x8 into HPH_L; the codec then asks for
-SoundWire RX channel 4 (EN_CHAN = 0x8) while the AFE keeps sending two
-channels (active_channels_mask = 0x3).  The CDC DMA never completes a
-block, the DSP never reports WRITE_DONE, and playback on the RX codec
-DMA path fails with -EIO after the wait_for_avail() timeout.
+Clear the substream pointers under tascam->lock in the .close callbacks
+and flush stop_pcm_work afterwards, so the work can no longer run on a
+closing substream. In the work, read the pointers under the same lock
+and stop the streams with snd_pcm_stop_xrun(), which takes the stream
+lock and checks that the stream is still running. The lock is dropped
+before snd_pcm_stop_xrun() because the trigger callback takes
+tascam->lock with the stream lock held.
 
-Clamp the property length to the scratch buffer before reading it and to
-the table size before filling it in, so that an over-long mapping is
-ignored instead of corrupting the RX table.
+Found with an emulated US-144MKII device (USB/IP, vhci_hcd).
 
-The overflow was found while debugging RX codec DMA playback (no
-WRITE_DONE from the DSP, playback failing with -EIO) on an SM7150 phone:
-a temporary printk showed exactly one entry of the runtime table
-differing from .data, which led to the 12th iteration of the loop.
-Diagnosis, patch and this changelog were produced with the help of an AI
-coding assistant (Claude, Anthropic); the submitter reviewed the change,
-built it for arm64 with W=1 and verified on that phone that playback now
-completes and that the codec enables SoundWire RX channels 1 and 2
-(EN_CHAN = 0x3) instead of channel 4 (0x8).
+The bug was found, and the reproducer and this fix were written, by AI
+agents (Claude Mythos and Claude Opus models). The analysis and the
+patch were reviewed by a human.
 
-Not done: qcm6490-idp was not booted, there was no KASAN or reproducer
-other than the phone, and the DT binding still advertises 12 TX channels
-while the table holds 11, so a conforming mapping now has its last entry
-ignored instead of written out of bounds (binding update left as a
-follow-up).
-
-Fixes: c99a515ff153 ("ASoC: codecs: wcd937x-sdw: add SoundWire driver")
-Signed-off-by: liuchen <2508871010@qq.com>
+Reported-by: Hanxiang Xu <xuhx@hust.edu.cn>
+Closes: https://lore.kernel.org/all/6891aa7d.26365.1a1d4e2c4e4.Coremail.xuh=
+x@hust.edu.cn/
+Fixes: a2a2210f2c2e ("ALSA: usb-audio: us144mkii: Implement audio playback =
+and feedback")
+Cc: stable@vger.kernel.org
+Signed-off-by: Alexandre Becholey <alex@becholey.ch>
 ---
- sound/soc/codecs/wcd937x-sdw.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Changes in v2:
+- no change.
 
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 575495187..baacfef6c 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -1003,6 +1003,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 	if (wcd->is_tx) {
- 		master_ch_mask_size = of_property_count_u8_elems(dev->of_node,
- 								 "qcom,tx-channel-mapping");
-+		master_ch_mask_size = clamp(master_ch_mask_size, 0,
-+					    (int)ARRAY_SIZE(master_ch_mask));
- 
- 		if (master_ch_mask_size)
- 			ret = of_property_read_u8_array(dev->of_node, "qcom,tx-channel-mapping",
-@@ -1010,6 +1012,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 	} else {
- 		master_ch_mask_size = of_property_count_u8_elems(dev->of_node,
- 								 "qcom,rx-channel-mapping");
-+		master_ch_mask_size = clamp(master_ch_mask_size, 0,
-+					    (int)ARRAY_SIZE(master_ch_mask));
- 
- 		if (master_ch_mask_size)
- 			ret = of_property_read_u8_array(dev->of_node, "qcom,rx-channel-mapping",
-@@ -1023,6 +1027,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 		pdev->prop.source_ports = GENMASK(WCD937X_MAX_TX_SWR_PORTS, 0);
- 		pdev->prop.src_dpn_prop = wcd937x_dpn_prop;
- 		wcd->ch_info = &wcd937x_sdw_tx_ch_info[0];
-+		master_ch_mask_size = min_t(int, master_ch_mask_size,
-+					    ARRAY_SIZE(wcd937x_sdw_tx_ch_info));
- 
- 		for (i = 0; i < master_ch_mask_size; i++)
- 			wcd->ch_info[i].master_ch_mask = WCD937X_SWRM_CH_MASK(master_ch_mask[i]);
-@@ -1040,6 +1046,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
- 		pdev->prop.sink_ports = GENMASK(WCD937X_MAX_SWR_PORTS - 1, 0);
- 		pdev->prop.sink_dpn_prop = wcd937x_dpn_prop;
- 		wcd->ch_info = &wcd937x_sdw_rx_ch_info[0];
-+		master_ch_mask_size = min_t(int, master_ch_mask_size,
-+					    ARRAY_SIZE(wcd937x_sdw_rx_ch_info));
- 
- 		for (i = 0; i < master_ch_mask_size; i++)
- 			wcd->ch_info[i].master_ch_mask = WCD937X_SWRM_CH_MASK(master_ch_mask[i]);
--- 
-2.43.0
+Notes for reviewers (not part of the commit message):
+
+Trigger: an emulated TASCAM US-144MKII served over USB/IP to vhci_hcd
+(an AF_UNIX socketpair inside the VM; dummy_hcd cannot do isochronous
+transfers) under QEMU, arm64, KASAN. The program opens a PCM and
+starts streaming; the device sends invalid feedback packets until the
+driver logs "Fatal: Feedback sync lost. Stopping stream." and schedules
+stop_pcm_work, while the program closes the PCM. The reproducer is availabl=
+e to maintainers on request.
+
+Decoded trace, torvalds/master 067c5c24cef2 (arm64, QEMU virt); the
+object is the kmalloc-2k snd_pcm_runtime, allocated by
+snd_pcm_attach_substream() on open and freed by
+snd_pcm_detach_substream() from snd_pcm_release() on close:
+
+  BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave (include/linux/=
+spinlock_api_smp.h:155 (discriminator 1) kernel/locking/spinlock.c:181 (dis=
+criminator 1))
+  Read of size 1 at addr ffff00001318a180 by task kworker/1:0/24
+  CPU: 1 UID: 0 PID: 24 Comm: kworker/1:0 Not tainted 7.4.0-rc2+ #1 PREEMPT=
+(full)
+  Hardware name: linux,dummy-virt (DT)
+  Workqueue: events tascam_stop_pcm_work_handler
+  Call trace:
+   show_stack (arch/arm64/kernel/stacktrace.c:498 arch/arm64/kernel/stacktr=
+ace.c:499) (C)
+   dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+   print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
+   kasan_report (mm/kasan/report.c:595)
+   __kasan_check_byte (mm/kasan/common.c:585)
+   lock_acquire (include/linux/kasan.h:402 (discriminator 1) kernel/locking=
+/lockdep.c:5916 (discriminator 1) kernel/locking/lockdep.c:5899 (discrimina=
+tor 1))
+   _raw_spin_lock_irqsave (include/linux/spinlock_api_smp.h:155 (discrimina=
+tor 1) kernel/locking/spinlock.c:181 (discriminator 1))
+   __wake_up (kernel/sched/wait.c:124 (discriminator 3) kernel/sched/wait.c=
+:146 (discriminator 3))
+   snd_pcm_post_stop (sound/core/pcm_native.c:1622)
+   snd_pcm_action_single (sound/core/pcm_native.c:1386)
+   snd_pcm_action (sound/core/pcm_native.c:1467)
+   snd_pcm_stop (sound/core/pcm_native.c:1642)
+   tascam_stop_pcm_work_handler (sound/usb/usx2y/us144mkii_playback.c:453)
+   process_one_work (kernel/workqueue.c:3495)
+   worker_thread (kernel/workqueue.c:3578 kernel/workqueue.c:3659)
+   kthread (kernel/kthread.c:436)
+   ret_from_fork (arch/arm64/kernel/entry.S:870)
+
+On v7.3.1 the same reproducer also ends in
+"KASAN: null-ptr-deref in range [0x1c0-0x1c7]" in snd_pcm_do_stop()
+called from tascam_stop_pcm_work_handler() (us144mkii_playback.c:453),
+the snd_pcm_stop() call this patch replaces.
+
+sound/usb/usx2y/us144mkii*.c are identical in v7.3.1, 067c5c24cef2
+and 9d66f26fefac.
+
+Testing of v2 (whole series, KASAN, PROVE_LOCKING, PROVE_RCU): the
+main USB/IP program ran 3 times each on v7.3.1 and 97d73c825122; the
+stop work fired 3000 times per run and no run showed a report.
+
+Testing of v1, KASAN: without the patch every run crashed in
+tascam_stop_pcm_work_handler (v7.3.1 3/3, 067c5c24cef2 1/1). With the
+patch no run showed this crash (v7.3.1 0/14 with three test programs,
+067c5c24cef2 0/5 with one).
+With patches 1/5..3/5 applied (v7.3.1, the same three test programs,
+8 runs), the stop work fired 10 to 1740 times per run and no run
+showed this crash; 4 of those 8 runs ended in the first two other
+problems listed below. These programs were not re-run with 4/5 and
+5/5 added; those patches were tested with their own reproducers.
+
+17 of the 19 runs with this patch alone still crashed elsewhere:
+- 12 runs: list_del corruption in __usb_unanchor_urb(), on v7.3.1
+  after a WARNING at drivers/usb/core/urb.c:379 in the stream start
+  path (that WARNING was also seen without the patch); fixed by
+  patch 5/5;
+- 4 runs: KASAN use-after-free in vhci_urb_dequeue() from
+  usb_kill_anchored_urbs() in tascam_stop_work_handler(), a race in
+  the vhci_hcd test harness, not in this driver;
+- 1 run: KASAN slab-use-after-free in feedback_urb_complete()
+  (us144mkii_playback.c:347, reading playback_rt->rate); fixed by
+  patch 4/5.
+
+Thanks,
+Alexandre Becholey
+
+ sound/usb/usx2y/us144mkii_capture.c  |  5 ++++-
+ sound/usb/usx2y/us144mkii_playback.c | 19 ++++++++++++++-----
+ 2 files changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/sound/usb/usx2y/us144mkii_capture.c b/sound/usb/usx2y/us144mki=
+i_capture.c
+index d7cdf9e0f685..30cdd73ca99c 100644
+--- a/sound/usb/usx2y/us144mkii_capture.c
++++ b/sound/usb/usx2y/us144mkii_capture.c
+@@ -36,7 +36,10 @@ static int tascam_capture_close(struct snd_pcm_substream=
+ *substream)
+ {
+ =09struct tascam_card *tascam =3D snd_pcm_substream_chip(substream);
+=20
+-=09tascam->capture_substream =3D NULL;
++=09scoped_guard(spinlock_irqsave, &tascam->lock)
++=09=09tascam->capture_substream =3D NULL;
++=09/* The stop work may still be using this substream; wait for it. */
++=09flush_work(&tascam->stop_pcm_work);
+=20
+ =09return 0;
+ }
+diff --git a/sound/usb/usx2y/us144mkii_playback.c b/sound/usb/usx2y/us144mk=
+ii_playback.c
+index 7efaca0a6489..0df95dbf585d 100644
+--- a/sound/usb/usx2y/us144mkii_playback.c
++++ b/sound/usb/usx2y/us144mkii_playback.c
+@@ -36,7 +36,10 @@ static int tascam_playback_close(struct snd_pcm_substrea=
+m *substream)
+ {
+ =09struct tascam_card *tascam =3D snd_pcm_substream_chip(substream);
+=20
+-=09tascam->playback_substream =3D NULL;
++=09scoped_guard(spinlock_irqsave, &tascam->lock)
++=09=09tascam->playback_substream =3D NULL;
++=09/* The stop work may still be using this substream; wait for it. */
++=09flush_work(&tascam->stop_pcm_work);
+=20
+ =09return 0;
+ }
+@@ -448,9 +451,15 @@ void tascam_stop_pcm_work_handler(struct work_struct *=
+work)
+ {
+ =09struct tascam_card *tascam =3D
+ =09=09container_of(work, struct tascam_card, stop_pcm_work);
++=09struct snd_pcm_substream *playback_ss, *capture_ss;
++
++=09scoped_guard(spinlock_irqsave, &tascam->lock) {
++=09=09playback_ss =3D tascam->playback_substream;
++=09=09capture_ss =3D tascam->capture_substream;
++=09}
+=20
+-=09if (tascam->playback_substream)
+-=09=09snd_pcm_stop(tascam->playback_substream, SNDRV_PCM_STATE_XRUN);
+-=09if (tascam->capture_substream)
+-=09=09snd_pcm_stop(tascam->capture_substream, SNDRV_PCM_STATE_XRUN);
++=09if (playback_ss)
++=09=09snd_pcm_stop_xrun(playback_ss);
++=09if (capture_ss)
++=09=09snd_pcm_stop_xrun(capture_ss);
+ }
 
