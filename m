@@ -1,55 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794803128;
-	b=nIvy13rAF/fuJRqMM2t+2j7Wv+4fpxfflVzFv8+nx2cPkOawR8zUIVBZD7fV+i3OWe+j
-	 R768MiX0eaqKYMfOqrMuSaP/GQoDL8wdl5NgO8K3/0vkVyDiSWIMqwkO8z5SWR/qOwzvM
-	 54iqmQDTeBEPeB9wp1/F9Jom/rrWWka8zIjp/2jWRkyJHW+6l1+iuRPiiCcZzxpK7OsRe
-	 pkDKDgnj4vrCA3V02tEMIqNOaXOn5OAwDIqcB+7/Nh8xOlqNNFsSPOe9L+7wr6N+mVG9A
-	 sbs+95K0WxOiua7/n2PQQPJ/owxiIG7qOoHxtvZUxm2x16CWr2qgXAxnrQRLb04XHmg==
+	t=1794803214;
+	b=zzcctz32kR4BAc59JZL0sTOs7UUe6wJCgnPyedIoOguKSrIXHs+Bkab+0on/GODjKpBa
+	 wtdtAwVVhTR45WtflUC/2HP2VhuYvFJHvYZQk91XzhxF2KFTfByfvTSlsHYkQKzTVe2Lb
+	 SVY/mIdFaLBjUxZZ935t2zu2aRumxKYannmAZaFYygebdzr4s9r8HZQvjOc+A4q2Puvw7
+	 uMjKB9pdl0QqCGVz1m1elOqmXdoJ4L6NeBO2dZOVLo2uaQd/AJ9cqJnL0IK1TkheM3nBz
+	 n/QvNfOChRKEhhtTlUyOmPXIPZ+Ld71rEXPil4t2mZ+M2oKRXbp58kz0byrP0bof7pg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794803128;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ILrVNCmCvUAViNl+QaVjT/Dl1x2fyR1ieh4ytVl2tnM=;
-	b=0CgdM5y87bIfNQt22PKqY5XWusVSgxNe839VoyU7Tw3FreXJ1ISUgk44BF4Kk/DJq8lE
-	 bPwTR+HYZ+AZFmZMOCN0+GHYeyH0VtIb31qmlpAxZJSkmbbu67e6hGadv4BCoqJ1CyjTd
-	 +D3KYoQAyKeYelb41497/uM8cCqef+7l/g+s8unNfnmTbfCA20YQnCK56JZSncKTgILT5
-	 VgX/5wHhFQ92y/3L1Fhz5mZ133wvqOhrx5Ha+dUqschH5OlrT84LZ17lnmoBUejAGRfZw
-	 pq46Sbk1kSuIaoNm2iC9N7nsT1iPtEsQVysbACIRjWixgDugCWqvlJeTAlv6vj0D4Og==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794803214;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Ncn3Uh93DO1XOndirHgHGxexD/qxamHF0C1Hl9kfn8k=;
+	b=5eNB1Elvt1gSyrlNHCnH5OZDIzZpt2L/QS1z0M8p9ZeR6Ok/ofGSSxL8yLebc7Fhgetn
+	 dvuzZCamM6/wBq3euayacn0wVBtDjHqJMd59zPxa4teSLQUidBczB3+ghydKRLKYiJH10
+	 vqpfFO98eYzfqIAAeSuZaG/f97WM3M+ewkQSVH6h0uTMF8jfN/TiSIUBl0R6pWHie5Tlj
+	 KBznTTHxGG2pFPxH2s55MtQv4U0SdeFMilkj3Z64RdMjg8ZAWI1f9pvEMspifIDBVK47+
+	 zoEkdBP9E2Ip8MUjv7l6YuyxP5KYUPFjBZxbDpaTuRhivQCAVe3dHcOlkUr+Kj9VyGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Iy/StB4x";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aP3Ww7e5;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CAD606A31F
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 04:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AAB606A31F
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 04:26:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31AAB606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Iy/StB4x
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAD2D1F000C4;
-	Mon, 16 Nov 2026 04:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794803127;
-	bh=ILrVNCmCvUAViNl+QaVjT/Dl1x2fyR1ieh4ytVl2tnM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Iy/StB4xfG/HEdqMxYlqOUfl7bwGUIQSlOQAKtOSGPBJZBq+9R95H2Oaxicyhh1HX
-	 GrJn6/v1W73Ch1rC0MzzGsWTyc3J73fP1VmmSbXD40aA1DIgbjbIzAOEORqD7OznmQ
-	 1l2xGAJJ6CjwFcGIujrovGmnhNXrPpbmdguQFjEI6tQusiq0u+oepC+sZm7aHmChl1
-	 ajdI92NZjRwdlNij3rkaA7bSucqYx3i8B4shqj9lsEjdGJNSHXP02c15BcNPq33hCA
-	 vcsPeZTHVYuLHy+gGczR59SU8QhyXTxm8tKxZ/bgRa1rUBn9pjkvBZK9QXyA5GFmH7
-	 moCTPpBU1w8qQ==
-Message-ID: <sashiko-outbox-216179@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC v4] ALSA: pci: add analog support for ESI MAYA44e
-Reply-To: sashiko-reviews@lists.linux.dev
-To: Nordschamane <nordschamane1@proton.me>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261116-codex-alsa-maya44e-v4-1-381358afc43a@proton.me>
-References: <20261116-codex-alsa-maya44e-v4-1-381358afc43a@proton.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 04:25:27 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aP3Ww7e5
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-37198ed3727so4573135eec.0
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 20:26:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794803212; x=1795408012; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ncn3Uh93DO1XOndirHgHGxexD/qxamHF0C1Hl9kfn8k=;
+        b=aP3Ww7e50cv3jnIO7KWkHTl6lutK2933t8INJUv7OZZum7NzMaO/TWusjU69vIFEAu
+         yi/42o98IDYPrCmV0UJq29ozY99J+hGkHMUzX8PJSuAuzMpBBFHv/Nb3o08UMP/TcKll
+         WWGQFnoFi6iB80+ExcM9KFnRs3VUfRiZZKdRbc7uPaDnbw4JZhjOUtUiVzMuvjHo+YSO
+         MQzJ+8FRl9/acM8Mp2G3xcokg76/kjgxl0ckrWQfIMTYbotnCONzlONoeIefhFt8xMeP
+         DwW+Pm8fYWpVaSmpVX3QvU86JXOTV/TyTRrrv59KXVoxOSMg31TIql4uWIDNcw2jh1af
+         oVGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794803212; x=1795408012;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ncn3Uh93DO1XOndirHgHGxexD/qxamHF0C1Hl9kfn8k=;
+        b=jjE12eF8V3LSSyaIH2uK8WdxJNtuaiHvsh1Hj5TX9mZjhzLVe0qnHUOsP55bLG3isX
+         FLf10qEXxb3CjPQG/kIkrhYoIZpBQzDwtXJEnQO0pHiD5hww1U3JrjDAqzvd7VtJD5wl
+         J3vfvwhbFPlRagK0N75NqpHwF2c9JK/lX16w4LpMNsktjsCP9v+dBmYpVtMRwKO53jl2
+         zBbzMQeapcSgNI47r5AVRR7cD+SIwU75zaykLQJX0727aDMxMupSqi42tCBQNUHNDXP2
+         Q87A7vnq35ACW82iRNWllgwjwagrW+9GoCTLoWgychC/X2zDajNSQ/CcsalMgxZm8Gto
+         ZCRg==
+X-Forwarded-Encrypted: i=1; AL+hErGlGz0CBMq3iMl8z+nI6EVKorH2QmpgdalMv9dByX4LXNW6pJkb0HBNxTjNi41A4+qWMHpeZ9zHwgYNrQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z86Egl64cjCfZyxn6N7ZhUalbPTVPiJrsOWBGQtTMdD+yhmoaZB
+	TPenL1n/nAvSRZ76dDGOSDS/thCNU2SKrNMbxJ0IjBSyRQPB7qx6cYnp
+X-Gm-Gg: AYBFou2aSzJcp4ySKcDEHbuAgExaWBJbkF6U2v9N4bQ1vF4VitsGV7VZp7iRA2Pp/UF
+	SZOzWuykuDcY4/8ag/oEskrhxZtTgzKAyi2n4Ci/HMwhmb+Ul74BCVKoT+6vZYp+DPwxPPyFojx
+	24zQIxz3vAsPhZxr1nSc1DjKdOgF10t/EBXci1UpX6uvQdUBcotT2thc5nf15N7k1V9W8OhY3Ah
+	dGkKVjZXjQu3fRXnnhyZU0g4M0lGeS8p14aAjxQMQdsQFxVsf/xV2MmQ9ORUbVddjupO/1hImo3
+	AmX6bCzUX7v6Jrve82xak6f7tVvs61SeCyT5Av65y7Olivt82lFNs/89lxF1HCX2jurtuGWkIO5
+	UUSBgtqHg6tDpMIVrBrHW/RQQ2kxg23frreXdRAp9bOYhpBM01skjlG0WlxY8TyvnFGu0uGfVQ2
+	Uto74/dHNJHzpmgMYStjWEzP8GRhkVVDc5N6iHKU+0FIDgMPooCSUC1/WOOljmF3+zHyoyRorsD
+	+dxMyTJzvkTau2NNDoi2fBdUg4NDCWCoPifdtw6xFixIuo7AxREM3kxQA+Bm748Y3PlTzt672AD
+	9NzSuXniNuRIwVMcjShytjAB0iHkL6XJ8AmtgNwSKXAy5JYc8tb0ScTDi15it/jrCYosh7si0rc
+	EqTkTm0eveNFFQMjYAzLSED5HJhnuRJdsK1qkcnJ2stQx
+X-Received: by 2002:a05:693c:63cd:b0:36d:be15:2dd6 with SMTP id 5a478bee46e88-379668667ccmr8906944eec.11.1794803212184;
+        Sun, 15 Nov 2026 20:26:52 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3795591f4f8sm30053500eec.13.2026.11.15.20.26.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 20:26:51 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Andrei Simion <andrei.simion@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/2] ASoC: atmel-classd: Improve clock and probe handling
+Date: Mon, 16 Nov 2026 11:26:31 +0700
+Message-ID: <20261116042633.497423-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,62 +103,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] ALSA: maya44e: single-word handle used in Signed-off-by and
-  MODULE_AUTHOR
---
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-commit cdb85b2813a3b897c6265642a04fc30216441982
-Author: Nordschamane <nordschamane1@proton.me>
+Hi all,
 
-> ALSA: pci: add analog support for ESI MAYA44e
->
-> Add four-channel analog playback and capture for the ESI MAYA44e PCIe
-> card (19fe:7000, subsystem 0e51:0001). Playback and capture share the
-> sample clock and can use independent period sizes. Expose analog source,
-> gain, direct monitoring, DAC and crossmix controls.
->
-> The playback DMA rings and ALSA staging buffer are cleared during the
-> reset that completes prepare. This keeps clearing and pointer rebasing
-> under the same PCM stream lock, including for linked streams.
-> Both streams use the locked reset path. A linked PREPARE holds the
-> peer's buffer mutex but does not block its ALSA read or write copies.
-> Take a driver buffer-access gate before touching either stream's
-> buffers, and keep it until the reset callback. The stream lock then
-> covers the remaining pointer rebase. Return -EBUSY if a copy is active.
-> Explicit RESET takes its own gate when no prepare is in progress.
->
-> Treat unavailable MMIO as an error during DMA setup, start and
-> position tracking. A failed read must not be interpreted as a running
-> engine or a completed capture period. After confirmed loss of access,
-> skip BAR operations and use PCI configuration space for best-effort
-> shutdown.
->
-> Publish capture samples and the copied position under the same lock.
-> Use the DMA position and elapsed time to detect missed capture periods.
-> Skip early or repeated interrupts and report a capture XRUN when the
-> ring may have wrapped without the driver copying the preceding half.
->
-> The ES7010L register sequence comes from observed PCI transactions and
-> analysis of the ESI Windows driver. The existing ALSA PCI MAYA44 driver
-> was a reference for the WM8776 command format.
->
-> OpenAI Codex assisted with PCI trace analysis, driver implementation,
-> test tooling and the changelog. The requests covered analog playback,
-> capture, mixer controls and suspend/resume.
->
-> Signed-off-by: Nordschamane <nordschamane1@proton.me>
+This series simplifies probe error handling and fixes the 
+peripheral clock lifecycle management in the Atmel CLASSD driver.
 
-[Severity: High]
-Could a real full name be used instead of the single-word handle
-Nordschamane in the commit Author header, Signed-off-by trailer, and
-MODULE_AUTHOR("Nordschamane") in sound/pci/maya44e.c? Under
-Documentation/process/submitting-patches.rst, Developer Certificate of
-Origin sign-offs and module authorship require a known real name rather
-than a handle or nickname.
+Link v1 : 
+https://lore.kernel.org/all/20261113103727.30449-1-phucduc.bui@gmail.com/
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116-codex-alsa=
--maya44e-v4-1-381358afc43a@proton.me?part=3D1
+Change in v2:
+
+ - Rebase the patches on the latest for-next branch after checking the 
+   Sashiko review page and discovering that the patches could not be 
+   applied cleanly.
+ - Use dev_err_probe() for devm_regmap_init_mmio() error handling.
+
+Compile-tested only.
+
+Best regards,
+Phuc
+
+bui duc phuc (2):
+  ASoC: atmel-classd: Simplify probe error handling
+  ASoC: atmel-classd: Enable pclk during probe
+
+ sound/soc/atmel/atmel-classd.c | 50 ++++++++++------------------------
+ 1 file changed, 15 insertions(+), 35 deletions(-)
+
+-- 
+2.43.0
+
