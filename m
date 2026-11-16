@@ -1,69 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.68.63.162
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794817837;
-	b=F9bxOnuXMQeUdPZhyazWM/fUkh1hwVtU0u6C5QSozSPK38Q8Wq6eDwDLJTtYykAX+HHW
-	 9Y3Kh3EidUnovL0r5+ijiW3UGEKBA9/1Ux/oHbWbPjeAWpg/U0KGxPEZhXj0Ib27kdWji
-	 7DJZCyMaRNRl3aAKTCGHC2RnJxkXg7XzVVlloU5S9t28iowpK8Mcqsl7IAzgi3+/giUtS
-	 Vd8fnkViE0BiKb9s44iQghS9dnYYIlz5uX9TD52Hp1rFAXW8ZxpGcGESCg4PMdYOfLUjj
-	 /IinN7x6VuSBgGTWD/2Cuxw8KdevIdH1+VF/5xkxE6EdxEI2ddG/ig+Iy6kdmTAyjTg==
+	t=1794817911;
+	b=T7tyJV41+wEPYGL5KEy0D7CcGYVCy9UUNVaYv7NV4K6WlraJb4f52amDWltH2EMP1oyH
+	 6yuSJYVUFBonN4WLw6HqlNkpiWkKkTtPS5X2e7xWDKWV2cPRG7ZMB+9U+26iNBL2dUu23
+	 QrV/6yvpBL7zEwMWOv3CMrlDXDB4PolIGE9bi2sb41ezZ6Xrqt50HcGT60rhxvEmrW7E4
+	 7nuDCQC1nZHEO32JTx3fSiSqWKGVyk+k5vCpehyDO6StzkCsfg/LM0eej+I6+kvoXcpuU
+	 91CggIRy1XvUEwWoIzRZOZSOUhMBqdy4h0ua3EPW7LF9fMiHc1R9lEw0w74M+r0u4uA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794817837;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-PPP-Message-ID:X-NC-CID;
-	bh=stLAgc75/toghgFHRoMTWr8wGTVjN6A6wa8FXSVhWeE=;
-	b=2SyA1n7eCtW+JZjWiqm6Rpz/PRjlTfo+mB9w/Gk+/LY++gqxBSKyehBRUoAI93ZPXWQA
-	 MuMQ4+i21QmeMyaVox7CLlYi8FbfQhFMtEH141XsQmZ1sPeIL30k1IfS7djFyjhbDb2k8
-	 XYGferbAdWIEF5xs3zsPKpgvR17N0p5HKvRv/Isqix/4j9xqNsiLgBf42ZSdTrvYbI8FI
-	 bMOWDNBHIU9npFPpJ+Vr1S5yIfI9bShutj61d4RIBWIZa6zAocCqvfdaJeaj8KoIh/TFS
-	 nWt8hjFmWrZ/+xVHYqfWGF9Zjb0aw9MzImce9m9AqBWVtAXO7Mj0YC5JsYa2m4a/OUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794817911;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=/nynTu1KQExehnfG+HOKPoJ0YCDDmx+i2llgwZEbaYE=;
+	b=XkJQ6tR5DUK1wS4K6ImvxaFGVvQu56Z5sZ5lLCs3sVe93gK+XG/dh4uDAyY09iIiG9xW
+	 YVU7MaPDRg9b6MrSJMXMEbTdyeko6VLxqFuIfoId5mSEJyql3dkIxaHfQIbZ2qubNja7z
+	 CIAbeUNNaKOetv9BvZqF6H3dIYuqK10JquGQQfXOJW6Nz4oSbui1Sd7I0ZTwbZK6Q/XZG
+	 +3NClR1bo/L+ydcd/BT65/gDU/E5sdjjA/SmNOGZZIf5N/AZMDFYL9HSA4vVKycGvUQUx
+	 IYauvTI3Rj7P3tZarQNCAAuOBpXElg1yUuaS2+7x0O5ojetliX+vu8jZnRJt/tmrtGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=leemhuis.info;
-	spf=pass smtp.mailfrom=leemhuis.info;
-	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=FG6OLmW8;
-	arc=none smtp.remote-ip=188.68.63.162
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.162])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Eit3VJhF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F00A606A323;
-	Mon, 16 Nov 2026 08:30:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F00A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B7B606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 08:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=FG6OLmW8
-Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4jSgyy4c5Tz3wFW;
-	Mon, 16 Nov 2026 09:30:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1794817802;
-	bh=DZTBprXxK7kjJ5gp7FXYKcB+Rb/buuRguswOL+ZnbEo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FG6OLmW86jfyOMU+R6zPiTLbzHk18vBdKvo/fD5Ot6MKf4vWvYIH62bjCUooqcg0k
-	 uom2OoV9H/uXi61VkySBhUzI+O8XCWKi9cNcdMERK94mviWOhQM1tfDhyoe8hTVhFi
-	 OE8cY4s0V2ONH9F6RLpO7PufJ4Y/d8SqGPE0BKb2TGHPnXUtJM/j0sqAytxa3p8yJr
-	 1hy6+OMQLbX9uZ0jCz+FdUYxIwuAWFRr6T6fT0DW1tqw87Qq5MaFtbaeAjAbbTL2R2
-	 bfgpWVk8LN8Wb6PGjK8k/LEUfX1wwQ0lnFasmrZL/pBNAnlly4bWCwDP5n5JZeJAKa
-	 rwefq9b2y44og==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4jSgyy19RTz42QT;
-	Mon, 16 Nov 2026 09:30:02 +0100 (CET)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4jSgyx1Mb0z8tHp;
-	Mon, 16 Nov 2026 09:30:01 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 6B4945F9EB;
-	Mon, 16 Nov 2026 09:29:46 +0100 (CET)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <380ce8f7-1d88-4d5c-bf3d-108be7055ec9@leemhuis.info>
-Date: Mon, 16 Nov 2026 09:29:45 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Eit3VJhF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365A71F000C4;
+	Mon, 16 Nov 2026 08:31:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794817911;
+	bh=/nynTu1KQExehnfG+HOKPoJ0YCDDmx+i2llgwZEbaYE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Eit3VJhFnRxuXuTb0BN2s8pdce5rpFLKIJH7ubBCKpVD2odtp1c3m1buMRpghAyJg
+	 3w09nta+7k7OhIUthtAFlRU+M5jMcmxpB+Jqfi02sVFqtAz5Jb9VpfvbYR0h0fAeRn
+	 IXMD9/9fhvkzhsAarYvLy6oPJBzL5xylSWV3lpPwpF3GPnkx/xy7hAe3XjB/p82dPf
+	 QTMEDSqzgdgmbEiL8gxuJ2xJ8Ee/+wJOpXbSkqeuSHqO0Qh7ZdT02riVpRzm3eUvq/
+	 HFBfZ35b1ByqWWHldlF1X/5Il8BNgx/RtNI1I4rIC+JHzdjmWSJ28++3CxwbJIA0CO
+	 SQ6CC35gVWNCg==
+Message-ID: <sashiko-outbox-216538@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 4/5] ALSA: usx2y: us144mkii: wait for the URB
+ completion handlers on stop and close
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Alexandre Becholey" <alex@becholey.ch>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261116071707.217448-5-alex@becholey.ch>
+References: <20261116071707.217448-1-alex@becholey.ch>
+ <20261116071707.217448-5-alex@becholey.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 08:31:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,91 +60,161 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] ALSA: hda/realtek: no speaker sound on Lenovo Legion
- 16IRX9H since f2293e7b2ddd (PCI SSID 17aa:3842 shared with ThinkBook X G2
- IAH)
-To: Greg KH <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>
-Cc: tiwai@suse.de, william <assassinshalo29@gmail.com>, evgeny@devduty.com,
- stable@vger.kernel.org, regressions@lists.linux.dev,
- linux-sound@vger.kernel.org
-References: 
- <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: 
- <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <179481778690.466935.124532524917592183@mxe9fb.netcup.net>
-X-NC-CID: cUG7y3e30E7GrDwrudyUN+lU/QL7i9S2qYrjAbXb5gRBUO6D5yg=
 
-On 11/16/26 02:24, william wrote:
-> Commit f2293e7b2ddd ("ALSA: hda/realtek: Enable all four speaker amps on Lenovo
-> ThinkBook X G2 IAH", Cc: stable) matches the laptop by PCI SSID
-> 17aa:3842, on the
-> assumption that this SSID had no quirk entry. The Lenovo Legion 16IRX9H (83DE)
-> has the same PCI SSID, so its internal speakers are silent on kernels that carry
-> this commit. Headphones work.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ALSA: usx2y: us144mkii: tascam_pcm_sync_stop() bypassed after
+  pause
+- [Low] ALSA: usx2y: unlocked rcu_assign_pointer() races with
+  stop_pcm_work
+--
 
-Greg, Sasha, that change made it to 7.3.y already, but is in the current
-6.18.y-rc afaics -- so might be something to drop until this is sorted out.
+commit dcdd2bae04ac4bdf13b9db3d7f98d8186df8888e
+Author: Alexandre Becholey <alex@becholey.ch>
 
-Ciao, Thorsten
+ALSA: usx2y: us144mkii: wait for the URB completion handlers on stop and cl=
+ose
 
-> Hardware
-> Lenovo Legion 16IRX9H, product 83DE, BIOS N2CN32WW
-> Codec: Realtek ALC287, codec SSID 17aa:38cd, PCI SSID 17aa:3842
-> Amplifier: ACPI TIAS2781:00 (i2c-TIAS2781:00 on i2c_designware.2),
-> driver snd_hda_scodec_tas2781_i2c
-> Kernels
-> Works: 7.2.10-200.nobara.fc44, 7.1.6-1-cachyos (live ISO)
-> Fails: 7.3.4-201.nobara.fc44, 7.3.4-1-cachyos
-> The 3842 entry is absent from v7.2 and v7.3, present in v7.3.4, and still
-> present in v7.4-rc1 and master as of 2026-11-15 (checked via the GitHub mirror).
-> Analysis
-> snd_hda_pick_fixup() walks the table and matches PCI-SSID entries before the
-> codec-SSID fallback. Before the commit, 17aa:3842 had no entry, so this machine
-> fell through to the existing codec-SSID entry
-> SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
-> which works. With the commit, the 3842 entry wins and chains to
-> cs35l41_fixup_i2c_four(), so the codec master waits for four CS35L41 components
-> that do not exist on this machine.
-> Evidence on 7.3.4
-> dmesg: "ALC287: picked fixup for PCI SSID 17aa:3842"; no "bound i2c-TIAS2781:00"
-> line (on 7.2.10 that line is present).
-> /sys/kernel/debug/device_component/hdaudioC0D0: master "not bound",
-> four entries "(unknown) not registered".
-> With dyndbg, after "echo 1 > /sys/class/sound/hwC0D0/reconfig":
-> hdaudioC0D0: trying to bring up adev
-> hdaudioC0D0: Looking for component 0
-> hdaudioC0D0: master has incomplete components
-> After unbinding/binding i2c-TIAS2781:00, tas2781-hda logs "adding component"
-> but the master still reports incomplete components.
-> Workaround confirmed
-> Booting with snd_hda_intel.model=17aa:38cd (alias SSID, handled first by the
-> picker) gives:
-> ALC287: picked fixup for alias SSID 17aa:38cd
-> bound i2c-TIAS2781:00 (ops tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
-> and the speakers work.
-> Possible direction
-> Since both laptops share the PCI SSID, the ThinkBook entry cannot be fixed by
-> PCI SSID alone. One option is a codec-SSID entry for this machine placed before
-> the 0x3842 line, e.g.
-> HDA_CODEC_QUIRK(0x17aa, 0x38cd, "Legion 16IRX9H / Y790 VECO DUAL",
-> ALC287_FIXUP_TAS2781_I2C),
-> I have not compiled or tested a patch, only the model= alias above. I am happy
-> to test patches on this hardware.
-> Separate observation
-> After the workaround, speakers still stopped after some idle time. It went away
-> with snd_hda_intel power_save=0 power_save_controller=N and keeping
-> i2c-TIAS2781:00 power/control at "on". I applied both at once, so I do not know
-> which is required. This looks unrelated to the regression above.
-> 
-> I'd really appreciate it if the issue is fixed, as I'm now having the
-> same problem when the laptop is turned on after being suspended for a
-> while, and I haven't been able to solve it.
-> Thanks,
-> William
+This commit protects playback_substream and capture_substream with RCU and
+adds synchronize_rcu() calls in .close and a new .sync_stop callback so
+URB completion handlers and capture work finish using the substream and
+its runtime before they are freed.
 
+> diff --git a/sound/usb/usx2y/us144mkii_pcm.c b/sound/usb/usx2y/us144mkii_=
+pcm.c
+> index 03dfb1f388012..7be6710e7fe32 100644
+> --- a/sound/usb/usx2y/us144mkii_pcm.c
+> +++ b/sound/usb/usx2y/us144mkii_pcm.c
+> @@ -259,6 +259,18 @@ int tascam_pcm_hw_free(struct snd_pcm_substream *sub=
+stream)
+>  	return 0;
+>  }
+> =20
+> +int tascam_pcm_sync_stop(struct snd_pcm_substream *substream)
+> +{
+> +	/*
+> +	 * The URBs of both streams keep running as long as one of them does.
+> +	 * The URB completion handlers and the capture work use the substream
+> +	 * inside an RCU read-side section; wait for them before the buffer is
+> +	 * freed or reallocated.
+> +	 */
+> +	synchronize_rcu();
+> +	return 0;
+> +}
+> +
+>  int tascam_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+>  {
+>  	struct tascam_card *tascam =3D snd_pcm_substream_chip(substream);
+
+[Severity: High]
+Can tascam_pcm_sync_stop() be skipped when a paused stream is stopped or
+closed, allowing do_hw_free() to free runtime->dma_area while
+playback_urb_complete() is still copying from it?
+
+tascam_pcm_hw advertises SNDRV_PCM_INFO_PAUSE, and tascam_pcm_trigger()
+accepts SNDRV_PCM_TRIGGER_PAUSE_PUSH, which transitions the substream to
+SNDRV_PCM_STATE_PAUSED without setting runtime->stop_operating.  However,
+tascam_pcm_trigger() does not handle SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+
+sound/usb/usx2y/us144mkii_pcm.c:tascam_pcm_trigger() {
+	...
+		case SNDRV_PCM_TRIGGER_STOP:
+		case SNDRV_PCM_TRIGGER_SUSPEND:
+		case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+			if (atomic_read(&tascam->playback_active)) {
+				atomic_set(&tascam->playback_active, 0);
+				atomic_set(&tascam->capture_active, 0);
+				do_stop =3D true;
+			}
+			break;
+		default:
+			err =3D -EINVAL;
+			break;
+	...
+}
+
+When snd_pcm_drop() (including from snd_pcm_release_substream() before
+.close) or snd_pcm_prepare() runs on a paused substream, it first calls
+snd_pcm_pause(substream, false) to return the stream to
+SNDRV_PCM_STATE_RUNNING before calling snd_pcm_stop().  Because
+SNDRV_PCM_TRIGGER_PAUSE_RELEASE fails with -EINVAL, runtime->state remains
+SNDRV_PCM_STATE_PAUSED, so snd_pcm_do_stop() sees !snd_pcm_running() and
+never sets runtime->stop_operating =3D true.  snd_pcm_sync_stop() then skips
+tascam_pcm_sync_stop():
+
+CPU0                                  CPU1 (<softirq>)
+                                      playback_urb_complete()
+                                        rcu_read_lock()
+                                        lock(&tascam->lock)
+                                        running =3D snd_pcm_running(substre=
+am)
+                                        unlock(&tascam->lock)
+snd_pcm_pause(substream, true)
+  tascam_pcm_trigger(PAUSE_PUSH)
+  state =3D SNDRV_PCM_STATE_PAUSED
+snd_pcm_release()
+  snd_pcm_drop()
+    snd_pcm_pause(substream, false)
+      tascam_pcm_trigger(PAUSE_RELEASE) -> -EINVAL
+    snd_pcm_stop()
+      /* !snd_pcm_running(), stop_operating not set */
+  do_hw_free()
+    snd_pcm_sync_stop()               /* skipped */
+    snd_pcm_lib_free_pages()
+                                        memcpy(dst_buf, runtime->dma_area, =
+...)
+                                          <-- use-after-free / NULL derefer=
+ence
+
+> diff --git a/sound/usb/usx2y/us144mkii_playback.c b/sound/usb/usx2y/us144=
+mkii_playback.c
+> index 7621d752c899e..6fb3be2bacd98 100644
+> --- a/sound/usb/usx2y/us144mkii_playback.c
+> +++ b/sound/usb/usx2y/us144mkii_playback.c
+> @@ -17,7 +17,8 @@ static int tascam_playback_open(struct snd_pcm_substrea=
+m *substream)
+>  	struct tascam_card *tascam =3D snd_pcm_substream_chip(substream);
+> =20
+>  	substream->runtime->hw =3D tascam_pcm_hw;
+> -	tascam->playback_substream =3D substream;
+> +	/* Pairs with rcu_dereference() in the URB completion handlers. */
+> +	rcu_assign_pointer(tascam->playback_substream, substream);
+>  	atomic_set(&tascam->playback_active, 0);
+> =20
+>  	return 0;
+
+[ ... ]
+
+> @@ -479,8 +493,10 @@ void tascam_stop_pcm_work_handler(struct work_struct=
+ *work)
+>  	struct snd_pcm_substream *playback_ss, *capture_ss;
+> =20
+>  	scoped_guard(spinlock_irqsave, &tascam->lock) {
+> -		playback_ss =3D tascam->playback_substream;
+> -		capture_ss =3D tascam->capture_substream;
+> +		playback_ss =3D rcu_dereference_protected(tascam->playback_substream,
+> +							lockdep_is_held(&tascam->lock));
+> +		capture_ss =3D rcu_dereference_protected(tascam->capture_substream,
+> +						       lockdep_is_held(&tascam->lock));
+>  	}
+> =20
+>  	if (playback_ss)
+
+[Severity: Low]
+Does rcu_dereference_protected() in tascam_stop_pcm_work_handler() race
+with the unlocked rcu_assign_pointer() in tascam_playback_open() and
+tascam_capture_open()?
+
+rcu_dereference_protected() omits READ_ONCE() because it assumes the held
+lock prevents concurrent updates, but tascam_playback_open() and
+tascam_capture_open() publish the substream pointers without holding
+tascam->lock.  If one substream is opened while stop_pcm_work runs for the
+other stream, the plain load in tascam_stop_pcm_work_handler() causes a
+data race and drops the READ_ONCE() needed to pair with
+rcu_assign_pointer().  Either the .open callbacks should assign the
+pointers under tascam->lock, or tascam_stop_pcm_work_handler() should use
+rcu_dereference_check().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116071707.2174=
+48-1-alex@becholey.ch?part=3D4
