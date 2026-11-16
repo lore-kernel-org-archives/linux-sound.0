@@ -1,66 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794813500;
-	b=B2HjiDLnlrIC2+KVFG7NByDqq17YN+cWWsgCmM1DfhKCCAs9avlBzHFjZoLAtEUxVPfp
-	 V/EpARV+X4KIgAbaudBc4yfEs/Yo64e30FtTRQQaHArlHQj4w7gpQQL4t3qwNIaE37VQW
-	 HUF2W0whzwFblXbaGslB2jNR39pjHY+XDW3+obi+nZIAmTYL4YCZX8oMZ12r5rMufuwqm
-	 ERu11cIn7QFXXHH1p5aMapyvhPNlnPwt2/s675rKvQ055TDJv/LYkYhYyiPg7nQaHwK5U
-	 rY8yuHgFoOSC9dRpU0uEzhyOMxi10vYTPB+Tpm7Y2g3r69po+OOWL4bBFpFIWw/ZClg==
+	t=1794814023;
+	b=Qr46WEF9WIWLCFvOTnDte0shQRPuT9Gux3Td61VGWhrEVPHXs+/lhXg5hx9o/9JihB8f
+	 uT1HW9i99S61T61LHnRgUbjJ/XrJ+VIx/IphglujxD3N3UURmD8a2o0CJiqE1dtkN1hVa
+	 EwJY6rgcVaJzicCXASJ+x83Y/zuqUZEj3GMJh9DC5VClicmCKQVWzEZbCRZYPkb23a6QT
+	 rnQHL8XS9hh/iY0XNR947qi3JbiBPgq5b2rxS7eDyFWilBc/d2YBBVmujzG09ZNOfNKUR
+	 dcte7Gt8mNAf99wtGLmXcyVe1W7eUiMQ1HZR2IfemIvzYXOKE0GfUIlzBx2WXTKqgCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794813500;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=JFmvBZpwMqindYiNi7ogSyswfQwIz3IOi5bZUrK2eHs=;
-	b=2wudOuCe7jlJaz6c80EfLDtkzz8yQtUJDMeUh+g4ugd58tXU6GL7SowCDjE5Pw1suswF
-	 sUGjx/uBRYkrbZLnzMZiidoxWRzIO/ZrcsN0Ni+8qXBfbjTbYQTaltAXRlHyvjP+QetvL
-	 BlHUS3Jl0wltvQkQ28er8/z3H96uvAQ5sI6FGJLzMQO2r7pBr+SJ/llO7iaftdAhv+2kU
-	 fRsmJzkQuZ4OQojvFdiEo91vZl0E2Cxr0OBhzjn2+SqC3ZnTidlP8A5iD7Wz+2lAr3toZ
-	 Pkg5sgtgEzSY/ayPV7vE03UZc22zXxa6KxxKfZTvscq4EKovY6PKa4kJ0JBJxJDiMMQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794814023;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=1ELlTHsX7MWi1F2xb1UhzBFJcLpNsaPIltuvAh1A7y4=;
+	b=2BbeK6pHm1xwezRKIpCQDdacpHgHtvdOg0he4IEtZrkqeItKKn98CAwheI2mscmQM+r1
+	 JWBu7F8hMfFUfHtsBZRhWc91ptWiSo1ECRGXNKoTga4BVfGXs80hy3OpFnUcJ8zDygsfR
+	 i8E/foKVVI2FjaHZk1tT3mro/4f99rx2kSE3j35NUjJ3Ug7ewqFziJaxv5cuFJl1Sgkjs
+	 OeFHc6JvRzeD6UxWpQZNrrp7RfrvM+8pMprmM5A7ubAqzN2RE+t7xxTEaOCpwMx1OovY+
+	 ON4OUyDc3Ak/TPzpHgzLGQczW6gAvrkcDRs2nVhkf2w9U5FfJ4+9XQLnswQfRX854EQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fySSgXYU;
-	arc=none smtp.remote-ip=113.46.200.218
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lhYX20Ni;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2293E606A31C;
-	Mon, 16 Nov 2026 07:18:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2293E606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569EE606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 07:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fySSgXYU
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=JFmvBZpwMqindYiNi7ogSyswfQwIz3IOi5bZUrK2eHs=;
-	b=fySSgXYUJsKs6wQ9ZInYWkiZYXtIL44oK+ZLlI2X9UdG5+9KRhM1Xm5O6ufFQFt86yKvMt7lH
-	TJ16ss/1KR7gBTrdQpJb3REnew8XXMwlEJYoLXBrMRJscziuB5BVXrODOpqYUThJQ+jWdtXVa+N
-	YsOJou3GG9bKApK1GTpz60Q=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jSfM96SGszpT06;
-	Mon, 16 Nov 2026 15:17:25 +0800 (CST)
-Received: from whupemo500017.china.huawei.com (unknown [7.152.184.243])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1CBCB40538;
-	Mon, 16 Nov 2026 15:18:12 +0800 (CST)
-Received: from huawei.com (10.67.174.49) by whupemo500017.china.huawei.com
- (7.152.184.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Mon, 16 Nov
- 2026 15:18:11 +0800
-From: Ye Weihua <yeweihua4@huawei.com>
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-CC: <linux-sound@vger.kernel.org>, <stable@vger.kernel.org>, Ye Weihua
-	<yeweihua4@huawei.com>
-Subject: [PATCH -next 2/2] ALSA: pcm: oss: Clear params flag only after successful setup
-Date: Mon, 16 Nov 2026 06:48:50 +0000
-Message-ID: <20261116064850.3540576-2-yeweihua4@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261116064850.3540576-1-yeweihua4@huawei.com>
-References: <20261116064850.3540576-1-yeweihua4@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lhYX20Ni
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF5151F000C6;
+	Mon, 16 Nov 2026 07:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794814023;
+	bh=1ELlTHsX7MWi1F2xb1UhzBFJcLpNsaPIltuvAh1A7y4=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=lhYX20Ni94uh3AbBWWo/Okm/ONqB2yNdoZ3hZ2St2NqcZqxDqKtNz/28p1WBSk0ur
+	 /fwq4nGr7U9GebNKpfN3DWlSdGQzeNgIpJCfGhVsxBjjhFVEfFW9ucfXdMfQaHSm4t
+	 nYvHI8qjYJAbEcfOIQrlWIvBV0A1Deg03O1vounIgLaWu70NIkGOBXdwDHHyqK043R
+	 Nwu+XPnOZ2OKmbDA4ApecEsNVMNv8dEQcDYCVErErONldz+cJrAKXdUjq6I0gqQPjB
+	 UZs5MCVBTIrwX+nItay5dmMVA5N/KZnFdvYfPLrqb4bOgFUVCe1cT5iElpJTGXptMO
+	 jB35b7o83ZjPQ==
+Message-ID: <sashiko-outbox-216422@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: wcd937x: bound the DT channel mapping to the
+ channel
+Reply-To: sashiko-reviews@lists.linux.dev
+To: liuchen <2508871010@qq.com>, linux-sound@vger.kernel.org
+In-Reply-To: <tencent_5E8B535138DB2906DF4871E24590DA458A06@qq.com>
+References: <tencent_5E8B535138DB2906DF4871E24590DA458A06@qq.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 16 Nov 2026 07:27:02 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,47 +58,131 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- whupemo500017.china.huawei.com (7.152.184.243)
 
-runtime->oss.params is cleared before the initial silence setup has
-completed, so the flag claims a complete configuration while the
-buffer setup is still in progress.  The error path now restores the
-flag, so this is not fatal, but clear it only after the whole
-reconfiguration has succeeded.
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [High] ASoC: wcd937x: single-word handle used in Signed-off-by trailer
+- [Low] ASoC: wcd937x: stale ret check in wcd9370_probe() after clamping
+  size
+- [Low] ASoC: wcd937x: Fixes trailer cites wrong commit in commit
+  message
+--
 
-Move the assignment after snd_pcm_runtime_buffer_set_silence().
+commit e110cdb8f270ccdee8cfffae54f7844e1377eb32
+Author: liuchen <2508871010@qq.com>
 
-Signed-off-by: Ye Weihua <yeweihua4@huawei.com>
----
- sound/core/oss/pcm_oss.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> ASoC: wcd937x: bound the DT channel mapping to the channel tables
+>
+> wcd9370_probe() copies qcom,{tx,rx}-channel-mapping into the per-channel
+> tables with the length of the DT property as the loop bound.  Nothing
+> checks that the property describes no more channels than
+> wcd937x_sdw_tx_ch_info[] (11 entries) and wcd937x_sdw_rx_ch_info[]
+> (8 entries) hold.
+>
+> The DT binding requires exactly 12 entries for qcom,tx-channel-mapping
+> ("adc1, adc2, adc3, dmic0, dmic1, mbhc, dmic2, dmic3, dmic4, dmic5,
+> dmic6, dmic7"), while the driver's table stops at WCD937X_DMIC6, i.e. 11
+> channels.  Any board that follows the binding therefore writes one entry
+> past the end of the table; both boards in mainline that use the property
+> do so (qcm6490-idp.dts and sm7150-xiaomi-davinci.dtsi both spell out 12
+> values).
+>
+> Both tables live in .data right next to each other, so the stray write
+> lands in wcd937x_sdw_rx_ch_info[0].ch_mask.  The 12th value, 4, stores
+> WCD937X_SWRM_CH_MASK(4) =3D=3D 0x8 into HPH_L; the codec then asks for
+> SoundWire RX channel 4 (EN_CHAN =3D 0x8) while the AFE keeps sending two
+> channels (active_channels_mask =3D 0x3).  The CDC DMA never completes a
+> block, the DSP never reports WRITE_DONE, and playback on the RX codec
+> DMA path fails with -EIO after the wait_for_avail() timeout.
+>
+> Clamp the property length to the scratch buffer before reading it and to
+> the table size before filling it in, so that an over-long mapping is
+> ignored instead of corrupting the RX table.
+>
+> The overflow was found while debugging RX codec DMA playback (no
+> WRITE_DONE from the DSP, playback failing with -EIO) on an SM7150 phone:
+> a temporary printk showed exactly one entry of the runtime table
+> differing from .data, which led to the 12th iteration of the loop.
+> Diagnosis, patch and this changelog were produced with the help of an AI
+> coding assistant (Claude, Anthropic); the submitter reviewed the change,
+> built it for arm64 with W=3D1 and verified on that phone that playback now
+> completes and that the codec enables SoundWire RX channels 1 and 2
+> (EN_CHAN =3D 0x3) instead of channel 4 (0x8).
+>
+> Not done: qcm6490-idp was not booted, there was no KASAN or reproducer
+> other than the phone, and the DT binding still advertises 12 TX channels
+> while the table holds 11, so a conforming mapping now has its last entry
+> ignored instead of written out of bounds (binding update left as a
+> follow-up).
+>
+> Fixes: c99a515ff153 ("ASoC: codecs: wcd937x-sdw: add SoundWire driver")
+> Signed-off-by: liuchen <2508871010@qq.com>
 
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index 29812b0d1318..2fc52fe2cb52 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -1071,16 +1071,16 @@ static int snd_pcm_oss_change_params_locked(struct snd_pcm_substream *substream)
- 	if (!runtime->oss.buffer) {
- 		err = -ENOMEM;
- 		goto failure;
- 	}
- 
--	runtime->oss.params = 0;
- 	runtime->oss.prepare = 1;
- 	runtime->oss.buffer_used = 0;
- 	err = snd_pcm_runtime_buffer_set_silence(runtime);
- 	if (err < 0)
- 		goto failure;
-+	runtime->oss.params = 0;
- 
- 	runtime->oss.period_frames = snd_pcm_alsa_frames(substream, oss_period_size);
- 
- 	err = 0;
- failure:
--- 
-2.34.1
+[Severity: High]
+The Author header and Signed-off-by trailer use a single-word handle
+("liuchen") instead of a full real name as required by the Developer's
+Certificate of Origin in Documentation/process/submitting-patches.rst.
 
+[Severity: Low]
+In commit c99a515ff153 ("ASoC: codecs: wcd937x-sdw: add SoundWire driver"),
+wcd937x_sdw_rx_ch_info and wcd937x_sdw_tx_ch_info were const arrays and
+wcd9370_probe() did not parse qcom,tx-channel-mapping or
+qcom,rx-channel-mapping.  Should the Fixes: tag instead point to the commit
+that introduced static channel mapping support:
+
+  Fixes: c06c4f7cbea1 ("ASoC: codecs: wcd937x: Add static channel mapping s=
+upport in wcd937x-sdw")
+
+> diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sd=
+w.c
+> index 57549518767ce..baacfef6c9cb4 100644
+> --- a/sound/soc/codecs/wcd937x-sdw.c
+> +++ b/sound/soc/codecs/wcd937x-sdw.c
+> @@ -1003,6 +1003,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
+>  	if (wcd->is_tx) {
+>  		master_ch_mask_size =3D of_property_count_u8_elems(dev->of_node,
+>  								 "qcom,tx-channel-mapping");
+> +		master_ch_mask_size =3D clamp(master_ch_mask_size, 0,
+> +					    (int)ARRAY_SIZE(master_ch_mask));
+> =20
+>  		if (master_ch_mask_size)
+>  			ret =3D of_property_read_u8_array(dev->of_node, "qcom,tx-channel-mapp=
+ing",
+> @@ -1010,6 +1012,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
+>  	} else {
+>  		master_ch_mask_size =3D of_property_count_u8_elems(dev->of_node,
+>  								 "qcom,rx-channel-mapping");
+> +		master_ch_mask_size =3D clamp(master_ch_mask_size, 0,
+> +					    (int)ARRAY_SIZE(master_ch_mask));
+> =20
+>  		if (master_ch_mask_size)
+>  			ret =3D of_property_read_u8_array(dev->of_node, "qcom,rx-channel-mapp=
+ing",
+
+[Severity: Low]
+Does clamping master_ch_mask_size to 0 before checking
+if (master_ch_mask_size) leave ret holding the stale return value from the
+earlier port-mapping read when the optional channel-mapping property is
+absent?
+
+When qcom,tx-channel-mapping or qcom,rx-channel-mapping is omitted from the
+Device Tree, of_property_count_u8_elems() returns a negative error code.
+Previously, if (master_ch_mask_size) was true for negative values, so
+of_property_read_u8_array() ran and set ret to a negative error code.
+Clamping master_ch_mask_size to 0 skips of_property_read_u8_array(), so the
+subsequent check in wcd9370_probe():
+
+sound/soc/codecs/wcd937x-sdw.c:wcd9370_probe() {
+	...
+	if (ret < 0)
+		dev_info(dev, "Static channel mapping not specified using device channel =
+maps\n");
+}
+
+evaluates the return status of of_property_read_u32_array() for
+qcom,tx-port-mapping or qcom,rx-port-mapping instead, suppressing the
+fallback message when port mapping succeeded.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_5E8B535138D=
+B2906DF4871E24590DA458A06@qq.com?part=3D1
