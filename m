@@ -1,95 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794792253;
-	b=Nj6u6F1UE8Kr5nOCfh1BcJ1JHG7UN1f0XzrbDhvJ4Fao+7kRCELeTSQUP9M3xgbEFV3r
-	 F+0UbHV0my+200g4SswHyd7mviVV97NQNsmbmqlLuVV1hN/fa/TqqIdMq8xr7zM76cuYu
-	 imkc3d49az566glI4UWhdjObiMO9rQ+DPhWQOILL04PSzGuuwt8ESYPBzDdwn+/M4tpvg
-	 95/WgQ/GNde78FkPFID1gg4GamIDL0XJmPEyu5yERu1lAVbFweIKTgelhN4WIrxK3YB62
-	 1ga5Cc2ZK3FhpWxhnVPvBME+CEZ3gU30p5w4CMPCwusEXwRzMjwDQjR162m/M24Rq7A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794792253;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794797658;
+	b=C+lrYqC8URmhJzSKqCP2Dzb7vDA/AajZf7LqAzp39kdgTunwDRZYwl4dMxDpvzbvCjne
+	 xAVc8dJqPfGyGM2N0sSSIJ8iIT/+BmujgqXTHBpGcChpOVsL8IDE17LSemGSmJDWYMnSP
+	 3L7oN4x221+Rcmdk4J7COPXPjdlJ8Skv9g8n7v5FpA4KKHjhRb3bHHtVDw2LU2QZA36Vv
+	 PUw17kog1oQVr8EznFj3QiR1czdl64G5R+m8sKhyyeKmVKecdf1+R52lbPYYbYuarItyW
+	 aRYoIy/dPfkhKsk6LPFx7EpNBR96uFLsB5k2g7D21d8spF/jCZRFUfx0XVnN7/gaa3Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794797658;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
-	b=CugWbJz6ihpjZkWneC4Nb+YZmW3kBif38MgLB273nhepGGpKVcKdYj9xfozj5vmYD+s5
-	 FKUQi/k0JINwXmr8D5KqQr650nxkcaSvua4BzhQq1/eHCy4ZaSySA0wSyiWKCs7sRZZAc
-	 x1kAHm9DGiJpVVlxKniv7XKGfqQ9iJT5miUf76/x+XVS+NGC+HxNJ7CwlFOYfpNUiemRd
-	 5zWP7otoXzV27x44fp5wCSLBoBdTwgtNOnmfITGX83H+Grt8W259O+xlxo2wcsKQzZ7M8
-	 jduSW9YVf4zJgdV3gPVf56bRSNYhfo9Vxxp6tyCF0auiM2a2Xk95NcjEBmc4LVW3x7g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=M2flRQKo2+TtLZp+hFRjcx5hzz90PxG00ajsTx7UBfc=;
+	b=NMTcRaCjer6HpkEQVhq7aBuHCRxyJzGlV9qrT2B7wcldMD7JhLywCMc0AYE5EupmlauS
+	 +DmezMWoO2w8dloOoiLLKIsSFj1HTmO/qc57VopA3fjB/VmbOwiLmaHjDGnz/3IveasW6
+	 QUWtcYZzPmtdTBthMofrrDd8s5mZmmGaTd6FpoLltkBO42F2nwpuZSxt0bh24F088o0JQ
+	 5vpqJzew29H0YP1/J2xAZ4EzuuB7QFqaDZDMHKxC6Fb5dklDDqpoucF0jECbVdR7PoR9V
+	 0PnMJV9KdzKCvRyY5HFRYtnWjPf4Afvh/Pdvf3BHdo6OnxfYDj4eX7dRElDB22jMTiA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nuqJn7NW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="c/Vko28w";
+	arc=none smtp.remote-ip=209.85.210.51
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49890606A323
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:24:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49890606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5F3606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 02:54:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D5F3606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nuqJn7NW
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so3075745e9.1
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 17:24:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794792252; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BZ/8rvikJ3F+5UU17un79UttlXAMDmEGohElyAzMfbkxtKZI07JEZ4KfGo+e2Z4i+u
-         YrPaoIBn3w4lgrWqCJbdCnYN6FnT9+wdsATqL+K/nK3czmLKydG3knrey3keXVKDEGg2
-         GdbQ27uAe1S933WHbXGBbft7srUXNIRJMMTTP6z28tdwZzPWAR5qfkxjcu6iGHdAsOFL
-         Qg+jYuv4yDGrIS8/V45PJOTHs0oOlrI+XVdijfh++8q7YrgSGSYqR0N1hwyy3ah9K/xq
-         z8HvgAEz4PoiA5H784KGh5C5F8Kk91yVM0IKgqPGbPHsA3FDZaqfgzD4pE/OyeND3hlC
-         aJDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
-        fh=j03cro42PHmovQm51OLzJ1o7ZxPDlOKyVnPjvLccdKE=;
-        b=VYCsVmv6WJ5iKiM3G9yb+GQ7Do2RYDc+DLVuBpVZMej9H7OwXWY7N51h9BSrIa1JnD
-         YcZuD/YkVCHRsvztU4s8Ip+VZqMdR+kXf8UTRJQ7u7qpQbEnymQMeHuR3b2SkjBPK8Dk
-         8Vx0uVfC10DjuKCxAELTf1MRylW/uXkM8rVeHLH+vKceLhOCZkswsEIhEpv7P+ZS8hFb
-         Hcr7v+3VOjv4ltZhpFQBtbxxmDRrNoBEhRzwxZ2xP+J9IfhBjGNhh2f1IgfAv7HQBDWy
-         Apf13xveiqK4lFayNoeH6SwkX9QHjI35632XnIbv8JJD8S47rplk7/w+Ovf/GSqiq7NA
-         qsFQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c/Vko28w
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-8629c7cc36eso1375813a34.3
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 18:54:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794792252; x=1795397052; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
-        b=nuqJn7NW9lMUsb8EDML59apEX5MjFBCUyO4+WsSliUSLf/w30eKx99p2NUak/Go7wD
-         ciipjVpQP0a33PbNJaixS8RQQi0m9Hu3KW0KPMhloSW1cHJTiGkRMi/W4z8/LQ5Oi0sH
-         2zKeYRWXp4JU50GniIhhBKn3sMw6NPrwEwwD7hU2NBIV3OPQP4KHSOhRcAAywECIZh3X
-         7cMo5FW7pZxGNoRjDGPhLYmEEdABgTFuGGKnEPFLjfJXqtqknznZm9gnB50hh9Bv9Eq4
-         FRVG5k6J7WxTyJpvY4OylK6dr14BK1e5vtIc0oGn6gQCvt9kADZsT7WEVepqXEicQqj2
-         KrPQ==
+        d=gmail.com; s=20260707; t=1794797656; x=1795402456; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=M2flRQKo2+TtLZp+hFRjcx5hzz90PxG00ajsTx7UBfc=;
+        b=c/Vko28wUycMXkL74hc1w6BAu6WuqjximbmxUPr+oRHuaGhh8QAOA7olC+X11cUBGQ
+         UxmYxlQJYPAAlKsDhMIAPrVlHfjIHivWF2V63wlAix6p31SjbJfo0njLo6ZonO2fkUSG
+         iQbXh7E51z8zOmJGoW5AHi60/GZKCrpnx2Uwj98i/FOmz5N3cVHoUlKzMnXsW5f+FkAW
+         5qbG7XT60kM913d2HNcxujKUvECcHGIBZJNdarkJ8F4LmApmD1zihBWxP86cmolwyVI3
+         kcJuugFhs8XcFcwdgbWrFp/D2ZjQqFJT5FGqXOvUR48DbrVPynxdMFNu/3kH2JjPnXSa
+         FmNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794792252; x=1795397052;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
-        b=1nqdhJuv8Jr4G7OsnS4XzLEpxTAzeGad9bVxdAiDWtlz7JFZZhOseJLEH3YvZbZzzE
-         J/jURPfB9BJaWsu7jOKVBOykoac2jifqsvIyGmxmSjZFQ7KA07V7JEIO1byPaDOjCqaG
-         HoBBlrOyJev9uJwTPnvu/NHvKbKpjDRW/Ya3gu5/t9LzdHbo9ZmK1qjQQI75gFi2AEBP
-         XgNXun3iKt0Ps/Y224Aj5TrNDVcQMwRTEkqlxcAOyrBycyBYKDJJU9KHyfZMvHIem5sQ
-         2GMHzjuWIYbh2J3hdNIatXh9zrRgINox9GViyS1OL91AG+j0wIMU29lnS1Sblj8zw/vE
-         atrg==
-X-Gm-Message-State: APuU4Z/zIAZO+OtdBEVhQrZjw3EcvFVBCiR0Cmg5Vn6pgTzWweiraELD
-	iMism635PJZGhUw3zSugI3W6XM0Qnt2TUxeWJwUfUlgkdGehMOnZ/HBX0WezT//BIg+cr5vBBAX
-	XR/mvq3G+gWQPq4Z5Ndpp60pTGA5RjsGhq5YDnkbjRg==
-X-Gm-Gg: AYBFou14NLOFge3qEy6Iu8CWS1bcphNJ5dGtDEn1DXIDlZBq8gV4FB+KUu/wFuhlivV
-	6i5x/j1o2qQ0MWGSNn4VwjcrpRY2pzG+gSjBP7jM/LAABJAQoMHAbZA1+lGLQZBClHnX0A9YXcU
-	WLkfMj1wRvrf7rBuCf0l2TqYVCVFzH8JY9HDxC5Up+W3D7d7dKwHh5cDQSSZ6tX7dbki9T29D5H
-	eePBJRmFLekc1aoradhNEzUNBISwVBNWvFBvFzV45VnhB6bcvx9NPtdtAR4qInwRUNB3AayFi1v
-	jWdBtwimuL0D/5xJrpdnReul01qZg05o9iI/U2ZXZNY93Xt6Ifjc7Hwi/0XhBRzBHbBPMTytqgh
-	ctSgua4EMXRrjERNx5oKvg6vOJDEDIIQhaXDa
-X-Received: by 2002:a05:600c:3f18:b0:4bb:6ac0:6dc0 with SMTP id
- 5b1f17b1804b1-4bb6ac06e5dmr57112905e9.29.1794792251495; Sun, 15 Nov 2026
- 17:24:11 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794797656; x=1795402456;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M2flRQKo2+TtLZp+hFRjcx5hzz90PxG00ajsTx7UBfc=;
+        b=Uo7OiHyUBjfvocuUy3hi+3omcNhggu0VxXkvzCaqreAmylUj9Tnl08A/MqRPLpdnY0
+         o1RG7jKPOsNFuJ4MYxZhcXvbOI8d3sVR7iwo7VcPd7AdASvXa6Pj2PWxELaumFG7Uqxs
+         Bu9/M7i5Bf0DNGpGzAhxBxrbFmEvjqZLCj2+RPLf0DSKM8d8QPuyvk8OhO3nV6Ra34RO
+         qQzygn8j0TL6VXQtmbXgZfTus8K66Xj4lOX7iEDMuy+kkueLbw7o1b+QACE000zAIG9Q
+         nXncdBPaigGzTj5XC+OSVQ50Hd9f76OqpmNHf+v549IBf4WB6GsFVUx2zJWqc4G38B6f
+         mT1Q==
+X-Forwarded-Encrypted: i=1; AL+hErFulYJ/DQW0TJ0c+tVIAtkTMgxeuCMkMgui2ZJenzHhJaRrmrEIO/vTHcLZEhYVQh+1j3rLUsm7omMdNQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z82X6vmeIdYeec6viGdNLMkojmKvgBuwjf5HW4AEOGCmQAJbLs1
+	B+Ij3dERCNBIuxS7UDIZxYfkRr3PjjZgtGgvFQFA07XbO5/MVtcJAie2
+X-Gm-Gg: AYBFou3qy7Cy6xI6aQNBY8T3HW109GPOdbi3Trcoj570EjNVgH6oiiNBySTKAS2vGLM
+	7tIL0wv11/429rjkqAG3eUtKfVl5ireWnvrnfjTGP7xfgsA8D06lg5FHNQ2l87yQ11x/6KP6hXd
+	1D53UmXcHMcDAvAysk9TE7DjhcqQtFGPkSprhGQ4M8QEH81WMUSDXRClfU1PkXiWODFCMkSEp64
+	x2D4Jq8Jvcw8w0vIS/CSnZkmPVmEaErHJrbfGQTXRamW+LuX+k23LWXGqqgSxGHsVn9vZv7p6Da
+	42uC4VLYrkWjStva+EeKMjvB5kPs0Ove/8GmVgrHUwaIC/dAfVaBcJ+TqJJYTDmu81cKENQtqJH
+	LULq1+YZEQ0xKWemmzVGX78KECMP5nukhvUGiqYXhYoQf65heF0/n/9UaFNn1xnlPurtx8Mu6sF
+	45tkzk39urj6lCwLVtANRvAciYMLomUUbljLgbaDh+90PfKx5FVh/HEJY33Q3YKLn+jCcOdroB6
+	Is4i1bA5eWYxUDgyfbFhPr3qon3n8XpS6uiy2jMqX2k5aejyKCqBznwLbMMQKNIM31HvLthd4xM
+	tZBEO0R7lFiE0aLWZCp6GMt9IaV6r7xQYSaWYF1D7J9uKA==
+X-Received: by 2002:a05:6830:442a:b0:862:bb04:b554 with SMTP id 46e09a7af769-862bb04b5c1mr2685668a34.14.1794797656295;
+        Sun, 15 Nov 2026 18:54:16 -0800 (PST)
+Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-86287f0e257sm9339432a34.1.2026.11.15.18.54.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 18:54:14 -0800 (PST)
+From: Will Porter <mrwillporter@gmail.com>
+To: Christian Ruppert <arc@gmx.li>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Neil Andrews <neil@androos.io>
+Subject: Re: [RFC V4 PATCH 00/19] Re: ALSA: mixer_audient: Cache rework and simplifications
+Date: Sun, 15 Nov 2026 20:53:36 -0600
+Message-ID: <20261116025336.3718463-1-mrwillporter@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261115214336.17917-1-arc@gmx.li>
+References: <20261115214336.17917-1-arc@gmx.li>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,75 +100,218 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: william <assassinshalo29@gmail.com>
-Date: Sun, 15 Nov 2026 20:24:00 -0500
-X-Gm-Features: AclHuK-vjL1wmMPjBQCKuN5LdAtAqjLjQE_NAzaw7x4qYE1TjyXWc0GBGd6bI1U
-Message-ID: <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com>
-Subject: [REGRESSION] ALSA: hda/realtek: no speaker sound on Lenovo Legion
- 16IRX9H since f2293e7b2ddd (PCI SSID 17aa:3842 shared with ThinkBook X G2 IAH)
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de, evgeny@devduty.com, stable@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
-Commit f2293e7b2ddd ("ALSA: hda/realtek: Enable all four speaker amps on Lenovo
-ThinkBook X G2 IAH", Cc: stable) matches the laptop by PCI SSID
-17aa:3842, on the
-assumption that this SSID had no quirk entry. The Lenovo Legion 16IRX9H (83DE)
-has the same PCI SSID, so its internal speakers are silent on kernels that carry
-this commit. Headphones work.
-Hardware
-Lenovo Legion 16IRX9H, product 83DE, BIOS N2CN32WW
-Codec: Realtek ALC287, codec SSID 17aa:38cd, PCI SSID 17aa:3842
-Amplifier: ACPI TIAS2781:00 (i2c-TIAS2781:00 on i2c_designware.2),
-driver snd_hda_scodec_tas2781_i2c
-Kernels
-Works: 7.2.10-200.nobara.fc44, 7.1.6-1-cachyos (live ISO)
-Fails: 7.3.4-201.nobara.fc44, 7.3.4-1-cachyos
-The 3842 entry is absent from v7.2 and v7.3, present in v7.3.4, and still
-present in v7.4-rc1 and master as of 2026-11-15 (checked via the GitHub mirror).
-Analysis
-snd_hda_pick_fixup() walks the table and matches PCI-SSID entries before the
-codec-SSID fallback. Before the commit, 17aa:3842 had no entry, so this machine
-fell through to the existing codec-SSID entry
-SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
-which works. With the commit, the 3842 entry wins and chains to
-cs35l41_fixup_i2c_four(), so the codec master waits for four CS35L41 components
-that do not exist on this machine.
-Evidence on 7.3.4
-dmesg: "ALC287: picked fixup for PCI SSID 17aa:3842"; no "bound i2c-TIAS2781:00"
-line (on 7.2.10 that line is present).
-/sys/kernel/debug/device_component/hdaudioC0D0: master "not bound",
-four entries "(unknown) not registered".
-With dyndbg, after "echo 1 > /sys/class/sound/hwC0D0/reconfig":
-hdaudioC0D0: trying to bring up adev
-hdaudioC0D0: Looking for component 0
-hdaudioC0D0: master has incomplete components
-After unbinding/binding i2c-TIAS2781:00, tas2781-hda logs "adding component"
-but the master still reports incomplete components.
-Workaround confirmed
-Booting with snd_hda_intel.model=17aa:38cd (alias SSID, handled first by the
-picker) gives:
-ALC287: picked fixup for alias SSID 17aa:38cd
-bound i2c-TIAS2781:00 (ops tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
-and the speakers work.
-Possible direction
-Since both laptops share the PCI SSID, the ThinkBook entry cannot be fixed by
-PCI SSID alone. One option is a codec-SSID entry for this machine placed before
-the 0x3842 line, e.g.
-HDA_CODEC_QUIRK(0x17aa, 0x38cd, "Legion 16IRX9H / Y790 VECO DUAL",
-ALC287_FIXUP_TAS2781_I2C),
-I have not compiled or tested a patch, only the model= alias above. I am happy
-to test patches on this hardware.
-Separate observation
-After the workaround, speakers still stopped after some idle time. It went away
-with snd_hda_intel power_save=0 power_save_controller=N and keeping
-i2c-TIAS2781:00 power/control at "on". I applied both at once, so I do not know
-which is required. This looks unrelated to the regression above.
+Hi Christian,
 
-I'd really appreciate it if the issue is fixed, as I'm now having the
-same problem when the laptop is turned on after being suspended for a
-while, and I haven't been able to solve it.
+Thank you for V4. Your plan works for me. I would like to take patch
+19 with one functional change, and I have a question on patch 18.
+
+I squashed patch 17 into patches 12, 13, 15 and 16 (patch 12 got the
+inline changes). With the diff below, each patch builds with W=1
+without warnings. checkpatch --strict reports no new errors or
+warnings, and the diff adds no new checks. On the iD14, with the diff
+on a 7.2.15 kernel, our read and write checks pass, and every enum
+item reads back as written.
+
+> Please double-check the new patch 10 to make sure I didn't miss
+> anything
+
+It looks right to me. The cache bit and the cache_val[] index are both
+the channel number of the request, and the probe sends no GET. I found
+only the bound check in the list below.
+
+> There is also a subtle behavioural change when initializing
+> write-only cache values.
+
+On the iD14 this changes nothing. Its write-only booleans have init
+equal to min, and its write-only enums already read as init. On the
+hardware, all of them read their init value after the load.
+
+Patch 19
+--------
+
+I like it. One thing: the FU 12 type has INIT_HW and CACHE, but not
+GET_BROKEN. On the iD14, GET CUR on FU 12 does not return the FU 12
+value. It returns a reply buffer that the device shares with other
+units.
+
+If the probe write of a Cue channel fails, that channel has no cache
+entry, so the next get or put sends this GET and caches the reply.
+The control can then show a value that is not the value of that
+channel. A later put whose device value matches that reply sends no
+SET for the channel: for example, a stale 0 dB shows as 127, and a put
+of 127 sends nothing. A stale value below -127 dB can also show as a
+negative control value.
+
+So FU 12 looks to me like a write-only control with an init value.
+With GET_BROKEN, an unknown channel reads as init (mute), and every
+put sends all four channels, as the comment above ID14_FU12_* says.
+
+I checked this with a test build that skips the probe write of Cue L.
+With V4, the first access after the load sent one GET for Cue L. The
+reply was 0x8000, matching the value just written to Cue R, so Cue L
+showed 0. Puts of the shown values then sent no SET, also not for Cue
+L, which the driver had never written. With the diff, the driver sent
+no GET, Cue L showed 0, and each put sent all four channels.
+
+Does that match how you read the flags?
+
+> We could even get rid of the FU12 specific value type if the iD14
+> accepts -127 * 256 as a volume setting
+
+The device accepts a SET of -127 dB without a stall, but I tested
+that only on Main L, which the firmware ignores. On Cue, -126 dB and
+mute (0x8000) both measure at the same small residual level that the
+headphone output keeps. I have not tested a SET of -127 dB on Cue.
+The type also has to stay for now, because it holds Main at 0 dB. So
+I would keep value 0 as mute in this series. Could we do the plain
+integer together with your don't-touch channel mask as a follow-up?
+
+Patch 18
+--------
+
+The old gets read only the channels below hwchannels and filled in the
+rest. The new get reads every channel and then ignores the value of
+the channels at or above hwchannels, so an error on such a channel
+fails the whole get. I think this affects only the EVO4 "Mic Playback
+Switch" (4 channels, 2 on the device): it now also sends GET for CN 2
+and 3. Does the EVO4 answer those? Either way, the diff skips the
+transfer for those channels and keeps the values they show now.
+
+Small things, also in the diff:
+
+- raw_get_one() and raw_set_one() accept cidx == MAX_CHANNELS, but
+  cache_val[] has MAX_CHANNELS entries. No table reaches it (the
+  highest channel is 55), so ">=" is only a guard.
+- Two comments from patch 10 still say FORCE_SET.
+- Patch 19 removes extra_init but keeps its comment.
+
+Next steps
+----------
+
+After patch 19, nothing of patch 16's own FU 12 code is left. So I
+would drop patch 16 and send one FU 12 patch after patch 18: the
+control as patch 16 describes it, built on the unified get and put
+with your code from patch 19. Would you like to be its author, with a
+Co-developed-by for me, or the other way round?
+
+A note on trailers: V4 dropped "Assisted-by: Claude:claude-opus-5-5"
+from patches 8, 11 and 12 to 16. I put it back on them, and I added it
+to patch 10, because patch 10 now holds code from my cache patch.
+
+May I fold the diff into your patches 10, 18 and 19 for the final
+series? I would send it as a normal series, not as another RFC.
+Should it wait for Takashi's answer on your four mixer_evo fixes, or
+carry them at the front?
+
 Thanks,
-William
+Will
+
+-- >8 --
+From: Will Porter <mrwillporter@gmail.com>
+Subject: [RFC PATCH] ALSA: mixer_audient: Fix FU 12 reads and the get loop
+
+Proposed changes to patches 10, 18 and 19 of RFC V4:
+
+- Patch 19: mark the iD14 FU 12 type GET_BROKEN. GET CUR on FU 12
+  returns a reply buffer that the device shares with other units, so
+  the driver must not read a channel that has no cache entry. A
+  stale value can also convert to a negative control value: 0x8001
+  shows as -1.
+- Patch 18: send no GET for a channel at or above hwchannels. The
+  type-specific gets did not read these channels either. Also correct
+  the comment on -ENODATA: an unknown value now reads as init, not as
+  off.
+- Patch 10: reject cidx == MAX_CHANNELS (cache_val[] has MAX_CHANNELS
+  entries), and say GET_BROKEN in two comments that still say
+  FORCE_SET.
+- Patch 19: remove the comment left from extra_init.
+
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Will Porter <mrwillporter@gmail.com>
+---
+Applies on top of RFC V4 patch 19.
+
+diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
+index e24a6e9facc1d..93fad4b74e18d 100644
+--- a/sound/usb/mixer_audient.c
++++ b/sound/usb/mixer_audient.c
+@@ -408,6 +408,7 @@ static const struct snd_audient_ctrl_type {
+ 		.type = SNDRV_AUDIENT_CTL_ELEM_TYPE_ID14_FU12,
+ 		.flags = SND_AUDIENT_CTYPE_FLAGS_SIGNED
+ 			 | SND_AUDIENT_CTYPE_FLAGS_INIT_HW
++			 | SND_AUDIENT_CTYPE_FLAGS_GET_BROKEN
+ 			 | SND_AUDIENT_CTYPE_FLAGS_CACHE,
+ 		.len = 2,
+ 		.min.integer = -127 * 256,
+@@ -540,7 +541,6 @@ static const struct audient_devinfo {
+ 	const struct snd_audient_ctrl *controls;
+ 	const char *const *const matrix_names;
+ 	const unsigned int matrix_channels;
+-	/* optional: controls the tables cannot describe, created after them */
+ } audient_devinfo[] = {
+ 	{
+ 		.usb_id = USB_ID(USB_AUDIENT_VID, USB_EVO4_PID),
+@@ -649,7 +649,7 @@ static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
+ 	__le32 buf = 0;
+ 	s32 val;
+ 
+-	if (cidx > MAX_CHANNELS)
++	if (cidx >= MAX_CHANNELS)
+ 		return -EINVAL;
+ 
+ 	if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE) {
+@@ -659,8 +659,8 @@ static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
+ 			return ctype->len;
+ 		} else if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_GET_BROKEN) {
+ 			/*
+-			 * Cached FORCE_SET controls are treated as write-only:
+-			 * an invalid cache entry does not trigger a GET.
++			 * GET_BROKEN controls are write-only: an invalid
++			 * cache entry does not trigger a GET.
+ 			 */
+ 			return -ENODATA;
+ 		}
+@@ -692,14 +692,14 @@ static int snd_audient_raw_set_one(struct usb_mixer_elem_info *const elem,
+ 	int ret;
+ 	u32 val;
+ 
+-	if (cidx > MAX_CHANNELS)
++	if (cidx >= MAX_CHANNELS)
+ 		return -EINVAL;
+ 
+ 	if (force) {
+ 		val = !value;		/* just make it different */
+ 	} else {
+ 		ret = snd_audient_raw_get_one(elem, ctype, cidx, &val);
+-		if (ret == -ENODATA)	/* FORCE_SET and not cached yet */
++		if (ret == -ENODATA)	/* GET_BROKEN and not cached yet */
+ 			val = !value;	/* just make it different */
+ 		else if (ret < 0)
+ 			return ret;
+@@ -825,14 +825,18 @@ static int snd_ctl_audient_get(struct snd_kcontrol *kctl,
+ 	guard(mutex)(&mixer->lock);
+ 
+ 	for (i = 0; i < nchan; i++) {
+-		u32 buf;
++		u32 buf = 0;
+ 		long ret;
+ 
+-		ret = snd_audient_raw_get_one(elem, ctype, base + i, &buf);
+-		if (ret == -ENODATA)	/* unknown write-only value: off */
+-			buf = ctype->init;
+-		else if (ret < 0)
+-			return ret;
++		/* channels the device does not have are not read */
++		if (i < hwchan) {
++			ret = snd_audient_raw_get_one(elem, ctype, base + i,
++						      &buf);
++			if (ret == -ENODATA)	/* unknown write-only value */
++				buf = ctype->init;
++			else if (ret < 0)
++				return ret;
++		}
+ 
+ 		switch (ctype->type) {
+ 		case SNDRV_CTL_ELEM_TYPE_BOOLEAN:
