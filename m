@@ -1,108 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794843586;
-	b=vxFQYhEeVLRSuG3lh9TgzrRO1Nau9D79yZdUY8xJ2bWSXnWS8HpdG26AGrU5gmOUrJnz
-	 SfN6B+jbZJ/fTuukdvgIMcfrmXxtp9UJUzk/0A34fchzHm9Jkt+CDp3mvg60SPRaqcMR7
-	 AmJORaUnDNXqVXe8JuuV6XFsBxAmYxjKmkqFuSLUuIMBjn+Bx86WjZZvqt6IvitDwdQma
-	 x23OxeiYmOiPkFIDqguw/yATjq1D/fvAgSvsKHSzRDaaIvhguxDgzBij4b4YflyHiUrgH
-	 X9kaCrtdgsaR9meM9Xsl2TFY6mocc2pQ8/w+aI6H0zuxQUL80/BumlLY2VIKnFE7CfQ==
+	t=1794843647;
+	b=D2bBPJQ7ClsGThZCMw681VVrM7bg5Uew8E9PmOhGzVaB2UkRHDViuYJn0Zm/pYmAlQDL
+	 cBSXSSEsHXSkmU3T2TOZsN01e45Evdm2IuPJRQ3MQUcw43ZziIM6QfuoHsDvxBbWT7xTV
+	 hzKoLZVFyCL1fSWT7Mw7h6CWamJOZvmp3fsmR9fq+qq/kyKz1TveHWKjdXbzbqcaPPXSz
+	 kVsjhdBq6zUZYz3WTbvdifeJ+gqVWXexzt8KbX1PbTk/XrU48CFGnZRfQUlKqP6i29nTF
+	 9rU6O3tAU3kHQ4KoMvqyknQ/vyto+6fQegYuTT8CMKI6VQPNbddYyCKRP7FHDEnH5SA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794843586;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794843647;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=8bP3CwWdvQfuuLB4xuu9xstp3vo9vHYp4JZvZMDV4+w=;
-	b=4RAhojui8a4CtAQL9IVn9T/s3Yi7pe3v0RsLfu/7P+3UZjGHCwYJf+RgrsY+7Vwoo9eF
-	 LP1qe3EdSRvFp9xa/ftR/6NevYTBw7cj0Es71zxRK3xYWmpiCOfGIn656LLZDtju+dSlL
-	 ZJAoA9aw7uZFE32U5Nm8MbTehp7ViDaab3icmk9xpfU4xoW0GF13hl9SxB5Gefr4Fzi2h
-	 sqAeO6Bo5Y9iXrXX0t4zA1+Jx3jHVLdmT4MA11jModS7YnRymz4/iPqu7wapvj7cKGMEH
-	 udwwRlF+g7nWMFkAoT4VQ7Y5uwcUatI8hRVaVsO5vpgFhrlUmM+CaijxczESafu3Zjg==
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=LP+H4x9t+eiBrd2FiZV5gCBvQSjLjhDszp6+ffw2i24=;
+	b=ij5vywPOYhYHa1FCBTkr62x3eYptwJEy8lwzZX1JvV726t2uZo5XHGlcuMyDBIRxJI/Y
+	 qSuZq2S49PPYCq62RwQZncW/S2qA2hN3omDehIZA72vo4eMIylOKbrl1J2fsZOPeRplxK
+	 swkYYQPBaAJI7t3favCEka7wCTJlVOEoP28BMLxhidhdANCVPU8G7z/NSwTZaeKJ4x4K/
+	 FaY3lJgpOyxCconclH3xjp6WpbukpKuYIvLqhP+bvagVWRDseDEaLEECbVLGNK9vF1G2W
+	 sO1EGt6qJrutyXgnGxiS4pQ+fGbJiLkR1bv1C4rj27mt8ZnY2w81aGixOZ+nrlGKDzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zgQQAq+u;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mGbtOXhQ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zgQQAq+u;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mGbtOXhQ;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cMG5hI0T;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tEy2YW4K;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cMG5hI0T;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tEy2YW4K;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A96B606A33D;
-	Mon, 16 Nov 2026 15:39:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A96B606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735DD606A31C;
+	Mon, 16 Nov 2026 15:40:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 735DD606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zgQQAq+u;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mGbtOXhQ;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=zgQQAq+u;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=mGbtOXhQ
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cMG5hI0T;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tEy2YW4K;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=cMG5hI0T;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tEy2YW4K
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8AD901FB1D;
-	Mon, 16 Nov 2026 15:39:43 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3B49B222EE;
+	Mon, 16 Nov 2026 15:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794843583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794843644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8bP3CwWdvQfuuLB4xuu9xstp3vo9vHYp4JZvZMDV4+w=;
-	b=zgQQAq+uAsnMhcJUCxGDtvYvEDFz1dVPm9QI9r85TRh6WEKKn9mWWc/ccOI3g1zHoBNWry
-	GzUhxMKOw1jpyKyuojSauaSqZ157o4irbIKQ1HfS1bO9pxCQ3ik/2omBlHZGRrwo06NonA
-	cDPabvXc4cWMfzMPJtPxvmk2B0ew0S8=
+	bh=LP+H4x9t+eiBrd2FiZV5gCBvQSjLjhDszp6+ffw2i24=;
+	b=cMG5hI0T1cHj305KmJoLNtUnHsorlQJ787qsQk0ON7NU+ftWV8o35ZwLM2t39DU4tGNYTV
+	51gRe941ZWmWDg5iXXQ1xkDXhWSbLzdUq9WNI4X1d3w0EWQkQO52X2d2FHWlZFLAleOEEL
+	FXqa565LZYpkBioF7cRQjAEVKnZ2gsI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794843583;
+	s=susede2_ed25519; t=1794843644;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8bP3CwWdvQfuuLB4xuu9xstp3vo9vHYp4JZvZMDV4+w=;
-	b=mGbtOXhQLs+0bA0FSz2dII9XX3XCOZfut5n9c4pCK3FYblRPXvh+EUrm6/dSYGX5Yi35DX
-	2lVGh2wxdNG9+tBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zgQQAq+u;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mGbtOXhQ
+	bh=LP+H4x9t+eiBrd2FiZV5gCBvQSjLjhDszp6+ffw2i24=;
+	b=tEy2YW4KUco1wC/PPEoWaJF9xS6XhpQRjKlBFl6+fhLcEY+7FIl9+EZIVbuzSlgOTBbqVT
+	IVMD5QkL2R/OqjDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794843583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794843644; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8bP3CwWdvQfuuLB4xuu9xstp3vo9vHYp4JZvZMDV4+w=;
-	b=zgQQAq+uAsnMhcJUCxGDtvYvEDFz1dVPm9QI9r85TRh6WEKKn9mWWc/ccOI3g1zHoBNWry
-	GzUhxMKOw1jpyKyuojSauaSqZ157o4irbIKQ1HfS1bO9pxCQ3ik/2omBlHZGRrwo06NonA
-	cDPabvXc4cWMfzMPJtPxvmk2B0ew0S8=
+	bh=LP+H4x9t+eiBrd2FiZV5gCBvQSjLjhDszp6+ffw2i24=;
+	b=cMG5hI0T1cHj305KmJoLNtUnHsorlQJ787qsQk0ON7NU+ftWV8o35ZwLM2t39DU4tGNYTV
+	51gRe941ZWmWDg5iXXQ1xkDXhWSbLzdUq9WNI4X1d3w0EWQkQO52X2d2FHWlZFLAleOEEL
+	FXqa565LZYpkBioF7cRQjAEVKnZ2gsI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794843583;
+	s=susede2_ed25519; t=1794843644;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8bP3CwWdvQfuuLB4xuu9xstp3vo9vHYp4JZvZMDV4+w=;
-	b=mGbtOXhQLs+0bA0FSz2dII9XX3XCOZfut5n9c4pCK3FYblRPXvh+EUrm6/dSYGX5Yi35DX
-	2lVGh2wxdNG9+tBg==
+	bh=LP+H4x9t+eiBrd2FiZV5gCBvQSjLjhDszp6+ffw2i24=;
+	b=tEy2YW4KUco1wC/PPEoWaJF9xS6XhpQRjKlBFl6+fhLcEY+7FIl9+EZIVbuzSlgOTBbqVT
+	IVMD5QkL2R/OqjDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4075013408;
-	Mon, 16 Nov 2026 15:39:43 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E54D713408;
+	Mon, 16 Nov 2026 15:40:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id smpABb8j+2ofOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 15:39:43 +0000
-Date: Mon, 16 Nov 2026 16:39:42 +0100
-Message-ID: <877bicyedd.wl-tiwai@suse.de>
+	id ghjcLfsj+2otPAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 15:40:43 +0000
+Date: Mon, 16 Nov 2026 16:40:43 +0100
+Message-ID: <875wxwyebo.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: nordschamane1@proton.me
+To: Sinan Turunc <enscrpt@pm.me>
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH RFC v4] ALSA: pci: add analog support for ESI MAYA44e
-In-Reply-To: <20261116-codex-alsa-maya44e-v4-1-381358afc43a@proton.me>
-References: <20261116-codex-alsa-maya44e-v4-1-381358afc43a@proton.me>
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usx2y: Count completions apart from the URB array length
+In-Reply-To: <20261115121602.151-1-enscrpt@pm.me>
+References: <20261115121602.151-1-enscrpt@pm.me>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -114,102 +112,55 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	URIBL_BLOCKED(0.00)[pm.me:email,imap1.dmz-prg2.suse.org:helo];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,proton.me:email,suse.de:dkim];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,proton.me:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 8AD901FB1D
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pm.me:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On Mon, 16 Nov 2026 05:11:02 +0100,
-Nordschamane via B4 Relay wrote:
+On Sun, 15 Nov 2026 13:16:33 +0100,
+Sinan Turunc wrote:
 > 
-> From: Nordschamane <nordschamane1@proton.me>
+> usx2y_rate_set() allocates a snd_usx2y_urb_seq with len set to the
+> number of URBs, and i_usx2y_04int() decrements len once per completed
+> URB to know when all of them are done. Since len is also the
+> __counted_by() bound of the urb[] array, every access to the array after
+> the first completion is out of range for UBSAN, and the cleanup loop in
+> usx2y_rate_set() trips it on every prepare:
 > 
-> Add four-channel analog playback and capture for the ESI MAYA44e PCIe
-> card (19fe:7000, subsystem 0e51:0001). Playback and capture share the
-> sample clock and can use independent period sizes. Expose analog source,
-> gain, direct monitoring, DAC and crossmix controls.
+>   UBSAN: array-index-out-of-bounds in sound/usb/usx2y/usbusx2yaudio.c:694:18
+>   index 0 is out of range for type 'urb *[*]'
 > 
-> The playback DMA rings and ALSA staging buffer are cleared during the
-> reset that completes prepare. This keeps clearing and pointer rebasing
-> under the same PCM stream lock, including for linked streams.
-> Both streams use the locked reset path. A linked PREPARE holds the
-> peer's buffer mutex but does not block its ALSA read or write copies.
-> Take a driver buffer-access gate before touching either stream's
-> buffers, and keep it until the reset callback. The stream lock then
-> covers the remaining pointer rebase. Return -EBUSY if a copy is active.
-> Explicit RESET takes its own gate when no prepare is in progress.
+> Count the completions in a separate field and leave len as the array
+> length.
 > 
-> Treat unavailable MMIO as an error during DMA setup, start and
-> position tracking. A failed read must not be interpreted as a running
-> engine or a completed capture period. After confirmed loss of access,
-> skip BAR operations and use PCI configuration space for best-effort
-> shutdown.
+> Tested on 7.3-rc7 with CONFIG_UBSAN_BOUNDS and an emulated US-122 over
+> USB/IP: before, the report appears on every prepare; after, a 30 s
+> capture stream prepares and runs without it and the rate sequence still
+> completes.
 > 
-> Publish capture samples and the copied position under the same lock.
-> Use the DMA position and elapsed time to detect missed capture periods.
-> Skip early or repeated interrupts and report a capture XRUN when the
-> ring may have wrapped without the driver copying the preceding half.
-> 
-> The ES7010L register sequence comes from observed PCI transactions and
-> analysis of the ESI Windows driver. The existing ALSA PCI MAYA44 driver
-> was a reference for the WM8776 command format.
-> 
-> OpenAI Codex assisted with PCI trace analysis, driver implementation,
-> test tooling and the changelog. The requests covered analog playback,
-> capture, mixer controls and suspend/resume.
-> 
-> Signed-off-by: Nordschamane <nordschamane1@proton.me>
+> Fixes: f5cc9cdfc96f ("ALSA: usx2y: Annotate struct snd_usx2y_urb_seq with __counted_by")
+> Signed-off-by: Sinan Turunc <enscrpt@pm.me>
 
-Thanks for the patch.
+Applied now.  Thanks.
 
-First, off, as Signed-off-by is a legal requirement, could you try to
-fill a real name here?  At best align the From address together, too.
-
-About the code changes: it looks well readable in general, and the
-code is rather straightforward.  Yet a few things:
-
-- Try to use guard() & co instead of the open mutex or spin lock
-  calls.  This will avoid the lock unbalance drastically.
-
-- The handling of the work, at least, for finishing the work doesn't
-  look good.  In general, at PCM close callback, all streams have been
-  already stopped and finished, hence there shouldn't be much work
-  there at all.  If something race is still found there, it's already
-  wrong.  Most of such stop synchronization should have been done in
-  sync_stop callback, instead.
-
-- The sample packing in the loop in ack doesn't look good, either.
-  Do we really need a manual expansion and the format conversion in a
-  loop there at all?  The driver should avoid such a loop but just
-  copy the data as-is, as much as possible.
-
-
-thanks,
 
 Takashi
