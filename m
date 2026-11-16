@@ -1,71 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=78.133.224.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794810721;
-	b=2JY134LgJexVi+srHd6qq+v4iPgZ8ZRVngdVwukSd4H8QaNJ4tQ+tc1N3y/Si3MVP4FH
-	 j3agpe6WpENas35Fj66PBAtcH9VocDnIenyhn72SzLuY1uSDv8pSXwpmUvsorHrEghI8m
-	 TxIOygpm1LsVJIzqwJ5JiZGfPKdzpH8zx8m/Ab3IqmTOsD6X+5kXa31Vz4Sc4lVvGbgpM
-	 2pL+cEHShrdkzpDvAQL/8ud5OyTWupjEpK4HxBeLXo4C/wz0PJ9CgsAxqp/jjLqtpZc4+
-	 4szjxI9ZwLe7OnXqgm5SE284a+me62x4XXyo4i7HB2yAtHfJPTF4vPyEFDjZQ8V7uzQ==
+	t=1794812947;
+	b=ePYLK8Y++vV92rE1O+zSZCs4lo87Otb4FfAJWiDs70cEphLaB2Y96yBMFN3hxfG6Wu7S
+	 ID1wO3/s7IRKmfszS6ass9rVS/NkT+0IEKNclHH6Na5A1XglLvVX89hw6EX3OTizXWw11
+	 XaY2Vq2klq+DvtRoTGG5+ExU/nDQ1RsbCFoZ8eimZrSHXVAtAp/S1UOfts+Fre8by4a0k
+	 75Ao4/kAVxy2XfqfbsSPh5jyAdGfMPBkfJKDBLVoPGrY+SF+4T5MKQQKPRboRM10D4ihZ
+	 XGbgoYXU6qr45whCoELyMp4Xzt4TGUiDdtmlGclm984F6gQjikei6KsKoZ/5SsaMAvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794810721;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=ioTYCRpsdPcbTSJZk4mDPBcdY2/qy2/XBMlvoeyfMWM=;
-	b=hO5qVM+rAUs/b+Y2ljpdd6zI0JiqBp9ZXgp0RIRQV3ZZ21Z6q43HvwVmKjsveB9D7Mk5
-	 Z+jPk4gEY/phzyhQUFK5JfLBBvFshu0yKyH43m+6z0u/wjvO6bfoM41TkUBiSL3mweDqK
-	 utrieSwUREvcJdcf5nsVYde9pCNY0Du1UWCHbIRKB9HT7vGTZHFkoVhMKs9U4z8alkESu
-	 JzFIO+am2HJj68zJTthb6a+cBrXz5XBqaiG3cgRs31W+KiU25QSaq0g5vvVJyzx7rDl8h
-	 iKx/Xzl4s5XdcH8AbeJAzDtSqGkXKh8qV+6H7JF6gqqbzOS/qT6QLNPTa6zEZ89wS6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794812947;
+	h=DMARC-Filter:Received:Received:Date:From:To:cc:Subject:In-Reply-To:
+	 Message-ID:References:User-Agent:MIME-Version:Content-Type;
+	bh=1mHmG9IJHtIMld4ZeRanDjKIMZUQxx8f0ptnWkrCv+U=;
+	b=0i8RahmNidBKHbWBeQckX6v4j9iCyuvVL/fZe/BEsPc/Xoe2nv+21TKq8Z9boKNYHrYK
+	 TotB7T80Z1D6oFXyUkcSsAhoCh3IC2ARjY/i+UN6pi3dNYn0B76azB/X9E/tIfcdqgcSB
+	 9AKBwpQFVyOBZwo6poe7axdA/vqIytMUUML/LMiEAVafmfqLwAHbYtegV4ihhnpc2LQN1
+	 1aZBowjXeK5BftnnOth8JJo70ZfTNBNImfEeyD/SSoOHs0mtHF983Xw9qw+XNmuv9T2VO
+	 QrXYqlONvEBxO/uVPvcWVve8MQ3C5gxmDeM/Gca8NoKmNnPn6fkxMNR6i7ZoQw4/UxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=Dy6WGaZl;
-	arc=none smtp.remote-ip=54.207.19.206
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7BA606A335;
-	Mon, 16 Nov 2026 06:31:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF7BA606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=Dy6WGaZl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794810652;
-	bh=ioTYCRpsdPcbTSJZk4mDPBcdY2/qy2/XBMlvoeyfMWM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Dy6WGaZl1Rmt7ozsywLXZPzlE5or1xQfn+4z6VrB9fpAEIqroSyG/xkSpengvG9O9
-	 TeMmJN0j4vMbz8GcH+3vG3PBZehOu/L9zH7xQ2yGgLPEpvpLW+Ymmqfk618QFvMKBy
-	 mpEk8mrvX1xSJ53MfkUmkjXymd4lIQZY6xAcOQYg=
-X-QQ-mid: esmtpsz19t1794810636ta9b17180
-X-QQ-Originating-IP: /0q7kZoOm52E2x4jdY88mdor5eXx/J4YOfhJlig5uUQ=
-Received: from PEC004119 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 16 Nov 2026 14:30:33 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 18099315989899643878
-EX-QQ-RecipientCnt: 11
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: broonie@kernel.org
-Cc: shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH] ASoC: pcm3168a: Disable runtime PM on component registration failure
-Date: Mon, 16 Nov 2026 14:30:32 +0800
-Message-ID: <D6339FDC262A33B1+20261116063032.3348732-1-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dmarc=none header.from=orcam.me.uk;
+	spf=none smtp.mailfrom=orcam.me.uk;
+	arc=none smtp.remote-ip=78.133.224.34
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 364A6606A332;
+	Mon, 16 Nov 2026 07:09:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 364A6606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 39D8A92009C; Mon, 16 Nov 2026 08:09:04 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 376CC92009B;
+	Mon, 16 Nov 2026 07:09:04 +0000 (GMT)
+Date: Mon, 16 Nov 2026 07:09:04 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+cc: David Laight <david.laight.linux@gmail.com>, 
+    Christian Brauner <brauner@kernel.org>, 
+    Geert Uytterhoeven <geert@linux-m68k.org>, linux-fsdevel@vger.kernel.org, 
+    Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+    Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
+    NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+    Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+    Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+    Greg Kroah-Hartman <gregkh@suse.de>, 
+    Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, 
+    Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+    linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+    linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+    linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+    linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+    linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+    ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+    coreteam@netfilter.org, kexec@lists.infradead.org, 
+    linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, 
+    netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+    ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+    linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+    linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+    linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org, 
+    linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+    sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, 
+    linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+    linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>, 
+    linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+    linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+    linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
+ pinning the entry
+In-Reply-To: <CAHk-=whsA3tKcUCBJDj_vmJ11rVGT9rivgnKjGRgMO21CPmCxg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2611160657470.17804@angie.orcam.me.uk>
+References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org> <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com> <20261107-akteur-gemieden-eckdaten-21304d085e35@brauner> <20261108185953.28054fb3@pumpkin>
+ <alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk> <20261109214558.0d9d5228@pumpkin> <CAHk-=whsA3tKcUCBJDj_vmJ11rVGT9rivgnKjGRgMO21CPmCxg@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -75,58 +81,21 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: Nx5J06Esz7r7xWIpUAKISEjT2muxRdrtul4rl3gxtMZgfZ1qbjEAVe+/
-	MTb46RaP6cPfoiPTG7YBUwpU3k/xKsnyGouSlXjoN8mVy7LMJEjhfCD4H/jlmMM7T3RuO+F
-	rpEhhVkCrktwBLXWQ2r2I7aVJq9MdFFbbCNQ/WJ9jUQLSnZ1ZW+aAi6CBHkQ5Nv2MldUF36
-	MPHC8I7O6USjP4JsWBxYSj4sHvJyoZuw5cXNYBFHChfJxUOOFvqn+PrweccqqTB3Tl59rhh
-	9w2NXoHoPybijgwPZJflyskH9lpXcBMhmNydYmpiyYZ96ZCNgRTHT4SZgGDHUaGwtc23May
-	UJMW8f2aUTjsSHfH8siJDUJhNkwMZwamLeeu18sf8H3VpTW744WA01G8cbaTiPzfM7Ivdqb
-	90h/L5xV0l5D7RaIpQzxEKuPQEOVyiSGlkTgrMdJ7yINy1ZeUirslnrg3Oi7dEJXbt3AJRS
-	OIp2cLem7laVIgf82e4dlpeIdjoUIQ15sQHy8pSrd6/wUgS16ea8Z/X2jIvL2vPC0IPewuy
-	0WlEpbXC3vKZ53/2/XFXdQ+z4UYHD4Nsi3vS+IQwOmeD15CG8wQk6lloVCPggb1kl5vEbDS
-	JC0vZxbOfpTBYkuaS9u8XmqGayA6C7EFlbcgr3E4ncgYh8SBCnXJoyroHynuQf5LLk1MX5g
-	Uwwum4SB1Xzkk6WAJcRAT1EueKkJKPqx8893fxAbIOlmKBkj4THgMx3SR3SNXkO1upevGE5
-	DTKjX+bKex0kkMvxz7lKkHX8vodteA2canIQsUZEHbVBZ2W6MgRGiwUzUyKUavaz0+UjBF4
-	39nqqyROLh6e1rwfw4bQavaQ2sCQKjGBgf8+xb17xrgU5vgZXEICtZyGo84sIETeoSFqN9y
-	ctU/lk5bobb1D2x8dMXOq7U24nhAqGpIoRnPodvHxSyyK3tiFFPyCgNV6tPMvqkD4g2MuJt
-	xGbwL7YcLM1N2FR0P9Yoe4OqSMAO4tDs25ggm4mlLty6ubyMuGeF9+4v5L5Dk4nLukylBc9
-	H0GUKmBK8WHMhApMlzON3nJ9q5flq+XWk3eWTOMmT6EjNcAUIOhddrDdZdof4=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=US-ASCII
 
-pcm3168a_probe() enables runtime PM before registering the ASoC component.
-If component registration fails, the error path disables the supplies and
-clock but leaves runtime PM enabled.
+On Mon, 9 Nov 2026, Linus Torvalds wrote:
 
-The remove callback is not called after a failed probe, so its
-pm_runtime_disable() cannot balance the enable. Runtime PM remains
-enabled after the probe resources are released, and a subsequent probe
-can encounter an unbalanced pm_runtime_enable().
+> > Just that the cast would have to be:
+> >         u8 *foo = (u8 *)bar;
+> > where 'bar' is 'char *', and I don't think you need a cast there when
+> > char is unsigned.
+> 
+> .. and just to clarify: 'char' is always unsigned in the kernel on all
+> architectures since commit 3bc753c06dd0 ("kbuild: treat char as always
+> unsigned") back four years ago...
 
-Disable runtime PM before unwinding the supplies and clock on component
-registration failure.
+ Thanks, yes, that's the piece of the context I was missing.  I've since
+actually come across this commit while investigating which Linux ports 
+have plain `char' signed in the psABI (MIPS for sure).
 
-Fixes: a9b17a638af5 ("ASoC: pcm3168a: Add driver for pcm3168a codec")
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
----
- sound/soc/codecs/pcm3168a.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
-index 11fd948ecd27..ca0ef9f36658 100644
---- a/sound/soc/codecs/pcm3168a.c
-+++ b/sound/soc/codecs/pcm3168a.c
-@@ -802,6 +802,7 @@ int pcm3168a_probe(struct device *dev, struct regmap *regmap)
- 					      ARRAY_SIZE(pcm3168a->dai_drv));
- 	if (ret) {
- 		dev_err(dev, "failed to register component: %d\n", ret);
-+		pm_runtime_disable(dev);
- 		goto err_regulator;
- 	}
- 
--- 
-2.50.1
-
+  Maciej
