@@ -1,56 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794861666;
-	b=Q5LafPn+YiZdqnxteew6wWAaowM/Lm1ijuNnTr8M5Dz4/rtSvmxLdgqgptiDC24OYC9i
-	 3Q+w7yv8ZDuThMw9wGB8WRXzSchi4HnjBoHd4oQwvY92R0/Bcb+II5+a16cpG1xmiAQIY
-	 yPTq6KIuhs6Pz3HXZ6z0xH/zXWms3J+DoDXigNVY/87uMHJacqjKw/8P/+v9SmC4P1VZB
-	 /3hcli4LDwa99EO96Rhmo1elMH3jlI4yMD3uk6kFW6EHxdWDvAovoeCiCTKIPVw/W6vaI
-	 L/gzT1MOaeNB6KIi6Wp2UCt66UTOczSH9tTtbqvl/iEI2jfRHqIwnBPjL6CuEsvB5WA==
+	t=1794861866;
+	b=K2jGZCsQ1EEYy1qHRLk76pURI4eXOVShEQ4eUVT+/LWZfcyzynIhPyN2dIMZ24NgsvPd
+	 liM9EIk2pDkpwK2IkjFTQX60SdKrHUpVxA+Dxbp1XjRH+HNqphRN/u8TZrL0BHaZvnki8
+	 ZWvrue/wzWobp4Al2v27H6JxhSgjiXPyGCrgiYmRTzyX3FF4PxBGnOtQrMuCbdJfoKDUJ
+	 8SZWigiix5pzVoGLAyqDoERRodx7ZgMVUFhnlRph5wnn2Mcgydu/Vh5YFp42XRFG51MkX
+	 T92iCEZHGtZdWwusodCyq23TcqCnqw6QvfLQ3Md68rXpisDzNSKQxhC+0Zg0/SXn+hg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794861666;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=5DbAov0XRFTd1fDQTl1wxtq71IOWp/jxea8e/6PSGcw=;
-	b=hn2vCTf3m/O9mA8+/Po4vbAqnsD+kX4eA1cajbcUKmJPORgg2A7SXWBbHcCyilOWPinK
-	 2bg9mUmhGS4X6UUtU9cVoEpiurX5B7DlBAZ71VgQ091PKAmwOYL54h511RVPAHBA+TIzk
-	 hzlX9oPvOkqxuK+i7eOR+lfz4pqFkCJ+xRF9+pbiJBZA6Oo4DBovUrCr6jUdRnFYG2BdN
-	 wmb5KJoxYG+oB58N0cbLhwJq/bL/O/icB95kP38OlI90FLewuNSWTKQzr062MoTfplJEv
-	 WTDwvckRFaXTcrEdtit8UGrjGEmYWMkLpUF+kFKSe/jLY1D07qWBvn24bd9FrwcsFNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794861866;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=8ZLa+7DixPZsMtzBQZucbhsuqAMh4j+ECRbrPmUuh0s=;
+	b=ON07la2CcMPFbWtmCuOq7JdOJ2aVAFycwBAKt1/C5QnZNPRZ9mcVPqur+mw1R62apRVK
+	 xqpdWbrCTebe+Y+qUYl/PbBC+sJX9eS2cZYcEiHP1hTmSbyEMq/bFm3nBKovYW6a5r3xP
+	 cAmMYURqOl13ciXNzWP7FSFx3Mmt/kfuyiLK/AFyiKfVQKDN87tzc3axMDCbnjY6Hb3n3
+	 xPbZV/eIWtehplzoDHipyVAIMx/URI9nL2cfeIpPKDnpklk8dPcjS/LlHVFln0SkSJcvu
+	 No0HhwA5AaDeKiyqa5FkCnC+XwohhY9iANcCdI39bUWmyKk0zpAZOXEy99+39QWiLcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G5gBSWFJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z+hqEBHM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB41606A89D
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 20:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF40606A33E;
+	Mon, 16 Nov 2026 20:44:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G5gBSWFJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D631F000CB;
-	Mon, 16 Nov 2026 20:41:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z+hqEBHM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 843141F000C4;
+	Mon, 16 Nov 2026 20:44:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794861666;
-	bh=5DbAov0XRFTd1fDQTl1wxtq71IOWp/jxea8e/6PSGcw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=G5gBSWFJ5GBDC0oWfi5rsetnUxnAeG4ZU7Rdq+oMYGMxtVS3XdNKaqHpRP+BLLuOg
-	 svuDbDV/geOl1qYs5zhl2rrJmtSgkPPbGMpDU/7B2b4GWJi74shxZia9+vEIB046oo
-	 9nCD+d/3EDeeJ1WhfEA6Z/zgZO5HCZSxSdewyJ6BGxZeSsPVzTfH2Utl/pmc9WJIQb
-	 1f5j8ZZnSZOWAa4vOAFhtxSJQwU5F3Tp4SDOuVzQWu8WJee0tU0LHPjsbtzCmiwBIN
-	 6aYbQnZyryt3tgpnuV/mi41KJ5yjLrHWkSDR6MuAUfzQFRm+OtmxlNvxgirCZ7LVmy
-	 i5yTKUbh0JcNA==
-Message-ID: <sashiko-outbox-217669@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ASoC: qcom: audioreach: apply volume changes to a
- running graph
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Marc Herrero" <marcht@proton.me>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261116-q6apm-vol-live-v2-1-fbeba4402984@proton.me>
-References: <20261116-q6apm-vol-live-v2-1-fbeba4402984@proton.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 20:41:05 +0000
+	s=k20260515; t=1794861865;
+	bh=8ZLa+7DixPZsMtzBQZucbhsuqAMh4j+ECRbrPmUuh0s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z+hqEBHMuEAt+OlmOhJhC5O4BxYiujssFXSyA9CXOReAF0QpxVCFDT7qjV7PaH2TA
+	 OKrl+Y6lrZJrqXSnN20ym9NE9R9p8ZOC4RWSoT2t0CJoHMh2npMHJEg4H0kI6fAp7Q
+	 EVqAkAsyYB3rjOAuYq6fO+upwAFQMGtd/ZcLWT6YGaGxTfl+e8/PG7OfOaffUSALPl
+	 D+pZzPOOjbj9ALizEofXt67fEDJevqJliYFTIS8uaX2PSvVg/s846aDoDPRVDE5dzX
+	 Qrb70qlPlfFr0LbIFNxOrMLfXBElJBhe8rWgrp5ULXG/djDOVa9sSDg9CzGrAJCbZ5
+	 O67nsQGkMmcgQ==
+Date: Mon, 16 Nov 2026 20:44:20 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Hyun-Uk Son <hyunuk.son@irondevice.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Ki-Seok Jo <kiseok.jo@irondevice.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: Add driver for Iron Device MA5311
+Message-ID: <435b0669-1870-42c2-a1ac-d2e9a409ac7d@sirena.org.uk>
+References: <20261027093232.859755-1-hyunuk.son@irondevice.com>
+ <20261027093232.859755-3-hyunuk.son@irondevice.com>
+ <179318672062.199157.7461931531075403104.b4-review@b4>
+ <SE2P216MB24230E7B98CD3F438E23E869FF722@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
+ <40646ae6-f6be-4408-aefe-521fb0ea9bee@sirena.org.uk>
+ <SE2P216MB24238E5F5EEA95FCEABCDAF4FF702@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
+ <2c7d503c-935b-4408-a5b6-bfdf5ba86933@sirena.org.uk>
+ <SE2P216MB24235412B165FEA906C3D24FFF7C2@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,126 +70,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nsnXqCTjIuMfmRcY"
+Content-Disposition: inline
+In-Reply-To: <SE2P216MB24235412B165FEA906C3D24FFF7C2@SE2P216MB2423.KORP216.PROD.OUTLOOK.COM>
+X-Cookie: Madness takes its toll.
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] ASoC: qcom: audioreach: race in
-  audioreach_put_vol_ctrl_audio_mixer()
---
 
-commit ddae8fd71fb67b8ccdf92f805eed45f2ce14176d
-Author: Marc Herrero <marcht@proton.me>
+--nsnXqCTjIuMfmRcY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-ASoC: qcom: audioreach: apply volume changes to a running graph
+On Mon, Nov 16, 2026 at 04:57:11AM +0000, Hyun-Uk Son wrote:
 
-This commit sends volume updates from audioreach_put_vol_ctrl_audio_mixer()
-directly to the DSP when the widget is powered and its graph is started,
-holding the DAPM mutex across the check and update.
+> > > The values of these parameters in reg_defaults match the hardware
+> > factory defaults.
 
-> diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-> index 8e3314a2738c0..034d42edde22c 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm.c
-> @@ -839,6 +839,19 @@ int q6apm_graph_stop(struct q6apm_graph *graph)
->  }
->  EXPORT_SYMBOL_GPL(q6apm_graph_stop);
-> =20
-> +bool q6apm_is_graph_started(struct q6apm *apm, uint32_t graph_id)
-> +{
-> +	struct audioreach_graph *graph;
-> +	bool started;
-> +
-> +	mutex_lock(&apm->lock);
-> +	graph =3D idr_find(&apm->graph_idr, graph_id);
-> +	started =3D graph && graph->start_count > 0;
-> +	mutex_unlock(&apm->lock);
-> +
-> +	return started;
-> +}
+> > Right, those are what the driver should nromally use.
 
-[ ... ]
+> When you say "these parameters", are you referring specifically to=20
+> gain-related settings, such as speaker volume, ADC gain, and PGA gain,
+> or does this also include data path and output format settings?
 
-> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topol=
-ogy.c
-> index 612d8f03e6e98..956f8e9e6a762 100644
-> --- a/sound/soc/qcom/qdsp6/topology.c
-> +++ b/sound/soc/qcom/qdsp6/topology.c
-> @@ -1322,11 +1322,33 @@ static int audioreach_put_vol_ctrl_audio_mixer(st=
-ruct snd_kcontrol *kcontrol,
->  					       struct snd_ctl_elem_value *ucontrol)
->  {
->  	struct snd_soc_dapm_widget *dw =3D snd_soc_dapm_kcontrol_to_widget(kcon=
-trol);
-> +	struct snd_soc_component *c =3D snd_soc_dapm_to_component(dw->dapm);
->  	struct audioreach_module *mod =3D dw->dobj.private;
-> +	struct q6apm *apm =3D dev_get_drvdata(c->dev);
-> +	long gain =3D ucontrol->value.integer.value[0];
-> +	int ret =3D 0;
-> =20
-> -	mod->gain =3D ucontrol->value.integer.value[0];
-> +	/*
-> +	 * The PGA event applies the gain when the widget powers up. Hold the
-> +	 * DAPM lock so the power state cannot change under us: either the
-> +	 * event sees the new gain or it is sent here. The DSP only accepts
-> +	 * the parameter once the graph holding the module has been started.
-> +	 * Keep the old gain if the DSP did not take the new one, so that
-> +	 * writing the same value again retries.
-> +	 */
-> +	snd_soc_dapm_mutex_lock(dw->dapm);
-> +	if (mod->gain !=3D gain) {
-> +		if (dw->power &&
-> +		    q6apm_is_graph_started(apm, mod->container->sub_graph->info->id))
-> +			ret =3D audioreach_gain_set_vol_ctrl(apm, mod, gain);
-> +		if (!ret) {
-> +			mod->gain =3D gain;
-> +			ret =3D 1;
-> +		}
-> +	}
-> +	snd_soc_dapm_mutex_unlock(dw->dapm);
-> =20
-> -	return 1;
-> +	return ret;
->  }
+Data path yes normally, but see below.  Output format I guess so, though
+that will essentially always be overwritten by the machine driver in the
+normal course of affairs so it's rare to actually get the default
+register values in practice.
 
-[Severity: Medium]
-Can audioreach_put_vol_ctrl_audio_mixer() still race with
-q6apm_dai_prepare() or q6apm_dai_close() because graph start and stop
-do not hold the DAPM lock or synchronize start_count under apm->lock?
+> To make sure I understand your recommendation correctly, should=20
+> the driver leave the data path and output format settings at their=20
+> factory defaults as well?
 
-CPU0                                  CPU1
-q6apm_dai_prepare()
-  q6apm_graph_stop()
-    --ar_graph->start_count; (0)
-                                      audioreach_put_vol_ctrl_audio_mixer()
-                                        snd_soc_dapm_mutex_lock(dw->dapm)
-                                        dw->power is 1
-                                        q6apm_is_graph_started() -> false
-                                        mod->gain =3D gain;
-                                        snd_soc_dapm_mutex_unlock(dw->dapm)
-  ...
-  q6apm_graph_start()
-    ar_graph->start_count++; (1)
-  ...
-  snd_soc_dapm_stream_event(START)
-    /* dw->power already 1:
-       POST_PMU does not run */       <-- DSP keeps old gain
+> Or would it be acceptable to initialize the data path and output=20
+> format settings while keeping sensitive parameters, such as speaker
+> volume and ADC/PGA gain, at their factory defaults?
 
-When an active stream is re-prepared (for example after XRUN or stop),
-q6apm_dai_prepare() stops the graph while dw->power stays 1 across several
-DSP IPCs before restarting it.  A volume change in that window sees
-q6apm_is_graph_started() return false and only updates mod->gain; because
-dw->power is already 1, SND_SOC_DAPM_POST_PMU never fires again, leaving
-the running graph at the old volume while mod->gain =3D=3D gain blocks retr=
-ies
-of the same value.
+For the output format it's probably fine to change it, though like I say
+I'm not sure that the setting would actually end up getting used.  For
+the data path usually we'd go with the hardware default unless there is
+a very strong reason - for example drivers with DSP support might adjust
+routing to/from the DSP as part of integrate handling for the DSP.  If
+it's just basic routing of the DAC to an ouput or whatever that's
+usually left under user control.
 
-Conversely, during shutdown, dpcm_fe_dai_shutdown() runs q6apm_dai_close()
--> q6apm_graph_stop() and q6apm_graph_close() before
-dpcm_dapm_stream_event(SND_SOC_DAPM_STREAM_STOP) takes the DAPM lock and
-clears dw->power.  If q6apm_is_graph_started() returns true just before the
-graph stops and closes, audioreach_gain_set_vol_ctrl() fails on the DSP
-(-EINVAL) and discards the new gain.
+--nsnXqCTjIuMfmRcY
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116-q6apm-vol-=
-live-v2-1-fbeba4402984@proton.me?part=3D1
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr7ayQACgkQJNaLcl1U
+h9Al6Af/TWPkoQ4ZJTj4wfpUEbP69aK5kO/xRmq4MbXlDI/B8cKlbgEWcUYeUX2A
+IMkS/Fde9HVvUQgPAVtXIxRJ52xHsEha7CHbcXgalq5axDW2uqKu5EmqB7UvSFVY
+nu2THHN3GtPFMpRxhtCq0crpP1jxxm9PIq9aRyX1qmvzmExflDprHF2atsakstKj
+fcIgQu68Z0HPVFz5sPwEIRKtMKDMC5ybuuR8cKdJQd/LrIvzwrLdu9YGoVoDS1yS
+81UNRbkf2ac0FwnMGMdg2dDbVjwLV4t6ZYMTKEGSujzkY3xRgfuIt4a54FYGWjmL
+Znq502Gm0as1yFI3cpb+Q1CkdlgBFw==
+=DHDD
+-----END PGP SIGNATURE-----
+
+--nsnXqCTjIuMfmRcY--
