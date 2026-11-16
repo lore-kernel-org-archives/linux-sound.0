@@ -1,96 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794797658;
-	b=C+lrYqC8URmhJzSKqCP2Dzb7vDA/AajZf7LqAzp39kdgTunwDRZYwl4dMxDpvzbvCjne
-	 xAVc8dJqPfGyGM2N0sSSIJ8iIT/+BmujgqXTHBpGcChpOVsL8IDE17LSemGSmJDWYMnSP
-	 3L7oN4x221+Rcmdk4J7COPXPjdlJ8Skv9g8n7v5FpA4KKHjhRb3bHHtVDw2LU2QZA36Vv
-	 PUw17kog1oQVr8EznFj3QiR1czdl64G5R+m8sKhyyeKmVKecdf1+R52lbPYYbYuarItyW
-	 aRYoIy/dPfkhKsk6LPFx7EpNBR96uFLsB5k2g7D21d8spF/jCZRFUfx0XVnN7/gaa3Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794797658;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=M2flRQKo2+TtLZp+hFRjcx5hzz90PxG00ajsTx7UBfc=;
-	b=NMTcRaCjer6HpkEQVhq7aBuHCRxyJzGlV9qrT2B7wcldMD7JhLywCMc0AYE5EupmlauS
-	 +DmezMWoO2w8dloOoiLLKIsSFj1HTmO/qc57VopA3fjB/VmbOwiLmaHjDGnz/3IveasW6
-	 QUWtcYZzPmtdTBthMofrrDd8s5mZmmGaTd6FpoLltkBO42F2nwpuZSxt0bh24F088o0JQ
-	 5vpqJzew29H0YP1/J2xAZ4EzuuB7QFqaDZDMHKxC6Fb5dklDDqpoucF0jECbVdR7PoR9V
-	 0PnMJV9KdzKCvRyY5HFRYtnWjPf4Afvh/Pdvf3BHdo6OnxfYDj4eX7dRElDB22jMTiA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="c/Vko28w";
-	arc=none smtp.remote-ip=209.85.210.51
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794797792;
+	b=FIMNj5YZJt1phxeqjI2QCFUO8YYgGDY9hqyVxQej1G1SF4SSpxX9qaaOCrLEJ2Gv4TsF
+	 alPA48BEuj3T/Z4bV92ZiVI8mF5q6sVB+p9+xtPCt8L8xDzA0O/T0O0VUvASJFJpB1sa6
+	 RhwID6z1Ptm/09hnJGFSTkPSvehkvtl8bmUNyiCFkVB5AiJoPGB99oNGJe4LSw5QRUDUB
+	 kRrOwgdffKWTbhzzolH5g9ji7p90lPAR22ak5f0iL3oQJYyaCDn/C2elvmsAnBdcKOtMl
+	 dSlhw9M7R1iEe7avPbe1zV8YrHPoOpQhV88TNfoCbsPrcWjPIk9j7tiaSGNO8K0f1Mg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794797792;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=eVENAjGBsGRSOhVCa+r10wBZaQ3S6G3uBIn8d23XgNo=;
+	b=jg4GXBNn1TDRKeNq3tbYb45WZKeVPIQ0yelDeERMWHWCdezH+Vo1GQ3kIt67hw712gTl
+	 TSj4QGzpMQbQulAvEoeSTXolXjne3q69U0lV6jVetToei1i8q4UVvXvY6vWHVptAWTR0Q
+	 lihrF0RkWj2tVfAJ055LAdW2j+8NGVmko5U3d26Ur9/zuu/wP7BWOYQfoV+bXiIvgleue
+	 e6JR7pQE5da5k8ZaYymhB0zqCdi1TVesiPE2e5cPfgjhBAu6CxZFfI2HGWPmdx3QWcRdO
+	 OWt0hTdB2M468WxEqm/Lgd0bH+JTxQcoWPxe+MHyLXwWn4FtZoeGrMvTLZj+q7H0N8g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=KwLqAMrX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.18
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012018.outbound.protection.outlook.com [52.101.43.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5F3606A31C
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 02:54:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D5F3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C61A606A31C;
+	Mon, 16 Nov 2026 02:56:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C61A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=c/Vko28w
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-8629c7cc36eso1375813a34.3
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 18:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794797656; x=1795402456; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=M2flRQKo2+TtLZp+hFRjcx5hzz90PxG00ajsTx7UBfc=;
-        b=c/Vko28wUycMXkL74hc1w6BAu6WuqjximbmxUPr+oRHuaGhh8QAOA7olC+X11cUBGQ
-         UxmYxlQJYPAAlKsDhMIAPrVlHfjIHivWF2V63wlAix6p31SjbJfo0njLo6ZonO2fkUSG
-         iQbXh7E51z8zOmJGoW5AHi60/GZKCrpnx2Uwj98i/FOmz5N3cVHoUlKzMnXsW5f+FkAW
-         5qbG7XT60kM913d2HNcxujKUvECcHGIBZJNdarkJ8F4LmApmD1zihBWxP86cmolwyVI3
-         kcJuugFhs8XcFcwdgbWrFp/D2ZjQqFJT5FGqXOvUR48DbrVPynxdMFNu/3kH2JjPnXSa
-         FmNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794797656; x=1795402456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M2flRQKo2+TtLZp+hFRjcx5hzz90PxG00ajsTx7UBfc=;
-        b=Uo7OiHyUBjfvocuUy3hi+3omcNhggu0VxXkvzCaqreAmylUj9Tnl08A/MqRPLpdnY0
-         o1RG7jKPOsNFuJ4MYxZhcXvbOI8d3sVR7iwo7VcPd7AdASvXa6Pj2PWxELaumFG7Uqxs
-         Bu9/M7i5Bf0DNGpGzAhxBxrbFmEvjqZLCj2+RPLf0DSKM8d8QPuyvk8OhO3nV6Ra34RO
-         qQzygn8j0TL6VXQtmbXgZfTus8K66Xj4lOX7iEDMuy+kkueLbw7o1b+QACE000zAIG9Q
-         nXncdBPaigGzTj5XC+OSVQ50Hd9f76OqpmNHf+v549IBf4WB6GsFVUx2zJWqc4G38B6f
-         mT1Q==
-X-Forwarded-Encrypted: i=1; AL+hErFulYJ/DQW0TJ0c+tVIAtkTMgxeuCMkMgui2ZJenzHhJaRrmrEIO/vTHcLZEhYVQh+1j3rLUsm7omMdNQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z82X6vmeIdYeec6viGdNLMkojmKvgBuwjf5HW4AEOGCmQAJbLs1
-	B+Ij3dERCNBIuxS7UDIZxYfkRr3PjjZgtGgvFQFA07XbO5/MVtcJAie2
-X-Gm-Gg: AYBFou3qy7Cy6xI6aQNBY8T3HW109GPOdbi3Trcoj570EjNVgH6oiiNBySTKAS2vGLM
-	7tIL0wv11/429rjkqAG3eUtKfVl5ireWnvrnfjTGP7xfgsA8D06lg5FHNQ2l87yQ11x/6KP6hXd
-	1D53UmXcHMcDAvAysk9TE7DjhcqQtFGPkSprhGQ4M8QEH81WMUSDXRClfU1PkXiWODFCMkSEp64
-	x2D4Jq8Jvcw8w0vIS/CSnZkmPVmEaErHJrbfGQTXRamW+LuX+k23LWXGqqgSxGHsVn9vZv7p6Da
-	42uC4VLYrkWjStva+EeKMjvB5kPs0Ove/8GmVgrHUwaIC/dAfVaBcJ+TqJJYTDmu81cKENQtqJH
-	LULq1+YZEQ0xKWemmzVGX78KECMP5nukhvUGiqYXhYoQf65heF0/n/9UaFNn1xnlPurtx8Mu6sF
-	45tkzk39urj6lCwLVtANRvAciYMLomUUbljLgbaDh+90PfKx5FVh/HEJY33Q3YKLn+jCcOdroB6
-	Is4i1bA5eWYxUDgyfbFhPr3qon3n8XpS6uiy2jMqX2k5aejyKCqBznwLbMMQKNIM31HvLthd4xM
-	tZBEO0R7lFiE0aLWZCp6GMt9IaV6r7xQYSaWYF1D7J9uKA==
-X-Received: by 2002:a05:6830:442a:b0:862:bb04:b554 with SMTP id 46e09a7af769-862bb04b5c1mr2685668a34.14.1794797656295;
-        Sun, 15 Nov 2026 18:54:16 -0800 (PST)
-Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-86287f0e257sm9339432a34.1.2026.11.15.18.54.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 18:54:14 -0800 (PST)
-From: Will Porter <mrwillporter@gmail.com>
-To: Christian Ruppert <arc@gmx.li>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Neil Andrews <neil@androos.io>
-Subject: Re: [RFC V4 PATCH 00/19] Re: ALSA: mixer_audient: Cache rework and simplifications
-Date: Sun, 15 Nov 2026 20:53:36 -0600
-Message-ID: <20261116025336.3718463-1-mrwillporter@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261115214336.17917-1-arc@gmx.li>
-References: <20261115214336.17917-1-arc@gmx.li>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=KwLqAMrX
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oa9zXCttSV9YVGY4OGaNLFX2i4JNhjECKUVeQyfLRlxsj7uspPeOWiqm9qVNncYhK3lWfrKzk8mEO1sMNPyFpoZT+CyQb9pyzP3TGCOWhV80vtFBnp4kE8Kcmstrzaid8ro0YaRLnYv7m5Fw84GngBvkfTVcpOhY8cOHFxop/qhj9CKBWVJeojuc3YQ/uD6V7wSZxZojYtYMjgpC5hE6yi5WZ+17aOXLALPj6Vhnavq8Zm6eVU/WKphy0N/gsRht6dTyhK3R5V0Zd+hB9yzMfd11o/2ONXbZemssxnzQEgcDGgSNxqgilqS3HYY1KtU/3+t5qWflbDwvOgcRC97/jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eVENAjGBsGRSOhVCa+r10wBZaQ3S6G3uBIn8d23XgNo=;
+ b=IpAwqOhL5ZZg62m909QpHkVdglkrjK3tuNovsDZeuM4BJsZUyDSNGPTVTbYYLfHySHLGMplFvJvIXNdqiOHPovV+GAMwzG+fyzubm9WfNPOslzCFPHKBH2q/vf1fe+88ZfNgRlkaVHyyI5sVl3qj3cdgTBGfA3PIWEKk9Li6xAPv5lDqjRRtJRt7dbwlZcjKDX/ML4I8p5az7ckAdHSfFV6zqKIUmbnZF6VWAGY+++ROQ9mGNDMnwk8i+R2haqy6mKn75YVg2n7hNo3GIN+ftPRN6aOVIbDhAWrpNKAHTNENf5B8hzpcOQR1KBr/dXN9b5mGgPPiKzmVS2s/ZfORbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eVENAjGBsGRSOhVCa+r10wBZaQ3S6G3uBIn8d23XgNo=;
+ b=KwLqAMrXn8toS12G71pG3Okk6/6D2EVkjWVAJa/74ZnT2KE5/sBbNaCWvpMpemKFBvhj0e/MTO1mdvIoexCpbF8EqLC2mzfJjCmDV8ojINlDSSGqRw17jqdZo5OCaSPreRQ1TDkqLrOTX0t+Jz240i+6KGFJEsBcJG5l0vKua38=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
+ by PH7PR12MB7188.namprd12.prod.outlook.com (2603:10b6:510:204::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Mon, 16 Nov
+ 2026 02:56:29 +0000
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
+ 02:56:29 +0000
+Message-ID: <33243bbb-5f95-405e-bc4d-866a9c1f1db7@amd.com>
+Date: Mon, 16 Nov 2026 08:25:13 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
+To: Adolfo Morales Tena <spidermanadolfo@gmail.com>,
+ linux-sound@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com
+Cc: venkataprasad.potturu@amd.com, perex@perex.cz, tiwai@suse.com,
+ linux-kernel@vger.kernel.org
+References: <20261115232942.5820-1-spidermanadolfo@gmail.com>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20261115232942.5820-1-spidermanadolfo@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0003.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:80::16) To CY5PR12MB6252.namprd12.prod.outlook.com
+ (2603:10b6:930:20::17)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -100,218 +97,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|PH7PR12MB7188:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3282d412-90ac-4948-0703-08df438d3610
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|22082099003|18002099003|261009223027099003|11063799006|56012099006|261102123227099003|261028144727099003|261026140227099003|261026121527099003|261022075727099003|261021121427099003|261022105027099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	8ozSpB0LR3rrJARjUoyAz8IGhj9k6RusRgkVekD6uSqQq6bGS1xZRxC4Hz/7CcIZgKtxWfoO7lrrf6TWIvnGrfUbV6vSTcT1FVU84H3Il2R9nTTPP5F/igrL0UMMmSPRnldL+aJf7IkL6wgHobKnJbYi/KMUZEokkwkY8OJL0kAX7qYxar+7fkYgAZwWHteYC8jt6ye0IXNArMJTxVHcXU62Xg0GERofV5kuQHmNg35QlnYOkTLRIHK59CBevk2p7MjfDIYVv6H51rASBpSkU97VgfupFlU8g/JIvFOt0mtEasc5Kwc+j4H0N5a/Kmks2fzg2k02ewzyIPmzzdSfmlVguILZqLEQ7nwgjlxnykjk7xNJ+yviqdTzMSbuomxtCfUpKuNJoSJdsWusLlXAHv9c1iXmEz7QHZI9juQN+PB2FE0aCQmF/EcMxT/6pr5tW7ICb6EyDYBKnlDp0Q1XVYHgUQCfQZRYKgPBD//JmMvZeBB68Mz2wS9pp1RmED+SmieRVx+XB0xOWSkpp7xAKQuqa0zg6kj6Q4Z0qlssAEng7DL4R+rA1KZaHPICtyqLCD/KG9V8PQzkYZ1ucJAqrDmz6E/RHsj6s8lM+hkxbrokTe3qvqRZUifxS9Qs9o0ur6Z28KqvE8dovpnafjX2SWeR2QXsxIAeluuU4iRrjrg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(22082099003)(18002099003)(261009223027099003)(11063799006)(56012099006)(261102123227099003)(261028144727099003)(261026140227099003)(261026121527099003)(261022075727099003)(261021121427099003)(261022105027099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VzBnZGVzY1lybHBORGNtRFMwMGdhMzdLcGU0amhtZjNDNDNhcEI1ZEMwc3B1?=
+ =?utf-8?B?T01Ga3dRQVZqK1BFcE9qV0hqbGdsaUZ6Y29ZdndhQldoajdrUU1LbUQ5THlK?=
+ =?utf-8?B?WnM3Y0kvZFdMMENFZGxpclpaaHhwK2NsMlVSTFZpWXVveTcvVUVvK3ZXR1k0?=
+ =?utf-8?B?dGlCb2tQZXE1NmVPcmlua21VbEZ0TzFKWjdZS0V6dGlCMlZYUjh4MCtaQVZZ?=
+ =?utf-8?B?OGkvZlc4Q1lsclUrSnZJTVlRemMvSkU0MzkzZnRpb3F5QkZNUkJnaTEvU2tv?=
+ =?utf-8?B?ZDFFc0pTVGlNUmw3ZEFkcHlwN0RZcVpMT2ZiN2N0WHdNblFqUUgrSExXY0lB?=
+ =?utf-8?B?MVk1ZmkzMVdvUFNiY0NHeXp4ZWM0T1pZdFRIT2xYaiszRmkrRWx6YTZWWFhH?=
+ =?utf-8?B?djJDQXc4UzkvcWVLR0M2V0czKzFEWjF1UFd2QlBLbG9aRU15NlJlTVFMSk5R?=
+ =?utf-8?B?SDU5VkozaXJZS0owVkJEdXZ3aytSYkxoalNaVFhmRzNNdVZqbDRFN3ZOcCtj?=
+ =?utf-8?B?RTFDMGp1VEpKWkwxd05wYkFVelYxZ3BwSXVDWk02OGZYcy9XeDI1ZlkybmpP?=
+ =?utf-8?B?clp6MHhEdWxCRzBqbWUySnljeDRtMkZsSnpEZkVJNmtnV1FvcklnNk9ET1Bn?=
+ =?utf-8?B?S0UxMHUyd2R3eXgwWVpFWCtKZ2FscWsvcXFXR1F5azkzeWUxalg1L3dlZ2pW?=
+ =?utf-8?B?Y0tTUUxaU3J1bE82U0l0ZUNQbzM2TjdyNFdRV3BIYVBPRUR2L2VSeXM2aWQy?=
+ =?utf-8?B?ZUxHWTArWnh1TmcvS2hjY3c4VVdLZ2g5MHRmRHhIbUFlV1dQNTF6SFlvdkpW?=
+ =?utf-8?B?OTZENms1bXpRekJ4T2tKWG5LVW5EV2FIdnFkbGtSb3pYT3R0MktMWHZTWXdW?=
+ =?utf-8?B?cmQ0R1RGYVZndEIyWWdFNGxLWWpraTBuYXRTUnRPWUFYNVhMNm1SaUNpckRB?=
+ =?utf-8?B?Y1krblFNb2JKMHF1bUtLYlM3cTJEWTVOQ2NoZlkvdjNPQVRVRGhvRXB4c2sr?=
+ =?utf-8?B?RkVCV0NzRUpBMDZ2Ulo3MDMvVVA5RFpyMEt4aUxraGo5ay8xVjI2UHJCT0tF?=
+ =?utf-8?B?akhObHJoT1BkMWpKQ3poVUorQXdEQzZLQm84dEViYkx4bm9GV1VUY3ZrMHkz?=
+ =?utf-8?B?UDJLL3ptaUdEZURuSDBBbjg0aENyM3h0ZlZnV085S2tGMkJuUEdsRyt5dkV0?=
+ =?utf-8?B?UVFCRjlZT3lObmJNSCtrdGt0UUVKdUxJOUFNRlU4SmYrd2dYcndGZlQ0WTN5?=
+ =?utf-8?B?NDZyNERBUGthdjc5a3ppM0UwSnBPVEFMaVdDd2NPaUx3dEIzdTV1NldHVVNZ?=
+ =?utf-8?B?RjFsZktZRmpsUzF4aEwwWUNLbWlvOWgraUZsM1FFQmZEUjR0NjVxb2ZRM1ZD?=
+ =?utf-8?B?NXN2cUZHUFRzRXN5ZzVEdnBoUDZ5RTd0S0xqQnc4eG9BdXo0UkZFZzJPMG1K?=
+ =?utf-8?B?aDFhQ1EwUlVqNjdkYzc3VC82bStkUm5OdnVWRTYxN3BPTWVwd1JPWG01UXlq?=
+ =?utf-8?B?UVN3YkZjN243ZnRpdGxXRGNLZEpXNVpzdUlBRDVZQW1oV0pvc25DY1Z4bGdz?=
+ =?utf-8?B?K2R0ZVhCREdLam9kK2poYnhJdUZwdmZwZmlaTGlqbzdaeVJHVnJma0FkZStn?=
+ =?utf-8?B?MWdpNVhlZHVkWHR2OVF3c0RSVmxvd25Cbng2Q2ZIcnEyTWh2TDVUdkRyTXYv?=
+ =?utf-8?B?djlHZ3ZnK0k3Rlc0MHN6QW8wMmx6Q3YzSWtROEY5dTBXY0F2Z29iTWFLUWVr?=
+ =?utf-8?B?ODJOVUYwZlZuclRWM0tLWi9xRmt3a2FPS0x0bitMYVE4cEh3MEVSWTB6VUJW?=
+ =?utf-8?B?eFk5TjBwVEdiSzBUS0ZLQTQwZ1ZpNS9VWTVEK0VGSTZsQ2ptUzlDd1IzdW45?=
+ =?utf-8?B?K0dwRlhsNTBpTnlYQi9qazhEbUFqaTF0SHBkTko4dnp0Z1VTM1pPVzl1Nmtv?=
+ =?utf-8?B?K3VQaU54cFhwNGNLOWtJaitoSkJrVFlta216Z0ZrZ2tkV1NBZzhUUi80MjFk?=
+ =?utf-8?B?UU96TExwVytCLzUwbmVldm95cGFyT2pmeU1icVBKN1RLSWxnWnpoSE0rQW5I?=
+ =?utf-8?B?eVgrTlAwd1JodzZ5ektPeXF6NmFWdklaV3NTU05oU3ZjaWhCZjhUbkdFRks0?=
+ =?utf-8?B?Z2VRWUlrMklieGx6TEpoNE1sbWxUR3BLVkxCNy9BSW1rZHJSVUhFOWJQeHpO?=
+ =?utf-8?B?MzR3bGdVanBFaC84dlBHV3JDaUJnMEtXL3RYMWdOUTZscHl0K21mYUcxaGJG?=
+ =?utf-8?B?UU8zZW9aWlVtRTJ0aHdSbDIzYmJsT3VRcGZCL3dDRkFDVmlRV2U3L3phd3Av?=
+ =?utf-8?B?S2ZQd2VMNDU1eEp5NnI5THFybW1QazIwWWZ0b0w2eW9OU1BOZnlKUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3282d412-90ac-4948-0703-08df438d3610
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 02:56:28.9435
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G5Tt2n33kOCXQRh1mlj2y0J1hhR0MRJvupfnZpvQ3q6NR96NC9u/0Y0zNWkBrL9QieKmI2J2I5vzxS0DqmNLXA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7188
 
-Hi Christian,
 
-Thank you for V4. Your plan works for me. I would like to take patch
-19 with one functional change, and I have a question on patch 18.
 
-I squashed patch 17 into patches 12, 13, 15 and 16 (patch 12 got the
-inline changes). With the diff below, each patch builds with W=1
-without warnings. checkpatch --strict reports no new errors or
-warnings, and the diff adds no new checks. On the iD14, with the diff
-on a 7.2.15 kernel, our read and write checks pass, and every enum
-item reads back as written.
+On 11/16/26 04:59, Adolfo Morales Tena wrote:
+> [You don't often get email from spidermanadolfo@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> The GIGABYTE EAGLE 9MJ has a digital microphone connected to the
+> ACP6x PDM controller, but it is not listed in the quirk table. As a
+> result the machine driver does not register the sound card and the
+> internal microphone is unusable.
+>
+> Add a DMI entry to enable the DMIC. With it, the acp6x card is
+> registered and the internal microphone records correctly. The kernel
+> log shows:
+>
+>    acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
+>
+> Signed-off-by: Adolfo Morales Tena <spidermanadolfo@gmail.com>
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> ---
+>   sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+> index e14c73e7e..f636b5ba5 100644
+> --- a/sound/soc/amd/yc/acp6x-mach.c
+> +++ b/sound/soc/amd/yc/acp6x-mach.c
+> @@ -969,6 +969,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+>                          DMI_MATCH(DMI_PRODUCT_NAME, "TUF Gaming A16 FA607NUQ"),
+>                  }
+>          },
+> +       {
+> +               .driver_data = &acp6x_card,
+> +               .matches = {
+> +                       DMI_MATCH(DMI_BOARD_VENDOR, "GIGABYTE"),
+> +                       DMI_MATCH(DMI_PRODUCT_NAME, "GIGABYTE EAGLE 9MJ"),
+> +               }
+> +       },
+>          {}
+>   };
+>
+> --
+> 2.56.0
 
-> Please double-check the new patch 10 to make sure I didn't miss
-> anything
-
-It looks right to me. The cache bit and the cache_val[] index are both
-the channel number of the request, and the probe sends no GET. I found
-only the bound check in the list below.
-
-> There is also a subtle behavioural change when initializing
-> write-only cache values.
-
-On the iD14 this changes nothing. Its write-only booleans have init
-equal to min, and its write-only enums already read as init. On the
-hardware, all of them read their init value after the load.
-
-Patch 19
---------
-
-I like it. One thing: the FU 12 type has INIT_HW and CACHE, but not
-GET_BROKEN. On the iD14, GET CUR on FU 12 does not return the FU 12
-value. It returns a reply buffer that the device shares with other
-units.
-
-If the probe write of a Cue channel fails, that channel has no cache
-entry, so the next get or put sends this GET and caches the reply.
-The control can then show a value that is not the value of that
-channel. A later put whose device value matches that reply sends no
-SET for the channel: for example, a stale 0 dB shows as 127, and a put
-of 127 sends nothing. A stale value below -127 dB can also show as a
-negative control value.
-
-So FU 12 looks to me like a write-only control with an init value.
-With GET_BROKEN, an unknown channel reads as init (mute), and every
-put sends all four channels, as the comment above ID14_FU12_* says.
-
-I checked this with a test build that skips the probe write of Cue L.
-With V4, the first access after the load sent one GET for Cue L. The
-reply was 0x8000, matching the value just written to Cue R, so Cue L
-showed 0. Puts of the shown values then sent no SET, also not for Cue
-L, which the driver had never written. With the diff, the driver sent
-no GET, Cue L showed 0, and each put sent all four channels.
-
-Does that match how you read the flags?
-
-> We could even get rid of the FU12 specific value type if the iD14
-> accepts -127 * 256 as a volume setting
-
-The device accepts a SET of -127 dB without a stall, but I tested
-that only on Main L, which the firmware ignores. On Cue, -126 dB and
-mute (0x8000) both measure at the same small residual level that the
-headphone output keeps. I have not tested a SET of -127 dB on Cue.
-The type also has to stay for now, because it holds Main at 0 dB. So
-I would keep value 0 as mute in this series. Could we do the plain
-integer together with your don't-touch channel mask as a follow-up?
-
-Patch 18
---------
-
-The old gets read only the channels below hwchannels and filled in the
-rest. The new get reads every channel and then ignores the value of
-the channels at or above hwchannels, so an error on such a channel
-fails the whole get. I think this affects only the EVO4 "Mic Playback
-Switch" (4 channels, 2 on the device): it now also sends GET for CN 2
-and 3. Does the EVO4 answer those? Either way, the diff skips the
-transfer for those channels and keeps the values they show now.
-
-Small things, also in the diff:
-
-- raw_get_one() and raw_set_one() accept cidx == MAX_CHANNELS, but
-  cache_val[] has MAX_CHANNELS entries. No table reaches it (the
-  highest channel is 55), so ">=" is only a guard.
-- Two comments from patch 10 still say FORCE_SET.
-- Patch 19 removes extra_init but keeps its comment.
-
-Next steps
-----------
-
-After patch 19, nothing of patch 16's own FU 12 code is left. So I
-would drop patch 16 and send one FU 12 patch after patch 18: the
-control as patch 16 describes it, built on the unified get and put
-with your code from patch 19. Would you like to be its author, with a
-Co-developed-by for me, or the other way round?
-
-A note on trailers: V4 dropped "Assisted-by: Claude:claude-opus-5-5"
-from patches 8, 11 and 12 to 16. I put it back on them, and I added it
-to patch 10, because patch 10 now holds code from my cache patch.
-
-May I fold the diff into your patches 10, 18 and 19 for the final
-series? I would send it as a normal series, not as another RFC.
-Should it wait for Takashi's answer on your four mixer_evo fixes, or
-carry them at the front?
-
-Thanks,
-Will
-
--- >8 --
-From: Will Porter <mrwillporter@gmail.com>
-Subject: [RFC PATCH] ALSA: mixer_audient: Fix FU 12 reads and the get loop
-
-Proposed changes to patches 10, 18 and 19 of RFC V4:
-
-- Patch 19: mark the iD14 FU 12 type GET_BROKEN. GET CUR on FU 12
-  returns a reply buffer that the device shares with other units, so
-  the driver must not read a channel that has no cache entry. A
-  stale value can also convert to a negative control value: 0x8001
-  shows as -1.
-- Patch 18: send no GET for a channel at or above hwchannels. The
-  type-specific gets did not read these channels either. Also correct
-  the comment on -ENODATA: an unknown value now reads as init, not as
-  off.
-- Patch 10: reject cidx == MAX_CHANNELS (cache_val[] has MAX_CHANNELS
-  entries), and say GET_BROKEN in two comments that still say
-  FORCE_SET.
-- Patch 19: remove the comment left from extra_init.
-
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Will Porter <mrwillporter@gmail.com>
----
-Applies on top of RFC V4 patch 19.
-
-diff --git a/sound/usb/mixer_audient.c b/sound/usb/mixer_audient.c
-index e24a6e9facc1d..93fad4b74e18d 100644
---- a/sound/usb/mixer_audient.c
-+++ b/sound/usb/mixer_audient.c
-@@ -408,6 +408,7 @@ static const struct snd_audient_ctrl_type {
- 		.type = SNDRV_AUDIENT_CTL_ELEM_TYPE_ID14_FU12,
- 		.flags = SND_AUDIENT_CTYPE_FLAGS_SIGNED
- 			 | SND_AUDIENT_CTYPE_FLAGS_INIT_HW
-+			 | SND_AUDIENT_CTYPE_FLAGS_GET_BROKEN
- 			 | SND_AUDIENT_CTYPE_FLAGS_CACHE,
- 		.len = 2,
- 		.min.integer = -127 * 256,
-@@ -540,7 +541,6 @@ static const struct audient_devinfo {
- 	const struct snd_audient_ctrl *controls;
- 	const char *const *const matrix_names;
- 	const unsigned int matrix_channels;
--	/* optional: controls the tables cannot describe, created after them */
- } audient_devinfo[] = {
- 	{
- 		.usb_id = USB_ID(USB_AUDIENT_VID, USB_EVO4_PID),
-@@ -649,7 +649,7 @@ static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
- 	__le32 buf = 0;
- 	s32 val;
- 
--	if (cidx > MAX_CHANNELS)
-+	if (cidx >= MAX_CHANNELS)
- 		return -EINVAL;
- 
- 	if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_CACHE) {
-@@ -659,8 +659,8 @@ static int snd_audient_raw_get_one(struct usb_mixer_elem_info *const elem,
- 			return ctype->len;
- 		} else if (ctype->flags & SND_AUDIENT_CTYPE_FLAGS_GET_BROKEN) {
- 			/*
--			 * Cached FORCE_SET controls are treated as write-only:
--			 * an invalid cache entry does not trigger a GET.
-+			 * GET_BROKEN controls are write-only: an invalid
-+			 * cache entry does not trigger a GET.
- 			 */
- 			return -ENODATA;
- 		}
-@@ -692,14 +692,14 @@ static int snd_audient_raw_set_one(struct usb_mixer_elem_info *const elem,
- 	int ret;
- 	u32 val;
- 
--	if (cidx > MAX_CHANNELS)
-+	if (cidx >= MAX_CHANNELS)
- 		return -EINVAL;
- 
- 	if (force) {
- 		val = !value;		/* just make it different */
- 	} else {
- 		ret = snd_audient_raw_get_one(elem, ctype, cidx, &val);
--		if (ret == -ENODATA)	/* FORCE_SET and not cached yet */
-+		if (ret == -ENODATA)	/* GET_BROKEN and not cached yet */
- 			val = !value;	/* just make it different */
- 		else if (ret < 0)
- 			return ret;
-@@ -825,14 +825,18 @@ static int snd_ctl_audient_get(struct snd_kcontrol *kctl,
- 	guard(mutex)(&mixer->lock);
- 
- 	for (i = 0; i < nchan; i++) {
--		u32 buf;
-+		u32 buf = 0;
- 		long ret;
- 
--		ret = snd_audient_raw_get_one(elem, ctype, base + i, &buf);
--		if (ret == -ENODATA)	/* unknown write-only value: off */
--			buf = ctype->init;
--		else if (ret < 0)
--			return ret;
-+		/* channels the device does not have are not read */
-+		if (i < hwchan) {
-+			ret = snd_audient_raw_get_one(elem, ctype, base + i,
-+						      &buf);
-+			if (ret == -ENODATA)	/* unknown write-only value */
-+				buf = ctype->init;
-+			else if (ret < 0)
-+				return ret;
-+		}
- 
- 		switch (ctype->type) {
- 		case SNDRV_CTL_ELEM_TYPE_BOOLEAN:
