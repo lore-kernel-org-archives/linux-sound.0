@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794871959;
-	b=u44A+kDB8isTXq+AfqMCbOdWzgjw/gBwMDEl5PnIC7pusVyNtxPMwUU4Svqbh1UreD06
-	 vU5sM5Rdq7raLlVQq9n50JJr63L+5limZ2Qw2qVM0MKvyk528rTG95P2nOZQ938SqwXb4
-	 JwEMH4wN56015RewxwwoAAv6DCRV8bf1fMJzGzAr+RlLzcXU5O2cC5yTjKSxJ/cdK3552
-	 unVcDpdMC4badtko2+62bykjeS2xSiz2BBAWtg8fE4lKulRoUpIUvrvIazoilWZoklqiT
-	 7uSJ/LVd/JdJDtNUWI8hrBkuYV3cl9kg6nzbfjYUZTWpAr25eaX5mPUJi1W5xPXs6dw==
+	t=1794871967;
+	b=TTh1ipX8Dlo7F0f+QedD6cqovx6M2bgUS6MQ78a2nug/z5vFAPPONpohn5XxgXvKf9Yz
+	 uo0g020CQdBHITBsSJckl0o7O/ngdLGKOatfgtd1a80uHSCAzpZNiG0SXY2Mpdzh94gW4
+	 xWofKvwfmzorJdQRY9qsr4v0hviXt6AW43BbeKhoHFJPEfvT3nmy0AyoujYAvAJX7l58X
+	 zDip37TdJJeY1EJgtrYVDpANATwP6pMCw3wnS1MDR4R4dBuMasLEmEDLgrAz5w/5V3tPf
+	 ocUnGeURCpCWJH6Rgob3LBV8lmvhjE++2NFYeCV3/WpyabjSMyG8EPyk4T0QOjrwU8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794871959;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794871967;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=CjJOa9pxfBY67skITJoff1qKTIBeFQGtw0SmjfMNZrk=;
-	b=GKzUQqAs4dR3bSBWH26ss5QtFs784wlIHF/zTdyDZK5aK/7FKR/BPwtxq3X+0u0NtlQE
-	 wsO8/h36yHclk2Kfdlp00MkduvA2KHCKXAKqe0mkS89Ccpp4NTNDEoQsPMF3fzQFxcNLK
-	 5KBE3ukjBrYPgahusbIFBnEquQFoq/zmlRr7PJadWwcTTEPW62GjNmQksomB6P5QOJAgj
-	 U8BuLW8+5HAWSpDlWeQiE1KV+FnvmJZQ89VAyMij/e9tWwzsateovcAvihQIaEWAt6nVN
-	 YztbKych0ptUVdhBBc1blqVrweB5HObNu8eoi699lfCcJJCN45H90z+1aNO2Hn6t8dA==
+	bh=jvObFOKHAYWa5eHjD6OlFRTmL6WO/fHvNogyw8ziwfw=;
+	b=PrB8deWwK1GcJoAS6kBYR4HtU6lX3kr9rB2GSzh3Bf44qfYn956aTCWFUE1t5e03bhIb
+	 r8M8SgXjLjk+XxAmXU1q9wCE0pmEAd80iJAgioz9uMiJvqnC1DOa7zdO78yb3cm2DmlDS
+	 Ooifp4LAfTdz/UTPVmDFCAxf4TxsRVL4fMaNpirs8aoVT6dsz/hMBFMaYYChAZCL9bbEF
+	 7o1JEBdOXHzg+mrv9e1aw9YHy+aeYgOFPSGQHbX7OjXMNNH7IQO4QBMINDbgEC1eYEU6Q
+	 QLT6d895MgC7vgfnu5A4lKw3D/7UqRtAGb3Gm3hSnLh60JOgJrkkXzN/kA+U+rDEzBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BHB7Bvjz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRleBCmG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA0C606A329;
-	Mon, 16 Nov 2026 23:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89056606A881;
+	Mon, 16 Nov 2026 23:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BHB7Bvjz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9CC81F000C4;
-	Mon, 16 Nov 2026 23:32:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GRleBCmG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED7B1F000C7;
+	Mon, 16 Nov 2026 23:32:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794871958;
-	bh=CjJOa9pxfBY67skITJoff1qKTIBeFQGtw0SmjfMNZrk=;
+	s=k20260515; t=1794871967;
+	bh=jvObFOKHAYWa5eHjD6OlFRTmL6WO/fHvNogyw8ziwfw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=BHB7BvjzOKYUP/DoGXz9RByoziXYqSVsKF4NI4CcKfB3ihRfPj/UqkeeQkQ+oMcwS
-	 XtzXpncGGDknMVX5IrFtSo9C5d2luz7SVlK2NTYg8a9QhQxW7l+NjMYOLVDP4WuKuy
-	 zHnUX7CntjyORQ3SpOqsuDSJq9JDWABgg+/uBZsa8krp6wuddiwptVcySiw3qwAH1c
-	 i1SS5KqiCV22Yve2sx5QaSapn3BSu2zoJBw9KjwfeCjM+D933+ir7UpYwMw/lb4s0V
-	 Ga/BV8jgk9WyQuT3YmioHN9OjSqJQ0Zg9hDnvrr+8kzGuAJ7WTICYkAftK6+P/gW29
-	 a95AHCWUaNobA==
+	b=GRleBCmGHT8K8uEJDGJU0GJdWl/1guIjxW/JLbQANSYtoLoYlzDT6SgbH/mojrmH8
+	 cUqbf/KiDmU/J24cuknXmrVfs6rWBNMxuzBiti32RtDiGdfv1GjufIhPzNYpFh1968
+	 KykN6oKKP6SY4jESOjTzNEhBzUh+hP7+nLQ+xkqXQSWK73ALWozPzJXdEvTdE83gho
+	 h7pQZdlC035w+KCfr1CYoPQZVE1NghhRLU6etfTtLmifnImWF9eNDAC2+BGU/0a2zK
+	 n3Np4tuHsGplrn2bOMMPFlV6Vjqmn+4jxq6TQ73UuytPTTdXkfnZYT24tDlfzZBk2h
+	 jjS2AlZVdNonA==
 From: Mark Brown <broonie@kernel.org>
-To: Oder Chiou <oder_chiou@realtek.com>, Tristan Madani <tristmd@gmail.com>
+To: Oder Chiou <oder_chiou@realtek.com>, Hyunjung Ko <hj351016@gmail.com>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bard Liao <bardliao@realtek.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, tristan@talencesecurity.com
-In-Reply-To: <20261107172637.2729867-1-tristmd@gmail.com>
-References: <20261107172637.2729867-1-tristmd@gmail.com>
-Subject: Re: [PATCH v3] ASoC: rt5668: fix teardown order and stale state
- across card rebind
-Message-Id: <179486212736.2504946.14896239104739207727.b4-ty@b4>
-Date: Mon, 16 Nov 2026 20:48:47 +0000
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20261109172144.1851173-1-hj351016@gmail.com>
+References: <20261109172144.1851173-1-hj351016@gmail.com>
+Subject: Re: [PATCH] ASoC: rt5665: cancel jack detect work on removal to
+ avoid use-after-free
+Message-Id: <179486331581.2504946.9205681463041578709.b4-ty@b4>
+Date: Mon, 16 Nov 2026 21:08:35 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
- h=from:subject:message-id; bh=7UaAgydiEe4+VfqLZWblxZ5JDhwAroXxu5zblQmnhzI=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+T5qcl3nshl3sr+5vxfdf8Oz+F5N8kOdA3763CRd61
- zP1H2uW6ChhYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBE/B4x/LjnJMLCt+44P8e3
- lrr5PXybYgsYFVU1nPyCZBVcg3TrGP67W0fuMF544fr/1SrC9Y7elw60zJ84cY1FoOqeWUlyy+o
- 4AA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1161; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=I1BhjhMCVAecEFKyLU9clfQ5ynpbAW0BGejXnRfNsOE=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+T5rTvuG9XLTLPiW7DkFnUxa5uS+7jvvuF7515EfEn
+ Q0N8sbzOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRdTcZfjIyf9mbe3Q182d7
+ Q6WwCWruJvLVv1iiIvnuP60P+xTDZMXwV1ApNFnD1XWiyrO1v7tVXqcnzojyij5c3xKWuHN/3pK
+ zLAA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 07 Nov 2026 17:26:37 +0000, Tristan Madani wrote:
-> ASoC: rt5668: fix teardown order and stale state across card rebind
+On Tue, 10 Nov 2026 02:21:44 +0900, Hyunjung Ko wrote:
+> ASoC: rt5665: cancel jack detect work on removal to avoid use-after-free
 
 Applied to
 
@@ -82,8 +81,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt5668: fix teardown order and stale state across card rebind
-      https://git.kernel.org/broonie/sound/c/49e6f7bc51e4
+[1/1] ASoC: rt5665: cancel jack detect work on removal to avoid use-after-free
+      https://git.kernel.org/broonie/sound/c/4561d07d897f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
