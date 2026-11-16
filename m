@@ -1,93 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794797792;
-	b=FIMNj5YZJt1phxeqjI2QCFUO8YYgGDY9hqyVxQej1G1SF4SSpxX9qaaOCrLEJ2Gv4TsF
-	 alPA48BEuj3T/Z4bV92ZiVI8mF5q6sVB+p9+xtPCt8L8xDzA0O/T0O0VUvASJFJpB1sa6
-	 RhwID6z1Ptm/09hnJGFSTkPSvehkvtl8bmUNyiCFkVB5AiJoPGB99oNGJe4LSw5QRUDUB
-	 kRrOwgdffKWTbhzzolH5g9ji7p90lPAR22ak5f0iL3oQJYyaCDn/C2elvmsAnBdcKOtMl
-	 dSlhw9M7R1iEe7avPbe1zV8YrHPoOpQhV88TNfoCbsPrcWjPIk9j7tiaSGNO8K0f1Mg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794797792;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=eVENAjGBsGRSOhVCa+r10wBZaQ3S6G3uBIn8d23XgNo=;
-	b=jg4GXBNn1TDRKeNq3tbYb45WZKeVPIQ0yelDeERMWHWCdezH+Vo1GQ3kIt67hw712gTl
-	 TSj4QGzpMQbQulAvEoeSTXolXjne3q69U0lV6jVetToei1i8q4UVvXvY6vWHVptAWTR0Q
-	 lihrF0RkWj2tVfAJ055LAdW2j+8NGVmko5U3d26Ur9/zuu/wP7BWOYQfoV+bXiIvgleue
-	 e6JR7pQE5da5k8ZaYymhB0zqCdi1TVesiPE2e5cPfgjhBAu6CxZFfI2HGWPmdx3QWcRdO
-	 OWt0hTdB2M468WxEqm/Lgd0bH+JTxQcoWPxe+MHyLXwWn4FtZoeGrMvTLZj+q7H0N8g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=KwLqAMrX;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.18
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012018.outbound.protection.outlook.com [52.101.43.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794798230;
+	b=fn9cxGphx9oo+EjIahRAxRDFcnyLq02zOhF85wuA83wQfUYntgLmNyyHYrEzg6BxEDYM
+	 448kjgfFIIvJQZQjwoDNO6kfg0QFlBSeRczyE6TfK0UsfJkCDuDZqXpNObge0ZgpHViKV
+	 7ogF0ASqYa5n5tknnEzULt54I2OKabsK5ikHGnZog17Y/erJdFmMrRQbbGFIj/p/71kmt
+	 f9glXTPyvO9FehSs/BFx55og6o36jaPD0n9pBjGcvTgmon8bPLrzyeqB79O0U2fagXHT0
+	 drAPIrgkdSoEUKNDeAKVYcekTpdPuHK4vo/bRSEadt+m0+Fj8BC0vPVMerqliAEqkKA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794798230;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=taZmjC+r+n5amxH5ylYkvKHjlAAevcJwdM3ESN5VOIU=;
+	b=KCLHxthX9xLkNY1tWu6tU8QKW/1IO8IK5SdeEYgVHaDONRxyWDWUPqb3vWvk0Xoj4YiR
+	 3vh8llyPzW8iJxvLwKCcWPZjq/KUCav3by60sD4uue31RZkNL79m69wq4ZgS8Gl6PBuwA
+	 DjML5Lt+m5pZRAEwH9VPAdQv7JCPWcASBgea51sfcZeT0pMjaerq98Op7Tf1vWsSjJ3A4
+	 OPEiN7xTTMEa960+Nk5lDk+a87N1GmpeIC2O9YXYDM0a/nvTvPB19+8PbX0IuLwBkxZdH
+	 wuzqBbHif9uK6pym7eF4GOOST1th9MJqmjtny0dlaAASQxGN+ICe4/TqjmRFiaBhkww==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cbuhLi0k;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C61A606A31C;
-	Mon, 16 Nov 2026 02:56:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C61A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6CE606A88D
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 03:03:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A6CE606A88D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=KwLqAMrX
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oa9zXCttSV9YVGY4OGaNLFX2i4JNhjECKUVeQyfLRlxsj7uspPeOWiqm9qVNncYhK3lWfrKzk8mEO1sMNPyFpoZT+CyQb9pyzP3TGCOWhV80vtFBnp4kE8Kcmstrzaid8ro0YaRLnYv7m5Fw84GngBvkfTVcpOhY8cOHFxop/qhj9CKBWVJeojuc3YQ/uD6V7wSZxZojYtYMjgpC5hE6yi5WZ+17aOXLALPj6Vhnavq8Zm6eVU/WKphy0N/gsRht6dTyhK3R5V0Zd+hB9yzMfd11o/2ONXbZemssxnzQEgcDGgSNxqgilqS3HYY1KtU/3+t5qWflbDwvOgcRC97/jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eVENAjGBsGRSOhVCa+r10wBZaQ3S6G3uBIn8d23XgNo=;
- b=IpAwqOhL5ZZg62m909QpHkVdglkrjK3tuNovsDZeuM4BJsZUyDSNGPTVTbYYLfHySHLGMplFvJvIXNdqiOHPovV+GAMwzG+fyzubm9WfNPOslzCFPHKBH2q/vf1fe+88ZfNgRlkaVHyyI5sVl3qj3cdgTBGfA3PIWEKk9Li6xAPv5lDqjRRtJRt7dbwlZcjKDX/ML4I8p5az7ckAdHSfFV6zqKIUmbnZF6VWAGY+++ROQ9mGNDMnwk8i+R2haqy6mKn75YVg2n7hNo3GIN+ftPRN6aOVIbDhAWrpNKAHTNENf5B8hzpcOQR1KBr/dXN9b5mGgPPiKzmVS2s/ZfORbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eVENAjGBsGRSOhVCa+r10wBZaQ3S6G3uBIn8d23XgNo=;
- b=KwLqAMrXn8toS12G71pG3Okk6/6D2EVkjWVAJa/74ZnT2KE5/sBbNaCWvpMpemKFBvhj0e/MTO1mdvIoexCpbF8EqLC2mzfJjCmDV8ojINlDSSGqRw17jqdZo5OCaSPreRQ1TDkqLrOTX0t+Jz240i+6KGFJEsBcJG5l0vKua38=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by PH7PR12MB7188.namprd12.prod.outlook.com (2603:10b6:510:204::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.10; Mon, 16 Nov
- 2026 02:56:29 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
- 02:56:29 +0000
-Message-ID: <33243bbb-5f95-405e-bc4d-866a9c1f1db7@amd.com>
-Date: Mon, 16 Nov 2026 08:25:13 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
-To: Adolfo Morales Tena <spidermanadolfo@gmail.com>,
- linux-sound@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com
-Cc: venkataprasad.potturu@amd.com, perex@perex.cz, tiwai@suse.com,
- linux-kernel@vger.kernel.org
-References: <20261115232942.5820-1-spidermanadolfo@gmail.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20261115232942.5820-1-spidermanadolfo@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0003.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:80::16) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cbuhLi0k
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-372bdb942dbso2583881eec.1
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 19:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794798225; x=1795403025; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=taZmjC+r+n5amxH5ylYkvKHjlAAevcJwdM3ESN5VOIU=;
+        b=cbuhLi0k4gPQunm0cCmyXkobLQ+2PbqWxQNlMMwNnijYec+2l1ABQqA7z+WCEKmsxO
+         zvKYa//6SGPJMW8Gnle952xsq2krkWRMJp+Lf94BVv09Wr2ZG3wZvzeZX5xTesLlFtO5
+         1xGajNIVDjGJ42VXgqvefUaZiDClnCWMj8Ld4jC9YVh5maMEBZ+b+9NTq9CY7l1Lr7GJ
+         6T3tDDaw1rwFNGcEI42z/f8r0Hhd/jL7/3giFsMcA3S/zb/eETdElF5AopnnxICyqLrb
+         pQtyeMQZEpgYCLeStJFwIjdUkthkrXIofhMLqbPwmxrcvO3YAl8aA4tfWhzgLByVMjEA
+         zRHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794798225; x=1795403025;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=taZmjC+r+n5amxH5ylYkvKHjlAAevcJwdM3ESN5VOIU=;
+        b=dJZ9LB8H9ag6dvIXialcDumTAnKVtXc8lhLcxmbWlf+R7Cz7uO0Irbvi7prM6LSLPZ
+         qhTOvN6IQ6ky4+GiocVPgzeYWkFqXoklt+mPQbZ6ti4y5K37vkRxXsi6Lk/2YO4sVhVA
+         kf4j2x72o8mSF7+fkhA5E+1Rs1dcLeJ4sgsBXAvp3SlUdxsfAo/+FwkH40+u3OWcrYWU
+         89+YHvepwxZhYR882jsZazc/6ljn2HI9d3Foh51uzcd2FQOyBnNvoE+h89H3RqtrIU5f
+         E6e/wU4NwOU2lC3JVkxaQwqe+2Yg+mM/Unwj2DxqMP4vDsnqXNAaaheSBJPg+u/8SO6n
+         HILA==
+X-Forwarded-Encrypted: i=1; AL+hErHJ3Db6AxkwPUeIGh+89IwWznWbRMcx1k0Ky84JEHcQpBS59D38o8MeM8H61qcY6iC5Lri8uRppRYi0Rw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+rMb8lsCQFETEJNT3Ke1LFIgiof40SqB2c8v0sVh/unfvP+sk2
+	tpCE17wxwrgHMX6UAOMoqQyXs9/nQ/cNQq1GYJrNQsPx1lmElseJPzXK
+X-Gm-Gg: AYBFou3r1F2lhuOE01alWYP9l+eT9kXs/o0wSz2INQbCbSgobRchEbmNSC3RZ2sHj2O
+	hMVSi2zkzgNrxpueKSFOKazuFVuqHHU7N/gIg2t2q3XiAU6u+5FO4yuJlJih6Mt+QUSXjpXWvvV
+	q/QnMdNainJ3r46g6Iz/911wpzzDEmTuTF5xsrU/J6wPybPQGwLXbwDq9AKgkaFCxcixy/GIRDL
+	md4VVv7q05eHp3Wp/UV2BgrQtqhZ4W7BN37TnEjs9eLUAWjNoDiIs6M4cA94biRDw0wbCqp7HrH
+	yClJ5EcaAmSC8dbuLBswxFL9/O3qTLVzasJAIiBl5uyQTnvAPaVNt0v3evA1nP2XZWUpe87e3ZM
+	BS+CcL0cFXj816L2RJ2GerdsRUpOA+ZVry8/i4HSuxxHUZcA/ezEAJ6DnxNXHK0jQnlSNAqQIfK
+	j+4emS9qAH6DKXlEKyIth8fALisbPn9ycoj47azDhBCDRXnVRm28kyx8PNfiB9v+vlm7ko2uGGq
+	EHkXOYMEMqZ8Hm3LLNpr+rKhkQ5U0RntAd7tdktU0gl7nnCxeRMXwesbPksDvT45ydgSFnMS3oa
+	pXoyzULUbo4FlLMbz9P1wG14Le/RGMPUnvdoSjEeJn+lP4D0WiQZcPGek7vcUXhNaVPJF8lGq8y
+	uNTwPBHeC5+OV2zn+Na0dE8+Vy8W9MyKz9KtYMz7+
+X-Received: by 2002:a05:7300:d40d:b0:360:d4c5:7243 with SMTP id 5a478bee46e88-37966e3a7cfmr10269605eec.11.1794798225248;
+        Sun, 15 Nov 2026 19:03:45 -0800 (PST)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379508762a5sm29195595eec.0.2026.11.15.19.03.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 19:03:44 -0800 (PST)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH 0/4] ALSA: seq: ump: Fix Note On/Off and key pressure conversion
+Date: Mon, 16 Nov 2026 12:03:33 +0900
+Message-ID: <20261116030338.422671-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,110 +100,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|PH7PR12MB7188:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3282d412-90ac-4948-0703-08df438d3610
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|22082099003|18002099003|261009223027099003|11063799006|56012099006|261102123227099003|261028144727099003|261026140227099003|261026121527099003|261022075727099003|261021121427099003|261022105027099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	8ozSpB0LR3rrJARjUoyAz8IGhj9k6RusRgkVekD6uSqQq6bGS1xZRxC4Hz/7CcIZgKtxWfoO7lrrf6TWIvnGrfUbV6vSTcT1FVU84H3Il2R9nTTPP5F/igrL0UMMmSPRnldL+aJf7IkL6wgHobKnJbYi/KMUZEokkwkY8OJL0kAX7qYxar+7fkYgAZwWHteYC8jt6ye0IXNArMJTxVHcXU62Xg0GERofV5kuQHmNg35QlnYOkTLRIHK59CBevk2p7MjfDIYVv6H51rASBpSkU97VgfupFlU8g/JIvFOt0mtEasc5Kwc+j4H0N5a/Kmks2fzg2k02ewzyIPmzzdSfmlVguILZqLEQ7nwgjlxnykjk7xNJ+yviqdTzMSbuomxtCfUpKuNJoSJdsWusLlXAHv9c1iXmEz7QHZI9juQN+PB2FE0aCQmF/EcMxT/6pr5tW7ICb6EyDYBKnlDp0Q1XVYHgUQCfQZRYKgPBD//JmMvZeBB68Mz2wS9pp1RmED+SmieRVx+XB0xOWSkpp7xAKQuqa0zg6kj6Q4Z0qlssAEng7DL4R+rA1KZaHPICtyqLCD/KG9V8PQzkYZ1ucJAqrDmz6E/RHsj6s8lM+hkxbrokTe3qvqRZUifxS9Qs9o0ur6Z28KqvE8dovpnafjX2SWeR2QXsxIAeluuU4iRrjrg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(22082099003)(18002099003)(261009223027099003)(11063799006)(56012099006)(261102123227099003)(261028144727099003)(261026140227099003)(261026121527099003)(261022075727099003)(261021121427099003)(261022105027099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VzBnZGVzY1lybHBORGNtRFMwMGdhMzdLcGU0amhtZjNDNDNhcEI1ZEMwc3B1?=
- =?utf-8?B?T01Ga3dRQVZqK1BFcE9qV0hqbGdsaUZ6Y29ZdndhQldoajdrUU1LbUQ5THlK?=
- =?utf-8?B?WnM3Y0kvZFdMMENFZGxpclpaaHhwK2NsMlVSTFZpWXVveTcvVUVvK3ZXR1k0?=
- =?utf-8?B?dGlCb2tQZXE1NmVPcmlua21VbEZ0TzFKWjdZS0V6dGlCMlZYUjh4MCtaQVZZ?=
- =?utf-8?B?OGkvZlc4Q1lsclUrSnZJTVlRemMvSkU0MzkzZnRpb3F5QkZNUkJnaTEvU2tv?=
- =?utf-8?B?ZDFFc0pTVGlNUmw3ZEFkcHlwN0RZcVpMT2ZiN2N0WHdNblFqUUgrSExXY0lB?=
- =?utf-8?B?MVk1ZmkzMVdvUFNiY0NHeXp4ZWM0T1pZdFRIT2xYaiszRmkrRWx6YTZWWFhH?=
- =?utf-8?B?djJDQXc4UzkvcWVLR0M2V0czKzFEWjF1UFd2QlBLbG9aRU15NlJlTVFMSk5R?=
- =?utf-8?B?SDU5VkozaXJZS0owVkJEdXZ3aytSYkxoalNaVFhmRzNNdVZqbDRFN3ZOcCtj?=
- =?utf-8?B?RTFDMGp1VEpKWkwxd05wYkFVelYxZ3BwSXVDWk02OGZYcy9XeDI1ZlkybmpP?=
- =?utf-8?B?clp6MHhEdWxCRzBqbWUySnljeDRtMkZsSnpEZkVJNmtnV1FvcklnNk9ET1Bn?=
- =?utf-8?B?S0UxMHUyd2R3eXgwWVpFWCtKZ2FscWsvcXFXR1F5azkzeWUxalg1L3dlZ2pW?=
- =?utf-8?B?Y0tTUUxaU3J1bE82U0l0ZUNQbzM2TjdyNFdRV3BIYVBPRUR2L2VSeXM2aWQy?=
- =?utf-8?B?ZUxHWTArWnh1TmcvS2hjY3c4VVdLZ2g5MHRmRHhIbUFlV1dQNTF6SFlvdkpW?=
- =?utf-8?B?OTZENms1bXpRekJ4T2tKWG5LVW5EV2FIdnFkbGtSb3pYT3R0MktMWHZTWXdW?=
- =?utf-8?B?cmQ0R1RGYVZndEIyWWdFNGxLWWpraTBuYXRTUnRPWUFYNVhMNm1SaUNpckRB?=
- =?utf-8?B?Y1krblFNb2JKMHF1bUtLYlM3cTJEWTVOQ2NoZlkvdjNPQVRVRGhvRXB4c2sr?=
- =?utf-8?B?RkVCV0NzRUpBMDZ2Ulo3MDMvVVA5RFpyMEt4aUxraGo5ay8xVjI2UHJCT0tF?=
- =?utf-8?B?akhObHJoT1BkMWpKQ3poVUorQXdEQzZLQm84dEViYkx4bm9GV1VUY3ZrMHkz?=
- =?utf-8?B?UDJLL3ptaUdEZURuSDBBbjg0aENyM3h0ZlZnV085S2tGMkJuUEdsRyt5dkV0?=
- =?utf-8?B?UVFCRjlZT3lObmJNSCtrdGt0UUVKdUxJOUFNRlU4SmYrd2dYcndGZlQ0WTN5?=
- =?utf-8?B?NDZyNERBUGthdjc5a3ppM0UwSnBPVEFMaVdDd2NPaUx3dEIzdTV1NldHVVNZ?=
- =?utf-8?B?RjFsZktZRmpsUzF4aEwwWUNLbWlvOWgraUZsM1FFQmZEUjR0NjVxb2ZRM1ZD?=
- =?utf-8?B?NXN2cUZHUFRzRXN5ZzVEdnBoUDZ5RTd0S0xqQnc4eG9BdXo0UkZFZzJPMG1K?=
- =?utf-8?B?aDFhQ1EwUlVqNjdkYzc3VC82bStkUm5OdnVWRTYxN3BPTWVwd1JPWG01UXlq?=
- =?utf-8?B?UVN3YkZjN243ZnRpdGxXRGNLZEpXNVpzdUlBRDVZQW1oV0pvc25DY1Z4bGdz?=
- =?utf-8?B?K2R0ZVhCREdLam9kK2poYnhJdUZwdmZwZmlaTGlqbzdaeVJHVnJma0FkZStn?=
- =?utf-8?B?MWdpNVhlZHVkWHR2OVF3c0RSVmxvd25Cbng2Q2ZIcnEyTWh2TDVUdkRyTXYv?=
- =?utf-8?B?djlHZ3ZnK0k3Rlc0MHN6QW8wMmx6Q3YzSWtROEY5dTBXY0F2Z29iTWFLUWVr?=
- =?utf-8?B?ODJOVUYwZlZuclRWM0tLWi9xRmt3a2FPS0x0bitMYVE4cEh3MEVSWTB6VUJW?=
- =?utf-8?B?eFk5TjBwVEdiSzBUS0ZLQTQwZ1ZpNS9VWTVEK0VGSTZsQ2ptUzlDd1IzdW45?=
- =?utf-8?B?K0dwRlhsNTBpTnlYQi9qazhEbUFqaTF0SHBkTko4dnp0Z1VTM1pPVzl1Nmtv?=
- =?utf-8?B?K3VQaU54cFhwNGNLOWtJaitoSkJrVFlta216Z0ZrZ2tkV1NBZzhUUi80MjFk?=
- =?utf-8?B?UU96TExwVytCLzUwbmVldm95cGFyT2pmeU1icVBKN1RLSWxnWnpoSE0rQW5I?=
- =?utf-8?B?eVgrTlAwd1JodzZ5ektPeXF6NmFWdklaV3NTU05oU3ZjaWhCZjhUbkdFRks0?=
- =?utf-8?B?Z2VRWUlrMklieGx6TEpoNE1sbWxUR3BLVkxCNy9BSW1rZHJSVUhFOWJQeHpO?=
- =?utf-8?B?MzR3bGdVanBFaC84dlBHV3JDaUJnMEtXL3RYMWdOUTZscHl0K21mYUcxaGJG?=
- =?utf-8?B?UU8zZW9aWlVtRTJ0aHdSbDIzYmJsT3VRcGZCL3dDRkFDVmlRV2U3L3phd3Av?=
- =?utf-8?B?S2ZQd2VMNDU1eEp5NnI5THFybW1QazIwWWZ0b0w2eW9OU1BOZnlKUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3282d412-90ac-4948-0703-08df438d3610
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 02:56:28.9435
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G5Tt2n33kOCXQRh1mlj2y0J1hhR0MRJvupfnZpvQ3q6NR96NC9u/0Y0zNWkBrL9QieKmI2J2I5vzxS0DqmNLXA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7188
+Content-Transfer-Encoding: 8bit
 
+Hello Takashi,
 
+While extending seq-ump-test, I found three conversion bugs in
+seq_ump_convert.c. In each case the UMP core or the other sequencer
+path already does the right thing, and the fix follows it.
 
-On 11/16/26 04:59, Adolfo Morales Tena wrote:
-> [You don't often get email from spidermanadolfo@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> The GIGABYTE EAGLE 9MJ has a digital microphone connected to the
-> ACP6x PDM controller, but it is not listed in the quirk table. As a
-> result the machine driver does not register the sound card and the
-> internal microphone is unusable.
->
-> Add a DMI entry to enable the DMIC. With it, the acp6x card is
-> registered and the internal microphone records correctly. The kernel
-> log shows:
->
->    acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
->
-> Signed-off-by: Adolfo Morales Tena <spidermanadolfo@gmail.com>
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> ---
->   sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-> index e14c73e7e..f636b5ba5 100644
-> --- a/sound/soc/amd/yc/acp6x-mach.c
-> +++ b/sound/soc/amd/yc/acp6x-mach.c
-> @@ -969,6 +969,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
->                          DMI_MATCH(DMI_PRODUCT_NAME, "TUF Gaming A16 FA607NUQ"),
->                  }
->          },
-> +       {
-> +               .driver_data = &acp6x_card,
-> +               .matches = {
-> +                       DMI_MATCH(DMI_BOARD_VENDOR, "GIGABYTE"),
-> +                       DMI_MATCH(DMI_PRODUCT_NAME, "GIGABYTE EAGLE 9MJ"),
-> +               }
-> +       },
->          {}
->   };
->
-> --
-> 2.56.0
+Patches 1-3 are the fixes. They also apply to for-linus. Patch 4 adds
+the tests on top of seq-ump-test.c in for-next.
+
+Without patches 1-3, the new tests midi1_key_pressure,
+ump_midi1_to_midi2_note and ump_midi2_to_midi1_note fail and the other
+25 pass. With them, all 28 pass.
+
+Prepared with Claude Code (Claude Opus 5.5). Tested on x86_64 under
+qemu, on sound/for-next.
+
+Best regards,
+HyeongJun An
+
+HyeongJun An (4):
+  ALSA: seq: ump: Don't turn a zero key pressure into a Note Off
+  ALSA: seq: ump: Convert a zero-velocity Note On to Note Off for MIDI
+    2.0
+  ALSA: seq: ump: Keep a soft MIDI 2.0 Note On from becoming a Note Off
+  selftests/alsa: Test the sequencer UMP Note On/Off conversion
+
+ sound/core/seq/seq_ump_convert.c            |  10 +-
+ tools/testing/selftests/alsa/seq-ump-test.c | 187 +++++++++++++++++++-
+ 2 files changed, 188 insertions(+), 9 deletions(-)
+
+-- 
+2.43.0
 
