@@ -1,60 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.121
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839173;
-	b=NGv4fMaBBnc5/CM6lRnyZEWTOr6IKMtuElYX1JkQZlMc4tsl6rSV68iGobQ4Y3hH0M79
-	 G5A7B21g9ZXT+hYYFReoupt7cT6rm3EO13syHC1O0Mmi2rD2R9o1MnGIbvutzs1isXu3o
-	 dPq88HfW4MehydFJlZirjqGLGxzOrqirM2sdmzybXlZ5PGbNaRNfxTVhhaN/ZCouojkml
-	 Gb5sxAUVWX6hqaqh2w6fFIk7WzDACvCQ1AQnkWKkP0PRMhzUuXl7RpfWGvoT4DpmMd/K5
-	 hW0giRKnr+LtM2dzV+0RpiP0bMEzBS5yMKfmI3QbXIA38lOsl+KyCwba25PYHKBKDSQ==
+	t=1794839185;
+	b=0WaiCAf/pJKdkMTTng49iPEw35CRxOzTIJsPzlPGIGeVC2flBP6smYuGOhM17Hw/tt3u
+	 31Wxpo5TRZqlo+0Z9agdYsz/7lf7w9pysO1DpgvulJ/SzvkYg06v5YI7HYoslSqT9SObN
+	 +PCbSzwgcp+WvhXJNEuW1VDQBPzzuUnNDB9c30FJahb89dRBMr7FD80+JVkXkrTQZgRSs
+	 AenUy/5t2++u4cRHaQu8NXYzPNdvA3MoFpvDoA7LzjSEYCXyXofG18EcWtAkinCbUSgrD
+	 BkmabDg5yVQkH49C7aJG/VEsubz5M2dTy2IiYB3s1qfD9h2LXFldI8s1/3SN/arbP5g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839173;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=4oxKujtqx5IgmdP1CS1qJ3X/KUwSuoYjTR+SbgKHxNs=;
-	b=TlC0vKYqYZbjWQtldAt6M4rTmnObrk73O4g+WmKWHeBzO8VvfNzaFyJn6GrWVwXOM70a
-	 X8eNXsil8bbribi6KsfAwm9Ec6m8SPE+hvix7QzaIVV+8OaY1wTRy7wt5504wLt0aDK7w
-	 9nemgU0n0C0d5SsBBGvNoPtMsq1Y5Bw8USYe1Xc7pNNcZUOvXEizw6SuX+IsCT2cPz8Je
-	 0sDXVH87zBI115UEMG9SyoG2cEtBTv2WA74xCRcJXHACJa+aCOduiy8BYH5VTJ/A2lsRg
-	 DEVW0Ee+j+JiUAE85DAMufuGQ4ZxXIiumMLW28LYJMgpmzgZnOnPS7Fybb3l421CQ4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839185;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
+	b=v3e+z9cB1+SimXQOLWzHyB8d11F6xRyI+qmiSYkwy9I14W5pB9AFZLyBtXFTvzceunW0
+	 l77j7TKoQchvgfnguOvX50cHDX9VAJEFP6Q3vfKqXhUx/Tt3aCHpOH3hakOIYA4ra0KW7
+	 /Df7jptSk30s2a4zOKxs8aq3rPXNYwvh3yEaurGh6q1I5wLw/Ux+FvlUz9txMxxarsZYm
+	 4vb8m8/m4ixbRvvt8CcBaOTMqZUEnVmnNx5yRnWnjPyvUkmjY+bXf0uFLC216cFEtLyTt
+	 SLHkkVpL0tigeXnX25/tVhfkyhrIF4tffuR4jnf9LAjxnN9euVEuEEAZIprm3la4k/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=nl7eOqVE;
-	arc=none smtp.remote-ip=109.224.244.121
-Received: from mail-244121.protonmail.ch (mail-244121.protonmail.ch [109.224.244.121])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o04lO8GG;
+	arc=none smtp.remote-ip=209.85.210.200
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C6A606A331
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 14:26:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29C6A606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28FF606A32F
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 14:26:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E28FF606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=nl7eOqVE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1794839170; x=1795098370;
-	bh=4oxKujtqx5IgmdP1CS1qJ3X/KUwSuoYjTR+SbgKHxNs=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=nl7eOqVE5wmcUEY6QOOWyWpGH2kGgwbYegHLeh5wEoAl8oAX6kiX1ysshZcnXDu4+
-	 NesWGebKNLSLPTOvDYh6Q7fIQ0oGzCWZjgatxhxl7zVfgxwCKHn+n4TzU3rxniiyLy
-	 CtJxd+y1oSvJepFLpaWbqYShiBEVVAKOwA8C2VJd/MpU6gV9OYbBABnXif5SbrmHQO
-	 OQK0tig6s+ukKqDIff+um0DDyqnKO6sJwNI8L7K1uu7eT0iWo2QWRCJ1NBHUoQluY8
-	 d+9gbSj3NKEM58bVpJ7h4Z175upZUIzDK3b9biZlz7JM7OMGZtoUZ7pmhIiNDqxKeR
-	 XaLXB7sZHGHkA==
-Date: Mon, 16 Nov 2026 14:26:03 +0000
-To: tiwai@suse.de, Devin Christensen <dchristensen8@proton.me>
-From: Devin Christensen <dchristensen8@proton.me>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, rafael@gexdigital.net
-Subject: [PATCH 2/2] ALSA: hda/ca0132: Add Sound BlasterX AE-5 on-card RGB LED support
-Message-ID: <20261116142542.4178770-3-dchristensen8@proton.me>
-In-Reply-To: <20261116142542.4178770-1-dchristensen8@proton.me>
-References: <20261116140237.4137662-1-dchristensen8@proton.me> <87qzgkyi5l.wl-tiwai@suse.de> <20261116142542.4178770-1-dchristensen8@proton.me>
-Feedback-ID: 45895322:user:proton
-X-Pm-Message-ID: 7eac2773c3782d640315739678fb217841e4cace
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=o04lO8GG
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-8b647bbf8a9so3985408b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 06:26:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794839184; x=1795443984; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
+        b=o04lO8GGgXrESFKdzPFhg+2CZ66oWV/D9RCdkmGQv5zmRx4ocR7cMj49UAZWLzQ08p
+         Exgjw5nzv+VU/noSZj1qNSRM42Efhd5UU9M4zYhj9hYL33RguWZjEdRIwhZZKtjjmAWK
+         CZHQW0LenzCeV4Az+D9oYTYe1+JdnXTThTdnyyA0qyK3iEfA5CNu2rFJPxjCMaEbDPPa
+         4GWRcxQfsKciv2s2Xnp6TE4BCnhHiUeXbt2eHpPmzKjfbnT06BfdZVvWfMuXAZ4NfG2z
+         lvfm/r/kXhSPWJ2Thy+3cctCZhv0qphjwQepT6O3eDBYyRmyUCFE1kDkMxO3F8tlJaEg
+         ursQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794839184; x=1795443984;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Julx96UTlwUpy/yEEb6XKUMDaihQ6nHqBxqUTRWWoDs=;
+        b=t6l8x0uVP7b3CMQfrRUl3h3yQYj/IroEBwjKhj3k6QRQY3aGs9z7kkL0/d1MAHFck5
+         OSaTT5lEw79J5xe9HQL7pS8jWLGb8/BH0JFIGhDxkg6UhQdNHJXMZUqDGjmqLg0Cg/08
+         IKRrB1xJDWu8aTln0GGbbXre2DJNVmwPXujujGlG2N6roLXBUoGzESp1PBSJTgLrvFD4
+         LbkbY7nw7mUp5sT4wGEUX0YZD+sctFyuQLTzEU+KSNUn0YavMyChGgfq+lRpwUCTwWNT
+         ZirBO1H5Dy68Luuesvm6l7T2mWA3va0JfLbf5JVebmgkd49FN4Jk+F/5AoEsd9IyOAvi
+         ZP5A==
+X-Forwarded-Encrypted: i=1; AL+hErEA3mjbEOqiZVbhSXf5Ywwcd0fsYIK+QsZVtQ0LCF6GGzmqltb+aBaM435HycNXn1SWFDPgFNDYuooFWg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/hI+JbSdQl1RTKJc9weagIfJMTvdwPpP+0XXwBok4rxMgdpkWD
+	7a/scNKmS1GQGHySZiyxhimy8R2VIVU5VQRb6j/mVhVp5I0Ew/vBGAB1hQJMeTHy2rmwW/DJI8l
+	fTVVsVw==
+X-Received: from pffm4-n2.prod.google.com ([2002:a05:6a00:c304:20b0:8a0:70d8:a2ef])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4fc3:b0:89f:b166:bde6
+ with SMTP id d2e1a72fcca58-8beb8cc8ad6mr9720424b3a.54.1794839183449; Mon, 16
+ Nov 2026 06:26:23 -0800 (PST)
+Date: Mon, 16 Nov 2026 06:26:22 -0800
+In-Reply-To: <20261114202653.3113381-10-rdunlap@infradead.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,174 +79,222 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
+References: <20261114202653.3113381-1-rdunlap@infradead.org> <20261114202653.3113381-10-rdunlap@infradead.org>
+Message-ID: <avsSjioXqbCOn834@seanjc-mac.roam.internal>
+Subject: Re: [PATCH 09/12] docs: ioctl-number: update virtualization entries
+From: Sean Christopherson <seanjc@google.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	David Hildenbrand <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org, 
+	Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	linux-bluetooth@vger.kernel.org, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>, 
+	David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev, 
+	Chas Williams <3chas3@gmail.com>, linux-atm-general@lists.sourceforge.net, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+	Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org, 
+	Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, xen-devel@lists.xenproject.org, 
+	Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	"Eugenio =?utf-8?B?UMOpcmV6?=" <eperezma@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>, 
+	linux-fsdevel@vger.kernel.org, "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org, 
+	Mike Marshall <hubcap@omnibond.com>, devel@lists.orangefs.org, 
+	Paulo Alcantara <pc@manguebit.org>, Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>, 
+	linux-f2fs-devel@lists.sourceforge.net, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Alex Deucher <alexander.deucher@amd.com>, 
+	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, amd-gfx@lists.freedesktop.org, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	"Thomas =?utf-8?Q?Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, intel-xe@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-The Sound BlasterX AE-5 and AE-5 Plus feature 5 on-board APA102
-(DotStar) RGB LEDs providing logo and shroud accent illumination.
-These LEDs are driven directly by CA0113 bridge GPIO pin 2 (data)
-and pin 3 (clock) mapped through PCIe BAR2 at MMIO offset 0x320.
+On Sat, Nov 14, 2026, Randy Dunlap wrote:
+> Update the list of files where virtualization ioctls are defined.
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> [Since having multiple maintainers trying to merge these would
+> cause some conflicts, it would be more manageable for Jon to
+> take all of these through the docs-next tree.]
+>=20
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Juergen Gross <jgross@suse.com>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: xen-devel@lists.xenproject.org
+> Cc: Hans de Goede <hansg@kernel.org>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Jason Wang <jasowangio@gmail.com>
+> Cc: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: kvm@vger.kernel.org
+> Cc: virtualization@lists.linux.dev
+>=20
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |    6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> --- linux-next-20261113.orig/Documentation/userspace-api/ioctl/ioctl-numb=
+er.rst
+> +++ linux-next-20261113/Documentation/userspace-api/ioctl/ioctl-number.rs=
+t
+> @@ -200,6 +200,7 @@ Code  Seq#    Include File
+>  'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
+>  'M'   00-03  drivers/video/fbdev/mb862xx/mb862xxfb.h
+>  'M'   00-0F  drivers/video/fsl-diu-fb.h                                c=
+onflict!
+> +'M'   01-03  xen/interface/xen-mca.h                                   c=
+onflict!
+>  'N'   00-1F  drivers/usb/scanner.h
+>  'N'   40-7F  uapi/linux/nvme_ioctl.h
+>  'N'   80-83  uapi/linux/ntsync.h and uapi/linux/nvme_ioctl.h           c=
+onflict!
+> @@ -239,6 +240,7 @@ Code  Seq#    Include File
+>  'U'   64     drivers/usb/misc/usbtest.c                                c=
+onflict!
+>  'V'   all    linux/vt.h                                                c=
+onflict!
+>  'V'   all    linux/videodev2.h                                         c=
+onflict!
+> +'V'   00-1F  linux/vboxguest.h                                         c=
+onflict!
+>  'V'   C0     linux/ivtvfb.h                                            c=
+onflict!
+>  'V'   C0     linux/ivtv.h                                              c=
+onflict!
+>  'V'   C0     media/si4713.h                                            c=
+onflict!
+> @@ -357,6 +359,7 @@ Code  Seq#    Include File
+>  '|'   80-9F  samples/                                                  A=
+ny sample and example drivers
+>  0x80  00-1F  linux/fb.h
+>  0x81  00-1F  linux/vduse.h
+> +             drivers/vdpa/vdpa_user/vduse_dev.c
+>  0x89  00-07  asm-generic/sockios.h
+>  0x89  06-07  linux/sockios.h
+>  0x89  0B-DF  linux/sockios.h
+> @@ -398,8 +401,11 @@ Code  Seq#    Include File
+>                                                                         <=
+mailto:kvm@vger.kernel.org>
+>  0xAE  40-FF  linux/kvm.h                                               K=
+ernel-based Virtual Machine
+>                                                                         <=
+mailto:kvm@vger.kernel.org>
+> +0xAE  C6     arch/x86/kvm/x86.c                                        X=
+86 KVM
 
-Expose the on-board LEDs through a volatile card control element:
+I'd rather omit this entry.  0xAE C6 is covered by the entry above, and the=
+ horror
+in arch/x86/kvm/x86.c is purely a 32-bit compatibility alias for an ioctl t=
+hat is
+defined in kvm.h (the structure payload defines an pointer instead of a __u=
+64).
 
-  "AE-5 On-Card LEDs"  (RW, BYTES): 15-byte RGB payload representing
-                       the 5 on-board LEDs (3 bytes per LED).
+If it's a sticking point, e.g. this will trip automated tooling over and ov=
+er, then
+I vote to move the relevant definitions to uapi headers, e.g.
 
-Writes bit-bang the 32-bit start frame, 5 APA102 LED frames (8-bit
-brightness and 24-bit BGR color), and 32-bit end frame over GPIO
-pins 2 and 3, and leave the pins idle low. Access is serialized
-using spec->ae5_strip_mutex to prevent concurrent MMIO register
-access with the external LED strip, and codec power is managed
-via CLASS(snd_hda_power_pm, pm)(codec).
-
-This allows userspace RGB lighting controllers (such as OpenRGB) to
-drive both the on-card LEDs and the external strip purely through
-standard ALSA card control devices (/dev/snd/controlC*) without
-requiring /dev/mem, PCIe resource sysfs mmap, or root privileges.
-
-Signed-off-by: Devin Christensen <dchristensen8@proton.me>
----
- sound/hda/codecs/ca0132.c | 97 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 96 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/codecs/ca0132.c b/sound/hda/codecs/ca0132.c
-index b127fe50f..b7c97a079 100644
---- a/sound/hda/codecs/ca0132.c
-+++ b/sound/hda/codecs/ca0132.c
-@@ -1062,6 +1062,7 @@ enum dsp_download_state {
-  */
-=20
- #define AE5_STRIP_MAX_LEDS 100
-+#define AE5_ONCARD_LEDS 5
-=20
- struct ca0132_spec {
- =09struct hda_gen_spec gen;
-@@ -1167,10 +1168,11 @@ struct ca0132_spec {
- =09bool use_alt_controls;
-=20
- #if IS_ENABLED(CONFIG_SND_HDA_DSP_LOADER)
--=09/* AE-5 WS2812 strip control */
-+=09/* AE-5 WS2812 strip and on-card LED control */
- =09struct mutex ae5_strip_mutex;
- =09u32 ae5_strip_cur_colors[AE5_STRIP_MAX_LEDS];
- =09int ae5_strip_cur_num_leds;
-+=09u8 ae5_oncard_cur_colors[AE5_ONCARD_LEDS * 3];
- #endif
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kv=
+m.h
+index 00ce265391e1..e02ef7a39f7c 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -230,6 +230,18 @@ struct kvm_msr_filter {
+ 	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
  };
-=20
-@@ -8690,6 +8692,90 @@ static int ae5_strip_num_leds_put(struct snd_kcontro=
-l *kcontrol,
- =09return 1;
+
++struct kvm_msr_filter_range_compat {
++	__u32 flags;
++	__u32 nmsrs;
++	__u32 base;
++	__u32 bitmap;
++};
++
++struct kvm_msr_filter_compat {
++	__u32 flags;
++	struct kvm_msr_filter_range_compat ranges[KVM_MSR_FILTER_MAX_RANGES];
++};
++
+ struct kvm_cpuid_entry {
+ 	__u32 function;
+ 	__u32 eax;
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 0771efaf94c8..ef9f92cba589 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4260,21 +4260,6 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
  }
-=20
-+static void ae5_oncard_write_bit(struct ca0132_spec *spec, bool bit)
-+{
-+=09writew(bit ? 0x102 : 0x002, spec->mem_base + 0x320);
-+=09writew(0x103, spec->mem_base + 0x320);
-+=09writew(0x003, spec->mem_base + 0x320);
-+}
-+
-+/*
-+ * Caller must hold spec->ae5_strip_mutex.
-+ */
-+static void ae5_oncard_send_frame(struct hda_codec *codec, const u8 *rgb_c=
-olors)
-+{
-+=09struct ca0132_spec *spec =3D codec->spec;
-+=09int i, bit;
-+
-+=09if (!spec || !spec->mem_base)
-+=09=09return;
-+
-+=09lockdep_assert_held(&spec->ae5_strip_mutex);
-+=09CLASS(snd_hda_power_pm, pm)(codec);
-+
-+=09/* Start frame: 32 zeroes */
-+=09for (i =3D 0; i < 32; i++)
-+=09=09ae5_oncard_write_bit(spec, false);
-+
-+=09/* 5 APA102 LEDs: 8-bit brightness (0xFF), Blue, Green, Red */
-+=09for (i =3D 0; i < AE5_ONCARD_LEDS; i++) {
-+=09=09u8 r =3D rgb_colors[i * 3 + 0];
-+=09=09u8 g =3D rgb_colors[i * 3 + 1];
-+=09=09u8 b =3D rgb_colors[i * 3 + 2];
-+=09=09u32 val =3D 0xff000000 | ((u32)b << 16) | ((u32)g << 8) | (u32)r;
-+
-+=09=09for (bit =3D 31; bit >=3D 0; bit--)
-+=09=09=09ae5_oncard_write_bit(spec, (val >> bit) & 1);
-+=09}
-+
-+=09/* End frame: 32 ones */
-+=09for (i =3D 0; i < 32; i++)
-+=09=09ae5_oncard_write_bit(spec, true);
-+
-+=09/* Return GPIO pins 2 (data) and 3 (clock) to idle low */
-+=09ca0113_mmio_gpio_set(codec, 2, false);
-+=09ca0113_mmio_gpio_set(codec, 3, false);
-+}
-+
-+static int ae5_oncard_ctl_info(struct snd_kcontrol *kcontrol,
-+=09=09=09       struct snd_ctl_elem_info *uinfo)
-+{
-+=09uinfo->type =3D SNDRV_CTL_ELEM_TYPE_BYTES;
-+=09uinfo->count =3D AE5_ONCARD_LEDS * 3;
-+=09return 0;
-+}
-+
-+static int ae5_oncard_ctl_get(struct snd_kcontrol *kcontrol,
-+=09=09=09      struct snd_ctl_elem_value *ucontrol)
-+{
-+=09struct hda_codec *codec =3D snd_kcontrol_chip(kcontrol);
-+=09struct ca0132_spec *spec =3D codec->spec;
-+
-+=09guard(mutex)(&spec->ae5_strip_mutex);
-+=09memcpy(ucontrol->value.bytes.data, spec->ae5_oncard_cur_colors,
-+=09       AE5_ONCARD_LEDS * 3);
-+=09return 0;
-+}
-+
-+static int ae5_oncard_ctl_put(struct snd_kcontrol *kcontrol,
-+=09=09=09      struct snd_ctl_elem_value *ucontrol)
-+{
-+=09struct hda_codec *codec =3D snd_kcontrol_chip(kcontrol);
-+=09struct ca0132_spec *spec =3D codec->spec;
-+=09bool change;
-+
-+=09guard(mutex)(&spec->ae5_strip_mutex);
-+=09change =3D memcmp(spec->ae5_oncard_cur_colors, ucontrol->value.bytes.da=
-ta,
-+=09=09=09AE5_ONCARD_LEDS * 3) !=3D 0;
-+=09if (!change)
-+=09=09return 0;
-+
-+=09memcpy(spec->ae5_oncard_cur_colors, ucontrol->value.bytes.data,
-+=09       AE5_ONCARD_LEDS * 3);
-+=09ae5_oncard_send_frame(codec, spec->ae5_oncard_cur_colors);
-+=09return 1;
-+}
-+
- static const struct snd_kcontrol_new ae5_strip_ctls[] =3D {
- =09{
- =09=09.iface =3D SNDRV_CTL_ELEM_IFACE_CARD,
-@@ -8709,6 +8795,15 @@ static const struct snd_kcontrol_new ae5_strip_ctls[=
-] =3D {
- =09=09.get =3D ae5_strip_num_leds_get,
- =09=09.put =3D ae5_strip_num_leds_put,
- =09},
-+=09{
-+=09=09.iface =3D SNDRV_CTL_ELEM_IFACE_CARD,
-+=09=09.name =3D "AE-5 On-Card LEDs",
-+=09=09.access =3D SNDRV_CTL_ELEM_ACCESS_READWRITE |
-+=09=09=09  SNDRV_CTL_ELEM_ACCESS_VOLATILE,
-+=09=09.info =3D ae5_oncard_ctl_info,
-+=09=09.get =3D ae5_oncard_ctl_get,
-+=09=09.put =3D ae5_oncard_ctl_put,
-+=09},
- };
-=20
- static int ae5_add_strip_controls(struct hda_codec *codec)
---=20
-2.56.0
 
+ #ifdef CONFIG_KVM_COMPAT
+-/* for KVM_X86_SET_MSR_FILTER */
+-struct kvm_msr_filter_range_compat {
+-	__u32 flags;
+-	__u32 nmsrs;
+-	__u32 base;
+-	__u32 bitmap;
+-};
+-
+-struct kvm_msr_filter_compat {
+-	__u32 flags;
+-	struct kvm_msr_filter_range_compat ranges[KVM_MSR_FILTER_MAX_RANGES];
+-};
+-
+-#define KVM_X86_SET_MSR_FILTER_COMPAT _IOW(KVMIO, 0xc6, struct kvm_msr_fil=
+ter_compat)
+-
+ long kvm_arch_vm_compat_ioctl(struct file *filp, unsigned int ioctl,
+ 			      unsigned long arg)
+ {
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8dff2fc1972e..54dbdabd0e9b 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1477,6 +1477,7 @@ struct kvm_enc_region {
 
+ /* Available with KVM_CAP_X86_MSR_FILTER */
+ #define KVM_X86_SET_MSR_FILTER	_IOW(KVMIO,  0xc6, struct kvm_msr_filter)
++#define KVM_X86_SET_MSR_FILTER_COMPAT _IOW(KVMIO, 0xc6, struct kvm_msr_fil=
+ter_compat)
+
+ /* Available with KVM_CAP_DIRTY_LOG_RING */
+ #define KVM_RESET_DIRTY_RINGS		_IO(KVMIO, 0xc7)
+
+>  0xAE  20-3F  linux/nitro_enclaves.h                                    N=
+itro Enclaves
+>  0xAF  00-1F  linux/fsl_hypervisor.h                                    F=
+reescale hypervisor
+> +0xAF  00-8F  linux/vhost.h                                             c=
+onflict!
+> +0xAF  31-32  drivers/vhost/test.h                                      c=
+onflict!
+>  0xB0  all                                                              R=
+ATIO devices in development:
+>                                                                         <=
+mailto:vgo@ratio.de>
+>  0xB1  00-1F                                                            P=
+PPoX
