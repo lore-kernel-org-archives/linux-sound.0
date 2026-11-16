@@ -1,107 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794838682;
-	b=N6PDcpwn5eTda0GSXS0Uxotg41pRymL2vf4io2OBfrSfjJ+2R98tV+MkH+iJV+meAM/r
-	 QVIoZh9XAiCQ0yUeCHqKCrJconQrV58CQZdVr8unUYbBmK1H1gxk60V6hUDI9pFijNNnt
-	 pTQs9QmuxYlB809ZN8dNgdfi3YQDEAmKKSwD5koLBW1rwFf39peCtNemGtSZIh+O4tPvs
-	 teLYq7EhfXg3mjGvHpeqNjrEN8POaqKeKAME9NN8YFLL932BmQnlvGMZkr8ILBnK/Sf3V
-	 6WeTkhtrSI3msa27E7DsBqTpd3b4YcHbY3gm1UeH+ghL3FT48aRI96Ut8I0CnE5yjJw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794838682;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=hgOsS4NGOZfKv1NCmaP9Av3xRycRTUAi1EpcwJ5YUD8=;
-	b=ygGPYacjtPwn30mbsDbSYEmZ/LEobdUwUgjgp8ffKU+aIaV3z3J32KC++svuQZ4914/5
-	 E/eiWlUSlsfpmHCM3Du/QI52P9BVbrveJH7E4/a5i559T15JDkmwhiTT2BXrKr5f8InGI
-	 bhrPqZSNnve9qk160HfkkD6+tgnUnJh2J3RRCaq6i9Ri6s4dWiA5vB3lG8BPhI7T7i2nF
-	 bvd4yOpSCRW9ipZfuMLVHcUSVHk5qB5aRKG5Xie1vH+0eDJPwzHi3BInoF7P+pBtr0A7j
-	 pnVpHg2ZauuHnLFSO1WmAt5PLSv+dPLvzOHAMYxUvxLRkFI4SN9+vVGmu/vIPH5u6pA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bDzwDuW6;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nNl5LEoJ;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=uKJ7TgCL;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/qstMkCQ";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794839097;
+	b=fXkqescBpwRyClGOGQogJehDUfQ5lntC4BrMQ+p+KZNP5N6Wbb9r17oKQO/1lxKjb4p8
+	 s+y6w5oCCdBFHLTlR810q18GtjMkAjG0hZvXTocZtS0VPs8P4OyEmrBeblYKcWuJrPsxv
+	 TVtGjCrmxG0c6ISNwOKg7kUnxcF7i4ghPGtrxrG/AMc01v1OCzWGuBmgZPb9X0AtLv1Fk
+	 KAqhJ6n14n44h9QhDBQIfhv1+qg1YJNCbVxdCMHp8MUx364arX+hoTtCB0YOIJCacYQvv
+	 1nunpp0FbY5Q+Mf9cV3DSYBvFqX55Y8Wb0ExTPpYa62YY1PbsFP9Y5o4JXqkIp8nj+Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839097;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
+	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
+	 Received:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:Content-Type:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Reason;
+	bh=fnREEuyV5QaoU5mKWdJE2Q+/uazTMor3uBvoYz78gSc=;
+	b=aXtF09JeNrGGrjKodLJQfL3U5UWSBopLky4ss3YJRXfSu2JRSrd4FiqnXn8udX1M0sLq
+	 TeaxTbnZIMrkV77JfW17XfGW1/2z6tfjcRmNPgATev5WqeWzLzilfQfk+RprfJeVCXbnD
+	 Z2WFD3+021SsFZxoHp61gqLC7wAV8gj3VF+ZXEqDV0VoPIVQLMkBrdttoyXqTKNWP9ka+
+	 tW/3BAcbv3CoOOIkoxXGkDbNtzdi87yGByr8MuldcK6maWMXxuBlEoGrr23hh6mFfk+eQ
+	 t7ZlJMmXg3VD3sTsWakaNAjE8Tz7TGrXOEqNAVQJdOj858RQlOMgdYjxdlDRUsXNv2w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=opensource.cirrus.com;
+	spf=pass smtp.mailfrom=opensource.cirrus.com;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=aJJb2EJ5;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=pI3uaQAd;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C058B606A334;
-	Mon, 16 Nov 2026 14:18:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C058B606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3F1606A330;
+	Mon, 16 Nov 2026 14:24:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C3F1606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bDzwDuW6;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=nNl5LEoJ;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=uKJ7TgCL;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/qstMkCQ
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C9C801F824;
-	Mon, 16 Nov 2026 14:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794838680; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hgOsS4NGOZfKv1NCmaP9Av3xRycRTUAi1EpcwJ5YUD8=;
-	b=bDzwDuW6sQa+s+CHn+lncgkmgd3hfJobmN13Q5+EZF0ilt1Q7Xr//jQnEqodu3MDn2ILSM
-	xI0rwF/ak19CRoJE0mvrx00pUw8+U40dJPjU8zlVJO487YojnThv54d8bLqpi+4L4kPoFF
-	ysLyjfio5RrNzyK0iyzkRaW7rS7+H48=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794838680;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hgOsS4NGOZfKv1NCmaP9Av3xRycRTUAi1EpcwJ5YUD8=;
-	b=nNl5LEoJEttvsOvC+4XP9KWRau2HJpACcLFCdIk4ZmqyRW3fixQ2paywjAdgTba40OIz+B
-	aXaXOWYy9emYUPCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794838678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hgOsS4NGOZfKv1NCmaP9Av3xRycRTUAi1EpcwJ5YUD8=;
-	b=uKJ7TgCLGTQl2i+TEUB/5famHfF7oPms9GceVlrmUXY8OrihLSb/sSwwaSYjUqnpDfEEkg
-	OWZ+wp4MMQrdTU19yorPi0lVELJ//p03ghf+cWiqVEcgMVseZMy+HRBJMIW5xdoX+IyKyA
-	G05tDfS7EbqjV/dHG3gdBdypPx2GmZA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794838678;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hgOsS4NGOZfKv1NCmaP9Av3xRycRTUAi1EpcwJ5YUD8=;
-	b=/qstMkCQIGf4n7RQ6ME0wqCegvk2En52LlnvkbN9ZZtDgQshKi5Rbzmj2xWTlhn286Qrnd
-	kJjGWLzUzGYM+NAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 81C471334C;
-	Mon, 16 Nov 2026 14:17:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oe1IFpYQ+2orXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 16 Nov 2026 14:17:58 +0000
-Date: Mon, 16 Nov 2026 15:17:58 +0100
-Message-ID: <87qzgkyi5l.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Devin Christensen <dchristensen8@proton.me>
-Cc: tiwai@suse.de,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	rafael@gexdigital.net
-Subject: Re: [PATCH] ALSA: hda/ca0132: Fix AE-5 strip color corruption and add on-card LED control
-In-Reply-To: <20261116140237.4137662-1-dchristensen8@proton.me>
-References: <20261116140237.4137662-1-dchristensen8@proton.me>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=aJJb2EJ5;
+	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=pI3uaQAd
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AGCFHXZ1801104;
+	Mon, 16 Nov 2026 08:24:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=fnREEuyV5QaoU5mK
+	WdJE2Q+/uazTMor3uBvoYz78gSc=; b=aJJb2EJ5k7IgeytrSIA4TtTuKJEzhAx5
+	07HYgAKxnbwzIMusI92sitxnt9D7FeewzQb3hrHJfZxYoYWbJ4XBnG3ogpCG8M1M
+	mwRUtrnTnwYLJIjVBjGKBgzwpP9rlXhgBmtRQUfz2UWnc1dCT5p49jEa1E8nvRly
+	GQ8clM9116SV7geAci33Gh01xnXXVMSeXBxTsi+XqTY1OZK+JTcxeZK4GE+vN7t0
+	tAUuJGY4Ip/N+I1SmSfD1CCedjuIWad/dRHLUxbGJc+XKDf48g7Rv5CFoUUb+y4e
+	XHWnZ8KoMtXAiS233bqrwFsmGFjQJGx0GnPZNFS0v065w/PgLVL2wQ==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11022096.outbound.protection.outlook.com [52.101.53.96])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4hxnxej90f-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 16 Nov 2026 08:24:25 -0600 (CST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fNqC9UC+ytwCffFVzgVe934JsoA3KWZYkQ6UPuGZcniHE75n5hbzF2hqMbpV7/LPtdeHMricNCg8cLyG2n/KxXrhiLI659lXLdulRdMOtayq87iKT2d7MnaitCAiRpavI1ILo5UqSuIVNG4yFAxKSdjiXOvsFE/TpDtqSQgF5I8dj6CDWh1qNlYxyM0yuqQYefpHUImAXxS3sIu1UiApta6RdYaYQhTCRdYRXA5WCA8F+F41q7MPdd79L+XrhyEUKoFug5NhOUEsWkwyiynhJN+uIdBWmyoHnMnYcMqtAZgm85fMdHsJ/004d5PoyeY6KYnzJD757ETH7buKqoDvNg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fnREEuyV5QaoU5mKWdJE2Q+/uazTMor3uBvoYz78gSc=;
+ b=uINFhvgIS+L+v64MMjxIWf7qNKrBJ1iGpnQn9ZIFt0EtiQY4TpUsveJ4kR7QJxDMli7sfWU+wpOC6gwhaDxB07rYfsndweqLcJNxfDOvK+q89wdpUoXxuR38L2XjfKrOItaY5fZrllLkjojrgGdY524qcVPnMCMCX4yX6o27CO46F2+DhkE5cka83YQlhtknDldnplrr6pW6rGw50DjDO/ZUbe1V4jQtpuUkv3x6Gih6/EHvKzhCkeKqzisKU84zaOyeKNuUMRVLvFk4GPut5P3tmkhUydJNYNIOH2GiGXJzni8Ay7fQJLohyA4wtF25POJxV0wBxZ6KTf+L8sCxGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fnREEuyV5QaoU5mKWdJE2Q+/uazTMor3uBvoYz78gSc=;
+ b=pI3uaQAdqqyOFWZhfWIquZQ/BLDhhXeNSlJLDBjkKQuqELkpV++TpXSmLMgAjr2Wsf55TzLcZfWZvO4/DGqagohe8P+MTQXr7tqv6vEmiSlUslOKUPl1mLDA8AfVVZKT8Ng1O2Nnfx5tFCgLlPFNvRKJdiSqV2SnJuqmPvbDXUg=
+Received: from MW4PR03CA0359.namprd03.prod.outlook.com (2603:10b6:303:dc::34)
+ by SJ0PR19MB4812.namprd19.prod.outlook.com (2603:10b6:a03:2ca::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
+ 2026 14:23:20 +0000
+Received: from MWH0EPF000DD311.namprd05.prod.outlook.com
+ (2603:10b6:303:dc:cafe::40) by MW4PR03CA0359.outlook.office365.com
+ (2603:10b6:303:dc::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.13 via Frontend Transport; Mon,
+ 16 Nov 2026 14:23:20 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
+ IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
+ not signed) header.d=none;dmarc=fail action=oreject
+ header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MWH0EPF000DD311.mail.protection.outlook.com (10.167.249.9) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.5
+ via Frontend Transport; Mon, 16 Nov 2026 14:23:19 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 27F8F406541;
+	Mon, 16 Nov 2026 14:23:18 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 16F0B820273;
+	Mon, 16 Nov 2026 14:23:18 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, ben.dooks@codethink.co.uk,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+Subject: [PATCH v2] ASoC: SDCA: fix __leXX types in find_sdca_control_range
+Date: Mon, 16 Nov 2026 14:23:14 +0000
+Message-ID: <20261116142314.3702643-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -110,72 +130,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,proton.me:email];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,proton.me:email]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000DD311:EE_|SJ0PR19MB4812:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 0be323ea-33e5-4150-b11c-08df43ed29de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|61400799027|376014|23010399003|36860700016|82310400026|10067099003|11063799006|56012099006|261026121527099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|16102099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+ sPqiXcj5yEPK5XJ4KRjDe7GshrkPMStXPuauoI3TJ83VeMakTB145tWATmE8M3JHwHqiTXFP5/uJLvbOQU73wbh3RfgOSHSbmfU0T4aZhz+/VjoosBVS1Wpvw1bVjpS+uKnUwcP/bq70pPQtDV79cCsggpUPlTJ16q/XYW22VQXg5o3vGZnFJYs/OG3dokVcARK0CFleArxbxjPNlp4sl/GhHwe1j/7CY8A0qQYYs84gEXvvbsXqtvYeB8kk88IF0wII4kbIejlQ/T/PkfUsgPX+KmtgrlChpJFX8QgjGFt0QL8eleU/LTXLhjNe2u1KIqw7PZuF9HuP3/uzNCHfwhKXJRHMuT1AwiaFovvEYIIVowndqLQ9ztHpiN/ghIQoj6RQFuvDEVGsDqU8wHn1SbAZnPk7vZ6NwJjx7xnpZAVsLlBr4/31GpitjCtkqgzJXbcKFYxWQjrds+FrlSdMzdr3JITBPwvFFSUz15yRj/Xm6jCBwOfGw+iZjeEl2r/pIN3naW+7ZJePOsHz0VFpWkShjV3+orDwWWmMOZ/LNgtrwEjzQf83pTG+DV5m3RGiF1mCPPVpVQNbSlEigs9DCkMpvGcoYxNVapdKMdq2jke3C6D6nvYbnEa59hCuXiqtMMa/gUqR3yPCDgP8XsZr902yqmteDzfqu90bgY7jxUEtmP2iuRU2IbmsyB61MFLLRWnm6O0rOOv8vBQobS4Nzw==
+X-Forefront-Antispam-Report:
+ CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(23010399003)(36860700016)(82310400026)(10067099003)(11063799006)(56012099006)(261026121527099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(16102099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ XDzGz3VqP1/lvNSAI/30jv9vV7/GAqLXxivk6ktgfGoQDqUSsIydv588vxWZZaPPimNrhjcnXIojEILwWqgPrIWu4STuYQ5TZf3Ugm1jIm8pzMOMpe6ytcKc9FiZHargdd1vkdsQeDimvHIlnIuGRqmukAVXiOgLx50mi9cFU+OIZxFGgu5F0WDIklTFrtPzW0WE+sFSftsYBwg++J7OJEtXFj0GMk5wnsr6WNnGULJE7LoDy1ERL0vJrq0JNWaIGzS1PRC39B0vJEnDV3/lIyl3GPsTkkIj4BqEPo7Nxje8D6MUudyX8d0mEqADY3CGM6lvviBPaEM59EKDOzz79y+SVeI2sNr6YfGme3Jy51B4KPEueRGB3LCnzZRTsik0mgp8lQl3ZHGfV/cs/iGEZs4+9Yf825qsuPeqShYRPPJNlgFwhH5cZIFMlys7L+Zu
+X-Exchange-RoutingPolicyChecked:
+ H+q4hdEQrnRnEEWcnuMzo9Rz7j+YHuVesW7jgsJsiM9VisAZvt3ZpDkgT4Yf5louLlpynKnlNFVSneczqjIjp6y/smPhzNvPDy//6PA0Wc8dV9fF51CV7u4ViN0Sys/hJmBM/JlEwmtj7XMqivWDctpPSouneu86qwNRQYN626O2jo0TFsb0I7R72UjxHiMEOJEn7b3+/4fRDIU1+Cnew6nLL4T0zMHq7+qnAwXp3eI/xxa1XEXKvaXAfIR0jZRzyFNVpwUPV2G0zixqtQi7xXfzyoMn6ukZQ8MUxBx2OnUFFEgb5EFonN91R0tLAoaS1R2uQALKTUyDoFMYQEHqaQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 14:23:19.5517
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0be323ea-33e5-4150-b11c-08df43ed29de
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000DD311.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB4812
+X-Authority-Analysis: v=2.4 cv=KNbPn1Fo c=1 sm=1 tr=0 ts=6afb1219 cx=c_pps
+ a=6BO/oEg3A5udCF6k6mmjlA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=1EsaE_6oAAAA:8 a=w1d2syhTAAAA:8 a=-pyHTMjFriRFSco1W6QA:9
+ a=3ZumFrijQQ-2J9H5h8ct:22
+X-Proofpoint-ORIG-GUID: Ao77-TULhbTnF9SYTQdL_vd3bNawbojN
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE2MDA1NyBTYWx0ZWRfX2uAS7FMCHJpP
+ a13nZZHQcTdwLVTxuR13j0OEDtYZJTjE8oMEHdX0XC2/he/K2KIn5Anj4TC3r0Cokl2uh9eLqsY
+ ZQsSQ1JkEsSQAvaWqtKQAURLBrgDMdl9SxqudU+2Q9jOsNYtg3vH5QFUNdBwyFSWv7D9BM92+Xp
+ aeqadqQ/6BH9h5DDxmhELGRkY/4o5Iewz14FigwU2tjVKw/Pu7+kp+6cfZNey9A4NPz9PEgLdJ3
+ 2u/xnW9c/5CNBHnO+mA5Uwde3syrT7M0coxGEIIZw/1fkgVwAlcrMG8y0nXrnlNm+fvYGvwOd0E
+ uz8Jb741yLImNksOfg94opeYJvfJ/7Dat5uYVz9quNlwznJ/MJN11jMKzPwFuxhbK7/QIP9iPM6
+ 9OUiGGievN6Z7fzHYomWCmKR1Q2gTpDGY3oK5MWWKEcguNKOsu7h6sA2BMh9T+3Rw0o5xcz+sAX
+ 6OZqsTqW5K78pk4CMJw==
+X-Proofpoint-GUID: Ao77-TULhbTnF9SYTQdL_vd3bNawbojN
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE2MDA1NyBTYWx0ZWRfX6WkP4MyH1Nyg
+ SxgZmcgfqWnNMcVughyowIgEIfkcLUsBj5xX/NIp00/oW/aOxSl1fQLhEshvQ8kO23iAWgOaqQt
+ Ew0Vr1VO7rGjBXjLaPtLFaiKpqCCHmU=
+X-Proofpoint-Spam-Reason: safe
 
-On Mon, 16 Nov 2026 15:02:44 +0100,
-Devin Christensen wrote:
-> 
-> This update resolves the external WS2812 RGB LED strip color scrambling
-> glitch during rapid animation updates, and adds ALSA card control
-> support for the 5 on-board APA102 RGB LEDs on Sound BlasterX AE-5 cards.
-> 
-> 1. Fix external strip color corruption:
-> In ae5_strip_send_frame(), formatting repeating frame cycles across the
-> 32 KB DMA buffer combined with stopping the HDA stream after an arbitrary
-> 15-20 ms delay caused transmissions to be cut off mid-frame / mid-byte.
-> WS2812 shift registers latch on signal low (>50 us), so terminating
-> mid-byte leaves partial bits in the registers, shifting color channel
-> alignments (e.g. blue/white shifting to green/purple/red) on subsequent
-> frames. Fix this by populating exactly one WS2812 frame followed by the
-> reset gap and zero-filling the remainder of the 32 KB buffer. Reduce
-> usleep_range to 8-10 ms, which guarantees the frame has completed and
-> the stream terminates cleanly during trailing silence without truncating
-> active LED data.
-> 
-> 2. Add on-card APA102 RGB LED control:
-> The AE-5 and AE-5 Plus feature 5 on-board APA102 (DotStar) RGB LEDs
-> providing logo and shroud illumination. These are driven directly by
-> CA0113 bridge GPIO pins 2 (data) and 3 (clock) mapped through PCIe BAR2
-> at MMIO offset 0x320.
-> Expose the on-board LEDs through a volatile card control element:
->   "AE-5 On-Card LEDs" (RW, BYTES): 15-byte RGB payload representing
->                       the 5 on-board LEDs (3 bytes per LED).
-> Writes bit-bang the 32-bit start frame, 5 APA102 LED frames (8-bit
-> brightness and 24-bit BGR color), and 32-bit end frame over GPIO pins 2
-> and 3, returning the pins to idle low. Mutex serialization and runtime
-> PM are shared with the external strip control.
-> 
-> Fixes: c3e35f355fad ("ALSA: hda/ca0132: Add Sound BlasterX AE-5 external RGB LED strip support")
-> Signed-off-by: Devin Christensen <dchristensen8@proton.me>
+From: Ben Dooks <ben.dooks@codethink.co.uk>
 
-Could you try to split the changes?  I can take a small "fix" for 7.4,
-but an extension would rather go to 7.5.
+The find_sdca_control_range passes u16 and u32 values to the
+leXX_to_cpu() functions. Change this type and for the data
+loop use the le32_to_cpus() to convert the value.
 
+Fixes the following sparse warnings:
 
-thanks,
+sound/soc/sdca/sdca_functions.c:868:23: warning: cast to restricted __le16
+sound/soc/sdca/sdca_functions.c:869:23: warning: cast to restricted __le16
+sound/soc/sdca/sdca_functions.c:877:34: warning: cast to restricted __le32
 
-Takashi
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+
+Changes since v1:
+ - Updated the data loop from le32_to_cpup to le32_to_cpus
+
+ sound/soc/sdca/sdca_functions.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+index 1eb6418e132dc..a051825d61589 100644
+--- a/sound/soc/sdca/sdca_functions.c
++++ b/sound/soc/sdca/sdca_functions.c
+@@ -851,7 +851,7 @@ static int find_sdca_control_range(struct device *dev,
+ {
+ 	u8 *range_list;
+ 	int num_range;
+-	u16 *limits;
++	__le16 *limits;
+ 	int i;
+ 
+ 	num_range = fwnode_property_count_u8(control_node, "mipi-sdca-control-range");
+@@ -869,7 +869,7 @@ static int find_sdca_control_range(struct device *dev,
+ 	fwnode_property_read_u8_array(control_node, "mipi-sdca-control-range",
+ 				      range_list, num_range);
+ 
+-	limits = (u16 *)range_list;
++	limits = (__le16 *)range_list;
+ 
+ 	range->cols = le16_to_cpu(limits[0]);
+ 	range->rows = le16_to_cpu(limits[1]);
+@@ -880,7 +880,7 @@ static int find_sdca_control_range(struct device *dev,
+ 		return -EINVAL;
+ 
+ 	for (i = 0; i < num_range; i++)
+-		range->data[i] = le32_to_cpu(range->data[i]);
++		le32_to_cpus(&range->data[i]);
+ 
+ 	return 0;
+ }
+-- 
+2.47.3
+
