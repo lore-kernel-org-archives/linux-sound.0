@@ -1,55 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794814023;
-	b=Qr46WEF9WIWLCFvOTnDte0shQRPuT9Gux3Td61VGWhrEVPHXs+/lhXg5hx9o/9JihB8f
-	 uT1HW9i99S61T61LHnRgUbjJ/XrJ+VIx/IphglujxD3N3UURmD8a2o0CJiqE1dtkN1hVa
-	 EwJY6rgcVaJzicCXASJ+x83Y/zuqUZEj3GMJh9DC5VClicmCKQVWzEZbCRZYPkb23a6QT
-	 rnQHL8XS9hh/iY0XNR947qi3JbiBPgq5b2rxS7eDyFWilBc/d2YBBVmujzG09ZNOfNKUR
-	 dcte7Gt8mNAf99wtGLmXcyVe1W7eUiMQ1HZR2IfemIvzYXOKE0GfUIlzBx2WXTKqgCA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794814023;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=1ELlTHsX7MWi1F2xb1UhzBFJcLpNsaPIltuvAh1A7y4=;
-	b=2BbeK6pHm1xwezRKIpCQDdacpHgHtvdOg0he4IEtZrkqeItKKn98CAwheI2mscmQM+r1
-	 JWBu7F8hMfFUfHtsBZRhWc91ptWiSo1ECRGXNKoTga4BVfGXs80hy3OpFnUcJ8zDygsfR
-	 i8E/foKVVI2FjaHZk1tT3mro/4f99rx2kSE3j35NUjJ3Ug7ewqFziJaxv5cuFJl1Sgkjs
-	 OeFHc6JvRzeD6UxWpQZNrrp7RfrvM+8pMprmM5A7ubAqzN2RE+t7xxTEaOCpwMx1OovY+
-	 ON4OUyDc3Ak/TPzpHgzLGQczW6gAvrkcDRs2nVhkf2w9U5FfJ4+9XQLnswQfRX854EQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lhYX20Ni;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794814790;
+	b=K9Un2HKIYbUToVoxQ9fjSGuL4slf9ihslN0dRKNjawJhnZYbAv2FI90CK0/MwkWaC3Nz
+	 ndwpo1BxiywdFM1Rhbg7a0DQYw1ZOW3TKJ/L3eXL6jIya3GyzBWnTRM50pemG0Apcgl90
+	 gt0mEVbf/QEmhHxe2BPe5OdZjoE9h7GAb998/BtRwOpsFr0ghz9bd+s2yWaIRsg9ND1Of
+	 O82ww4j8aHDtKq/ANN+E1HHifiCTbHi+9hwDlYTVmRA1bLmYhryuveskZ1iX7FXyJBJaC
+	 1PC4GshHAzmfvCohJsVBn0eCHinn7Oc88ZYnxbga5yZXHAESoDKPnBFjIqjGs0+2zAw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794814790;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=t8vE4jzKsuUvTg1rj0HF3gziE6/o5NHdntkwfcXn7m0=;
+	b=vS8i2N4H5q8iEdA5InBWgOOGxHGF24PV1Z9ZN87h5GwNwIPcMkXbrb7BLMxLTwjKGn1+
+	 Tog3qTv3h6MwsfoNLyEnL7am+lreGiYSRbYI7+nuB3hW6u+rVCcvLQaHjgzVYo6GbCANh
+	 6IVWtHRuoCi4uBaX0TutPqE+7OWYA6/+lJt1d0cnZBHryiRyQUTPbjMFsC5G+Muej4acG
+	 HBdahR2OdPCGtgwGIJV6pxVOEhLmGN3XUK0+Rtzynl8ZRrcu3ps9gq1hZM+MDpMKSANbZ
+	 +FeErCoo/2AY8CUVMwpBX7S7+9XbMlmgDKzFNvFZhO7xKdsCMo0Pb3Rd5TaHQ3lltVA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cRPqShWf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569EE606A31C
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 07:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0E9606A329;
+	Mon, 16 Nov 2026 07:39:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lhYX20Ni
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF5151F000C6;
-	Mon, 16 Nov 2026 07:27:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cRPqShWf
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794814790;
+	b=CPnA2av0FGGCs505j6l8i9VbEQJyepz1Pb6OQeegjeiMuaoUi5mTqttPeAob74Bes7Kw
+	 bgyrBaGRPcIRi3YNI+Qziuzl7nzP5AMh1cFKlUToVzzZHgHskCSxNjrimneOY4iPO1FFd
+	 KVbO0BPaBCzQ9sEq0kSOfJsIuNMqOkR2DvXSohEXglDXOMlI3T5GF5PVD2Stfk0nB1n/z
+	 OHKjn5dBNJXeAZRWk0diJDNIxirE7P0zxyColoC6XkzlgBlql/duWu5mY+baLTk0/q2ji
+	 WzRHbJFDrnXskdP05nuRk8Mk1esI4gR7m5fpNHmiCBkh++N4z+uPi6Eq/H6FaFukYsA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794814790;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=t8vE4jzKsuUvTg1rj0HF3gziE6/o5NHdntkwfcXn7m0=;
+	b=k5WfRrICWKMFofZFURLIrmJtfx1uU9glGFHEslZxMZOJdbDZoVFspJSmD9IbhwWfonEG
+	 9jp3AJaGiJ5slLL4H12ntsOsC9MKkOxsPlEtFf7ucRUjN+OLabCDFsEJSpWcO9Hqjf+90
+	 gmcMwY0sl8TMMGrpFIGPZFpj+dBTL7YUu9wRFAhd9/WGzAnSZt3l8uxcuMDedY0TaeUwV
+	 ZpVKCvajZ2rDlbXRS9KQRqoCHWI4SuCRFqDyXfBQIlxC6S0/L3M4RjK4DZn7dRXs1b1x0
+	 1Op9vd6/q4dj0xgL4Lf0LseHjQ/eJpL13kn4HP0jZGEQFMb23fl4p0YkW3lThbWg5zg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0746F1F000C6;
+	Mon, 16 Nov 2026 07:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794814023;
-	bh=1ELlTHsX7MWi1F2xb1UhzBFJcLpNsaPIltuvAh1A7y4=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=lhYX20Ni94uh3AbBWWo/Okm/ONqB2yNdoZ3hZ2St2NqcZqxDqKtNz/28p1WBSk0ur
-	 /fwq4nGr7U9GebNKpfN3DWlSdGQzeNgIpJCfGhVsxBjjhFVEfFW9ucfXdMfQaHSm4t
-	 nYvHI8qjYJAbEcfOIQrlWIvBV0A1Deg03O1vounIgLaWu70NIkGOBXdwDHHyqK043R
-	 Nwu+XPnOZ2OKmbDA4ApecEsNVMNv8dEQcDYCVErErONldz+cJrAKXdUjq6I0gqQPjB
-	 UZs5MCVBTIrwX+nItay5dmMVA5N/KZnFdvYfPLrqb4bOgFUVCe1cT5iElpJTGXptMO
-	 jB35b7o83ZjPQ==
-Message-ID: <sashiko-outbox-216422@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: wcd937x: bound the DT channel mapping to the
- channel
-Reply-To: sashiko-reviews@lists.linux.dev
-To: liuchen <2508871010@qq.com>, linux-sound@vger.kernel.org
-In-Reply-To: <tencent_5E8B535138DB2906DF4871E24590DA458A06@qq.com>
-References: <tencent_5E8B535138DB2906DF4871E24590DA458A06@qq.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 16 Nov 2026 07:27:02 +0000
+	s=k20260515; t=1794814790;
+	bh=t8vE4jzKsuUvTg1rj0HF3gziE6/o5NHdntkwfcXn7m0=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=cRPqShWfCeUd7ywI2duu61oaTkmQ/yWmoI91mHlg4BCooIfEwIbogM6k2I2gra6mS
+	 HJ9y2fhgnK2GejiDythELDj308HtuiS49MxHOn+H7Gj41aB29cYoWkY1NTN5Js9GLV
+	 3KMDxYTegyfKpvuwURwNHe+58X2Xh7Cz8PH8TQEzgEi3WTHht9g6n+UEycvlOXrv/R
+	 sOMY+5D3dZL91b1GKmaAIB3EgM9ylRiEeJh+naLtM4G4rgvrcPc7ORzHu/jJBQCMIg
+	 RlpvFEAMVoCh4Y3nEWUqcNN4f791B0SZfOzL9f+lxUntwuKm/nrpKtZZVTGMVS3qsn
+	 3vc1IwtMarGyQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 8CA7D4A37C;
+	Mon, 16 Nov 2026 07:39:49 +0000 (UTC)
+From: Venkat Yadlapati via B4 Relay <devnull+venkat.yadlapati.yahoo.com@kernel.org>
+Subject: [PATCH v2 0/2] ASoC: Add the NXP TFA9865 amplifier
+Date: Mon, 16 Nov 2026 13:09:48 +0530
+Message-Id: <20261116-vantage-tfa9865-v2-0-a93f976c9479@yahoo.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,131 +82,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNQQ7CIBREr9L8tRhAWsGV9zBdIP21mAgNILFpu
+ Lu0rl2+ycybFSIGixEuzQoBs43Wuwr80ICZtHsgsUNl4JR3jLGOZO2SrnEatZJdS6SULVUMlRA
+ nqKs54Gg/u/HW/zi+7080adNsjcnG5MOyX2a29f7bMyOUoJQjHYwxgp+vi568Pxr/gr6U8gUur
+ 5ScwAAAAA==
+X-Change-ID: 20261116-vantage-tfa9865-8885091e9443
+To: Venkat Yadlapati <venkat.yadlapati@yahoo.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794814788; l=2137;
+ i=venkat.yadlapati@yahoo.com; s=20261023; h=from:subject:message-id;
+ bh=tnkLifR8VCWfkQcPWoCVb9z6fxtCg2U6s3ff2KleuLE=;
+ b=trKZAVj0XI+huVOT7XsovWfy1l6Mcley8jLtxrKo4gmwvzA6yMQI14Ukt+YZctBe23AuEnVTf
+ pRYH0FxBcPkB575YYPPBi2nFYxNad00IlzPPsXodWrXwgIPNw+UgaMR
+X-Developer-Key: i=venkat.yadlapati@yahoo.com; a=ed25519;
+ pk=e8KStCtEMvUP1Se/riB/KVnDAQFEVR2Dw2PcuA8/eME=
+X-Endpoint-Received: by B4 Relay for venkat.yadlapati@yahoo.com/20261023
+ with auth_id=1303
+X-Original-From: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+Reply-To: venkat.yadlapati@yahoo.com
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] ASoC: wcd937x: single-word handle used in Signed-off-by trailer
-- [Low] ASoC: wcd937x: stale ret check in wcd9370_probe() after clamping
-  size
-- [Low] ASoC: wcd937x: Fixes trailer cites wrong commit in commit
-  message
---
+The Motorola Signature has two NXP (now Goodix) TFA9865 mono class-D
+speaker amplifiers. This series adds the devicetree binding and a driver.
 
-commit e110cdb8f270ccdee8cfffae54f7844e1377eb32
-Author: liuchen <2508871010@qq.com>
+The chip has no DSP and a different register map than the TFA989x parts
+of tfa989x.c. The driver applies the initialization sequence for the
+device revision, selects the I2S slot feeding the amplifier and powers
+the amplifier and its boost converter up and down. The register settings
+come from the NXP tfa98xx driver. Only the B0 revision and the 32-bit I2S
+slots configured at reset are supported for now.
 
-> ASoC: wcd937x: bound the DT channel mapping to the channel tables
->
-> wcd9370_probe() copies qcom,{tx,rx}-channel-mapping into the per-channel
-> tables with the length of the DT property as the loop bound.  Nothing
-> checks that the property describes no more channels than
-> wcd937x_sdw_tx_ch_info[] (11 entries) and wcd937x_sdw_rx_ch_info[]
-> (8 entries) hold.
->
-> The DT binding requires exactly 12 entries for qcom,tx-channel-mapping
-> ("adc1, adc2, adc3, dmic0, dmic1, mbhc, dmic2, dmic3, dmic4, dmic5,
-> dmic6, dmic7"), while the driver's table stops at WCD937X_DMIC6, i.e. 11
-> channels.  Any board that follows the binding therefore writes one entry
-> past the end of the table; both boards in mainline that use the property
-> do so (qcm6490-idp.dts and sm7150-xiaomi-davinci.dtsi both spell out 12
-> values).
->
-> Both tables live in .data right next to each other, so the stray write
-> lands in wcd937x_sdw_rx_ch_info[0].ch_mask.  The 12th value, 4, stores
-> WCD937X_SWRM_CH_MASK(4) =3D=3D 0x8 into HPH_L; the codec then asks for
-> SoundWire RX channel 4 (EN_CHAN =3D 0x8) while the AFE keeps sending two
-> channels (active_channels_mask =3D 0x3).  The CDC DMA never completes a
-> block, the DSP never reports WRITE_DONE, and playback on the RX codec
-> DMA path fails with -EIO after the wait_for_avail() timeout.
->
-> Clamp the property length to the scratch buffer before reading it and to
-> the table size before filling it in, so that an over-long mapping is
-> ignored instead of corrupting the RX table.
->
-> The overflow was found while debugging RX codec DMA playback (no
-> WRITE_DONE from the DSP, playback failing with -EIO) on an SM7150 phone:
-> a temporary printk showed exactly one entry of the runtime table
-> differing from .data, which led to the 12th iteration of the loop.
-> Diagnosis, patch and this changelog were produced with the help of an AI
-> coding assistant (Claude, Anthropic); the submitter reviewed the change,
-> built it for arm64 with W=3D1 and verified on that phone that playback now
-> completes and that the codec enables SoundWire RX channels 1 and 2
-> (EN_CHAN =3D 0x3) instead of channel 4 (0x8).
->
-> Not done: qcm6490-idp was not booted, there was no KASAN or reproducer
-> other than the phone, and the DT binding still advertises 12 TX channels
-> while the table holds 11, so a conforming mapping now has its last entry
-> ignored instead of written out of bounds (binding update left as a
-> follow-up).
->
-> Fixes: c99a515ff153 ("ASoC: codecs: wcd937x-sdw: add SoundWire driver")
-> Signed-off-by: liuchen <2508871010@qq.com>
+Tested on a Motorola Signature: with the matching sound card the speaker
+and the earpiece play audio.
 
-[Severity: High]
-The Author header and Signed-off-by trailer use a single-word handle
-("liuchen") instead of a full real name as required by the Developer's
-Certificate of Origin in Documentation/process/submitting-patches.rst.
+I used an LLM (Claude) to help write these patches and their commit
+messages. I reviewed all of them and tested the result on the device.
 
-[Severity: Low]
-In commit c99a515ff153 ("ASoC: codecs: wcd937x-sdw: add SoundWire driver"),
-wcd937x_sdw_rx_ch_info and wcd937x_sdw_tx_ch_info were const arrays and
-wcd9370_probe() did not parse qcom,tx-channel-mapping or
-qcom,rx-channel-mapping.  Should the Fixes: tag instead point to the commit
-that introduced static channel mapping support:
+---
+Changes in v2:
+- Binding: drop the redundant sound-name-prefix entry (comes from
+  dai-common.yaml).
+- Driver: no longer mute/unmute from the trigger callback, the register
+  access sleeps. The amplifier is now enabled from mute_stream and a DAPM
+  event on the AMPE widget, only while the path is powered and the stream
+  is unmuted, so toggling "Amp Switch" during playback keeps it in sync.
+- Driver: reset the registers (I2CR) at the start of the initialization,
+  so a rebind without a reset GPIO does not find MANSCONF still set.
+- Link to v1: https://patch.msgid.link/20261116-vantage-tfa9865-v1-0-e88f0dccc427@yahoo.com
 
-  Fixes: c06c4f7cbea1 ("ASoC: codecs: wcd937x: Add static channel mapping s=
-upport in wcd937x-sdw")
+---
+Venkat Yadlapati (2):
+      ASoC: dt-bindings: Add NXP TFA9865 amplifier
+      ASoC: codecs: Add NXP TFA9865 amplifier driver
 
-> diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sd=
-w.c
-> index 57549518767ce..baacfef6c9cb4 100644
-> --- a/sound/soc/codecs/wcd937x-sdw.c
-> +++ b/sound/soc/codecs/wcd937x-sdw.c
-> @@ -1003,6 +1003,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
->  	if (wcd->is_tx) {
->  		master_ch_mask_size =3D of_property_count_u8_elems(dev->of_node,
->  								 "qcom,tx-channel-mapping");
-> +		master_ch_mask_size =3D clamp(master_ch_mask_size, 0,
-> +					    (int)ARRAY_SIZE(master_ch_mask));
-> =20
->  		if (master_ch_mask_size)
->  			ret =3D of_property_read_u8_array(dev->of_node, "qcom,tx-channel-mapp=
-ing",
-> @@ -1010,6 +1012,8 @@ static int wcd9370_probe(struct sdw_slave *pdev,
->  	} else {
->  		master_ch_mask_size =3D of_property_count_u8_elems(dev->of_node,
->  								 "qcom,rx-channel-mapping");
-> +		master_ch_mask_size =3D clamp(master_ch_mask_size, 0,
-> +					    (int)ARRAY_SIZE(master_ch_mask));
-> =20
->  		if (master_ch_mask_size)
->  			ret =3D of_property_read_u8_array(dev->of_node, "qcom,rx-channel-mapp=
-ing",
+ .../devicetree/bindings/sound/nxp,tfa9865.yaml     |  63 ++++
+ MAINTAINERS                                        |   7 +
+ sound/soc/codecs/Kconfig                           |  14 +
+ sound/soc/codecs/Makefile                          |   2 +
+ sound/soc/codecs/tfa9865.c                         | 393 +++++++++++++++++++++
+ 5 files changed, 479 insertions(+)
+---
+base-commit: 4e019254b80b70f6fb90d17a50f211de1daf7ffe
+change-id: 20261116-vantage-tfa9865-8885091e9443
 
-[Severity: Low]
-Does clamping master_ch_mask_size to 0 before checking
-if (master_ch_mask_size) leave ret holding the stale return value from the
-earlier port-mapping read when the optional channel-mapping property is
-absent?
+Best regards,
+--  
+Venkat Yadlapati <venkat.yadlapati@yahoo.com>
 
-When qcom,tx-channel-mapping or qcom,rx-channel-mapping is omitted from the
-Device Tree, of_property_count_u8_elems() returns a negative error code.
-Previously, if (master_ch_mask_size) was true for negative values, so
-of_property_read_u8_array() ran and set ret to a negative error code.
-Clamping master_ch_mask_size to 0 skips of_property_read_u8_array(), so the
-subsequent check in wcd9370_probe():
 
-sound/soc/codecs/wcd937x-sdw.c:wcd9370_probe() {
-	...
-	if (ret < 0)
-		dev_info(dev, "Static channel mapping not specified using device channel =
-maps\n");
-}
-
-evaluates the return status of of_property_read_u32_array() for
-qcom,tx-port-mapping or qcom,rx-port-mapping instead, suppressing the
-fallback message when port mapping succeeded.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_5E8B535138D=
-B2906DF4871E24590DA458A06@qq.com?part=3D1
