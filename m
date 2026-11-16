@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794815087;
-	b=nGYLj8x8R3CLKMtTRurHBOgVwKMFZBf8cxIhIDv+6fQfqSe5TjN/vsMRoaqNT1rAutx6
-	 LJji9e8aVRqxPVn85QKKCz2TnIpEQyh3uUXwyPAP9rdueQkXyU8uczDE8CRltTz1h+lgi
-	 MdrzNMC83YJ1iafitfoXgOYjiZ+DYc7GFQKo3WZ3mRTg4Nc65q0HYRC88EqmN4gvxsUpv
-	 Midf8VlNpZLkRcrpSzZaI0jMYflfqpsPM/cpy95AtteJlTpuT7gpcqM0zFqPOAxuObVp7
-	 bOWZCUa9Edp2JdcECpZaPNhgN6pVhWZWCvKqYsSWtSx+PzCQDxfbOoETQQftag+ILPw==
+	t=1794815121;
+	b=2LQXMdp+JmeUFZv85+PjYfU0fsWXEwI9MJxJRnmD0f23UJfinG7hcJGWipXBF8Aoho9c
+	 h/I3Gp0Uo+O+EVIlKt/M7Eip/S3lb5IKF2LAcnDMKbLKRuj6UPnNG+S6c0EcLBzz7Xyry
+	 oEj3VTp0V4Mcqf8m+nu+ctSsp/vMzRpAH9VqWhGS1iRk559iMNEl0urPrY6CqFqRqa1py
+	 8k/fQYJocWlaU938sh/TgXOoFJ/ydk6osa2SMjtZM3Dw+CqGSVATVn0Jx1eS4c6rxQ+Jj
+	 aSLLkFVzP2984raEUBr9eO9kgoCKiHdQMGSU7/rRDg0Gz5JFHNdgxCFREM3AUlehC3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794815087;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794815121;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
 	 MIME-Version:User-Agent:From:Reply-To:Subject:To:Cc:References:
 	 Content-Language:Autocrypt:Organization:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=koh32cUIrtew3rQaspH6qQBq7QxbIkEWNYbNzJo79jE=;
-	b=HCjJoMzknRrT1mPnkQZmI7fbOZGca2FHJ1GGMI2Fk9Z9818AVu2JGEtdwqVBBuwbQzRw
-	 4sQrRx/3JFZFllR4MtNkkqpKwIEi0wI0SCRGNVXsTpx1ivGPjJGv8KfdK/NirOPlZJW0N
-	 /KCYsZS0PM5VS4ouNLord49c0dVn+JqLOjNqOTzGBBkj8lQYyIaYQyw9yVQM44jQe2qeN
-	 57BA+ClATCLwtioK1NVvUJ/cmVtpeB3XOYc/ISeXamC+No+8/9d9t02hmSHz8xfZRplzv
-	 qjSNeBaS4bky/Xn06y6MFdug4jWjvLBaIVTT52WikMJikOp6vogr6ZD2ZisiyZZqxbw==
+	bh=Hmm2pR6aFCenUcCKosKBbhm7/p1v3WTAnxJNhw15gtQ=;
+	b=1PQEiHhNnw1AUdlr9ifWUgKiY7krjAwC8JckIkzOVm/dDF+lN/EU2IwjASGMMMlkmk7g
+	 fXkP5R9I+y/VvCe9yc5e7zSvM7KfNgPoufZPFgW774+TUy/jpYqdJxhKcFZr9pSRT/gUx
+	 gScOpsmlGF6OwO7gQCKhINwInzHb/fhNwT2UL7lgqPDAIXLWmYWRByYX5rbtS1TZWxl+E
+	 tDraf06VfKKXVZ5O3gCgP0mFljFJ+O0KJBzCOfDztjrcCj8Sw9kUuUTsGkSDRePZUDETh
+	 yf6/wHSWf//4OHUXpufwy5wED5TgcoimHEKfHtk8R1iv6HqNnr8x6AGYcLY0kwd2dew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Bt1i5pzI;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=JWs6vy6T;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE8D606A323
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 07:44:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFE8D606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E97606A335
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 07:45:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66E97606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Bt1i5pzI
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-492f563d1c6so1194320f8f.3
-        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 23:44:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=JWs6vy6T
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-49465892f7bso2557753f8f.1
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 23:45:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1794815085; x=1795419885; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1794815120; x=1795419920; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:organization
          :autocrypt:content-language:references:cc:to:subject:reply-to:from
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=koh32cUIrtew3rQaspH6qQBq7QxbIkEWNYbNzJo79jE=;
-        b=Bt1i5pzINhDkBuOc7F4P+/bv8w65pEMO+kByL8f+l9sIqK+zjkDTlYHK2dLWXQNsER
-         YicPzGglqWPB7yjtwDzbviIr8FmCPLA2P1dgw0WaGQd1A3QH7Wt+JuLvlIr5IXUwfMCs
-         47jptj4udH4A7i7OSTKkODZ/nS9tUK6hGIxpfVwpWX90XXbYbO7LPSra/HulJ896X8TM
-         Chs2NUN/aiGZqpqXX01iTMDN7SqBIO5NJ0M07fj1XEJATX3/8T6lrnJT64Jc3705083s
-         rfGeYN/gbEbxPGnTY4ZHLPoPrR+R14f6sZ+3tlZS6JP07JGF013gdUGMGeGphRXcLiHJ
-         IHwA==
+        bh=Hmm2pR6aFCenUcCKosKBbhm7/p1v3WTAnxJNhw15gtQ=;
+        b=JWs6vy6TMMIsDRVSnv3QauUtvNIGyUnrJHjyD00p4NY8uCkqSIoqzJZIUkMBFUogNo
+         u+Zs1/CnTQRGeFMiW7bmLvY3N6yo13drRKvXNnl6WcfWk7yoeko+TefFLGrNvxO+BaZ+
+         XIihgGquU/ejG+wq5fKaH2uokS9qRmEWoM/YMcFoRKlay2hZiSl314PzNVa1xZFl5CFn
+         KS+HO26bDwjcatUMnaF/8r0cevjW2bSrdwnT+0ki9PdoKsbbm2t/e4WAQKO7PxLZsuml
+         qdx3TmnmaMjvWzRtuGdhQDKznd7JSXldhwavrB3Th2J21PyMbmikrn5fM7fHbiXGXZEV
+         Pj+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794815085; x=1795419885;
+        d=1e100.net; s=20260707; t=1794815120; x=1795419920;
         h=content-transfer-encoding:content-type:in-reply-to:organization
          :autocrypt:content-language:references:cc:to:subject:reply-to:from
          :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=koh32cUIrtew3rQaspH6qQBq7QxbIkEWNYbNzJo79jE=;
-        b=l2MBAdMCYICucrpSbI9P30rorA7bf4zOnYAeo3OEPj4zMvEeqtpREqPiEOXlrAEkru
-         ukcuwvEwQq+nFTiNJyOO63i+dkvsrD1GthruszUOT+T8CnfPYkHJCLcm4klJju5eB65i
-         qEFqxf9kbBp6pU/i5mXzRvIEQiXTDHNIS0PLnJhr9nCMS/FAZKz6Txw3xGb2WeBBVUSi
-         ivmTQAf9TOP019HNmszVjPlzzD+spadmgNNR9OC0cvv70eIfp0IyujHuIqKHTtXQFyzq
-         evrcAeACfKTxRtExzXmb94WOYtIFH+XyShlAR0MrVkMcYTzj6/mvWNL5XQbka2B4llVh
-         ah4Q==
-X-Gm-Message-State: APuU4Z/H3NPpEsvXMcWf+yF1MrcUFgAcNLPYCDxVK1hbZPqztPnGVI4Y
-	JBZ582Q+mgyowAJy2SyX8OgZDWUQ4LF8rZDT2GEeUqvnMyjTvqBcHH6pLiKRssedmLw=
-X-Gm-Gg: AYBFou2XyfzIbLNYW+SOxaddJLgWsVgp3NFqQZaoWOsmDeKcTpQRYOreiiewZp5T51I
-	TytOrRMny4863ahaE0VKMW/07c8PjkXz89Ei2/DQy5pmszBEHn/Qyh4lt046YV9bAga5RilS48U
-	bjY1zJ2Ki1HUABuI0FDOP+4Hxa2to++KbuhgJ2kA5GO351E29Kh93/yHfrwMF4dkr7yAd+ykg2T
-	WdrtBV5SP3abG/ynwCANMDWGqvgi3zQihCymbs2KRfBFJVA7YdrDyl4GBa/oROswTdxfVj1Uqsd
-	b5AqnVfdVcdBnN5alSoVXV/cINW5Ma0cdAQfvmFAJ5/blKXHLlqkvjnIb73afp98P7LSia+CwjS
-	2ZjVmunBCMsa1BHxkvOJCtzb7vo5DMGNRFMMNgRI1G6NJxV+2Mzh5eP8zyOkuosd97bbKutl3Ue
-	20JmuLYvgFIBOT5/ISELoFTzSP7SarOu+LI4rIC8K5GXcT2BjkhzfezxV5EMJ7tH5K1AJLY7jYl
-	KEXHABGBDv/s/v2B0Yi1dN/b4TanzuXuFcChh+taMDlyzG1j1sqae519P3hwRjomX4IEERJcwzT
-	FsEOXwRZUGpetjByHTHAjkwrK0+ZqyGxqodIEDK9KCeGV4GGa7Nkj8R9uE0fsNkVzXto63GTntf
-	Xwcb1LTufZQ==
-X-Received: by 2002:a05:6000:470b:b0:492:8dd4:baf8 with SMTP id ffacd0b85a97d-49c6d453907mr20718771f8f.6.1794815084882;
-        Sun, 15 Nov 2026 23:44:44 -0800 (PST)
+        bh=Hmm2pR6aFCenUcCKosKBbhm7/p1v3WTAnxJNhw15gtQ=;
+        b=Q8tBS+HPojm1q7tPRl9GWq9LH7YxvfbDSIuezJjkDQQuy4Dny/CPUmQZA9GbB/iSba
+         2tDn9065LOdYIJxVnaOXezNnqaBpWflli5I2U+T0NsmwYWPR8FNlcVB17T6E6eQVoTF9
+         vvqf0JH80KgTIJp7CbHuIIQz7lAtQpQeNQB++L2ulTr+7lz2phJRn57hbswTFl8KJ7RI
+         vci5tHMldfAV4ZljJgTGgA312l2nRDcwzNsGVrH+cxjSCnGiik13XAu+1T5JUCc1FxAX
+         dfjD8cnH8SQMLiqdIucsvWeJpsxlTbnHnuh7DfW1eSMzYGbwFPrRJUPBFMvZ/9VXA0S3
+         2c2A==
+X-Gm-Message-State: APuU4Z8eATHNdPlQtKYHGtcdwlrV+kcMpTeOgVoz2OzOyOMpjTCJFHDz
+	jv23Cl21Ipbgk9gDwfsv54LwWcp0GgqImZnj9G22MsKZu4q1gKpUNeWuglaTi74ly6I=
+X-Gm-Gg: AYBFou36ToLENPkiNHkuDC/lpfD4YDB0bFMFh00T5OlMNqV1UIQXP0guYWTjwi3K0y+
+	6SfSr9kGRIlwwfFIxXvaTGLGo0WNWrJcBR3tsA8PvL8soBV/XkLHHmD6Wr/xqPqrY7wKGj6xWoN
+	P2HblRW1EpzoMUDfiKLinHkDyvcW58p7/YtPyCm+NT+IWY9xZJhbVBB/uKL8KjO6dblseVsMgaD
+	nCCuwAEO36lwQmaCj1D4uWYBfsFcfCSPhj60TIGmk0t/3HtBVgLDF35sEQ9YZNThHLWBnijs/LY
+	MMHY9eia8g+hJ++QAg8OcBcpTVG5JjAyUYodJSBjAJRMWWgFBuYjdyVZld40TNXLawhG+B6sixn
+	VfmL4NqNrbeG0xuPeXnri8WtZsp/wRXlMTWFaUXZLJBc2IuCfIat/N5qiwQKgqzwRWLMyV3AHIC
+	utI2WucaRsOsEkmPs/uvI3BGikWnv+Y5LU7BSH53uK6Gwy9fPtW45dgyPXEbTPnHOq1uoyW0U2O
+	PSVpdyWuMoC6ARYfxehtzmK4YFgdWkW/zQSvA2jaH+8HKZeRvlO2m5mv58yYNSIpFrvZq0LpO8b
+	FXoiaW+TKsfErMf5oHC3asCoLGjCigrx6K3HSXdD7eYtez+LHwIy6/4qWN7cqIFPIES2w1M1tIU
+	NEEpPmfq7
+X-Received: by 2002:a05:6000:2407:b0:491:6a7:b4ac with SMTP id ffacd0b85a97d-49c73351512mr19406434f8f.56.1794815119670;
+        Sun, 15 Nov 2026 23:45:19 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:106d:1080:575d:8fcf:e30d:5aed? ([2a01:e0a:106d:1080:575d:8fcf:e30d:5aed])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5fe370f8sm18538106f8f.27.2026.11.15.23.44.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d615sm21048578f8f.56.2026.11.15.23.45.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2026 23:44:44 -0800 (PST)
-Message-ID: <708d758b-14ee-4a00-a9c6-6bd8bae8063f@linaro.org>
-Date: Mon, 16 Nov 2026 08:44:44 +0100
+        Sun, 15 Nov 2026 23:45:19 -0800 (PST)
+Message-ID: <d27f1aa7-9765-4a22-ac78-e6dfc0c97556@linaro.org>
+Date: Mon, 16 Nov 2026 08:45:18 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,15 +95,16 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH RFC 02/23] clk: qcom: add SM8650 LPASS core & audio clock
- controllers
+Subject: Re: [PATCH RFC 03/23] dt-bindings: pinctrl:
+ qcom,sm8650-lpass-lpi-pinctrl: document clocks and power domaines when ADSP
+ is not used
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, robh@kernel.org,
  conor+dt@kernel.org
 References: <20261113-topic-sm8650-el2-v1-0-5183f6aab9fc@linaro.org>
- <20261113-topic-sm8650-el2-v1-2-5183f6aab9fc@linaro.org>
- <sashiko-outbox-213528@kernel.org>
+ <20261113-topic-sm8650-el2-v1-3-5183f6aab9fc@linaro.org>
+ <sashiko-outbox-213493@kernel.org>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -130,254 +131,57 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <sashiko-outbox-213528@kernel.org>
+In-Reply-To: <sashiko-outbox-213493@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/13/26 20:14, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 5 potential
-> issues to consider:
-> - [High] clk: qcom: missing pm_clk setup for iface clock in
->    lpass_hm_core_probe()
-> - [High] clk: qcom: wrong DT clock index for BI_TCXO in
->    lpass_core_cc_parent_data_ao_2
-> - [Medium] clk: qcom: missing driver unregister on error in SM8650 LPASS
->    init functions
-> - [Medium] clk: qcom: wrong postdiv clk_ops and user_ctl_val for
->    lpass_core_cc_dig_pll
-> - [Low] clk: qcom: dead code, unused declaration, and unwrapped pm_ops
->    in SM8650 LPASS
+On 11/13/26 20:02, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Low] dt-bindings: pinctrl: qcom,sm8650-lpass-lpi-pinctrl: redundant
+>    oneOf in clocks
 > --
 > 
-> commit b45bde29cb5ec941ad6de37d77c22a656fbda080
+> commit d8422bb265d6e088cce5d6024805eb9ced00d38a
 > Author: Neil Armstrong <neil.armstrong@linaro.org>
 > 
-> clk: qcom: add SM8650 LPASS core & audio clock controllers
+> dt-bindings: pinctrl: qcom,sm8650-lpass-lpi-pinctrl: document clocks and power domaines when ADSP is not used
 > 
-> This commit adds clock and power domain controller drivers for the SM8650
-> LPASS HM, core, audio, and AON blocks when running without ADSP firmware.
+> This commit updates the SM8650 LPASS LPI pinctrl DT binding schema to
+> allow a single core clock and add power-domains properties for platforms
+> where the ADSP is bypassed.
 > 
->> diff --git a/drivers/clk/qcom/lpassaudiocc-sm8650.c b/drivers/clk/qcom/lpassaudiocc-sm8650.c
->> new file mode 100644
->> index 0000000000000..636ce9a1b3451
->> --- /dev/null
->> +++ b/drivers/clk/qcom/lpassaudiocc-sm8650.c
-> [ ... ]
->> +static struct clk_rcg2 lpass_aon_cc_ext_if1_clk_src = {
->> +	.cmd_rcgr = 0xb004,
->> +	.mnd_width = 16,
->> +	.hid_width = 5,
->> +	.parent_map = lpass_audio_cc_parent_map_0,
->> +	.freq_tbl = ftbl_lpass_cc_ext_clk_src,
->> +	.clkr.hw.init = &(const struct clk_init_data){
->> +		.name = "lpass_aon_cc_ext_if1_clk_src",
->> +		.parent_data = lpass_aon_cc_parent_data_0,
->> +		.num_parents = ARRAY_SIZE(lpass_aon_cc_parent_data_0),
->> +		.ops = &clk_rcg2_ops,
->> +	},
->> +};
-> [ ... ]
->> +static struct clk_rcg2 lpass_aon_cc_tx_mclk_clk_src = {
->> +	.cmd_rcgr = 0x1b004,
->> +	.mnd_width = 0,
->> +	.hid_width = 5,
->> +	.parent_map = lpass_aon_cc_parent_map_0,
->> +	.freq_tbl = ftbl_lpass_mclk_clk_src,
->> +	.clkr.hw.init = &(const struct clk_init_data){
->> +		.name = "lpass_aon_cc_tx_mclk_clk_src",
->> +		.parent_data = lpass_aon_cc_parent_data_0,
->> +		.num_parents = ARRAY_SIZE(lpass_aon_cc_parent_data_0),
->> +		//.flags = CLK_OPS_PARENT_ENABLE,
->> +		.ops = &clk_rcg2_ops,
->> +	},
->> +};
-> [ ... ]
->> +static struct clk_branch lpass_aon_cc_tx_mclk_clk;
-> [ ... ]
->> +static const struct dev_pm_ops lpass_audio_cc_sm8650_pm_ops = {
->> +	SET_RUNTIME_PM_OPS(pm_clk_suspend, pm_clk_resume, NULL)
->> +};
->> +
->> +static struct platform_driver lpass_audio_cc_sm8650_driver = {
->> +	.probe = lpass_audio_cc_sm8650_probe,
->> +	.driver = {
->> +		.name = "lpass_audio_cc-sm8650",
->> +		.of_match_table = lpass_audio_cc_sm8650_match_table,
->> +		.pm = &lpass_audio_cc_sm8650_pm_ops,
->> +	},
->> +};
+>> diff --git a/Documentation/devicetree/bindings/pinctrl/qcom,sm8650-lpass-lpi-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/qcom,sm8650-lpass-lpi-pinctrl.yaml
+>> index 1bf08860a4baf..4c54f873199cc 100644
+>> --- a/Documentation/devicetree/bindings/pinctrl/qcom,sm8650-lpass-lpi-pinctrl.yaml
+>> +++ b/Documentation/devicetree/bindings/pinctrl/qcom,sm8650-lpass-lpi-pinctrl.yaml
+>> @@ -29,11 +29,25 @@ properties:
+>>         - description: LPASS LPI TLMM Control and Status registers
+>>   
+>>     clocks:
+>> -    items:
+>> -      - description: LPASS Core voting clock
+>> -      - description: LPASS Audio voting clock
+>> +    oneOf:
+>> +      - items:   # for ADSP based platforms
+>> +          - description: LPASS Core voting clock
+>> +          - description: LPASS Audio voting clock
+>> +      - items:   # for ADSP bypass based platforms
+>> +          - description: LPASS Core voting clock
+>>   
+>>     clock-names:
+>> +    oneOf:
+>> +      - items:   # for ADSP based platforms
+>> +          - const: core
+>> +          - const: audio
+>> +      - items:   # for ADSP bypass based platforms
+>> +          - const: core
 > 
 > [Severity: Low]
-> This isn't a bug, but the `.pm` assignments in `lpass_audio_cc_sm8650_driver`,
-> `lpass_aon_cc_sm8650_driver`, and `lpass_hm_sm8650_driver` do not use
-> `pm_ptr()` (with `RUNTIME_PM_OPS()`), so the `dev_pm_ops` structures are not
-> dropped when PM is disabled.
-
-Will fix
-
-> 
-> Also, `lpass_aon_cc_tx_mclk_clk_src` has a commented-out `.flags` line, the
-> forward declaration of `lpass_aon_cc_tx_mclk_clk` is unused because the
-> following clocks reference `lpass_aon_cc_tx_mclk_clk_src`,
-> `lpass_aon_cc_ext_if1_clk_src` uses `lpass_audio_cc_parent_map_0` instead of
-> `lpass_aon_cc_parent_map_0`, and `lpass_audio_cc_sm8650_probe()` and
-> `lpass_aon_cc_sm8650_probe()` duplicate the same `pm_clk` setup.
-
-Will fix
-
-> 
-> [ ... ]
->> +static int __init lpass_audio_cc_sm8650_init(void)
->> +{
->> +	int ret;
->> +
->> +	ret = platform_driver_register(&lpass_aon_cc_sm8650_driver);
->> +	if (ret)
->> +		return ret;
->> +
->> +	return platform_driver_register(&lpass_audio_cc_sm8650_driver);
->> +}
->> +subsys_initcall(lpass_audio_cc_sm8650_init);
-> 
-> [Severity: Medium]
-> Does `lpass_audio_cc_sm8650_init()` leave `lpass_aon_cc_sm8650_driver`
-> registered if registering `lpass_audio_cc_sm8650_driver` fails?  When built as
-> a module, failing module init without calling
-> `platform_driver_unregister(&lpass_aon_cc_sm8650_driver)` leaves a freed
-> `platform_driver` structure linked on the platform bus list, causing a
-> use-after-free.  `lpass_core_cc_sm8650_init()` in `lpasscorecc-sm8650.c` has
-> the same issue with `lpass_hm_sm8650_driver`.
-
-Will fix
-
-> 
->> diff --git a/drivers/clk/qcom/lpasscorecc-sm8650.c b/drivers/clk/qcom/lpasscorecc-sm8650.c
->> new file mode 100644
->> index 0000000000000..4f91ab0d772ec
->> --- /dev/null
->> +++ b/drivers/clk/qcom/lpasscorecc-sm8650.c
->> @@ -0,0 +1,509 @@
-> [ ... ]
->> +static const struct alpha_pll_config lpass_core_cc_dig_pll_config = {
->> +	/* 614.4 MHz */
->> +	.l = 0x20,
->> +	.alpha = 0x0,
->> +	.config_ctl_val = 0x20485699,
->> +	.config_ctl_hi_val = 0x00182261,
->> +	.config_ctl_hi1_val = 0x82aa299c,
->> +	.test_ctl_val = 0x00000000,
->> +	.test_ctl_hi_val = 0x00000003,
->> +	.test_ctl_hi1_val = 0x00009000,
->> +	.test_ctl_hi2_val = 0x00000034,
->> +	.user_ctl_val = 0x00000000,
->> +	.user_ctl_hi_val = 0x00000005,
->> +};
-> [ ... ]
->> +static struct clk_alpha_pll_postdiv lpass_core_cc_dig_pll_out_odd = {
->> +	.offset = 0x0,
->> +	.post_div_shift = 14,
->> +	.post_div_table = post_div_table_lpass_core_cc_dig_pll_out_odd,
->> +	.num_post_div = ARRAY_SIZE(post_div_table_lpass_core_cc_dig_pll_out_odd),
->> +	.width = 4,
->> +	.regs = clk_alpha_pll_regs[CLK_ALPHA_PLL_TYPE_LUCID_OLE],
->> +	.clkr.hw.init = &(struct clk_init_data){
->> +		.name = "lpass_core_cc_dig_pll_out_odd",
->> +		.parent_hws = (const struct clk_hw*[]){
->> +			&lpass_core_cc_dig_pll.clkr.hw,
->> +		},
->> +		.num_parents = 1,
->> +		.flags = CLK_SET_RATE_PARENT,
->> +		.ops = &clk_alpha_pll_postdiv_lucid_ops,
->> +	},
->> +};
-> 
-> [Severity: Medium]
-> Should `lpass_core_cc_dig_pll_out_odd` use `clk_alpha_pll_postdiv_lucid_ole_ops`
-> instead of `clk_alpha_pll_postdiv_lucid_ops`?
-> 
-> `lpass_core_cc_dig_pll` is a Lucid OLE PLL, where the FSM vote bit lives at
-> bit 25 of `user_ctl` (`clk_lucid_evo_pll_postdiv_set_rate()`), whereas
-> `clk_alpha_pll_postdiv_lucid_ops` checks bit 20 of `mode`
-> (`clk_alpha_pll_postdiv_fabia_set_rate()`).  In addition,
-> `lpass_core_cc_dig_pll_config` sets `.user_ctl_val = 0x00000000`, so
-> `clk_alpha_pll_write_config()` skips writing `user_ctl` and never programs the
-> odd post-divider or output enable bits during PLL configuration.
-
-Will fix
-
-> 
-> [ ... ]
->> +static const struct parent_map lpass_core_cc_parent_map_2[] = {
->> +	{ P_BI_TCXO, 0 },
->> +	{ P_LPASS_CORE_CC_DIG_PLL_OUT_MAIN, 1 },
->> +	{ P_LPASS_CORE_CC_DIG_PLL_OUT_MAIN_DIV_CLK_SRC, 2 },
->> +};
->> +
->> +static const struct clk_parent_data lpass_core_cc_parent_data_ao_2[] = {
->> +	{ .index = 1 },
->> +	{ .hw = &lpass_core_cc_dig_pll.clkr.hw },
->> +	{ .hw = &lpass_core_cc_dig_pll_out_main_div_clk_src.clkr.hw },
->> +};
->> +
->> +static const struct freq_tbl ftbl_lpass_core_cc_core_clk_src[] = {
->> +	F(19200000, P_BI_TCXO, 1, 0, 0),
->> +	F(51200000, P_LPASS_CORE_CC_DIG_PLL_OUT_MAIN_DIV_CLK_SRC, 6, 0, 0),
->> +	F(102400000, P_LPASS_CORE_CC_DIG_PLL_OUT_MAIN_DIV_CLK_SRC, 3, 0, 0),
->> +	F(204800000, P_LPASS_CORE_CC_DIG_PLL_OUT_MAIN, 3, 0, 0),
->> +	{ }
->> +};
->> +
->> +static struct clk_rcg2 lpass_core_cc_core_clk_src = {
->> +	.cmd_rcgr = 0x25000,
->> +	.mnd_width = 8,
->> +	.hid_width = 5,
->> +	.parent_map = lpass_core_cc_parent_map_2,
->> +	.freq_tbl = ftbl_lpass_core_cc_core_clk_src,
->> +	.clkr.hw.init = &(const struct clk_init_data){
->> +		.name = "lpass_core_cc_core_clk_src",
->> +		.parent_data = lpass_core_cc_parent_data_ao_2,
->> +		.num_parents = ARRAY_SIZE(lpass_core_cc_parent_data_ao_2),
->> +		.ops = &clk_rcg2_shared_ops,
->> +	},
->> +};
-> 
-> [Severity: High]
-> Should `lpass_core_cc_parent_data_ao_2[0]` use `.index = 0` instead of
-> `.index = 1`?
-> 
-> `qcom,sm8650-lpasscorecc` only has a single DT input clock (`bi_tcxo` at index
-> 0), as used by `lpass_core_cc_dig_pll` and `lpass_core_cc_parent_data_0`.
-> With `.index = 1`, parent 0 of `lpass_core_cc_core_clk_src` cannot be
-> resolved, so `lpass_core_cc_core_clk_src` and its child branches report rate 0
-> when parked on `bi_tcxo` via `clk_rcg2_shared_ops`, and requesting 19.2 MHz
-> fails with `-EINVAL` in `_freq_tbl_determine_rate()`.
-
-Will fix
-
-> 
-> [ ... ]
->> +static int lpass_hm_core_probe(struct platform_device *pdev)
->> +{
->> +	return qcom_cc_probe(pdev, &lpass_core_hm_sm8650_desc);
->> +}
->> +
->> +static const struct dev_pm_ops lpass_hm_sm8650_pm_ops = {
->> +	SET_RUNTIME_PM_OPS(pm_clk_suspend, pm_clk_resume, NULL)
->> +};
-> 
-> [Severity: High]
-> Does `lpass_hm_core_probe()` need to set up `pm_clk` and add the `"iface"`
-> clock before calling `qcom_cc_probe()`, like `lpass_audio_cc_sm8650_probe()`
-> and `lpass_aon_cc_sm8650_probe()` do?
-> 
-> `qcom_cc_really_probe()` with `.use_rpm = true` only calls
-> `devm_pm_runtime_enable()` and `pm_runtime_resume_and_get()`; it does not call
-> `devm_pm_clk_create()` or `pm_clk_add(&pdev->dev, "iface")`.  Without that
-> setup, `pm_clk_resume()` and `pm_clk_suspend()` in `lpass_hm_sm8650_pm_ops` do
-> nothing, leaving the LPASS HM interface clock unacquired and potentially gated
-> when `qcom_cc_really_probe()` and `gdsc_register()` access the HM registers.
+> Could clocks and clock-names set minItems: 1 alongside the two-entry
+> items list instead of using oneOf?  Because the single-entry ADSP bypass
+> list is a strict prefix of the two-entry list, minItems: 1 avoids
+> duplicating the first item in both properties.
 > 
 
-Will drop PM
-
-
+Will switch to that
