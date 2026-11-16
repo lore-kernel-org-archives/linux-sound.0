@@ -1,88 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794870405;
-	b=X+rbMf5zio9GJnjj3UuMwSNm/Vz8mNFpnxSx0YcmGQ6cVltrKrmHh7z/L4tdWl2U/i6R
-	 ff0V6nXC1BSvN+xy65YNq1UXjxu/gzXh8sihefazOuAmIBXzN18bCoHoMxbwVHy/8+inu
-	 upLkw2xXZx0TW/MFxdIwHtDLM4gg2pW/tqwmMeut+NUyF9jlbk0L3iPE3fcvDV/8Ulajd
-	 KsRsI346D//LO+4wfUWDh3PmFVQR0Db7ZygoiKJNh84SxYkxhpLnL+G7KvNX0AacKEtYO
-	 SvqCP3YMzjwZ3ebg1MzqPp4X6dthB9xl159KPh98R4QX8DyMSLrFR6VD6MZxRmBEsgA==
+	t=1794871011;
+	b=UVSN8JnYcDn6AEAmvTZWEMKy+ZkPFDIPcx+oBxwXiQhB7WWx7dGL8BDsHnnzutmwn2uh
+	 AY7NUyRxf4TbyNSAbM9CE39fWMkudaW6UTcAgHh1utaGd1JxeFljsXR4Iq8b2LeknR9Ea
+	 OOcs/XZPazT8cF9ehv5CrcYPd95aUFtIVFo3Bjg1JLoiSoMpVHdtT2hN08Gbc7IryL3Wz
+	 NjubM2ltcun/mIi1sIimD/ePQspzMbsna7oxY3XEi9aSE8Kmyv7wCFuHgUyOUP2vGEsbz
+	 IWJwMO4j2dWYmtj5de19KhFmvutm9+py/Eq2fDqTYsUHgwXml2Lk+gxuqY4ryYNLkIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794870405;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=yMRabWLMCSHEq9av7y6ywR85Ullm7taZPfMTAVGFuHY=;
-	b=xUtE8mwTlKkkDhlsQCBY6XTR7tUkhcZ1n7p9NOKTg20wsjSv+NdZUhhyu2xZSvCZlY+z
-	 2XwFV643sFLMVDC7kUX9frZi7XTc/lZ7Ao0Q6JEAlqGfKfh51521jfVA28UMlEv2vKNcs
-	 6kLDbNzZb+ykmTmTErxiuApHw6pDESZBnnsXCsOnnXSIel8AVBmR6aqrP6LF+NbMJdL1E
-	 O/r34KylAH+CawJN3A9v1WffOJ+Ab3XsJmBra7Cmc9mqeUcvajlDC7cQlow4KsWzIp929
-	 3nHjXCheVSEdLPLc5CmPptrZ1cCdB93qexRpfDokEjBc2r1v4y0ma5fUwHj95US36Mw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794871011;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=D744codKNdjWB0cIKo4OC/V775hatd/33THb99xe3yY=;
+	b=JOZNuuzUPZaqfwdVdbzAn1XKj8dargVtp7nogQwla0HjQbb1ymxBDOThXol59UTBUvIs
+	 hhholf7JxdE2zLQyDG4dGb1vDeW6Cd0P+LQtOGU5TrimOvJsnyo+7BEEIahllAdtv7+oi
+	 YOKq5di1uF7CRGvPU9fMBybnQsOSsHiOr9IqjGtCFA/lJ32OIzOd+mobo4ww3ri05TNBM
+	 7jO5QGR4wq5yHM+u4uh6jG9e8Jr27V29LlicI7xf9qPMC025GYOFq8ZVBk4xPYLeFWPQe
+	 FquYAOVnITN7bVTWE1mpuil4YPpbg0p7NnDuLDOZ+e0Q9Q3OeRgN6k2lanDEp3ZivgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=nUPwfzc0;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="IZ/dM1u6";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A5E606A329
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 23:06:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25A5E606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90240606A31C;
+	Mon, 16 Nov 2026 23:16:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=nUPwfzc0
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so2244600f8f.2
-        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 15:06:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794870402; x=1795475202; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yMRabWLMCSHEq9av7y6ywR85Ullm7taZPfMTAVGFuHY=;
-        b=nUPwfzc0SJy2NglXAMZADWXP3O5XbEar5kuQ3ZaYgCEL9BAo9fYukYwP3StBnAf8AO
-         zLsw2M5YP1aDg0Tm7JVz6VjqXm6NM7cJdngFa4ZpLYB7Gr8rv8yt9NBOWvIqBxn2BWgM
-         ACXx/XnBEa6oBhTILZAPLYtCUBYhnVlNiKjdZct9HzpMg4wkDKQJdA7gWNc59NY/X0xE
-         FOPLomTGmQdUgXh0st7q+ycak/5Xr+kiEofhqJrrex1EhPXFYwGcpaVFnx6jW5ul8Y5A
-         t/LB127BgKZw6eSCvIbfCtvh19aubqbrjS6Fvb7pPKdZbjf3CuGwYi+LwoMX4RbQjlqj
-         02Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794870402; x=1795475202;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yMRabWLMCSHEq9av7y6ywR85Ullm7taZPfMTAVGFuHY=;
-        b=XbizNMIdOqJUz2mup24I1VZm7+bS8ahPs7jhoXf+xmTB7h5C5hN+JADElxlDM34sY+
-         80AxPVAanZzCduLtknqdz9msBkbeT5Ftj8MtbredQGBzAuS9/MMrAWpMSygWXPA86nYE
-         wjphlC025KQiHvK8PMPUVRENFM26kSf4n5iUgLlUebxqJRQpD4ilJ1xuPzt4Hh6gh+Ci
-         WixzcG6ygPF9YePY+gxKdSbzPiio7ka2ho2NDdPmUWFRQS+mszER4RR0TWH9yCRThtNl
-         P436KcH50uvyj72DWEbKFV9sF7LDeLoz6obvE7grfZ8BEYDwFcYWzD9NMu0YjiRtlbLU
-         NPZQ==
-X-Forwarded-Encrypted: i=1; AL+hErEUCpwADtQfGVltczrh4RZvunaVRFfoDgGVS2CcgGHTBKL3tz4beNG/KmsuQkizm+VL3mijRrEp90GQCA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z97S3spkXDM23K+hx1TnB+AvAfcLbM0ftNzBLPrwC+6/VMRjv+6
-	stBbevQneScwj1KM7P3gd8eiBkPOJhC9C+Qj7CPVhD78I+gPNpw8/SMtw1cE78/uez4=
-X-Gm-Gg: AZFdTZf1K0vbYxsAuKzdAS6dERjsFEVVtgtdXM5NEeWcvvh27z6cNEOTPULm0ITctZD
-	pwx7mnCOgIjeenlZbs5mh1Ha6sQCxh9UCT1GcPl2U40RiIeHZx3Q/XqvNpSl42zs2EfGb0pD7Ps
-	xWP4EnQdtINcdv4ceFhPtYEm3DCUblsAzpFhA4jjPkQq1BKyT+memuSaODle99lT9zkpBenOQTv
-	iTRS/lH9kRMpPSsMZ2GBPl03TDI+zC+RCY2XgWYpEmGf2PySB0AhF9th3Wk3e8mKzm9RY4Zgmwa
-	gYRRES5jX5Bzuv+qUKTQTlxCasMEE1s/FjQodc/XVPztw1nEjypI7UGK58JZSLvGylShQfWdGGT
-	fHS/sPFDVJltWSBqnN/N23FO6gDcxawAsVAckSwZZynxMVKMWfaBxd8L+9TtpH/iJ1yC4DU7XqK
-	REFlZFeSHnHhKzyvQYmSDabkMPJY+mg/1AG4Q2BZ6BFZZ/lW+gX+jDWVBR8v0wtA+S/bw2GZdAw
-	GqNIYDNC/Y8wc1BTzhIeIGC27DjQ+FuNILsta4m41pRcRhLXGo6uyfAlO6L54GO+fBoJbWczIIT
-	XZ/YtuV4bXGAUzMjR3rvxn7Ngnep/DSv
-X-Received: by 2002:a05:6000:2288:b0:49c:6a45:ca33 with SMTP id ffacd0b85a97d-49c70ed923amr27070236f8f.9.1794870402452;
-        Mon, 16 Nov 2026 15:06:42 -0800 (PST)
-Received: from [192.168.3.100] ([151.61.248.197])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c77393700sm24359908f8f.18.2026.11.16.15.06.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 15:06:42 -0800 (PST)
-Message-ID: <0949591a-63cb-4bb3-a7de-cf59ddbaafb7@baylibre.com>
-Date: Tue, 17 Nov 2026 00:06:40 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IZ/dM1u6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D43E11F000C4;
+	Mon, 16 Nov 2026 23:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794871011;
+	bh=D744codKNdjWB0cIKo4OC/V775hatd/33THb99xe3yY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IZ/dM1u68/w4ysDuF2c/9CTIYBd8/rFn5rCBuddDvWtSTc4jm3uO+TCFPOfimXYSz
+	 t8JmCxAfr+W425w+VYBo9mBMQMa/YxwMecLbewFm6yXjEZp+OAjE5TlqPKwTE8nc8K
+	 +gkYfojo8Jk+EN8F2g01KQ8p8kyXahhMagLjnu401xUHol7LTWXQ8cjPuGg8cF3QKv
+	 K9ast/IxtW9TP+dTJ5mp1g6c0Q3YuVPr80OKJlP5VfYwqzZgnwL78gks74c2qSO3s0
+	 J/i9DphSXgS62lUxieCZv/CS1km+yTO6GNrBDVt4ndV2QIPzVvG/zbemvxwFbFpndZ
+	 o3Uf7zZ1pyuFA==
+From: Mark Brown <broonie@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Christian Hewitt <christianshewitt@gmail.com>, 
+ Valerio Setti <vsetti@baylibre.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261113-aiu-fifo-fix-sleep-on-spinlock-v2-1-f72015c933bf@baylibre.com>
+References: <20261113-aiu-fifo-fix-sleep-on-spinlock-v2-1-f72015c933bf@baylibre.com>
+Subject: Re: [PATCH v2] ASoC: meson: aiu-fifo: prevent sleeping when
+ spinlock is held
+Message-Id: <179485994155.2504946.8052884083469699014.b4-ty@b4>
+Date: Mon, 16 Nov 2026 20:12:21 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -92,43 +66,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/7] ASoC: meson: gx-card: add support for audin FIFO
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20261018-audin-v5-0-4b8cc13a1b22@baylibre.com>
- <20261018-audin-v5-6-4b8cc13a1b22@baylibre.com>
- <CAFBinCA12FvOi=9gB1xj3MDvNWstx1N4TtyyrrndJ_JT5eLX=Q@mail.gmail.com>
-Content-Language: en-US
-From: Valerio Setti <vsetti@baylibre.com>
-In-Reply-To: <CAFBinCA12FvOi=9gB1xj3MDvNWstx1N4TtyyrrndJ_JT5eLX=Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1141; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=YoWPz3fhDSUGPyw/AXIX0PwVKHHA0Y9uh1d/YQgfCLQ=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+993bumy3uZLDM+M/qUWzL133LQhcMW93+QKdmB1TF
+ i7eJL74XUcpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAm4iDC8FfmtI6mlqnJ1wX7
+ Z01zdc73m8ehtmeF0TS9Fb33LhxLPVrC8N8n8ECJcFeYUdvV2R0zrzWoheWauH9dt2bpb6nn9Xm
+ rZJkA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 11/15/26 10:28 PM, Martin Blumenstingl wrote:
-> On Sun, Oct 18, 2026 at 12:18 PM Valerio Setti <vsetti@baylibre.com> wrote:
-> [...]
->> +       if (gx_card_cpu_identify(dai_link->cpus, DT_PREFIX "gxbb-audin", "FIFO"))
->> +               return meson_card_set_fe_link(card, dai_link, np, false);
-> I suggest using the "audin" prefix. AIU / audin seem close enough on
-> all supported SoCs that we don't need a SoC generation prefix  in
-> there to handle this differently.
+On Fri, 13 Nov 2026 14:56:34 +0100, Valerio Setti wrote:
+> ASoC: meson: aiu-fifo: prevent sleeping when spinlock is held
 
-Do you mean using "meson,audin" instead of "meson,gxbb-audin" for the 
-compatible?
-If so I'm not sure this is allowed nowadays. As far as I understood 
-"meson,aiu" is a sort of legacy naming. 'writing-binidings.rst' says
+Applied to
 
-   "DO use a SoC-specific compatible for all SoC devices [...]"
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
--- 
-Valerio
+Thanks!
+
+[1/1] ASoC: meson: aiu-fifo: prevent sleeping when spinlock is held
+      https://git.kernel.org/broonie/sound/c/0d40a91ca56e
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
