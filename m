@@ -1,95 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794821886;
-	b=wOcR4MAmZy4s3CWWg1DbX9ZTj3kcLfGtwJUiIiFVgS3RRkFVl0u13PMYjvycxqnk8j1P
-	 0YR5C6CWR16Ke9HqH6KIidzaVqeQeUxGKETyvwDW0ONvcaLPTJ6DPaFOxooE1RFAI1gDc
-	 XrrCHEDcMAxRxi+RG3qGgwbCmActR7GJN7wfqWi2wx9H1x/g4IYp+YiPgVjspOjW+hEuZ
-	 PnZUv2KoSo/PibAgtFvQFhI+wBm/uMCK1qBF2aiuzXl/TdbLhJ+wHkrSqyb5ohbRkiJT+
-	 sg3ZL/xIPMcMFHXHyrtjlOtCTwer9vVmvEFNcVPA/gLlsaf5uHmlqVVYwAUd9pT45Dg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794821886;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=4u5hRzxLN/KIHR9SqKzlNkbU6kE20q0y3w0HvIaL8PU=;
-	b=q4T0cskHY1jpt7H46eJIaei+BdPAXcyJgV6mwBD24tqJHJsJODSJEiPObF8k7YNz2R6w
-	 +Y0Fi4UtzMjUitPP2tFNLPxWZ8Ss8Gi+gjDRlpEKlj6SuqwPDpLaAaFE/fdZU/EcKXhJH
-	 P9opN9TrfRD+nMy0JUrgvcNeBdQ0WMDujJsXbCd8soWd7hQ94etxJx3RrvrLOmZxdGdED
-	 KMLfqROjcWcUAM8AFOO8ipS2Fk8uKjIceS2J6NSexB/6HI8Z77O77gIvvg2dH35Euv0Gn
-	 LhPEWz2YkB2oGFQFqIgU8mOE01AdxliehCubrAuTdwoedV7LZ+TPBgmP++NAMdqOB4Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nxp.com;
-	spf=pass smtp.mailfrom=nxp.com;
-	dkim=pass header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=nogV63Ha;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.13
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011013.outbound.protection.outlook.com [40.107.130.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794821913;
+	b=GVQVBx7UYItZMxyiDriSc0G1eNZ5tAw7NHw3vvuBaxPFKKfEfq8AsSPOxAwYMmOKiGb/
+	 +HdlJcntqOhKzXlMliffHzeR7jUJQUgbHkYjRI2WKUsDWHig8d+ef/KwH+jUxu6dgRJp9
+	 TsbZzSbhKZnp7TfvhwctpVF1lix5zRIxKmlnuz+4oW0bkn2HLKm7jVo67TzPFIrvZAKA5
+	 PgBeUAdH3I7QT+e8F3d2KHFWaUZh2Fm/jRCzve0ReqLAivkNE5DAmwui806cmzM/2k3oQ
+	 grbwNELsBfILTx4A9WoiSPCsKSMDNfxwzp60DQX/lr6OK8hidHb3ehBhuGvllYaMO/Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821913;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=KVZRUyQxjEZeB1X14No1R2cixIaW3jXxvUBDYA6Pc60=;
+	b=BbUZD+8i4UeTuPVyeinrVEZasKYGAAJPe6wszAeOZxhs/asAeiprmnour/8XVsC12Lwa
+	 YN6ejF7Vhu/re/lM94BDJsUbnWmwizEsMCkRNO4BCxwstdmVY9kNiYeTZaPQK13ksnZL5
+	 EGqbx0CDrQesKkTDbt3uEFDiNNTIUzkVD9jKr3i0zApTwIJXa73UHuxPX0VKPap2edGQN
+	 LCqn731KNqFbxir7w/uA7GCQ+a5SO2P0XxHmvsIjdkNCz0GXyS5kgxBTR3Z+ZJlCkRJk6
+	 ERUQBhPPK9jPKFT6r8Gvxe0yZMA3vDB1UDUoigpLgM/DWxNg0y+wgbf+C6Hy38zJ3Cg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UYpWc1sh;
+	arc=none smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23C9606A335
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 09:38:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D23C9606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B59606A332
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 09:38:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84B59606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nxp.com header.i=@nxp.com header.a=rsa-sha256 header.s=selector1 header.b=nogV63Ha
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VC3hJnsOqoRm0JEVaD0qeWUkF6dlT9egJRGKLXOQtdJFHiiwgB0h4KUZ6VO5WVwFYyaPJZ9oKo3xrDJSOvN1AHtAuQ8vXeMbWPssZMaFejjslOlUYsKYBBwQDvChvFzyRCZ+/Bz/PddKACiW5Gcg8Wq4LcTBKZUdkRwuqUetVSLrDGyIFXe6Wen5mLhtkc++9JV9y0Cjq/NyZt0iOBPrLK+G47Z7tXiDzXmlFkybbDKmKyY3b8J+LLN5FVXwsI+W8zg0SseaDWmprx3aFKhSE8F6eQilGlI0DBannDkXYmWYhh36lYiXkjQwuBjN4gLXLdDy6poqpYi9Lhg1xpm7zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4u5hRzxLN/KIHR9SqKzlNkbU6kE20q0y3w0HvIaL8PU=;
- b=xIeubaIySheYN+1zOC9k2uTi67kTziThFRgnjZge5OuC5OPe4tl4cbn+qh85PIaNxI4Yb8bGC295eYr6SoAcgaic2xVI/edwKUcovQqvrcBLAKerRmJQcIbCErAWmnvCRWZ0Ojn+2n7WXPNmKrABpUMdmTQd/zBavrNu+Jb4OLIDltk5eqJdkXj494Za/L5ukLRSScKeBMfsww6zotkTNeksUFXdk2D3tRWfX1RJA2REfpecdDYaZwevHCiQdZoBbDf+IDAZqNAZxKM1slmC77ROpbtREa3ez0yTV/U43zGFCD4hOlBEO00EU+DPkgEY1Pc8vd7iT3KagYf2CNid4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4u5hRzxLN/KIHR9SqKzlNkbU6kE20q0y3w0HvIaL8PU=;
- b=nogV63HaBYfk9NNwqq6MITNki4EVlDd83PGqzRBSvFWr/EpJKt21c9EO5N8xUbBi/kNFEhiVsmctmwqIFr5t0Adcb5tQgIbI80WTV7cV2V8u/qLsxSpNvVlWfhlZsTuvhEmW5KuqO5dthiwWbbKGHBFZx1oSiXVBXeiR3kGI+TwIw4tPERYBZ9cGBnQMU7uEySwyBH98DX8nl7h0BfJkWzTWjIMNDqW1maZT8oeIh5P2gxLPtxWh2qzqcYMlsv+UOgxRw4ajTd1pfo0jZ/t38SdxQo9zfD4Pt1bhWrFHII+Xi4OD6O3fkLdWWgzABbBy3huB+FG5aHWVCWN4GzkDmw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM6PR04MB4472.eurprd04.prod.outlook.com (2603:10a6:20b:23::20)
- by AS5PR04MB9853.eurprd04.prod.outlook.com (2603:10a6:20b:672::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
- 2026 09:38:03 +0000
-Received: from AM6PR04MB4472.eurprd04.prod.outlook.com
- ([fe80::aed9:e8b9:c352:9ba0]) by AM6PR04MB4472.eurprd04.prod.outlook.com
- ([fe80::aed9:e8b9:c352:9ba0%6]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
- 09:38:03 +0000
-From: Stefan Ghetu <stefan.ghetu@nxp.com>
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org
-Cc: imx@lists.linux.dev,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Stefan Ghetu <stefan.ghetu@nxp.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>
-Subject: [PATCH v2 5/5] ASoC: fsl_asrc_m2m: allow only one task at a time per stream
-Date: Mon, 16 Nov 2026 11:37:51 +0200
-Message-ID: <20261116093751.138455-6-stefan.ghetu@nxp.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UYpWc1sh
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c45551fa84eso619700466b.3
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:38:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794821911; x=1795426711; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KVZRUyQxjEZeB1X14No1R2cixIaW3jXxvUBDYA6Pc60=;
+        b=UYpWc1shzf8kBKXESlt/rmRtpLOuJDihEpFizMS9pLPsKgILSIB2MQiINeMJgSACZb
+         vThq3hMHZMZpT/BZSTNfPPdHQOLPP6iuQ9Ot42sHnNwrkMyw6NDbqq1BqoqfMNVS1iGx
+         8CBbPn/da+IbGlMvtMTvt5bBAdXjFs+fnSzmDF+FVAVjM+2NvO5SydpJTLDE0PUei/1X
+         X8sNNO1XFi2ozqqXwBKcIQhQ5GsofOsDc1CZ4WTQThrlDvA6cuXd8M6R/AfHcUng3vV+
+         G8+pIWUKot8EbVPzXtJKnlR0hw6DOr0vl8TBudSZ7mcQqa6jjOkMtviTr7u0bT4LAZMY
+         214Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794821911; x=1795426711;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KVZRUyQxjEZeB1X14No1R2cixIaW3jXxvUBDYA6Pc60=;
+        b=0JhaGQe7sem9SWCaezgMpSxpdMYisJ2oTrljch9gUtbPoW042J/sD4eCi3l8HU8I/k
+         ZLFiffR2YHT/Hn6wtBrIMfw65a/7bIgTAZ2fKEmu4zSd9cWN6AfD6h97gyTw9PVnIiZa
+         ep4PL9tn6tDlPJdfRIYMXytFAElZRaFoPbQHSk/EkHgeZB3cXTMyUxQOXxyJ7zmnr94N
+         DB0kVnrK8EWPLEPQ4Id3k3LNrhBE30vqqUpVkmjscfW5bZCKPU5hiy/xo/4xWfsgFj5o
+         Psq7X86jZGu+FDRhfbae9rZ8Xk4g8GE06lVs82Ox4jGMuYKqeT/wZDP+QS6bWHYcH86G
+         EKjA==
+X-Forwarded-Encrypted: i=1; AL+hErE3LN9oBuNVnGGcX4bq6H08aHC11MxE983CbOYPgxUaZP/TaSbD4uQF9ifUZxde41a0e2AkG7aB7Ag92w==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9wgKzL97OsC7uOvOcG2S5hGyNX5O/CMvgL1ZvHbz3oB4T+YcqM
+	KSv4PBn7AD/DDuQmSTsIN0eZrqs137AFPKdrQEy1y9/xS6WhqrCiJi7C
+X-Gm-Gg: AYBFou1RuYuyX9WYEw9Nau7mhrHfPQe/ZqaPBgv6NRm0ax3CiJUytMwlIfdcxsXu9lo
+	YO6PNYp0VUyRH/e79UBiAwzImI3N4qdaEg/7kHKS1ZFw4ieouIuc6dLBeqokwJrhwdBeubCQVrZ
+	jOMckThFygcJ8AREVZ3BnS4n4hax0mce9bGqtFsJysqx+ss7++ZxxmV8FZd97SmcscpTl6AuWTY
+	325IsdGQml0esUdFigqfRo4xukeJVzvHg/xk8aLywVEWdE7TKwAB0fkKed2ilujuGBf3thO7m+P
+	l3NWGm7CdgI4gV6hLL3uYIZ6wE6/ryy06ig8wZt2/Ki4U31ZoMNl2dSt/Oofd9tBnjmiZEHj+C+
+	cY/FGWjkT+szhHP/jxfg7ylaK9rqP/jNv/GqwTkFvHkKTT99ol9RASxod6pKm60ncpWNofYVItG
+	veQbEaW7gFJGZjKRbQSVlrI3Be3OgV5IoBMIVfeCrAN+Sq3pxDu5LrvT4iPTXBgxWS6v7ZPC9bi
+	7UkQ+pNVMr68FFzr0q0pdTALDGYwLwQfUxGegq+epnfteyHH+l+WJB0CIKoh5U1nJHpqSl5Z5h9
+	1IDP1icUiPqZvqKcPZPSMPcPVQk71b7czh9RxZ4wqL2hiip7r9MEGPqIyQt8VeZSM8yc7vMt6fV
+	7a06kQpANZw==
+X-Received: by 2002:a17:907:9349:b0:c50:4720:4aec with SMTP id a640c23a62f3a-c5096398b9cmr726615066b.12.1794821911427;
+        Mon, 16 Nov 2026 01:38:31 -0800 (PST)
+Received: from xeon ([188.163.112.62])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b72868sm379906166b.65.2026.11.16.01.38.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 01:38:30 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+	Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH v1 0/3] ASoC: tegra: Consolidate and update tegra_asoc_machine
+Date: Mon, 16 Nov 2026 11:37:58 +0200
+Message-ID: <20261116093805.73715-1-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261116093751.138455-1-stefan.ghetu@nxp.com>
-References: <20261116093751.138455-1-stefan.ghetu@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P192CA0025.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:5e1::19) To AM6PR04MB4472.eurprd04.prod.outlook.com
- (2603:10a6:20b:23::20)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,109 +104,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB4472:EE_|AS5PR04MB9853:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2891c25-4c00-4661-e7d7-08df43c54fe4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|23010399003|22082099003|18002099003|261009223027099003|261022105027099003|261021121427099003|261026140227099003|261028144727099003|56012099006|11063799006|10067099003|261102123227099003;
-X-Microsoft-Antispam-Message-Info:
-	QU9hzXBMXUNXoBlh79v4KZXehq6ChZExNVo/uRFceQJRJlBD8tpYsb1V3cahsWmIOxFzrgrJ5/WNI1KAeZk8sTiCHqGcOJxp0B8gD5XeoDO5j1jaxocQWoWCjmLmdcCKqLWxTAFrKD5imcDflwK0N/tDkvGVEZBqERWdQRAFUCr7r1XEUaGDgruFKtmuRqZAfvvXJ+zKkf7xLAOQsiABuRYgShlu50X9xRxetGLdbylsXCAjY1xqT+FHKAuIMeCgjnCB8uFf/EMT5BgxJCZbf5SaqW2r4E8BbucBjY/Cn1TSlUwTe9JhALswYOeRuY4XKDPpcSfhrZMfxhr2KseN0sp0PxevIcr7UVJPuBIv7MOVkZhExDvz+GsLIzy6Agn+RMKksONYIvP3GPSRdRgGIcKxdzPEjeQ4EEH0yKOhHPUHRV0w8uGMtyzWvDdBuH0k7HxrgtpcRO2ZuFJT3vVVXltutWfsNom+zI2xS+IcTAyXtvyBQUUOLBzCJC1tvFzC7BZHJAZuPyC8axuNqtyGNI+y4okK2s8vW+9uEiCJ7Ne1fDO3LHydwETcjJYoxaslTEHNTgKUZGbG8OkEf2hmlu7bWTT5ajUMtAcTfS0aCnQ06TYkQJN9Sv0c3zwlzu2PVuM6kQDOOWqipwmF+me9EGb0Yioo651cLAkGgqp4XDU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB4472.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(23010399003)(22082099003)(18002099003)(261009223027099003)(261022105027099003)(261021121427099003)(261026140227099003)(261028144727099003)(56012099006)(11063799006)(10067099003)(261102123227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4c4NN5rvGUVksHS+9t8LBeMqfZ9tN3u73ZSdc51+lFA5bqqvoHeG78xCZaE+?=
- =?us-ascii?Q?PNEhyq96JzVhbcoIiCr/lqqO5agR7/pzwep8v98mZsE9mhkT/tBWrKG72Fi2?=
- =?us-ascii?Q?HQiIVnYvgex41NONVjdFI4j/Rt7WSq/6E5lSsg+mGezAm9UW1IVLCkiXB+bQ?=
- =?us-ascii?Q?Rq1/kMR+NAEbvbo3qFbjDV5Krh+4tJ0ggYZBeN51fiBA9t7XQ09GdX+i/vaQ?=
- =?us-ascii?Q?4nrrFp4XpALk/ZCfjBHTCmzGbz8o4bE/C/lLSjcVXGswTNKAVbi4gfJQY/kd?=
- =?us-ascii?Q?G+1SYqkfmPrQ6Fh7hC6nc9dtBv9T6KEh1CC1bFtIOBeePzXb5yxNjYfoVRrY?=
- =?us-ascii?Q?tYn5OI+nXhnDpiP4Y11PgsL3dWaalAtAWL+dlBjBBt0+OWEeiZEjtPF9QMzg?=
- =?us-ascii?Q?YY/JmC/r0Ot/kzpV4L6pQj5GUX+U0XON2bjHGKQFpewzbtkfaANq2m2ORDqX?=
- =?us-ascii?Q?XeFCdfZ7hkzbGtmVQZh7PJyQMtIiDkhoH3L6mgQNe92nz/cyxJSl9AusnbAI?=
- =?us-ascii?Q?UMo55yAaQrN/hSW2zHUN82wC5TTLza5WrpXZONRlChaZpPaH1wpqbxXHyG00?=
- =?us-ascii?Q?LOK/FalhnGQfQ1RQoP40CmefxDvKSn5dF5/mvXr7jIJZi3schoGE6uFlULSR?=
- =?us-ascii?Q?O1Di1/x8SdYGWOMjq0qNjnyIWGbV+G5vLfc27lgDGup4tS0dNqlRHLsU871q?=
- =?us-ascii?Q?OLS4iHqS4xyUdQdnwusATqXQnywDcj3NBoIn6WaNtYhMXvjD2Z6gK/BqdP0D?=
- =?us-ascii?Q?Vh7M2hxtgbd6QhhK+rPCiAFiMLy3YH77rpggG30wXHSLaNdbeBjeR9udUf5/?=
- =?us-ascii?Q?dpu+BSAWjHdhMrVEPjmm96KorUZ90z6x2/zVNmnspHXicNnNqHi1LBNXH9/i?=
- =?us-ascii?Q?2wgReMLFOuAINPOP7iJmkgxogTLB5ohEQwj7IyrXArFMgqBySKy+yorhV3q9?=
- =?us-ascii?Q?a6eHvVB+RYWysnq1iXQz8xztKuqAXaSiDo0ANo2GZhtBVp0bnMb3/2CN/lRh?=
- =?us-ascii?Q?DxUZHohgmzibGb3/ST/m2U05RA5Xa6O7RlGFdWfi2QcVg8eL/PpQXntEs/qb?=
- =?us-ascii?Q?951bHyWQBDynM2OetecfDSMqkYZT3RF55amGIzkUsfFPsl9KtnhhTdThj6+N?=
- =?us-ascii?Q?C8W7+LRGWppZiKnnI9eYcWHKupBBYD+FipoPer6zTWSaf0wzXf25LN70Sor4?=
- =?us-ascii?Q?GvmLmBPC6/qOLWE+HYxTVryvxA2LGU/auqEQlhl9M4oSWmEfx6S7bFxTij9U?=
- =?us-ascii?Q?8ZaJ3oEu8FS7nEH2sfTinbtBEZCoJPAHIFtnaEaDlhT08wHCYHlvKi1WsbXy?=
- =?us-ascii?Q?nrbj5Wpyau9XD4nmgCWrH4sR0HeUCXx3Ge7EzTsasrj81MdnWmAzOPSM+Hs6?=
- =?us-ascii?Q?o40iq6T/PW7dcmDPVV+XGwsK+XFgeIK49yk+Ffoch3+bi9WKV88n3nohRO1U?=
- =?us-ascii?Q?3a4T/mn8gKHIqkkuPAsXr6Qdr6yamgtJfcBxuVcgoLHplJ6Grd3MFWGrLDD9?=
- =?us-ascii?Q?Xn9E1WBQl14vshTn6nj4pUK3SMSdsnozJPfht8VJrPAo6/IJFph1dMRZUCF1?=
- =?us-ascii?Q?0E8tdVDNJfdm5gMa59JBFGyy2nAcrIg5/8YeJBj6LLQKdT2TDz1B17BrjoA5?=
- =?us-ascii?Q?QVPm36xpY6gIsF9JwZlHo03wtfAzQvP2rrw+3egYBT3fZqxeHJq4eorS7l2B?=
- =?us-ascii?Q?gwZ1tGCu/S92ytcIHsqlvNHr9f00GEvA8R9mrL857385miTU4bvayxuYsXNW?=
- =?us-ascii?Q?H0Df/+X1ng=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2891c25-4c00-4661-e7d7-08df43c54fe4
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB4472.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 09:38:03.8850
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tLfUJ4t9AdMByzCqk/2C5shlgedOEfoPKKqbXmpi0gnog0v4Eg+bNQ9SLB8s/JQFm7dqnnyk5/0JNlJjF2r8Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9853
+Content-Transfer-Encoding: 8bit
 
-All tasks of a stream share one pair and one set of DMA channels, and
-get_caps() advertises a single fragment, but the compress core allows
-up to 64 tasks. A second task requests the pair again and overwrites the
-DMA channels. Freeing both tasks then releases the same channels twice
-and leaves a stale asrc->pair[] entry after close.
+This patchset is based on 
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/log/?h=for-7.5
 
-Return -EBUSY from task_create() while a task exists, and clear the DMA
-channel pointers once they are released.
+It requires this series to work ("ASoC: Convert last few codecs to set_jack")
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/?h=for-7.5&id=30b0682691a3709441146311a4f695b08eca567b
 
-Fixes: 24a01710f627 ("ASoC: fsl_asrc_m2m: Add memory to memory function")
-Signed-off-by: Stefan Ghetu <stefan.ghetu@nxp.com>
-Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
----
- sound/soc/fsl/fsl_asrc_m2m.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Patch set consolidates remaining wm8903, wm8962 and wm8994 partial machine
+implementations into tegra_asoc_machine which now is possible thanks to
+conversion of codecs to use unified .set_jack callback.
 
-diff --git a/sound/soc/fsl/fsl_asrc_m2m.c b/sound/soc/fsl/fsl_asrc_m2m.c
-index 5e9dc5b956fa..0537a8aff515 100644
---- a/sound/soc/fsl/fsl_asrc_m2m.c
-+++ b/sound/soc/fsl/fsl_asrc_m2m.c
-@@ -470,6 +470,10 @@ static int fsl_asrc_m2m_comp_task_create(struct snd_compr_stream *stream,
- 	struct dma_chan *tmp_chan;
- 	int ret;
- 
-+	/* All tasks share the pair and DMA channels: one task at a time */
-+	if (pair->dma_chan[IN])
-+		return -EBUSY;
-+
- 	exp_info_in.ops = &fsl_asrc_m2m_dma_buf_ops;
- 	exp_info_in.size = ASRC_M2M_BUFFER_SIZE;
- 	exp_info_in.flags = O_RDWR;
-@@ -526,6 +530,7 @@ static int fsl_asrc_m2m_comp_task_create(struct snd_compr_stream *stream,
- 
- err_dma_channel_out:
- 	dma_release_channel(pair->dma_chan[IN]);
-+	pair->dma_chan[IN] = NULL;
- err_dma_channel_in:
- 	if (asrc->m2m_unprepare)
- 		asrc->m2m_unprepare(pair);
-@@ -570,6 +575,8 @@ static int fsl_asrc_m2m_comp_task_free(struct snd_compr_stream *stream,
- 		dma_release_channel(pair->dma_chan[IN]);
- 	if (pair->dma_chan[OUT])
- 		dma_release_channel(pair->dma_chan[OUT]);
-+	pair->dma_chan[IN] = NULL;
-+	pair->dma_chan[OUT] = NULL;
- 
- 	return 0;
- }
+Second patch removes repetitive, boilerplate codec-specific initialization
+functions with similar content.
+
+Third patch is just sorting, no functional code changes.
+
+Svyatoslav Ryhel (3):
+  ASoC: tegra: Consolidate remaining separate codec machine drivers into
+    tegra_asoc_machine
+  ASoC: tegra: Generalize forced DAPM pin enabling via tegra_asoc_data
+  ASoC: tegra: Reorder the codec structures and sort the machine OF
+    match table alphabetically
+
+ sound/soc/tegra/Makefile             |   6 -
+ sound/soc/tegra/tegra_asoc_machine.c | 510 ++++++++++++++++++---------
+ sound/soc/tegra/tegra_asoc_machine.h |   4 +-
+ sound/soc/tegra/tegra_wm8903.c       | 188 ----------
+ sound/soc/tegra/tegra_wm8962.c       | 165 ---------
+ sound/soc/tegra/tegra_wm8994.c       | 175 ---------
+ 6 files changed, 344 insertions(+), 704 deletions(-)
+ delete mode 100644 sound/soc/tegra/tegra_wm8903.c
+ delete mode 100644 sound/soc/tegra/tegra_wm8962.c
+ delete mode 100644 sound/soc/tegra/tegra_wm8994.c
+
 -- 
 2.53.0
 
