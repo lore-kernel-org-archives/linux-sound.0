@@ -1,48 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.68.154.128
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794820820;
-	b=E4bGDO7R0m9BXFyo1hsIVn5CobP017bx2nU7tde1wz4VONiY/bk8c6Xn6f56+HM9vw3o
-	 ksHDlpAPjmv7QEUJvcJIK6+uYTatEbkj5Q25SWNsg1YjVr+MsGvJkm3VsbRRPvndkbSrP
-	 hw92HiMiF+AtvryTft3iN6IdBK3Y4r7f6tGiGNjPZGFSm5EPlN7KLEjotp/ZHESPcobn+
-	 07cUoBprAd0tuOeNb7TD8tFucHJBuY6GAa/ULiQ/bbbV+fZ37DKRg4vNceO4EtLMvnRYx
-	 0O9VwuRIEJGnrIHa5US5bpxjyTEU7WydjqK2vpZlM21IFWC2xtrH/DdgdUv2PAl5F4w==
+	t=1794820943;
+	b=jG0llurG1JZgfhNUQtlJ5tcPiIH+NNOQCo4XqeQOZDE/EhOje6DvovzTrLP3p/7OnKID
+	 mV80AtH+Xqi2qofT+Z75/+4Ue4zuZIum1lzzKMx4vmZ/QE6MewjxcwlA1vg2yNJVFQBwb
+	 4XwL1Cz6P2u7Uxnr0OIQ3r2NiJBmFaDZsrrqKYIAECcwQi386fbhLSYihmUbMyA7oRkaB
+	 t1Hyz1AZzRUmbkJ+Vkh5ClEC1YfFwaUz8ycmOsyeCP6VR9IwtmN+uv+f/jG6n4oX1FxWQ
+	 0C3MKnafDibOvu1Ihd2f71L4WMFHlqKaxjeM+j7ZSHIQCPrVFWsVtg8F7sArsubXgcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794820820;
-	h=DMARC-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=k+wOuVk0Dr+o/+JpRBrIEXz83gTiweTC0xIvCalJCXc=;
-	b=sqVJh5FlJA99j3sR2PsKuslUsODeuCJm5/pYvoH0HYIFxcgJizFmjV0nyAojFV+214rU
-	 ypFyJx2EzuaN/xWq76qiraeicKAOZdQlyATT2cFrqi8mIkTZLqT9rF6ITBnv/u7aqc44R
-	 R7aVLBa4z635RAWnhRyCYWf0EN6OIxn1C8RjVUfpThUoW1HRyOD5W4O4FQN17QFd5YN1a
-	 bQzroM9mbQEW0EwuoqCNc9StqRcdIczCO26wCsfDat5R3S2vd31Z0Mf1d0jNdJuEVBsAd
-	 QgQgWM6xxQD5by5I3f0SDOX0GI+y1Kke2j77s9kBRcNm37dXQIRhdKX6xKroNEQfcyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794820943;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-ID:X-MBO-RS-META;
+	bh=Y6QRPXFup/9XWuMG6qmhWGclh7A4WKa63q/MtCTrYJ4=;
+	b=T/b011UwLav+9wM35noG3BvaSpQv/MsEqNVchokoVhOExyY6NYdluLd/VQiqWl3OiFiw
+	 mMcGR+jYgWXICfhqqpOa/kwTMoX1w5irsgixwUTDv/2fOYnpC8YVEVE/tmAs8BENiUnkP
+	 OTiDHPgA4q9fLm4Y/0tSVu3VDsWKeceIAqBX886jg0lZC3BCJ59Fjvo5Udzd91BXmx2AT
+	 DBE8w6R36A2cyEuzSm6NxYI/sw0Ma1IcjMfhDF3u/YhUnsEMVKZxqwuSTVKtuf38xxVH4
+	 Pdv1/SGPpFZxfvn+KtaKGnNYjYkySQU4jgUn3YmFAEa5A9MApVwwHsZvWFF43Qn4N5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=fromdisposition.org;
-	spf=pass smtp.mailfrom=fromdisposition.org;
-	dkim=pass header.d=fromdisposition.org header.i=@fromdisposition.org header.a=rsa-sha256 header.s=mail header.b=AoKjACI+;
-	arc=none smtp.remote-ip=51.68.154.128
-Received: from 4do.net (4do.net [51.68.154.128])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b="kQBYJq/y";
+	arc=none smtp.remote-ip=80.241.56.172
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94A8606A323;
-	Mon, 16 Nov 2026 09:20:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A94A8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fromdisposition.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromdisposition.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54FE606A32C;
+	Mon, 16 Nov 2026 09:22:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E54FE606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=fromdisposition.org header.i=@fromdisposition.org header.a=rsa-sha256 header.s=mail header.b=AoKjACI+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fromdisposition.org;
-	s=mail; t=1794820811;
-	bh=GrxWz7efrCMYHUVm6uX3hNeflkQ7aBKkrpH9+rrDivQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AoKjACI+BQ0t/iCTSnaeCeZL0VUkjIlbPm9eHZc8yzrb7B1uPNAG6TuZ4jT+Y1+EP
-	 01LuJPqGtt+SVAWSkoPqgpXZm9U9WAQkFc6Kvjy08AbmleItojeYAejBr1wrP/OflL
-	 kswuC4d6jwqxD8Phl8M2I+Y3JFRnOyVZDYH51aCQN7+fJy4104vF2kVaHdHXzR/sdW
-	 Y1a5TPNV9YXqIeo9NGlunMk8qvhhrlxrXPYVvZ+XBDd5vidpU7dkNX3vX5a6qSoHds
-	 Ed0Copt4Jecygq+J7BJsvUVCMLHskcJEdlv53J/+kHsmkgwRKZ2G2cFI9EkI3uHb+6
-	 bc8GTSk6e8gsQ==
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=kQBYJq/y
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jSj7F4j94zMlJh;
+	Mon, 16 Nov 2026 10:22:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1794820937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Y6QRPXFup/9XWuMG6qmhWGclh7A4WKa63q/MtCTrYJ4=;
+	b=kQBYJq/yUy5/67zh6X5VKjbF2EPNVuL/az7R+I8hZi2PJrrGifKhxhPOQjSYdRU29UiL9l
+	OL3jqqLS3ihMDxzW0WVnKYFOZeACvbzOEds8kr7LHYW/ExcwfNrtllrjRXEVrgEAamCTRi
+	PEuVk8SaPzrocXohnkfowet0qnQQe7ODvEor3Yo8mhoH0tko8d9jR5lIUAPljsrkYRt1nK
+	9eQAZXo1toqrt3FJCzhGC9nv3dY8OCWUR45hCP/71vq+h1GSX9dcrGv4bRp3EribvaEXOY
+	pIxk8blwuv39NVwSj9KbnVhyH9oLVye0k4Kzi4bcqOxU4MJIbQeuoIK/8G2Hsg==
+Message-ID: <fd865483-1485-4042-b938-2012eaa65043@mailbox.org>
+Date: Mon, 16 Nov 2026 10:22:14 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -52,48 +62,61 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Mon, 16 Nov 2026 09:20:11 +0000
-From: Demeter Barna <me@fromdisposition.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Michael McAllister <me@michaelmcallister.org>, Srinivas Kandagatla
- <srini@kernel.org>, Mark Brown <broonie@kernel.org>, lgirdwood@gmail.com,
- perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: qcom: q6asm: Correct the 24-bit PCM format
-In-Reply-To: <16b8f649-f464-43a3-b372-868351df9117@oss.qualcomm.com>
-References: <179355993304.51321.11135059681945648585.q6asm-capture-format-v1@michaelmcallister.org>
- <f3485a790ffdafe635b84b5d68730dad@fromdisposition.org>
- <179416102230.53258.7301268454500974217.q6asm-pcm-format-v2@michaelmcallister.org>
- <16b8f649-f464-43a3-b372-868351df9117@oss.qualcomm.com>
-Message-ID: <8832ef4d735b3fcdf48a2bf2a9997975@fromdisposition.org>
-X-Sender: me@fromdisposition.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: doc: cs35l56: Point to kernel.org firmware
+ repository
+To: linux-sound@vger.kernel.org
+Cc: David Rhodes <david.rhodes@cirrus.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Takashi Iwai <tiwai@suse.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com
+References: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20260914031252.98932-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 5f70c5e78e4e3c85d5b
+X-MBO-RS-META: jx3otgz355xkrtsxxwdwbsfbnfho5qyn
 
-On 2026-11-15 13:12, Srinivas Kandagatla wrote:
-> Can you please try this change and see if it helps. I have not tested
-> this myself as am travelling atm.
+On 9/14/26 5:12 AM, Marek Vasut wrote:
+> Use the primary mirror of linux-firmware at kernel.org.
+> No functional change.
+> 
+> Fixes: 088fb4ee17fc ("ALSA: doc: cs35l56: Add information about Cirrus Logic CS35L54/56/57")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: David Rhodes <david.rhodes@cirrus.com>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Richard Fitzgerald <rf@opensource.cirrus.com>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-sound@vger.kernel.org
+> Cc: patches@opensource.cirrus.com
+> ---
+>   Documentation/sound/codecs/cs35l56.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/sound/codecs/cs35l56.rst b/Documentation/sound/codecs/cs35l56.rst
+> index b3f8c1c238518..4a246f535d260 100644
+> --- a/Documentation/sound/codecs/cs35l56.rst
+> +++ b/Documentation/sound/codecs/cs35l56.rst
+> @@ -50,7 +50,7 @@ DSP. Firmware files are essential to enable the full capabilities of the
+>   amplifier.
+>   
+>   Firmware is distributed in the linux-firmware repository:
+> -https://gitlab.com/kernel-firmware/linux-firmware.git
+> +https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/
+>   
+>   On most SoundWire systems the amplifier has a default minimum capability to
+>   produce audio. However this will be
 
-Hi Srinivas,
+Is there anything left over to do with this change ?
 
-Thanks, I gave it a go on SM8350.
-
-The DSP takes the V4 blocks without complaining, but nothing changes for
-me: S24_LE playback is still 48 dB down, same as without the patch. I
-played a 440 Hz tone and recorded it with the DMICs:
-
-                                     without    with
-   S16_LE                            -25 dBFS   -25 dBFS
-   S24_LE (bits 23:0)                -73 dBFS   -73 dBFS
-   S24_LE, shifted into bits 31:8    -25 dBFS   -25 dBFS
-
-Capture is the same story, the samples still come back in bits 31:8.
-
-Michael's v2 does work here, for what it's worth: S32_LE playback comes
-out at -25 dBFS like S16_LE, and S32_LE capture records the tone at the
-same level as S16_LE.
-
-So it looks like this DSP just ignores mode 23. Maybe that depends on
-the firmware version, but with the firmware this device ships it doesn't
-work. If you have another way to fix this in mind, I'm happy to test it.
+Thank you for your help !
