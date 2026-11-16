@@ -1,60 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794862029;
-	b=hdvrjoiAlFHnwZ0m3m9ppCRxPVa3qWlU2oOrrFUY7VBBUbDTkyC7vOnZMEDgEk3c9VxT
-	 04Xl8naSCp4jRyGmEyHSa7gMvkAcs5ngUG99uKrWAWcWQBcJDJqqPLmtST3ijNuQy0pmf
-	 mP5wuD9pcKbVg7qtIRd9Yfkxk+kqIgpjVRFiouvv/Aibe5XBssVEpMgbrZ3g0aDb7UnSE
-	 5gV941mRwjReCXI40IWLKP6Tv2wU8XsH88Mja2kgmQi7i+6oQSnXJSHF2tXLZZvo3Jh+7
-	 x1EF66SkrHhTNqc2/ig5O+7zQJczSa9tpYFtiRYexIgYArNZmTQvskoJzy8P6gUqeBQ==
+	t=1794862358;
+	b=HF8BGt8uFO8LvOiq1zK9XysK/bxi/QiswtDtW4z83Nh7UCScXssu4Btp6HR3GChNdIfI
+	 WYWmmDNXPG0+LU1rvwDBzMySxgVexlsHnPF8NuGKqbb89RYBeHt+lE/orjupSV01H6fiA
+	 ANR4T+7OWLH2axVMZE8UHU6MumO90AJxkbd7I1oCTeZDuHy3y4mWDTWX1DCItUihVo892
+	 7i7GMKrcZmmk2SeDrHdiIVN8QMVHkIVnhjw2euKdMOvTRQmd0QXwxVkkYvrkvIIdE4UD0
+	 4upssNCVUkf1TpEe5lGW3j8rD1HvIF0YokcuXw06/Au0D9pwXFI+JrxunXfXCezDMbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794862029;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=spuwznmFif8ClY0PJJz4ISR1AZmgjTB1CPE9Yz60cQ0=;
-	b=zZle8XJCSzyyjuQ+jkEZS5IdqY4qF106ZbUj6KKiME8906rn5/V38nN8KxuAzsJRo7xx
-	 dzx9hF0DThn6Ebh8XEGGimk/kUYsTbV8EY2b98MotUaRwrOJ2lB+jG5KuYCB4lyQy3noG
-	 bWGqyX8s5PFj0NfXxZU37N0cyrxmb35JLBoPtPjtWXqCRzpSI8m9PyzucMRxnq+zf9WgQ
-	 JEcW732ZDbvS9JYjK587QCq02+zGX2Hw+ougwpYjLU9phI2l34GJmv5i1pb7tjpJEs+p1
-	 VjZAWj8wvBSQpZiLRCcpL1N2jaCaJL3s1idSvCpiLIwLwC9mc37R6r+UI8psdZ7xsKQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794862358;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=O/WLe8IGTSwdZfPyk3o9swtenyk7Mb3WvItfESaLxh4=;
+	b=MyCv9EvMpcoz95nIRC0k7bsyeGBC7jtck37TSzF5aRh4fbuahrl337VzVri9qUFntLBH
+	 2YAJbkD+iu9Skh346alg5n3vgJV0JZN5e0cwW7bDcjkIDGtjBbYBFT+t1mLU2r/BhO4cQ
+	 nKYJfYw9v/ODmpDCS4Bk7Us1zWW+JVlLJhbXtGHjuC6NXSv3gszYR61c4FDZarkioGZC+
+	 gteY7CdCe2o/CzgBBT/nE9cNbW2tVgbOKDI3WslLWKiKZfB1dL0oGlNHa3Oaoo92iMz/n
+	 IL2dpqVtXbS57D0zIejDt2Iixs6XqiLSaFaQOeNsOEaIHwy0lis68pPO0hWNzQWTLsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NgR3e4PV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TdzsHkud;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09089606A31C
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 20:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E19606A31C;
+	Mon, 16 Nov 2026 20:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NgR3e4PV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08641F000C4;
-	Mon, 16 Nov 2026 20:47:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TdzsHkud
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B3C91F000C4;
+	Mon, 16 Nov 2026 20:52:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794862028;
-	bh=spuwznmFif8ClY0PJJz4ISR1AZmgjTB1CPE9Yz60cQ0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=NgR3e4PVCRLKaOgmu6k7Zob8Cz2VgQLwPCG0Gh7fV7OdmHJffKkIZFcDjr5jeorBa
-	 +OUfkTEyqoNM7FHKTpqn8n0YHoCn0gzkdAImcoufQCCpybHVW+K17kEevNKPUrvdzU
-	 g16xMhwUHYCQt5Nw5KFXsdPhBLkSR9J2RsajlwozgCvu+/Kih26I03Y3fC2ju1Pwzy
-	 IMZ7ELknQOWlFDAMHGN8VKOEGs0dTlFdoE/uLhm1weQ22B+o798q8nrS1Z9t34XitZ
-	 XXTpqg0GTt30zeoiRRQQ5gDS66oBNVOGPBsAeK1VbMBSJWwlivqNI65BSlu2IuiOri
-	 /kKNwphj4NN0g==
-From: Mark Brown <broonie@kernel.org>
-To: Qianghua Wang <qianghua.wang@senarytech.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- bo liu <bo.liu@senarytech.com>
-In-Reply-To: <20261110034736.742465-1-qianghua.wang@senarytech.com>
-References: <20261110034736.742465-1-qianghua.wang@senarytech.com>
-Subject: Re: [PATCH v2] ASoC: sn624x: add support for the SN6245 part ID
-Message-Id: <179484700102.186909.14702828659133477111.b4-ty@b4>
-Date: Mon, 16 Nov 2026 16:36:41 +0000
+	s=k20260515; t=1794862357;
+	bh=O/WLe8IGTSwdZfPyk3o9swtenyk7Mb3WvItfESaLxh4=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=TdzsHkuduyViJz7b4P8FtBT0nmjsCU64pEiH/Sf9SywijLc2obfmB+PysYYjGOT0I
+	 o0qPuPsu595PxFLCL4DgU3zCif/zh8Xa4Ijjd0Cj5xws0quk/WmX4f1O1VwKHqQUmR
+	 62gMZWl7QaIxZZYyJgozcke7DGMYsAKbm1pFvyT/hCzvEVgGnW5Xh1WxE4ACZ/7KM+
+	 rummlmxI37OFj1qJiYXkECCl5TPiMn3LiftsnFosvSMFdGyfDQgOrzzK3n4+91+e0l
+	 yBh2J+4vSP/dxdndbfqcC3dR49VR6x0aDXzrxVd85jJROeQm3mYbO1wssWyRhs5geu
+	 bFjzUMje8mu2w==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,44 +51,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2] ASoC: qcom: audioreach: support multichannel PCM
+ formats
+From: Mark Brown <broonie@kernel.org>
+To: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com, 
+ bartosz.golaszewski@oss.qualcomm.com, 
+ Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261026082534.986449-1-zhangfei.gao@oss.qualcomm.com>
+References: <20261026082534.986449-1-zhangfei.gao@oss.qualcomm.com>
+Date: Mon, 16 Nov 2026 20:52:32 +0000
+Message-Id: <179486235253.2504946.2842491869825346475.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
- h=from:subject:message-id; bh=oe9JqctD2S/b/CwFpL/BEYaigNgvA9F8KA6soPEvs2w=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+Z5+or3FKCcmb2ybB8zZklolg1lQ5piuiqaZtf9UL7
- s6zW5HfUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgImsrGZkaJHP/3BGiHmdT2FH
- qtrcS1lFBVL2lseZ5DyE9/kueMhrwPBXrvD8EeGVnN4J3587BxXMVlblcp7BIeisdXlvznejDCM
- eAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=281; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=lj4vY8gSkepZxtqE+w592m+OxCR/O4xZgdS860CBN4U=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+5wpePCzMfzXfKHiNLiOPoUb/1OM3N90L6xRRmPQk4
+ 8wigeWiHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjICjmGf9aXKl3eNf2WrTvR
+ tPfF/Pkz/2b+XLVNNPrklD1KLU1Tn15mZLhqsudK+2kDruh7sZLy/tPOvz6Ws+3PET7dmWkfV12
+ Wm8ELAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 10 Nov 2026 11:47:36 +0800, Qianghua Wang wrote:
-> ASoC: sn624x: add support for the SN6245 part ID
+> AudioReach currently rejects PCM streams with more than four channels in
+> the PCM and shared-memory media format paths.
+> 
+> Reuse q6dsp_map_channels() to support multichannel PCM formats.
 
-Applied to
+This needs a rebase against current code.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[1/1] ASoC: sn624x: add support for the SN6245 part ID
-      https://git.kernel.org/broonie/sound/c/2768208d3ec9
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Mark Brown <broonie@kernel.org>
