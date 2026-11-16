@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794821081;
-	b=2OfSExuops1wtM5vpOGkDdp1t3FnyCLeBvDJM7RANxzARcL4g7kIK0cGdkBQlhWE4tli
-	 GU771oArK5POQ1KdGJXrHLXMJHuR6XB8vBvhGNVQvzG1ghmuOKnn2QsqCMKNSmlKfnQQ5
-	 HR4nvtGVOWNrmy5jTihoNAMrd7xd+KPzcCMvyvEJqOYijx5FJvDYpdDbzmmheRuLGzsWT
-	 dH+c5OACMhNKKIso5Q+9I5nxXSZcWZvrdhljp+LZcIo6yGuFQQ1fe1cQFC7Toa0CVkU+3
-	 NqOVC7Zn4SxvXS5B7tVL9uElo7boUlo79cnEjff5aSt2CKKOgWDSx9WgKfvFDmWPHUQ==
+	t=1794821085;
+	b=fRglTFR6lSxJHF249q+csckBgtY2lVETWLNPakkOQlWwBqCl068EThBWNODkB0fWoTvv
+	 pNiZY0IbQe/5s6Q/bYZQhOkzDXRrShCZPTTwJ1K+oMelANUMGYrm07E97heqTtQ2lHVIL
+	 xphth53/BIzbCUxUJSMySp/Oawzfv63VRqB0kcyJwjkmWpf4tKA0Jy2t1kSe1CQ643T37
+	 1/fzSpKy2Mo2lwYDvg8I5osNRyj5HNKCLkROadlnG7mkz1POxju1bCydq8tjvVcd7kGbx
+	 moG72Bz48H7oKVvXrPwxjss0FdZ4+4v2hwCBr6LVEZN6es9YFc0f45YqeRwbf9wAuEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794821081;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794821085;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=XBl6SSviqpQOksI/O76xGkK2rzDNjLeiKDxI3tZWuYQ=;
-	b=qQ5UfwSV+IquLXQ9rEugpEIv0vnBTPMXBkdB2aO/9cGgCz15htss6HewxMvAconwvTeF
-	 f9MtlKyGOoI0XuwdRQRsyKIwyHtq6OTrTpd/jP/WZT7XhWTFjheiuRw1i4WTsHMmv9p3C
-	 ca0WPVq+cUvyENGM6DjWdhGx4LEJj7JjA1bJuAKn7IXReq5QFTnT3HzaBHC2/LpXojz5K
-	 NDgZs8SxOlHR+QTYFelN7ylKsDX/zDze8+JDGmzil/QOyyHreTQQuk3ItpSauBFRvGXN6
-	 KFTFoYnOgZBpteB6gdOSR4ZwVHPA5GeBHkidxS8iCTFtLKxNAHBHTBEqegXirs2a8iw==
+	bh=WUxp2BAdKNaxPyxlUG7gwr+X39RWETzd5B6iN9Tnzbo=;
+	b=LAVv8gQLWpfvCFWcQ19shkVt9skrUzdX/7BaSj/6u8NxRoESKmvgwJ8H8HNqP3oFII7G
+	 5RfkRJouxgR38SlOKQEuy8YAuPqk0Z5qhtCFQzrED1WTlrL3/qgfEZ8HyqH9gyKZ3gIzu
+	 Xhr7dM28px23807AM8A6RUemOq+6XHpeDNiAh7twZfVPd/tpVgbqT8DEjGeMkd5lcGwuP
+	 Uj3MD6wkzmrDvTzrG1DxpM2q9lOcKiLGmbKZhHLPqUti3lyxQQt8QBkRSxnxCORs5myCV
+	 /LUG+nuetFBQSrGavO52/vmHBb0ZJXp5NHyjNZ1laHwkkXHntQr4mHTsJWem2faP+MA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SuolmalW;
-	arc=none smtp.remote-ip=209.85.214.177
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l0tOu826;
+	arc=none smtp.remote-ip=209.85.216.46
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BBA606A323
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 09:24:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73BBA606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB97606A323
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 09:24:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBB97606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SuolmalW
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ee2072d1e7so7946415ad.2
-        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:24:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l0tOu826
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b08cf16decso1738348a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:24:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794821079; x=1795425879; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794821084; x=1795425884; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XBl6SSviqpQOksI/O76xGkK2rzDNjLeiKDxI3tZWuYQ=;
-        b=SuolmalW6iv1mAhR8LZKmrFTcEC62Y3yMvpvS2G5mTr8q74VK4ZYvVf0zaLg/Qjzhz
-         lpC9DbZrAAEH0AMuyZxdbP+HT0nczDIKcxRjiE+25IY6AXyewsMrwK80XMAoAEoG64sB
-         LBRCNfJX0sqbq+9+q4md9b4rZKiwVwJGVauLQmJOkAuYvg0BCWFGreiDk92JwGgbpzDJ
-         TGhgOqZw590ovoSL0Xdp7n/uiSO8XBAAHqyj5nMcbhH+Q9kF41wYcTFkneBGxtQ34SbS
-         SuWav31sdpzZzK6fywOop1fVjaZgWohzSP6kZVqXd60mOLUcjaUw34JFQI85lO1i/som
-         y7Zw==
+        bh=WUxp2BAdKNaxPyxlUG7gwr+X39RWETzd5B6iN9Tnzbo=;
+        b=l0tOu826uUrQ9BsMsFcGGhILaMOE96u3mOVvVUqEjKhXtXrgxQlGBVBk045EdhC8AM
+         dw+nQk5Yp9eY1+ZKjXOdsiaQrEmYTgekhHXM1hSvnbPC36ufmSrbQkd0UJvAxGkv2XOH
+         NQFcjqbJ6xAi1yTlUF5ihFVfhvVefdoro3Z9WcNlz6uyncG5tetgrPkIiSlhpTPzhpJX
+         +gAmC0BJbp7R5UTJL4kNLwHkux2+MCEh631AneqwksOUvoN8XVae1uiK3wUwBZQ/falY
+         AFuHhR81TtLuWcYVldnCMjeRwMzB//rXJko+t0rt3vfU0BZXxJPM+r8+aWZI/tOembTT
+         CZzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794821079; x=1795425879;
+        d=1e100.net; s=20260707; t=1794821084; x=1795425884;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XBl6SSviqpQOksI/O76xGkK2rzDNjLeiKDxI3tZWuYQ=;
-        b=VDvY+UhW5N3r+g4Xk6y0Gv/m5u9EpK6274p8VcveHymvwPOVVp34q08dpBmhsTTWT7
-         TJxMz6f8oKnmXB8u84FzjIbOG+IV9vDES2S8tfj+Rw90fnk3FwG8DUoFq92WecWjAo5G
-         3mIo6zm6Qu5ImPWn4wEK99xyrV97yJUwhGf1RUAim0e/3UTcPfv1v3gusZiuYTHONXOy
-         iQhKP/Q17rlo47WP67mR6MaWDqa++3Tgqg6BS0dTYERxPTiHvEK73CbfGgiHp9opWlE/
-         mwaiaQBVS/awQwsGpAciLkjHC89va8CqD9n/k14Xw547upFIVNx7BmkpPUXBFhnYxM4e
-         mARA==
-X-Forwarded-Encrypted: i=1; AL+hErHiXyLRqX7tL4/HwVf/QIZgjiKcUyPCtZIhxCVQKR2HQTLO4O2JMUyGNdUZYUP8KR251n0sEP5agAwvpA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9JJsup1yIZTcXeq7J9D8PaSsECofLq7XUGZzyLorEo3AWlC9mc
-	yurlfOexMZFD3YNPSlR7fxXw4zEAcQ/G1m8G2ub8xI6n+nsnSi0lOP1/JHoqWA==
-X-Gm-Gg: AZFdTZeNTPFz5eq+Akir2N7uueD45fq7TszpzZ/APHEpCwzqTQIoGqEVHN8P1/PhQT9
-	vakOdzuVIEPcY0bekoTKJe3EOJ9Jv5p2+Qe0pKlogKp/BceI52iMk3IZXdhLEAmgK1QIgcxbvar
-	Bds9Y3HTdTbSSR+44J4Zym0LHyVl6wpJdDFJjZTRrEC9NAWJUmgTiJAI4KAQdE/pnS3PzbQAsIh
-	42BVrynnALbn1s6AmIZpnekPOcr+7IO7dd0ZttCfWd/pmZiYHQWIt+JPVo+rsf94fPEV0LXxSVq
-	o+ju0DODCzmTij4kTCYxcD511l8YA3o1azAIVBRsoJytw5p70ye7LzRI/0PP5KHJCi7gEsYW0J1
-	FvFFSEVLgRy5kRAFIx/gj+QjGarsWsCDkRJiLGade4r92xdiF8Xs87lOUKew9pTQxRxzAu1GlHU
-	rSh47EzPGNXNPfjX5Ux0pmykcH+w9u6TAe+jXMZ9FJGN5jkon7YzmgkGtOCfcudH6Zwe4mk0zg0
-	6cYXm2eVMN+D4RgvzECofW8IGjxQn0YJ3fHHnRaNxEzLIChvNa1IoBs9yfKzyPfs1ardctJCcol
-	oXNX+ox1+YBhS0dMCtXxrmfoLp1lOOIJvgxWanzI3xHaUo2bWKjUAH8C5D2SGgnBZWEeyBvqyE+
-	N9kic/CpRhMmjjyQjRrh6FLFClJ3xc/riWmztaNAGJtAD
-X-Received: by 2002:a17:90b:558e:b0:3ac:9ed8:f319 with SMTP id 98e67ed59e1d1-3b1b07fec26mr8956019a91.2.1794821079320;
-        Mon, 16 Nov 2026 01:24:39 -0800 (PST)
+        bh=WUxp2BAdKNaxPyxlUG7gwr+X39RWETzd5B6iN9Tnzbo=;
+        b=pANumVrjvMY5PTU7RIZGNRy1wTyqh6wqTa20xnCaJskcKt6oQg/DbwbddBCziME/YV
+         pmaam3QErA48AUXZi2NF+N2G3t8S7ZNC4uC9sdFomIsL6vqfKwGP/FIIm2mKZAeELN/w
+         3XuHA7aADRvW+7TpZkWl2QRO5LTvB4MquBruOWeJrHxTLMKwJppp+5c/LeWFmOT2QIgR
+         a8JjPGdJ02fyTU04IUGsRFlkIhyRkaN2bwbO/d1d1bGGyd1MbQKcgL0pP2mNdgAiAbEs
+         En3XQXs0NR6rILLHG6xC8o5ccq2Bpi5/GNYhmao/7ARUFMCoZMUJM5kZ4IXyUhG8U2ae
+         edGg==
+X-Forwarded-Encrypted: i=1; AL+hErFFqkzdOAj/vBDYg/zKeJwsDCgwWbCQZeveY9DDi4tA0R+/1KBwGbUEMmNRWn+3Vqq/Pbtt2yaXsWaACw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/G2Vbe9R0GTfxBIPCZrhhmikIZGjDAGK8Mtca/M4j1Oy5u9VOE
+	IrS3FaXs5eaKuYZe5Bna8TTYsoAIxwGZ+yESnzNhcMpfsYwns46ugpb6
+X-Gm-Gg: AZFdTZfhfxsq7Sgge8NXX6qAYuI1CVMTb2a8l7V9kLEoYvTuXI8qEjHarVh98j5BsIe
+	+B00hMefVRdHI6PnNydYtGb8N+vEod5aLcalmoq8G64UiY8vPiwLk4vUNYTAVU6rVCp9x/W0FeO
+	ElZlX4U2Pn3f103Qgrxk9vSOq5dC0+6xF848F0turKr68RGQRI/95+zPVkhPM5POvwxu8MPt9qb
+	/8DbFKf6GCT7E/WJ9vlQqiIFfw/Lra5dB05MzFSdRTcUTKMsyiXRAikfWTPiIriXDmh1RL1f6ul
+	7ARq9y4zSyOxsPBJv02ON29Sp4MrliUUxkpafPpvEwgbBOgECrFPOb5EgZo5KpQA9IuDgpVJpXm
+	QSfzpJ4NPDcTBZesgNZzQS2OAdCXqjvWxkEH3EReYNJgpoURbBfoApJAYsVZXSbK6fIjsxU3O//
+	vEeRY/2X6Fl8jeupQpAUAxglCnaxs4feEAQ837lg0LCg9+vGnqtJpoAl1/AHrGWZ6/z3DD7BBi0
+	H5Hy+pPuCyRv+LuF1FMLy/0YD0xxkuK/i1uyyFfF88tQswCiFgaVSr2NXJhRKjzke41UIfwM/Qb
+	DCM2SRl+I1iuBO3oWa4h9RMmRQp3CgSROEOFxlJYEt9cdtYjYAvcG+zAQISpKEv6CgBzRTsyDNf
+	pbWiqTRzTWqgzjbQDGPfhfi3Iw4vWzSYf2rxsMxVpJNVK
+X-Received: by 2002:a17:90b:1d03:b0:3aa:f875:3385 with SMTP id 98e67ed59e1d1-3b1b0b49f55mr9644834a91.26.1794821084142;
+        Mon, 16 Nov 2026 01:24:44 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aec43699sm15661189a91.10.2026.11.16.01.24.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aec43699sm15661189a91.10.2026.11.16.01.24.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 01:24:38 -0800 (PST)
+        Mon, 16 Nov 2026 01:24:43 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
@@ -92,9 +92,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/3] ASoC: atmel: mchp-i2s-mcc: Use devm_clk_get_enabled() for pclk
-Date: Mon, 16 Nov 2026 16:24:05 +0700
-Message-ID: <20261116092407.514998-3-phucduc.bui@gmail.com>
+Subject: [PATCH 3/3] ASoC: atmel: mchp-i2s-mcc: Request IRQ after enabling pclk
+Date: Mon, 16 Nov 2026 16:24:06 +0700
+Message-ID: <20261116092407.514998-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261116092407.514998-1-phucduc.bui@gmail.com>
 References: <20261116092407.514998-1-phucduc.bui@gmail.com>
@@ -111,86 +111,46 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-The peripheral clock is enabled once during probe and disabled during
-remove. Use devm_clk_get_enabled() to automate clock management and
-remove the unnecessary remove callback.
+Request the IRQ after enabling the peripheral clock to ensure
+the clock is available when the interrupt handler accesses
+hardware registers.
+
+This also ensures proper resource cleanup ordering, with the
+IRQ being released before the clock is disabled.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/atmel/mchp-i2s-mcc.c | 28 ++++------------------------
- 1 file changed, 4 insertions(+), 24 deletions(-)
+ sound/soc/atmel/mchp-i2s-mcc.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/sound/soc/atmel/mchp-i2s-mcc.c b/sound/soc/atmel/mchp-i2s-mcc.c
-index 9d8043a85782..fe42a8c2cad3 100644
+index fe42a8c2cad3..6a54d3d67e86 100644
 --- a/sound/soc/atmel/mchp-i2s-mcc.c
 +++ b/sound/soc/atmel/mchp-i2s-mcc.c
-@@ -1064,13 +1064,10 @@ static int mchp_i2s_mcc_probe(struct platform_device *pdev)
- 	if (err)
- 		return err;
+@@ -1059,11 +1059,6 @@ static int mchp_i2s_mcc_probe(struct platform_device *pdev)
+ 	if (irq < 0)
+ 		return irq;
  
--	dev->pclk = devm_clk_get(&pdev->dev, "pclk");
--	if (IS_ERR(dev->pclk)) {
--		err = PTR_ERR(dev->pclk);
--		dev_err(&pdev->dev,
--			"failed to get the peripheral clock: %d\n", err);
+-	err = devm_request_irq(&pdev->dev, irq, mchp_i2s_mcc_interrupt, 0,
+-			       dev_name(&pdev->dev), dev);
+-	if (err)
 -		return err;
--	}
-+	dev->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
-+	if (IS_ERR(dev->pclk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(dev->pclk),
-+				     "failed to get/enable the peripheral clock\n");
- 
- 	/* Get the optional generated clock */
- 	dev->gclk = devm_clk_get_optional(&pdev->dev, "gclk");
-@@ -1087,19 +1084,11 @@ static int mchp_i2s_mcc_probe(struct platform_device *pdev)
+-
+ 	dev->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
+ 	if (IS_ERR(dev->pclk))
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(dev->pclk),
+@@ -1084,6 +1079,11 @@ static int mchp_i2s_mcc_probe(struct platform_device *pdev)
  	dev->regmap = regmap;
  	platform_set_drvdata(pdev, dev);
  
--	err = clk_prepare_enable(dev->pclk);
--	if (err) {
--		dev_err(&pdev->dev,
--			"failed to enable the peripheral clock: %d\n", err);
--		return err;
--	}
--
++	err = devm_request_irq(&pdev->dev, irq, mchp_i2s_mcc_interrupt, 0,
++			       dev_name(&pdev->dev), dev);
++	if (err)
++		return err;
++
  	err = devm_snd_soc_register_component(&pdev->dev,
  					      &mchp_i2s_mcc_component,
  					      &mchp_i2s_mcc_dai, 1);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to register DAI: %d\n", err);
--		clk_disable_unprepare(dev->pclk);
- 		return err;
- 	}
- 
-@@ -1109,7 +1098,6 @@ static int mchp_i2s_mcc_probe(struct platform_device *pdev)
- 	err = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to register PCM: %d\n", err);
--		clk_disable_unprepare(dev->pclk);
- 		return err;
- 	}
- 
-@@ -1121,20 +1109,12 @@ static int mchp_i2s_mcc_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static void mchp_i2s_mcc_remove(struct platform_device *pdev)
--{
--	struct mchp_i2s_mcc_dev *dev = platform_get_drvdata(pdev);
--
--	clk_disable_unprepare(dev->pclk);
--}
--
- static struct platform_driver mchp_i2s_mcc_driver = {
- 	.driver		= {
- 		.name	= "mchp_i2s_mcc",
- 		.of_match_table	= mchp_i2s_mcc_dt_ids,
- 	},
- 	.probe		= mchp_i2s_mcc_probe,
--	.remove		= mchp_i2s_mcc_remove,
- };
- module_platform_driver(mchp_i2s_mcc_driver);
- 
 -- 
 2.43.0
 
