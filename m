@@ -1,93 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.32
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794791782;
-	b=OBB9Z24ZDrkanVkFTQ+hIBZZyIN7/3Cfpi8GzrPX5fEY5vwQ8E7HlioMVdC656R4O8/e
-	 JcjLsBcr47cc/u/XAihbzx9e5L86hZHb9CYanuEgytWEUOo7sd8D46RjppDYeh3W2uZZo
-	 pTak3kqKTmBLxu4lF4tqxxiOHSGEFfrv6aFSFVjQ+Tm2O2zS8GxNQUDuBQj0osXy5XcSC
-	 hpKUVxltDOkgJq5H7lzlhoE8AibQtTdJIk0h0hv9ems27SDcu28gDkdxHjI6IVo0YRY5D
-	 zCzMkADddi1pwAEQtiKJCxhrsc3kqqt+agZz0shcVKfGxcV7Rq/cSPmjmsh37ioBg3Q==
+	t=1794792253;
+	b=Nj6u6F1UE8Kr5nOCfh1BcJ1JHG7UN1f0XzrbDhvJ4Fao+7kRCELeTSQUP9M3xgbEFV3r
+	 F+0UbHV0my+200g4SswHyd7mviVV97NQNsmbmqlLuVV1hN/fa/TqqIdMq8xr7zM76cuYu
+	 imkc3d49az566glI4UWhdjObiMO9rQ+DPhWQOILL04PSzGuuwt8ESYPBzDdwn+/M4tpvg
+	 95/WgQ/GNde78FkPFID1gg4GamIDL0XJmPEyu5yERu1lAVbFweIKTgelhN4WIrxK3YB62
+	 1ga5Cc2ZK3FhpWxhnVPvBME+CEZ3gU30p5w4CMPCwusEXwRzMjwDQjR162m/M24Rq7A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794791782;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Content-Type:Date:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=pVq7VkF9dD5m1CygfnbjvELArViYj41ZGSAnCcqPlME=;
-	b=R1d23Lm1hcvL8cqBCWN9fGCHMrfsoqYSDV+signSibRXqaC9r88AOg6lxUHsKnPG5EcD
-	 c3hsVjjgIWn3F7Oi/oEG2g9JXYG0RfvwJTiiGXec5yuz2+xQ57YEhUSKYsLXZCxBILdXG
-	 x8Jrnp6DoihUjRfzmkFVdA8ThMCPGmfqo8O4aAJX4go1s3IF2K2y2sUuHtvYHLLiN7/Ez
-	 8q1PKBomDOoSliGKyGdJO3Qg3qkbuIBjFV2zcmq9/z78fwY1nU34skyS0SUblGIr65b8u
-	 BWt61cDl9yb9qvX5yAu2T8FSXdwUoA5Avi0u45O6+8bUsbaYYX4s7ZlGPH1W1igOi8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794792253;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
+	b=CugWbJz6ihpjZkWneC4Nb+YZmW3kBif38MgLB273nhepGGpKVcKdYj9xfozj5vmYD+s5
+	 FKUQi/k0JINwXmr8D5KqQr650nxkcaSvua4BzhQq1/eHCy4ZaSySA0wSyiWKCs7sRZZAc
+	 x1kAHm9DGiJpVVlxKniv7XKGfqQ9iJT5miUf76/x+XVS+NGC+HxNJ7CwlFOYfpNUiemRd
+	 5zWP7otoXzV27x44fp5wCSLBoBdTwgtNOnmfITGX83H+Grt8W259O+xlxo2wcsKQzZ7M8
+	 jduSW9YVf4zJgdV3gPVf56bRSNYhfo9Vxxp6tyCF0auiM2a2Xk95NcjEBmc4LVW3x7g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=renesas.com;
-	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=NS1bs3dJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.32
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011032.outbound.protection.outlook.com [52.101.125.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nuqJn7NW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91581606A32C
-	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:16:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91581606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49890606A323
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 01:24:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49890606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=NS1bs3dJ
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K3FukFuC/Rtl0Mcsj2P7EcMVvv/pTQQEVU3GsLLaCZS0R9raXrzbzreratkiMXUgSPsqB2kawLXMeW5VKXJgJJWLlVZuft6p0DQL1PVlPxOm6HqMIjadhvAg5X4CY0L5/jEJT+I4ErPUdZoqZgtufSeIT81pHi5KqrHiJFOzchhaYxQZxMMTYNykpkjcY++Jxs9dUhQWgFMeVXilts7Qkz98a5BxoGj0aOjCdmK3pJS+Os7zl4z9ZF5kb9d+QVuR5HE9PL1b01O/UxybHKt5qnSQLea3WHF0jMgVgflYuwpi4W3Y78QzeatF0viKBQAqNO3ru+c1jdmZyXppu+Kx2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pVq7VkF9dD5m1CygfnbjvELArViYj41ZGSAnCcqPlME=;
- b=UMKpD8W3PU1W1STN7pzUwVxkGchUpwWaEQBl+Zvv/mhjSMIGUMfEMV3KSeiSejYru/omAJJAybFz3HWm473EouJ85HeZ8qRBj4JjHVk6Et5u53+A5hTh4jmcR8qVqAnwxmnUoBs/vAt7N93BUMrDTUjuRrZf84xGS7xUMeIrQeAEpyw/AnIl3JM+um4x9hE9wvC7EFKk5J6tuZ+gCHBjWuQvKnNy5nC2amyEJsrvGtDwBQAx6V2Wn08yYqnk/Wstv48de/Zpyv3Xt4q7xBSIQoQR0Hbp6xSJ0Q1TpImLcGXG9lfXJZHV9B3Qzuvt+q2lsLJXPOhvdsUW62MeZA3oTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pVq7VkF9dD5m1CygfnbjvELArViYj41ZGSAnCcqPlME=;
- b=NS1bs3dJmI9eDj7pUOdpT5Di8au8fTuWFckGNpvi20RrrGwJhuBcy2a8vj2/piTjQJe5PStE6IcY+IHZprAWcCQBiGPP7y2VuA8Pssurn01Y7SkZ3NJe6HQ36E0+4PwBiOhWJVBeQEEGU9eQFzG2Ebj0oTzuVPHrUQ9ua+okY7A=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
- by TYYPR01MB15598.jpnprd01.prod.outlook.com (2603:1096:405:292::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Mon, 16 Nov
- 2026 01:16:18 +0000
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d%6]) with mapi id 15.21.0615.013; Mon, 16 Nov 2026
- 01:16:18 +0000
-Message-ID: <87o6bp37a6.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Alvin =?ISO-8859-2?Q?=A9ipraga?= <alvin.sipraga@analog.com>
-Cc: Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 08/27] ASoC: soc-generic-dmaengine-pcm: use snd_soc_component_unregister()
-In-Reply-To: <avW_0Tnvts3ArV8-@analog.com>
-References: <87zeve28ol.wl-kuninori.morimoto.gx@renesas.com>
-	<87o6bu28ko.wl-kuninori.morimoto.gx@renesas.com>
-	<avW_0Tnvts3ArV8-@analog.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 16 Nov 2026 01:16:18 +0000
-X-ClientProxiedBy: TYCP286CA0112.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::7) To TYYPR01MB15175.jpnprd01.prod.outlook.com
- (2603:1096:405:27d::8)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nuqJn7NW
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so3075745e9.1
+        for <linux-sound@vger.kernel.org>; Sun, 15 Nov 2026 17:24:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794792252; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BZ/8rvikJ3F+5UU17un79UttlXAMDmEGohElyAzMfbkxtKZI07JEZ4KfGo+e2Z4i+u
+         YrPaoIBn3w4lgrWqCJbdCnYN6FnT9+wdsATqL+K/nK3czmLKydG3knrey3keXVKDEGg2
+         GdbQ27uAe1S933WHbXGBbft7srUXNIRJMMTTP6z28tdwZzPWAR5qfkxjcu6iGHdAsOFL
+         Qg+jYuv4yDGrIS8/V45PJOTHs0oOlrI+XVdijfh++8q7YrgSGSYqR0N1hwyy3ah9K/xq
+         z8HvgAEz4PoiA5H784KGh5C5F8Kk91yVM0IKgqPGbPHsA3FDZaqfgzD4pE/OyeND3hlC
+         aJDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
+        fh=j03cro42PHmovQm51OLzJ1o7ZxPDlOKyVnPjvLccdKE=;
+        b=VYCsVmv6WJ5iKiM3G9yb+GQ7Do2RYDc+DLVuBpVZMej9H7OwXWY7N51h9BSrIa1JnD
+         YcZuD/YkVCHRsvztU4s8Ip+VZqMdR+kXf8UTRJQ7u7qpQbEnymQMeHuR3b2SkjBPK8Dk
+         8Vx0uVfC10DjuKCxAELTf1MRylW/uXkM8rVeHLH+vKceLhOCZkswsEIhEpv7P+ZS8hFb
+         Hcr7v+3VOjv4ltZhpFQBtbxxmDRrNoBEhRzwxZ2xP+J9IfhBjGNhh2f1IgfAv7HQBDWy
+         Apf13xveiqK4lFayNoeH6SwkX9QHjI35632XnIbv8JJD8S47rplk7/w+Ovf/GSqiq7NA
+         qsFQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794792252; x=1795397052; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
+        b=nuqJn7NW9lMUsb8EDML59apEX5MjFBCUyO4+WsSliUSLf/w30eKx99p2NUak/Go7wD
+         ciipjVpQP0a33PbNJaixS8RQQi0m9Hu3KW0KPMhloSW1cHJTiGkRMi/W4z8/LQ5Oi0sH
+         2zKeYRWXp4JU50GniIhhBKn3sMw6NPrwEwwD7hU2NBIV3OPQP4KHSOhRcAAywECIZh3X
+         7cMo5FW7pZxGNoRjDGPhLYmEEdABgTFuGGKnEPFLjfJXqtqknznZm9gnB50hh9Bv9Eq4
+         FRVG5k6J7WxTyJpvY4OylK6dr14BK1e5vtIc0oGn6gQCvt9kADZsT7WEVepqXEicQqj2
+         KrPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794792252; x=1795397052;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=r7vL0qrifdEMu6hnfiQ4kzrLVyL8oBEHcc38n/hRip4=;
+        b=1nqdhJuv8Jr4G7OsnS4XzLEpxTAzeGad9bVxdAiDWtlz7JFZZhOseJLEH3YvZbZzzE
+         J/jURPfB9BJaWsu7jOKVBOykoac2jifqsvIyGmxmSjZFQ7KA07V7JEIO1byPaDOjCqaG
+         HoBBlrOyJev9uJwTPnvu/NHvKbKpjDRW/Ya3gu5/t9LzdHbo9ZmK1qjQQI75gFi2AEBP
+         XgNXun3iKt0Ps/Y224Aj5TrNDVcQMwRTEkqlxcAOyrBycyBYKDJJU9KHyfZMvHIem5sQ
+         2GMHzjuWIYbh2J3hdNIatXh9zrRgINox9GViyS1OL91AG+j0wIMU29lnS1Sblj8zw/vE
+         atrg==
+X-Gm-Message-State: APuU4Z/zIAZO+OtdBEVhQrZjw3EcvFVBCiR0Cmg5Vn6pgTzWweiraELD
+	iMism635PJZGhUw3zSugI3W6XM0Qnt2TUxeWJwUfUlgkdGehMOnZ/HBX0WezT//BIg+cr5vBBAX
+	XR/mvq3G+gWQPq4Z5Ndpp60pTGA5RjsGhq5YDnkbjRg==
+X-Gm-Gg: AYBFou14NLOFge3qEy6Iu8CWS1bcphNJ5dGtDEn1DXIDlZBq8gV4FB+KUu/wFuhlivV
+	6i5x/j1o2qQ0MWGSNn4VwjcrpRY2pzG+gSjBP7jM/LAABJAQoMHAbZA1+lGLQZBClHnX0A9YXcU
+	WLkfMj1wRvrf7rBuCf0l2TqYVCVFzH8JY9HDxC5Up+W3D7d7dKwHh5cDQSSZ6tX7dbki9T29D5H
+	eePBJRmFLekc1aoradhNEzUNBISwVBNWvFBvFzV45VnhB6bcvx9NPtdtAR4qInwRUNB3AayFi1v
+	jWdBtwimuL0D/5xJrpdnReul01qZg05o9iI/U2ZXZNY93Xt6Ifjc7Hwi/0XhBRzBHbBPMTytqgh
+	ctSgua4EMXRrjERNx5oKvg6vOJDEDIIQhaXDa
+X-Received: by 2002:a05:600c:3f18:b0:4bb:6ac0:6dc0 with SMTP id
+ 5b1f17b1804b1-4bb6ac06e5dmr57112905e9.29.1794792251495; Sun, 15 Nov 2026
+ 17:24:11 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,111 +99,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|TYYPR01MB15598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 355c3ea6-1793-48b7-71ce-08df437f3787
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|23010399003|366016|38350700014|10067099003|4143699003|11063799006|56012099006|261026121527099003|261009223027099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Ws0ipdUkSnmD9HqtE8lBP3OA6LLZVRZGu8ZQgdQoGjKSFWe+hIQ57YfOkrqBBpciXQcjUjlBxwKlMyDRlSIUDM5d1OufyEjqvy/1FGGMvdIqJgEN5Jwvxag8qrULT3BqJJ/NlyfiVne4Gzd9v57Q2TmgSUwGIz2rL10y3D/szPSpuKgL5TP+vaOUnV4/i8gKl8ELiEpctttEMuRQgy7fLHg9shQHl6Xt/bStlZHYUEB9ogZCj+hjsE2f4MHWPoZVZ90He09U6R8QVdOGxok2Iuvzr562ImnxfhHNvcKiffmz3TceynV89++UEX/RN0Qv4SgEpYFzAeXPN9NKy8fGa8oLp2HR5Lghp2bXOlhmJpqWTfHhRrtv6t1rWqCKTIOEuBT5SRk+WWz5Ws2O0bCSpq6/wKZpMMyYoJEU9BHqI6j9nNKPXxDCBzX032qJ+2JmxX3juDYTuiuxhByvHLGc6eDsUHJMDVVeLBMId3XpMwq0WhpsKGipqCKvAehM02CPZ0IWoLyvSxrE9L3sutBG4A63eOjCNG2gW84NP7jzmRGsnejltohQudf1CRUl2lm7/bHy+ZcLZGC4ufEoauFt2XsLl2TsazWgJCBQQJW9JJDH86TCRGJ1Iskfdx/nJ5+Y2k3RbOHMv18tvCdQwWg95E9EDLTxEkadgyfrEMfi8CWkEANoq5tyIvecd4UwPz1ciryh7sKkS/fyWGFyBJFKv8RXV0XYABmPQAAHCJpQhRQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(23010399003)(366016)(38350700014)(10067099003)(4143699003)(11063799006)(56012099006)(261026121527099003)(261009223027099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HxKi4/3NTTGjrxfaYI6t/A22rMlJpkaFxMsAoU45o9T0QD0uf+kZidfgirFH?=
- =?us-ascii?Q?R8NzY2Id1A7VhIngcvBP9RIAef/tGYg06sK/PYf6AudS0+A5oVTvF7Zgn/mc?=
- =?us-ascii?Q?lzJQPv0f0RgkHvemJYxaBWyU7YoFuEZxveZPfmtCPydrt2G2Y052WRZtDYCq?=
- =?us-ascii?Q?2/H1VkWV46qCsxL5qJVvyr5XfkUwXB7QaGi0cBrBrqop8uZC03lzZUcuqKw/?=
- =?us-ascii?Q?zjC88lfGQf6QCqgoxH26CNZZVXGBy2RrsIQbwmHKLVd9Rs/vhvbWzRoEv1CQ?=
- =?us-ascii?Q?Snky++QHc5bxDLOQBf636xOiyg/VM/vIBZ2JoGk2mp+TzsFSm3abx87jijAt?=
- =?us-ascii?Q?k50VKRq6rmqgeg+HjzQGSiR1ToU4qJSc7VULqnZFK0drm3fksS4Muc9GoZRx?=
- =?us-ascii?Q?cZb639ZrI0Xp3i0lTRBKUCmQbInB/YryC6G5gcOuhm+v9ibQypa4jeDHzQVH?=
- =?us-ascii?Q?VWqMjhn3AXXxw2Ebr5g3vUdA8kp64e99b+lXNuHId/FO929USyNwsZHKSu7g?=
- =?us-ascii?Q?w54LADIVbi9qSRDI2HZDJazwLqyvOb8Q8DaDqAfR9GTCeHTMT9BSKVXjtwde?=
- =?us-ascii?Q?L5VgssCJF6KCDIZkvVv4uCE27SXWEmsNRgLrSmt4WeVK0Cbz4oZshYpZlDrd?=
- =?us-ascii?Q?p9Mge/DQkbV+AFSFMILcY6LqWZhpEoVekp0rnwO40wUZfM59t1da/jVrlEDz?=
- =?us-ascii?Q?QLKhi3HP88NUNLUiNgvFcOuR/pIB2o08776rul/pYILs5ug0zvNhc60ViE+D?=
- =?us-ascii?Q?5to8DWi94IakXbhwInjiRXSWE5Fsyp3NuwrocEIyPzcYagiH1C1sWftr+duj?=
- =?us-ascii?Q?gwhaGnSY9f/hD77deF5wHIwvotFDywtMAlkYKnsJXwgqTqmicb4FD8McbTQU?=
- =?us-ascii?Q?bAKI/egEBGl8mE6QQrC8sdiXVLwiZ9gTcZk/hGTNYQkdjVRYB6kuD69PTInH?=
- =?us-ascii?Q?x+/p4MUV22p5TLy4a16JQDqxYF65mc6TCDeasxdZgqIA1qHMkSWgNiYRfDtX?=
- =?us-ascii?Q?fNcICn934XMHV524mcfMS5bIezWiNAqvUrGnkV91GohMMZ5IcbLh6xjj1C2J?=
- =?us-ascii?Q?sX+y6OBDNyV4KqXLwce3Wgazh7Z8NGcZR+FiHHobqpiA7DTxmXPJpyF8xwaZ?=
- =?us-ascii?Q?eXK0HMxI6MZVKSwo4IJlkgn3x6TPP2xZWjsuJNG64oe63OiG0RyZUkUIDJWN?=
- =?us-ascii?Q?NnU497GzPKY/J7gAuHWbYK3eMlOqcgo5zWYcseysc/CfsQLFMYdcepyaqA+D?=
- =?us-ascii?Q?YmqE7DqsJUAOg05B1RNh8Z4ajx7Pwp3ocmSNZZ554HLtHP8crQvKRFAMLakV?=
- =?us-ascii?Q?tcAYhFxNuaNfuvhwjz66vvKR4SPAtzs+Bt//RGZ3sEqn+14p+tXCN8WBtjsd?=
- =?us-ascii?Q?x1hkIm3Wy6dVZJHb5YBU2nie+wY6fZ40AwWt2FmwbG49j61nl7TMZN+gg7+8?=
- =?us-ascii?Q?G9MSuUXCD6yhhMD9QHRO63jAPf3vaZi2UpmHJ54er/cRoAUwmdQ1RPbto8iP?=
- =?us-ascii?Q?fI0AD3it8H8NtgcVfLNe9vAguCyToGPIW08thQklUeI1BE9E7IwYMDxVXZrM?=
- =?us-ascii?Q?2NZo5yuGAQP6SHb1SusccdE9l8AQt7lL8q1r2047X4VXL4NSWwPXSDmgJ+9S?=
- =?us-ascii?Q?znuyvmugZaLGmPLVzoBlBfV2kM9frE4/qkiqpmVVbDTgJ93PIbKgB2p1XQ5+?=
- =?us-ascii?Q?rrw02gsSV0M+K1/ap12RF6UZiM1Ws+p3fOfv9EtB2yRXFaUrHKHuwOSzcuXZ?=
- =?us-ascii?Q?yR0uORjKFHFAazOWDBUsswAfQ33Sz5U=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 355c3ea6-1793-48b7-71ce-08df437f3787
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2026 01:16:18.3261
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WnKHNVV+D6hdY4F9BM8d4chOlNiC8jfjCa6RTGygv3R6li1mNRpk09z7oMD+F1czSOIXRGc0jRM9WLDUZ5j90y9/U/5NulJBYWDnvQckHuF4gR/kyTTCHutM8eOR074O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB15598
+From: william <assassinshalo29@gmail.com>
+Date: Sun, 15 Nov 2026 20:24:00 -0500
+X-Gm-Features: AclHuK-vjL1wmMPjBQCKuN5LdAtAqjLjQE_NAzaw7x4qYE1TjyXWc0GBGd6bI1U
+Message-ID: <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com>
+Subject: [REGRESSION] ALSA: hda/realtek: no speaker sound on Lenovo Legion
+ 16IRX9H since f2293e7b2ddd (PCI SSID 17aa:3842 shared with ThinkBook X G2 IAH)
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de, evgeny@devduty.com, stable@vger.kernel.org, 
+	regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
+Commit f2293e7b2ddd ("ALSA: hda/realtek: Enable all four speaker amps on Lenovo
+ThinkBook X G2 IAH", Cc: stable) matches the laptop by PCI SSID
+17aa:3842, on the
+assumption that this SSID had no quirk entry. The Lenovo Legion 16IRX9H (83DE)
+has the same PCI SSID, so its internal speakers are silent on kernels that carry
+this commit. Headphones work.
+Hardware
+Lenovo Legion 16IRX9H, product 83DE, BIOS N2CN32WW
+Codec: Realtek ALC287, codec SSID 17aa:38cd, PCI SSID 17aa:3842
+Amplifier: ACPI TIAS2781:00 (i2c-TIAS2781:00 on i2c_designware.2),
+driver snd_hda_scodec_tas2781_i2c
+Kernels
+Works: 7.2.10-200.nobara.fc44, 7.1.6-1-cachyos (live ISO)
+Fails: 7.3.4-201.nobara.fc44, 7.3.4-1-cachyos
+The 3842 entry is absent from v7.2 and v7.3, present in v7.3.4, and still
+present in v7.4-rc1 and master as of 2026-11-15 (checked via the GitHub mirror).
+Analysis
+snd_hda_pick_fixup() walks the table and matches PCI-SSID entries before the
+codec-SSID fallback. Before the commit, 17aa:3842 had no entry, so this machine
+fell through to the existing codec-SSID entry
+SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+which works. With the commit, the 3842 entry wins and chains to
+cs35l41_fixup_i2c_four(), so the codec master waits for four CS35L41 components
+that do not exist on this machine.
+Evidence on 7.3.4
+dmesg: "ALC287: picked fixup for PCI SSID 17aa:3842"; no "bound i2c-TIAS2781:00"
+line (on 7.2.10 that line is present).
+/sys/kernel/debug/device_component/hdaudioC0D0: master "not bound",
+four entries "(unknown) not registered".
+With dyndbg, after "echo 1 > /sys/class/sound/hwC0D0/reconfig":
+hdaudioC0D0: trying to bring up adev
+hdaudioC0D0: Looking for component 0
+hdaudioC0D0: master has incomplete components
+After unbinding/binding i2c-TIAS2781:00, tas2781-hda logs "adding component"
+but the master still reports incomplete components.
+Workaround confirmed
+Booting with snd_hda_intel.model=17aa:38cd (alias SSID, handled first by the
+picker) gives:
+ALC287: picked fixup for alias SSID 17aa:38cd
+bound i2c-TIAS2781:00 (ops tas2781_hda_comp_ops [snd_hda_scodec_tas2781_i2c])
+and the speakers work.
+Possible direction
+Since both laptops share the PCI SSID, the ThinkBook entry cannot be fixed by
+PCI SSID alone. One option is a codec-SSID entry for this machine placed before
+the 0x3842 line, e.g.
+HDA_CODEC_QUIRK(0x17aa, 0x38cd, "Legion 16IRX9H / Y790 VECO DUAL",
+ALC287_FIXUP_TAS2781_I2C),
+I have not compiled or tested a patch, only the model= alias above. I am happy
+to test patches on this hardware.
+Separate observation
+After the workaround, speakers still stopped after some idle time. It went away
+with snd_hda_intel power_save=0 power_save_controller=N and keeping
+i2c-TIAS2781:00 power/control at "on". I applied both at once, so I do not know
+which is required. This looks unrelated to the regression above.
 
-Hi Alvin
-
-Thank you for your review
-
-# Office365 is back !
-
-> (Z) expanded is:
-> 
-> 	component = snd_soc_lookup_component(dev, SND_DMAENGINE_PCM_DRV_NAME);
-> 
-> which will walk the global component_list until it finds a component
-> matching the dev and SND_DMAENGINE_PCM_DRV_NAME.
-> 
-> If there's more than one snd_dmaengine_pcm component registered on the
-> same dev, how do we know that this lookup will pick the correct one?
-> 
-> It looks like the code was written with the assumption that there can
-> only be one snd_dmaengine_pcm component per dev. But I didn't look at
-> the history.
-> 
-> Does such a case exist? If not, maybe the easier solution (for now) is
-> to check if one has already been registered before registering another
-> one:
-> 
-> int snd_dmaengine_pcm_register(dev, config, flags)
-> {
-> 	component = snd_soc_lookup_component(dev, SND_DMAENGINE_PCM_DRV_NAME);
-> 	if (component)
-> 		return -EBUSY;
-> 
-> 	...
-> }
-> 
-> Then you don't have to worry about the 2x unregister problem sashiko
-> pointed out.
-> 
-> In general there are not many users of this lookup feature. Besides
-> snd_dmaengine_pcm there's just mtk-soundcard-driver.c and
-> fsl_asrc_dma.c. Both look a bit weird too. So maybe there's a way to get
-> rid of it altogether...
-
-Yes, sashiko has pointed that 2nd unregister() will be issue, but after
-careful consideration, the issue is not new unregister side, but
-driver side which is calling mulipul unregister().
-The driver which is using devm_ register() shouldn't call unregister, IMO.
-I have posted that driver side fixup patch.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
+I'd really appreciate it if the issue is fixed, as I'm now having the
+same problem when the laptop is turned on after being suspended for a
+while, and I haven't been able to solve it.
+Thanks,
+William
