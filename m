@@ -1,56 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794861968;
-	b=RX+gEdkG2798hdDN/x8gINCB+bPh6LPEYU1KmdXpiqDd/X1Xl+Y3+rLIfnbSEUkMahL+
-	 4m30CSynXWV9vGdrMPgeja0EIDrZSwvL2M8ELHVQu2yyD4Py0J7886BKXQXa9iYjUqrZ2
-	 4P8FiIt9/KXo+KtMzd/Ykrj9AB8HyxLBsoBGD0hPi3c/G6k5+n4LHeWviVHqqGvGavNj4
-	 qRClDAhLMpZYkYFDjbJP7gFLu1Y6YcNwsp1wTYx+34X2TIQBwUwXlNNFZryAp++2t/wE0
-	 KAirYW242k1ncNfxM5qNuj/+wOcPWpmb8eet5lPDFW6f36P17Gc7u4KEtoKWStbo0RQ==
+	t=1794862029;
+	b=hdvrjoiAlFHnwZ0m3m9ppCRxPVa3qWlU2oOrrFUY7VBBUbDTkyC7vOnZMEDgEk3c9VxT
+	 04Xl8naSCp4jRyGmEyHSa7gMvkAcs5ngUG99uKrWAWcWQBcJDJqqPLmtST3ijNuQy0pmf
+	 mP5wuD9pcKbVg7qtIRd9Yfkxk+kqIgpjVRFiouvv/Aibe5XBssVEpMgbrZ3g0aDb7UnSE
+	 5gV941mRwjReCXI40IWLKP6Tv2wU8XsH88Mja2kgmQi7i+6oQSnXJSHF2tXLZZvo3Jh+7
+	 x1EF66SkrHhTNqc2/ig5O+7zQJczSa9tpYFtiRYexIgYArNZmTQvskoJzy8P6gUqeBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794861968;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794862029;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=KYZtzZ/8T16mNenVO5AdmDu4ONsC0FXcrecZ47+qcNw=;
-	b=fitsVQpgBwg1+bN6mStjGRlHIQR+TLZqpS4dfR4c7eeu4g0HWcxgidifZ2Dd6DwGxZhY
-	 yAltGM8R9a0VngZE8Kv/bGSair1zTvQiQtWhVtveBpE7KtbitN758mS+vG/5aigINHzMH
-	 nRPorMuoqQ/r4LXwZVJwt5akbXG33BfaoOnL8BgB0LUnDQEs4VMhw7uqxqHWJsuzsHLHl
-	 Ii7198Vj7ZgWQRMvTu5W9ZEFSSCzOMIuvv72HOMOi0Sapg1FNxLm+pTBmOhzkvmWD/pEY
-	 poyGNUvQqRzu0Ys+i313boHH6v1L5o+jnEi0Jlv0onGeUXxQWIiMjl9A7BE6AD6UlkA==
+	bh=spuwznmFif8ClY0PJJz4ISR1AZmgjTB1CPE9Yz60cQ0=;
+	b=zZle8XJCSzyyjuQ+jkEZS5IdqY4qF106ZbUj6KKiME8906rn5/V38nN8KxuAzsJRo7xx
+	 dzx9hF0DThn6Ebh8XEGGimk/kUYsTbV8EY2b98MotUaRwrOJ2lB+jG5KuYCB4lyQy3noG
+	 bWGqyX8s5PFj0NfXxZU37N0cyrxmb35JLBoPtPjtWXqCRzpSI8m9PyzucMRxnq+zf9WgQ
+	 JEcW732ZDbvS9JYjK587QCq02+zGX2Hw+ougwpYjLU9phI2l34GJmv5i1pb7tjpJEs+p1
+	 VjZAWj8wvBSQpZiLRCcpL1N2jaCaJL3s1idSvCpiLIwLwC9mc37R6r+UI8psdZ7xsKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eQlbUWYg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NgR3e4PV;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5444606A885;
-	Mon, 16 Nov 2026 20:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09089606A31C
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 20:47:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eQlbUWYg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742F81F000C4;
-	Mon, 16 Nov 2026 20:46:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NgR3e4PV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A08641F000C4;
+	Mon, 16 Nov 2026 20:47:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794861968;
-	bh=KYZtzZ/8T16mNenVO5AdmDu4ONsC0FXcrecZ47+qcNw=;
+	s=k20260515; t=1794862028;
+	bh=spuwznmFif8ClY0PJJz4ISR1AZmgjTB1CPE9Yz60cQ0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=eQlbUWYgeooD7bTd8K92QzYoovy0miEuDp50W4JkQX7WNNX1mq3WgeILZi7VERtL9
-	 Azisw2ToQvPmjA6ds6nm0Vgu7OqVjSHIqCmb12bMybCDv18dru6FdCgZN9VeIGsflj
-	 EKMYYWtmKiZG6ywBs2+INw3JMQN+odkBBjNQc3m1vTETA3Gc2+Ee1PltRVtJ16Ajlh
-	 l+qk4KoyWddZxE6RU3IRj2ML74k9emR3+gp4jaT/1t85tWfAVLSvtJ0V3tU3XwhN5U
-	 wjylYE2GzcLYFRRLvIYwe+dcArf/xUQam43D528uwRxdO6ThfwL5X1nRqR6Pq5K/4U
-	 qmUNy5Ade1WbA==
+	b=NgR3e4PVCRLKaOgmu6k7Zob8Cz2VgQLwPCG0Gh7fV7OdmHJffKkIZFcDjr5jeorBa
+	 +OUfkTEyqoNM7FHKTpqn8n0YHoCn0gzkdAImcoufQCCpybHVW+K17kEevNKPUrvdzU
+	 g16xMhwUHYCQt5Nw5KFXsdPhBLkSR9J2RsajlwozgCvu+/Kih26I03Y3fC2ju1Pwzy
+	 IMZ7ELknQOWlFDAMHGN8VKOEGs0dTlFdoE/uLhm1weQ22B+o798q8nrS1Z9t34XitZ
+	 XXTpqg0GTt30zeoiRRQQ5gDS66oBNVOGPBsAeK1VbMBSJWwlivqNI65BSlu2IuiOri
+	 /kKNwphj4NN0g==
 From: Mark Brown <broonie@kernel.org>
-To: Haowen Tu <tuhaowen@uniontech.com>
-Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <D6339FDC262A33B1+20261116063032.3348732-1-tuhaowen@uniontech.com>
-References: <D6339FDC262A33B1+20261116063032.3348732-1-tuhaowen@uniontech.com>
-Subject: Re: [PATCH] ASoC: pcm3168a: Disable runtime PM on component
- registration failure
-Message-Id: <179484007307.186909.1024185034665315374.b4-ty@b4>
-Date: Mon, 16 Nov 2026 14:41:13 +0000
+To: Qianghua Wang <qianghua.wang@senarytech.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ bo liu <bo.liu@senarytech.com>
+In-Reply-To: <20261110034736.742465-1-qianghua.wang@senarytech.com>
+References: <20261110034736.742465-1-qianghua.wang@senarytech.com>
+Subject: Re: [PATCH v2] ASoC: sn624x: add support for the SN6245 part ID
+Message-Id: <179484700102.186909.14702828659133477111.b4-ty@b4>
+Date: Mon, 16 Nov 2026 16:36:41 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,26 +67,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1151; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/w+UZ5+sDejafZE/JlBYCTn7z4kcFxjMXSnYXIpTW48=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+Z/coZ9zl59VUsA4Uucoa/vjDx18L+zp9L6SZRsgW/
- o07mdPfUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgIl08zH8d5glx+EzbcfW9M+b
- 8jcWn7fNOVMm/2VXS966d3d4Y3JbshkZlj76v3Xhw7+3k94WR019HL+pOzsw1vD/wgVL/h+q2p6
- ynQEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=oe9JqctD2S/b/CwFpL/BEYaigNgvA9F8KA6soPEvs2w=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+Z5+or3FKCcmb2ybB8zZklolg1lQ5piuiqaZtf9UL7
+ s6zW5HfUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgImsrGZkaJHP/3BGiHmdT2FH
+ qtrcS1lFBVL2lseZ5DyE9/kueMhrwPBXrvD8EeGVnN4J3587BxXMVlblcp7BIeisdXlvznejDCM
+ eAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 16 Nov 2026 14:30:32 +0800, Haowen Tu wrote:
-> ASoC: pcm3168a: Disable runtime PM on component registration failure
+On Tue, 10 Nov 2026 11:47:36 +0800, Qianghua Wang wrote:
+> ASoC: sn624x: add support for the SN6245 part ID
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/1] ASoC: pcm3168a: Disable runtime PM on component registration failure
-      https://git.kernel.org/broonie/sound/c/9b963e4a921b
+[1/1] ASoC: sn624x: add support for the SN6245 part ID
+      https://git.kernel.org/broonie/sound/c/2768208d3ec9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
