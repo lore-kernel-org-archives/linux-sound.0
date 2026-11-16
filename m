@@ -1,60 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.27
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794832490;
-	b=wFcG6qPfWt0KX8mE+mPwyuTFH72BRkkdZd3cZ7d7i9tUV80r1vTgT1wNVLmtxwS6c+so
-	 PQkUyysgeDtFgBPUGqTLt16qywRIUJvQueRsLLfnKJfKaKAT+cVwJT6rNtB9TGtOq+dyc
-	 l0N/ntyfv1qKld2l2PB7Kdcmsyljs4Vlf68rjaAmkkJkqQpY6R3t+gjxzDRRipEnfJH9J
-	 fElNTGb8K/tSaKUvVd5OO+glfNNpRJHGzG3QWM0CQpGC1TeqarEB+D80E6RttHn01po2O
-	 IFMmieX91FUxnxL5zlGtXKFZaGE6c2lIbJR5G6gsl0Rsmfg4fE8UfXonGGepgMOvulw==
+	t=1794834308;
+	b=bMhKF7mmezbH+urTupZ6WkXnAMPDhE/yJW7fhqoOC5sIpWTU474Fzy69cSUkoAKy5ph5
+	 yQnGSwKQHLQGdqLXVSv4kynIJwz5+/Ygc/lAxj9jDcawaBtZVHXT8cD7h6JaAYMHw8K7l
+	 fjcx79bu4jg7TXK22lTCU7lh9fetlDadpdrXgu7higjoNLyPv8hBW4u0Q2gKGsgLtNZNm
+	 S71nWugZJw/JrNnP7U30w5vLDuLbolTNgAUCIPvg63Nc2Bvp6v2x1jvHhi6KPvMBzta8A
+	 5avJt5eoQXFiADt9S/oR8uRtpCKuSONArzWWQZonqgPRezRVfaF5bJ0jA4CKocIVjgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794832490;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=rmFZBU+djXC1DwS5T84xaTgNqzLLRJFK2oNrTGLRxSY=;
-	b=mweF45zztjhSUqLnM0+jrJoy0Y2IDfEwombxh+WGr8iPXjKvs9pwSNiETahKKkGvZDE1
-	 Rn+cB8zSnFJ9fKmKlYZhKFH9GvT6e2jcbc5fx1f2I7f65zy9bg7Vw6N+qzFCkhTKhNCYW
-	 zER+twveO1v60IOxw6VzGr3lfSRtA7siddrVWc08tq4loQ6zeWZ2Ai5IR51HpMmJ4UhbH
-	 nMRSiniWgJsFle2soFkQAQrTb4SlsQwuB7MItlZGW2RNjRnlGfa2n2NzCZvWhk1NULwsm
-	 TMVH32Ho65Ku1CnxzVKY0xMH4eLT/fHy/ywaBRNay7LwNn9nzFkGyivgE5/zHa+mBCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794834308;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3qxXqZ/X61M4+HhIEifAtVtiu8v8azVt8M4fLiSx3jA=;
+	b=1JIPOn0VfTUI/yZ3ViVp1FHLgv5ht/n/VLyQWw3hczzo8k+tGDowKaEw7BR4o6ezhBuo
+	 UkrGiVgiuWzC9dG2y1pHEfLwt2SjcmkHaAgfWEQL5k3wY2KU6D+cMwhoheKwiPLZ70ULI
+	 DKJ164EI0zVwsM6HSvejN+O5YDqiYG1QdvgPo5DFdMgOxADkiNunEXgn2msqWXhGNaEWp
+	 Dd7wp+dIPg6fT2djFKidq/oXE8Fic/LMoCb4/g3IAqYmFOsiptJrPC4xRhNc/uUccFQUd
+	 Y7A8BL0/T1nUF4ZPw6nWegDrfDfsGEIwhHdcVkXs2pc+RjO1uiOqh1QG8soa60/HCyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jcHftABx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=becholey.ch;
+	spf=pass smtp.mailfrom=becholey.ch;
+	dkim=pass header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=PMCgDYtB;
+	arc=none smtp.remote-ip=79.135.106.27
+Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch [79.135.106.27])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE3A606A31C;
-	Mon, 16 Nov 2026 12:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A15606A323
+	for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 13:05:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9A15606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=becholey.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becholey.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jcHftABx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E84131F000C4;
-	Mon, 16 Nov 2026 12:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794832489;
-	bh=rmFZBU+djXC1DwS5T84xaTgNqzLLRJFK2oNrTGLRxSY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jcHftABxu0aBGnDyc9/O4/25ziNGWdLHxVYaObnXFZ/zOLWSv10rN9tLoqksB0YoV
-	 jAjs7e2PrPrlvW6VT5aWVFBwgW+ea9mFlSjf4H0r3hsSw6Go4U3rUyEpQl728vVw7I
-	 MXG8Xv6VSbwkpAUVzVaGcQIQ8z1czhbFoKWgHJyuCRfYCIyRfA6rvUKMIAQ28cYPT1
-	 3MYt5J/zs7toNcWHzNavjfhlb5nIB+BLYC9rTg9RSD9j49yI0pJIb68fj5JyTN+ato
-	 ZpfFCqR8lOCAtX6eMqixu54p8+l3rDfYDAgDEGtA+LhyAFrlgqQBVAWPxnazG2jWIw
-	 uUuEPjDfVJc5Q==
-From: Sasha Levin <sashal@kernel.org>
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
-	william <assassinshalo29@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	tiwai@suse.de,
-	evgeny@devduty.com,
-	stable@vger.kernel.org,
-	regressions@lists.linux.dev,
-	linux-sound@vger.kernel.org
-Subject: Re: [REGRESSION] ALSA: hda/realtek: no speaker sound on Lenovo Legion 16IRX9H since f2293e7b2ddd (PCI SSID 17aa:3842 shared with ThinkBook X G2 IAH)
-Date: Mon, 16 Nov 2026 07:34:45 -0500
-Message-ID: <20261116123446.2789283-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <380ce8f7-1d88-4d5c-bf3d-108be7055ec9@leemhuis.info>
-References: <CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com> <380ce8f7-1d88-4d5c-bf3d-108be7055ec9@leemhuis.info>
+	dkim=pass (2048-bit key, unprotected) header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=PMCgDYtB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=becholey.ch;
+	s=protonmail; t=1794834303; x=1795093503;
+	bh=3qxXqZ/X61M4+HhIEifAtVtiu8v8azVt8M4fLiSx3jA=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=PMCgDYtBnBPK1ZKDQ7DbnjyZw5Qk8BtfbXCcziXA94NnKabLlz80iNChAR/1/B67u
+	 1D5oHPSidcBa5aUQO4dN+E+SKDDag6JdGLy2y9FCkxMAHTelOVlDCVA4juKALkBGTR
+	 dhR43jW2CwcBQyDJhxKU5y3bEdBnDO7VHxMtT0W4sfB599FR5YK1r9qtf5ca9UL1o+
+	 CdGIUIeRplMXXL1ADGrxho1cjxJ13X3vv+roabnRfh2wyJLj9iuQaheqo/LFfCxm3x
+	 aFsFA15DLIJcYEj1FnPhu3j+Wy5i/LlzHKDr+nfi8D8DHG2r2597iAYoB5vfDBDiWf
+	 ihu+u6LQNgfTQ==
+Date: Mon, 16 Nov 2026 13:04:59 +0000
+To: Takashi Iwai <tiwai@suse.de>
+From: Alexandre Becholey <alex@becholey.ch>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Hanxiang Xu <xuhx@hust.edu.cn>
+Subject: Re: [PATCH v2 0/5] ALSA: usx2y: us144mkii: fix PCM stream lifetime bugs
+Message-ID: <9nzdZSQp5vd2r7Mg_R549ViuvvmKFsd-c_XQfH6NUPj4efLJUQKDjZ-XW65QKX5nFWjoT7XJ251ZT4wXANpSkfVVE-Y_5oP8jS85HKpxfG8=@becholey.ch>
+In-Reply-To: <878q2tynuy.wl-tiwai@suse.de>
+References: <20261116071707.217448-1-alex@becholey.ch> <878q2tynuy.wl-tiwai@suse.de>
+Feedback-ID: 60743817:user:proton
+X-Pm-Message-ID: 34096f1d90684ec1ed54783d7d5f8273453d75db
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,19 +64,125 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 16, 2026 at 09:29:45AM +0100, Thorsten Leemhuis wrote:
-> Greg, Sasha, that change made it to 7.3.y already, but is in the current
-> 6.18.y-rc afaics -- so might be something to drop until this is sorted out.
+On Monday, November 16th, 2026 at 1:14 PM, Takashi Iwai <tiwai@suse.de> wro=
+te:
 
-Thanks for the report, William and Thorsten. I've dropped f2293e7b2ddd ("ALSA:
-hda/realtek: Enable all four speaker amps on Lenovo ThinkBook X G2 IAH") from
-the 6.18 queue, so it will not be in 6.18.64.
+> On Mon, 16 Nov 2026 08:17:25 +0100,
+> Alexandre Becholey wrote:
+> >
+> > Hi,
+> >
+> > Five bugs in the snd-usb-us144mkii PCM code, all reproduced with an
+> > emulated US-144MKII under KASAN on torvalds/master and v7.3.1:
+> >
+> >  1/5 stop_pcm_work calls snd_pcm_stop() on a substream that is being
+> >      closed (use-after-free of the runtime); the device can schedule
+> >      the work at any time by sending bad feedback.
+> >  2/5 capture_work keeps using the capture runtime after the capture
+> >      PCM is closed while playback is running (use-after-free).
+> >  3/5 the capture work and the playback URB completion use the buffer
+> >      of a substream that was never started (NULL dma_area), because
+> >      the URBs of both directions always run together.
+> >  4/5 the playback and feedback URB completions use the substream
+> >      runtime and buffer without waiting for close (use-after-free).
+> >  5/5 a START retried while stop_work runs submits URBs that are still
+> >      in flight (URB submitted while active, anchor list corruption).
+> >
+> > The patches depend on each other and are meant to be applied in this
+> > order: 2/5 builds on the close callback of 1/5, the check added in 3/5
+> > is only safe once 2/5 guarantees that the capture work does not outlive
+> > the substream, and 4/5 and 5/5 apply on top of the first three. In
+> > testing, 3/5 without 2/5 crashed in the new check, and 1/5 + 2/5
+> > without 3/5 still crashed on the NULL dma_area. Each patch has its
+> > testing notes below its '---' line.
+> >
+> > Hanxiang Xu reported the bugs fixed by 1/5, 2/5 and 4/5 on this list
+> > on 2026-11-13, from source inspection and without a patch; we found
+> > them independently with emulated devices. v1 was sent as a reply
+> > to that report, and 1/5, 2/5 and 4/5 carry Closes: tags for the two
+> > messages. The reports also mention close racing with disconnect:
+> > that concerns a fix that kills URBs in .close, which this series does
+> > not do (the .close callbacks only touch the card private data), so
+> > nothing is changed for it.
+> >
+> > Changes in v2, both from the Sashiko reviews of v1:
+> > - 3/5: also count the hardware position and the elapsed periods in
+> >   feedback_urb_complete() only while the substream is running, so that
+> >   a substream started after the other one starts at the beginning of
+> >   its buffer.
+> >   https://lore.kernel.org/all/sashiko-outbox-214859@kernel.org/
+> > - 4/5: make playback_substream and capture_substream __rcu pointers,
+> >   published with rcu_assign_pointer() and read with rcu_dereference();
+> >   the capture work now also uses the substream inside an RCU read-side
+> >   section.
+> >   https://lore.kernel.org/all/sashiko-outbox-214863@kernel.org/
+> > - 1/5, 2/5: no change; 5/5: rebased, no change.
+> >
+> > v2 was tested on v7.3.1 and on torvalds/master 97d73c825122 with the
+> > reproducers of all five patches, with KASAN, PROVE_LOCKING and
+> > PROVE_RCU: no us144mkii report in 84 runs (the same reproducers
+> > crashed unpatched v7.3.1 in 8 of 8 runs).
+> >
+> > v1: https://lore.kernel.org/all/20261114172806.88710-1-alex@becholey.ch=
+/
+> >
+> > How we found it: the bugs were found, and the reproducers and these
+> > patches were written, by AI agents (Claude Mythos and Claude Opus
+> > models), in QEMU with emulated USB devices (raw-gadget/dummy_hcd,
+> > emulated xHCI, USB/IP).
+> > A human reviewed the analysis and the patches. The reproducers are
+> > available on request.
+> >
+> > Thanks,
+> > Alexandre Becholey
+> >
+> > Alexandre Becholey (5):
+> >   ALSA: usx2y: us144mkii: fix stop_pcm_work race with PCM close
+> >   ALSA: usx2y: us144mkii: wait for the capture work on capture close
+> >   ALSA: usx2y: us144mkii: only touch the buffer of a running PCM stream
+> >   ALSA: usx2y: us144mkii: wait for the URB completion handlers on stop =
+and close
+> >   ALSA: usx2y: us144mkii: do not restart the stream while stop_work run=
+s
+>=20
+> Thanks for the patch.
+>=20
+> But, I believe that we should rather address the whole us144mkii
+> driver issues differently: this kind of duct-tape fixes won't work
+> well for this driver simply because the current code isn't designed
+> well for the concurrent playback / capture changes at all.  That is,
+> it needs a redesign about how to keeping the streaming for full duplex
+> and concurrent open/close or parameter changes.
+>=20
+> And, those patches generated by AI often make the same mistake.
+> Basically, at the close callback, we shouldn't deal with the cleanup
+> for work, etc.  At the time of close callback, all streams must have
+> been already turned down and cleaned up.  The work stop and sync
+> should have been done at PCM trigger and sync_stop callbacks, instead.
+>=20
+> I guess AI has been trained more with the older code changes that
+> didn't use the sync_stop, so it tends to produce a quite old-fashioned
+> code.  You can give hints about the above point, I suppose.
+>=20
+>=20
+> thanks,
+>=20
+> Takashi
+>=20
 
-It already shipped in 7.3.4, so 7.3.y will need an upstream fix (for example a
-codec-SSID quirk for the Legion) that we can then backport.
+Hi Takashi,
 
--- 
+Thanks for the review. Yes AI have a tendency to go down rabbit holes inste=
+ad of taking a step back to see the bigger picture. I also tried to run the=
+ Sashiko bot locally but with the models I have access to, they wouldn't fi=
+nd those issues consistently.
+
+We don't have a real US-144MKII, which matters for a redesign of the stream=
+ing. What we can do is to send the reproducers and our analysis of the five=
+ bugs to whoever takes it on.
+
 Thanks,
-Sasha
+Alexandre
