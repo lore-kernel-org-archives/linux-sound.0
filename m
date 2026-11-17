@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794956785;
-	b=CbT3Ee8UPQJa1LjRyJK3Wd0oIsb/iKZAFwKbfHgYJNXEcYVVUcqreyRxBKvaJSRRvDJD
-	 Z7e+dcnUqZm/YNXcBfbPYLUeYiFGzGiHNlwQStsVeqTPBAvfYF8qEYS/Wslxbm9UUhhJk
-	 Rh8a7UIydOZdeA3Snmi+j2tvPnU9XjUaCdnnJ5vSQhBPu+dYVSCF7dXh7SlkGhcQI/bjk
-	 4IFiQ+QoFc/ckjECx87n9o2ltBehCmvVWk7foGU/sedv2XGpHf5YeKeiLUGOEHcCop0qa
-	 l6ofG4onIX3vx2hBsrUIPa8diaFKsfbBiYHy8FSqh2C8nfTejHYdbm+9jtoenNGfGZw==
+	t=1794957466;
+	b=v09L5c2Yo0zJcfyVbjW8Tcw4ZtEzNEYKUW0dqFHZjc9GvrGXr2yP6AD5PPwi7hinID+3
+	 U0ePACMwobuJdR90LWAWeCdJR7jKoWaPcs+iZ6aLy2mrtVfd1+CljfqMCHC1ng1O9W6u7
+	 fGghp3rn2MmbxvhEo0Wgifrh3XGCSKeBjnzPPQeJc8kkAJDmCm3aVCHrzAZRIZHEUO22n
+	 bPYrX4tiSF7TRNZ+dTXwG5x7DdOL/jtZ2dX+mcccrJSCctl0o4EsmVA/I54qX+YLGJPSo
+	 O2YalacuqaVPGB7CyzB6Ou+UQMO6HHzw6GSb8cuV+I/MTLo/xASdOhFgmblZL74QoVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794956785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794957466;
 	h=Received:DKIM-Signature:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=CVXN+qwLQ/4ILSHfByjoRfxLA0JPwlmXH8qZtCGxHvY=;
-	b=iGvrO7XrEEKiLGClWoqEHb1TWjh4Er2HEBhl9uBrLbHnak7pVNvWhLKK4038D3hBZYqA
-	 uto/gU7SJOZG9KGYBMzQi/Ha8X3BHXu+1vgEFattPFZzE21KxS5UFTco6/vddz3biaECk
-	 iNRFZzMrizoHujzxvppmJ9xVKxasjgVA4HEjK+3QP8e+iRtxQEjaFzXiIlfMQdkq530xj
-	 oCw3epo+xOR896pFyEiP77kKFms7eNt2A5MJlwk4foXq7YQWjxHBTrT5G2RQHKYM5FpXx
-	 TPBMv0bqL67lLoCJNz2CzH0Ghu7/UEf6bpmuwHys5PabyW1bWmyrDjetN7k4Qy9/1ig==
+	bh=glRxYCcN3SAkjrdd4zWA5HRb107KHbueK2xhJQ3L+xg=;
+	b=qxv8UmYhma6MVg75NXDVD6mR6D05C6/0b7eT53hQP9mzmGHD169Oe5tIvEAq5Ro9IVXU
+	 sJQDQMQfURh3zpfh89jKXJn6WoNDlZlSfj4jVqiEsoBNTv4OtXQV7YJ0+S6t4fdltMC+j
+	 ndbr4H5DZYiZKmMH3iJVHQVSXzor+z9GZ880GGOKNRhtePptEpAhGCTmc441H8dQlQwZA
+	 Q5+oSOqTs4eFYq93U0dFNbGU16plKDOa7BZhtYm2BLU7SNoK4n1/PimnI70/pKI5116di
+	 2zAKLrasbVhjhwJL0wa9pVwzfGnJCFath7H5gUfyQ+41+7q0rBHPYAmtlRUYUizxWDg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FU4EajTC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F3peEo4W;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C0F606A31C;
-	Tue, 17 Nov 2026 23:06:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98951606A31C;
+	Tue, 17 Nov 2026 23:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FU4EajTC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DFD21F000C4;
-	Tue, 17 Nov 2026 23:06:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F3peEo4W
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3471F000C4;
+	Tue, 17 Nov 2026 23:17:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794956785;
-	bh=CVXN+qwLQ/4ILSHfByjoRfxLA0JPwlmXH8qZtCGxHvY=;
+	s=k20260515; t=1794957466;
+	bh=glRxYCcN3SAkjrdd4zWA5HRb107KHbueK2xhJQ3L+xg=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=FU4EajTClbk+UNGRJaIu1Fbqw/8Hlb9cInBWDZULvl+q5Rs0S9qyU46IjlKdFjfjg
-	 tmtvhxfT5lSi689rW8I0/EySPCSr7OENtQOzvVhomrJ+Rj2nYyMnbXuyxt3a+NF/ZP
-	 YXH9WEoWQ8nKDwK4zNW2pV/3psrPMMnZwY6k1NF3wHOw7za+yw2RWxU9P03w+jyj8H
-	 kL6Luv5t69SO4ekKAK+JghYzzU0QRppFvexoAHYu9riMCUnxQPd3cAXg30rNdR7jgj
-	 9wEzxbMscwibkuPJUILSh5tzWdbKRl9gURWzUr4IG/SpUVmQ4KJJyNjRHft/wE5aHM
-	 uSfEsrTJulRPQ==
+	b=F3peEo4WgXuV5hQ1+AKe2G7VGXbN7ELA81lbQV5I4kSHJBJuhdgXHHqXd+hQCgi8Z
+	 Pdj9Yk5spwvTunIRypexbvmoGarJ1UZYfEi+z9fdEEU0CjFeZpdoSWGH5t5V8FkIjp
+	 b40S9EldAaFQkW+/6HMJVciKRDq7Pn36cJYHVT6Pb6CnS4SjeDAHq7Id/52M3Oy0x3
+	 xAp5zrthdQwTAwnZaKMFtJFD+PeP76X1nK2xCmiFQOvqIEtx30pu8HPYCdfEh03g39
+	 SKzQR6tQKvG8CtT2MflPCeuFDQEaJBAwFdVkcQxOL2h3kWr7PW6nWdCWa6EPb3NCab
+	 n+SdhrjHahXrw==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,82 +51,56 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v6 2/2] ASoC: airoha: Add support for AN7581 PCM driver
+Subject: Re: [PATCH 3/4] ASoC: SOF: report volume changes in mixer steps
 From: Mark Brown <broonie@kernel.org>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+To: Arnav Kapoor <kapoorarnav43@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20261117193851.235272-3-ansuelsmth@gmail.com>
-References: <20261117193851.235272-1-ansuelsmth@gmail.com>
- <20261117193851.235272-3-ansuelsmth@gmail.com>
-Date: Tue, 17 Nov 2026 23:06:20 +0000
-Message-Id: <179495678063.2707353.15768423590934276319.b4-review@b4>
+In-Reply-To: <20261117105953.188645-4-kapoorarnav43@gmail.com>
+References: <20261117105953.188645-1-kapoorarnav43@gmail.com>
+ <20261117105953.188645-4-kapoorarnav43@gmail.com>
+Date: Tue, 17 Nov 2026 23:17:38 +0000
+Message-Id: <179495745842.2707353.6764300085755200722.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1724; i=broonie@kernel.org;
- h=from:subject:message-id; bh=qrOI7FlHanErllct5TLZyyoHEFtyXcHacENy1NTm72M=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+3H3btndd62z+xVemHfos+rP5RvH8fwJHfzS7S3YwL
- Ync3mAt0FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJnDZj+B/K5jS/z+zxHc7F
- XV3TH3e+bvrLyf9XNJ4vPO3OdQa2OasZ/jucYbteI6ny5VFTQeUjRoU9s6tmBN7i7LwdImLqZX6
- riwUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1223; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=b0C4iU9LsFLLVskI9/JhFzqXZEfIgZbhQ6JydxsTHHI=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+PJj2Y3XH87eHm57VL9/b/fAbg6CfmvgjFs7pGoqmP
+ zM+qyqpdJSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiAUcZGS6lTWKxEXsksdvx
+ y3e7E9rP9R99DF/jH+TjOPe3DPuz42EM/+PttywSc9KTO3bn2gfXpZ2xEW1bjsvsa8kUPSV5efX
+ cd/wA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The Airoha AN7581 SoC provides a PCM interface for VoIP applications,
-> supporting playback and capture at sample rates of 8 kHz and 16 kHz.
-> The driver configures the PCM bit clock to 2.048 KHz and supports
-> 8-bit and 16-bit samples, with up to 32 channels.
+> The IPC3 and IPC4 volume_put() ops decide whether the control changed by
+> comparing the new linear gain from the volume table with the stored one.
+> The stored gain does not always come from the table: topology loading
+> initialises it to 0 dB (VOL_ZERO_DB or SOF_IPC4_VOL_ZERO_DB), and
+> volume_get() reports that as the first table entry at or above it, which
+> is usually not exactly 0 dB. Writing back the value that was just read
+> then changes the stored gain, so put() returns true and user space gets
+> a change notification although the control value is the same.
 
-> +++ b/MAINTAINERS
-> @@ -796,6 +796,13 @@ F:	Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
->  F:	Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
->  F:	sound/soc/mediatek/an7581/*
+> @@ -180,10 +180,12 @@ static bool sof_ipc3_volume_put(struct snd_sof_control *scontrol,
 >  
-> +AIROHA PCM CONTROLLER DRIVER
-> +M:	Christian Marangi <ansuelsmth@gmail.com>
-> +L:	linux-sound@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/sound/airoha,an7581-pcm.yaml
-> +F:	sound/soc/airoha/*
-> +
+>  	/* update each channel */
+>  	for (i = 0; i < channels; i++) {
+> +		u32 old = ipc_to_mixer(cdata->chanv[i].value,
+> +				       scontrol->volume_table, scontrol->max + 1);
+>  		u32 value = mixer_to_ipc(ucontrol->value.integer.value[i],
+>  					 scontrol->volume_table, scontrol->max + 1);
+>  
+> -		change = change || (value != cdata->chanv[i].value);
+> +		change = change || (ucontrol->value.integer.value[i] != old);
 
-> --- /dev/null
-> +++ b/sound/soc/airoha/an7581-pcm.c
-> @@ -0,0 +1,931 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Airoha ALSA SoC PCM platform driver for AN7581
-> + *
-> + * Copyright (C) 2026 Christian Marangi <ansuelsmth@gmail.com>
-> + */
-
-Please keep the entire comment block C++.
-
-> +static irqreturn_t an7581_pcm_irq_handler(int irq, void *data)
-> +{
-> +	struct snd_pcm_substream *substream;
-> +	struct an7581_pcm_priv *priv = data;
-> +	unsigned long flags;
-> +	u32 status, isr = 0;
-> +	int ret;
-
-This should be irqreturn_t and needs to be initialized in case we didn't
-see anything we recognise.
-
-> +static struct platform_driver an7581_pcm_driver = {
-> +	.driver = {
-> +		   .name = "an7581-pcm",
-> +		   .of_match_table = an7581_pcm_dt_match,
-> +	},
-> +	.probe = an7581_pcm_probe,
-> +	.remove = an7581_pcm_remove,
-> +};
-> +module_platform_driver(an7581_pcm_driver);
-
-You should set snd_soc_pm_ops too.
+You need to compare ipc_to_mixer(), there can be duplicated steps.
 
 -- 
 Mark Brown <broonie@kernel.org>
