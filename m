@@ -1,83 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794913751;
-	b=El/95CclmsE3aEi7XH6Apxhp/b1fkS/+qBhKDgCBFk+jO43ZB2KQ3ZiNBPXRXYXg6KTZ
-	 BhMmZuYEhBJcOB/wXhkvb2Hs4ybA0E7bkJR7uSSjtcGbxOzZ9eA3j2zsSGm3vC4EnNF2o
-	 Un/eeIkXt7LJkhbqOinoImfe9OvCs6WW0L6vdQwqkRHM9vlkT3vZmvxpI1JmgatA5TGil
-	 PVYXSz7ELH1PQKoelogGftLkGqZb/xP+Z7uS679A89BLnv4npV4eurFsmBiZZqokcyhmI
-	 8eREWM4orbnrZ98UBRzv1NjiFvp5Jbb8nJqp/noND37dZBqgIEeMk6ITRFn5dVo7wzA==
+	t=1794913963;
+	b=F4gxaWJ84L42ZOpw+Sd3kRiZ3oxzk5mEudHkW0Ht7SRW+vro4DlltFhShkAlaJ1D9ZKz
+	 NYcFIcOb87C0/R9rfsPewDSzk/AdivTeRrOYXVZ1S6b57bCJ9fwrr8gKItMgluYICQl8W
+	 nWpjUL1287dvDb5sCxf9vV5YELwKRjIh9sLIgL763pOgtHLS9+kG8e9xMkAZdHjgdxC2h
+	 Q4t+cvWuFLoba5ZoZ8E5ZFNoXNpfLlAdNWhfsNoQ1YH9WllubHA/UoAeEOl8JpUqYxSFB
+	 xRCMTdHlb4Ng2GzS2/ulKYaUrZSW0rp+UTsGJlizTvRIIZz69CIaQs2IQZVyFN7fjVg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794913751;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-Reinject:X-QCInternal:
-	 X-QCInternal:X-Proofpoint-Spam-Info:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=WWvwVYKenG+kHA4rdPTTYPgchSKfSupK1RMORGGWU9c=;
-	b=tsD/gHCd/xhxZHlfLdSrR6pLr+1WyIT8BL9/s5bSkevdNUS6+ikyctVEi9ukvkVBKeSt
-	 gFHL/2kNfziYPc99VLPBvJbWmJumxpPyQve8+FqLJW7kv4h1rz/0w+Zgyt1bW1JTQN0ar
-	 LwW/IlwABQeMeeEEY+6NkH5bF9DAHQuPrfdRGRnDe5D0gAoOXfZ96UtaIdo4QEewtm/gY
-	 fQlI6KmCJOwI7+gyRmBoKJ1KCdPU0kafBjJp7fbzUoqPW2wXXWLIErqEVgdk4dYUdcV/6
-	 qw+iM8VhIkyf6dOaXyVTj1v5qGvS1doYZU09XWze8JUZ8inoh0v6glcaEZrFv0zhPpw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794913963;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=f15GGLfZRSW/97hfdU6TL9nh7Hr+uNTJeX5nSmQWx70=;
+	b=U6aXCpW3VVIxVMH6o95wTavwZRQDQR0kNxvmLifX7jrsW3z+CrNc5g5GlJ1BBAzxEyu6
+	 QpuXoFPWbsB+olMh1mN+c6c3cg3KWBCaqTG2N2p0H+NhQxCiDt5SP0GgsysWVKcSiPoUz
+	 Phm+Y42T+tAXXZ9zQAzhpd0mV9WKMprW6lgtppbwdTqXpuUyieFaGeL7+0+E40aNJEB8s
+	 nWzV/X73e0YMutY37rPVT8FKgItgmqPkffkrYEjukSY056/DkosnqE08N1hFnlOYcpneP
+	 fOL+iB5Pkm6c/F4fGRFUEX6Zito821IxYQuUndtKNGzsf/n++Zm0RHvp0QmQ4C7xtlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pBwsMGgO;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m05msBSb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3B5606A32A;
-	Tue, 17 Nov 2026 11:09:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A3B5606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4235606A332
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 11:12:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pBwsMGgO
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AH6f0Zs2998606;
-	Tue, 17 Nov 2026 11:08:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=WWvwVYKenG+kHA4rdPTTYPgchSKfSupK1RM
-	ORGGWU9c=; b=pBwsMGgONKWwUHN201IzvJXOZqisqdDJyB9on5cbxiQ1ReGg0lC
-	zgLar/ga6SjzeuwU+5bd3QjtEk5JmPDvTpD5o+xVQIYxy1Xu4nRi1VltoME8lq+9
-	cQX4BJaYcHKzRSickYHcb7I7y8FPXIUFclCGuIIymZrIZkTqWCLFnazNzj+7Y8cx
-	exSNxPkhF29D89xD5rR2ru3C1QX1AOP1Hw0XmHReIQ0CadskjZ/BcupNQOZGDvYk
-	htNp2pup87Gsu4T/24Mb4MsUqmtQ370vaGYJf1qNvWrbekKQNdshYr4E3peMPaCW
-	8CTYAldboQAKqQVcF9HBo3q66Sfzoc3pHSA==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j0hve12w5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 17 Nov 2026 11:08:54 +0000 (GMT)
-Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AHB8p7X2620849;
-	Tue, 17 Nov 2026 11:08:51 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-ks5-hyd.qualcomm.com [10.147.255.18])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 6AHB8pAs2620842
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 17 Nov 2026 11:08:51 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4763723)
-	id 9536967A; Tue, 17 Nov 2026 16:38:50 +0530 (+0530)
-From: Karthik S <karthik.s@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Abel Vesa <abelvesa@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Karthik S <karthik.s@oss.qualcomm.com>
-Subject: [PATCH v1 0/3] ASoC: qcom: Add talos-lyra-evk audio support
-Date: Tue, 17 Nov 2026 16:38:45 +0530
-Message-Id: <20261117110848.465407-1-karthik.s@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m05msBSb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C7421F000C5;
+	Tue, 17 Nov 2026 11:12:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794913962;
+	bh=f15GGLfZRSW/97hfdU6TL9nh7Hr+uNTJeX5nSmQWx70=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=m05msBSblCkHa6V4w78YFA0jOpiwjfHTXFAbXZrs1OWhXpKjfBlcAi2IuyG5ZicTP
+	 opVuuQn79A4Dg7US+DMGgukzFlGvd3mVtd8sfcEizj3HRPmDkOwj7NigT2RxY+WuUj
+	 qCM26jUr0ksHWu365JaU+j07WtUweuJsaDy0yEFEdFUOQmTXY34IOfenWREIQXBlw1
+	 uvmneM1syTQIHvGFgWi9TX8g4Sf4MF1J2+hh4kVwitd92ncdtwwWx827/7alLIZGum
+	 o5o4tPexp/AWwxhY5N3rEUrJTRG4zBT4t8GQ0ocmZ17Foaj6Lmle7n3yoYjWqEWTYn
+	 4Z5DUnab82ZbQ==
+Date: Tue, 17 Nov 2026 11:12:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Qianghua Wang <qianghua.wang@senarytech.com>
+Cc: linux-sound@vger.kernel.org, lgirdwood@gmail.com, bo.liu@senarytech.com
+Subject: Re: [PATCH v3] ASoC: sn624x: skip DMIC when ACPI DisCo has no MIC
+ function
+Message-ID: <fc54214c-8f3b-461d-98b3-bf92c3aad213@sirena.org.uk>
+References: <20261117013558.1790310-1-qianghua.wang@senarytech.com>
+ <20261117060213.2327503-1-qianghua.wang@senarytech.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -87,76 +58,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE3MDA0NCBTYWx0ZWRfX1EYbmVPbZ8LM
- DTufC3xejx1HZEbdBO18IyNQp6lJNqcJOrEc2L0Wz5BNeHHzqLbA62U2LsZtWnUx6vcAjvPTU6/
- tTycfLpk06lDZqp30+j0KhIGtlvZo+A=
-X-Proofpoint-GUID: GAw0rHDrewp-IYzf5zIApUY5xowuZq7j
-X-Proofpoint-ORIG-GUID: GAw0rHDrewp-IYzf5zIApUY5xowuZq7j
-X-Authority-Analysis: v=2.4 cv=dqhOmFg4 c=1 sm=1 tr=0 ts=6afc35c6 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=Fnp2pXIAsWV7alZBeiUA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE3MDA0NCBTYWx0ZWRfXxu5WEMUHol49
- K3zxh5ydt/NG+tXk3DEiIF0zpyNGZemPjeWeBLxYl7UKpjk1Skwz/C5rGpZgxl5TCDTAlIDpi0m
- 5M125pfwhCxAHlkSZDIBAlemcNehOCaHIeq4cvtTNBwQWHZ5N6wrjqlgqUEu2S287P1FjanxC8c
- q4wOL4/MHEEqZ94JvsyQAkqjFyelYOBItWuPI2TpYTY4quUZHBVZ+2M+w0ybCtAplN1GoNYEQt0
- qyq5Zw2xyJPjIT7Ue9APoijFc+LZlfENOdL4YMEKjkt8WA/v5Qc28bVDYJPYIaIatlD5ZMTIWNb
- twYDhSGmYOjjlr/CeFVFh3JuX2IjEyKFKg1KGBjemic78WImBBjRRSdXb4+u7Fd1LMl5nz98QUE
- 9X/zt/SxUep05ufefp9sIB0u3R5GDZrfpx8EUt6eAEiLCtjs6yzXyyW0MklubuWFHYHTcmFn9JZ
- 6xdR1HGYhRZzUBgLnaA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-17_01,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015 phishscore=0
- bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611170044
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6fd5LgHkuP8j+e5/"
+Content-Disposition: inline
+In-Reply-To: <20261117060213.2327503-1-qianghua.wang@senarytech.com>
+X-Cookie: Marriage, n.:
 
-This series adds audio support for the talos-lyra-evk platform, which
-uses the MAX98091 codec over the Secondary MI2S interface for both
-playback and capture.
 
-The talos-lyra-evk is based on the QCS615 SoC and uses the LPASS audio
-subsystem with APM-based routing. This series adds the necessary DT
-nodes for the LPASS LPI pinctrl, I2S pin states, MAX98091 codec, and
-sound card, along with the machine driver and DT binding updates.
+--6fd5LgHkuP8j+e5/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Changes included in this series:
-- Patch 1/3: Enable audio support in the talos-lyra-evk DTS, adding
-  the sound card node with Secondary MI2S playback and capture DAI
-  links, the max98091 codec node, lpass_tlmm pinctrl node, and LPI
-  I2S pin states
-- Patch 2/3: Add the talos-lyra-sndcard compatible to the sc8280xp
-  machine driver with DAPM routes, widgets, kcontrols, and codec
-  configuration for the MAX98091
-- Patch 3/3: Add the qcom,talos-lyra-sndcard compatible string to the
-  qcom,sm8250 DT binding
+On Tue, Nov 17, 2026 at 02:02:13PM +0800, Qianghua Wang wrote:
+> Some OEM platforms, such as certain Samsung designs, use Senary SN624x
+> for headset jack and speaker playback only: ACPI _DSD DisCo describes
+> jack and speaker amp SDCA functions but omits the MIC array function
+> because no on-board DMIC is routed to the codec. The driver still
+> advertised the DMIC capture port and ran DMIC function init against
+> registers that DisCo does not expose, which breaks bring-up on these
+> machines.
 
-Dependencies:
-- https://lore.kernel.org/all/20261027-talos-lyra-evk-v2-v3-2-658fd5a7ec99@oss.qualcomm.com/
-  talos-lyra-evk board support (precon)
-- https://lore.kernel.org/all/20261117075100.272535-1-karthik.s@oss.qualcomm.com/#t
-  pinctrl: qcom: add QCS615 LPASS LPI pinctrl driver
+Please don't send new patches in reply to old patches or serieses, this
+makes it harder for both people and tools to understand what is going
+on - it can bury things in mailboxes and make it difficult to keep track
+of what current patches are, both for the new patches and the old ones.
 
-Signed-off-by: Karthik S <karthik.s@oss.qualcomm.com>
----
-Karthik S (3):
-  arm64: dts: qcom: talos-lyra-evk: enable audio support
-  ASoC: qcom: sc8280xp: enable support for talos-lyra
-  dt-bindings: sound: qcom,sm8250: add talos-lyra-sndcard compatible
+--6fd5LgHkuP8j+e5/
+Content-Type: application/pgp-signature; name="signature.asc"
 
- .../bindings/sound/qcom,sm8250.yaml           |   1 +
- .../boot/dts/qcom/talos-lyra-evk-som.dtsi     |   1 +
- arch/arm64/boot/dts/qcom/talos-lyra-evk.dts   | 271 +++++++++++++-----
- sound/soc/qcom/sc8280xp.c                     |  32 ++-
- 4 files changed, 234 insertions(+), 71 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
--- 
-2.34.1
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr8NqUACgkQJNaLcl1U
+h9DN6gf/cs9YmLb+1sVMCufSbTMn0qmS9yKEtQsjhWaABzMiVV63CdLY2azQ8BCy
++CQuW9xBh1XcsJr9/tH6GaprUX1jmpOvtoejCiKPRO4I3PWIVXs3O0mAyeg6yH8U
+fbzyG/ieyNZq/78zJzcEaYAIf5EnrdxkEXQZ1YAvUMySJLFQ60vruKjvogNUhcic
+l/J4J3jmAEzOKTU612DgsEh5fRImyGXV+Oj1ZxVjRYQWFzfpoZUul1L1QKS7pLQB
+eWjCBp+O+DBS3N/mbWwWyx6lX7Mqp6uIQ3Xa0Y3fRgkDH+TnIfuvBMWpb8qreO2t
+0pX0S1E9Etaotg3Lw50oZUv0B/EgTg==
+=8x8N
+-----END PGP SIGNATURE-----
 
+--6fd5LgHkuP8j+e5/--
