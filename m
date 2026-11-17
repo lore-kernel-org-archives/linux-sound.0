@@ -1,55 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794873100;
-	b=ButkqvI0GkemeK05Spt2vFWZVWAGFf4F33YGlUt3xmzLMCtBQEw5uF82c9vQ1XsHKs0I
-	 l5dyEKncM20jjmtixNibgBa+brED39EicBYOVn8+vvj7S2VJOrvqlZFvHRsU/pkeOnrlE
-	 MKt5Vh3XC3+/xA98+BFKiPMLzzJuGyBWfS4YWk0xq6kUQRz2Iaf29z8XzOT7JVSJ5iXky
-	 FXtXmS+0SOPEobXzDKQJ73/kcdqDGnIfzWsk3IQAPAtnIhMP5w2jSv6nIDrL/rF3W06j/
-	 7TLFXeV5HHg2u8fNKhyIlE0rQZ82RFWbZWguse/1C4+bZpvuO2G/IJiOR8bMGI7boww==
+	t=1794875188;
+	b=jeBgXWDyLIXXp891I5ngbFO2NRtXwTAromd78Z1MIBogC2nfZx2YmUecS6ysmrSYx1yN
+	 uQ9VtMWJqLy/K6NnIRJsGkuGon80MaSq4wJT7YN940QQmGliOfrTn7oR3r1awZ53IWIso
+	 Vt+EYfqy8ltAoKcy8oKe7HW1YJ59Ys8FrSqqL3V21BlaflBA0O48z7rcYjZMvhBy4NVOJ
+	 ZoFoRHrmlBmfW5/fGOOKOQBCeVbp7gzpY8nB7XiRjZMZzOlpda58UG2RypZ+sMLygQCE2
+	 acKAUo+exVvGH/k3hfS3nknVbZXwCjbNpnujON7Oe7iGNX09yV/hcpm/DjS8YwH5/xA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794873100;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=SQt0eL8qfHalFpnfDQ9pv6oy1Sj3m08sH+lj37/D/0E=;
-	b=Rv7eoZoeVn630gY5EqQf977DErvYr3G68LiWTvh+BZE5NnXn325h0SDIBgMgkmiSj6p7
-	 tV8L/UBUZ82+AVREqj2LWuTREyXJIR6JwP8dtlEkD8+SpZlpm+wJS+9gEZ4HQDSXf5JB+
-	 HyiY6lGXPuE1CqUyJh87L5qXhJFtQ9isEZ4LETAEF5YjXQDw49+B8kcr/N7OmSpkw66qu
-	 EcFhocnYZTa6bh2UUXYFuAczj8uJ3JYRzIcXB+ErydQQum7vQGXEP5Ie3y5u8XeD3YAw3
-	 dZBxFi9xhhNWs14Sh4gdN7oFG741xz/x7vMAc/EHSYJaBZFd5g6AGlJGMHfH+7+aSyw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794875188;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:Received:Received:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:X-Gmail-Original-Message-ID:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=1IF7o/AtrOMvQGCYw2joPZttg4edu/s8LsP4afvyeNo=;
+	b=n6gFFjvr9WFRqmLfiGm+ttNn9iRHV5KTJtbpEIHpV47iiHb9YYN2mL0ybiKItN+nlWkP
+	 LlWrDVR+QcSnS+N/10LuPovDvrvggSHNdfDRCletmWJX6xJjWqd9n01cw4j7M+VNv3w0A
+	 hlM+GdAbVIJ5TMaC6lo1aFBpcwVZc/b7LfCv1IdHR2Fk4cGEpLPSH0AFxMyllrfCrdNe7
+	 bSr8bX8n8Nfl91vZkLeAZTv/+G5KOLJ4RPF4yko11sdeqXqsobQXpJ1BRmuT9O+DhpZDU
+	 bHdPkvHm6S2Ee0C77x/xxubuYwiJnwXUC425PE46hx9z/kaA49a84D5hmfUOtW4NTqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G9EtOQfV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=telaak.dev;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.215.175
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F15606A31C;
-	Mon, 16 Nov 2026 23:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G9EtOQfV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C581F000C4;
-	Mon, 16 Nov 2026 23:51:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794873100;
-	bh=SQt0eL8qfHalFpnfDQ9pv6oy1Sj3m08sH+lj37/D/0E=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=G9EtOQfVsZhDKPGkBpvRaOqvMPYaxHB9s813GIN8z1t69GuqaJpTdOOqwF8lIjv2c
-	 Ghtf4yERblL6A3DZt1IkeXVVxVs8a37b+KwlUBVC1Yl59EpQMD58pKQ787IX4+PiWc
-	 cQsPOHmTfEywRmSimtOz3bmgooPx/U4cweNIusaAzLjpxv4vfrdJYbUres/gVFD92C
-	 vUqFtNFPVWwoihYvO50mnH+oV7LL5o35wKYuz0dH7MCe0OtugjjxtQvYk1zJ2TK6wC
-	 ftdL6WUVDggBp3LBiJecWV6PhKOEpaD39xH7fHt7GvdHuD9UFHLBZSXS2HYFjcc3NB
-	 +mi6s7qoxJzPg==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20261113112935.2926431-1-rf@opensource.cirrus.com>
-References: <20261113112935.2926431-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ASoC: cs35l56: Series to stop writing ASP
- registers the driver doesn't own
-Message-Id: <179486201075.2504946.7882006843579510289.b4-ty@b4>
-Date: Mon, 16 Nov 2026 20:46:50 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E094606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 00:26:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E094606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso2243613a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 16:26:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794875187; x=1795479987;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1IF7o/AtrOMvQGCYw2joPZttg4edu/s8LsP4afvyeNo=;
+        b=Uhqt6ErijKw54A7D9AE6fVn76CBaTliWBbkuxNeH+BYM3ayGIPaUHHQS7WdLGdaWCA
+         WbNxnjUUecPLd0Gt7h2bofAz4lT+62s+trLg15fW3KOQU4WncG0HTJamJByVIFF2w28H
+         whUlGU+GyIL6gt+jxqE8S5y+74+1jejMhD4WWo/wmygEkow84meVyVmLmnnoMW3G1J7E
+         vNdnwsdxkdXnMbSAm1GIXO/qcZ4TT8Jyhfa2PvDffjQogx2MeFOlPNzD/1s6R9jEaCx+
+         uxgty8fGfWDe7Cw+tIGheaD4cuqNOBJIeGJE+HxnT5rjXyDyZjJxwVS11s+U2M6ce46U
+         fA0Q==
+X-Gm-Message-State: APuU4Z89YA0JiECqyGWXapAQsEyAIllqqnXl+p20JbOvw1wap2tqquBE
+	pEGTxN9BD35O9jVkQQS+n+UNEYhXPIxKxeglulw1CHG5ABjvelyaL3Mzqy65IX7w
+X-Gm-Gg: AZFdTZdhO8GOls463RHcZLfnBoMFkMPU/KV2KfuysJ7Fu/GYp89p2dQbPaEmYLFX3uF
+	TsmI5WSse97JwIJj5oXKDlsz40JEPLT1l9hOCBm9teyT29hL+G7BujnA+4kiyJoV5bqyEbA87pE
+	HL1zYCkiiOP6NblQjq2IZh++OgagBlkCnPaSRN2m9FwMpL2XmSHxLS5iNyPrLUNb+U2BPu3fzmd
+	OPC0QpSQsZ3Tir+2rTwcsdaY1cquc60i9BFFOY0XrrsYhWxUSA95cSn1H3irO5vpZmAuxAKWZF+
+	1hg6j+eMkZ0Dwqmal3Xwtdb34vp6e7gPOva4tcL0Es8rYNb2TW2sbLPULFK4ZKfm4PjT4XFUBU+
+	m5PBtDnpdJOeATUp/G9zQ8uzY3bZLujhJUoT/cwRJA7xTM+lPTgugBjxCBX26tX6wob5lVn6tam
+	B38OHr+3by1pLm/lFyR0KhAuSGLD447+6KEYWn+cd+akb4hkKKSH8cmca92A8QC5WJ+1hXFiytx
+	xn4Wto375QHUEFpMp+eQZDGospymQDRXE8FLCN25aVehDZYIS/s3zaQXRks59OINnnjsVung43A
+	KZr3de1yUNJYFjf7WQ3KECwiBef9r8c7aGLce9RuTKSaMToeHnWa8yY/sRpNcZfs7vqW2vVtxOD
+	+jVt+YUkT4i57uoYqbuIN54VM0+us6mSise1HGi8jUFZf
+X-Received: by 2002:a17:90b:580c:b0:3b0:a7b5:c046 with SMTP id 98e67ed59e1d1-3b1b0b50028mr11949608a91.54.1794875187172;
+        Mon, 16 Nov 2026 16:26:27 -0800 (PST)
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com. [74.125.82.176])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac4cff6fsm1202420a91.12.2026.11.16.16.26.26
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 16:26:26 -0800 (PST)
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso1834911eec.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 16:26:26 -0800 (PST)
+X-Received: by 2002:a05:693c:2804:b0:37b:7bba:8199 with SMTP id
+ 5a478bee46e88-37b7bba83dbmr6574275eec.6.1794875186398; Mon, 16 Nov 2026
+ 16:26:26 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,57 +78,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1685; i=broonie@kernel.org;
- h=from:subject:message-id; bh=aMeR063A5fivQXeThX/izflwbRwxkIc7eE6KJTnb+1o=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+T+fcbV3vxnBmAmN5xozrTA8OxM1ym1hpW16v9Zjb9
- 4G5QYF8RykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACaia8PwP7ngw+5Erb3bp10V
- 3Bgxb4LUpYNyObJmS+J5rs59n/HmfiIjw/a78ZaNJ6683VOz2Mz2x/HnHYsPhK/OPOSbzc7NsFR
- kPS8A
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20261116-omap-mcbsp-tdm-slot-v1-0-6c9f7aa45a29@telaak.dev>
+ <20261116-omap-mcbsp-tdm-slot-v1-1-6c9f7aa45a29@telaak.dev> <sashiko-outbox-217774@kernel.org>
+In-Reply-To: <sashiko-outbox-217774@kernel.org>
+From: Joseph Telaak <joseph@telaak.dev>
+Date: Mon, 16 Nov 2026 19:26:14 -0500
+X-Gmail-Original-Message-ID: <CAPY4CJ626GTu3Lvb6Fcn86BARRRV7YYg5=dcTmFt4L=QThS29Q@mail.gmail.com>
+X-Gm-Features: Aa3M54pgjWtyIXJ87iOCXvH7VHiLmPfsiy4hpiocOy5UhsnAmGKWL7LVFibdBLM
+Message-ID: <CAPY4CJ626GTu3Lvb6Fcn86BARRRV7YYg5=dcTmFt4L=QThS29Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: ti: omap-mcbsp: Use all 8 bits of CLKGDV
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 13 Nov 2026 11:29:33 +0000, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Series to stop writing ASP registers the driver doesn't own
-> 
-> The driver was writing to the ASP registers on systems where it didn't own
-> control of those registers. These two patches prevent that.
-> 
-> There is more detail in the commit messages of why this problem exists, but
-> the summary is that these registers are usually owned by the firmware
-> and/or a secondary (or tertiary) host using the I2C/SPI control interfaces.
-> 
-> [...]
+On Mon, Nov 16, 2026, sashiko-bot@kernel.org wrote:
+> Since this fixes the 7-bit mask introduced in 81da6a9e49b9 ("ASoC: OMAP:
+> mcbsp.h: Clean up bit definitions"), should it include a Fixes tag?
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[1/2] ASoC: cs35l56: Only write ASP1TXn registers when widget is powered-up
-      https://git.kernel.org/broonie/sound/c/0085428e834c
-[2/2] ASoC: cs35l56: Fix unwanted writes to ASP config registers
-      https://git.kernel.org/broonie/sound/c/396c5d8075f3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+I left it out on purpose: the only set_clkdiv() user divides by 8, so no
+in-tree user was ever affected. Happy to add it if it should be
+backported.
