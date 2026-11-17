@@ -1,55 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794926875;
-	b=eFSALff+g74drJcqgn/iDlrEA23ymBWhpUV/Xr4H/96lGJDaDi3j7BWXoOgGmTSw1pZ6
-	 XzAM4RL3u2ta/BUYWEldQBFOgdKnpm5L5azFZwMjpFkDy/vw0EKG0UxcnjDL1z4ah69SR
-	 KaYHNYG2gXRfRFdrJHHa7Eu9/zQPPreD23+Bj5fSWUa9RqjrLWvp9Er1RFjEFvCvlTgjT
-	 n5KtYD4mZqVL0i2rWSyk3N2LJBVlIm/BlSBh3HjATvE4/ZRk6ommqjvA/qVvsCnR+82W6
-	 WTphbioG6J56JcNB0b5ZciP0EQe0Wzg458N5XsZ2+ha6s18L4SGOb/KkiyDFOKSYzhw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794926875;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=BD7k7zCVvZ4xAVdVTnILtyUwjpDxQ8TdyWPHkLOxa74=;
-	b=GDnieufQKr9g0GOnHlwvlU9m3GPctOW3udVxcDOPg8mMhkpUUXuHvXEzN3QLCM8UmkgJ
-	 3GRsigLgxvxrsunl9XzW52M8HTx5tLYs/E/IuT1EZNjZDJUEba1etEnmfpM+lX88q2skt
-	 t2r7474qgLgmY31ZcDq/my5Vk5cCxSuuvyR39rhpRnlxf3MyS7HT3inWK0Xs23IP/98uR
-	 mI2SMJVxDww+4y2dBYueKEysdbZrrpIT9bftxpoQWqdPtys3UEg+7+aTNdttaTYulBRDd
-	 e3yZU/t5H3X6wl4WEghOrutaeJvQakivX5O4oh156jFcmVo4EZoOlC5x+j4isTcvGBQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABDZS5mr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794926957;
+	b=QK/BZ5uhoQiogf/yBEMp2+c38ZBV3k8+ZgcJqKw0iXELimoz6Gso+9EsFMPWfjlaSmLz
+	 u/JYf+if7oevVe3UxheEqZGsgeIEPcwyY/cFYzXXgZexTB/L2VYZFfZGbtC7BNlUa8+zF
+	 zLCnj1mOBZk7z36U+Sg+ps3bWIZHXvfRj94KQiXbDO14ODWUEFH8bzOrKzzrZk3UscmFO
+	 XCpnOiGpbx/kFWLS4CIJ51o018ujkDJ80VoXSh9o2S8UsND8WR1Rsw29dsv2X31NmivTn
+	 BmtSMPKS1F//5KKaX/v7PYgtF3I1aQj2nqHaJYg7EXbm45HNuVK/9rdFE8njxB8T59g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794926957;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=KVB/e4UrF2Lv+S1TNzxhho32YKzKrH5oMmhz+C4qnUw=;
+	b=OdtV6aK9HcFelitrwArXkUEpE98z5P7GpUi8Fx1CDRuezd7kiMzvIvp4zkN4tllwNeka
+	 7Yhm2ML4KkgF/0FzAHJ0VJ5OkhoqY7ryCb1oZmAYNJRu/3Bd+jpu2m6ev0Oxp7N7yp9oj
+	 AwgwfukAHmc1dkCxuSo5cNbRGeWIatA8GUm8fl/jNu0M3FRkOY1RWse/R9Whhizisq3Jl
+	 xmMbPlCSQfE7IG79OJJsYz7Hqo/de6tvwr09xeDE1ZyqJDtQ6P50frMRANDazVioz4/pO
+	 YVihe76JmfG1DBH1EvyiZTHo+Rahpc+M2iq58p+NQscnp1e1Ll9NT90H2XoFXqOfmJw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U49GwSEl;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9415606A32A;
-	Tue, 17 Nov 2026 14:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB75606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 14:49:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AFB75606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABDZS5mr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C491F000C5;
-	Tue, 17 Nov 2026 14:47:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794926875;
-	bh=BD7k7zCVvZ4xAVdVTnILtyUwjpDxQ8TdyWPHkLOxa74=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ABDZS5mrGNTdWAyXJnLIJg3Ez7Cb6GFkJxyaDNBbyfHRr71XABCN4Ql2MZ42WtEdP
-	 sBmCg+TZIubXaJIXONbhjb0f/FfmsdbuREtjYob55CywoM8dWfr7txYrp/vAoAbaUi
-	 Pm4iFUnJwvUS2S4kOyRF7eJDG9wN368KQtwFxG9yzuH/jTt3wi/pqIY+91TMG4e34w
-	 tDZcgSVc3/gGdyoqR6kHMprZVBQYJedfQuEDFjKniyh4xFHTrbSh3kKeK0lJQf38e3
-	 azv+oy7O03JDZJnUVm0K2USuL/gwx9O+8f0P+uOwtMxwwLSlxoDrS9dgxLuozeyR/R
-	 qVymKd8Uc3wZQ==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, lgirdwood@gmail.com, 
- Vijendar.Mukunda@amd.com, Adolfo Morales Tena <spidermanadolfo@gmail.com>
-Cc: venkataprasad.potturu@amd.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261115232942.5820-1-spidermanadolfo@gmail.com>
-References: <20261115232942.5820-1-spidermanadolfo@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
-Message-Id: <179491899197.77896.10039967926982229984.b4-ty@b4>
-Date: Tue, 17 Nov 2026 12:36:31 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=U49GwSEl
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ed0890476fso35625825ad.0
+        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 06:49:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794926956; cv=none;
+        d=google.com; s=arc-20260327;
+        b=M0YflHU7h2sVGlYIiZUalGUdWC3hfLtJ+ZkeZ1/i5rZud++oklop+prPEN2/7s0kjv
+         RJQTCpt30oT/3xazj9lCm2NRvGdAenBv1dAHLC/lLaJa+p07aSLCZc6BknNOq8qttxRE
+         I16SkoZCyooAaeNvxwyx6z/yGh7Ii4zzJzFdeWmiC78P/UUkTtSLea1mdRjYIJJ4MdU+
+         9qPBJNcLOPz0s04KPhE1N7DYGjS+4r9pv2HncZPebwYVu8sxY9dIErIIAcDpPl+wUS6i
+         N6FMy/1bEUwpvJkV7+T6F9eKhf/oKz3Pn+zrfw95F7hSbod+pPSZz1fgSxtdyYoQC0Yw
+         b6tQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KVB/e4UrF2Lv+S1TNzxhho32YKzKrH5oMmhz+C4qnUw=;
+        fh=tf7QnDC+0hICjR1mVM+Q0SW4TPWzpuAhelkhgKIisOg=;
+        b=QDZI+giWT5TqSizV6QyvCZ1DAHEe9ty3H+/Jm7d4VzmxSSa2ndB+p4ZOoufRkjuuJO
+         J8Sm+JxJS3UWmCPTxOrM/3rtX08aBFVMAz0+WYwTpFuMQczx1xFUcJySim3k7MCf8B0u
+         7dikKrj+B48PjOR+dOCMGTuIqX6oJGBcgEcwHPnPlGGzwSs/UQpu5Vjj2ozCmjXf9z72
+         BY5C1pvuYcMe4N5OPM1d96D5uD6/y5FIUUUOwZ4+ottFqrgmaikN5iI5pKOrcbZgVnB6
+         ljA9mjLLN80p0oTS4vgkGle1jIGii2Qv7ZHKX3uSTw+61c+mvmLJjazLGZG/sfkmEG5Y
+         0xsg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794926956; x=1795531756; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KVB/e4UrF2Lv+S1TNzxhho32YKzKrH5oMmhz+C4qnUw=;
+        b=U49GwSElp5u72o5L2bGO2ClJ2Gh7FIlO8SOg0BDHrdssNDZdDFeZUaTRIJ4I3tX/eE
+         6AUOHHuwP2OnLRGt9OXsredSFXoqjWJhBUFl9X/SMd6KG+I5dEEU4rGxy+HgJqL3fPum
+         Lj+29ud14PpWh/7iCWn++lmG2PE8vrpe2lW/r7HBlYKYUY2x6px163p24LWIteJq4d8M
+         DSpQAqCRkj8LlJ8gF9e4mx+xMJnM+ISfX35W+Yn1bVTgaCffbzmeUzUmRR7IJbdXMh78
+         KCO00PlRSWMdBQzzRE3SOqD5vY27Bc4YNTgZnbgmsTOG5youfSNRdGzsmNi5fuK3Zxa8
+         OPKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794926956; x=1795531756;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KVB/e4UrF2Lv+S1TNzxhho32YKzKrH5oMmhz+C4qnUw=;
+        b=ojSdKSCUGDoyaN1jf5BStP2WxAEwNjsOznpwTm8bMqZDowp4kknlbQka8C4vVDLJCw
+         A8lRPW2YTgBAt4S4MHmsODgcgTTVX2pDWJT3lzYGLtBl8msiNwIIhfJQ647i4EBGRYI+
+         sB3xVFXlse4FTaGYBhaM5i6W2LLMyssm01Fbg4IZqIrXnLoUgAth0mE/ozUzxJjpmoMI
+         q8j43DGeSLMXz+LVLBmjeOohDF+/7mhZIxblSirjVaOKtrwyEyeMEqM5lRjfuszGb4Zx
+         t2mtekXbikzNow49vDPCKAQWcm+5+P/c8UpsB9u45SSgMSs9nzzz0dCOQkOdXc7gInec
+         J97g==
+X-Gm-Message-State: APuU4Z/SNhlNb6KRxT9i9RQPzzkqe3EhaXB29ankhZBH0+1CJGOAB7GJ
+	mKsQsg3qmCnZALpZ247MUaEp8LwDkyr6AVYf0+I5XnK9E6QKYPGr8Ve+aLLY/Q773Gf8byxWTno
+	IhpDAtvCe2qgd6ef1zKDkCsZNw7sgKt8=
+X-Gm-Gg: AZFdTZclWdJLkSWx2mVk7c6ESpQpFqJg/LQTYCMkRsNSimXZdNE9BrtM5VFATe7hssh
+	tcGEgWJWPwx8FOlR9O3Z3OkmuoYU/wMuk6n4NsSl844YLw30ZXMXP6Si/miiA29xhuk7TOa6x+T
+	K8WNAW4+EB4JlB8V0xlOVvyvr/lbt9NgwTCIK9ZGkdKuMHHA9W5+0Ag1MyGqr5KOaXxyIkeN3nJ
+	HaKZnJYqBowkODUTNHLmQr/NxH8K22N968btgsSOSoeFzkIBUortr0K4o1Q/utVVVat4HuP3HSi
+	svJVWiVrEtrLNvFMSLKf/5/LFfFfi4YnXi/244IrXo1BtL24TabqlHXNuCf0Iy/Sx7vKff4ErzY
+	NlBSs7TreDyq4JNgbFO66HQ1Jv+Yrp184rLfPUg==
+X-Received: by 2002:a17:903:15c8:b0:2ed:8bce:aa38 with SMTP id
+ d9443c01a7336-2ee0d9f2610mr140026295ad.3.1794926955946; Tue, 17 Nov 2026
+ 06:49:15 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,46 +103,61 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LlLckqsCTdXml1JIflub3z9ZEfUEircgOBJL53406L8=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+ZEqckpRhOHVOXvvRu+YjPtv2pItyvq17NfPxptime
- UFlh2wmdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiZSoM/2MqfM4uTgr4fT4o
- XWHvzkmNG/2y72xKENy4MMvn8FrRq+mMDMeqf1tKN7Hun9zB2hO2cb/EmYBfQSeXN3W5HmqzyY9
- r4QMA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <CAFd_G9guhtVwE1aaFOXE3Ab43BAcwP3RBT=R_SdZ2KDfXB=LeQ@mail.gmail.com>
+ <d0219acc-0e2d-4bcd-b303-e7edaa236eec@linux.dev>
+In-Reply-To: <d0219acc-0e2d-4bcd-b303-e7edaa236eec@linux.dev>
+From: Ted Vera <tedvera@gmail.com>
+Date: Tue, 17 Nov 2026 07:48:39 -0700
+X-Gm-Features: AclHuK_37o3TJGBoLe9hp68xhk-6PXau-GH5p0zcyWlicUZlj4wuH7g4qBB6O7I
+Message-ID: <CAFd_G9jmveC3oHQbfKOVaRK=6k1r8iygG8Y9s1XTuHC6ABtCeg@mail.gmail.com>
+Subject: Re: ASoC: rt5677: Do not apply Yoga Book ACPI GPIO mappings to Samus
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: linux-sound@vger.kernel.org, regressions@lists.linux.dev, 
+	oder_chiou@realtek.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 16 Nov 2026 00:29:42 +0100, Adolfo Morales Tena wrote:
-> ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
-
-Thanks!
-
-[1/1] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
-      https://git.kernel.org/broonie/sound/c/f32a26faf4ce
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
+Good morning, Pierre-Loiuis,
+Not a prototype, it is the commercial release.
 Thanks,
-Mark
+Ted
 
+On Tue, Nov 17, 2026 at 1:12=E2=80=AFAM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.dev> wrote:
+>
+> On 11/16/26 22:24, Ted Vera wrote:
+> > Summary:
+> > On a Google Pixel 2 LS Chromebook (Samus, EVT2) running Fedora 45
+> > kernel 7.3.3-300.fc45.x86_64, the RT5677 codec repeatedly fails probe
+> > with Failed to request POW_LDO2: -517 (-EPROBE_DEFER). The codec
+> > appears in devices_deferred, no RT5677 ALSA card is registered, and
+> > only HDMI audio is available.
+> >
+> > The driver=E2=80=99s ACPI GPIO mapping added by commit 0cc00de3dd5b map=
+s GPIO
+> > resource indexes 0 and 1 to reset and pow-ldo2 for every ACPI RT5677
+> > device. Samus=E2=80=99s DSDT uses those resources for codec GPIOs (jack=
+ detect
+> > and mic-present), not Yoga Book-style external reset and power GPIOs.
+> > The driver requests the mapped GPIOs before registering the codec=E2=80=
+=99s
+> > GPIO chip, which appears to cause the deferred-probe loop.
+> >
+> > Test and result:
+> > I built a temporary module against the matching Fedora kernel source
+> > that skips devm_acpi_dev_add_driver_gpios() on DMI board Samus. With
+> > that module, the RT5677 device bound successfully, the bdw-rt5677 ALSA
+> > card appeared, and laptop-speaker audio worked. Secure Boot remained
+> > enabled. This strongly supports the ACPI GPIO mapping as the cause.
+> >
+> > Suggested fix: Restrict the mapping to devices whose ACPI GPIO
+> > resource layout matches the Yoga Book, rather than applying it to
+> > every RT5677 ACPI device.
+>
+> Humm, it's a 2015 device that I used in the past without issues. It was
+> one of the early SOF devices... See commit bcb43fd.
+> Is this a commercial version or an early prototype? I don't recall what
+> EVT2 stands for in Chromebooks.
+> Also adding Andy in Cc:, he was the one who suggested the GPIO fixes.
+>
