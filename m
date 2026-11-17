@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794900650;
-	b=oc2fjm6F5NM2E9BMvMiVVZjc7dq0dcXtbOV2EHpqdKUe364jZyrCZSa0oChPxSreHRdT
-	 WCk8Q2I9rDeUjlE/ODXFOEvaU0xOvE/7wjEQ2jlLGBSMEdA+iDASiaJq5TDcAls8lKZVk
-	 Tie2lxI5IimwPb1kIv7Y6ES0iYVeVvhKXmvtRIV1+tvZ0I545rbQvlaou3wZgrUDbTHwp
-	 GcmcgunG9fGJiww+ucUzhYgrS3420LNSWcEgsLzJ9E44nCsUrsHtyg8h/uudU43QI9PDQ
-	 JTY/N5fePbNafQjgq2Zs15AXue3OVVi1U/I1U87H61nWbqD3TfT6BgUtGBuJfpzAGtQ==
+	t=1794900678;
+	b=yyjTvqfRSnGIBO0fgGAe3dJtvLMDckJHD7+JQn7GORkVU0BmvrQGx5+j21Y49LK0XGTw
+	 2i7xqzn/9aD/7hgPUYV1TCxV/nnKYZeJIs6k3BfT2ggL8egLIkxIH5yhorzt/fQtoLUHp
+	 RAWLYo6ifN089d2y6xjVHmY/AUOwUU39to3caRd5Q1V05uBBOkJvem/KnNgUtrnmiJQmX
+	 VWcMnyEnPTBCVvEYbfqDwfAm/LIHcHHdgzDlXmWuJu07yHZyo41Nz2grNLH3WnhNJiHUH
+	 Y/8JPFSbjnGtmGbMehJ+b6gxUomxsIcJBFH5WsaQVhr1KlWy3Wys7gVCv3ND6tzBodQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794900650;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794900678;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=qE5oFdWjs65CHlu8ZdewCoRzzBDW8fKR/5HPtNHktd4=;
-	b=yBssRmoBxPzXziKh5ZdRsNczDBe1t/y+/a7D3TxQTu1CbcNBZ9QMNkbDKBWQ/CHhJaUd
-	 QyWKeHFm2wKKA7B/AvQnfN8kKivIhaGArKrHOcXMhDxbSD72e8wY1Mugt5jzGrkRqV/Rz
-	 rWr5NDys9MOG9JEZ0kqd0mm6yqBI8ZNeEZvntm9ljRMrdsP1j3GvVQxIh9VvRw54/mOCL
-	 aPZEd1/OoafWBcjZrVzp4ejB36Alug+4j0b7w/IL6ilkU5uah8YPckuN00uVAKpaFbB/Z
-	 ZO0f67zuRWNqlwyn6mTi4srGz6CRA36X2NLkNhPzpIauXcrncCUjsUaq1HkSjhdIh+g==
+	bh=+laPHjDRa6yVGpaKIADylsyv0PPMiDYEbiFDsePkH6M=;
+	b=H/PXF4dZ/r6S8JhvXC7U6WDVEN2z0xF7o17azvaFssuzaCmqP15+ASamEe70UM0C3JIB
+	 Pz20tv4bbwQMUZHGVf8GDMyyhCeTA5d/Avlf9feBvRQp2nw0e8ub3dKvOLdCpGbPHFC5K
+	 kcYlz4Elngy3atBH6Qvh5PmFP+WkrmU0OZO8mb9dE20Uv+rt/Var+f+UT8xT79WY9C8k6
+	 0P2iWUO3bjFLVnUclLNrCqsQo9HbEo2l/7NdmwL/TixXoNxuX9tj1OLyBXkmX96sq/kqV
+	 vWM+4AqutoAx193qy3oMYDH+KmQ9WYwtBYn2gnruRtWNOb9Z5N751RHRbjWUUVDR1bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b0d5Gfkw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJffagtP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93BC606A31C
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 07:30:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B53606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 07:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b0d5Gfkw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4925E1F000C4;
-	Tue, 17 Nov 2026 07:30:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJffagtP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0A41F000C4;
+	Tue, 17 Nov 2026 07:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794900650;
-	bh=qE5oFdWjs65CHlu8ZdewCoRzzBDW8fKR/5HPtNHktd4=;
+	s=k20260515; t=1794900678;
+	bh=+laPHjDRa6yVGpaKIADylsyv0PPMiDYEbiFDsePkH6M=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=b0d5GfkwMUd+jjAq3Qu4wkKWEOyJlKacEl3qG/4SZEj+/TluAXUyACjttAPFd+LMP
-	 UfHPoNIQ0YIKO69RCTcaPg9kzc6QvpTjbRu+F2xeiI2BAcjLDe3poLqAT44q6tAZPy
-	 mULFbn0MMv7ILiBpwaxrOEOnT/7Nc3aJ66LiGBT8HznL+Me/Gq1acQLl7r4X+C4ePW
-	 ZhbgeMRSdoYwFmbr/Nl1MWKDohBHxEy60/ziU99199Ebli2bjpMtDqpDfCy+/1p6N+
-	 1xWNOgUG13Jzns6UDmIuO0tRgirG7sVXHm+Ut3eA8lr7c4s5OJkGWlhE+072uc4vzC
-	 tjefnAodaiRBg==
-Message-ID: <sashiko-outbox-218352@kernel.org>
+	b=JJffagtPDJh4csRTf0n/Q72pYNqprIvA8dlhQLH1Qk42J68pXQvZP/Fd2Tf2zBp21
+	 4jO5mLrvQ9d1tYYrZTH/PSCaaCId6TutkuGmhDXWfL5j/P5QQF6M+y65NDa6M1+Tar
+	 917I3Ox5jT4BqEmK+huclACSm+7UrqaY/MLWADdeA25OpxXYNOIFwCOkmKQjb+f8Kh
+	 dWhDDVCs7e8ATOsgrfWvynmHwDZdvuhhHH70fNlEUzIGQ+WcRcl1opENUp1IyeMw95
+	 ljKPiQMAwVhezTsJhgBqAq+4QJF/NmfMFz8E9jHS36WysyQkbqUk7Y3RVksHVnBmDa
+	 nFOpQMH3FFG5A==
+Message-ID: <sashiko-outbox-218354@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: wm8962: Fix broken headset button caused by wrong
- guard constant
+Subject: Re: [PATCH v6 16/23] soundwire: amd: delay *sdw_ctx publication
+ until after startup succeeds
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Chen Yuxi" <chenyuxi19@huawei.com>
+To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261117070516.3861828-1-chenyuxi19@huawei.com>
-References: <20261117070516.3861828-1-chenyuxi19@huawei.com>
+In-Reply-To: <20261117070906.803139-17-Vijendar.Mukunda@amd.com>
+References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
+ <20261117070906.803139-17-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 07:30:49 +0000
+Date: Tue, 17 Nov 2026 07:31:17 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,58 +61,94 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] ASoC: wm8962: use-after-free in wm8962_mic_work() [1]
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] soundwire: amd: lost IRQs in sdw_amd_startup() while *sdw_ctx
+  is NULL
 --
 
-commit 8a0c59cf23261f48f72e00d3d31993d38fafcde5
-Author: Chen Yuxi <chenyuxi19@huawei.com>
+commit 63d0953ca7aecb37f123b556809d3ebfd5afacf0
+Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-ASoC: wm8962: Fix broken headset button caused by wrong guard constant
+soundwire: amd: delay *sdw_ctx publication until after startup succeeds
 
-This commit updates wm8962_mic_work() to test wm8962->mic_status against
-SND_JACK_MICROPHONE instead of WM8962_MICDET_STS so that headset button
-presses are reported when a microphone is already present.
+This commit delays assigning *sdw_ctx in sdw_amd_probe() until
+sdw_amd_startup() succeeds, and calls sdw_amd_exit() on failure.
 
-> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-> index 148480e4124fc..a4868685218b4 100644
-> --- a/sound/soc/codecs/wm8962.c
-> +++ b/sound/soc/codecs/wm8962.c
-> @@ -3127,7 +3127,7 @@ static void wm8962_mic_work(struct work_struct *wor=
-k)
->  		/* Don't report a microphone if it's shorted right after
->  		 * plugging in, as this may be a TRS plug in a TRRS socket.
->  		 */
-> -		if (!(wm8962->mic_status & WM8962_MICDET_STS))
-> +		if (!(wm8962->mic_status & SND_JACK_MICROPHONE))
->  			status =3D 0;
->  	}
+> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
+> index 8019a4faeae5b..74d6c0f371046 100644
+> --- a/drivers/soundwire/amd_init.c
+> +++ b/drivers/soundwire/amd_init.c
+> @@ -182,11 +182,20 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
 > =20
+>  int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
+>  {
+> -	*sdw_ctx =3D sdw_amd_probe_controller(res);
+> -	if (!*sdw_ctx)
+> +	struct sdw_amd_ctx *ctx;
+> +	int ret;
+> +
+> +	ctx =3D sdw_amd_probe_controller(res);
+> +	if (!ctx)
+>  		return -ENODEV;
+> =20
+> -	return sdw_amd_startup(*sdw_ctx);
+> +	ret =3D sdw_amd_startup(ctx);
+> +	if (ret) {
+> +		sdw_amd_exit(ctx);
+> +		return ret;
+> +	}
+> +	*sdw_ctx =3D ctx;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL_NS(sdw_amd_probe, "SOUNDWIRE_AMD_INIT");
 
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can wm8962_irq()
-re-queue wm8962->mic_work [1] after wm8962_remove() cancels it?
+[Severity: Medium]
+Can delaying the assignment to *sdw_ctx until after sdw_amd_startup() drop
+initial peripheral attachment interrupts?
 
-The interrupt is requested during I2C probe and remains active across
-ASoC component unbind, while wm8962_remove() cancels wm8962->mic_work
-without masking the mic detection interrupts first:
+All callers of sdw_amd_probe() register the top-level ACP PCI interrupt
+handler before calling sdw_amd_probe(&sdw_res, &adata->sdw), and
+sdw_amd_startup() -> amd_sdw_manager_start() unmasks the manager
+interrupts and starts the bus before sleeping in readl_poll_timeout():
 
-CPU0                                  CPU1
-wm8962_remove()
-  cancel_delayed_work_sync(&wm8962->mic_work)
-                                      wm8962_irq()
-                                        queue_delayed_work(...,
-                                          &wm8962->mic_work, ...)
-  ... component freed ...
-                                      wm8962_mic_work()
-                                        snd_soc_component_read(component, .=
-..)
-                                          <-- use-after-free
+CPU0                              CPU1 (<hardirq>)
+sdw_amd_probe()
+  sdw_amd_startup(ctx)
+    amd_sdw_manager_start()
+      amd_enable_sdw_interrupts()
+      amd_enable_sdw_manager()
+        readl_poll_timeout(...)
+                                  acp63_irq_handler()
+                                    writel(ACP_SDW0_STAT, ...);
+                                    if (adata->sdw)  <-- NULL, IRQ dropped
+  *sdw_ctx =3D ctx;
 
-[1] https://sashiko.dev/#/bug/linux-315f7aab-37ed-4fee-a0af-5ebeb7b5ed74
+In acp63_irq_handler() and acp_irq_handler():
+
+sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
+	if (ext_intr_stat & ACP_SDW0_STAT) {
+		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+		if (adata->sdw) {
+			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+			if (amd_manager)
+				schedule_work(&amd_manager->amd_sdw_irq_thread);
+		}
+		irq_flag =3D 1;
+	}
+}
+
+Because ACP_SDW0_STAT is cleared in ACP_EXTERNAL_INTR_STAT without
+scheduling amd_sdw_irq_thread, ACP_SW_STATE_CHANGE_STATUS_0TO7 is never
+processed and cleared, losing the peripheral attachment interrupt so
+peripherals fail to enumerate.  On ACP7x SOF, acp7x_irq_handler() guards
+sof_acp7x_handle_sdw_manager_irq() altogether with if (adata->sdw),
+leaving the level-triggered shared PCI interrupt unacknowledged and
+returning IRQ_NONE while sdw_amd_startup() sleeps.
+
+Would it be better to publish *sdw_ctx before sdw_amd_startup(), and reset
+*sdw_ctx =3D NULL on failure before calling sdw_amd_exit(ctx)?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117070516.3861=
-828-1-chenyuxi19@huawei.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117070906.8031=
+39-1-Vijendar.Mukunda@amd.com?part=3D16
