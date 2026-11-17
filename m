@@ -1,113 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.63
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794900094;
-	b=Ld4i8aXhQixUG084NT/rRq1jheyKPooGqA9+fx02d99c8tdZowg7FhK2Cr3azU5RrGA/
-	 U3TVmnFkmi3Xep3l16tkD5QhlvkyOQrHLWFzguVxz8mkHVIOi+YE6Qy66DVwH4KMrQUWk
-	 kZZpOLJwzUDlHZWA0vFWmO8HV16oac2pJe+z0ifaV3t/sbz+fLjQRTbgroPbH64fIylG6
-	 966eeDzmdc8lsBgKm4fjE/+5DCxWYDYifGtFIO5k8P9RXn0lid89qQ2b5eM/x9BPVuh49
-	 z42ZlSykiJLkskLMbTAltVT2yjbEvFyUQyW9lgydjDXaD57u7LJ5wKyJu9Gy31m+bGw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794900094;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xfZbxvW1XTwBdfdaBtldaruk9UcgNsD+1GIudHbnoys=;
-	b=URFZAnKVIaaBbBwnmAaiVb/uxaHqc6k5GkbtnRyjq1T/VDm+wrKVU1Z/OnNZR3uBII+q
-	 5pEedIhwKH0/WEyq3qp0Uj7TZIYh/Sd+rChLHMaqqjHs+vyJVW498gzPNErNE14qnLD5P
-	 f5lAPJ72JHv5+utxKByI2tmNrpDAkYyjH6F3GWChGf9jDsTSjPR7CRjV0/wJP59nrUt6s
-	 NO7MlTaZldaQag3nlgryb+5uhTxlTTpT8w6T1bCCievAHzq0KOSWf0SJ3jbu576zNKSEe
-	 kBNFBe5s4aVlUq4GJMeknaRo2bf6gK86s2q7h+L/PAp+5RdQRJ6EA78QAgtlfRCQyrw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LpVglUIH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.63
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010063.outbound.protection.outlook.com [52.101.193.63])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794900292;
+	b=ksPZHEdD2jmR8Vm92AzAxhcUB7q3jZviduqSawiyPJL/p2YJl9nOUY1Of2OopDpNcTmx
+	 iDhUqIqtew4sadKs890mkT638CIAc5aue7+EoGiLR/pNOKS9pK0QjiCt4ou0zy8l40Afj
+	 1/lMvSYpz5U7lgJ8DOlGgi4Yvp/w5jtf+x7DxxlAMwwUSrutj3O7paXJb4Gf5zsUuqSce
+	 xlBQm4kJIDPOmDwL7iH36QPqsr+ZJRP8bc8Y7z1TAndh8DTXxeqs7Bn2Pm4tbRcfXjna/
+	 qqa7VirkB23sZ3NFSa/wIkULe+mGNMvJ7vr1RCsGAjFqII8AqH8MOsnQSHLAd9jz9jA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794900292;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=Nr9ryGWb9itbMiGyffDdzZxicnVpC5tnEL/5L74dtj4=;
+	b=HuD96UGBSOg0EvTYv412sQW/BZ+3oWsT5NgZYtLV/niPjXMtRs5eRew+SclalrqL2k0d
+	 Fal1dtTKqGPTAuT7XkiexM6aMB19v7TBXVSngWgE6ebSSSIu9jR606uNHjx8+9WJw1YWQ
+	 BmJnKfc/E1YwkwYsukG8t6UUCq1tBoFWk8GtAiLjyp5WocKqGHzt+QhT9iysmNS9h4Bf9
+	 6CwTxQRSpiMPvBouHefLSVnQtNvFG0tmhiyOB5c4bL1pVOVpLdVfLXQXh5WDQxekQXMj+
+	 lxIwgDemu3g44d6tzl1/h34Rldfy7uEFVRs3EzYZcUjIFXZ7YJGskct9BgMRsmFZdRw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fq43dEyn;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005F0606A32F;
-	Tue, 17 Nov 2026 07:21:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 005F0606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B439606A323;
+	Tue, 17 Nov 2026 07:24:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B439606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LpVglUIH
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OxFo/omNuBr17ty/O+pvohrNA1pf/KyLdqntUnKjB8H1HljWoC4fozA5qqK8DasSWxdtjSMfeyoE41pRZb0heOgQF6M1YWbaBq0is3jLBO81Z0eZi6orYbsFt1kHBzqiznUTau0OUVknrlDz6uHG0nWYgSZd/2S6c4c/QyBagnyGJtNWEwl+q9n3QzwAK/t6NDCOF9dLBJoi4cNYY+TY/vWh7LEDfIJo0n08c7wlW0Y4jZuOnUcKD2dc+fVGFRQG64j2sLh+K9dqlThhkXqKHgToxWrl+vJzZINtFd4bG8Jd0n0kCZuMzmqpHZbGBmnNLkxUnAL4LLdJTz/wB/LO2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xfZbxvW1XTwBdfdaBtldaruk9UcgNsD+1GIudHbnoys=;
- b=VvPO7xank8O1nX0zLeLGrLvjSlP0lHOKXszAnfBGdAR+MT6kTQiViaTTUHMVD6clh/peqrCpuNPwsth8UaTv3q+CESj4lKpOXeyNAX8BKeqQQvV0dQPRV9B7sYZrLt8od6/ROoBw8oyPPOwn0MQFtEIJ4jFu0LRbzI/0yLCRT6+7NQLoXOPP4qyTTQmwaxGX+i/Q4BRxoY6SXWrQRb8ZgtkSyYNqsgHxeO3XZTG7oU0Vujwmcm1bZUO8WYDxgkL0bNpDaOe60np1mljM0M1MaQyajbrZGd+igY2/QGABO/lo+DeUo+vZOdiTjRk1HSUg+dkGIeB7nH2QC/oKxtb1EQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xfZbxvW1XTwBdfdaBtldaruk9UcgNsD+1GIudHbnoys=;
- b=LpVglUIHZ8wXO2O62sDItK3Y87FJrqc0PafEl0lUyhVHce6FqobeZ8gds2euHiGEpyYhz3N6SycfCmToURGIS+7WiqXc98iYd6rDo1bI0ytVm1WS+uLiAaXF46lcff8C9zDwr6CSFAJvqPBAfrjC1Hl7pFClhXl5uhAATay54IQ=
-Received: from CH0PR13CA0032.namprd13.prod.outlook.com (2603:10b6:610:b2::7)
- by DS0PR12MB7926.namprd12.prod.outlook.com (2603:10b6:8:14a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 07:21:30 +0000
-Received: from BN2PEPF0000A802.namprd02.prod.outlook.com
- (2603:10b6:610:b2:cafe::3f) by CH0PR13CA0032.outlook.office365.com
- (2603:10b6:610:b2::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.0 via Frontend Transport; Tue, 17
- Nov 2026 07:21:28 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BN2PEPF0000A802.mail.protection.outlook.com (10.167.245.171) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Tue, 17 Nov 2026 07:21:28 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Tue, 17 Nov
- 2026 01:21:28 -0600
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Tue, 17 Nov
- 2026 01:21:28 -0600
-Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.57
- via Frontend Transport; Tue, 17 Nov 2026 01:21:24 -0600
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <vkoul@kernel.org>
-CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
-	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>, <Poojitha.N@amd.com>,
-	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
- Mukunda" <Vijendar.Mukunda@amd.com>
-Subject: [PATCH v4 10/11] soundwire: amd: guard DAI PCM caps by acp_rev in register_dais()
-Date: Tue, 17 Nov 2026 12:48:19 +0530
-Message-ID: <20261117071927.830373-11-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261117071927.830373-1-Vijendar.Mukunda@amd.com>
-References: <20261117071927.830373-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=fq43dEyn
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Nr9ryGWb9itbMiGyffDdzZxicnVpC5tnEL/5L74dtj4=;
+	b=fq43dEynQBArCjGVO8DaXJ4MFNejwuZhKy7sErr+RrYKhULDUMGefgJwJb3C6Ao04tGdyWNL6
+	vdVyDj1g8TEfIyO3U+vfOhQnm/bZGF0qUi2X9iamXMQ1PXSAzhI08d3CCjQMmXmG2c+GuXk4wJB
+	ynH3ZdO4LE+d2Lcz0QiiM0Q=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jTGSj66J6z1cyQN;
+	Tue, 17 Nov 2026 15:24:21 +0800 (CST)
+Received: from kwepemo200015.china.huawei.com (unknown [7.202.195.27])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0C5704055B;
+	Tue, 17 Nov 2026 15:24:41 +0800 (CST)
+Received: from huawei.com (10.67.174.69) by kwepemo200015.china.huawei.com
+ (7.202.195.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 17 Nov
+ 2026 15:24:29 +0800
+From: Chen Yuxi <chenyuxi19@huawei.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <ckeepax@opensource.cirrus.com>, <patches@opensource.cirrus.com>,
+	<sebastian.krzyszkowiak@puri.sm>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <chenyuxi19@huawei.com>,
+	<yeweihua4@huawei.com>, <pulehui@huawei.com>
+Subject: [PATCH] ASoC: wm8962: Fix broken headset button caused by wrong guard constant
+Date: Tue, 17 Nov 2026 07:05:16 +0000
+Message-ID: <20261117070516.3861828-1-chenyuxi19@huawei.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -119,69 +72,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000A802:EE_|DS0PR12MB7926:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44ef494f-8730-432a-0ef1-08df447b65bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|23010399003|261022105027099003|11063799006|56012099006|261021123027099003|261021121427099003|10067099003|261102123227099003|261026140227099003|261009223027099003|261028144727099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	UYTQTjG6uQWhoMn5yRDIXiGuFdbnT7RxIGkuE4X5RNuxfmF178UgAaXCA3Tg8S6ciRwGFh8NOPSgG5ynQEDigTQ+cFdy+W1aKUnw7U/Y79Alt257aoRbxcsjmPQKsneHcLjPqw0wdB1dY8RwjeUrCxct9Ts77FfpKe+DUsOf/3WVNzsP+KkfNBxyRH2g9b2OAwUqV8lTlfTNXVCJHkSKDfp/E251IkZyRdIs7wfGXS3d6p/qr8Bf7q+gG5cdNKQFfvfTe/mjiqTLoRG1OY5+MaMpNy/wxLs1bJ5FJPYbiqdb5+uJ7A3brCwcfeUEpoKPXu3I8JK7lE2vHetvGs1LsKiJgeAbjCN8rxgNzJktpJXybUZq3NgBNr3yq39Yz0jHBz2pH2AXg1FK927QvdT+xPw6ToLHMqvaGPUES4dqoL53LZy7wioHWyeOWDeP9x2z54dNRWH1eB3Wsny6zrvqJPdDcfohFaNF+GhwqoAxJzdzvtjfKCQomjfADF3b5UMiyC87CLJHttJeKS8RnN703asyzfFqj6/TKCeA3BXA/arjGmzLsz1ajCCIX3s37ezodSgAmrKlimtD9Lv8whmh++Vh/5mdsEbit98aUtsKe25u0GrFKqh7zf6kTdg4//qA4CEJYfiMT+FqYQUktm/7cN1Utmq2FAAUZfmtI1j6pKrWneMgBsxP/w4215ljiVUoEX+L5FJJ/wGKG6FDXMXFhw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(23010399003)(261022105027099003)(11063799006)(56012099006)(261021123027099003)(261021121427099003)(10067099003)(261102123227099003)(261026140227099003)(261009223027099003)(261028144727099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	/Doby8hjYeGRZeKoHluP+TpexA+69l5DIsdDHPjZyeX9Rj4IDwnBdz35xB+lk+HpUtI7tfqb/f+4WxGGX+M0QvX2n+HF7O9bhAgajeo+VbfVTJ3LT1+3a1EtHoLv/QCFO93BHckRPgSjtOr0rHwy6UjD2ccjOM6Oq9I9hkIabU/7CBbJvR5qTqeb7nUCh7l09cyM0l0PkSJEoYc2XU9hEgt7zYYwaaFQ7ZGCQzXMgzGbiILTdhl9JhjThxsqQg1YnqWr0WOVlj3H2vAJ22OPeTn89l4rF5aa2DNb7n8qi3qfebVuJz+rP0v91WFem571J6B/Uv8Uko4lqcRGpCKjPfDdXjbxEiaGLgKsUYV9e0NTZf21g6+FvrD9IEIMpaTSc5bnHzz+nFW58Q5vicasi1q/b8DMCiqvctNaoygULayR14VWR5UErtL2nodmnWke
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 07:21:28.7894
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44ef494f-8730-432a-0ef1-08df447b65bb
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF0000A802.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7926
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemo200015.china.huawei.com (7.202.195.27)
 
-Replace the bare stream->rates and stream->formats assignments in
-amd_sdw_register_dais() with an explicit switch/case on acp_rev
-covering ACP63, ACP70, ACP71, and ACP72. An unrecognised revision
-now returns -EINVAL at DAI registration time rather than silently
-inheriting capabilities that may not apply to future hardware.
+Commit e59075211902 ("ASoC: wm8962: Don't report a microphone if
+it's shorted to ground on plug") guards the mic short report by
+testing wm8962->mic_status against WM8962_MICDET_STS.  But mic_status
+stores the reported jack status, composed of SND_JACK_MICROPHONE and
+SND_JACK_BTN_0, which never has WM8962_MICDET_STS set.  The guard is
+therefore always true, so every mic short event reports nothing.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Pressing the button on a TRRS headset shorts the mic pin to ground,
+which used to be reported as SND_JACK_BTN_0.  After that commit the
+button press is silently dropped, breaking the headset button on all
+wm8962 boards using the mic detect path.
+
+Test mic_status against SND_JACK_MICROPHONE instead, restoring the
+intended behaviour: suppress the report only when no microphone was
+previously detected, i.e. a TRS plug in a TRRS socket.
+
+Fixes: e59075211902 ("ASoC: wm8962: Don't report a microphone if it's shorted to ground on plug")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chen Yuxi <chenyuxi19@huawei.com>
 ---
- drivers/soundwire/amd_manager_common.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ sound/soc/codecs/wm8962.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soundwire/amd_manager_common.c b/drivers/soundwire/amd_manager_common.c
-index 149122cc3f90..987283d06cb9 100644
---- a/drivers/soundwire/amd_manager_common.c
-+++ b/drivers/soundwire/amd_manager_common.c
-@@ -403,8 +403,18 @@ static int amd_sdw_register_dais(struct amd_sdw_manager *amd_manager)
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index 148480e4124f..a4868685218b 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -3127,7 +3127,7 @@ static void wm8962_mic_work(struct work_struct *work)
+ 		/* Don't report a microphone if it's shorted right after
+ 		 * plugging in, as this may be a TRS plug in a TRRS socket.
+ 		 */
+-		if (!(wm8962->mic_status & WM8962_MICDET_STS))
++		if (!(wm8962->mic_status & SND_JACK_MICROPHONE))
+ 			status = 0;
+ 	}
  
- 		stream->channels_min = 2;
- 		stream->channels_max = 2;
--		stream->rates = SNDRV_PCM_RATE_48000;
--		stream->formats = SNDRV_PCM_FMTBIT_S16_LE;
-+		switch (amd_manager->acp_rev) {
-+		case ACP63_PCI_REV_ID:
-+		case ACP70_PCI_REV_ID:
-+		case ACP71_PCI_REV_ID:
-+		case ACP72_PCI_REV_ID:
-+			stream->rates = SNDRV_PCM_RATE_48000;
-+			stream->formats = SNDRV_PCM_FMTBIT_S16_LE;
-+			break;
-+		default:
-+			dev_err(dev, "unexpected acp_rev 0x%x\n", amd_manager->acp_rev);
-+			return -EINVAL;
-+		}
- 
- 		dais[i].ops = &amd_sdw_dai_ops;
- 		dais[i].id = i;
 -- 
-2.53.0
+2.34.1
 
