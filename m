@@ -1,101 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794889291;
-	b=W6m5c7lhLvzIVLXgySgvuYbUBlol77CLQEcn7YVMdBPxgMYzTvuuS46s9nTzZ9Po9b3X
-	 /y0qOR2/7AVtxem09RQWTacd24KnSZ7k2CU7oGPYJa8EE7NrN9eQo8aEyKMAVAyPi3n75
-	 MDKkkyRtnGyv2UzZjkQo0VKLcffmsCtDBBAxm7gaYTXarhIm0x9Q7qm/+FMx7u+bMEJNQ
-	 i3rdiS3/AIMEP3FdCJfjZDFgq/0yr1HPjNXKN/l3mkseOImyqeb0+YQD3XVl0MeWILtOG
-	 ORtGDUCd22+A7yoyeu+CVO9hpMZ6VWfNZxaSszsnuBQ860GN3R0nVdCJmfkr76DynKQ==
+	t=1794891842;
+	b=jkoVrBFpiDdc4AQNrXX5xybgw/c0XrrY2GIhPJuHiHo0h0i1/dgy3fzrZ/vlwuTQa0Jm
+	 4w7jDv3IcubnRg2Ud2/q5P2fXCwDCjiKWgMl/e57NVNL33YgL5PbuhYmDy9f3WN4XO6E8
+	 /7TMVW9r8LALs6FY2mWd3xGTt5ry29oPL6rGkCZZAa6YpjiqKO1QGZb1FSRWz3yq7jvME
+	 EeO+3y2xyu9xqDe8xaFAxihoBUfEUtlsZyMMgsSjU99xPovR5Z44khbdasbFJx8tuV2gz
+	 /NktmUtnJoXZymwqXJyR8pxc0c9LZrhEDY6Z0L/PcoJ9YHSyL+gvCiFka/g2TVKD1ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794889291;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=1355GaRprf5af481svTnlH2umLDzsTzd+KGfE9XZpIs=;
-	b=ESy1RVSwVm7C7IfnVvgcTXzYdH+ViAdYyR7nW1DRBRsAM1q3YpGFRrbVLI9YRAxyb6nB
-	 pHT86Bwoe/bKoIohUDhp/H8vwO/ZeD9cY3imy6I0+Fky8D1yM9ivnRumpDXepiPuBthJT
-	 ZmhD9uKgwIgY8ALYHRvv0HX/jCaKhwPvX34Svzd2EHCgiqiHivD2nqwaAMH/CIf7NjeFh
-	 zrJ5+ZRO7J0E4xjjl8HqbzP0PUBPRvo1a7xcogfogi0/gakEPSQhdAVveKKv+GrjyJ0Ey
-	 RRG4Aa0g/tHKX1jS+iFEyOa+E7dOO4Kh6oVuA7CRwLClGd2+Jr/wrqm7aNI6AFZKSuA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794891842;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-Reinject:X-QCInternal:
+	 X-QCInternal:X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=xkhEq9wyas0B+GeV5cgodWz7ppYz9ekt73WDjprZA3Q=;
+	b=mGdu1Uqvks5kbBt44axkB3r19RUWamVcRDaEKQIjCGkWyT8VrE++E07HgwTkJdhX6sD6
+	 wOEUdAG/aTpILtZfH9yQSVvnwQR23Pmq2ybiqTJ/8zt2Gp4Z24GVZjdYwUtiF2isngj54
+	 ZRPu0FGTktw7f2JrUsUF8dit1yJcR0Z25rzVo+xkm0qMvflw+QFgGQeiZ5XiR7h2zMNIE
+	 QF/eeZCMIMrt1sVAhlkJ4RVIOejb8O82dwgP2Vm0utBUVTLRtN1gEmIGMXXob00kE0IJ9
+	 RM9ayhaIfZzHppqRleV0PsRCHTjGPmqVnbJW++pH9dQEvBrg2z8cHf9BtzDkkgy9rFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EyrEDHfB;
-	arc=none smtp.remote-ip=209.85.214.176
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ipYaOsOp;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4A7606A329
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 04:21:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E4A7606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D666D606A31C;
+	Tue, 17 Nov 2026 05:04:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D666D606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EyrEDHfB
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e9ae391a05so3584795ad.1
-        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 20:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794889291; x=1795494091; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1355GaRprf5af481svTnlH2umLDzsTzd+KGfE9XZpIs=;
-        b=EyrEDHfBd4YXBzIi4U3mV6VVjiFuf5p57wUhGUjLYjqXtPe7saanA9UCu0dAUXTCjx
-         t//VGPpePsMN1M67t7JDCaQUIKevIadMpCtoOQcvgkGQ2tnqmWkt0BpNKhBJncq5Vz4H
-         LZIp5FVP8CPjcDQ6vsIRDAoCF4pPT9DPwiVuZZnZzRG/OPXAjaoU62kxfcsP3P0IHJAD
-         12VYxcHCAApmRv9u9sEiszfW4ycflDlkycI/uyD1RwDXvMS5rCAWdUIZuzffo2JAYt+Z
-         lB30DmJShkkkiHGKxqbPeDC5g6yiUN2NWKxLwxWF8qOH2zF0EL6HFdCRQBf8L4daYAOh
-         c5Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794889291; x=1795494091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1355GaRprf5af481svTnlH2umLDzsTzd+KGfE9XZpIs=;
-        b=kN7JQNUvR3/v3xxv6WuWkTi4POjpa/0jyWxrkuA3fjYMiWahAVE8gMqWXKIRQzQi1+
-         hMkoCUpVR+0lJOdsigTTUMRPmxW+x6RQ+kzTkKW5xWsPgxb73415UkNnX4GFr+//l2tz
-         IX3OZXcgrEIn9HZKl/nkYrYD9GLeRDLk9Uoe3brqfmkgWxLC9s0T4ps+QgY02W+hrZhq
-         USNvt6Z/JObHvNMu01xbgcym8nc2Jf5Z9X1TXxR1hjw2KYD4tvmoq+4C0zhIZqkb9j5h
-         WJJEBP8FgLD/BNUpC4qpUGBs2CB+2DVapxyHwD2LfGO2vBVH6IAC/fSkMQFNTrVt63XI
-         V7cg==
-X-Forwarded-Encrypted: i=1; AL+hErH8Q4DgJG1WysbHR3F79kJ5fZKM5u6vOSuU4A4OOTnzh/H8lJ92a3RjbqvrLk6/ddn+ZJSRGyst3gzeUw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Mq4lOAq/thDlMIeOX7ZBXXRWJT3heXfA9XRszndBTgyo/4+xT
-	ePsOmzdRGD+NTe/yjxkIE9M88YfRBEW29XCKUz6uHTPDSy8y+JdaPbdI
-X-Gm-Gg: AZFdTZdkHFfK2+RVUlDL2FKInIeyUIeb3PGF1UwMcoDWs5zLBsXvgxHWg1id0HVgt9s
-	XPP6JioIOEO1l9UFyNxr/0Im77KPujRcvLWaJGA/9Ttw8DZ9d1x8k37i1IbFS/2MalLTAUt88oc
-	tVDifTkUHiZTSYCATyLf2WMKqds9ELnQ0ypbY2A7TU4iFCv7pl16wdCpSnpWujzVg2SPVbgehQV
-	HBxQkBDsq0Uiz3rtz8DxkdPFsm1tsjZA+x61LPZ03Jn9Kfm7DygGm6hLsumWXNbVViKASPzQonm
-	i9+nT6mMqLvtD5PY948RQuUHRfA38QOaEKANyTbSeBd1WXOw37jlHdsZSdu+fnxg1DooSO6a6tu
-	toi/pFFG8A4LimDx61kbPuXd1lUkWoOhVwJtLfF3ooJz9g5IVT02hrhaEGRYM84Ozq36V0AkFhN
-	nhwEJTnu7EQtv2pdc++Y0rd6WgWQPftzZVukbxf+J0L1lxbahPJVwr6fXNWD/yxns51gvaExsNc
-	ObtJGlhdyNEfQm6dF/cXLkpw4ETrAJkCfu6GBxsunblEKTsN3zRO2C3i7e97X0lY7gCxDiyfGoy
-	PYDUndS9haacYInIH1J4jo6FMUl0bAk3Gt4TZPjQ/3MFoGuX738mTlJsm+sSFKd6e6+4o391MLB
-	/XXRyDmdHRi/tPC3lGvgutGwbmk6cFymCI4YQhCYzbxFv
-X-Received: by 2002:a17:903:4584:b0:2ed:1cb7:79a2 with SMTP id d9443c01a7336-2efd9a87525mr10469925ad.25.1794889290610;
-        Mon, 16 Nov 2026 20:21:30 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2efe41c8df5sm412385ad.70.2026.11.16.20.21.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 20:21:30 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kees Cook <kees+treewide@kernel.org>,
-	Jihed Chaibi <jihed.chaibi.dev@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/2] ASoC: cirrus: ep93xx-i2s: Use devm_clk_get()
-Date: Tue, 17 Nov 2026 11:21:02 +0700
-Message-ID: <20261117042102.12442-3-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ipYaOsOp
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AH441n61699110;
+	Tue, 17 Nov 2026 05:03:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=xkhEq9wyas0B+GeV5cgodWz7ppYz9ekt73W
+	DjprZA3Q=; b=ipYaOsOpml7cCoBxXo7Yw+OWpfQncctQXB+r99Ar1pvFT4mMnoM
+	SjOhtVBTv9mjwHm16vdCmdKscRdVFNmQOdBa6k17nmcpgqyZPSP9eTmZnUUV9zS+
+	TvJpp4u+PPYoXblziObArYQ1SMyASg+jvpkI4IzB2maIXLzkCkuhWxvPT4wl469K
+	VUqv1bK0o6IBl4/ldrhl4/2hJXnCyh2DNDKq2HIv13WJHkcLrOxndCqjY2dyh8J9
+	CtKTk+VRwAzX12+NkmjVDt00g0pBj2hOD95zXfnaGOf+s3P7PM6Nq0YWSOBabyAZ
+	fUodIwturz0KFd5D8gYaNcMryAOkM6xN22Q==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j0fjug52a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 17 Nov 2026 05:03:48 +0000 (GMT)
+Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AH53jpd201539;
+	Tue, 17 Nov 2026 05:03:45 GMT
+Received: from ap-kernel-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 6AH53jgN201531
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 17 Nov 2026 05:03:45 +0000 (GMT)
+Received: by ap-kernel-sh03-lnx.qualcomm.com (Postfix, from userid 4851478)
+	id 6299B4055C; Tue, 17 Nov 2026 13:03:44 +0800 (CST)
+From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
+        bartosz.golaszewski@oss.qualcomm.com,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+Subject: [PATCH v4] ASoC: qcom: audioreach: support multichannel PCM formats
+Date: Tue, 17 Nov 2026 13:03:28 +0800
+Message-ID: <20261117050328.213157-1-zhangfei.gao@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261117042102.12442-1-phucduc.bui@gmail.com>
-References: <20261117042102.12442-1-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,96 +87,271 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE3MDAxOSBTYWx0ZWRfX0pniSluI4MiE
+ Afuk+D5JkKMli032bjt+zhcSm0D31Q2vOx/pFRTfQFiSYdfqDnH8ImqNai+cwpawl+mn72AMne6
+ LUBebzWHCoR7oRk7d0aMElUxWlyHJ4DHcNWpv7sMXmRGgpkIrgAUnh1ns18V8grTU3ssvZ6Npbu
+ xU/7PeJCpfeXoNExGguVXQzqcuoTyMPe+4DEgLY393fjaHlS5YjQ12GWIBb9LgPtUIIKLXDSWlI
+ SCh4M+1BM5KRLrRN3UlI5lAuSNrXmhe/NqNroRiSQ6VZ7rlzitI5FOY3XitkZOrZF7rnsxt2MFh
+ j+pDFA7/TAPqhQfC4O786hulk8tilfi6xEc1AJScz4NrOFws5GuuSOv+KdhHbqXu/t/sKiKbwuP
+ NCWpyQfQwzoEPDLRQs/s+Iy60lmH7EG8E9gFFigPbox3R59OEwO34r1Slx86qdAPOfnw9K2V6DM
+ q5uOrxR5X3qfsYmdJPw==
+X-Authority-Analysis: v=2.4 cv=JfIpPkKV c=1 sm=1 tr=0 ts=6afbe034 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8 a=Sw036wB_Sbj6ZPNlFA4A:9
+X-Proofpoint-ORIG-GUID: slB78NWPxgdfr6oiCiqphcbaQZ4rwceV
+X-Proofpoint-GUID: slB78NWPxgdfr6oiCiqphcbaQZ4rwceV
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE3MDAxOSBTYWx0ZWRfX7KGl5biuvuBF
+ 9Nxv12Ksrk/YJVigAafTaFLt+cMI4UwXI40HBKYJDyxhMrTGkPga5JYUusUVKkT9BX+cfNNwxKJ
+ rcTWlRx69W+Vf3sMBc+gN24YpHqHycE=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-17_01,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 clxscore=1015 suspectscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611170019
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+AudioReach currently rejects PCM streams with more than four channels in
+the PCM and shared-memory media format paths.
 
-Use devm_clk_get() to manage clock references automatically,
-simplifying the error path in probe() and allowing the remove()
-callback to be dropped.
+This prevents TDM links that expose more channels, such as the 6-channel
+playback path used on SA8797P Ride, from being configured.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Reuse q6dsp_map_channels() to support multichannel PCM formats and use
+the common PCM channel limit definition.
+
+Reviewed-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Tested-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Signed-off-by: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
 ---
- sound/soc/cirrus/ep93xx-i2s.c | 47 ++++++++---------------------------
- 1 file changed, 11 insertions(+), 36 deletions(-)
 
-diff --git a/sound/soc/cirrus/ep93xx-i2s.c b/sound/soc/cirrus/ep93xx-i2s.c
-index 8dcfc6717e19..f2d55763a02d 100644
---- a/sound/soc/cirrus/ep93xx-i2s.c
-+++ b/sound/soc/cirrus/ep93xx-i2s.c
-@@ -471,54 +471,30 @@ static int ep93xx_i2s_probe(struct platform_device *pdev)
- 			return err;
- 	}
+v4: Rebased onto sound.git/for-next at 7cd6b1fd8f9c
+v3: reuse PCM_MAX_NUM_CHANNEL to replace AR_PCM_MAX_NUM_CHANNEL (Srinivas)
+v2: reuse q6dsp_map_channels
+
+ sound/soc/qcom/qdsp6/audioreach.c       | 36 ++++---------------------
+ sound/soc/qcom/qdsp6/audioreach.h       |  5 ++--
+ sound/soc/qcom/qdsp6/q6apm-dai.c        | 12 ++++++---
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 11 +++++---
+ 4 files changed, 24 insertions(+), 40 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index d2dc5d37bccf8..e6f077a5b750f 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -306,22 +306,6 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
+ }
+ EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
  
--	info->mclk = clk_get(&pdev->dev, "mclk");
--	if (IS_ERR(info->mclk)) {
--		err = PTR_ERR(info->mclk);
--		goto fail;
+-void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
+-{
+-	if (num_channels == 1) {
+-		ch_map[0] =  PCM_CHANNEL_FL;
+-	} else if (num_channels == 2) {
+-		ch_map[0] =  PCM_CHANNEL_FL;
+-		ch_map[1] =  PCM_CHANNEL_FR;
+-	} else if (num_channels == 4) {
+-		ch_map[0] =  PCM_CHANNEL_FL;
+-		ch_map[1] =  PCM_CHANNEL_FR;
+-		ch_map[2] =  PCM_CHANNEL_LS;
+-		ch_map[3] =  PCM_CHANNEL_RS;
 -	}
-+	info->mclk = devm_clk_get(&pdev->dev, "mclk");
-+	if (IS_ERR(info->mclk))
-+		return PTR_ERR(info->mclk);
+-}
+-EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
+-
+ static void apm_populate_container_config(struct apm_container_obj *cfg,
+ 					  const struct audioreach_container *cont)
+ {
+@@ -760,7 +744,7 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
+ 	intf_cfg->cfg.intf_index = module->hw_interface_idx;
+ 	intf_cfg->cfg.active_channels_mask = 0;
+ 	/* Convert the physical channel mapping into a bit field */
+-	for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
++	for (i = 0; i < PCM_MAX_NUM_CHANNEL; i++)
+ 		if (cfg->channel_map[i])
+ 			intf_cfg->cfg.active_channels_mask |= BIT(i);
  
--	info->sclk = clk_get(&pdev->dev, "sclk");
--	if (IS_ERR(info->sclk)) {
--		err = PTR_ERR(info->sclk);
--		goto fail_put_mclk;
+@@ -883,7 +867,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
+ 	media_format->bit_width = cfg->bit_width;
+ 	media_format->num_channels = cfg->num_channels;
+ 	/* Convert the physical mapping to a logical mapping of the channels */
+-	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
++	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
+ 		if (!cfg->channel_map[i])
+ 			continue;
+ 		media_format->channel_mapping[j++] = cfg->channel_map[i];
+@@ -1185,11 +1169,6 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+ 	int payload_size;
+ 	int i, j;
+ 
+-	if (num_channels > 4) {
+-		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
+-		return -EINVAL;
 -	}
-+	info->sclk = devm_clk_get(&pdev->dev, "sclk");
-+	if (IS_ERR(info->sclk))
-+		return PTR_ERR(info->sclk);
+-
+ 	payload_size = APM_PCM_MODULE_FMT_CMD_PSIZE(num_channels);
  
--	info->lrclk = clk_get(&pdev->dev, "lrclk");
--	if (IS_ERR(info->lrclk)) {
--		err = PTR_ERR(info->lrclk);
--		goto fail_put_sclk;
+ 	struct gpr_pkt *pkt __free(kfree) =
+@@ -1218,7 +1197,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+ 	media_cfg->q_factor = mcfg->bit_width - 1;
+ 	media_cfg->bits_per_sample = mcfg->bit_width;
+ 	/* Convert the physical mapping to a logical mapping of the channels */
+-	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
++	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
+ 		if (!mcfg->channel_map[i])
+ 			continue;
+ 		media_cfg->channel_mapping[j++] = mcfg->channel_map[i];
+@@ -1275,11 +1254,6 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+ 	int i, j;
+ 	void *p;
+ 
+-	if (num_channels > 4) {
+-		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
+-		return -EINVAL;
 -	}
-+	info->lrclk = devm_clk_get(&pdev->dev, "lrclk");
-+	if (IS_ERR(info->lrclk))
-+		return PTR_ERR(info->lrclk);
+-
+ 	payload_size = APM_SHMEM_FMT_CFG_PSIZE(num_channels) + APM_MODULE_PARAM_DATA_SIZE;
  
- 	dev_set_drvdata(&pdev->dev, info);
+ 	struct gpr_pkt *pkt __free(kfree) =
+@@ -1313,7 +1287,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+ 		cfg->endianness = PCM_LITTLE_ENDIAN;
+ 		cfg->num_channels = mcfg->num_channels;
+ 		/* Convert the physical mapping to a logical mapping of the channels */
+-		for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
++		for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
+ 			if (!mcfg->channel_map[i])
+ 				continue;
+ 			cfg->channel_mapping[j++] = mcfg->channel_map[i];
+@@ -1436,7 +1410,7 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
  
- 	err = devm_snd_soc_register_component(&pdev->dev, &ep93xx_i2s_component,
- 					 &ep93xx_i2s_dai, 1);
- 	if (err)
--		goto fail_put_lrclk;
-+		return err;
+ 	cm_cfg->cfg.num_channels = num_channels * 2;
+ 	/* Convert the physical mapping to a logical mapping of the channels */
+-	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
++	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
+ 		if (!mcfg->channel_map[i])
+ 			continue;
+ 		/*
+diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+index 587f14ce71d23..9f4166ebdc107 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.h
++++ b/sound/soc/qcom/qdsp6/audioreach.h
+@@ -6,6 +6,7 @@
+ #include <linux/soc/qcom/apr.h>
+ #include <uapi/sound/snd_ar_tokens.h>
+ #include <sound/soc.h>
++#include "q6dsp-common.h"
+ struct q6apm;
+ struct q6apm_graph;
  
- 	err = devm_ep93xx_pcm_platform_register(&pdev->dev);
- 	if (err)
--		goto fail_put_lrclk;
-+		return err;
+@@ -805,7 +806,6 @@ struct param_id_hw_ep_power_mode_cfg {
+ #define PARAM_ID_HW_EP_DMA_DATA_ALIGN	0x08001233
+ #define AR_HW_EP_DMA_DATA_ALIGN_MSB	0
+ #define AR_HW_EP_DMA_DATA_ALIGN_LSB	1
+-#define AR_PCM_MAX_NUM_CHANNEL		8
+ 
+ struct param_id_hw_ep_dma_data_align {
+ 	uint32_t dma_data_align;
+@@ -998,7 +998,7 @@ struct audioreach_module_config {
+ 	u16	nslots_per_frame;
+ 	u16	slot_width;
+ 	struct snd_codec codec;
+-	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
++	u8 channel_map[PCM_MAX_NUM_CHANNEL];
+ };
+ 
+ /* Packet Allocation routines */
+@@ -1009,7 +1009,6 @@ static inline u16 audioreach_gpr_dest_domain(gpr_device_t *gdev)
+ 
+ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode,
+ 				   uint32_t token);
+-void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels);
+ void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
+ 			       uint32_t token, uint32_t src_port,
+ 			       uint32_t dest_port);
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index dc092ec8a2746..7d65e80eea61a 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -21,6 +21,7 @@
+ #include <asm/div64.h>
+ #include <asm/dma.h>
+ #include "q6apm.h"
++#include "q6dsp-common.h"
+ 
+ #define DRV_NAME "q6apm-dai"
+ #define POS_BUFFER_BYTES	4096
+@@ -344,7 +345,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
+ 	cfg.num_channels = runtime->channels;
+ 	cfg.bit_width = prtd->bits_per_sample;
+ 	cfg.fmt = SND_AUDIOCODEC_PCM;
+-	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
++	ret = q6dsp_map_channels(cfg.channel_map, runtime->channels);
++	if (ret)
++		return ret;
++
+ 	if (prtd->state) {
+ 		/* clear the previous setup if any  */
+ 		q6apm_graph_stop(prtd->graph);
+@@ -1007,8 +1011,10 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
+ 		cfg.num_channels = 2;
+ 		cfg.bit_width = prtd->bits_per_sample;
+ 		cfg.fmt = codec->id;
+-		audioreach_set_default_channel_mapping(cfg.channel_map,
+-						       cfg.num_channels);
++		ret = q6dsp_map_channels(cfg.channel_map, cfg.num_channels);
++		if (ret)
++			return ret;
++
+ 		memcpy(&cfg.codec, codec, sizeof(*codec));
+ 
+ 		ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
+diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+index fb9a0d7c5c1cd..d43d97d138410 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
++++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+@@ -94,7 +94,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
+ 			return -EINVAL;
+ 		}
+ 
+-		if (tx_num > AR_PCM_MAX_NUM_CHANNEL) {
++		if (tx_num > PCM_MAX_NUM_CHANNEL) {
+ 			dev_err(dai->dev, "invalid tx num %d\n",
+ 				tx_num);
+ 			return -EINVAL;
+@@ -147,7 +147,9 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
+ 	cfg->bit_width = params_width(params);
+ 	cfg->sample_rate = params_rate(params);
+ 	cfg->num_channels = channels;
+-	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
++	ret = q6dsp_map_channels(cfg->channel_map, channels);
++	if (ret)
++		return ret;
+ 
+ 	switch (dai->id) {
+ 	case DISPLAY_PORT_RX_0:
+@@ -173,11 +175,14 @@ static int q6dma_hw_params(struct snd_pcm_substream *substream,
+ 	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
+ 	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
+ 	int channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
++	int ret;
+ 
+ 	cfg->bit_width = params_width(params);
+ 	cfg->sample_rate = params_rate(params);
+ 	cfg->num_channels = channels;
+-	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
++	ret = q6dsp_map_channels(cfg->channel_map, channels);
++	if (ret)
++		return ret;
  
  	return 0;
--
--fail_put_lrclk:
--	clk_put(info->lrclk);
--fail_put_sclk:
--	clk_put(info->sclk);
--fail_put_mclk:
--	clk_put(info->mclk);
--fail:
--	return err;
--}
--
--static void ep93xx_i2s_remove(struct platform_device *pdev)
--{
--	struct ep93xx_i2s_info *info = dev_get_drvdata(&pdev->dev);
--
--	clk_put(info->lrclk);
--	clk_put(info->sclk);
--	clk_put(info->mclk);
  }
- 
- static const struct of_device_id ep93xx_i2s_of_ids[] = {
-@@ -529,7 +505,6 @@ MODULE_DEVICE_TABLE(of, ep93xx_i2s_of_ids);
- 
- static struct platform_driver ep93xx_i2s_driver = {
- 	.probe	= ep93xx_i2s_probe,
--	.remove = ep93xx_i2s_remove,
- 	.driver	= {
- 		.name	= "ep93xx-i2s",
- 		.of_match_table = ep93xx_i2s_of_ids,
 -- 
 2.43.0
 
