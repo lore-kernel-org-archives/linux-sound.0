@@ -1,50 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.254.49.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794926831;
-	b=o7CY7M8pvOXz27EDxljfrXI2NBjMQOw71bBujDlWMWIO1/HzYuCBbNYwIrhn2/7VszYm
-	 xysdOY4zXXDTcsxA+0bXcQ3I4s5g4jMTXn62682tF/mr85x+8pQBKcvvpgef/cUpyxgam
-	 jcQLMPaVhEWSG7ipT+Q7cmLaABGO4icdEhaARoqwgWjawSlG/GaPETPqkC64N9s0zxQ04
-	 t0DmUcOFIKzqQKN3BEdE60O/+lp6cDbCG+6gZJmqqnT57qkCBgINNMcmikxg+B4/kEJbj
-	 UfD1WD9DVuRWae43Mm2QlsWu27i1lTFbU9SEnANGRMrB1ynb9GMa4jhFCnK3s6wC3HA==
+	t=1794926875;
+	b=eFSALff+g74drJcqgn/iDlrEA23ymBWhpUV/Xr4H/96lGJDaDi3j7BWXoOgGmTSw1pZ6
+	 XzAM4RL3u2ta/BUYWEldQBFOgdKnpm5L5azFZwMjpFkDy/vw0EKG0UxcnjDL1z4ah69SR
+	 KaYHNYG2gXRfRFdrJHHa7Eu9/zQPPreD23+Bj5fSWUa9RqjrLWvp9Er1RFjEFvCvlTgjT
+	 n5KtYD4mZqVL0i2rWSyk3N2LJBVlIm/BlSBh3HjATvE4/ZRk6ommqjvA/qVvsCnR+82W6
+	 WTphbioG6J56JcNB0b5ZciP0EQe0Wzg458N5XsZ2+ha6s18L4SGOb/KkiyDFOKSYzhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794926831;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-HM-Tid:
-	 X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
-	bh=h+xz3GMcqW/m1kBN+Qe+3pRTeww9ZYGHWYtMSX9E5aY=;
-	b=FCJOu9ycayD0onN1FfDoG2aSlyUP+ef+IYEBIYmPmAs5s3BvcQ+E+R3O2dEArpALQ9+/
-	 0j0yemfXjZeuBbjuCKLPPrZN6LmAg7nhKyXk+PbxuuoN6vOhT1V7couV8vduaT2G7KnS6
-	 Ls15KtR887LhgiOmyz9JGYmv4d0+IP54mQSRXJMdUpqMd1FeUvPcVoIbSdZQzCQXjOwaU
-	 w+MAtPYmKURJR7iTF4SE0ck2dMPM6G0Rkig+/pY8lHnmz1Jz8Xdk8sC+yDreCzEc8eGsv
-	 M+6IRTY4mf1/WJJIJbFo4Q0IgPwB5fbkCccMmDG4G5QbPYSbh2xPsB7O4xdFYunwrcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794926875;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=BD7k7zCVvZ4xAVdVTnILtyUwjpDxQ8TdyWPHkLOxa74=;
+	b=GDnieufQKr9g0GOnHlwvlU9m3GPctOW3udVxcDOPg8mMhkpUUXuHvXEzN3QLCM8UmkgJ
+	 3GRsigLgxvxrsunl9XzW52M8HTx5tLYs/E/IuT1EZNjZDJUEba1etEnmfpM+lX88q2skt
+	 t2r7474qgLgmY31ZcDq/my5Vk5cCxSuuvyR39rhpRnlxf3MyS7HT3inWK0Xs23IP/98uR
+	 mI2SMJVxDww+4y2dBYueKEysdbZrrpIT9bftxpoQWqdPtys3UEg+7+aTNdttaTYulBRDd
+	 e3yZU/t5H3X6wl4WEghOrutaeJvQakivX5O4oh156jFcmVo4EZoOlC5x+j4isTcvGBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sdu.edu.cn;
-	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
-	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=HXDZpyGI;
-	arc=none smtp.remote-ip=45.254.49.198
-Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABDZS5mr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331DA606A31C;
-	Tue, 17 Nov 2026 14:47:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 331DA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9415606A32A;
+	Tue, 17 Nov 2026 14:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=HXDZpyGI
-Received: from lgs.. (unknown [101.76.249.61])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 55020e7b4;
-	Tue, 17 Nov 2026 22:47:06 +0800 (GMT+08:00)
-From: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: pcm: Fix potential device leak on partial registration failure
-Date: Tue, 17 Nov 2026 22:47:05 +0800
-Message-ID: <20261117-571e631490-alsa-pcm-0@mail.sdu.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ABDZS5mr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C491F000C5;
+	Tue, 17 Nov 2026 14:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794926875;
+	bh=BD7k7zCVvZ4xAVdVTnILtyUwjpDxQ8TdyWPHkLOxa74=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ABDZS5mrGNTdWAyXJnLIJg3Ez7Cb6GFkJxyaDNBbyfHRr71XABCN4Ql2MZ42WtEdP
+	 sBmCg+TZIubXaJIXONbhjb0f/FfmsdbuREtjYob55CywoM8dWfr7txYrp/vAoAbaUi
+	 Pm4iFUnJwvUS2S4kOyRF7eJDG9wN368KQtwFxG9yzuH/jTt3wi/pqIY+91TMG4e34w
+	 tDZcgSVc3/gGdyoqR6kHMprZVBQYJedfQuEDFjKniyh4xFHTrbSh3kKeK0lJQf38e3
+	 azv+oy7O03JDZJnUVm0K2USuL/gwx9O+8f0P+uOwtMxwwLSlxoDrS9dgxLuozeyR/R
+	 qVymKd8Uc3wZQ==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, lgirdwood@gmail.com, 
+ Vijendar.Mukunda@amd.com, Adolfo Morales Tena <spidermanadolfo@gmail.com>
+Cc: venkataprasad.potturu@amd.com, perex@perex.cz, tiwai@suse.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261115232942.5820-1-spidermanadolfo@gmail.com>
+References: <20261115232942.5820-1-spidermanadolfo@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
+Message-Id: <179491899197.77896.10039967926982229984.b4-ty@b4>
+Date: Tue, 17 Nov 2026 12:36:31 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -54,72 +59,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa1e9f9d39803a1kunmdfa31a2d15633b
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZHUwfVk5MH01LH01OSEJJHVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlKS0pVTE1VSU9CVU1KWVdZFhoPEhUdFFlBWU9LSFVKS0lCQ0
-	NMVUpLS1VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=HXDZpyGIIfMHy/AtezU1zXl4UBZo2IjUCr0EXgC0qS6J9ugTKc/ApBjDrCyrSVexR+KWPCvFgWu/wyBpDebov00p7k4L5lFzb0KF05yBTzHXpGFPTbDP1uAu4tJDI1jE38R8R0HS/k7jY8rF1q5Ba35D6jEqNXzz2STjkbV7HfM=; c=relaxed/relaxed; s=default; d=mail.sdu.edu.cn; v=1;
-	bh=h+xz3GMcqW/m1kBN+Qe+3pRTeww9ZYGHWYtMSX9E5aY=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=LlLckqsCTdXml1JIflub3z9ZEfUEircgOBJL53406L8=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+ZEqckpRhOHVOXvvRu+YjPtv2pItyvq17NfPxptime
+ UFlh2wmdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiZSoM/2MqfM4uTgr4fT4o
+ XWHvzkmNG/2y72xKENy4MMvn8FrRq+mMDMeqf1tKN7Hun9zB2hO2cb/EmYBfQSeXN3W5HmqzyY9
+ r4QMA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-If capture registration fails after playback was registered, the PCM
-remains in the BUILD state. Card teardown therefore skips its disconnect
-callback, leaving the playback device registered and holding its parent
-card reference.
+On Mon, 16 Nov 2026 00:29:42 +0100, Adolfo Morales Tena wrote:
+> ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
 
-Unregister previously registered streams and release their timers before
-returning the registration error.
+Applied to
 
-This issue was found by our static analysis tool under development.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Fixes: ef46c7af93f9 ("ALSA: pcm: Embed struct device")
-Signed-off-by: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
----
- sound/core/pcm.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+Thanks!
 
-diff --git a/sound/core/pcm.c b/sound/core/pcm.c
-index 064df4cd3b50..7343b366986c 100644
---- a/sound/core/pcm.c
-+++ b/sound/core/pcm.c
-@@ -1080,16 +1080,26 @@ static int snd_pcm_dev_register(struct snd_device *device)
- 		err = snd_register_device(devtype, pcm->card, pcm->device,
- 					  &snd_pcm_f_ops[cidx], pcm,
- 					  pcm->streams[cidx].dev);
--		if (err < 0) {
--			list_del_init(&pcm->list);
--			return err;
--		}
-+		if (err < 0)
-+			goto error;
- 
- 		for (substream = pcm->streams[cidx].substream; substream; substream = substream->next)
- 			snd_pcm_timer_init(substream);
- 	}
- 
- 	pcm_call_notify(pcm, n_register);
-+	return 0;
-+
-+error:
-+	while (--cidx >= 0) {
-+		if (!pcm->streams[cidx].substream)
-+			continue;
-+		snd_unregister_device(pcm->streams[cidx].dev);
-+		for (substream = pcm->streams[cidx].substream; substream;
-+		     substream = substream->next)
-+			snd_pcm_timer_done(substream);
-+	}
-+	list_del_init(&pcm->list);
- 	return err;
- }
- 
+[1/1] ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
+      https://git.kernel.org/broonie/sound/c/f32a26faf4ce
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
--- 
-2.43.0
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
