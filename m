@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794900678;
-	b=yyjTvqfRSnGIBO0fgGAe3dJtvLMDckJHD7+JQn7GORkVU0BmvrQGx5+j21Y49LK0XGTw
-	 2i7xqzn/9aD/7hgPUYV1TCxV/nnKYZeJIs6k3BfT2ggL8egLIkxIH5yhorzt/fQtoLUHp
-	 RAWLYo6ifN089d2y6xjVHmY/AUOwUU39to3caRd5Q1V05uBBOkJvem/KnNgUtrnmiJQmX
-	 VWcMnyEnPTBCVvEYbfqDwfAm/LIHcHHdgzDlXmWuJu07yHZyo41Nz2grNLH3WnhNJiHUH
-	 Y/8JPFSbjnGtmGbMehJ+b6gxUomxsIcJBFH5WsaQVhr1KlWy3Wys7gVCv3ND6tzBodQ==
+	t=1794901046;
+	b=JeANFVTJV77dXKgYx+AY1YnbxBggC/lQa1e9a0G84yhxe+Y/4RDivBKHrY+YcY3wNVJt
+	 f+5reI/z6xHgEYknlXVgEGWdXzG+GaGRH9nuOxADmC8usm+SRFh11kGC8XjtROLKalbO5
+	 DHfcW3UrOn1qC3oGoihDiOW1GuOAi2269OuhRRXy1k37nGgQgpO8wV9ahuQJhX9TLTbkV
+	 mSrOt6jVSrDIj8w+j8SNkOevZSx1Grtv7azAx4D8ydxnZqfphguar+oVp5tLSKoHk8/jp
+	 nScrzYhAqcCXhSXiepEipMYzmWIQTAEJ7u0NDhBdSVfFtUyypp9SC8ad2tdlpUBNwRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794900678;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794901046;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+laPHjDRa6yVGpaKIADylsyv0PPMiDYEbiFDsePkH6M=;
-	b=H/PXF4dZ/r6S8JhvXC7U6WDVEN2z0xF7o17azvaFssuzaCmqP15+ASamEe70UM0C3JIB
-	 Pz20tv4bbwQMUZHGVf8GDMyyhCeTA5d/Avlf9feBvRQp2nw0e8ub3dKvOLdCpGbPHFC5K
-	 kcYlz4Elngy3atBH6Qvh5PmFP+WkrmU0OZO8mb9dE20Uv+rt/Var+f+UT8xT79WY9C8k6
-	 0P2iWUO3bjFLVnUclLNrCqsQo9HbEo2l/7NdmwL/TixXoNxuX9tj1OLyBXkmX96sq/kqV
-	 vWM+4AqutoAx193qy3oMYDH+KmQ9WYwtBYn2gnruRtWNOb9Z5N751RHRbjWUUVDR1bg==
+	bh=li5clM3wOfPPCdSbLxXwtQ3UUNdOZuoXkL+wFYuMuZs=;
+	b=maHDEcHyB2PHR4knS2GlS+GL86GldEFeTtCZ07viqqmy1T3HIcMuDwM2PO6K5z1KJmKf
+	 NKPE2UVDnCrZ8+95qrvLrgSj7JrJ/UDiOHJdXeyBANRzXVLhNeJSjUAIhi4IW2+AHmnj2
+	 /MZd0UMZgyIc36KXOzNq8qSESVV4NcvUeGa62G5Gdu1T9+UTPrAn/IOnbatCinoC+eAtu
+	 HuXWDUjioBrwpFYO4dUdl0P9DlFg6VkgYioI7kVe9rB3qUVQ2ziIXWbUL3ygxeU9XYxRP
+	 1K3FFtXRd4DZI1uP5jr7eTMnKsp9IMERvLrabXpcThgYaCvak/EQhfNnb+g54Au5w/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJffagtP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G843luBc;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B53606A323
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 07:31:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E12606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 07:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JJffagtP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0A41F000C4;
-	Tue, 17 Nov 2026 07:31:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G843luBc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 377F11F000C4;
+	Tue, 17 Nov 2026 07:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794900678;
-	bh=+laPHjDRa6yVGpaKIADylsyv0PPMiDYEbiFDsePkH6M=;
+	s=k20260515; t=1794901046;
+	bh=li5clM3wOfPPCdSbLxXwtQ3UUNdOZuoXkL+wFYuMuZs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JJffagtPDJh4csRTf0n/Q72pYNqprIvA8dlhQLH1Qk42J68pXQvZP/Fd2Tf2zBp21
-	 4jO5mLrvQ9d1tYYrZTH/PSCaaCId6TutkuGmhDXWfL5j/P5QQF6M+y65NDa6M1+Tar
-	 917I3Ox5jT4BqEmK+huclACSm+7UrqaY/MLWADdeA25OpxXYNOIFwCOkmKQjb+f8Kh
-	 dWhDDVCs7e8ATOsgrfWvynmHwDZdvuhhHH70fNlEUzIGQ+WcRcl1opENUp1IyeMw95
-	 ljKPiQMAwVhezTsJhgBqAq+4QJF/NmfMFz8E9jHS36WysyQkbqUk7Y3RVksHVnBmDa
-	 nFOpQMH3FFG5A==
-Message-ID: <sashiko-outbox-218354@kernel.org>
+	b=G843luBcmf0RNKMh67ARfVtu2Yng+lb5V33BT28fMEBddjiT/UG4jHJxHHWoRJyLh
+	 3z3aIftN/Mtly7uIaDrGn16+R84eb5Bbg7J4t2vtuvDr09N2qM54zuXxhZBRPzq/D+
+	 ZZhyAiNJzseF1KZZ04incnkXEuWn1oAM2H15mJYkVy8Lzm5/z65lNA24zkM7vMIZlO
+	 PKmr9f2h6DY7IdV6Qemi3zgq7U5fdk6ylwc/DFqn89c9PucoDXLnP6UgtL5UZb80Pv
+	 dLUgkVNLi9JJEK7AHOEa/KkNZZblFT0JO0vMbMocj3e/52br8EobWaPUNE5zZNQWe1
+	 fvfBYtwZCGrKQ==
+Message-ID: <sashiko-outbox-218362@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 16/23] soundwire: amd: delay *sdw_ctx publication
- until after startup succeeds
+Subject: Re: [PATCH v6 15/23] soundwire: amd: use interrupt_enabled flag to
+ guard IRQ work scheduling
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261117070906.803139-17-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20261117070906.803139-16-Vijendar.Mukunda@amd.com>
 References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
- <20261117070906.803139-17-Vijendar.Mukunda@amd.com>
+ <20261117070906.803139-16-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 07:31:17 +0000
+Date: Tue, 17 Nov 2026 07:37:25 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,94 +61,165 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] soundwire: amd: lost IRQs in sdw_amd_startup() while *sdw_ctx
-  is NULL
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] soundwire: amd: race with in-flight IRQ queuing
+  amd_sdw_irq_thread
+- [Medium] soundwire: amd: race re-enabling IRQ masks in
+  amd_disable_sdw_interrupts()
 --
 
-commit 63d0953ca7aecb37f123b556809d3ebfd5afacf0
+commit 14261a7c7d9c5975a602a89ef71b261091c3414b
 Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-soundwire: amd: delay *sdw_ctx publication until after startup succeeds
+soundwire: amd: use interrupt_enabled flag to guard IRQ work scheduling
 
-This commit delays assigning *sdw_ctx in sdw_amd_probe() until
-sdw_amd_startup() succeeds, and calls sdw_amd_exit() on failure.
+This commit adds an interrupt_enabled flag to struct amd_sdw_manager to
+prevent queued amd_sdw_irq_thread work items from running after interrupts
+are disabled.
 
-> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
-> index 8019a4faeae5b..74d6c0f371046 100644
-> --- a/drivers/soundwire/amd_init.c
-> +++ b/drivers/soundwire/amd_init.c
-> @@ -182,11 +182,20 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
-> =20
->  int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_mana=
+ger.c
+> index f3e9614b9ac82..5536a4fd137aa 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+[ ... ]
+> @@ -135,6 +136,18 @@ static void amd_disable_sdw_interrupts(struct amd_sd=
+w_manager *amd_manager)
 >  {
-> -	*sdw_ctx =3D sdw_amd_probe_controller(res);
-> -	if (!*sdw_ctx)
-> +	struct sdw_amd_ctx *ctx;
-> +	int ret;
-> +
-> +	ctx =3D sdw_amd_probe_controller(res);
-> +	if (!ctx)
->  		return -ENODEV;
+>  	u32 irq_mask;
 > =20
-> -	return sdw_amd_startup(*sdw_ctx);
-> +	ret =3D sdw_amd_startup(ctx);
-> +	if (ret) {
-> +		sdw_amd_exit(ctx);
-> +		return ret;
-> +	}
-> +	*sdw_ctx =3D ctx;
-> +	return 0;
->  }
->  EXPORT_SYMBOL_NS(sdw_amd_probe, "SOUNDWIRE_AMD_INIT");
+> +	/*
+> +	 * Clear the flag before updating hardware masks. Work items already
+> +	 * queued but not yet started will see the flag false at entry and
+> +	 * return early; work items already running will complete their current
+> +	 * invocation. Callers that need to ensure no instance of
+> +	 * amd_sdw_irq_thread() is executing on return must follow this call
+> +	 * with cancel_work_sync(&amd_manager->amd_sdw_irq_thread). Once the
+> +	 * mask registers are written, the ACP hardware will not assert any new
+> +	 * SDW interrupt.
+> +	 */
+> +	WRITE_ONCE(amd_manager->interrupt_enabled, false);
+> +
+>  	mutex_lock(amd_manager->acp_sdw_lock);
+>  	irq_mask =3D sdw_manager_reg_mask_array[amd_manager->instance];
+>  	amd_updatel(amd_manager->acp_mmio, ACP_EXTERNAL_INTR_CNTL(amd_manager->=
+instance),
 
 [Severity: Medium]
-Can delaying the assignment to *sdw_ctx until after sdw_amd_startup() drop
-initial peripheral attachment interrupts?
+Can an in-flight parent PCI IRQ handler still queue amd_sdw_irq_thread after
+amd_disable_sdw_interrupts() and cancel_work_sync() have returned?
 
-All callers of sdw_amd_probe() register the top-level ACP PCI interrupt
-handler before calling sdw_amd_probe(&sdw_res, &adata->sdw), and
-sdw_amd_startup() -> amd_sdw_manager_start() unmasks the manager
-interrupts and starts the bus before sleeping in readl_poll_timeout():
-
-CPU0                              CPU1 (<hardirq>)
-sdw_amd_probe()
-  sdw_amd_startup(ctx)
-    amd_sdw_manager_start()
-      amd_enable_sdw_interrupts()
-      amd_enable_sdw_manager()
-        readl_poll_timeout(...)
-                                  acp63_irq_handler()
-                                    writel(ACP_SDW0_STAT, ...);
-                                    if (adata->sdw)  <-- NULL, IRQ dropped
-  *sdw_ctx =3D ctx;
-
-In acp63_irq_handler() and acp_irq_handler():
+The parent PCI hard IRQ handlers (such as acp63_irq_handler() in
+sound/soc/amd/ps/pci-ps.c and acp_irq_handler() in sound/soc/sof/amd/acp.c)
+call schedule_work(&amd_manager->amd_sdw_irq_thread) without synchronizing
+with amd_disable_sdw_interrupts():
 
 sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
-	if (ext_intr_stat & ACP_SDW0_STAT) {
-		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
+    ...
 		if (adata->sdw) {
 			amd_manager =3D dev_get_drvdata(&adata->sdw->pdev[0]->dev);
 			if (amd_manager)
 				schedule_work(&amd_manager->amd_sdw_irq_thread);
 		}
-		irq_flag =3D 1;
-	}
+    ...
 }
 
-Because ACP_SDW0_STAT is cleared in ACP_EXTERNAL_INTR_STAT without
-scheduling amd_sdw_irq_thread, ACP_SW_STATE_CHANGE_STATUS_0TO7 is never
-processed and cleared, losing the peripheral attachment interrupt so
-peripherals fail to enumerate.  On ACP7x SOF, acp7x_irq_handler() guards
-sof_acp7x_handle_sdw_manager_irq() altogether with if (adata->sdw),
-leaving the level-triggered shared PCI interrupt unacknowledged and
-returning IRQ_NONE while sdw_amd_startup() sleeps.
+If the interrupt fires just before ACP_EXTERNAL_INTR_CNTL is masked, the ha=
+rd
+IRQ handler on another CPU can schedule the work after cancel_work_sync()
+completes:
 
-Would it be better to publish *sdw_ctx before sdw_amd_startup(), and reset
-*sdw_ctx =3D NULL on failure before calling sdw_amd_exit(ctx)?
+CPU0                                  CPU1 (<hardirq>)
+amd_sdw_manager_remove()              acp63_irq_handler()
+  amd_disable_sdw_interrupts()
+    interrupt_enabled =3D false
+    mask ACP_EXTERNAL_INTR_CNTL
+  cancel_work_sync(
+    &amd_manager->amd_sdw_irq_thread)
+                                        schedule_work(
+                                          &amd_manager->amd_sdw_irq_thread)
+  devres frees amd_manager
+                                      amd_sdw_irq_thread()
+                                        READ_ONCE(
+                                          amd_manager->interrupt_enabled)
+                                          <-- use-after-free
+
+During amd_suspend() (in AMD_SDW_CLK_STOP_MODE) and amd_suspend_runtime()
+(in AMD_SDW_CLK_STOP_MODE or ACP6.3 AMD_SDW_POWER_OFF_MODE), interrupt_enab=
+led
+is set back to true before suspend finishes, so a work item queued by an
+in-flight hard IRQ handler after cancel_work_sync() sees
+interrupt_enabled =3D=3D true and accesses SoundWire MMIO registers while t=
+he
+manager is clock-stopped or powered down.
+
+Using disable_work_sync(&amd_manager->amd_sdw_irq_thread) when disabling
+interrupts and enable_work() when re-enabling them (or synchronizing with t=
+he
+parent IRQ) would prevent late scheduling.
+
+[ ... ]
+
+> @@ -1481,6 +1497,7 @@ static int __maybe_unused amd_suspend_runtime(struc=
+t device *dev)
+>  				return ret;
+>  		} else if ((amd_manager->acp_rev =3D=3D ACP63_PCI_REV_ID) &&
+>  			   amd_manager->wake_en_mask) {
+> +			WRITE_ONCE(amd_manager->interrupt_enabled, true);
+>  			mutex_lock(amd_manager->acp_sdw_lock);
+>  			val =3D sdw_manager_reg_mask_array[amd_manager->instance];
+>  			amd_updatel(amd_manager->acp_mmio,
+
+[Severity: Medium]
+Can an in-flight amd_sdw_update_slave_status_work() overwrite the zeroed
+interrupt masks during amd_disable_sdw_interrupts() and leave non-wake
+interrupts unmasked in runtime suspend?
+
+amd_disable_sdw_interrupts() zeroes ACP_SW_STATE_CHANGE_STATUS_MASK_0TO7 and
+ACP_SW_STATE_CHANGE_STATUS_MASK_8TO11 before callers drain amd_sdw_work with
+cancel_work_sync(&amd_manager->amd_sdw_work).  Meanwhile,
+amd_sdw_update_slave_status_work() unconditionally writes AMD_SDW_IRQ_MASK_=
+0TO7
+and AMD_SDW_IRQ_MASK_8TO11 back to those registers without checking
+interrupt_enabled:
+
+drivers/soundwire/amd_manager.c:amd_sdw_update_slave_status_work() {
+    ...
+	if (amd_manager->status[0] =3D=3D SDW_SLAVE_ATTACHED) {
+		if (retry_count++ < SDW_MAX_DEVICES) {
+			writel(AMD_SDW_IRQ_MASK_0TO7, amd_manager->mmio +
+			       ACP_SW_STATE_CHANGE_STATUS_MASK_0TO7);
+			writel(AMD_SDW_IRQ_MASK_8TO11, amd_manager->mmio +
+			       ACP_SW_STATE_CHANGE_STATUS_MASK_8TO11);
+    ...
+}
+
+In amd_suspend_runtime() under AMD_SDW_POWER_OFF_MODE, that race leaves
+state-change interrupts enabled while the manager is powered off:
+
+CPU0                                  CPU1 (kworker)
+amd_suspend_runtime()                 amd_sdw_update_slave_status_work()
+  ...
+  amd_disable_sdw_interrupts()
+    interrupt_enabled =3D false
+    writel(0, ..._MASK_0TO7)
+    writel(0, ..._MASK_8TO11)
+                                        writel(AMD_SDW_IRQ_MASK_0TO7,
+                                               ..._MASK_0TO7)
+                                        writel(AMD_SDW_IRQ_MASK_8TO11,
+                                               ..._MASK_8TO11)
+  cancel_work_sync(&amd_sdw_work)
+  amd_sdw_wake_enable(..., true)
+    /* RMW preserves MASK_8TO11 */
+  interrupt_enabled =3D true
+  unmask ACP_EXTERNAL_INTR_CNTL       <-- non-wake IRQs remain unmasked
+
+Draining amd_sdw_irq_thread and amd_sdw_work (or checking interrupt_enabled=
+ in
+amd_sdw_update_slave_status_work()) before clearing the mask registers in
+amd_disable_sdw_interrupts() would avoid re-arming those masks.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117070906.8031=
-39-1-Vijendar.Mukunda@amd.com?part=3D16
+39-1-Vijendar.Mukunda@amd.com?part=3D15
