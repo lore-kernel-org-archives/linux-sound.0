@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794953512;
-	b=KaDSbFdOTZmvTq4brjdwFauBuQvW7NSezsYU7LN0aGduZcXLgDeqGdRcQdiVAoAjK/7W
-	 tTm3WxujU9n4CAWJDonDcBndoOWardf54xPHjeOKozDHVvZuhuMAToJkGRPmUMDVCIq8H
-	 7n1iH7C6VDp6KTB+h+atEF7puauueMSOaQs+RCMYM7yeAmr50DraI4+KwyyPJ0PUQR848
-	 N4EIY0IVXUPJAJzdKIAux1YU1/omIIwyCbV01PivgRMmjG1/asM0PKMcjv4UdgczVZ+1T
-	 OCT8sYfM1grhblnWqPVwWXRLSFaXz4PZHnxxPhjKo75DT6kpGYMHaA5kBuD7dUxze0A==
+	t=1794955620;
+	b=TP0WLlXdY3rQjCG+lMMkaqj5l6kUr++visk89uimiM1+O/P1ocbvioPt9S6ZqitSLIct
+	 nGbV4o7266/Z8e9PU5BvBnV19Yn0/H+63XwtkaaoOn3XJz57jLBYCYtrZpcomSbE+pKoO
+	 xoHRijbF+B4WO49h2rm6qYwTeR2Vi7grtt+UaYurvK7vDLCZypiFyZXPKjbsQEWuRYLk6
+	 xMX244+Ip59vZ7T/U+yccvP9zRVM1RDOKy0ChwTHo+cXpruafK9oMlF/bl01tr8Owo3fy
+	 giwcoMaQHt0HFNoiVsH5GIejSE1tNrHCGvSxE+fYOruUNlnHxNJFboqEbY/1N5sO7Aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794953512;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794955620;
 	h=Received:DKIM-Signature:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
 	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=PQ1lkb7nCtNnaMBZ9SlFdtw9+jVlK/RLRabaEyTSzJo=;
-	b=rUgAk5V7e9dVROnIvZkLfdjb2CNaaF5lttz0pmdwM67yXQagk1jj81xNmznkCvAEQgZB
-	 leEDESzz16U4AG6YRo56xI562dIf/+eqmuu8r2n5IRPoJpWnOIelWfefmH+f6ON2HNcjs
-	 hUiukdLqBniz04SaGPgnjrhnC7Y6Lr6kJCncnxbPSN52Mvyrq36pFlnyDl8nhuduja1vn
-	 AMrmtvhzlz5+RP05nKrgirr/LmorHjM+cDIw0/UYzzYvA0/vs6pBivV2+gPuh3Akz8DKk
-	 hDT9WeBK6Z/xbkwue4BraWJQOoz0/0e4Jxdyfk7t7oIfRHHMFbEYnTZVrtHvhc0iFig==
+	bh=TxUFMRMYx3DJ6yj47nz6z8REqInSZBHxjQaoTXnZX/c=;
+	b=ldjEMFm7rPc1Z2ijmZ8MRk+kGWuIULt5oM05zrcoWBAdzrpHRIb+N0A0UU/9f2vJT/nr
+	 ktqFnOtPU8aFw/c1Z6XSldDDLbyQ9Bs9nwCj8RnVz9Omd7zqND/ATjUCAgJiW5oifovLg
+	 pCps1ZxEkkTEeoA+sMqlh330VoQSFfWDNg0X7BHDhqXSj9C8j1PfPBoHtv4Y53TneLMPq
+	 ml8O69bE7k0bxMpXW72yy7RzscInTXCVQj6tCGMrrVf6gOoZGM4YCoSfVI5O3156j2D8Z
+	 HIC/X401NBACcMrWmtyCNH3Ul67Vjic0SnIox16mGhGyQzrzUwxohaRYYcZ4C2GamgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b+Udxlpe;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I59gx9Qj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A524B606A31C;
-	Tue, 17 Nov 2026 22:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98928606A881;
+	Tue, 17 Nov 2026 22:47:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b+Udxlpe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6F51F000C7;
-	Tue, 17 Nov 2026 22:11:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I59gx9Qj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B7C81F000C5;
+	Tue, 17 Nov 2026 22:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794953512;
-	bh=PQ1lkb7nCtNnaMBZ9SlFdtw9+jVlK/RLRabaEyTSzJo=;
+	s=k20260515; t=1794955620;
+	bh=TxUFMRMYx3DJ6yj47nz6z8REqInSZBHxjQaoTXnZX/c=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=b+UdxlpemwPOnSf43MqI4NgEf44TZ3ADYUpSOCmm5PfvQ0twBUB0liPEaHYotkpsO
-	 ZupUAg9wVep5QGZDP3HKvA/SQha6PvDI2qzNO+0Gl5RW+p1tP0ix3TvEe2SGc+nase
-	 QRSa++ghApI/BS/LMheMmPsDAAaNSd1ctDxQf4EsPrNvIuxlYmrjOWAuK75LuR1dOM
-	 u9a4wLL5/Pv1zI4f4SHkU+z2WjltOl+Pw+MD6d/J5L5L5JHkq3cgeJgBPJ/ABOfjTU
-	 SBVDOQnAG4WW77dYe4RIKLwJpEcFQNyktgrdtpoMQtbd86bKwtoCl7VjZMqpelR4aN
-	 JzR7MnTlIfREQ==
+	b=I59gx9QjhYIJYFa39a/lPSud0wDNSXu+myYH/WcHpvn9sUFqpCjch29DAXsJBrOpm
+	 9t5nnZJNyi/9LVF9nwXu8gSu0mzUCPcUYY3HSFePp8/TQhKgI8h7O0EYzFzAfBH+4H
+	 l9nyIwBBmSJ/oWvntSGlvWBpfXHMjz4TmGeNmXDGYWfE5k+sAvzd7An7tXv6aZFP+4
+	 b/d0Xw6y3yq6CohzJpNJ8cQ7YqaU9Joo1bzp77hi49jzbfkYAl1jaKVALo7qR8wxhj
+	 sHM8fkGu2nxtKQWh/RQ7NFVt2+Vg1pDDAM7wIfcQdtUOO9HbxmyuThsIcg6Nh3Rnkv
+	 bmXN72OiatgKA==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,75 +51,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 2/2] ASoC: ti: omap-mcbsp: Implement set_tdm_slot
+Subject: Re: [PATCH v3 2/2] ASoC: jz4740-i2s: Add support for the X1600
 From: Mark Brown <broonie@kernel.org>
-To: Joseph Telaak <joseph@telaak.dev>
-Cc: Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261116-omap-mcbsp-tdm-slot-v1-2-6c9f7aa45a29@telaak.dev>
-References: <20261116-omap-mcbsp-tdm-slot-v1-0-6c9f7aa45a29@telaak.dev>
- <20261116-omap-mcbsp-tdm-slot-v1-2-6c9f7aa45a29@telaak.dev>
-Date: Tue, 17 Nov 2026 22:11:46 +0000
-Message-Id: <179495350668.2707353.9603940609466130588.b4-review@b4>
+To: Olivier Louvignes <olivier@mgcrea.io>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ "H . Nikolaus Schaller" <hns@goldelico.com>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-mips@vger.kernel.org
+In-Reply-To: <20261024214438.33342-3-olivier@mgcrea.io>
+References: <20261024214438.33342-1-olivier@mgcrea.io>
+ <20261024214438.33342-3-olivier@mgcrea.io>
+Date: Tue, 17 Nov 2026 22:46:17 +0000
+Message-Id: <179495557744.2707353.8222109296948133350.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2203; i=broonie@kernel.org;
- h=from:subject:message-id; bh=cRxcbpa3t4zw11M9tXL4PZCGMhSuhM/BTNbnsk47r/c=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+XFSZoZspZTiD+dqm25dzvbfuCEhavKVs8qzv+tbS8
- 7MC7paFdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAizAIM/z35Zi56JHH66QrG
- 82qpBTPWhF+dGNSz5tzdDXobJ90s9jjMyPD/wAk7BY+7Ow1m3eObw3pVpaf/1Ma5iXsDpJ7zHah
- 5fIYfAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=640; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7cP4yHLtdpsCFF/6HyshCAsYCHoaRqR/0z0xThzsvmg=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+3ExoN7jSGXP4aVd3llf4kbRL0jKS78yuNS6furpG7
+ 6Loz9iXHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZiIsRvDf3dXDdVzt/L+qkru
+ ml9j38/bxv51w9alUov51HIMkiZ2TGL478E+z84xTTN6ldBvziMhSh2VIVanXzh231uW/cd89yU
+ uTgA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> As bit clock and frame provider, McBSP sizes the frame from the SRG
-> input, the set_clkdiv() divider and the rate. Only a machine driver can
-> call set_clkdiv(), so with simple-audio-card or audio-graph-card the
-> divider stays 1 and the bit clock runs at the full SRG input: 96 MHz on
-> OMAP3, a 2000-bit frame at 48 kHz.
+> The X1600's AIC is the X1000's, with two differences.
 
-> +static int omap_mcbsp_slot_constraints(struct snd_pcm_substream *substream,
-> +				       struct omap_mcbsp *mcbsp)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +	unsigned int format = mcbsp->fmt & SND_SOC_DAIFMT_FORMAT_MASK;
-> +	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
-> +	unsigned int list[ARRAY_SIZE(omap_mcbsp_slot_rates)];
-> +	unsigned int active = tx ? mcbsp->tx_slots : mcbsp->rx_slots;
-> +	int ret;
-> +
-> +	if ((format == SND_SOC_DAIFMT_I2S || format == SND_SOC_DAIFMT_LEFT_J) &&
-> +	    mcbsp->slots != 2) {
-> +		dev_err(mcbsp->dev, "I2S/LEFT_J needs 2 slots, not %u\n",
-> +			mcbsp->slots);
-> +		return -EINVAL;
-> +	}
-> +	if (!active) {
-> +		dev_err(mcbsp->dev, "no %s slots in the TDM mask\n",
-> +			tx ? "TX" : "RX");
-> +		return -EINVAL;
-> +	}
-> +	if (!omap_mcbsp_slot_rate_list(mcbsp, list)) {
-> +		dev_err(mcbsp->dev, "no rate for %u x %u-bit slots from %u Hz\n",
-> +			mcbsp->slots, mcbsp->slot_width, mcbsp->in_freq);
-> +		return -EINVAL;
+> @@ -389,6 +408,16 @@ static const struct i2s_soc_info x1000_i2s_soc_info = {
+>  	.field_i2sdiv_playback	= REG_FIELD(JZ_REG_AIC_CLK_DIV, 0, 8),
+>  };
+>  
+> +static const struct i2s_soc_info x1600_i2s_soc_info = {
+> +	.dai = &jz4740_i2s_dai,
+> +	.field_rx_fifo_thresh	= REG_FIELD(JZ_REG_AIC_CONF, 24, 27),
+> +	.field_tx_fifo_thresh	= REG_FIELD(JZ_REG_AIC_CONF, 16, 20),
+> +	.field_i2sdiv_capture	= REG_FIELD(JZ_REG_AIC_CLK_DIV, 0, 8),
 
-Will this do the right thing with a card like simple card that sets the
-sysclk dynamically?  The card might reprogram in hw_params() and should
-really set it to 0 on shutdown to tell things not to apply constraints.
-
-> @@ -1020,7 +1125,15 @@ static int omap_mcbsp_dai_hw_params(struct snd_pcm_substream *substream,
->  	/* In McBSP master modes, FRAME (i.e. sample rate) is generated
->  	 * by _counting_ BCLKs. Calculate frame size in BCLKs */
->  	master = mcbsp->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK;
-> -	if (master == SND_SOC_DAIFMT_BP_FP) {
-> +	if (master == SND_SOC_DAIFMT_BP_FP && mcbsp->slot_width) {
-> +		/* startup() limited channels, width and rate to the slots */
-
-While we're doing constraints stuff it'd be good to validate the params
-against the current slot configurastion.
+In the v2 thread Nikolaus said that there are separate TX and RX
+dividers, is that the case?
 
 -- 
 Mark Brown <broonie@kernel.org>
