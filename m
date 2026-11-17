@@ -1,62 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=89.253.219.113
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794944806;
-	b=lWKx/nBkoUIMhSGORnc9Ftv6PF3HtlMvhC8rXapkokkgax3LF3NC23ful5QpvlBUv31O
-	 IW+peFKIXSPKXFmuyHSu9xV9J6uxaZRfKHFEbt0Na8v1rQvWaekuUm1n5pbNOGgijuMZd
-	 z/a2o60RbLiRrHwMhZZ2CuP1NFiHYuBW1/k3VL+6rdKsnPzRr8EhO7mhQNx/A9ittVriH
-	 nNrLH55pNAm8snlkIh1V8jPJLfeC37330SRxZmLD/pbcaOZH/vEy3I6mDsAPVJNxf2Sof
-	 trW0Y1w+aZWJ92XCyuk6gZmMInlksobV+HDC9IfNCRcUl/xsQ5taL+3sk8dvpyAYQsA==
+	t=1794945881;
+	b=bMHAvxAgUlC2vOAHV94ms4UneNhoNX/7G2SDjAwCMa3m5TPVaQKdb9Cy7lYfBj+O7er1
+	 Nz7mlY8GyCfv7zl7s/aXEuyYW6Yax2SbrzFdZUxWwHZLH/vVY2gO9vJ2rLeLCFHuXVkNB
+	 6JTTtzc2b7n7hTYblNWbJZh869MZd5cA9/W+f3+JmRYrVT3s7DQwKJzRJrYleFHJQVLZB
+	 atYqtoe4t91k55Y5CbB9lHzZpgD1SafR740ZK8z/rEZmQDqg1KkFI0ieuu5gNKKrRh0us
+	 u08OZxrkVGCGyxSxhkzP5/V6YoqFpoX7f6fwc8cxcXMDBgOe+e5NoSPBmVVt5YQZmNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794944806;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=XTjgjlgduI4F4gOFn03WxE+YqRiZb91sMuzmpT8fsg8=;
-	b=JiKEhaI0PNEsdGd8K7/v1ehmGuM7eFslhiuynl403D2TaJHNXUG/x8dtdl/hZ+e+ldQx
-	 6QOYU8iV1jLUAg5L/EaV9ldmrsTBCg/K2ioXumPFHkvCCPIF7ngWF8sxK72IOjL2BEEqN
-	 kmN5aCudkDY0MpcfEN16y7QC+8EjZVXAU3If+oa8F98BbmpQ30YMIYKMfqCBYHox8z3WM
-	 LbrFOy/y/t8tZYR4ERgAvz8MJP2AESXAYaXmL0EJUI19nrYy1kixz2AJJxi+Fuvcn0MW1
-	 2ZBr/ix+O60Tup+NoevYG45HovzzWmHoHYL5RWLKieNWPo0RnVYu5zxM68BlMzfhsAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794945881;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=P2jcdT+phngXsT9+WKGq91CiGSUfr3T6ZRZFAW3cZH0=;
+	b=g3qUEwJsDvym2DB1qHud30ain2zXYLHzUlpDvqojKfOl5mm9KSlPOkBb2eEULznllUSK
+	 Hp+GwQorrFGBatyCawAVdJ+sTFZ57E40cPaUxBbjOJmW3SMM4o5RYl/z7j/K6MX+DaIRm
+	 6iwHEsS5TH86pnL3MNYLsw/eUIq4E9Cpo+TkhEIDEUrBZcubzk0W9rRp/UEQI4GbCpqN+
+	 AOyYnDz9REXVZqedo4adtlFG7z0AKTNsh6plMFVHcF4PdMwXxWrZ45CTfPXqE/Z92VEAi
+	 NnAylH4TvipbDYpCJGzbRVJBTQ09cWnWEa4EjIh1vWFYEU8v10+S1oL/IZygv1GDHdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pavel.bz;
-	spf=pass smtp.mailfrom=pavel.bz;
-	dkim=pass header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=forfNykt;
-	arc=none smtp.remote-ip=89.253.219.113
-Received: from mail.pavel.bz (mail.pavel.bz [89.253.219.113])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZqZ6pH9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FBE606A335;
-	Tue, 17 Nov 2026 19:46:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5FBE606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavel.bz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pavel.bz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F79606A333;
+	Tue, 17 Nov 2026 20:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=forfNykt
-Received: from p-745-g5.pavel.bz (unknown [182.52.139.49])
-	by mail.pavel.bz (Postfix) with ESMTPSA id 02335616D2;
-	Tue, 17 Nov 2026 19:46:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.pavel.bz 02335616D2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pavel.bz; s=primary;
-	t=1794944803; bh=XTjgjlgduI4F4gOFn03WxE+YqRiZb91sMuzmpT8fsg8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=forfNyktCxVuYgnd5/r+YuR4pPifIBV4OfMmEzli593PUqHa3xovViTA2BdJgyGu5
-	 S61J/2a1pfmemec/cC5pE+GEOOnWyH1XPPGTxj5tpmZyh+atjzqtEk8ybU0JQ1Shmu
-	 1X9QxRalx2iXK2RjGokIoGMTflrpsnijXVaruQiTPaGzBs9mF2soHbcZdZpaxowFvk
-	 0BfZxc8yVagbGsI3NY3TmD0sAicCoopH6hVioUtWUwaTu86f05nikNL5eHztNtdiqu
-	 LY3Y8nj6HmOS2SwBiOZrFuYzhXQb8/eKe5HrEQ581BaaBicfgriLDHk9B5bPk6XQec
-	 WIWlYzGMecYcg==
-From: Pavel Artemev <a@pavel.bz>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
-Date: Wed, 18 Nov 2026 02:46:30 +0700
-Message-ID: <20261117194630.155912-3-a@pavel.bz>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261117194630.155912-1-a@pavel.bz>
-References: <20261117194630.155912-1-a@pavel.bz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SZqZ6pH9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB3621F000C5;
+	Tue, 17 Nov 2026 20:04:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794945881;
+	bh=P2jcdT+phngXsT9+WKGq91CiGSUfr3T6ZRZFAW3cZH0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=SZqZ6pH92p+Vn8BVtRFSTFdK1+WquAmaTyiHTfTG3FvEGaQzmf44lKKXqyu8zIU5a
+	 IZXJvUsX++FKI/Pw8PV8zbP52k4LZyLS7q8M/D4mHI/Vc4lDdxDbj25VwHDaQPFaO2
+	 +9AIbDklH0b7cVH/tLwSGw8qGwvAlvctaGvFkBw4SKRzFG6DiO9R1DBmDivLvvutm5
+	 dXFfaxgu2wvQRKrsZjK4idN6WPeGrHjnnJPHr9ZTJDB92xW/psLqbShjCVHnZZwktL
+	 4JLjeLZlFL3IFiitJAR3COahW4RROSewwwhZg/EkPRE5/Uh8158tjmP0W4NLGzW0gA
+	 YglTO1RJLNsmQ==
+Message-ID: <sashiko-outbox-219553@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 2/2] ASoC: airoha: Add support for AN7581 PCM driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Christian Marangi" <ansuelsmth@gmail.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+Cc: robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261117193851.235272-3-ansuelsmth@gmail.com>
+References: <20261117193851.235272-1-ansuelsmth@gmail.com>
+ <20261117193851.235272-3-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 20:04:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,1089 +59,652 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Some USB audio devices silently drop Feature Unit control writes in
-the first seconds after USB enumeration, and occasionally drop
-individual writes at any later time as well.  When GET_CUR on such a
-device is broken there is no way to detect the divergence by reading
-back, so the state the host believes in silently drifts from the
-hardware state: a channel left at a stale value is never corrected.
+Thank you for your contribution! Sashiko AI review found 10 potential
+issues to consider:
+- [High] ASoC: airoha: broken full-duplex state tracking in
+  an7581_pcm_hw_params()
+- [High] ASoC: airoha: broken hw_avail check and DMA polling in
+  an7581_pcm_irq_handler()
+- [High] ASoC: airoha: premature devm_request_irq() ordering in
+  an7581_pcm_probe()
+- [High] ASoC: airoha: unsynchronized substream lifetime in
+  an7581_pcm_irq_handler()
+- [Medium] ASoC: airoha: uninitialized ret and IRQ_NONE return in
+  an7581_pcm_irq_handler()
+- [Medium] ASoC: airoha: tx_pos and rx_pos overflow and wrap jump in
+  an7581_pcm_pointer()
+- [Medium] ASoC: airoha: positive return from an7581_pcm_startup()
+  breaks rollback
+- [Medium] ASoC: airoha: missing check for 0 from of_irq_get() in
+  an7581_pcm_probe()
+- [Medium] ASoC: airoha: unlocked descriptor and ring updates in
+  an7581_pcm_irq_handler()
+- [Low] ASoC: airoha: unsorted MAINTAINERS entry and wrong BCLK unit in
+  commit message
+--
 
-The Windows driver of one such chipset (Weltrend/XiiSound, 040b:0897)
-handles this by never reading back at all.  USBPcap captures of it
-show a single source of truth for the whole channel picture, every
-channel of a control written in one short burst - master first, then
-the channels - and the complete state re-pushed at every device open.
-That every-open re-push is the load-bearing mechanism: it repairs
-whatever writes were swallowed around enumeration.
+commit 09235bd500296f2b66ed726582858bf27dd4183c
+Author: Christian Marangi <ansuelsmth@gmail.com>
 
-Add QUIRK_FLAG_MIXER_STATE_REPUSH, which replicates that write
-discipline in the driver:
+ASoC: airoha: Add support for AN7581 PCM driver
 
-  * volume and mute puts only record values; the cache is defined as
-    "what user space last asked for" and is never read back from the
-    device, and never invalidated by device status notifications;
+This commit adds an ASoC platform driver for the Airoha AN7581 SoC PCM
+controller supporting up to 32 channels at 8 kHz and 16 kHz.
 
-  * a single deferred flush (30 ms quiescence) writes each touched
-    feature unit in one burst, master first, derived as the loudest
-    channel - never asserted from its own possibly stale cache.  The
-    last writer owns the master: an explicit master put stops
-    derivation for that unit until user space requests a volume
-    channel write of it again, unchanged values included (alsactl
-    restores channels before the master, so ownership must not
-    survive the audio server's first no-op channel write).  An
-    unflushed explicit value is dropped with the ownership together
-    with its cache entry, so it can neither be flushed over newer
-    channel writes nor poison the raw-max re-assert skip; the cache
-    entry of a master the device did receive survives the transfer -
-    it is the record of what the device actually plays - and is only
-    dropped, with a full-state re-push requested, when it disagrees
-    with the derived channel maximum, so a diverged master is
-    re-derived by the next flush instead of waiting for a changed
-    write or a stream open.  A master put arriving while the
-    transfer dropped the cache entry is recorded unconditionally
-    instead of read back: on broken-GET master controls that read
-    would fail until the next derive re-caches;
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ccbcdc0799b9f..dfeefad6597e6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -796,6 +796,13 @@ F:	Documentation/devicetree/bindings/sound/airoha,an=
+7581-afe.yaml
+>  F:	Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
+>  F:	sound/soc/mediatek/an7581/*
+> =20
+> +AIROHA PCM CONTROLLER DRIVER
+> +M:	Christian Marangi <ansuelsmth@gmail.com>
+> +L:	linux-sound@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/sound/airoha,an7581-pcm.yaml
+> +F:	sound/soc/airoha/*
+> +
+>  AIROHA SPI SNFI DRIVER
+>  M:	Lorenzo Bianconi <lorenzo@kernel.org>
+>  M:	Ray Liu <ray.liu@airoha.com>
 
-  * a PCM stream open and a resume re-push all cached volume values
-    through the same timer - the every-open repair the Windows stack
-    relies on.  A resume re-push also re-asserts cached mute
-    switches, taking over the job restore_mixer_value() usually does
-    at resume: restore runs without the mixer lock, so writing the
-    deferred controls there could clobber values a concurrent
-    deferred put just recorded, and would re-send a derived master
-    from a cache that lags its channels.
+[Severity: Low]
+This isn't a bug, but AIROHA PCM CONTROLLER DRIVER is placed after AIROHA
+SOUND DRIVER instead of in alphabetical order after AIROHA PCIE PHY DRIVER.
+Also, the commit message says the bit clock is configured to "2.048 KHz",
+whereas an7581_pcm_hw_params() sets AN7581_PCM_BIT_CLK_2048KHZ (2048 kHz /
+2.048 MHz).
 
-The flush runs under the mixer lock, like the write path of the put
-callback it replaces, so a put can never interleave with a burst.
-Re-push requests are lock-free atomic bits, because neither PM
-callback may block on that lock: a control write inside a flush can
-trigger the runtime resume whose callback then runs on the very
-thread holding it.  Suspend marks the mixer and cancels the flush
-timer without waiting - a flush in flight may be blocked in
-runtime-PM resume, waiting for the suspend callback to finish, so
-waiting for it there would deadlock the PM worker against the flush
-worker - and a flush already running stops at the next unit, with
-writes that failed mid-suspend kept pending for retry.  Resume
-requests a re-push and arms the worker without taking the lock; the
-worker re-checks the request bits after every run, so a request
-raised while it runs is never lost, and the disarm ordering against
-disconnect (disconnected flag under the mixer lock before the
-synchronizing cancel, and checked under the same lock by the
-deferred put callback before it arms the timer, because free()
-cancels the work before the controls are unregistered) keeps the
-teardown race-free.
+> diff --git a/sound/soc/airoha/an7581-pcm.c b/sound/soc/airoha/an7581-pcm.c
+> new file mode 100644
+> index 0000000000000..23007d3ee33e0
+> --- /dev/null
+> +++ b/sound/soc/airoha/an7581-pcm.c
 
-Only controls written through mixer_ctl_feature_put() with a volume
-or mute selector are deferred.  Mixer unit controls share that put
-callback but store an input channel number in the selector field and
-are excluded (num_outputs is only ever set for mixer units); other
-feature unit controls (AGC, tone) keep the direct write path, as do
-the caches of non-deferred controls on notification; and read-only
-channels are neither written nor cached, matching the direct write
-path.  The master is re-asserted on every flush and re-push,
-including unchanged values, except when it sits at the control's raw
-maximum: that re-send would only trigger the in-headset limit
-notification (nothing moved), while power-up leaves the master at
-raw max anyway, so the skip is quiet and correct at once.  An
-ownership transfer that drops the cache entry requests a re-push,
-so the master is re-derived and written in the next flush even at
-the raw maximum - never as a lone write: it shares the burst with
-the channel re-pushes.  A
-sporadically dropped master write below raw max is therefore healed
-by the next re-push; at raw max it self-evidences as a missing
-arrival notification and heals when the derived value next changes.
-The vendor driver has no readback either.
+[ ... ]
 
-Mute switches are only written when user space changed them, or at a
-resume re-push: a lost re-assert can at worst fail to mute (power-up
-is unmuted), and mute writes during playback audibly chop the stream
-on these devices.  Volume writes are delayed by the quiescence
-window, which is not perceptible for a volume control.
+> +static int an7581_pcm_startup(struct snd_pcm_substream *substream,
+> +			      struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+> +	struct an7581_pcm_priv *priv =3D snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+> +	int ret;
+> +
+> +	snd_soc_set_runtime_hwparams(substream, &an7581_pcm_hardware);
+> +
+> +	ret =3D snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_PERIOD=
+_SIZE,
+> +					   AN7581_PCM_FRAMES_PER_DESC,
+> +					   AN7581_PCM_FRAMES_PER_DESC);
+> +	if (ret < 0) {
+> +		dev_err(rtd->card->dev, "failed to constrain period to 80 frames\n");
+> +		return ret;
+> +	}
+> +
+> +	ret =3D snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIO=
+DS);
+> +	if (ret < 0) {
+> +		dev_err(rtd->card->dev, "snd_pcm_hw_constraint_integer failed\n");
+> +		return ret;
+> +	}
+> +
+> +	/* Cache stream substream for IRQ handling */
+> +	priv->stream[substream->stream] =3D substream;
+> +
+> +	/* On open mask interrupt and disable DMA */
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+> +		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
+> +				  AN7581_PCM_IMR_TDESC_UPDATE_INT);
+> +		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
+> +				  AN7581_PCM_TXDMA_ENABLE);
+> +	} else {
+> +		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
+> +				  AN7581_PCM_IMR_RDESC_UPDATE_INT);
+> +		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
+> +				  AN7581_PCM_RXDMA_ENABLE);
+> +	}
+> +
+> +	usleep_range(10000, 20000);
+> +
+> +	mutex_lock(&priv->user_lock);
+> +
+> +	if (!priv->users) {
+> +		regmap_clear_bits(priv->map, AN7581_PCM_PICR,
+> +				  AN7581_PCM_CFG_VALID);
+> +
+> +		usleep_range(5000, 10000);
+> +	}
+> +
+> +	priv->users++;
+> +
+> +	mutex_unlock(&priv->user_lock);
+> +
+> +	return ret;
+> +}
 
-The flag is enabled for 040b:0897, whose loss window was measured on
-the wire at 6.5-9 s after enumeration with a ragged tail (beep-ACKed
-limit-write probes at increasing delays).
+[Severity: Medium]
+Does an7581_pcm_startup() return 1 instead of 0 on success?
 
-Testing: ran on the device as a locally built DKMS module (7.2 tree,
-daily use over 10 days) and wire-verified: 21 volume gestures produced
-21 bursts of exactly one write per channel in the master-first order,
-no readbacks, no re-sends; endpoint limit notifications fire only on
-user arrivals at a limit in that campaign (the one exception class
-being the re-derived raw-max master write that supersedes an unflushed
-explicit value can produce, documented above); no stream chops during
-playback; replug,
-suspend/resume, balance and mute pass end to end.  The same mechanism
-also ran on the device as a DKMS module against 7.3.4, wire-verified:
-volume gestures each produced exactly one burst of one write per
-channel in the master-first order, with no readbacks and no writes to
-the capture unit.  The changes over the v3 revision were also
-wire-verified against 7.3.4: a deferred put issued while the device
-is runtime-suspended produces no bus traffic and its value is
-delivered by the resume re-push, which re-asserts the cached volume
-and mute controls; a stream-open re-push re-sends volumes only; an
-explicit master put is followed again by derivation once user space
-writes a volume channel of the unit; and the derived master equal to
-the cached value is not re-sent in that tree (no endpoint
-notification without a user arrival).  The changes over the v4
-revision are also wire-verified against 7.3.4: an explicit master put
-superseded by a channel put in the same flush window produces one
-derived burst, and the superseded explicit value never reaches the
-wire; a stream-open re-push at a non-limit volume re-asserts the
-derived master (present on the wire, where v4 skipped it); parked at
-the raw maximum the re-push keeps the master absent; the runtime-PM
-paths (zero bus traffic for a put on a suspended device, resume
-re-push delivering the pending gesture, mutes and mic) behave as in
-v4.  The changes over the v5 revision are wire-verified against 7.3.4:
-master ownership transfers on any volume-channel write request,
-unchanged values included (a no-op write after an explicit master put
-makes the next re-push derive the master instead of re-asserting the
-explicit value), an unflushed explicit master superseded by a channel
-put is dropped with its cache entry, so a supersession at the raw
-maximum still produces the full derived burst including the master,
-and a master put arriving while the transfer dropped the cache entry
-is recorded without reading the device back; the baseline gesture
-discipline, the raw-maximum re-assert skip and the runtime-PM paths
-behave as in v5.  The changes over the v6 revision are wire-verified
-against 7.3.4: the baseline gesture discipline, the superseded-
-explicit derived burst at the raw maximum and the runtime-PM paths
-behave as in v6; the v6 ownership refinements likewise: a no-op
-volume-channel write following a flushed explicit master that
-disagrees with the channels produces, without any stream open, a
-full-state re-push whose derived master write leads the burst (the
-stale master heals within one flush window); the cache entry
-survives consistent transfers, so a balance step while the louder
-channel sits at the raw maximum writes only the changed channel
-(no unchanged raw-max master re-send, no endpoint notification), a
-stream-open re-push after a no-op write at the parked raw maximum
-keeps the master absent, and a master read after the transfer is
-served from the cache with no device readback.
+snd_pcm_hw_constraint_integer() returns positive 1 when it modifies the
+SNDRV_PCM_HW_PARAM_PERIODS interval, and snd_soc_dai_startup() only marks t=
+he
+DAI as started when the callback returns 0:
 
-Closes: https://github.com/alsa-project/alsa-ucm-conf/issues/760
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221401
-Link: https://lore.kernel.org/linux-sound/20261117180728.117915-3-a@pavel.bz
-Assisted-by: LLM
-Signed-off-by: Pavel Artemev <a@pavel.bz>
----
- Documentation/sound/alsa-configuration.rst |   6 +
- sound/usb/mixer.c                          | 637 ++++++++++++++++++++-
- sound/usb/mixer.h                          |  19 +
- sound/usb/pcm.c                            |   4 +
- sound/usb/quirks.c                         |   2 +
- sound/usb/usbaudio.h                       |  22 +
- 6 files changed, 675 insertions(+), 15 deletions(-)
+sound/soc/soc-dai.c:snd_soc_dai_startup() {
+    ...
+	/* mark substream if succeeded */
+	if (ret =3D=3D 0)
+		soc_dai_mark_push(dai, substream, startup);
+    ...
+}
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index ea7f5aa31..4b4cdadf2 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2417,6 +2417,12 @@ quirk_flags
-           Initialize the volume control channels to the maximum value instead
-           of the minimum at mixer creation.  For devices that silence their
-           audio path while a volume channel sits at the minimum value.
-+        * bit 35: ``mixer_state_repush``
-+          Defer volume and mute writes into one burst per feature unit, and
-+          re-push the cached volume values at every PCM stream open and
-+          after resume (a resume additionally re-asserts cached mute
-+          switches).  For devices that silently drop control writes
-+          around enumeration and whose controls cannot be read back.
- 
- This module supports multiple devices, autoprobe and hotplugging.
- 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index ad96371ad..e487ed8dd 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -37,6 +37,7 @@
- #include <linux/usb/audio.h>
- #include <linux/usb/audio-v2.h>
- #include <linux/usb/audio-v3.h>
-+#include <linux/workqueue.h>
- 
- #include <sound/core.h>
- #include <sound/control.h>
-@@ -584,13 +585,22 @@ static int set_cur_ctl_value(struct usb_mixer_elem_info *cval,
- 	return snd_usb_mixer_set_ctl_value(cval, UAC_SET_CUR, validx, value);
- }
- 
-+/* read-only indication of one channel of a control (channel 0 = master);
-+ * read-only channels are not written and not cached
-+ */
-+static unsigned int mixer_ch_readonly(const struct usb_mixer_elem_info *cval,
-+				      int channel)
-+{
-+	if (channel == 0)
-+		return cval->master_readonly;
-+	return cval->ch_readonly & BIT(channel - 1);
-+}
-+
- int snd_usb_set_cur_mix_value(struct usb_mixer_elem_info *cval, int channel,
- 			     int index, int value)
- {
- 	int err;
--	unsigned int read_only = (channel == 0) ?
--		cval->master_readonly :
--		cval->ch_readonly & BIT(channel - 1);
-+	unsigned int read_only = mixer_ch_readonly(cval, channel);
- 
- 	if (read_only) {
- 		usb_audio_dbg(cval->head.mixer->chip,
-@@ -1608,18 +1618,370 @@ static int mixer_ctl_feature_get(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+/*
-+ * Atomic mixer write bursts (QUIRK_FLAG_MIXER_STATE_REPUSH).
-+ *
-+ * Some devices silently drop mixer writes issued in the first seconds
-+ * after USB enumeration, and can drop individual writes at any later
-+ * time as well; GET_CUR is broken on them, so the divergence cannot
-+ * be detected by reading back.  The vendor's Windows driver never
-+ * reads either: it collects the whole channel picture at a single
-+ * source of truth and writes every channel of a control in one short
-+ * burst (master first), re-pushing the complete state at every device
-+ * open.
-+ *
-+ * User space applies one logical volume change as multiple fragmented
-+ * control writes (one per channel, the first carrying stale siblings),
-+ * so the stock write-per-put path cannot produce that burst.  Puts
-+ * therefore only record values - the cache is defined as "what user
-+ * space last asked for" and is never read back from the device - and
-+ * a single flush timer coalesces the fragments.  When it fires, each
-+ * touched feature unit is written in the Windows order: the master,
-+ * derived as the loudest channel, first, then the changed channels,
-+ * one write each.  A stream open requests a full-state re-push
-+ * (healing writes lost in the post-enumeration window), merged into
-+ * the same timer so a burst never observes a half-applied gesture
-+ * (user space opens streams mid-gesture for UI feedback sounds).
-+ *
-+ * The flush runs under the mixer lock, like the write path of the put
-+ * callback it replaces: snd_usb_set_cur_mix_value() completes its USB
-+ * transfer before updating the cache, so an unlocked flush could
-+ * clobber values recorded concurrently by a put.  The PM callbacks
-+ * must not block on that lock, though: a control write inside a flush
-+ * can trigger the runtime resume whose callback then runs on the very
-+ * thread holding it.  Re-push requests are therefore lock-free atomic
-+ * bits; whoever cannot take the lock (the resume callback) only sets
-+ * them and arms the worker, and the worker re-checks the bits after
-+ * every run so no request is lost.
-+ */
-+
-+/* quiescence window for the flush; user space applies a stereo change
-+ * as two control writes 5..20 ms apart
-+ */
-+#define MIXER_FLUSH_DELAY	msecs_to_jiffies(30)
-+
-+/* mixer->flush_flags bits */
-+#define MIXER_FLUSH_FULL	0	/* re-push all cached volume values */
-+#define MIXER_FLUSH_RESUME	1	/* resume: also re-assert cached mutes */
-+#define MIXER_FLUSH_SUSPENDED	2	/* suspend in flight: stop writing */
-+
-+/* flush levels latched from the flags by the worker */
-+enum {
-+	FLUSH_TOUCHED,		/* only channels user space changed */
-+	FLUSH_FULL_STATE,	/* plus every cached volume value */
-+	FLUSH_RESUME_STATE,	/* plus every cached mute switch */
-+};
-+
-+static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_value *ucontrol);
-+
-+static bool is_feature_volume_mute_ctl(struct usb_mixer_elem_info *cval)
-+{
-+	if (!cval->head.kctl || !cval->head.kctl->put)
-+		return false;
-+	/* the info callback is shared with processing unit controls, whose
-+	 * put writes through a different path and does not manage the
-+	 * shared cache; the put callback is unique to feature unit and
-+	 * mixer unit controls, which the cache does cover
-+	 */
-+	if (cval->head.kctl->put != mixer_ctl_feature_put)
-+		return false;
-+	/* mixer unit controls share that put callback but store the
-+	 * 1-based input channel in cval->control, not a UAC_FU_* selector;
-+	 * num_outputs is only ever set for mixer units, so it tells the
-+	 * two apart
-+	 */
-+	if (cval->num_outputs)
-+		return false;
-+	return cval->control == UAC_FU_VOLUME || cval->control == UAC_FU_MUTE;
-+}
-+
-+/* Re-send every cached channel of one control, unchanged values
-+ * included
-+ */
-+static void repush_ctl_cached(struct usb_mixer_elem_info *cval)
-+{
-+	int c, err, idx = 0;
-+
-+	if (cval->cmask) {
-+		for (c = 0; c < MAX_CHANNELS; c++) {
-+			if (!(cval->cmask & BIT_ULL(c)))
-+				continue;
-+			if (test_bit(c + 1, cval->cached)) {
-+				err = snd_usb_set_cur_mix_value(cval, c + 1,
-+								idx, cval->cache_val[idx]);
-+				if (err < 0)
-+					usb_audio_dbg(cval->head.mixer->chip,
-+						      "repush ctl %d ch %d failed (%d)\n",
-+						      cval->control, c + 1, err);
-+			}
-+			idx++;
-+		}
-+	} else {
-+		/* master channel */
-+		if (test_bit(0, cval->cached)) {
-+			err = snd_usb_set_cur_mix_value(cval, 0, 0,
-+							*cval->cache_val);
-+			if (err < 0)
-+				usb_audio_dbg(cval->head.mixer->chip,
-+					      "repush ctl %d ch 0 failed (%d)\n",
-+					      cval->control, err);
-+		}
-+	}
-+}
-+
-+/* Write one control's pending (changed-since-last-flush) channels.
-+ * Pending bits are only set together with cache_val by a put, so the
-+ * value is written unconditionally; the cache bit may have been
-+ * cleared under us, and snd_usb_set_cur_mix_value() sets it again.
-+ */
-+static void flush_ctl_pending(struct usb_mixer_elem_info *cval)
-+{
-+	int c, err, idx = 0;
-+
-+	for (c = 0; c < MAX_CHANNELS; c++) {
-+		if (!(cval->cmask & BIT_ULL(c)))
-+			continue;
-+		if (test_bit(c + 1, cval->pending)) {
-+			clear_bit(c + 1, cval->pending);
-+			err = snd_usb_set_cur_mix_value(cval, c + 1,
-+							idx, cval->cache_val[idx]);
-+			if (err < 0) {
-+				/* keep the channel pending so the next
-+				 * flush (stream open, resume) retries it
-+				 */
-+				set_bit(c + 1, cval->pending);
-+				usb_audio_dbg(cval->head.mixer->chip,
-+					      "flush ctl %d ch %d failed (%d)\n",
-+					      cval->control, c + 1, err);
-+			}
-+		}
-+		idx++;
-+	}
-+	if (!cval->cmask && test_bit(0, cval->pending)) {
-+		/* master channel */
-+		clear_bit(0, cval->pending);
-+		err = snd_usb_set_cur_mix_value(cval, 0, 0,
-+						*cval->cache_val);
-+		if (err < 0) {
-+			set_bit(0, cval->pending);
-+			usb_audio_dbg(cval->head.mixer->chip,
-+				      "flush ctl %d ch 0 failed (%d)\n",
-+				      cval->control, err);
-+		}
-+	}
-+}
-+
-+/*
-+ * One atomic write burst per touched feature unit, Windows-style.
-+ * level FLUSH_FULL_STATE re-pushes every cached volume value (the
-+ * stream-open heal); FLUSH_RESUME_STATE additionally re-asserts
-+ * cached mute switches (restore_mixer_value() leaves them to the
-+ * flush under this quirk, and nothing is playing yet at resume, so
-+ * the write cannot chop a stream).  Otherwise only the channels user
-+ * space changed since the last flush are written.  The master is
-+ * written first and derived as the loudest cached channel - never
-+ * asserted from its own (possibly stale) cache.  An explicit master
-+ * put owns the master until user space requests a volume channel
-+ * write of the unit again, unchanged values included.
-+ * The master is re-asserted whenever the derived value differs from
-+ * the cached one, and unchanged as well unless it sits at the
-+ * control's raw maximum: re-sending an unchanged raw-max value makes
-+ * these devices emit their in-headset limit notification with no
-+ * user action nearby, while power-up leaves the master at raw max
-+ * anyway, so the skip is quiet and correct at the same time.  A
-+ * sporadically dropped master write below raw max is thus healed
-+ * by the next re-push; at raw max it self-evidences as a missing
-+ * arrival notification and heals when the derived value next
-+ * changes.
-+ * Mute switches are only written when user space changed them (or at
-+ * resume re-push): a lost re-assert can only fail to mute (power-up
-+ * is unmuted), and mute writes during playback audibly chop the
-+ * stream on these devices.
-+ *
-+ * Called with mixer->lock held.
-+ */
-+static void snd_usb_mixer_flush_pending(struct usb_mixer_interface *mixer,
-+					int level)
-+{
-+	struct usb_mixer_elem_list *list;
-+	struct usb_mixer_elem_info *cval, *master;
-+	int id, c, idx, max_val;
-+	bool have_ch, touched, master_pending;
-+
-+	lockdep_assert_held(&mixer->lock);
-+
-+	if (mixer->disconnected)
-+		return;
-+
-+	for (id = 0; id < MAX_ID_ELEMS; id++) {
-+		if (test_bit(MIXER_FLUSH_SUSPENDED, &mixer->flush_flags)) {
-+			/* A suspend landed mid-run: stop writing (the
-+			 * writes would race the port suspend, and a
-+			 * failed one only stays pending anyway) and
-+			 * request the strongest re-push, which the
-+			 * resume path delivers.
-+			 */
-+			set_bit(MIXER_FLUSH_RESUME, &mixer->flush_flags);
-+			return;
-+		}
-+		master = NULL;
-+		max_val = 0;
-+		have_ch = false;
-+		touched = false;
-+		master_pending = false;
-+		for_each_mixer_elem(list, mixer, id) {
-+			cval = mixer_elem_list_to_info(list);
-+			if (!is_feature_volume_mute_ctl(cval) ||
-+			    cval->control != UAC_FU_VOLUME)
-+				continue;
-+			if (!cval->cmask) {
-+				if (!master) {
-+					master = cval;
-+					master_pending =
-+						test_bit(0, cval->pending);
-+				}
-+				continue;
-+			}
-+			if (!bitmap_empty(cval->pending, MAX_CHANNELS + 1))
-+				touched = true;
-+			idx = 0;
-+			for (c = 0; c < MAX_CHANNELS; c++) {
-+				if (!(cval->cmask & BIT_ULL(c)))
-+					continue;
-+				if (test_bit(c + 1, cval->cached)) {
-+					/* seed from the first cached value:
-+					 * raw volume ranges can be signed
-+					 * and all-negative
-+					 */
-+					if (!have_ch ||
-+					    cval->cache_val[idx] > max_val)
-+						max_val = cval->cache_val[idx];
-+					have_ch = true;
-+				}
-+				idx++;
-+			}
-+		}
-+		/* master first (the Windows burst order).  Re-asserted
-+		 * even unchanged, unless the value is the control's raw
-+		 * maximum: that re-send would only trigger the in-headset
-+		 * limit notification, and the device sits at raw max
-+		 * after every reset anyway.
-+		 */
-+		if (master && !master_pending && !master->master_explicit &&
-+		    have_ch &&
-+		    (touched || level != FLUSH_TOUCHED) &&
-+		    (!test_bit(0, master->cached) ||
-+		     *master->cache_val != max_val ||
-+		     max_val != master->max)) {
-+			int err = snd_usb_set_cur_mix_value(master, 0, 0,
-+							    max_val);
-+			if (err < 0)
-+				usb_audio_dbg(mixer->chip,
-+					      "derive ctl %d ch 0 failed (%d)\n",
-+					      master->control, err);
-+		}
-+		if (master && level != FLUSH_TOUCHED && !master_pending &&
-+		    (master->master_explicit || !have_ch) &&
-+		    !(test_bit(0, master->cached) &&
-+		      *master->cache_val == master->max))
-+			/* user-owned master, or a unit without per-channel
-+			 * data: re-assert the cached master value, except
-+			 * the unchanged raw maximum (same notification /
-+			 * reset-at-max reasoning as the derive above)
-+			 */
-+			repush_ctl_cached(master);
-+		for_each_mixer_elem(list, mixer, id) {
-+			cval = mixer_elem_list_to_info(list);
-+			if (!is_feature_volume_mute_ctl(cval))
-+				continue;
-+			if (cval->control == UAC_FU_VOLUME && cval->cmask &&
-+			    level != FLUSH_TOUCHED) {
-+				bitmap_zero(cval->pending, MAX_CHANNELS + 1);
-+				repush_ctl_cached(cval);
-+				continue;
-+			}
-+			if (cval->control == UAC_FU_MUTE &&
-+			    level == FLUSH_RESUME_STATE) {
-+				bitmap_zero(cval->pending, MAX_CHANNELS + 1);
-+				repush_ctl_cached(cval);
-+				continue;
-+			}
-+			if (!bitmap_empty(cval->pending, MAX_CHANNELS + 1))
-+				flush_ctl_pending(cval);
-+		}
-+	}
-+}
-+
-+static void snd_usb_mixer_flush_work(struct work_struct *work)
-+{
-+	struct usb_mixer_interface *mixer =
-+		container_of(work, struct usb_mixer_interface,
-+			     flush_work.work);
-+	int level;
-+
-+	scoped_guard(mutex, &mixer->lock) {
-+		level = FLUSH_TOUCHED;
-+		if (test_and_clear_bit(MIXER_FLUSH_FULL,
-+				       &mixer->flush_flags))
-+			level = FLUSH_FULL_STATE;
-+		if (test_and_clear_bit(MIXER_FLUSH_RESUME,
-+				       &mixer->flush_flags))
-+			level = FLUSH_RESUME_STATE;
-+		if (mixer->disconnected)
-+			return;
-+		if (level != FLUSH_TOUCHED)
-+			usb_audio_dbg(mixer->chip,
-+				      "re-pushing mixer state (level %d)\n",
-+				      level);
-+		snd_usb_mixer_flush_pending(mixer, level);
-+	}
-+	/* A request may have arrived while we ran - from a stream open,
-+	 * or from the resume callback, which cannot take this lock (see
-+	 * the comment in snd_usb_mixer_resume()).  Re-arm so it gets
-+	 * its own run; arming here is safe against teardown because the
-+	 * disconnect path cancels this work only after this function
-+	 * has returned.  While suspended, the resume callback does the
-+	 * arming: re-arming here would only loop on failing writes.
-+	 */
-+	if (!test_bit(MIXER_FLUSH_SUSPENDED, &mixer->flush_flags) &&
-+	    (test_bit(MIXER_FLUSH_FULL, &mixer->flush_flags) ||
-+	     test_bit(MIXER_FLUSH_RESUME, &mixer->flush_flags)))
-+		mod_delayed_work(system_wq, &mixer->flush_work,
-+				 MIXER_FLUSH_DELAY);
-+}
-+
-+/* Arm the deferred flush - unless the mixer is being torn down:
-+ * free() cancels the work before the controls are unregistered, so
-+ * a put must never arm the timer after the disconnect mark (which
-+ * disconnect sets under the mixer lock the put already holds).
-+ */
-+static void mixer_arm_flush(struct usb_mixer_interface *mixer)
-+{
-+	if (!mixer->disconnected)
-+		mod_delayed_work(system_wq, &mixer->flush_work,
-+				 MIXER_FLUSH_DELAY);
-+}
-+
- /* put the current value to feature/mixer unit */
- static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 				 struct snd_ctl_elem_value *ucontrol)
- {
- 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
-+	bool deferred;
- 	int max_val;
- 	int c, cnt, val, oval, err;
- 	int changed = 0;
- 
-+	deferred = (cval->head.mixer->chip->quirk_flags &
-+		    QUIRK_FLAG_MIXER_STATE_REPUSH) &&
-+		   is_feature_volume_mute_ctl(cval);
-+
- 	guard(mutex)(&cval->head.mixer->lock);
- 	max_val = get_max_exposed(cval);
- 	if (cval->cmask) {
-+		bool ch_seen = false;
-+
- 		cnt = 0;
- 		for (c = 0; c < MAX_CHANNELS; c++) {
- 			if (!(cval->cmask & BIT(c)))
-@@ -1632,16 +1994,152 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 				return -EINVAL;
- 			val = get_abs_value(cval, val);
- 			if (oval != val) {
--				err = snd_usb_set_cur_mix_value(cval, c + 1,
--								cnt, val);
--				if (err < 0)
--					return filter_error(cval, err);
-+				if (deferred) {
-+					/* record only; one flush writes the
-+					 * whole unit in a single burst.
-+					 * Read-only channels keep the
-+					 * direct-path behaviour: no write,
-+					 * no cache update.
-+					 */
-+					if (!mixer_ch_readonly(cval, c + 1)) {
-+						set_bit(c + 1, cval->cached);
-+						cval->cache_val[cnt] = val;
-+						set_bit(c + 1, cval->pending);
-+						mixer_arm_flush(cval->head.mixer);
-+					}
-+				} else {
-+					err = snd_usb_set_cur_mix_value(cval, c + 1,
-+									cnt, val);
-+					if (err < 0)
-+						return filter_error(cval, err);
-+				}
- 				changed = 1;
- 			}
-+			/* any volume-channel write request - unchanged
-+			 * values included - claims master ownership (see
-+			 * below); read-only channels are not user-driven
-+			 */
-+			if (deferred && cval->control == UAC_FU_VOLUME &&
-+			    !mixer_ch_readonly(cval, c + 1))
-+				ch_seen = true;
- 			cnt++;
- 		}
-+		/* The last writer owns the master: a volume channel
-+		 * write request (the way audio servers drive this unit;
-+		 * alsactl restores channels before the master, so the
-+		 * master put would otherwise own every boot until the
-+		 * first changed gesture) re-claims master derivation.
-+		 * An unflushed explicit master value is dropped along
-+		 * with the ownership: the pending bit is cleared so the
-+		 * flush cannot write the superseded value, and its
-+		 * cache entry follows it - or the raw-max skip in the
-+		 * flush would mistake the never-written value for
-+		 * device state and swallow every later derive.  The
-+		 * cache entry of a master the device did receive
-+		 * survives the transfer - it is the record of what the
-+		 * device actually plays - and is dropped, with a
-+		 * full-state re-push requested, only when it disagrees
-+		 * with the derived channel maximum: a diverged master
-+		 * is then re-derived by the next flush instead of
-+		 * waiting for a changed write or a stream open, while
-+		 * a consistent one keeps the raw-max skip quiet.
-+		 */
-+		if (ch_seen) {
-+			struct usb_mixer_elem_list *ml;
-+			int ch_max = 0;
-+			bool have_ch = false, re_push = false;
-+
-+			for_each_mixer_elem(ml, cval->head.mixer,
-+					    cval->head.id) {
-+				struct usb_mixer_elem_info *m =
-+					mixer_elem_list_to_info(ml);
-+				int ch, idx = 0;
-+
-+				if (!is_feature_volume_mute_ctl(m) ||
-+				    m->control != UAC_FU_VOLUME || !m->cmask)
-+					continue;
-+				for (ch = 0; ch < MAX_CHANNELS; ch++) {
-+					if (!(m->cmask & BIT_ULL(ch)))
-+						continue;
-+					if (!test_bit(ch + 1, m->cached)) {
-+						idx++;
-+						continue;
-+					}
-+					/* seed from the first cached
-+					 * value: raw volume ranges can
-+					 * be signed and all-negative
-+					 */
-+					if (!have_ch ||
-+					    m->cache_val[idx] > ch_max)
-+						ch_max = m->cache_val[idx];
-+					have_ch = true;
-+					idx++;
-+				}
-+			}
-+			for_each_mixer_elem(ml, cval->head.mixer,
-+					    cval->head.id) {
-+				struct usb_mixer_elem_info *m =
-+					mixer_elem_list_to_info(ml);
-+				bool was_explicit;
-+
-+				if (!is_feature_volume_mute_ctl(m) ||
-+				    m->control != UAC_FU_VOLUME || m->cmask)
-+					continue;
-+				was_explicit = m->master_explicit;
-+				m->master_explicit = false;
-+				if (test_and_clear_bit(0, m->pending)) {
-+					/* an unflushed explicit value never
-+					 * reached the device: derive the
-+					 * master instead of writing it
-+					 */
-+					clear_bit(0, m->cached);
-+					re_push = true;
-+				} else if (was_explicit && have_ch &&
-+					   test_bit(0, m->cached) &&
-+					   m->cache_val[0] != ch_max) {
-+					/* a flushed explicit value that
-+					 * disagrees with the channels:
-+					 * the device master is stale
-+					 * until something re-derives it
-+					 */
-+					clear_bit(0, m->cached);
-+					re_push = true;
-+				}
-+			}
-+			if (re_push) {
-+				set_bit(MIXER_FLUSH_FULL,
-+					&cval->head.mixer->flush_flags);
-+				mixer_arm_flush(cval->head.mixer);
-+			}
-+		}
- 	} else {
- 		/* master channel */
-+		if (deferred && !test_bit(0, cval->cached)) {
-+			/* an ownership transfer dropped the cache entry:
-+			 * the device value is unknown and, on broken-GET
-+			 * controls, unreadable - record the request
-+			 * unconditionally instead of reading it back (the
-+			 * cache holds what user space last asked for)
-+			 */
-+			val = ucontrol->value.integer.value[0];
-+			if (val < 0 || val > max_val)
-+				return -EINVAL;
-+			val = get_abs_value(cval, val);
-+			if (!mixer_ch_readonly(cval, 0)) {
-+				set_bit(0, cval->cached);
-+				cval->cache_val[0] = val;
-+				set_bit(0, cval->pending);
-+				/* derivation ownership is a volume-master
-+				 * notion only (all readers filter on
-+				 * UAC_FU_VOLUME); a mute master records
-+				 * the same way but owns nothing
-+				 */
-+				if (cval->control == UAC_FU_VOLUME)
-+					cval->master_explicit = true;
-+				mixer_arm_flush(cval->head.mixer);
-+				return 1;
-+			}
-+		}
- 		err = snd_usb_get_cur_mix_value(cval, 0, 0, &oval);
- 		if (err < 0)
- 			return filter_error(cval, err);
-@@ -1650,9 +2148,25 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 			return -EINVAL;
- 		val = get_abs_value(cval, val);
- 		if (val != oval) {
--			err = snd_usb_set_cur_mix_value(cval, 0, 0, val);
--			if (err < 0)
--				return filter_error(cval, err);
-+			if (deferred) {
-+				/* record only; one flush writes the whole
-+				 * unit in a single burst.  Read-only
-+				 * masters keep the direct-path behaviour:
-+				 * no write, no cache update.
-+				 */
-+				if (!mixer_ch_readonly(cval, 0)) {
-+					set_bit(0, cval->cached);
-+					cval->cache_val[0] = val;
-+					set_bit(0, cval->pending);
-+					if (cval->control == UAC_FU_VOLUME)
-+						cval->master_explicit = true;
-+					mixer_arm_flush(cval->head.mixer);
-+				}
-+			} else {
-+				err = snd_usb_set_cur_mix_value(cval, 0, 0, val);
-+				if (err < 0)
-+					return filter_error(cval, err);
-+			}
- 			changed = 1;
- 		}
- 	}
-@@ -3259,6 +3773,8 @@ static void snd_usb_mixer_free(struct usb_mixer_interface *mixer)
- 	/* kill pending URBs */
- 	snd_usb_mixer_disconnect(mixer);
- 
-+	cancel_delayed_work_sync(&mixer->flush_work);
-+
- 	/* Unregister controls first, snd_ctl_remove() frees the element */
- 	if (mixer->id_elems) {
- 		for (id = 0; id < MAX_ID_ELEMS; id++) {
-@@ -3685,8 +4201,14 @@ void snd_usb_mixer_notify_id(struct usb_mixer_interface *mixer, int unitid)
- 		if (!list->is_std_info)
- 			continue;
- 		info = mixer_elem_list_to_info(list);
--		/* invalidate cache, so the value is read from the device */
--		if (!info->get_cur_broken)
-+		/* invalidate cache, so the value is read from the device;
-+		 * under QUIRK_FLAG_MIXER_STATE_REPUSH the deferred controls
-+		 * own their cache as the host-side truth and are never
-+		 * invalidated
-+		 */
-+		if (!info->get_cur_broken &&
-+		    !(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH &&
-+		      is_feature_volume_mute_ctl(info)))
- 			bitmap_zero(info->cached, MAX_CHANNELS + 1);
- 		snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
- 			       &list->kctl->id);
-@@ -3783,8 +4305,14 @@ static void snd_usb_mixer_interrupt_v2(struct usb_mixer_interface *mixer,
- 
- 		switch (attribute) {
- 		case UAC2_CS_CUR:
--			/* invalidate cache, so the value is read from the device */
--			if (!info->get_cur_broken) {
-+			/* invalidate cache, so the value is read from the
-+			 * device; under QUIRK_FLAG_MIXER_STATE_REPUSH the
-+			 * deferred controls own their cache as the
-+			 * host-side truth and are never invalidated
-+			 */
-+			if (!info->get_cur_broken &&
-+			    !(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH &&
-+			      is_feature_volume_mute_ctl(info))) {
- 				if (channel)
- 					clear_bit(channel, info->cached);
- 				else /* master channel */
-@@ -3914,6 +4442,7 @@ int snd_usb_create_mixer(struct snd_usb_audio *chip, int ctrlif)
- 	if (!mixer)
- 		return -ENOMEM;
- 	mixer->chip = chip;
-+	INIT_DELAYED_WORK(&mixer->flush_work, snd_usb_mixer_flush_work);
- 	mixer->ignore_ctl_error = !!(chip->quirk_flags & QUIRK_FLAG_IGNORE_CTL_ERROR);
- 	mixer->id_elems = kzalloc_objs(*mixer->id_elems, MAX_ID_ELEMS);
- 	if (!mixer->id_elems) {
-@@ -3976,13 +4505,51 @@ void snd_usb_mixer_disconnect(struct usb_mixer_interface *mixer)
- {
- 	if (mixer->disconnected)
- 		return;
-+	/* Every mod_delayed_work() call site either holds this lock and
-+	 * re-checks ->disconnected inside it, or runs from a PM callback
-+	 * (which completes before the USB core calls driver->disconnect),
-+	 * or is the flush worker itself before it returns.  Marking the
-+	 * mixer disconnected under the lock before cancelling therefore
-+	 * guarantees no flush can be armed after the cancel returns.
-+	 */
-+	scoped_guard(mutex, &mixer->lock) {
-+		mixer->disconnected = true;
-+	}
-+	cancel_delayed_work_sync(&mixer->flush_work);
- 	if (mixer->urb)
- 		usb_kill_urb(mixer->urb);
- 	if (mixer->rc_urb)
- 		usb_kill_urb(mixer->rc_urb);
- 	if (mixer->private_free)
- 		mixer->private_free(mixer);
--	mixer->disconnected = true;
-+}
-+
-+/**
-+ * snd_usb_mixer_stream_opened - notify mixers of a PCM stream open
-+ * @chip: the USB audio chip
-+ *
-+ * Called from the PCM open path.  Devices flagged
-+ * QUIRK_FLAG_MIXER_STATE_REPUSH request a full-state re-push (the
-+ * vendor driver's every-open write pattern, healing writes swallowed
-+ * in the post-enumeration loss window), merged into the flush timer
-+ * so the burst never observes a half-applied gesture.
-+ */
-+void snd_usb_mixer_stream_opened(struct snd_usb_audio *chip)
-+{
-+	struct usb_mixer_interface *mixer;
-+
-+	if (!(chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH))
-+		return;
-+
-+	list_for_each_entry(mixer, &chip->mixer_list, list) {
-+		scoped_guard(mutex, &mixer->lock) {
-+			if (mixer->disconnected)
-+				continue;
-+			set_bit(MIXER_FLUSH_FULL, &mixer->flush_flags);
-+			mod_delayed_work(system_wq, &mixer->flush_work,
-+					 MIXER_FLUSH_DELAY);
-+		}
-+	}
- }
- 
- /* stop any bus activity of a mixer */
-@@ -4007,6 +4574,16 @@ static int snd_usb_mixer_activate(struct usb_mixer_interface *mixer)
- 
- int snd_usb_mixer_suspend(struct usb_mixer_interface *mixer)
- {
-+	/* Do not wait for an in-flight flush here: its control writes can
-+	 * be blocked in runtime-PM resume, waiting for this very suspend
-+	 * callback to finish - cancel_delayed_work_sync() would deadlock
-+	 * the PM worker against the flush worker.  Cancel without waiting
-+	 * and mark the mixer suspended; a flush already in flight stops
-+	 * at the next unit (failed writes keep their values pending),
-+	 * and the resume path re-pushes the complete state.
-+	 */
-+	set_bit(MIXER_FLUSH_SUSPENDED, &mixer->flush_flags);
-+	cancel_delayed_work(&mixer->flush_work);
- 	snd_usb_mixer_inactivate(mixer);
- 	if (mixer->private_suspend)
- 		mixer->private_suspend(mixer);
-@@ -4021,6 +4598,17 @@ static int restore_mixer_value(struct usb_mixer_elem_list *list)
- 	if (cval->val_type == USB_MIXER_BESPOKEN)
- 		return 0;
- 
-+	/* Deferred controls belong to the flush mechanism: restore runs
-+	 * without the mixer lock, so writing them here could clobber
-+	 * values a concurrent deferred put just recorded, and it would
-+	 * re-send a derived master from a cache that lags its channels.
-+	 * The resume path requests a re-push that re-derives and
-+	 * re-asserts all of them instead.
-+	 */
-+	if (cval->head.mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH &&
-+	    is_feature_volume_mute_ctl(cval))
-+		return 0;
-+
- 	if (cval->cmask) {
- 		idx = 0;
- 		for (c = 0; c < MAX_CHANNELS; c++) {
-@@ -4067,6 +4655,25 @@ int snd_usb_mixer_resume(struct usb_mixer_interface *mixer)
- 
- 	snd_usb_mixer_resume_quirk(mixer);
- 
-+	/* A suspend may have cancelled a flush that had not fired yet,
-+	 * and restore_mixer_value() leaves the deferred controls to the
-+	 * flush: request the re-push that re-derives and re-asserts all
-+	 * of them.  No lock is taken here, not even trylock: a flush
-+	 * whose control write triggered this very resume holds the lock
-+	 * and must not be blocked or silently skipped - the worker
-+	 * re-checks the request bits after every run, so this never
-+	 * gets lost.  Arming without the lock is safe against teardown:
-+	 * the USB core autoresumes the device before calling the
-+	 * driver's disconnect, so this callback always runs before the
-+	 * flush work is cancelled for good.
-+	 */
-+	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH) {
-+		clear_bit(MIXER_FLUSH_SUSPENDED, &mixer->flush_flags);
-+		set_bit(MIXER_FLUSH_RESUME, &mixer->flush_flags);
-+		mod_delayed_work(system_wq, &mixer->flush_work,
-+				 MIXER_FLUSH_DELAY);
-+	}
-+
- 	return snd_usb_mixer_activate(mixer);
- }
- 
-diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
-index c40f83285..813a1694c 100644
---- a/sound/usb/mixer.h
-+++ b/sound/usb/mixer.h
-@@ -41,6 +41,15 @@ struct usb_mixer_interface {
- 
- 	bool disconnected;
- 
-+	/* atomic write bursts (QUIRK_FLAG_MIXER_STATE_REPUSH) */
-+	struct delayed_work flush_work;
-+	/* flush requests, atomic bit ops only (see mixer.c):
-+	 * 0 - re-push all cached volume values at the next flush
-+	 * 1 - resume: also re-assert cached mute switches
-+	 * 2 - suspend in flight: stop writing, retry after resume
-+	 */
-+	unsigned long flush_flags;
-+
- 	void *private_data;
- 	void (*private_free)(struct usb_mixer_interface *mixer);
- 	void (*private_suspend)(struct usb_mixer_interface *mixer);
-@@ -95,6 +104,14 @@ struct usb_mixer_elem_info {
- 	int dBmin, dBmax;
- 	DECLARE_BITMAP(cached, MAX_CHANNELS + 1);
- 	int cache_val[MAX_CHANNELS];
-+	/* channels changed since the last flush
-+	 * (QUIRK_FLAG_MIXER_STATE_REPUSH); same bit layout as cached
-+	 */
-+	DECLARE_BITMAP(pending, MAX_CHANNELS + 1);
-+	/* user space has put this master explicitly: stop deriving it from
-+	 * the channels (QUIRK_FLAG_MIXER_STATE_REPUSH)
-+	 */
-+	bool master_explicit;
- 	u8 initialized;
- 	u8 min_mute;
- 	u8 get_cur_broken;
-@@ -129,6 +146,8 @@ int snd_usb_mixer_vol_tlv(struct snd_kcontrol *kcontrol, int op_flag,
- int snd_usb_mixer_suspend(struct usb_mixer_interface *mixer);
- int snd_usb_mixer_resume(struct usb_mixer_interface *mixer);
- 
-+void snd_usb_mixer_stream_opened(struct snd_usb_audio *chip);
-+
- int snd_usb_set_cur_mix_value(struct usb_mixer_elem_info *cval, int channel,
-                              int index, int value);
- 
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index 57a26492d..ec8ad7bd7 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -24,6 +24,7 @@
- #include "power.h"
- #include "media.h"
- #include "implicit.h"
-+#include "mixer.h"
- 
- #define SUBSTREAM_FLAG_DATA_EP_STARTED	0
- #define SUBSTREAM_FLAG_SYNC_EP_STARTED	1
-@@ -1271,6 +1272,9 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
- 	if (ret < 0)
- 		goto err_resume;
- 
-+	/* may re-push the cached mixer state (write-loss recovery) */
-+	snd_usb_mixer_stream_opened(chip);
-+
- 	return 0;
- 
- err_resume:
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 6ef6d4410..5328faa3d 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2504,6 +2504,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x040b, 0x0897, /* XiiSound/Weltrend Temple and rebranded headsets */
- 		   QUIRK_FLAG_MIXER_INIT_VOLUME_MAX |
-+		   QUIRK_FLAG_MIXER_STATE_REPUSH |
- 		   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL |
- 		   QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL),
- 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
-@@ -2984,6 +2985,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
- 	QUIRK_STRING_ENTRY(ALWAYS_SET_RATE),
- 	QUIRK_STRING_ENTRY(SWAP_RATES),
- 	QUIRK_STRING_ENTRY(MIXER_INIT_VOLUME_MAX),
-+	QUIRK_STRING_ENTRY(MIXER_STATE_REPUSH),
- 	NULL
- };
- 
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 61794fdc4..4d7101fa5 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -271,6 +271,26 @@ extern bool snd_usb_skip_validation;
-  *  Initialize the volume control channels to the maximum instead of
-  *  the minimum; the controls remain writable and the hardware volume
-  *  operates normally afterwards.
-+ * QUIRK_FLAG_MIXER_STATE_REPUSH
-+ *  Some devices silently drop mixer writes issued in the first seconds
-+ *  after USB enumeration, and can drop individual writes at any later
-+ *  time as well, so the state the host believes in never reaches the
-+ *  hardware (and GET_CUR is typically broken on these devices, so the
-+ *  divergence cannot be detected by reading back).  The vendor's own
-+ *  Windows driver never reads back either: it collects the whole
-+ *  channel picture at a single source of truth and writes every
-+ *  channel of a control in one short burst, re-pushing the complete
-+ *  state at every device open.  Record volume and mute control writes
-+ *  instead of issuing them directly, and write each touched feature
-+ *  unit in one burst from a deferred flush (the master volume first,
-+ *  derived from the loudest channel unless user space wrote the
-+ *  master itself: an explicit master put owns the master until the
-+ *  next volume channel write of the unit); a PCM stream open or a
-+ *  resume
-+ *  requests a re-push of the cached volume values through the same
-+ *  timer, and a resume additionally re-asserts cached mute switches.
-+ *  Under this flag the cache holds what user space last asked for and
-+ *  is never invalidated by device status notifications.
-  */
- 
- enum {
-@@ -309,6 +329,7 @@ enum {
- 	QUIRK_TYPE_ALWAYS_SET_RATE		= 32,
- 	QUIRK_TYPE_SWAP_RATES			= 33,
- 	QUIRK_TYPE_MIXER_INIT_VOLUME_MAX	= 34,
-+	QUIRK_TYPE_MIXER_STATE_REPUSH		= 35,
- /* Please also edit snd_usb_audio_quirk_flag_names and alsa-configuration.rst */
- };
- 
-@@ -349,5 +370,6 @@ enum {
- #define QUIRK_FLAG_ALWAYS_SET_RATE		QUIRK_FLAG(ALWAYS_SET_RATE)
- #define QUIRK_FLAG_SWAP_RATES			QUIRK_FLAG(SWAP_RATES)
- #define QUIRK_FLAG_MIXER_INIT_VOLUME_MAX	QUIRK_FLAG(MIXER_INIT_VOLUME_MAX)
-+#define QUIRK_FLAG_MIXER_STATE_REPUSH		QUIRK_FLAG(MIXER_STATE_REPUSH)
- 
- #endif /* __USBAUDIO_H */
--- 
-2.56.1
+If a later step in __soc_pcm_open() fails, snd_soc_dai_shutdown() skips
+calling an7581_pcm_shutdown() on rollback, leaking priv->users and leaving
+priv->stream[substream->stream] pointing to a freed substream.
 
+> +static void an7581_pcm_shutdown(struct snd_pcm_substream *substream,
+> +				struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+> +	struct an7581_pcm_priv *priv =3D snd_soc_card_get_drvdata(rtd->card);
+> +
+> +	/* On close mask interrupt and disable DMA */
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+> +		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
+> +				  AN7581_PCM_IMR_TDESC_UPDATE_INT);
+> +		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
+> +				  AN7581_PCM_TXDMA_ENABLE);
+> +	} else {
+> +		regmap_clear_bits(priv->map, AN7581_PCM_IMR,
+> +				  AN7581_PCM_IMR_RDESC_UPDATE_INT);
+> +		regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
+> +				  AN7581_PCM_RXDMA_ENABLE);
+> +	}
+> +
+> +	priv->stream[substream->stream] =3D NULL;
+> +
+> +	usleep_range(10000, 20000);
+> +
+> +	mutex_lock(&priv->user_lock);
+> +
+> +	if (priv->users)
+> +		priv->users--;
+> +
+> +	if (!priv->users)
+> +		regmap_clear_bits(priv->map, AN7581_PCM_PICR,
+> +				  AN7581_PCM_CFG_VALID);
+> +
+> +	mutex_unlock(&priv->user_lock);
+> +}
+
+[Severity: High]
+Can an7581_pcm_irq_handler() race with an7581_pcm_shutdown() and dereference
+a freed substream->runtime?
+
+CPU0                              CPU1
+an7581_pcm_irq_handler()
+  substream =3D priv->stream[...]
+                                  snd_pcm_release_substream()
+                                    ...
+                                      an7581_pcm_shutdown()
+                                        priv->stream[...] =3D NULL
+                                    snd_pcm_detach_substream()
+                                      substream->runtime =3D NULL
+                                      kfree(runtime)
+  runtime =3D substream->runtime
+  frames_to_bytes(runtime, ...)   <-- NULL deref / use-after-free
+
+The driver neither sets card->snd_card->sync_irq nor synchronizes with the
+IRQ handler before clearing priv->stream[].  Similarly, on SNDRV_PCM_IOCTL_=
+DROP
+an in-flight IRQ waiting on pcm_stream_lock inside snd_pcm_period_elapsed()
+can resume after an7581_pcm_trigger(SNDRV_PCM_TRIGGER_STOP) finishes and
+write AN7581_PCM_TPDR or AN7581_PCM_RPDR to re-trigger DMA polling on the
+stopped stream.  In addition, an7581_pcm_startup() publishes priv->stream[]
+before hw_params() and prepare() initialize runtime and descriptors, while
+an7581_pcm_irq_handler() does not mask AN7581_PCM_ISR with AN7581_PCM_IMR.
+
+> +/*
+> + * Hardware position is always reset to the start when a TX/RX polling is
+> + * triggered. This is handled in trigger.
+> + */
+> +static int an7581_pcm_prepare(struct snd_pcm_substream *substream,
+> +			      struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+> +	struct an7581_pcm_priv *priv =3D snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+> +	struct an7581_pcm_desc *desc;
+> +	unsigned int period_bytes;
+> +	unsigned long flags;
+> +	int num_desc, i;
+> +
+> +	spin_lock_irqsave(&priv->desc_lock, flags);
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+> +		priv->tx_pos =3D 0;
+> +		priv->tx_desc_idx =3D 0;
+> +		desc =3D priv->tx_descs;
+> +		num_desc =3D AN7581_PCM_TX_DESCRIPTORS;
+> +	} else {
+> +		priv->rx_pos =3D 0;
+> +		priv->rx_desc_idx =3D 0;
+> +		desc =3D priv->rx_descs;
+> +		num_desc =3D AN7581_PCM_RX_DESCRIPTORS;
+> +	}
+> +	spin_unlock_irqrestore(&priv->desc_lock, flags);
+> +
+> +	period_bytes =3D frames_to_bytes(runtime, AN7581_PCM_FRAMES_PER_DESC);
+> +	for (i =3D 0; i < num_desc; i++) {
+> +		desc->status |=3D AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA;
+> +		desc->dma_addr =3D runtime->dma_addr + i * period_bytes;
+> +		desc++;
+> +	}
+> +
+> +	return 0;
+> +}
+
+[Severity: Medium]
+Can an in-flight an7581_pcm_irq_handler() race with an7581_pcm_prepare() or
+an7581_pcm_hw_params() on descriptor state?
+
+CPU0                              CPU1
+an7581_pcm_irq_handler()
+  spin_unlock_irqrestore(&priv->desc_lock, ...)
+  snd_pcm_period_elapsed(substream)
+                                  an7581_pcm_hw_params()
+                                    desc[0].status =3D ... /* OWNERSHIP_CPU=
+ */
+                                  an7581_pcm_prepare()
+                                    spin_lock_irqsave(&priv->desc_lock, ...)
+                                    priv->tx_pos =3D 0
+                                    priv->tx_desc_idx =3D 0
+                                    spin_unlock_irqrestore(&priv->desc_lock=
+, ...)
+  /* next loop iteration i =3D 1 */
+  spin_lock_irqsave(&priv->desc_lock, ...)
+  desc =3D &priv->tx_descs[priv->tx_desc_idx]
+  /* sees OWNERSHIP_CPU from hw_params */
+  priv->tx_pos +=3D ...
+  priv->tx_desc_idx++             <-- corrupts reset ring state
+
+an7581_pcm_irq_handler() drops priv->desc_lock before calling
+snd_pcm_period_elapsed() and setting AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA,
+and both an7581_pcm_prepare() and an7581_pcm_hw_params() modify desc->status
+outside priv->desc_lock without IRQ synchronization.  In addition,
+an7581_pcm_irq_handler() calls snd_pcm_capture_hw_avail() and
+snd_pcm_playback_hw_avail() without holding the PCM substream lock.
+
+> +static int an7581_pcm_hw_params(struct snd_pcm_substream *substream,
+> +				struct snd_pcm_hw_params *params,
+> +				struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+> +	struct an7581_pcm_priv *priv =3D snd_soc_card_get_drvdata(rtd->card);
+> +	unsigned int channels =3D params_channels(params);
+> +	unsigned int rate =3D params_rate(params);
+> +	int bit_width =3D params_width(params);
+> +	struct an7581_pcm_desc *desc;
+> +	int num_desc, i;
+> +
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+> +		desc =3D priv->tx_descs;
+> +		num_desc =3D AN7581_PCM_TX_DESCRIPTORS;
+> +	} else {
+> +		desc =3D priv->rx_descs;
+> +		num_desc =3D AN7581_PCM_RX_DESCRIPTORS;
+> +	}
+> +
+> +	mutex_lock(&priv->user_lock);
+> +	if (priv->users > 1 &&
+> +	    (priv->current_rate !=3D rate ||
+> +	     priv->current_channels !=3D channels)) {
+> +		dev_err(rtd->card->dev, "playback/capture rates/channels must match in=
+ full-duplex mode\n");
+> +		mutex_unlock(&priv->user_lock);
+> +		return -EBUSY;
+> +	}
+
+[ ... ]
+
+> +	if (priv->users <=3D 1) {
+> +		/* Enable channels */
+> +		regmap_update_bits(priv->map, AN7581_PCM_DCHENR,
+> +				   AN7581_PCM_CHAN_EN,
+> +				   FIELD_PREP(AN7581_PCM_CHAN_EN, GENMASK(channels - 1, 0)));
+> +
+> +		/* Signal PCM configuration is now valid */
+> +		regmap_set_bits(priv->map, AN7581_PCM_PICR,
+> +				AN7581_PCM_CFG_VALID);
+> +	}
+> +
+> +	priv->current_rate =3D rate;
+> +	priv->current_channels =3D channels;
+> +
+> +	mutex_unlock(&priv->user_lock);
+> +
+> +	return 0;
+> +}
+
+[Severity: High]
+Does opening both playback and capture substreams before calling hw_params()
+break full-duplex setup?
+
+an7581_pcm_startup() increments priv->users on open, so priv->users is
+already 2 when a full-duplex application opens both streams before configur=
+ing
+them.  On the first call to an7581_pcm_hw_params(), priv->current_rate and
+priv->current_channels are still 0 (or stale from an earlier session), caus=
+ing
+the priv->users > 1 check to reject hw_params() with -EBUSY; even if the
+values match a prior session, all shared register writes (AN7581_PCM_PICR
+including AN7581_PCM_CFG_VALID, AN7581_PCM_TRDRSR, AN7581_PCM_CHBFOSR and
+AN7581_PCM_DCHENR) are guarded by priv->users <=3D 1 and get skipped on both
+streams.  Also, AN7581_PCM_CHBFOSR is a single shared register programmed f=
+rom
+bit_width, but full-duplex compatibility does not check that bit_width matc=
+hes
+between playback and capture.
+
+[ ... ]
+
+> +static snd_pcm_uframes_t an7581_pcm_pointer(struct snd_soc_component *co=
+mponent,
+> +					    struct snd_pcm_substream *substream)
+> +{
+> +	struct snd_soc_card *card =3D component->card;
+> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
+> +	struct an7581_pcm_priv *priv;
+> +	unsigned long flags;
+> +	unsigned int pos;
+> +
+> +	priv =3D snd_soc_card_get_drvdata(card);
+> +
+> +	spin_lock_irqsave(&priv->desc_lock, flags);
+> +	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
+> +		pos =3D bytes_to_frames(runtime, priv->tx_pos);
+> +	else
+> +		pos =3D bytes_to_frames(runtime, priv->rx_pos);
+> +	spin_unlock_irqrestore(&priv->desc_lock, flags);
+> +
+> +	return pos % runtime->buffer_size;
+> +}
+
+[Severity: Medium]
+Can priv->tx_pos and priv->rx_pos overflow in an7581_pcm_pointer() during
+sustained streaming?
+
+an7581_pcm_irq_handler() increments priv->tx_pos and priv->rx_pos without
+wrapping at the buffer byte size.  On 32-bit builds, bytes_to_frames()
+computes size * 8 / runtime->frame_bits in signed 32-bit ssize_t, which
+overflows once 256 MiB is transferred; and when the 32-bit unsigned int
+counter wraps at 4 GiB, pos % runtime->buffer_size (1200 frames) jumps
+discontinuously because 2^32 is not a multiple of 1200.  Wrapping tx_pos and
+rx_pos modulo snd_pcm_lib_buffer_bytes(substream) when updating them avoids
+both issues.
+
+[ ... ]
+
+> +static irqreturn_t an7581_pcm_irq_handler(int irq, void *data)
+> +{
+> +	struct snd_pcm_substream *substream;
+> +	struct an7581_pcm_priv *priv =3D data;
+> +	unsigned long flags;
+> +	u32 status, isr =3D 0;
+> +	int ret;
+> +
+> +	regmap_read(priv->map, AN7581_PCM_ISR, &isr);
+> +
+> +	/* Scan descriptor on receiving RX desc update interrupt */
+> +	if (isr & AN7581_PCM_IMR_RDESC_UPDATE_INT) {
+> +		struct snd_pcm_runtime *runtime;
+> +		struct an7581_pcm_desc *desc;
+> +		unsigned int sample_size;
+> +		bool rx_poll =3D false;
+> +		int i;
+> +
+> +		ret =3D IRQ_HANDLED;
+> +
+> +		substream =3D priv->stream[SNDRV_PCM_STREAM_CAPTURE];
+> +		if (!substream) {
+> +			ret =3D IRQ_NONE;
+> +			goto handle_tx;
+> +		}
+> +
+> +		runtime =3D substream->runtime;
+> +
+> +		for (i =3D 0; i < AN7581_PCM_RX_DESCRIPTORS; i++) {
+> +			spin_lock_irqsave(&priv->desc_lock, flags);
+> +
+> +			desc =3D &priv->rx_descs[priv->rx_desc_idx];
+> +			status =3D desc->status;
+> +			if ((status & AN7581_PCM_DESC_STATUS_OWNERSHIP) =3D=3D
+> +			    AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA) {
+> +				spin_unlock_irqrestore(&priv->desc_lock,
+> +						       flags);
+> +				break;
+> +			}
+> +
+> +			sample_size =3D FIELD_GET(AN7581_PCM_DESC_STATUS_SAMPLE_SIZE,
+> +						status);
+> +
+> +			priv->rx_pos +=3D frames_to_bytes(runtime, sample_size);
+> +			priv->rx_desc_idx++;
+> +			if (priv->rx_desc_idx =3D=3D AN7581_PCM_RX_DESCRIPTORS)
+> +				priv->rx_desc_idx =3D 0;
+> +
+> +			spin_unlock_irqrestore(&priv->desc_lock, flags);
+> +
+> +			snd_pcm_period_elapsed(substream);
+> +
+> +			desc->status |=3D AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA;
+> +
+> +			if (snd_pcm_capture_hw_avail(runtime) < runtime->period_size)
+> +				goto handle_tx;
+> +
+> +			rx_poll =3D true;
+> +		}
+> +
+> +		if (rx_poll)
+> +			regmap_write(priv->map, AN7581_PCM_RPDR, AN7581_PCM_RX_POLLING);
+> +	}
+> +
+> +handle_tx:
+> +	/* Scan descriptor on receiving TX desc update interrupt */
+> +	if (isr & AN7581_PCM_IMR_TDESC_UPDATE_INT) {
+> +		struct snd_pcm_runtime *runtime;
+> +		struct an7581_pcm_desc *desc;
+> +		unsigned int sample_size;
+> +		bool tx_poll =3D false;
+> +		int i;
+> +
+> +		ret =3D IRQ_HANDLED;
+> +
+> +		substream =3D priv->stream[SNDRV_PCM_STREAM_PLAYBACK];
+> +		if (!substream)
+> +			return IRQ_NONE;
+> +
+> +		runtime =3D substream->runtime;
+> +
+> +		for (i =3D 0; i < AN7581_PCM_TX_DESCRIPTORS; i++) {
+> +			spin_lock_irqsave(&priv->desc_lock, flags);
+> +
+> +			desc =3D &priv->tx_descs[priv->tx_desc_idx];
+> +			status =3D desc->status;
+> +			if ((status & AN7581_PCM_DESC_STATUS_OWNERSHIP) =3D=3D
+> +			    AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA) {
+> +				spin_unlock_irqrestore(&priv->desc_lock,
+> +						       flags);
+> +				break;
+> +			}
+> +
+> +			sample_size =3D FIELD_GET(AN7581_PCM_DESC_STATUS_SAMPLE_SIZE,
+> +						status);
+> +
+> +			priv->tx_pos +=3D frames_to_bytes(runtime, sample_size);
+> +			priv->tx_desc_idx++;
+> +			if (priv->tx_desc_idx =3D=3D AN7581_PCM_TX_DESCRIPTORS)
+> +				priv->tx_desc_idx =3D 0;
+> +
+> +			spin_unlock_irqrestore(&priv->desc_lock, flags);
+> +
+> +			snd_pcm_period_elapsed(substream);
+> +
+> +			desc->status |=3D AN7581_PCM_DESC_STATUS_OWNERSHIP_DMA;
+> +
+> +			if (snd_pcm_playback_hw_avail(runtime) < runtime->period_size)
+> +				return IRQ_HANDLED;
+> +
+> +			tx_poll =3D true;
+> +		}
+> +
+> +		if (tx_poll)
+> +			regmap_write(priv->map, AN7581_PCM_TPDR,
+> +				     AN7581_PCM_TX_POLLING);
+> +	}
+> +
+> +	return ret;
+> +}
+
+[Severity: Medium]
+As reported by Mark Brown on v5 [1], can an7581_pcm_irq_handler() return an
+uninitialized ret or clobber IRQ_HANDLED with IRQ_NONE?
+
+If neither AN7581_PCM_IMR_RDESC_UPDATE_INT nor AN7581_PCM_IMR_TDESC_UPDATE_=
+INT
+is set in isr, an7581_pcm_irq_handler() returns ret without initializing it.
+Also, if the RX path handles an interrupt (setting ret =3D IRQ_HANDLED) and
+AN7581_PCM_IMR_TDESC_UPDATE_INT is also set while the playback substream is
+NULL, the TX path returns IRQ_NONE instead of preserving IRQ_HANDLED.
+
+[Severity: High]
+Does jumping out of the descriptor loops when hw_avail < runtime->period_si=
+ze
+stall DMA polling and mishandle XRUNs?
+
+If an earlier descriptor in the same interrupt set rx_poll or tx_poll and t=
+he
+next descriptor sees hw_avail < runtime->period_size, jumping to handle_tx =
+or
+returning IRQ_HANDLED skips the AN7581_PCM_RPDR / AN7581_PCM_TPDR write and
+leaves any remaining completed descriptors unexamined; even on the first
+descriptor, skipping the poll write while the stream is still running stalls
+DMA because there is no .ack callback to restart polling.  In addition,
+snd_pcm_capture_hw_avail() and snd_pcm_playback_hw_avail() return signed
+snd_pcm_sframes_t whereas runtime->period_size is unsigned snd_pcm_uframes_=
+t,
+so negative values on overrun or underrun promote to large unsigned values
+and re-trigger DMA polling after snd_pcm_period_elapsed() has stopped the
+stream.
+
+[ ... ]
+
+> +static int an7581_pcm_probe(struct platform_device *pdev)
+> +{
+> +	struct snd_soc_card *card =3D &an7581_pcm_card;
+> +	struct snd_soc_dai_link *dai_link;
+> +	struct device *dev =3D &pdev->dev;
+> +	struct an7581_pcm_priv *priv;
+> +	struct reset_control *reset;
+> +	void __iomem *base;
+> +	int irq;
+> +	int ret;
+> +	int i;
+
+[ ... ]
+
+> +	irq =3D of_irq_get(dev_of_node(dev), 0);
+> +	if (irq < 0)
+> +		return irq;
+
+[Severity: Medium]
+Does this miss IRQ mapping failures when of_irq_get() returns 0?
+
+of_irq_get() returns 0 on mapping failure (or when CONFIG_OF_IRQ is disable=
+d),
+so checking only irq < 0 passes irq =3D=3D 0 to devm_request_irq().  Using
+platform_get_irq(pdev, 0) handles this and returns a negative errno.
+
+> +
+> +	ret =3D devm_request_irq(dev, irq, an7581_pcm_irq_handler,
+> +			       0, dev_name(dev), priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	spin_lock_init(&priv->desc_lock);
+> +	mutex_init(&priv->user_lock);
+> +
+> +	/* Reset the PCM interface */
+> +	reset_control_assert(reset);
+> +	usleep_range(5000, 10000);
+> +	reset_control_deassert(reset);
+> +	usleep_range(5000, 10000);
+> +
+> +	ret =3D dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv->tx_descs =3D dmam_alloc_coherent(dev, sizeof(struct an7581_pcm_de=
+sc) *
+> +					     AN7581_PCM_TX_DESCRIPTORS, &priv->tx_dma,
+> +					     GFP_KERNEL);
+> +	if (!priv->tx_descs)
+> +		return -ENOMEM;
+> +
+> +	priv->rx_descs =3D dmam_alloc_coherent(dev, sizeof(struct an7581_pcm_de=
+sc) *
+> +					     AN7581_PCM_RX_DESCRIPTORS, &priv->rx_dma,
+> +					     GFP_KERNEL);
+> +	if (!priv->rx_descs)
+> +		return -ENOMEM;
+
+[ ... ]
+
+> +	ret =3D devm_snd_soc_register_card(dev, card);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "%s snd_soc_register_card fail\n", __fu=
+nc__);
+> +
+> +	return 0;
+> +}
+> +
+> +static void an7581_pcm_remove(struct platform_device *pdev)
+> +{
+> +	struct snd_soc_card *card =3D &an7581_pcm_card;
+> +	struct an7581_pcm_priv *priv;
+> +
+> +	priv =3D snd_soc_card_get_drvdata(card);
+> +	regmap_clear_bits(priv->map, AN7581_PCM_IMR,
+> +			  AN7581_PCM_IMR_TDESC_UPDATE_INT |
+> +			  AN7581_PCM_IMR_RDESC_UPDATE_INT);
+> +	regmap_clear_bits(priv->map, AN7581_PCM_TRDCR,
+> +			  AN7581_PCM_TXDMA_ENABLE |
+> +			  AN7581_PCM_RXDMA_ENABLE);
+> +}
+
+[Severity: High]
+Can requesting the IRQ before initializing locks, resetting the hardware, a=
+nd
+allocating descriptors cause an7581_pcm_irq_handler() to run against
+uninitialized state or during reset?
+
+devm_request_irq() enables the interrupt before priv->desc_lock is
+initialized, before reset_control_assert() holds the PCM block in reset acr=
+oss
+a 5-10 ms sleep, and before priv->tx_descs and priv->rx_descs are allocated.
+Because devres tears down resources in reverse registration order, this also
+causes dmam_alloc_coherent() to free priv->rx_descs and priv->tx_descs befo=
+re
+devm_request_irq() frees and synchronizes the IRQ, while an7581_pcm_remove()
+runs before devm_snd_soc_register_card() unregisters the card.
+
+[1] https://lore.kernel.org/r/179425987829.3711751.2911706702501919873.b4-r=
+eview@b4
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117193851.2352=
+72-1-ansuelsmth@gmail.com?part=3D2
