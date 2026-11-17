@@ -1,98 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.10
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794921086;
-	b=uCdGY2E+lPsIHUwoq/yckSUHQD+AXvUc/1OqNUo0+fN63HZtHZTK8CV/50Fm2RRQtGim
-	 /0BEF96cd79YriLYXETVS7GicBfhAjZcQQbbA6fhPvGChp0YapddupDs3+9ExcCC9duIZ
-	 VEg69R9BbNeSOrQtohjmZizvZEG5Y8BwwKzWdW1pEfohzxtTdaq6u8mCIpNCe9yxDaUYt
-	 e1jxCiZKGSRDEesqg9Pz22Tu/jHH/L+/9Na2paA8SrAzkQ/Yg5AxGl8/RtbH9Pzdhk6yD
-	 UnpIJdIrGaeXxDChSFmWbs6llt5L+EI9O/qG5Jw6ZNF7ytOxYtPSIPTLik/Nlgjo09g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794921086;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:From:Subject:To:Cc:References:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=lzztRhRnTleJnVsoeSAAS/mmaO5nxTVrZC5UcrA5i7A=;
-	b=ToG8sZDSvVl3aKuJKdOzg6zKwl/ttiQew+f9/mOx41wz88Y4ogTKs9HRVydp1wOLV4UO
-	 D3qLLUQUnEmW33MhU4vcetWOtxfsHR3+kSSNAhp3VdAmEXjjlboHweeAbZZhqrfaKboi0
-	 J0pYgZ7/2cYMMBFpTDOxPOC2jiqhxbZXaWskuKiA/wrnstcY+1h4ASdx+F8F0hoIeLBe7
-	 NkHswxU5T2gmH6df8P1cVjLWPV5TVaNxE1eOVEBwtuLKTfRlPTgpONES/euPA8lT1zKQ6
-	 Z3gDm7xTePUy+9vlG/IibnY9Kq3QdBhx+duRjIi3YPr7InZPgQDpz1AFTdahhIIeVmg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=jAjJQXzZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.201.10
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010010.outbound.protection.outlook.com [52.101.201.10])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794921188;
+	b=pePOQRUgzK03DkqfF7DMjdtUmZ3zfBbLjvYm4u6zpTj4BWaD9i+p0g7oQLIDWlvTG24g
+	 EpANpbI2z83LyG33jPIk/7OePaf7jkC4w3FLbqj2/aNdkbs4M8pqLRYtbhvpMJW/eZ9VH
+	 cHI4nqhCt0vDAXZQ7/5X95SXyjwNcBFMOKztwMxNTE8c/W8UY0FK5aPOh+Cc7IfweMNDb
+	 FRvSZHkSVWLNTrQE/ZUn7vcJP5m8unGFz3+NNJDDyr99f5ncRuPL0wiymZkvp1ki/zLtO
+	 m/f61b/DzYs0tyfGSaU7aK9sMZJN76EwiDnygYIGL1MhIXWGTyU5TKyrGSueUTpEZnA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794921188;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=MW/9Bku7L6lN4y6SoCrZbJlJzLf0+s+MNZaAl7c8zFc=;
+	b=mlmvdEyLIwyYAM7xZ/DdCgGnJEsU6X58DKMZLLhFhETvh+PSTGRFI1vMjkzSQjbb4VLz
+	 wZgvV/G+Fsj80cAMkF4clLcFji/BEBjlKmgk/J6HXHpumxzSW01w+9w00x94t7iBmEJJY
+	 CKQh0hWHlMwlyyQuvqphUzxFdQQfkoUDp6pP3rhGDVQZm3gxAxGpZvZ2kYIAMAgb0YU/J
+	 DBbwmL96tvJidlOCWqgwiIW+BAuft3ItaD0VeG0jU8zWhdy3V4myaxaPcVYm97kVUE8e9
+	 VjC3cAyDAHG7YzCktcw4Tr89xG21k9lLIC401HJbmErBMvKuoGbkSQgugaCdzNpd9qQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuQebFNj;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B018B606A329
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 13:11:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B018B606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC771606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 13:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=jAjJQXzZ
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PNXLLXgrHIBCWMXBUr+JFFdL71BMu49c0govI7NTn0BV1UUjFPSln5wcKW8C14Zj2HXDkBb+6hxbzGBULfDQgnIK42DWTF1+dOteJc7hZkRYN18qt8W0WR9aCNFaSOwLm6PorwcBWVAQ6EANqHZ5nLRizxQEEmb0SbIE2i3uVmok/YHBVDP4382m8my5CsPwfZmvak+mR+HMbyHDO+mVTotA3jxXGFknrpGnVGSwGNgQpbk3agUQP60TFfbGn5ZhNILSqErzV8/d1v00soVpzilLpNLD+Sdf3RK2BqUTbviDyUja1BqYNAvME1I42UpYI+o/p8NUUOETEQ75V3dlrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lzztRhRnTleJnVsoeSAAS/mmaO5nxTVrZC5UcrA5i7A=;
- b=prK0uNzAJXr+hQWP+PyCCXv7fOIVSqev/VWzj3E4yo2GueN2VBWpH7uD1V9tAoAJGBYfICyWoC2FVpWSbCySIqG7VGdi9eoZ5WClIVJNbwVauFHdA0a62IIAj0fkfU5R/WVJ5PdtNcOFExVDmUK6jRBiN8zJxp4k2h8rwUhi80kDxHWgrHyJjspPeTGl3Y9wZpmUppTgSJIzLoA/fkpmbzrZrQ3McxC9mW+cLqiTr41pBIImwbqIbceVY9ShNKSVEwD8UypMqkkmp/ne5Pix6bh1C7XgYx2xGb8yrj90nB7NPLENFb/K6ZBcADwWQvjNOGRZyKy0VjzEyr2KxlLNeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lzztRhRnTleJnVsoeSAAS/mmaO5nxTVrZC5UcrA5i7A=;
- b=jAjJQXzZPDd7mn/za2cKG4M3F/N66XrkxbIkGIyAFThK5EkMIDzLVkZv5zrOx70vt0H8RC859RQUvpr7HSsL+pw0uZnr3sGjmYnvaOtgagv+mgY4FM1aNaStcFqqW7+iW6ytQKgGlt3uBHC68QjGrR+JDn6BVP97aYv++2abMOw=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by SA3PR12MB324197.namprd12.prod.outlook.com (2603:10b6:806:536::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 13:11:23 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 13:11:23 +0000
-Message-ID: <34ab249a-c06d-48a5-badd-5f7c8799d57f@amd.com>
-Date: Tue, 17 Nov 2026 18:44:12 +0530
-User-Agent: Mozilla Thunderbird
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-Subject: Re: [PATCH v6 16/23] soundwire: amd: delay *sdw_ctx publication until
- after startup succeeds
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, "vkoul@kernel.org" <vkoul@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
- <20261117070906.803139-17-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-218354@kernel.org>
-Content-Language: en-US
-In-Reply-To: <sashiko-outbox-218354@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0036.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:81::12) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TuQebFNj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5146C1F000C4;
+	Tue, 17 Nov 2026 13:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794921188;
+	bh=MW/9Bku7L6lN4y6SoCrZbJlJzLf0+s+MNZaAl7c8zFc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=TuQebFNjzwJkHXPNDaHOv+SNE+YFyMOqwFKio5ijODQGuCa1ubvVLTpPuahd6Rtui
+	 ViazdUe9W7DVz0+OTmuzIjX3hZj7wEdv9CTRwg0m7/FpBYGYpvrRwcEAh1qCNLZlIW
+	 GK7Tum2KgwafLxdfNtsnjc0R+mi9ag57BUm9nGwS/OyHUvhfn6KDE/HHIckDzsngsy
+	 vyyLQU+MbzJeatDIvgXnFgNyBtiSLgLoaryZA5bjDp/EiVivV+qXcWhJ4qnnp7wdHN
+	 1cQC5HJ8eT1Tt3/orsNwD+MtSSDg7GCKCL/fWR29FHsveDeUH9jstVRj4ukQYDHKVO
+	 is1hDqMMYd5Aw==
+Message-ID: <sashiko-outbox-218847@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH v4 2/2] ALSA: usb-audio: add MIXER_STATE_REPUSH
+ quirk flag
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pavel Artemev" <a@pavel.bz>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261117124242.12237-3-a@pavel.bz>
+References: <20261117124242.12237-1-a@pavel.bz>
+ <20261117124242.12237-3-a@pavel.bz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 13:13:07 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,184 +60,221 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|SA3PR12MB324197:EE_
-X-MS-Office365-Filtering-Correlation-Id: 152b732a-c5f8-4c11-e6c1-08df44ac4740
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|18002099003|6133799003|22082099003|261009223027099003|3023799007|4143699003|56012099006|11063799006|261102123227099003|261102130727099003|261028144727099003|261026140227099003|261026121527099003|261021121427099003|261022075727099003|261022105027099003|261021123027099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	o+4owj9agyvUngezhNKP7Zk61IeQ6/UzGjDOZ0O5//uH6bq46l9txeRJ4xNAIPp9B9zzE/jSLs0I1zAGj8SYf+YgIWDRHfvPqDMycwgtaW779+LlLqoNJ9AJt76bv/kNEt6RngyEMEwpxV9A3bsXIPeTd7TkWRC3xvlP1ztQieRLUomj1nJZ0cQUjZQvypvaVKP05n+Gubj0CmMlOQuFXMHeJCbHwtmZuK0f9IJO7WqhasUQax6gSwsTKrFbKjVDOHL5hOxSwb3NLW8A8RMANNOZB3ZfLwwu3Zr9OrggsjPjaNh76NFtfoSTLW5rwLwxtTih2vco1tHQu5nIpH6YW4EOYFOLojDyERAsUC3NEpQVLItLvita3Pc19Y634erByvlsw4cQTHbgiGM+auY51GYapzD5cm/g2nrUeSWwgaTsdc3RzTlkvGPTlmxyOjVYwJyC14eFKRp6i9D2Dm3jCLqQBgoJwYyhShk6OpDHTQpJV58xjr6YldNZcmRufXT4DS7X9RMrvgeyKciPUxMm1igPDgbg3fjliXKiF4ktMcFFkZ+4YG13IaSKzw5u1u5iNBrsG5Vs85gWiXNSKpfAhJHsCkdJxrYGjqLn2/8cP+u/+UkdaMmXTbdgjUG3EBu93DstEZNfjBnRiRz6mZIAhA5Ev1WIoojedZG2YP6bwoY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(18002099003)(6133799003)(22082099003)(261009223027099003)(3023799007)(4143699003)(56012099006)(11063799006)(261102123227099003)(261102130727099003)(261028144727099003)(261026140227099003)(261026121527099003)(261021121427099003)(261022075727099003)(261022105027099003)(261021123027099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OGNsRXVKRDV3NmIvN0NXdWI2MlByNVpwbDMvYnQ2a3VxWU1jd1dWUnQxQjRT?=
- =?utf-8?B?NnVJcE5KdU04aXZrTzluSFFYbWxTcHNuTThmY0E3UVorbnp4a0lwUlp2b1hz?=
- =?utf-8?B?dm9wK2tpdkdPcWtjbXQ3cEE1b2EyVWN3Zy9uQ04yN21vdEV6cXJld09SVWQ0?=
- =?utf-8?B?UGUwOEM1c2lFckNJSnpTSzg2N2tVNlN3NDI5NWZCS01LUEVhUnkyMGJ6NFdq?=
- =?utf-8?B?cmRPNk9OSTVSbFg4eFp2bU10eElEY1Y3RXpaM3JVSkg5K0tBanRrbHE1UEJX?=
- =?utf-8?B?YU4vMnlKcVQ1TG80QUx1RUQ4WDVjUzQyeHZRdUVvVmdxOFhuNmlBaHF5UGJ0?=
- =?utf-8?B?ZU1ZKzV5UmJWQTVvbzVGU2g3Z1RITU9PK3ptQ1R0N3JZTjIzeDc3WDRlU0Nn?=
- =?utf-8?B?WUhTL2VzdnliV2xheTVvZ2NqNDcxRk5ieUJteFdHc2k2TTRXTFZ3Q3kzVHJU?=
- =?utf-8?B?MHVabE9pLzV5QVAzdlZzeEh1cjcvV1VtOSs2dmVHK1oxb3IyZ0toRm1QbFZ5?=
- =?utf-8?B?WDJ4SzR2eVhZUkRsZkgxNEc1NE01Z3RSVjAwUEsxZzE3YXg2VjdqWUpjcFE4?=
- =?utf-8?B?UjVINmVHTURkZ1FmTzc5REM1elV0VGc2a0hYaFl1a1BVMWFMaitPS3hYOVAr?=
- =?utf-8?B?LzlJYmljS1daMUgyMkV1US96WHJkY2gwUys0YjZpaU1pUktDdU9UbzdJUWMv?=
- =?utf-8?B?SDV1OXg0SU9nbDNGNFR6Q3hYcFg0ZHo4MU4yZ2VUNDFQNDArVG1yQnI2UWFH?=
- =?utf-8?B?NWVZMkZIRHIrY3RhaXltU0JWWFR6RkdNOWx3a3VvdStnbVdmbm94aDhFcVdG?=
- =?utf-8?B?MSs5MlJLNlZNcnNxVE9Bd2laV0E5ZjVhcTZPM0d3aDA0M0FGQVBQVzBlNzJO?=
- =?utf-8?B?L3F5SVViL29NQW43QXFNMGsxekphWkVzaUhTYlEyUmhJTkN3L1RHWWdFVERH?=
- =?utf-8?B?NCtrakJ6OElOR3JLNjVOQUhnUnFCNFo0eVY0dERWa2FCd1laZmhWeCtmcjVw?=
- =?utf-8?B?bXpiVzB0MmxmNy90VjZNeFRWakhIb0p3dllEVXIrOFN5SjRkWm9VL3A4cmcz?=
- =?utf-8?B?a2p1cEJSTG91c0dtNWFTQ2hkU0hPVE5Mamo2S0JuVG44eG9xNElZWXZZWVNX?=
- =?utf-8?B?UjA4M3NNRzZSVGhibU9VUUpYN2EvMVd6cjFRT0RrRzNzZ21Tek1uU29GRjFV?=
- =?utf-8?B?Zk03S0RleGgyazZyL3ZtZjFxN1RCNUlKL2tjZ1FyRk80UjU3amdJVFJ1bEo1?=
- =?utf-8?B?bmZIY053Qm15UVhQYU56RUNlYnlVSHJyc0E1c2E3MjFCQmRrUVpKSmdlRG14?=
- =?utf-8?B?NDl0MjFpZURmU2VRWERsN0tmMUZkL3FiWG1KK2lCelhMZ2V0ZkF2STdxd1hF?=
- =?utf-8?B?MXlWRVNKZ1c3aHczYzlKNElTS2JFQzM1MzZYMFNyNE1BTGtVU2MyYnZndlZQ?=
- =?utf-8?B?MStDd1Q1V00xbWZlUWptL0NpV2x2UmlRSmR3TnZYbkM4dHBpeW9VdEtqUERi?=
- =?utf-8?B?K0tlZnZBZXFQcm94SnFZR0FQN29BM2puRVB6ZG1QRFNjeHRDS1VmbDcrNWMx?=
- =?utf-8?B?YWpTM2MzNXFOWE0xbUZId2hSeEtHb0dSUzVMb2JUVzJrRGh5bUllVG5NcmEy?=
- =?utf-8?B?SWlBUFdFbUpaTWV4NlY0Q1hzMTFVcGdRcXFSckVBRW9qVXhRUHRuSUYwcWYx?=
- =?utf-8?B?VzhCSjhxeHp3UEZPc0xWdTRaR0c1Rkx1akdoTmwyYU1vS3ZmeWZIT1VGcU5O?=
- =?utf-8?B?bGhVbUREUkFkSFpwZkF3R2VHaVMxS0JpRFhxKzl1aWVyK3JPaVBNbUxNZTgz?=
- =?utf-8?B?akN4Q1hGYVY0OEhqbU96K200ZUJTVzVodzhWdUhsa3ViZkRwaWRodVF0TS9N?=
- =?utf-8?B?WGdFdDJheWlQa2tDcVh4OTl4ZjBrVXdobkF5V2V5VW1mMlRLalRualFKd0JT?=
- =?utf-8?B?YWJhZVZENU5aRDNXWGE5M1V6WHA5VkxMSVZMTTQ2dXpOL3FQcldZUlNtdm9q?=
- =?utf-8?B?b2NXa3ZWKytoVjJTMjdHeG9iL002N01HOUV6NjBLTk9SU2ViTUpzVVVWNFBV?=
- =?utf-8?B?WUFmYWVsL3VwVnQrcFUrUy9UQ1d1ZFowYmRrc1NyclNpS0JZeUZWVVJyTUZP?=
- =?utf-8?B?M0ZrUzhTTkVjMVBSUEJRZWRReVY4U1h6Ty9aTDNabmRmYzdSS3hyVEZFZE9l?=
- =?utf-8?B?bys2R2VDMGRXNWlhOGZ6QUJLUFNyV2dtSDhaMWQ5OUc0eExWTTNvYnR3NFNt?=
- =?utf-8?B?T3JEVFY0QXlnNWhUd3Fpak5KWk1TU3RiSStVV09WWU5yUHZCVjVmc0F1VkF2?=
- =?utf-8?B?QlIxd1VKNWc3bWZQYnY1eUJsM0hnS3JTTm94dkQrZ24xQlAvcWptdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 152b732a-c5f8-4c11-e6c1-08df44ac4740
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 13:11:23.5315
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x24hbEUoaJuoib8+uUhEie7nSx+IIbkqmpWr6jrHmZ2UKtKn3RV1Ah7uGIMxJxIRvP41AKFz2a0iblXV/x4gng==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB324197
 
-On 17/11/26 13:01, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] soundwire: amd: lost IRQs in sdw_amd_startup() while *sdw_ctx
->   is NULL
-> --
->
-> commit 63d0953ca7aecb37f123b556809d3ebfd5afacf0
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
-> soundwire: amd: delay *sdw_ctx publication until after startup succeeds
->
-> This commit delays assigning *sdw_ctx in sdw_amd_probe() until
-> sdw_amd_startup() succeeds, and calls sdw_amd_exit() on failure.
-Will fix in v7; details inline.
->> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
->> index 8019a4faeae5b..74d6c0f371046 100644
->> --- a/drivers/soundwire/amd_init.c
->> +++ b/drivers/soundwire/amd_init.c
->> @@ -182,11 +182,20 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
->>  
->>  int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
->>  {
->> -	*sdw_ctx = sdw_amd_probe_controller(res);
->> -	if (!*sdw_ctx)
->> +	struct sdw_amd_ctx *ctx;
->> +	int ret;
->> +
->> +	ctx = sdw_amd_probe_controller(res);
->> +	if (!ctx)
->>  		return -ENODEV;
->>  
->> -	return sdw_amd_startup(*sdw_ctx);
->> +	ret = sdw_amd_startup(ctx);
->> +	if (ret) {
->> +		sdw_amd_exit(ctx);
->> +		return ret;
->> +	}
->> +	*sdw_ctx = ctx;
->> +	return 0;
->>  }
->>  EXPORT_SYMBOL_NS(sdw_amd_probe, "SOUNDWIRE_AMD_INIT");
-> [Severity: Medium]
-> Can delaying the assignment to *sdw_ctx until after sdw_amd_startup() drop
-> initial peripheral attachment interrupts?
-Yes, the scenario is correct.
-> All callers of sdw_amd_probe() register the top-level ACP PCI interrupt
-> handler before calling sdw_amd_probe(&sdw_res, &adata->sdw), and
-> sdw_amd_startup() -> amd_sdw_manager_start() unmasks the manager
-> interrupts and starts the bus before sleeping in readl_poll_timeout():
->
-> CPU0                              CPU1 (<hardirq>)
-> sdw_amd_probe()
->   sdw_amd_startup(ctx)
->     amd_sdw_manager_start()
->       amd_enable_sdw_interrupts()
->       amd_enable_sdw_manager()
->         readl_poll_timeout(...)
->                                   acp63_irq_handler()
->                                     writel(ACP_SDW0_STAT, ...);
->                                     if (adata->sdw)  <-- NULL, IRQ dropped
->   *sdw_ctx = ctx;
->
-> In acp63_irq_handler() and acp_irq_handler():
->
-> sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
-> 	if (ext_intr_stat & ACP_SDW0_STAT) {
-> 		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
-> 		if (adata->sdw) {
-> 			amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
-> 			if (amd_manager)
-> 				schedule_work(&amd_manager->amd_sdw_irq_thread);
-> 		}
-> 		irq_flag = 1;
-> 	}
-> }
->
-> Because ACP_SDW0_STAT is cleared in ACP_EXTERNAL_INTR_STAT without
-> scheduling amd_sdw_irq_thread, ACP_SW_STATE_CHANGE_STATUS_0TO7 is never
-> processed and cleared, losing the peripheral attachment interrupt so
-> peripherals fail to enumerate.
-Agreed. ACP_SW_STATE_CHANGE_STATUS_0TO7 and 8TO11 are pure status
-registers; pending bits there do not re-assert ACP_SDW0_STAT or generate
-a new PCI interrupt. The attachment event is permanently lost.
->   On ACP7x SOF, acp7x_irq_handler() guards
-> sof_acp7x_handle_sdw_manager_irq() altogether with if (adata->sdw),
-> leaving the level-triggered shared PCI interrupt unacknowledged and
-> returning IRQ_NONE while sdw_amd_startup() sleeps.
-Agreed. Returning IRQ_NONE without clearing ACP_SDW0_STAT leaves the
-level-triggered PCI interrupt unacknowledged, causing an interrupt storm
-during the startup window.
->
-> Would it be better to publish *sdw_ctx before sdw_amd_startup(), and reset
-> *sdw_ctx = NULL on failure before calling sdw_amd_exit(ctx)?
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] ALSA: usb-audio: stale pending master state in
+  mixer_ctl_feature_put()
+- [Medium] ALSA: usb-audio: derived master not restored in
+  snd_usb_mixer_flush_pending()
+- [Medium] ALSA: usb-audio: missing disconnected check in
+  mixer_ctl_feature_put()
+--
 
-Yes. I will update sdw_amd_probe() in v7 as follows:
-    *sdw_ctx = ctx;
-    ret = sdw_amd_startup(ctx);
-    if (ret) {
-        *sdw_ctx = NULL;
-        sdw_amd_exit(ctx);
-        return ret;
-    }
-    return 0;
-This keeps adata->sdw valid throughout sdw_amd_startup(), allowing the
-ACP6.3 and ACP7x IRQ handlers to process and acknowledge interrupts
-during the startup window.
-On failure, *sdw_ctx is cleared before sdw_amd_exit(), ensuring that
-callers cannot access a context that is being released.
-A partially initialized context should not be exposed to an interrupt
-during startup, since the ACP_EXTERNAL_INTR_CNTL masks remain cleared
-until amd_enable_sdw_interrupts() is called. Therefore, ACP_SDW0_STAT
-cannot be asserted before the context is ready to handle interrupts.
+commit f4eb0b4119dee3a007d6e2f3e25d6abfcb9bb149
+Author: Pavel Artemev <a@pavel.bz>
 
->
+ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
 
+This commit adds the QUIRK_FLAG_MIXER_STATE_REPUSH quirk flag to defer
+feature unit volume and mute writes into coalesced bursts and re-push
+cached mixer state on PCM stream open and resume.
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D221401
+Link: https://lore.kernel.org/linux-sound/20261117092532.408981-3-a@pavel.bz
+
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index bf1d9fbf08aae..e9f256df7aede 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
+[ ... ]
+> @@ -1608,18 +1618,342 @@ static int mixer_ctl_feature_get(struct snd_kcon=
+trol *kcontrol,
+[ ... ]
+> +		/* master first (the Windows burst order) */
+> +		if (master && !master_pending && !master->master_explicit &&
+> +		    have_ch &&
+> +		    (touched || level !=3D FLUSH_TOUCHED) &&
+> +		    (!test_bit(0, master->cached) ||
+> +		     *master->cache_val !=3D max_val)) {
+> +			int err =3D snd_usb_set_cur_mix_value(master, 0, 0,
+> +							    max_val);
+> +			if (err < 0)
+> +				usb_audio_dbg(mixer->chip,
+> +					      "derive ctl %d ch 0 failed (%d)\n",
+> +					      master->control, err);
+> +		}
+> +		if (master && level !=3D FLUSH_TOUCHED && !master_pending &&
+> +		    (master->master_explicit || !have_ch))
+> +			/* user-owned master, or a unit without per-channel
+> +			 * data: re-assert the cached master value
+> +			 */
+> +			repush_ctl_cached(master);
+> +		for_each_mixer_elem(list, mixer, id) {
+> +			cval =3D mixer_elem_list_to_info(list);
+> +			if (!is_feature_volume_mute_ctl(cval))
+> +				continue;
+> +			if (cval->control =3D=3D UAC_FU_VOLUME && cval->cmask &&
+> +			    level !=3D FLUSH_TOUCHED) {
+> +				bitmap_zero(cval->pending, MAX_CHANNELS + 1);
+> +				repush_ctl_cached(cval);
+> +				continue;
+> +			}
+
+[Severity: Medium]
+Does snd_usb_mixer_flush_pending() skip restoring a derived master volume on
+FLUSH_RESUME_STATE and FLUSH_FULL_STATE when *master->cache_val already
+matches max_val?
+
+Once a prior flush has derived and written the master volume, bit 0 of
+master->cached is set and *master->cache_val equals max_val.  Because
+restore_mixer_value() skips all controls matching
+is_feature_volume_mute_ctl() and the loop above only calls
+repush_ctl_cached() for volume controls with cval->cmask !=3D 0 (or when
+master->master_explicit || !have_ch), a derived master is never written back
+to the device on resume if no channel volume changed while suspended, and a
+derived master write dropped during the post-enumeration window is not
+re-sent on PCM stream open.
+
+> @@ -1632,14 +1966,50 @@ static int mixer_ctl_feature_put(struct snd_kcont=
+rol *kcontrol,
+>  				return -EINVAL;
+>  			val =3D get_abs_value(cval, val);
+>  			if (oval !=3D val) {
+> -				err =3D snd_usb_set_cur_mix_value(cval, c + 1,
+> -								cnt, val);
+> -				if (err < 0)
+> -					return filter_error(cval, err);
+> +				if (deferred) {
+> +					/* record only; one flush writes the
+> +					 * whole unit in a single burst.
+> +					 * Read-only channels keep the
+> +					 * direct-path behaviour: no write,
+> +					 * no cache update.
+> +					 */
+> +					if (!mixer_ch_readonly(cval, c + 1)) {
+> +						set_bit(c + 1, cval->cached);
+> +						cval->cache_val[cnt] =3D val;
+> +						set_bit(c + 1, cval->pending);
+> +						mod_delayed_work(system_wq,
+> +								 &cval->head.mixer->flush_work,
+> +								 MIXER_FLUSH_DELAY);
+> +						ch_put =3D true;
+> +					}
+> +				} else {
+> +					err =3D snd_usb_set_cur_mix_value(cval, c + 1,
+> +									cnt, val);
+> +					if (err < 0)
+> +						return filter_error(cval, err);
+> +				}
+>  				changed =3D 1;
+>  			}
+>  			cnt++;
+>  		}
+> +		/* The last writer owns the master: a channel write (the
+> +		 * way audio servers drive this unit) re-claims master
+> +		 * derivation, so a master saved and restored by e.g.
+> +		 * alsactl does not pin the volume forever.
+> +		 */
+> +		if (ch_put) {
+> +			struct usb_mixer_elem_list *ml;
+> +
+> +			for_each_mixer_elem(ml, cval->head.mixer,
+> +					    cval->head.id) {
+> +				struct usb_mixer_elem_info *m =3D
+> +					mixer_elem_list_to_info(ml);
+> +
+> +				if (is_feature_volume_mute_ctl(m) &&
+> +				    m->control =3D=3D UAC_FU_VOLUME && !m->cmask)
+> +					m->master_explicit =3D false;
+> +			}
+> +		}
+
+[Severity: Medium]
+When a per-channel volume write reclaims master derivation after an unflush=
+ed
+explicit master write, does leaving bit 0 of m->pending and m->cached set
+cause snd_usb_mixer_flush_pending() to write the superseded master value?
+
+If an explicit master put and a per-channel put happen within the same
+MIXER_FLUSH_DELAY window (such as during alsactl restore) or while
+suspended, the explicit master put sets bit 0 of m->pending and updates
+m->cache_val[0].  When the channel put runs, clearing m->master_explicit
+leaves bit 0 of m->pending set, so snd_usb_mixer_flush_pending() sees
+master_pending =3D=3D true, skips master derivation, and calls
+flush_ctl_pending(master) with the stale explicit value; even if m->pending
+were cleared, m->cache_val[0] already holds the unwritten value and can mat=
+ch
+max_val, skipping the derived hardware write.
+
+Also, ch_put is set for any deferred per-channel control, so toggling a
+per-channel UAC_FU_MUTE control clears m->master_explicit on the unit's
+master volume control as well.
+
+[ ... ]
+> @@ -3259,6 +3646,8 @@ static void snd_usb_mixer_free(struct usb_mixer_int=
+erface *mixer)
+>  	/* kill pending URBs */
+>  	snd_usb_mixer_disconnect(mixer);
+> =20
+> +	cancel_delayed_work_sync(&mixer->flush_work);
+> +
+>  	/* Unregister controls first, snd_ctl_remove() frees the element */
+>  	if (mixer->id_elems) {
+[ ... ]
+> @@ -3976,13 +4378,51 @@ void snd_usb_mixer_disconnect(struct usb_mixer_in=
+terface *mixer)
+>  {
+>  	if (mixer->disconnected)
+>  		return;
+> +	/* Every mod_delayed_work() call site either holds this lock and
+> +	 * re-checks ->disconnected inside it, or runs from a PM callback
+> +	 * (which completes before the USB core calls driver->disconnect),
+> +	 * or is the flush worker itself before it returns.  Marking the
+> +	 * mixer disconnected under the lock before cancelling therefore
+> +	 * guarantees no flush can be armed after the cancel returns.
+> +	 */
+> +	scoped_guard(mutex, &mixer->lock) {
+> +		mixer->disconnected =3D true;
+> +	}
+> +	cancel_delayed_work_sync(&mixer->flush_work);
+
+[Severity: Medium]
+Can mixer_ctl_feature_put() re-arm mixer->flush_work after
+snd_usb_mixer_disconnect() and snd_usb_mixer_free() have cancelled it?
+
+The comment in snd_usb_mixer_disconnect() notes that every locked
+mod_delayed_work() caller checks mixer->disconnected under mixer->lock, but
+neither deferred branch in mixer_ctl_feature_put() checks
+cval->head.mixer->disconnected before calling mod_delayed_work(), and unlike
+the direct write path, the deferred path never calls
+snd_usb_lock_shutdown().  In snd_usb_mixer_free(),
+cancel_delayed_work_sync(&mixer->flush_work) also runs before
+snd_ctl_remove() unregisters the controls:
+
+CPU0                                  CPU1
+snd_usb_mixer_free()
+  snd_usb_mixer_disconnect()
+    mutex_lock(&mixer->lock)
+    mixer->disconnected =3D true
+    mutex_unlock(&mixer->lock)
+    cancel_delayed_work_sync()
+  cancel_delayed_work_sync()
+                                      mixer_ctl_feature_put()
+                                        mutex_lock(&mixer->lock)
+                                        mod_delayed_work(..., &mixer->flush=
+_work, ...)
+                                        mutex_unlock(&mixer->lock)
+  snd_ctl_remove()
+  kfree(mixer)
+                                      snd_usb_mixer_flush_work()
+                                        mutex_lock(&mixer->lock)  <-- use-a=
+fter-free
+
+Checking cval->head.mixer->disconnected under mixer->lock in
+mixer_ctl_feature_put() (or before arming flush_work) would uphold the
+teardown invariant.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117124242.1223=
+7-1-a@pavel.bz?part=3D2
