@@ -1,126 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.5
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794910086;
-	b=XfsX1vlLh80LCEVydXffPWFk/9CLS/wBosPG6N4tLgJq9prxQi11hOlAnZx4253eNbNM
-	 7kQ+soEWZIDWxEe9eEfSVhz1xFQXZU6WjP0g1Du0nKYCBPn1oncQwGvHcmUWCHPkXQAEI
-	 1MTD/VgAeLCTagCo4PUdaumy6w3lYw3UsudkgYQcczeNRZd8E9SKElOSANO7u+UfwPl2I
-	 Eg6Wbifn3/aqQEgBnT9jf0Fb7s06BFy8zDpQzkUudM53GBxI9LmTddNmBiYKPzic2OKYM
-	 5Ls7Rz3MxukgNlXul9Z+AhALQv9+fNhiQSLNvFVZ0q3eRAvPOIaLqcF45dPpkDtVrvQ==
+	t=1794910860;
+	b=RxhXwxuUFO5EqapalpLHAYUG9qsQVzVd2wo33qhYCi7Jntz7xBfqsg5cFXdR66sS2Cn6
+	 DxTEdpK2g0dEvj8fyGwxGBrXesylDPTKqKRiCNlLJZq8S/cJU44MF394+MSF9y7sn+KIp
+	 E5WUPHATs76oTqFBu6CfvBW4aQKrx1wHHra9/RYqlc3XM7CC7DXvXwU3s/HpMRmV9IIdL
+	 oGV1Q+vNYfAdBgcGn0FlI6t1FYVRJfhorKSxpgYZwrLjyuOOrDtY2D8gVgM2DJ1cwITbz
+	 qENWAeToVpYu22IEaxkEFzBU+kpsYc9+vKy5qWgjEnSwrVFKXChAlNppwqFx/231wPQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794910086;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794910860;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
 	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
 	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Reason;
-	bh=apvm1pDkUeUtMUQil1j90bPXu3JANfsRCd3iXre/rgc=;
-	b=ZSa7NKM1F+S5NrEtrefppPPKt0cFQx8IUNEbns98FoYCpeY62iyfCHjbWeL0FrgPRTwB
-	 Z7NL/Lgc7hRYHvTikJ2x1uGFkuPBiMGtcKDHExrlqnmt+gfJ2ny5AUGSaDXWb9F+lQ5GN
-	 MdlmKLRpbz/momCZ2egzI7LMTIiLlbhCb+MjP3AVMqrrMbZNeNdzvhv3RBSPRDSKKDtPk
-	 L/0bE6B1bqUCl6xLsQXcrQfPbCoH0gJMydXPa+wGMK6JEOLWbLSnYixT9h2mvZxOESnML
-	 +XdH2zmPrSXJICqL28DrBwIPss583+MJpVn3eLsHQqvMUgRMPD48aALVBSF97XFsVXg==
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=J94iqU6qKjMnyZAprNjmNDAQ9qjTz5XSmZ0QBFbCW2U=;
+	b=hl/OnDTQoXAApWyi60sMTAVazqGlNSQ5BiMg6ZaZ1/T/dsDqL25MoXZ+QlIQFTJc+SNG
+	 Rmp5AlRnH2xorR2z27w0BT5E8o3PjHpk7SX7tD5lv9RZpo0qIzoqqTDxGakcPuza7t3VQ
+	 gfzC4W1Z3uClgI0f/5rmoc/6r6Sx7Sc7oylU4//hu9nde37+RijGFHN0iCLGTapRroAeT
+	 qVDDUcvl4dsKkwPEgt0U0ATy/S6wBZUZY/8HiexL/ThkhhpUbiPGJQsm9mUeH9Jk68AWI
+	 z2j4hcHYKc2NRGTxWGfRhjGUrZCTWDx4GEO9hTPT05McMogn6yybNXeTD96DFcfRkdQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=EIV4b0qJ;
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=tYkCp1o+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=vx68QpcP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.5
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010005.outbound.protection.outlook.com [52.101.61.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901D7606A31C;
-	Tue, 17 Nov 2026 10:08:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 901D7606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1AA606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 10:20:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C1AA606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=EIV4b0qJ;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=tYkCp1o+
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AH9LdvY3855370;
-	Tue, 17 Nov 2026 04:07:45 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=apvm1pDkUeUtMUQil1
-	j90bPXu3JANfsRCd3iXre/rgc=; b=EIV4b0qJJbTNAa7JgComJ2Hui0MC6hV6Um
-	COGIStbJP6X2evWRGQUc6P8nzfUrogJdlJ/gZOtf7jt4mMS9HxXVgLACf+0XDPfl
-	nR8swkkk7Pg6sK65qho/tOoE03O6uLMqfrt5VUpt9M0tad//0fDO1ScOWOtllJOG
-	oyFSgMD4j6KA0UhaguDHCTXXjMIctR42CPS4jYmU8lKlabTeJwtjNZucbSQTLq9G
-	FzJMDVVZOLoZOSAiFO20l4n/ZKXVXBhr9M0QY8Ls5IvJYejCoRb9rIBRF+QpXhkO
-	eKjgvSBsjJ39t4Y2jNAdmiUfI7yECQmc4DiVYbAgHkZRVZqm65Qg==
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11022105.outbound.protection.outlook.com [40.107.209.105])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4j0kr503fb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 17 Nov 2026 04:07:45 -0600 (CST)
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=vx68QpcP
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nJqnxrjXUbM1Ejiem9j/rOewENojOEL+02Xno7VUVoUO0eOiwgYpuZnyICdlnLtfBHB2CapaKZUT9kn+XA8efA3PwBbZHZhsVPznKLs65Kr9HNe6KbnBIjiLyJKcDfeSDrZTDz3Ad0kkPLj86Tzi5LEUeuzyvtw1Dts5Gs5e9i/k3O4FrVw9tldwwGAERBHEeD0ikHrMrq+ytCQ9Iok5Q3+auZw7ZzssTbofNHSP5Y1HswELNnJykwa9J+Aho3DM/Y+mGD8xNb+9YWclWUFQG+/oLNIXYNlbW/0FHS+yPNu5plB8O9HtDkpOotprhQO9Fww2gbMW15b9TgDXq+/E4A==
+ b=gO4PWLIQXQZMdmwKRFZOGr5t0E8Hyes8/+huDOInPmU7AuOFUhBsliFv2czH3DMIgHeCrbPNoXZkYU5vaA4O2jcw5sufUWQ0T+4qm5LIuoKlOtc1FcnU5/SDqokh6zUGj4IS3PBJvKzjry+ApfT2xhYikDCDbD+NY8nufkNJbNTN4cHpZDQ43ScPjT4oIHdmh1sLixsmRe5acjerpN8jxLHi/uvdQXm3rSiZJfRFlDNyk1C4A+Z2+jZ+fCBtEjcpL0lwA/SMJTmaJNTzMn4M4eU2lnphYJlNRweVi1stQPAPKmrnhLFz3lI6Y1uZeazQQt8/Cfint5Ms0ZTotD3oOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=apvm1pDkUeUtMUQil1j90bPXu3JANfsRCd3iXre/rgc=;
- b=ZCvElxUfZfm39pxIj9yUnr45s4JcKUsig4LxYzEiZN/hB8F/pQDMttRxw3qjcdgWlGnDuo2iGlXhSAOQNzt8qOWPPiR1zlEWfh3/OL1OpEqtyGPR9s70SQ+2xnaSko9SRsAG5ZvNVWwzYKIyAAqbK9UNgrn+iR5JN4G/eT3HCPbChdqCy1HVt9Li+Dy0bA/ecORWnCQ9kgYWArhxtsO3D72h7T4flsFrhOoQSEZ0p72x3gCHEJO9K7FL696262RmPwMy62B2uXSRkeUS8zmlfhjNyDVZmDrzKFC3FP76POb40tDyWb1bRhoPIWjRZ4CVVKZrLA8N0j0DSzon7VuBhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ bh=J94iqU6qKjMnyZAprNjmNDAQ9qjTz5XSmZ0QBFbCW2U=;
+ b=DvtWjuXHsz/K4GGt2Mzv+YOKeV9/QVxS6bUivDVEf0XTpiUWU2Y21OmVJon2VQpXaUhSRBUdfuLFD77madpJ045Cq5fg/2po7VNhywFI5AgTouxZvzRxWFe4asAwYmzwgDM5CNjZ9B7zvz+KI8gxbcqHuEA0O3URx/05H/biiINoCfiWSwNK7pfKnXjRn/PCj8XrBowWM+zSZYuLyVxWR5C617LrNuH3t7qpubPoy3vTyuRXExvGI1yO2VEXMcuFo+vEz2qqB/IDCgg5kbC+RDn2IVUCgRyeNCx8VtvkrNV1Q0gh6boSgLcCyJQpeiKeej7pT+SqsNHtWN2O/aAW6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=apvm1pDkUeUtMUQil1j90bPXu3JANfsRCd3iXre/rgc=;
- b=tYkCp1o+n26tzBr4wtKcmcW+G+SSANH2wyF7qnkDcjgJ6iwLolJlLFmuu6F3juodwZHRJ8cM9+2yTyJCzMgv2NviEZrrHbbQ/+ZPBL27efsy9W5RWkX5ueghj3yCBWM8SLCG3POC4C+SroBst0pJzXHiSrB+45wcQQ7XqLWst54=
-Received: from BL1P223CA0033.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:5b6::8)
- by SJ4PPFB04496E67.namprd19.prod.outlook.com (2603:10b6:a0f:fc02::a44) with
+ bh=J94iqU6qKjMnyZAprNjmNDAQ9qjTz5XSmZ0QBFbCW2U=;
+ b=vx68QpcPdIFpO3FLMtewSEj7LBS+QfhLXc9zJbOiL3vhMwpTQ7ihnH1NfRgv6EFCKPIHh+rzkMvFtDQyfwi0pTGN69py39wGhEzWgZaMBbiCZ0+yjoThqN+V1Wp2trIw3E04dNaoRWLRaFCNw1iRizey889NEmrFiDYPjOj5m1U=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
+ by DM3PR12MB9390.namprd12.prod.outlook.com (2603:10b6:0:42::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 10:07:42 +0000
-Received: from BN3PEPF0000B371.namprd21.prod.outlook.com
- (2603:10b6:208:5b6:cafe::9) by BL1P223CA0033.outlook.office365.com
- (2603:10b6:208:5b6::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.14 via Frontend Transport; Tue,
- 17 Nov 2026 10:07:42 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN3PEPF0000B371.mail.protection.outlook.com (10.167.243.168) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.0
- via Frontend Transport; Tue, 17 Nov 2026 10:07:41 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id E96D3406543;
-	Tue, 17 Nov 2026 10:07:39 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E79DE82025A;
-	Tue, 17 Nov 2026 10:07:39 +0000 (UTC)
-Date: Tue, 17 Nov 2026 10:07:38 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Chen Yuxi <chenyuxi19@huawei.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, patches@opensource.cirrus.com,
-        sebastian.krzyszkowiak@puri.sm, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, yeweihua4@huawei.com, pulehui@huawei.com
-Subject: Re: [PATCH] ASoC: wm8962: Fix broken headset button caused by wrong
- guard constant
-Message-ID: <avwnarkAYaaaSIQJ@opensource.cirrus.com>
-References: <20261117070516.3861828-1-chenyuxi19@huawei.com>
+ 2026 10:20:51 +0000
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
+ 10:20:51 +0000
+Message-ID: <bc566630-fa85-4ecb-b7e6-31d5096f68ff@amd.com>
+Date: Tue, 17 Nov 2026 15:53:41 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 15/23] soundwire: amd: use interrupt_enabled flag to
+ guard IRQ work scheduling
+Content-Language: en-US
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sound@vger.kernel.org,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ "vkoul@kernel.org" <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
+ <20261117070906.803139-16-Vijendar.Mukunda@amd.com>
+ <sashiko-outbox-218362@kernel.org>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <sashiko-outbox-218362@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0128.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d0::18) To CY5PR12MB6252.namprd12.prod.outlook.com
+ (2603:10b6:930:20::17)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -130,81 +103,267 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261117070516.3861828-1-chenyuxi19@huawei.com>
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B371:EE_|SJ4PPFB04496E67:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccbc8739-ea91-4df3-5b7d-08df44929de1
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|DM3PR12MB9390:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffb3e4ed-7b70-429c-9934-08df44947459
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|376014|36860700016|23010399003|82310400026|10067099003|5023799004|56012099006|11063799006|261026140227099003|261028144727099003|261021121427099003|261022105027099003|261026121527099003|261102123227099003|22082099003|18002099003|16102099003;
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|10067099003|56012099006|11063799006|4143699003|261021121427099003|261022113327099003|261026121527099003|261026140227099003|261022105027099003|261022075727099003|261021123027099003|261028144727099003|261102123227099003|261009223027099003|22082099003|18002099003|6133799003;
 X-Microsoft-Antispam-Message-Info:
-	hNkxZV6pHu4eIp8N3mlXYedtr6LkU8WM3yDEmM56X9hGK3iQfxGBR3v4UB/y592zRtv6HY/HkEcUIYgcMVpCLDbYUmgu5T4lv+8qhNyCdenq1iLzaurIn1KGn1V30pBiPEcTXJVukGVTknNduNM1W5Scl/JOt4dWicYyO3SV0QmP84JThxjM9bj7w8S7v7+SmvtcNEI6mUTW5zJT2bWD6vptXRPtZE8s99PVW9PKLqqpR6BwV35wDGS+C+/yvR7MGijwIRJJU7ibyTwwHP0VgN/0BOMBad1BFStqejPT9kQ9HkZMmfLXjTnf6ZxWncHOfMmX4X7hbrNRtWYfrwNCandzatmcTPwKvqvVjTlngqkGkfxYn83IivDzz7fogoWPjoupWRG0Gn4c5lKbOIefwA25UPgsKYUKVntK9wvujIlVKgHEa2QfCRz+e/MFhIgPqVmWclKGBqIT+/Z35TyMZLs7h+P6nxg6a1X1s3qLDSRsDbkaMrfLgZW1XebuphA4T3SN5k5bMPtMhrzWHrM2alzNcfYjRgvy6ePX6fLEoYfxbzs52c0+SayQWz0ho7tF7HnsoeDMsfSaN3dmXf+9TbRxj5L7uj8zQVUuI4DfjjXiSfruT7h5UqyKsuOxuo9mdBiSAnPeXgGzKpBrv73nFBaKtLf7/oJ7MisXuVZvvWVussxDNrYl9M3utuOkLutEwBsKNT8uE4vFKkdTPrOXUQ==
+	1Huben/nJlPIoV4pGVMoRpysrYiTTpzKJZ74GKKFdBMIEJElYq9fHi9cWQuxJ+PNgWRryh4Pb3UzQvrkJnZc49/xFJscOZJ2T2u9naV6e2p1v26AAlZ5ot/iS1DzNTPrtsOBYhkrc1S6/exwH6d0fwmH/7Uwceru+CzOsMX+avNAZQBIocld8RuZy0zm8X+/9P+8ksBYHH2aa8IyXUOOG/HsybOLECrG7Z/TQTiPV2UnwxsKXK4DV+TvWgZP2SStGmH1tO8YyrKSnriI3vEBhxgJ8JZZHL1JrqwKFMsvOIrztgIsDNWjMQdBJ1FCUjv53Hre7nQFx9ijvqN/7Q8k8eYia3ntUTLkBTRAfDHudLtX0W7iitd6JcTaISVDv4b7iM6Zz9a/1K7RVlbqa8Z/5l/syeVKLRjHEYVsQO57/HyViIk2F/2WAJIVPBehrum0p6NwqWUFPJ/ylfwH9ezt3IXWKKaLZMe2TP5WS3V0l1pVxXorvq9DjivlDl5ZxddrqOSIN9T4z3Ei52R64ZmRRl9PzP5APWEQpAW1+3ktQKXXKjHP+qa6eadkr7KrCFGsPyBTTS4Y+LSuwVbMAGIn7GiviflPrrkDDEWzTD62+RSthWhJQck7/Rs1RBt/aHLs/nOPUr9ZU+TwTJZZu+COxs9eB0OZisfZKcZB+HnnnWI=
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(36860700016)(23010399003)(82310400026)(10067099003)(5023799004)(56012099006)(11063799006)(261026140227099003)(261028144727099003)(261021121427099003)(261022105027099003)(261026121527099003)(261102123227099003)(22082099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(10067099003)(56012099006)(11063799006)(4143699003)(261021121427099003)(261022113327099003)(261026121527099003)(261026140227099003)(261022105027099003)(261022075727099003)(261021123027099003)(261028144727099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	BhPqPHXe4tz9TVH15MIMu2QFE2gN9icCNyL0lG0bFQKy4wPgpSgl+0UwjM99n5hA8aVYuUmwiB+jUv/YlaHflexpMyCmNPj3lzBNzceB8FN/iTlos8tUd5U9T9BaOFA0XJW5aZa7kwHeqF/twWNi06apdjs68suEO+XE+Yn7PgUoiqa1EE+35i7kPEEC86Lqa4jYmaY22kkI86nEXhQ4PcXBDTg1l8RZ50I8uU3LCZXnVbzfPWld6aWLZhRDxCKMmpkEFtjxLNxvT/ijiWNMfXKrwq9wo8Loeuwe6d7EMdcwlLx9bdgI8o2w4ZBO1phErFXSJ05CGH1m5XlWWdBZg8ZtTvMWLyy/Kq4xeT43UY8vbkdiQjxkJL9h2VREy4lPOLRENfvRdr6tl6bNdS9NPU9mOGINsPfD00jJlsNROaDmEp3KaeHh/xzQgxqHw3MH
-X-Exchange-RoutingPolicyChecked:
-	w8zPRurMtBKn4MJewE033fBj2nE54tR6zgphn9yNb761WBlvxxhA9roZVM+PqVnPcoDRX0JZXpqjpxjnYpMbkX6of/D+p9b3hxhZvvFdsoawSs+6lQApwyAkotiTKMNMDt6RCpvQ54yxs4IQBSVKulGF/4FXPsX2b/XjyEUiiMC+ps7OR8q5BidqCzUEY0wvsKxFdfxnkOdoYTaJzs4XTa7KH94QDkNSXKAVGs3ddWtSSqfTXraKtUtTWEQ/v/UY38ouzXBVSHameDkyFZRqbRzx9g38YbjOgxPxFcqoTDSgMOcdxjqK7GcAUET1+mJ/iozKJ6Pc2JgrM0SwQWW8wA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 10:07:41.2468
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccbc8739-ea91-4df3-5b7d-08df44929de1
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+	=?utf-8?B?M1VGUEp0U1lvVFVNVzJ4bSs2Q1FTOHAzUzVMODhaM1hHYkp6QVFCVUFKdjl0?=
+ =?utf-8?B?cHkvaUl4b0ZpUlI0SW5vWVdna2diZTFCczlRdFA1akV1UWNNY2Z0OFF0aXd1?=
+ =?utf-8?B?clNzUTRhWHFiblF1eVVDSDVFWi9qRUtCUEZXTXdtcERTZm5lOGIwMFh3VG1m?=
+ =?utf-8?B?c1FOWDRmdDZzamR1WjMxQTRrMjV2VHBKdU1yVnBHWHhCTkhSUmwzZFVrTjdM?=
+ =?utf-8?B?b2ZCTmwrb0didTVZV1kxVG12R01oSWcyMGkvNEhsSUx1R001elYzdHpRYlgx?=
+ =?utf-8?B?eTJUNnBDSndSUWVDcXpUZ1Y4TWRERmFPRlc4OTdmMktWNU5vY3JYTVF5eGlk?=
+ =?utf-8?B?Ylc1aHZVZ242akNJS3VRdWE4UC9MSURvcy8vTndwWmRqNUhxRmlCNGdFL21V?=
+ =?utf-8?B?Z2hCV0w2d2RiZ1BLMkNUSWxXd3FuY3pZaDYvZ0VuSkNMVlpSbVJ4MGdpdjdk?=
+ =?utf-8?B?RVgyWDFxU2VuWE81ajEvNmhsRDFnTzZncmVJRGVCemxIY0RXYkw1VWlqWGRQ?=
+ =?utf-8?B?UkZlcnFUVDVqVENrWUQ4QVA1VmxEMGVOSFJsVi9sZWNaNjkvMU5vb2ZObVBj?=
+ =?utf-8?B?QkErMHU0R0dBTXpXY0hOWXE4cFRYV2tUS2p1YVBkdk9PYU9XSXk3RkRwc2pL?=
+ =?utf-8?B?ZEdvRld4amNmeHI0UnZmTHhhYkpKbGZUa3lTVnkxKzRORDRmRjM4aXQvZmFX?=
+ =?utf-8?B?MTU0UGxiNjJBa1h0SzNac1hDSjFtZ3dVZEw1K3k2N2NhL3p5UmRsemw4MzEv?=
+ =?utf-8?B?VHFrQUF0Y1RYbmlZd0NzY0gyWFU1TUhWN2ZOcitOWFhNLzNzN2JJZFV6RFJG?=
+ =?utf-8?B?UmZlbHN3cVBMUHhlTEhKSTZueWRIVjJZZGdOQjRIbllPcTJSNGUyT0wwcFV5?=
+ =?utf-8?B?S3ZENHQ0YXZkMUZsNjVHNWllUzVoYTRKTzVJVjNOTzI3UkthTlg4VGhCMUxa?=
+ =?utf-8?B?aHJMejJOMWp3UTNKbnZxbDNhSVhiZFpYZkVSQjZhSEhLTHExMXFPTkxXeGhj?=
+ =?utf-8?B?aUNjWHJ0b05URzVscGRJU0hZUGl1MDI0ZHpDVnU4NVZDcGI2Q2FNWWE4UWw5?=
+ =?utf-8?B?OUpkTDNuQlN2K3lVSUd5U3llbFhMNUVRRTAycElmRmNQM21xM1Zwek0rcDlk?=
+ =?utf-8?B?V0dBQUFuZHlJbjFXSCtwNjYranROSU4zWE5rMGQwcVBjVCswT1JBbzYzRkZ4?=
+ =?utf-8?B?VTFHblJENHhtZXg4dGY1bHJRM0JZQXVQd2VnWTZGTUJBakt6MjlRbTR6ZXRI?=
+ =?utf-8?B?WG5FeDliN25IbGtHcXU3WGFlcFNMMHROckU2NDRHTjBoVGVDdlhCTTRsaDR0?=
+ =?utf-8?B?RVJBaG5JaVZjOFNTMlRCLy81SFlQU0g0VTVkODJ5bVR2c21tUVR3UHR1MTlz?=
+ =?utf-8?B?M0l3SERNVXppdW5CanlZcldiZURlZVhjdjNPanV5L0lsMUR4ZkoreFkydW9P?=
+ =?utf-8?B?bURsdFFvbGRLMXZBMEI5d0Z3VWJkTnlVSCs3aUx5dlBjZUtZKytpT3JabHAy?=
+ =?utf-8?B?NFRXTHk0bU51QXNxdExsWmhQK05sVGFWeG9VVkxJaDJaMUl4akZEdmp5OUpU?=
+ =?utf-8?B?ODZBMUZBb3Q5akg1OXpOQTNGdXVKazVveWVqWTNnZXYxMndmVTNtc1dYWVI3?=
+ =?utf-8?B?azJOekJVQlZzck4rNW94L0ROVlJHZUpocEtnclI3NnhqYjllUkpRL1VqWFc1?=
+ =?utf-8?B?RjUrdHY1NTl0b3VteW82TjR5bkJNN3NNdS83ekkwc3I5QlRTK1RXQ0dKSlFC?=
+ =?utf-8?B?Mkd4S1g5cTVhc3pTOHVsaXpTU05ld3pHbHFkajJjOVh1SXVGVVRFZllqU2Fm?=
+ =?utf-8?B?cmhLaWpBa3YzZUp3SWFnajhaOHE2Y2VPTTJZOUQ0MmJUdUJPaTN3a1E4b2po?=
+ =?utf-8?B?Uzh6cWFUYmY0c2IwR2RsdkF2dVEyMFJZRyt1M0xhTStJZDdndk1NOGpiQXE3?=
+ =?utf-8?B?S0FJUHdxNVlaaWhhbTIrci81WnZiOTNvNTJJekF1VkpiN0hDVnVFQTNHdzda?=
+ =?utf-8?B?RzZtWCtVdnliVkhDT0lGQk9DTnBmeHVpSUlMYXh0dmVQRHVKVlZibHhkeUVq?=
+ =?utf-8?B?d3lIaVEvWkw2T3JQekEyLzdWYU9NVWI4cFJodEx1L1I5bzkxMm10TGxQdjZo?=
+ =?utf-8?B?NjUvbjlxQ3NZaGRuYmtHckpBNzgzMUhpc3NaMHdEemFDMmVrT2VueHZqdUY3?=
+ =?utf-8?B?OFlOSnRVUStJWGhYdzRma2RINUR2Z3VRRjNKY2h0bUlxQ3gvTGF3VUw2SC8x?=
+ =?utf-8?B?K0NjQ1g1Q1gvQUZ0TFVQeURxQzZXQ2dWY2lQNXcyWEV5Zk1mQXh6ZWNlUXhz?=
+ =?utf-8?B?MzJhdzQ3ZUliQzlOWEQvTkczMGdPUGVvYVhscmR3dzI4bEl3bU9Ndz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffb3e4ed-7b70-429c-9934-08df44947459
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF0000B371.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ4PPFB04496E67
-X-Proofpoint-GUID: pkNRrOYwmRCRkjeA4vmWARKFyzK8s7sI
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE3MDAzOSBTYWx0ZWRfXyytcpzl3Sf8l
- K0K3ssQG4A2Xovh8rKB332NcoNeaXF1Eq5xX0lKKEAXsxU19D0t36QAdMJ0WQNmlz3/dIWjKQwd
- y/zphTC3VvZ5x51451NQiqJ1DErrOXM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE3MDAzOSBTYWx0ZWRfX4TO5mdwrIIpp
- 0OG/j0c5c3lEE84IViClP/jls6FRCeHZus9O4sLRwaDawMHSNFtXRivg+dkCH0ihSzkqCG4oZmE
- 7te6UsoDAhCeeQnnNrMXBeJf/FU3JPzRkdGUeGI8piMXMQzn89qeL82e5AeLnZyTxZV8celo7qG
- icrGzhqR/DfFPP9aKP3lxwfMirz5InPZr4oaat09JZW8sn9jnYfWJ8o/nyjeLTUgY/Hz0qjFEvh
- mWpu+qva/1DWdmidLjpiymSX4ZhSjzlRiyLEsq5UAkbQtqaCQ02aUYYWF/bJxcunE9F4Byu2C3i
- DvM3kUCtyo+kuTfSMT57PFD/syo0BXTJHfWNvFacyFujJwLXndlL+ImrwZWXFGPWbZVrRD07HXH
- Cn/vuYelRljJ826c4A9ABeYWi/3MourSfw/hFD2XoHwtymlSEt6L3pjwcRcmb4OLXRi9h2hRS1k
- Wi3EDtV8udY0uWf66QQ==
-X-Proofpoint-ORIG-GUID: pkNRrOYwmRCRkjeA4vmWARKFyzK8s7sI
-X-Authority-Analysis: v=2.4 cv=aOllOr9m c=1 sm=1 tr=0 ts=6afc2771 cx=c_pps
- a=5fNYnt3/gC+uMcP5UkWVcQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=VwQbUJbxAAAA:8 a=i0EeH86SAAAA:8 a=w1d2syhTAAAA:8 a=ny06a6cgeH8OaXsHD8kA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 10:20:51.1177
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aMn2sBKWgA6B5F6cmFce1RySNgffxd+cNPdGwi+jaflZxjbjWTmPFdEvHO0uu6n7dawp/mtpYznUcem+RwHjJw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9390
 
-On Tue, Nov 17, 2026 at 07:05:16AM +0000, Chen Yuxi wrote:
-> Commit e59075211902 ("ASoC: wm8962: Don't report a microphone if
-> it's shorted to ground on plug") guards the mic short report by
-> testing wm8962->mic_status against WM8962_MICDET_STS.  But mic_status
-> stores the reported jack status, composed of SND_JACK_MICROPHONE and
-> SND_JACK_BTN_0, which never has WM8962_MICDET_STS set.  The guard is
-> therefore always true, so every mic short event reports nothing.
-> 
-> Pressing the button on a TRRS headset shorts the mic pin to ground,
-> which used to be reported as SND_JACK_BTN_0.  After that commit the
-> button press is silently dropped, breaking the headset button on all
-> wm8962 boards using the mic detect path.
-> 
-> Test mic_status against SND_JACK_MICROPHONE instead, restoring the
-> intended behaviour: suppress the report only when no microphone was
-> previously detected, i.e. a TRS plug in a TRRS socket.
-> 
-> Fixes: e59075211902 ("ASoC: wm8962: Don't report a microphone if it's shorted to ground on plug")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chen Yuxi <chenyuxi19@huawei.com>
-> ---
+On 17/11/26 13:07, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] soundwire: amd: race with in-flight IRQ queuing
+>   amd_sdw_irq_thread
+> - [Medium] soundwire: amd: race re-enabling IRQ masks in
+>   amd_disable_sdw_interrupts()
+> --
+>
+> commit 14261a7c7d9c5975a602a89ef71b261091c3414b
+> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+>
+> soundwire: amd: use interrupt_enabled flag to guard IRQ work scheduling
+>
+> This commit adds an interrupt_enabled flag to struct amd_sdw_manager to
+> prevent queued amd_sdw_irq_thread work items from running after interrupts
+> are disabled.
+No changes required; both concerns are addressed within this series.
+Details inline.
+>> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+>> index f3e9614b9ac82..5536a4fd137aa 100644
+>> --- a/drivers/soundwire/amd_manager.c
+>> +++ b/drivers/soundwire/amd_manager.c
+> [ ... ]
+>> @@ -135,6 +136,18 @@ static void amd_disable_sdw_interrupts(struct amd_sdw_manager *amd_manager)
+>>  {
+>>  	u32 irq_mask;
+>>  
+>> +	/*
+>> +	 * Clear the flag before updating hardware masks. Work items already
+>> +	 * queued but not yet started will see the flag false at entry and
+>> +	 * return early; work items already running will complete their current
+>> +	 * invocation. Callers that need to ensure no instance of
+>> +	 * amd_sdw_irq_thread() is executing on return must follow this call
+>> +	 * with cancel_work_sync(&amd_manager->amd_sdw_irq_thread). Once the
+>> +	 * mask registers are written, the ACP hardware will not assert any new
+>> +	 * SDW interrupt.
+>> +	 */
+>> +	WRITE_ONCE(amd_manager->interrupt_enabled, false);
+>> +
+>>  	mutex_lock(amd_manager->acp_sdw_lock);
+>>  	irq_mask = sdw_manager_reg_mask_array[amd_manager->instance];
+>>  	amd_updatel(amd_manager->acp_mmio, ACP_EXTERNAL_INTR_CNTL(amd_manager->instance),
+> [Severity: Medium]
+> Can an in-flight parent PCI IRQ handler still queue amd_sdw_irq_thread after
+> amd_disable_sdw_interrupts() and cancel_work_sync() have returned?
+>
+> The parent PCI hard IRQ handlers (such as acp63_irq_handler() in
+> sound/soc/amd/ps/pci-ps.c and acp_irq_handler() in sound/soc/sof/amd/acp.c)
+> call schedule_work(&amd_manager->amd_sdw_irq_thread) without synchronizing
+> with amd_disable_sdw_interrupts():
+>
+> sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
+>     ...
+> 		if (adata->sdw) {
+> 			amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
+> 			if (amd_manager)
+> 				schedule_work(&amd_manager->amd_sdw_irq_thread);
+> 		}
+>     ...
+> }
+>
+> If the interrupt fires just before ACP_EXTERNAL_INTR_CNTL is masked, the hard
+> IRQ handler on another CPU can schedule the work after cancel_work_sync()
+> completes:
+>
+> CPU0                                  CPU1 (<hardirq>)
+> amd_sdw_manager_remove()              acp63_irq_handler()
+>   amd_disable_sdw_interrupts()
+>     interrupt_enabled = false
+>     mask ACP_EXTERNAL_INTR_CNTL
+>   cancel_work_sync(
+>     &amd_manager->amd_sdw_irq_thread)
+>                                         schedule_work(
+>                                           &amd_manager->amd_sdw_irq_thread)
+>   devres frees amd_manager
+>                                       amd_sdw_irq_thread()
+>                                         READ_ONCE(
+>                                           amd_manager->interrupt_enabled)
+>                                           <-- use-after-free
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+amd_disable_sdw_interrupts() clears ACP_EXTERNAL_INTR_CNTL before
+returning, so after it completes no new SoundWire IRQ can be delivered
+to the parent handler. The race window is therefore limited to IRQs
+that fired before the hardware mask was written, whose handler is
+still executing on CPU1 at the time cancel_work_sync() completes on
+CPU0.
 
-Thanks,
-Charles
+For this to trigger, the parent PCI hard IRQ handler would need to
+remain live from before the ACP_EXTERNAL_INTR_CNTL write until after
+both cancel_work_sync() calls complete on CPU0. Hard IRQ handlers run
+to completion without sleeping; that window is not realistically
+long enough for both cancel_work_sync() calls and the subsequent
+devres cleanup to complete on CPU0 while CPU1 is still inside the
+hard IRQ handler.
+
+Should such a re-scheduling occur during the narrow window, the
+interrupt_enabled guard added by this patch ensures amd_sdw_irq_thread
+returns immediately at READ_ONCE(interrupt_enabled) without accessing
+any hardware registers, preventing the hardware-access UAF.
+
+> During amd_suspend() (in AMD_SDW_CLK_STOP_MODE) and amd_suspend_runtime()
+> (in AMD_SDW_CLK_STOP_MODE or ACP6.3 AMD_SDW_POWER_OFF_MODE), interrupt_enabled
+> is set back to true before suspend finishes, so a work item queued by an
+> in-flight hard IRQ handler after cancel_work_sync() sees
+> interrupt_enabled == true and accesses SoundWire MMIO registers while the
+> manager is clock-stopped or powered down.
+Patch 20 later in this series ("soundwire: amd: fix interrupt gate and
+work drain ordering in PM ops") addresses this. It moves
+amd_disable_sdw_interrupts() to the head of every suspend branch, then
+drains amd_sdw_irq_thread and amd_sdw_work before proceeding to clock
+stop. interrupt_enabled is set back to true only after clock stop
+completes in CLK_STOP_MODE, by which point the drains have completed
+and no work item is running. In POWER_OFF_MODE interrupt_enabled is
+not restored, as wake delivery is handled through a separate path.
+>
+> Using disable_work_sync(&amd_manager->amd_sdw_irq_thread) when disabling
+> interrupts and enable_work() when re-enabling them (or synchronizing with the
+> parent IRQ) would prevent late scheduling.
+>
+> [ ... ]
+>
+>> @@ -1481,6 +1497,7 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
+>>  				return ret;
+>>  		} else if ((amd_manager->acp_rev == ACP63_PCI_REV_ID) &&
+>>  			   amd_manager->wake_en_mask) {
+>> +			WRITE_ONCE(amd_manager->interrupt_enabled, true);
+>>  			mutex_lock(amd_manager->acp_sdw_lock);
+>>  			val = sdw_manager_reg_mask_array[amd_manager->instance];
+>>  			amd_updatel(amd_manager->acp_mmio,
+> [Severity: Medium]
+> Can an in-flight amd_sdw_update_slave_status_work() overwrite the zeroed
+> interrupt masks during amd_disable_sdw_interrupts() and leave non-wake
+> interrupts unmasked in runtime suspend?
+>
+> amd_disable_sdw_interrupts() zeroes ACP_SW_STATE_CHANGE_STATUS_MASK_0TO7 and
+> ACP_SW_STATE_CHANGE_STATUS_MASK_8TO11 before callers drain amd_sdw_work with
+> cancel_work_sync(&amd_manager->amd_sdw_work).  Meanwhile,
+> amd_sdw_update_slave_status_work() unconditionally writes AMD_SDW_IRQ_MASK_0TO7
+> and AMD_SDW_IRQ_MASK_8TO11 back to those registers without checking
+> interrupt_enabled:
+>
+> drivers/soundwire/amd_manager.c:amd_sdw_update_slave_status_work() {
+>     ...
+> 	if (amd_manager->status[0] == SDW_SLAVE_ATTACHED) {
+> 		if (retry_count++ < SDW_MAX_DEVICES) {
+> 			writel(AMD_SDW_IRQ_MASK_0TO7, amd_manager->mmio +
+> 			       ACP_SW_STATE_CHANGE_STATUS_MASK_0TO7);
+> 			writel(AMD_SDW_IRQ_MASK_8TO11, amd_manager->mmio +
+> 			       ACP_SW_STATE_CHANGE_STATUS_MASK_8TO11);
+>     ...
+> }
+>
+> In amd_suspend_runtime() under AMD_SDW_POWER_OFF_MODE, that race leaves
+> state-change interrupts enabled while the manager is powered off:
+>
+> CPU0                                  CPU1 (kworker)
+> amd_suspend_runtime()                 amd_sdw_update_slave_status_work()
+>   ...
+>   amd_disable_sdw_interrupts()
+>     interrupt_enabled = false
+>     writel(0, ..._MASK_0TO7)
+>     writel(0, ..._MASK_8TO11)
+>                                         writel(AMD_SDW_IRQ_MASK_0TO7,
+>                                                ..._MASK_0TO7)
+>                                         writel(AMD_SDW_IRQ_MASK_8TO11,
+>                                                ..._MASK_8TO11)
+>   cancel_work_sync(&amd_sdw_work)
+>   amd_sdw_wake_enable(..., true)
+>     /* RMW preserves MASK_8TO11 */
+>   interrupt_enabled = true
+>   unmask ACP_EXTERNAL_INTR_CNTL       <-- non-wake IRQs remain unmasked
+
+Patch 20 fixes the suspend ordering so that amd_disable_sdw_interrupts()
+is called first, followed by cancel_work_sync(&amd_sdw_irq_thread) and
+then cancel_work_sync(&amd_sdw_work), before clock stop or power off.
+
+After amd_disable_sdw_interrupts() sets interrupt_enabled = false,
+amd_sdw_irq_thread() will not schedule any new amd_sdw_work items
+(patch 15 guard). cancel_work_sync(&amd_sdw_irq_thread) ensures no
+instance of amd_sdw_irq_thread is running. cancel_work_sync(&amd_sdw_work)
+then drains any amd_sdw_update_slave_status_work() instance that was
+already queued.
+
+If amd_sdw_update_slave_status_work() was running concurrently during
+amd_disable_sdw_interrupts() and re-arms STATUS_MASK_0TO7/8TO11, the
+outer ACP_EXTERNAL_INTR_CNTL gate is already cleared by
+amd_disable_sdw_interrupts(), so no interrupt can be delivered to the
+CPU regardless of the STATUS_MASK values. cancel_work_sync(&amd_sdw_work)
+ensures no instance of that work is running before suspend proceeds.
+
+>
+> Draining amd_sdw_irq_thread and amd_sdw_work (or checking interrupt_enabled in
+> amd_sdw_update_slave_status_work()) before clearing the mask registers in
+> amd_disable_sdw_interrupts() would avoid re-arming those masks.
+Patch 20 addresses this by draining both work items in every suspend
+path after amd_disable_sdw_interrupts(). The ACP_EXTERNAL_INTR_CNTL
+gate closure in amd_disable_sdw_interrupts() prevents any new interrupt
+delivery irrespective of the per-manager STATUS_MASK register values.
+
