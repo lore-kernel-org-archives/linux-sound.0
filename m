@@ -1,56 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795003137;
-	b=tOfUj17E89bfZ0435JpG3EzO8FWy1j1RnsVL5dEixW8VQq/4udk/m0D06qlzUKUPjQMW
-	 3xD2qvaHjr2TsJWynRkjC10H+TwGrwhdvjG76JNncMKPjYnMVillcrmAJXcYriFfwB6Pd
-	 Q3UR+1auy6CNtQFHEsgFDhmJ11FukVIzy4qZOEyWm1uaSMzMqoFvsRz5pngLIJttCo99N
-	 3GWR6IImxgRXLlI00Glba89lsl/SSkmWk/fTE18s8xzs8Vnza/q2qfIUWTBPZ9eLJKXO7
-	 kvh002jmtmGQyoBaYBzceHgi6+8CHLVg7wQzycYKziLMuW1xHbrM3h8r2kg2UkIUzzw==
+	t=1795003133;
+	b=EDmLY0QDwxETpkK8ygU0LCylMOutAVGpv+p/Nf1Zzk4Uh97wF9Sce/A3sJRYQsjNqoeK
+	 KYkOTq/sIG/vDWNIQhcbtFBIS+YmtquhsEQOwurtGrXk0XDF/dMvQWz0y+Bn7Le1cwL26
+	 fVVly/4vLz+0HWaevk6GnWDVe/12Slr/BG3igmcXUpXbGKW68YD9X32eu6FYZ+gCb5KYL
+	 by4hedpts6vV3Vyd41QkRm7Z2pOePxBT5CD3s4TOpXgD8/EuoBgtKCZoz7Pfb+6mRjR5O
+	 tipv/VHL8XtXKUcQoR0Vb7nDhsvxhxfIDuvT19eYG3tmdK7owtS3Z5lHmg1BJmG7tfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795003137;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795003133;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=mbpK5VvMgaE8c44CA3zzBQyjwM2nCP657h8KuzWdg7s=;
-	b=J5Tfr+obPJ1DV9CWiqkcNPVA5gj4iG//dH+W+hZ+SwluYEOZPQQynYLsWWP0Kqge2R6r
-	 IvWaiKWzHJe6XefVODMDM5n5Q/m9wBvD7DIshmY9C4M5ZsL/bZWbyVrFzMdPYw9x8C1nd
-	 oueZzNVuhD+STW4M3AuxAWZWtp7KPp6Z32LZ48u8OUTAG+wfh8cArAg1LJv2+1GsSJUXd
-	 7/VArGZdM2Xz4DlOID8jNKA34w1OzjKKy5xWPtJNs4JvlK4NHnHYZTXG4KH4YK+S/92uo
-	 q7bbkjnAN6AQyzLBmD+xVv0mNJGs9Ygmqq7lvOAhXmrAu2NFj6MVo2iDxImmhjzBe4w==
+	bh=YdF13372jy/m199oRlOe/vzqPP9Dt54Ay4k6PphMxZM=;
+	b=TnsRx4iOZUyb9AKOs0Sr4bXdT27bmSinCKFZ3+sqw2y4z6OAthjf5GJujJfSblT0A7zR
+	 k/970RfdGMKj8UAQFhoEtfE5g9qIWSN76Bi9IHY+gVuBqM64vlcviNU/hvyrRvOki1rR+
+	 81o1w+FQRmzOEWqMcw+MJl6XLJtwXKhVLrmmKKt7bHC0QQoz1KxGGkEKviWyGViBpJJbj
+	 9L7KNRZ2GP4L2wTKcU1UIqEQrj5EETnA2MqCuuF437tYEAQ8kkGs7+9W03FD+VKMPHz9/
+	 hRlBULeSTSl5QyBTFVlLGTdob6W2OFagIM2cBB1VXbgRYsJkbdQ9LOQ/znaQ+Ulm4+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l0ZwgUqM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fWg9WAKJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7246D606A31C;
-	Wed, 18 Nov 2026 11:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8397A606A320;
+	Wed, 18 Nov 2026 11:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l0ZwgUqM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD501F000C8;
-	Wed, 18 Nov 2026 11:58:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fWg9WAKJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50E3C1F000C6;
+	Wed, 18 Nov 2026 11:58:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795003137;
-	bh=mbpK5VvMgaE8c44CA3zzBQyjwM2nCP657h8KuzWdg7s=;
+	s=k20260515; t=1795003133;
+	bh=YdF13372jy/m199oRlOe/vzqPP9Dt54Ay4k6PphMxZM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=l0ZwgUqMoV4TD+70ZhLOmFd5x2xQgdgxtIjkex5oSlU7sJKPtDsqXazmw9PrQ07OU
-	 wkf0Fec/rc8RILcgFhhJHiDo4XmNcHx8s/FrlHczaBSXpBGNkKArli6cxT+MaIljNn
-	 3fJSoM9chlztTB9t+f0laAC1Opvf8gIlCX36IKt2roUtNVjxMgX6uESqwu/gkzmR9D
-	 KpeEd6qcfw04spowphxmNKJh9/1ZqLfptN+L5uQxzc6I0xYdXGvleulClvfE9FqKUF
-	 qmA6qPXuVk++vvpppA3bmqTnTEWJGW87af/Nv8hr+h3iALNgGZuI2MHarbEAv7va6M
-	 H3hkRFa3ccFsA==
+	b=fWg9WAKJ0LPxwvRXKGcS2CpfyEXetZ1zj+yi+EPSH6YMcOYVMEJz2IOGISnrm8iOP
+	 bVRzbOmwZn2+jRKa9N1Vhj6a1Ghgs0uRCAmLxnU2SLGTQGYaOlXHtXcKnJ/it6VgC/
+	 f6cM25DIsuuik44OFgegzpm8lTcCIJf54qahEeTrRf0uXg1FE/NstSE7U3TZDAM6CW
+	 qzoBbA1mVbOKOnbPyxpTSBD6Uk/4jUEQcGidmfMLYiEG4FMWKibxjlnDkMs9T95DNd
+	 FiaAd8oBv92xPTitJGGdUC9En17PGbmjS3chYMH/R10uQtYNu60gw6HGbyA920T5wL
+	 EUcrOTRF4YRKQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261112-88a3a7ff32-asoc-wm8994@mail.sdu.edu.cn>
-References: <20261112-88a3a7ff32-asoc-wm8994@mail.sdu.edu.cn>
-Subject: Re: [PATCH] ASoC: wm8994: Fix potential DSP control text array
- leaks
-Message-Id: <179495867980.2707353.14941092040996289104.b4-ty@b4>
-Date: Tue, 17 Nov 2026 23:37:59 +0000
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Arun Iyengar <aiyengar1990@gmail.com>
+Cc: linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261110-asoc-rockchip-i2s-tdm-v1-0-f32951b3c527@gmail.com>
+References: <20261110-asoc-rockchip-i2s-tdm-v1-0-f32951b3c527@gmail.com>
+Subject: Re: [PATCH 0/2] ASoC: rockchip: i2s-tdm: register the PCM before
+ the DAI
+Message-Id: <179495878868.2707353.10848747945533783819.b4-ty@b4>
+Date: Tue, 17 Nov 2026 23:39:48 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,17 +65,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
- h=from:subject:message-id; bh=tvqJndEPamrjdT+CsMooV8dlF/nOuJH2xizh3M/+WNU=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+TvonP9egP1GvsYmd38zjzJ3XLtP7jts7blFPNs7kn
- PPgW0tiRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACbyPYDhf8i+H5+WCv1yCHDV
- iVi8J/3XdM2YULVPUVXvnb0yFdaZpzMytAfkz3ypacLDcMWSn299d+a9uCz9W20lqZsVWLekW3q
- wAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1946; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=W59zQSeaIH+lyhkCe/swjpF15sOyCWor0aGiYZn+l/w=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+TvqZoc+pm2Kb2+rVVXyH65hYwaQjqa8rFggvZlQ87
+ PdgukZeRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACaStIWR4VuV6Z5Xbd2Ouszi
+ vlb3azbvbLtyOmDawsWblf5e9HuzbjEjwzLn2YHrHUqOtLK/aYlOvflfcdLuLbH5zDs8ras3++9
+ P5gUA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 12 Nov 2026 21:59:14 +0800, Guangshuo Li wrote:
-> ASoC: wm8994: Fix potential DSP control text array leaks
+On Tue, 10 Nov 2026 07:16:57 +0000, Arun Iyengar wrote:
+> ASoC: rockchip: i2s-tdm: register the PCM before the DAI
+> 
+> The Rockchip I2S-TDM driver registers its DAI component before the
+> dmaengine PCM component. A sound card that was registered earlier and
+> waits for the CPU DAI is bound by snd_soc_component_register() as soon
+> as the DAI component appears, which also satisfies the DAI link's
+> platform (it defaults to the CPU of_node), so the card binds without the
+> PCM component. Every open of the PCM then fails with -EINVAL from
+> snd_pcm_hw_constraints_complete(), silently. On RK3588 this happens to
+> the HDMI sound card whenever the HDMI codec probes before the I2S
+> controller. Patch 1 registers the PCM first, as rockchip_spdif already
+> does.
+> 
+> [...]
 
 Applied to
 
@@ -81,8 +96,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: wm8994: Fix potential DSP control text array leaks
-      https://git.kernel.org/broonie/sound/c/e72fa276c985
+[1/2] ASoC: rockchip: i2s-tdm: Register the PCM before the DAI
+      https://git.kernel.org/broonie/sound/c/3743fe2e36d2
+[2/2] ASoC: rockchip: i2s-tdm: add the reset value of XFER to the regmap defaults
+      https://git.kernel.org/broonie/sound/c/49562d274477
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
