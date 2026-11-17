@@ -1,98 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.53
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794918406;
-	b=TxUG3Tx1o6nCOR82j/brO+WQ6+UXu61mnuZAFbRBZGYTTuCl9vPGu7Q57+z44+/1aCAe
-	 dHBqPQVvH4x5UDHzbfSi6LOVJ20M3DN9RlkaynyvoL7x4pR0/Zx5D1rxB1YJO9V20qnOC
-	 dtLmkYhC6wWYId0azButUcIlsgx3z5FJWKEvdg+xfuhXerqnkVO74t06Vix2q6y5pcPv5
-	 0rUxktjDTEOSTmjCMfp3JRQohZvp047Hnof8Ej0UYoLg+mRltX/o1wOBCtAqKGhljI3E5
-	 /L2twkAzCQ7KTo1tEN0jT899u3bq8BEDo76wQlIduatJMFcaR5s/nUhrlEEVA8AH1YQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794918406;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=IbOi5Dsywd0FOmsLyqnRkVr/QTv8C+3HmbaauKo2Okc=;
-	b=O7C6Oc9Pjf9ESQVgr4XwMe2qVnm7muAfJ9Irv/hRs/pLSUyDsGyur/zXJN4/9e//2nL5
-	 mLrgqjriBIkM2AoNP9QNlOiNlNE6jVJw2CNZogyMJlzdsjSTXLa7pCHFE6TLbTK/FoIc6
-	 vifN1Gv48ZlM7lIKhBjdXkTcQ53OwJdgp+drs/8AwyaLdufhEroNH0ojdi6rKcz1ZOjKq
-	 IlMVeFS+YM1sF3m5AJ7e6VishyxjXX5qgWQQDGiRD1EV4UWIe7Q3XLAEC/HtSwhZyG067
-	 pLil+mUKoTNyFWnneRlyx6PqelvymG/98DV+J6ZjdGEkfDWYz7pJ2gGVg/hEg3A/IwA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=WqQ7zHGR;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.53
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011053.outbound.protection.outlook.com [52.101.52.53])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=89.253.219.113
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794919377;
+	b=C1TKw26JO63eZiQ7H2j+A9Io4AF6lrCkaWNdIHpNFZXMkBRWTkBNZnzbjuZwhSU7IxOM
+	 vk3lQQ3oG24TeNbBnDDOeBJUB9+42W9LOjqzZiniroifHK9jY4sIxkB+ZEPshCp5shhQW
+	 9ztfzxvMHv6TYnd9GWZsjyTxmXMbXoQufGiHUCew/C+gmYzDYsa0QxhAvN4d4onsmEnEr
+	 Tg6itpESBVEDWG6RlikvfRi3lCJWnPAkIqEX9Sg7ZuyPnPtkQ403BlbAeM1sqDfvVXrxc
+	 EQiMOZXVQsfIe1ReN4ZZYuH8JvGVH/ACej2qKQ67KSkVbs10mbp0xjfNtKKLZiyB3EQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794919377;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=3Xn0aA/RpC+ypf1cljQYN6dDo9thg17XrvRwTIpGeN8=;
+	b=i32/4qCnj44RUbNZRxMrZRciXELObAotxVYX39LCGilXCceATn3hLIl+Ei8Jx2B3T6cX
+	 3dCMFD0M75STF7vjflceMngxaVj4OLwBV064ykNion86MoSEdSt8Z9/SUWiy5gbbJ21Dy
+	 QofGhyeNatqA/JYkbY/IspDfNsbEGIz0UKNAkRYVwhR/+PdUIH5ZM7MBzqZrQ4oe/Z7zy
+	 OIRUklAjAdAo49fLAh+Z0a3W3R5ZCZVewP+KAjMqx3YbarRAUYxB71kxxBFDBYYgxzuqF
+	 ZYe9Bews5h4fpkZaWkEgaBVy0N7gm0KXsaRZVjwSAn9BMwWU13ZIvygb6AhOZzRpxjw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=pavel.bz;
+	spf=pass smtp.mailfrom=pavel.bz;
+	dkim=pass header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=r2C7YPAd;
+	arc=none smtp.remote-ip=89.253.219.113
+Received: from mail.pavel.bz (mail.pavel.bz [89.253.219.113])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49515606A31C
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 12:26:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49515606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59721606A331;
+	Tue, 17 Nov 2026 12:42:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 59721606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavel.bz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pavel.bz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=WqQ7zHGR
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jveqnBEBS0aeNlyNXjdzdbczrFPKwsk65U+Cln73/61HRtpLvck2aG7iDblqzj4WE/zpkBPGDjhFetktdUQQVJDVkA7+iecTVRRa6RWtsX98r90IcJjeIv03pgtkvUZaaAoULbakshuX5iK+cr0BdgPKsAROXtXUfRilG+OkA65vz7AG+Ob0ZByagEwlr1ZLIv2fcJIRR2G+GSPIjYjKX4H0dTr78EtvOtyoYX2Ff2PPCyuA5R/J38+/s3Ub9L/qA1lt9RmvUHfVx1li/C1rvLBTRE+dUVCbGZ+TtgknXJ87uU4cMbMaj0RPfcarwvL3gK0hrF1FUVxyMy/UcTTvNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IbOi5Dsywd0FOmsLyqnRkVr/QTv8C+3HmbaauKo2Okc=;
- b=NYNKP4MdG51o9vlq7pS3pJLsJouytAohHAYKGULSgDy4A+C5eK0wxpW9et4Dx3Ecd77I6BorxbN01XOfoh+xX/ZZCpf88k4UD4U8tBZBmlSeB4/lwYVU+x5+t04l4ih4xEgbivEGcE9VbdHKMVCBVMfN0+3WnPX9DOi6Aiafl9YCyWk219NZgMr0T6ynK2gLf5faBreMO5q9QVh2w0LLOgjn4CCHlGb17H+bT15AyHHC9yR1hCDJ/Tro7InpCkxZ0OLIgxFKCq9AROTdVtBo06Ff7NVgjweJS1gPBipkCBEG9LNfITe1xMqGigZJc8hoepaPcpmaSAXrr5Bl5p7ecw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IbOi5Dsywd0FOmsLyqnRkVr/QTv8C+3HmbaauKo2Okc=;
- b=WqQ7zHGRL5cROeMMoWLLrfDZXbx21Y7+x+2PZgxG8WvQDFS5CUHvrY2d3pHKnK3+xUiksUErdH0q5X8KUK20ZSOsut6wzKN7gb7IOo7hiA4RyuUCjx/H7laXN18btpDf4GiqDPMxPFXjegidCwfQdUNGX8MwMlJvqcguQMatRo8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by LV8PR12MB9111.namprd12.prod.outlook.com (2603:10b6:408:189::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.13; Tue, 17 Nov
- 2026 12:26:42 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 12:26:42 +0000
-Message-ID: <fe6f6b24-6928-4482-a455-66372f55b0e7@amd.com>
-Date: Tue, 17 Nov 2026 17:59:31 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 20/23] soundwire: amd: fix interrupt gate and work
- drain ordering in PM ops
-Content-Language: en-US
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, "vkoul@kernel.org" <vkoul@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
- <20261117070906.803139-21-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-218381@kernel.org>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <sashiko-outbox-218381@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0103.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1b5::8) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key, unprotected) header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=r2C7YPAd
+Received: from p-745-g5.pavel.bz (unknown [130.94.27.201])
+	by mail.pavel.bz (Postfix) with ESMTPSA id 709D2616B5;
+	Tue, 17 Nov 2026 12:42:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.pavel.bz 709D2616B5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pavel.bz; s=primary;
+	t=1794919373; bh=3Xn0aA/RpC+ypf1cljQYN6dDo9thg17XrvRwTIpGeN8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r2C7YPAdve0XRNdT4Onz25jk7SwMPAdeTjoSiNqWQ4QUhqDNzDO3O1mLeQdSl8fQe
+	 ptHW6PfIHrf0Rp3lPAXdzgQMMs2jWSZDivUZWeoDPqttOI7a5JzLhOHHo26Z7136Hu
+	 4LPp9RRqNL3zwedRNL/SL4hkGdEp3jSgWZtFHxWblSg1kU58ectj2Z1BjdpdqeUlBt
+	 3rKIum2Lc2txvqogv2eKf1kZUaymE2UN/4pLncJupPjV1YayQRMDXdfWq98MkJKw7H
+	 eakufLDw04U9mkNsWF6zd5TdfsaZ0wV0lhU1/lczWzMB7kFD2pmXMcp3T9LC9rv91e
+	 X/+RVCodmR0EQ==
+From: Pavel Artemev <a@pavel.bz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v4 0/2] ALSA: usb-audio: working hardware volume for XiiSound headsets (040b:0897)
+Date: Tue, 17 Nov 2026 19:42:40 +0700
+Message-ID: <20261117124242.12237-1-a@pavel.bz>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,216 +63,179 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|LV8PR12MB9111:EE_
-X-MS-Office365-Filtering-Correlation-Id: d176e142-71b0-4736-70fc-08df44a608eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|22082099003|18002099003|6133799003|261009223027099003|11063799006|56012099006|10067099003|4143699003|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261021121427099003|261021123027099003|261022105027099003|261022075727099003;
-X-Microsoft-Antispam-Message-Info:
-	ePaAdANKbK+YFNXsr/AsDT6XPm3rEETNAwliV4UFPTvOuSaSXEcChU4eSUdy1Pfv9c+MOxs+OjHeF46XjBvx9Z1XcNr254CrZqB1OJEutX17gwRc6cSk47Mrf8LaTfB8tOmjnkESuurDSA1FfT+F7Cb6Vf9NdPyZ6mPaHgd4gcw3HFKtQ2k9c0AEeq/xTe8T81DLxNEAn5ewjEb9q3yNQsQIu4ynb6FYPOqPhnfo6m9gPl1P4B1lTiQkoBP+nvN/rw508XUhFh44xypp2U63kKoC9VGbT/J3eElxaet5lMfgLbASxaZbltZlBxx58onf2SF2DbeDdkf+ya8XeC1t0lCmeyTmzqdmj2hpZy+YPbvXmrntamf38crzz+r9TCNeJOSEvmkOAFWP/orBfGinCTG8oRbci2W2aE6akuy0kGuBqZm2HQOl8LUOUMfX8SQQ3Ovf3yoDzG1i6xWCNKi7BBKmOfItA5m/cZP2KZhtUxNL5GvrhVSxIq7XzbpxmHkaGC1GFPkDbVgj7o0YOzXmzzCR6iwUAxU0ppWB+CTCOKYQwQc14OFx6D6CA3wF9SJNfjyLrBiHQD0uxh8csQZOGgcT+KB6Tru2/uoCRGEV8QyKUrMHfDt/QnFnw/IhEoHehkxdqOtMJzMXdh6m/EL3zjFKFftGtpZq1I8cgllNn7c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(22082099003)(18002099003)(6133799003)(261009223027099003)(11063799006)(56012099006)(10067099003)(4143699003)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021121427099003)(261021123027099003)(261022105027099003)(261022075727099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ukdqc295dGkvOUM0cjBnbGRYOHIvOVc3OHYyZ0RNdmFMbTdhemVMbjVUd2RE?=
- =?utf-8?B?T29Pd1ZSbkVuZ1FETitXV09HakxQZ0xQYVRoYjNJMngxZmp2Zmd1NGFQTDU0?=
- =?utf-8?B?QU5yU1p0dkh1VTRnbGxXK29UYU8xMHZPdjl4SmdjRnR1eUFpbzgvYTRHbUtq?=
- =?utf-8?B?aWJpNEFVZ2lGdXlXNUMwMGt1ZHBSQm9aanFWVTcwQ2N2VktMNGttRUpJOG1O?=
- =?utf-8?B?TUsrU3hBcng1SlJvSnlYZHJhMVZ0U2dDdy9GYTZXV3FCUGIrbGJQQ2xnMC81?=
- =?utf-8?B?VndITUVMRUVqeDZsL0Q1aEpZaHptRjk0eDcvcEo4d251WEpzS3gwU3ZWWHNq?=
- =?utf-8?B?QVNmd2tuV1lHRjFUZjFYdDY5ZzZFMlhDS0VsOE9sL09SNkp6ZUtzRm1ISUt6?=
- =?utf-8?B?VjU5b2lQNm5raE1ST2RVODNzRy80akZ3OWhxZmthdldkeGwrUmF2K29tRFIz?=
- =?utf-8?B?Qm9SVUV2a2dZOEIxeHVodWlRY3VBNCtpZlpoa3V2WXQzOGJGaURLcHJSVnZS?=
- =?utf-8?B?SThBSFZPZi9nZDhTTWVFd0R2RFk0U0prQ2dQUHdWM3RZS2o4UmE0bE9vNDBJ?=
- =?utf-8?B?T0FZNlpDbEEyL1h1Tk5jcnF0aFBlNWZ0R3U1TUZXWTlYaWZOVWtqU0hSTjNV?=
- =?utf-8?B?MnY0VkhiZ3lia2o5Q3dCVkF2dXJwai84T1BiR3JYMWVOUVFtaEZoRFdSVzhQ?=
- =?utf-8?B?TVlqSHlKcDdQMEhETmROR1M5dnRsc1FzMUwzbk4vWUJqUmE2TEk4NDN6dDVt?=
- =?utf-8?B?Q0xTblQ1SGZHbFFkYjJ3cFpsWk1HaHROMEt2bFdGWU81SkNEa2xkOGo1REtT?=
- =?utf-8?B?NEl4YXYxMkNVdDVyR0FaOVoreGxpNTdqQjlmUThIOFVCMWFyZGRzYTdVdWRz?=
- =?utf-8?B?TXBjZVIzVEw1NHZWMDNrL3AxTGxkUzJYa2kwR2gyc0I5eWpVYUJGWVRwcmFU?=
- =?utf-8?B?UWRBbjNoSFppOHFJVUlOaDUzVUFtaWplV1BTTzB2Ty9Uc1ZlTEJSNDk0Mkxj?=
- =?utf-8?B?UURwaXlmN2p4V29OYXB0ZzNkQmloUW9FL3daRklwQ3NJZi94NUJwdUNZNGxj?=
- =?utf-8?B?K0VJVVNhUC9EM3pobzFNUGV6VjJYZHhFTmlDTkhRdWJYY1F1UXRESWtkSWVV?=
- =?utf-8?B?a3dQanNWTEZGN2ROcklJK0NpbzJsQ0l4K1ZQdHg1QndlYjdvcEUwSk9FUEFn?=
- =?utf-8?B?SFBEbFVuTTF5SGo1WU5SU01EYmxrRHA1RmNONE9XdHJPMVVzdkNLZFllRmxB?=
- =?utf-8?B?UVY2MDI1OURnRy9sUldyUXh0cHJ3ZXRMV1lxL2NhYUJlT3kyYUU2M2lIb2I4?=
- =?utf-8?B?dlBEbmw0bDZGdU9MRUh2L3JHV3RyemdmOUFyNWhtQ3ZVUG9DNHNWRGxwUm5z?=
- =?utf-8?B?Z3FPam1UYTRDWGhmZG42OCsrRmdTOFVBRFFSOWtVSWppRHhKZ0oxNlJXVzcw?=
- =?utf-8?B?WWJLRW5BbmRERzFFMnV2TXdkR3Nld3lrOG5WUXhOdmtZUUFzNGNGZXZYd3Z0?=
- =?utf-8?B?NWVzVkx2aHJ3U2NGNEdkbE9ZbDlJbEl1OGpsTDN5K1gySFRoS3VKTVhVVmk4?=
- =?utf-8?B?N3pELzNNdmlCdmVsZ2c4NU81VlhYdTVrY1BhaTlWSGt3bXBHR2k4cDlkMUtW?=
- =?utf-8?B?WDYvbmo1MGlFRTM4ZkFpaVlwQmhyM0F2SGFwM1Q1aXdCa05ORkREZWoxNm41?=
- =?utf-8?B?VUtlUVpCMkVKODhaY2U4Uit3NURQM2t0dlo4NGlwNTBNZjBCbFVwdXBTTTNi?=
- =?utf-8?B?K0FJc1EwYWN3cDZZWHV5Mk9UUHQzbHVBUGtxN1grRi82VVB4TjF5S21YSldh?=
- =?utf-8?B?MnZLczcyNTEvM2hMbXhxcG9ZQko3WGtrcHBIMTZXZ2g2MlRzUDJsOFdNZnBP?=
- =?utf-8?B?VXFzSnk0VmtmeEU4UjJoK3l3YWsyMHM0bVNCTVUxTFJ4b2NWQ3QzTkM1OGlG?=
- =?utf-8?B?enhOQnRqY29xbGJBVEovNlNEUm5iTmdDc1gvdHVlbWt2TzZDRXZuRE0vZ1pH?=
- =?utf-8?B?NEFDVlh0UDZ2MUszMjA3V1E5UTdHTjVRUmlWMXBFdTFKamU0Q093cWo3eTYr?=
- =?utf-8?B?S3lxL29yaXRYeE1FcXpIRDNoY2UwUWZQMm5hSjFSN3lIU29RN2hMSUx5cGRu?=
- =?utf-8?B?MDhMcy80Q21CYUJobFI0emRWTS9zR1RwSVRNTGN1T0NRM1lQSWl4T0dMeHNO?=
- =?utf-8?B?WmFZb1Z5cmlIMDdibytLR3h6Y1Jld2hyZis4WWNLRGVGRHY2Z25qWGVIc2Vs?=
- =?utf-8?B?aTVnMHE3djdBRFp3SXNTM3Z6TzBEZjJqU3ZQQm51U0VDMlU1MXNLYk9CNmhD?=
- =?utf-8?B?L0RVOXViY0xadnl0bFV0azAzbmdTZjJiZVNUdGpOU0dsUDF5UUxGZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d176e142-71b0-4736-70fc-08df44a608eb
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 12:26:41.9573
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2yYsmHPSKE/Ho8bvCk3Faq2GoTtMm7F8aDZrlKhmgVmLBAPumSc9u0aD3P8ydiLF2UReklvgQ4C86R6X3ln0Jw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9111
+Content-Transfer-Encoding: 8bit
 
-On 17/11/26 13:18, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential
-> issues to consider:
-> - [High] soundwire: amd: runtime PM deadlock in amd_suspend_runtime()
->   work drain
-> - [Medium] soundwire: amd: stale status bits and early IRQ enable in
->   amd_suspend()
-> --
->
-> commit 9fb00434cce0e9e4cd0523448b2e4bde7b333b08
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
-> soundwire: amd: fix interrupt gate and work drain ordering in PM ops
->
-> This commit reorders interrupt masking, workqueue draining, and wake
-> configuration across the CLK_STOP_MODE and POWER_OFF_MODE paths in
-> amd_suspend() and amd_suspend_runtime().
->
->> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
->> index 57238c81997a2..220abf73cb25e 100644
->> --- a/drivers/soundwire/amd_manager.c
->> +++ b/drivers/soundwire/amd_manager.c
->> @@ -1430,17 +1430,20 @@ static int __maybe_unused amd_suspend(struct device *dev)
->>  	}
->>  
->>  	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
->> +		amd_disable_sdw_interrupts(amd_manager);
->> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
->>  		cancel_work_sync(&amd_manager->amd_sdw_work);
->> -		amd_sdw_wake_enable(amd_manager, false);
->>  		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, false);
->>  		if (ret)
->>  			return ret;
->>  		ret = amd_sdw_clock_stop(amd_manager);
->>  		if (ret)
->>  			return ret;
->> +		amd_enable_sdw_interrupts(amd_manager);
-> [Severity: Medium]
-> Can calling amd_enable_sdw_interrupts() after amd_sdw_clock_stop() without
-> clearing ACP_SW_STATE_CHANGE_STATUS_0TO7 and
-> ACP_SW_STATE_CHANGE_STATUS_8TO11 cause amd_sdw_irq_thread() to process
-> stale peripheral status bits while the SoundWire clock is stopped?
-No changes required. Once the SoundWire clock is stopped in CLK_STOP_MODE
-the hardware cannot assert new state-change interrupts -- the bus is quiesced
-and no peripheral can generate traffic. amd_enable_sdw_interrupts() restores
-the interrupt masks so the manager is ready to process events immediately on
-resume without needing a re-enable sequence.
+During a two-week campaign to make a Temple (XiiSound/Weltrend
+040b:0897) wireless dongle audible I captured the complete control
+traffic of the device on both Linux (usbmon) and the vendor's own
+Windows 10 stack (USBPcap).  This cover letter summarizes what the
+wire says about this chipset, because it differs from the device model
+encoded in the recently merged workaround, commit ba9bccdf711a
+("ALSA: usb-audio: Skip broken playback feature unit on XiiSound
+chips"), which is queued for 7.5.
 
-Wake interrupts are a separate path and are only asserted when the SoundWire
-manager transitions to D3 (POWER_OFF_MODE). In CLK_STOP_MODE suspend
-the wake bit is not part of the masks restored by amd_enable_sdw_interrupts(),
-so no spurious wake event can be delivered through this path either.
->
-> When a SoundWire interrupt fires just before amd_disable_sdw_interrupts(),
-> the parent ACP hard IRQ handler clears ACP_EXTERNAL_INTR_STAT and schedules
-> amd_sdw_irq_thread, but the status registers are only cleared at the end of
-> amd_sdw_irq_thread():
->
-> drivers/soundwire/amd_manager.c:amd_sdw_irq_thread() {
-> 	if (!READ_ONCE(amd_manager->interrupt_enabled))
-> 		return;
->
-> 	status_change_8to11 = readl(amd_manager->mmio + ACP_SW_STATE_CHANGE_STATUS_8TO11);
-> 	status_change_0to7 = readl(amd_manager->mmio + ACP_SW_STATE_CHANGE_STATUS_0TO7);
->     ...
-> }
->
-> Because amd_disable_sdw_interrupts() sets interrupt_enabled to false and
-> cancels amd_sdw_irq_thread without clearing those registers, any pending
-> status bits (or bits latched during amd_sdw_clock_stop()) remain set in
-> hardware.  In amd_suspend_runtime(), when a subsequent wake event triggers
-> amd_sdw_irq_thread(), amd_sdw_process_wake_event() only queues an
-> asynchronous pm_request_resume() before falling through to read the stale
-> status_change_8to11 and status_change_0to7 bits and schedule amd_sdw_work
-> while the link is still down, resulting in MIPI command timeouts
-> (-ETIMEDOUT).
->
-> In addition, the parent ACP IRQ handlers do not check interrupt_enabled
-> before calling schedule_work(&amd_manager->amd_sdw_irq_thread), so an
-> in-flight hard IRQ can queue amd_sdw_irq_thread after cancel_work_sync()
-> returns and run once amd_enable_sdw_interrupts() sets interrupt_enabled
-> back to true.  Finally, amd_sdw_clock_stop() returns 0 on its error paths,
-> so if clock stop fails, amd_enable_sdw_interrupts() re-enables state-change
-> interrupts with the bus clock still running.
->
-> [ ... ]
->
->> @@ -1491,18 +1493,24 @@ static int __maybe_unused amd_suspend_runtime(struct device *dev)
->>  		return 0;
->>  	}
->>  	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
->> -		amd_sdw_wake_enable(amd_manager, true);
->> +		amd_disable_sdw_interrupts(amd_manager);
->> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
->> +		cancel_work_sync(&amd_manager->amd_sdw_work);
->>  		ret = amd_sdw_host_wake_enable_by_rev(amd_manager, true);
->>  		if (ret)
->>  			return ret;
->>  		ret = amd_sdw_clock_stop(amd_manager);
->>  		if (ret)
->>  			return ret;
->> +		amd_enable_sdw_interrupts(amd_manager);
->> +		amd_sdw_wake_enable(amd_manager, true);
->>  	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
->> +		amd_disable_sdw_interrupts(amd_manager);
->> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
->> +		cancel_work_sync(&amd_manager->amd_sdw_work);
-> [Severity: High]
-> Can cancel_work_sync(&amd_manager->amd_sdw_work) in amd_suspend_runtime()
-> deadlock with amd_sdw_update_slave_status_work()?
+To be clear up front: that commit fixes the user-visible bug (the
+dongle coming up silent or one-eared), nothing here is a regression
+report against it, and this RFC is not asking for its immediate
+removal.  It proposes the alternative I ended up running locally -
+keep the playback feature unit exposed and make its hardware volume
+work - and offers the captures as evidence, both for this design
+discussion and for whoever debugs these devices next.
 
-No changes required. The sequence is:
+What the wire shows
+===================
 
-WRITE_ONCE(interrupt_enabled, false)   /* amd_disable_sdw_interrupts() */
-cancel_work_sync(&amd_sdw_irq_thread)  /* no new amd_sdw_work can be
-                                            queued after this returns */
-cancel_work_sync(&amd_sdw_work)
+1. The playback feature unit is a working hardware volume.  Per-
+   channel SET_CUR writes apply deterministically and independently
+   (a fast pair CN1<-50 + CN2<-100 applies exactly; a lone channel
+   write does not disturb its sibling), the master gates both ears
+   symmetrically, and intermediate values are audible and graded.
+   The vendor's Windows driver drives this exact unit on every slider
+   and hardware-button step, mapped linearly from its slider percent
+   (10% -> raw 9, 50% -> raw 49), and every intermediate value is
+   audible there too.
 
-For the deadlock to occur, amd_sdw_work must have started executing before
-interrupt_enabled was cleared, traversed the full call chain into
-pm_runtime_get_sync(), and remained blocked there until cancel_work_sync()
-is called. That window is extremely narrow given the sequencing above, and
-AMD has not observed this scenario in testing.
+2. The "any volume below the maximum mutes one or both channels"
+   behaviour that motivated the skip is host-side, in three stacked
+   layers:
 
->
-> kworker/0                          kworker/1
-> rpm_suspend(amd_manager->dev)
->   runtime_status = RPM_SUSPENDING
->   amd_suspend_runtime()
->                                    amd_sdw_update_slave_status_work()
->                                      sdw_handle_slave_status()
->                                        sdw_handle_slave_alerts()
->                                          pm_runtime_get_sync(&slave->dev)
->                                            rpm_resume(bus->dev, 0)
->                                              rpm_resume(amd_manager->dev, 0)
->                                                /* waits on RPM_SUSPENDING */
->     cancel_work_sync(&amd_sdw_work)  <-- deadlock
->
-> In the SoundWire device hierarchy, slave->dev is a child of bus->dev, which
-> is a child of amd_manager->dev, so both children are in RPM_SUSPENDED when
-> amd_manager->dev enters rpm_suspend().  If a peripheral alert schedules
-> amd_sdw_work just before amd_disable_sdw_interrupts() masks interrupts,
-> sdw_handle_slave_alerts() calls pm_runtime_get_sync(&slave->dev), which
-> synchronously resumes the parent chain up to amd_manager->dev and sleeps on
-> amd_manager->dev->power.wait_queue waiting for amd_suspend_runtime() to
-> finish, while amd_suspend_runtime() waits in cancel_work_sync() for
-> amd_sdw_work to complete.
->
+   - the unit advertises a bogus 0.00..0.39 dB range, under which
+      every user-space volume at or below 0 dB - the whole normal
+      PipeWire range, 100% included - resolves to the raw minimum,
+      which does silence the channel;
+   - the stereo control's GET_CUR returns a constant value, so the
+      sticky-GET sanity check classifies it broken and the probe
+      writes the minimum to both channels at every mixer build;
+   - user space applies one logical volume change as fragmented
+      writes (one per channel, the first carrying the stale sibling
+      value), and the device silently drops control writes in the
+      first seconds after enumeration (measured: the window closes
+      6.5-9 s after enumeration, with a ragged tail), so a stale
+      channel can survive until some later write happens to refresh
+      it.  The per-ear asymmetry users report is exactly this stale
+      state, not a channel-mapping property: under wire-verified
+      canonical writes the attenuation is symmetric (12/12 steps).
+
+3. The Windows driver never reads back (GET_CUR is broken, so it
+   cannot), and does not need to: it keeps the whole channel picture
+   at a single source of truth, writes every channel of a control in
+   one short burst - master first - and re-pushes the complete state
+   at every device open.  That every-open re-push is what repairs
+   whatever the enumeration window swallowed.
+
+One consequence worth recording: the create-time pin writes of the
+merged quirk sit inside the loss window and are dropped along with
+every other early write.  The dongle still comes up audible because
+it powers up with every volume channel at the maximum - which is what
+the pin intended to enforce anyway - and the resume re-pin added in
+its v3 is the part that does real work.  So the merged fix is sound
+in effect; only its description of the hardware is not.
+
+The RFC
+=======
+
+Patch 1 replaces the skip-and-pin with three quirk flags for
+040b:0897: the new QUIRK_FLAG_MIXER_INIT_VOLUME_MAX (initialize the
+channels of volume controls to the maximum instead of the minimum,
+exactly where the broken-GET minimum writes happen) plus the existing
+PLAYBACK/CAPTURE LINEAR_VOL flags (linear scale instead of the bogus
+dB range).  Hardware volume then behaves like on Windows.
+
+Patch 2 adds QUIRK_FLAG_MIXER_STATE_REPUSH, which replicates the
+vendor's write discipline for write-lossy devices: volume and mute
+puts only record values, one deferred flush writes each touched
+feature unit in a single canonical burst (master first, derived from
+the loudest channel), and every PCM stream open and resume re-push
+the full cached state - the every-open repair the Windows stack
+relies on.  This is new mechanism territory (I found no prior
+proposal for write batching or re-push in the archives), hence RFC.
+
+Both ran as locally built DKMS modules - first against a 7.2 tree over
+the wire-verified campaign, then successive revisions against 7.3.4 -
+and in daily use; details in the commit messages.
+
+Known limitations, stated for the record:
+
+  - Through the linear scale PipeWire applies its cubic, so the
+    mid-slider feel is quieter than on Windows (50% -> raw ~12).
+    Users who want the vendor loudness feel can set
+    api.alsa.soft-mixer = true - which is effectively what the merged
+    skip approach gives everyone.  The value of this RFC is that the
+    choice stays with the user and the hardware volume keeps working
+    for stacks that do drive it.
+  - After a replug the device sits at its power-up state (maximum)
+    until the first write lands past the loss window; with patch 2 a
+    stream open re-pushes and heals, provided streams actually open
+    and close (a wedged PipeWire session that holds the device open
+    indefinitely defers the heal to the first user volume gesture).
+  - Hardware buttons keep stepping an internal device state that the
+    host cannot observe (no readback); neither approach - skip or
+    drive - syncs with the buttons.
+
+I am happy to rework or drop either patch; the capture evidence is
+offered independently of the design preference.
+
+Changes in v4
+=============
+
+Thanks again to the sashiko AI review for a pass over the v3 PM
+integration; all seven findings are addressed:
+
+  - restore_mixer_value() no longer writes the deferred controls
+    under QUIRK_FLAG_MIXER_STATE_REPUSH (its finding that an unlocked
+    restore could clobber values a deferred put just recorded, and
+    re-sent a derived master from a cache lagging its channels).  A
+    resume now re-pushes them through the flush mechanism, which also
+    re-asserts cached mute switches - nothing is playing yet at that
+    point, so this cannot chop a stream.
+  - The re-push request is no longer a trylock-or-drop bool in the
+    resume callback.  Requests are atomic bits; the worker re-checks
+    them after every run, so a request raised while it runs (for
+    example by the resume callback running on the very thread of a
+    flush whose write triggered it, which holds the mixer lock) is
+    no longer lost.  No PM callback blocks on the mixer lock anymore.
+  - Suspend marks the mixer suspended before cancelling the flush
+    timer; a flush already running stops before its next unit
+    instead of issuing control transfers into an ongoing port
+    suspend.  A write that fails mid-suspend keeps its value pending
+    and is retried by the resume re-push - previously a failed mute
+    write was dropped for good, because only volumes were re-asserted.
+  - The explicit master is no longer sticky forever: writing any
+    channel of the unit re-claims master derivation, so a master
+    saved and restored by alsactl cannot pin the hardware volume
+    permanently (an audio server driving only the per-channel
+    control would never undo it otherwise).
+  - Disconnect marks the mixer under the mixer lock before
+    synchronizing on the flush worker, and every arming site either
+    holds that lock and re-checks, or runs from a PM callback (which
+    the USB core completes before calling the driver's disconnect),
+    or is the worker itself before returning - no flush can be armed
+    after the cancel returns, closing the use-after-free window.
+  - The cache-invalidation suppression on device status
+    notifications is restricted to the deferred volume/mute controls;
+    other controls on the mixer invalidate as usual again.
+
+The v3 design (non-blocking suspend cancel, derived-master
+discipline, mixer-unit and read-only exclusion, dbg-level re-push
+log) is unchanged.
+
+
+Pavel Artemev (2):
+  ALSA: usb-audio: drive XiiSound playback volume instead of skipping it
+  ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
+
+ Documentation/sound/alsa-configuration.rst |   9 +
+ sound/usb/mixer.c                          | 523 ++++++++++++++++++++-
+ sound/usb/mixer.h                          |  19 +
+ sound/usb/mixer_maps.c                     |  19 -
+ sound/usb/mixer_quirks.c                   |  59 ---
+ sound/usb/pcm.c                            |   4 +
+ sound/usb/quirks.c                         |   7 +
+ sound/usb/usbaudio.h                       |  29 ++
+ 8 files changed, 575 insertions(+), 94 deletions(-)
+
+
+base-commit: f930156051f6a3dcd454ff723ca36b14d49650d2
+-- 
+2.56.1
 
