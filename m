@@ -1,151 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.3
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794937085;
-	b=hLxs0VUsi3Kbv/yGLEfe7n0bjkOERjkP7weynkV3BUw/yRuQLSLwld6GcEZrxxUY/pMk
-	 RMxiDDgJ/Yr/B0AtATZ0yl/4rx/KHJ4YPxmpRZ6NJWxGoLRMbW8h+gKVSWU+sLOvULHxB
-	 l/UCgUV83DevOsx4VPGh8aaNYnUY+UlBPoLdr5EvCNH6BhRUqrKIczNUBAFwhzVEYT+g5
-	 5i0Sdla8c4auviZtYJAQ2c4/69dgkyZFtl4E/KE+1Tr1x1bdbeQxC8v/yhOARJznVpjqB
-	 DiT+ZRY+IjfTt7NnuV23amfVoTcWK4yYLIb8YmAoyiuB5ahV+KBC1VuYoIO0mZCh5Iw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794937085;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=qEIEbjesTAOD1nbI62CqLO0IIeJJxpM0OwDRh/bA1WU=;
-	b=TZ6nnHiqHsxg4Z5G3p8hOOWKtdevlcdMB12bzsx99KW6KoqgR0HMrtCFkk0W8zF4xK2G
-	 8EbjMkCjxVqWp3Rp3PDVuKCBIzPvJWK6qkBLvFnYiyfz3/yht37AO7kliYZiSjiaM41+8
-	 GiPvJxeapmBX6jGycvo8edCti9eyQWzKFEclw3uPctW/Nc2pU4L4XhnG5arlDImW62Tvd
-	 wISgWt6jZtNj/teykJv7kkt86EQeBSKjB22VdpQFgHRTzxcvfQcY7gRyLsqvlF6l7JNZk
-	 vvGEcgjOA/OqHM6a6sZMTiFYwnS34xEep2/iexgsR1S4ybBWeTVhG4NQBdt1W3OXjRQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=NWoRQixK;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.3
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013003.outbound.protection.outlook.com [40.107.162.3])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=89.253.219.113
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794938869;
+	b=lCSX59Bp2RrY2M55c6Vx7PniqNJwVNWeoLopbaa7Qtihf4S/NBrM+dtNR/q83XBnI8l3
+	 zgJkFk5vRtQqRrWgMAHXUUGfrINENmKgLKg0jmEpzqjsYnNZ/havCLICyx8v19OCBgZX+
+	 3cxhhudHJqRFoOzp/a+8iI9KucU6kNaLGEoz0cbY5FYB1SJf/uX8Gn4EdcWSAJoh3+yQ7
+	 Vz9zUIFVJPLpqdR5ZEsDpDO5IeLrj3MRF/WTFAo0OCiyc5Nt4RSG/azhcvTVWNn0TaLix
+	 u5cYq7YvrJsFGAh6/BBPuJTjVPl0c/vqdfVALZjuhiBeiHwCWAfRJXj7ZWfGF0Z2X+g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794938869;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ntS5kUxEG1OsLuUHcjyS+rwv6Pass5CaGdbNoRFVibY=;
+	b=vrRQp23cOLPkCFAm48A+983GeQ4BPxm3lvGbrZtKOzCQXve5Oo10oVo0tYazX7Jf+vw9
+	 xCdYcS7sPn5w05lxa2sPVnp7VUF0M20K2HxhfNVy7eeO1AA3W9b9420PLZh1j9lInSiPH
+	 o3FRvD+kNjUkgRPvJNJdBOYJJ/cdNqawBzkLfgntX6B1jxRR2ceOAEjhAA/vqdUW6Alq7
+	 5gnSchjfvoKn5COliEy1TpkE2ceF3UsPmR/82pizntMPomMHT8lajQxhUHEScm0ozZQ63
+	 nWVVno2d5QMhlL1d2L9A5btVxZPWE+WCXkeFTY3xy2hj09K21mcH0YitsJ8oXyiK2wQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=pavel.bz;
+	spf=pass smtp.mailfrom=pavel.bz;
+	dkim=pass header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=lLRXCGBE;
+	arc=none smtp.remote-ip=89.253.219.113
+Received: from mail.pavel.bz (mail.pavel.bz [89.253.219.113])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A864E606A339;
-	Tue, 17 Nov 2026 17:38:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A864E606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16686606A32F;
+	Tue, 17 Nov 2026 18:07:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16686606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavel.bz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pavel.bz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=NWoRQixK
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tyi+eGsTsaD4j9NJ6dD02Onw0+IJXwJKvXWXo7EN7PHR8TZWig5JqOVMGx88V1UawuXlqC5zq+mjTkq2OAlSJ9foh+eDICvbzx637+3Uncdp5CqZoY+0YF2CgWeMLroiSEvO3MkRh0D9QCp8c4XHjXqhGOqri2YSQyNOZjJr/FmadFt6h+XkcQCnMkrwETpcj7sW5V0igegzfrg0E5qKXGLWLCG2/FYM+rTKEezFh0Ol79fey7Hf182SxXz0ScATlTlCipip2dL9elidz+Qf5qbMwTZln+sl8+4O+enW9SGc1bW24G2GmJzIzov4ddXBWOrNHnlI7hCmwTum+mw2lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qEIEbjesTAOD1nbI62CqLO0IIeJJxpM0OwDRh/bA1WU=;
- b=tXJM/0eGAxORdvox5+DfRYEU6M8DaWVF4wFbhXPel+LHoJybHTivj+qF52kiMBjVy9PJUHqDpZVpWvdljGfteweYucNFakMFnVoAfjWXzH55M7LuUt6YTwIj0h2BWWWU1NWgUnRU9ReYJLSTz27La/OfEAvVqbFB6ApOkhjOHny7mF04QE35Ujtouoa+dy9fqdmypdN5UHWR28AwK9FKQkcgNqOQLGM3B7uh+tNC5nBlBv58u05zj9zjNj6Alw8BTuwxKm5MlssypjXmVg5uuZ0dRp8SsobofMsBtImcXDOWfeT7O5fS2CR/byeR4s/vNnCDRq88u04Prln8SBRUKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qEIEbjesTAOD1nbI62CqLO0IIeJJxpM0OwDRh/bA1WU=;
- b=NWoRQixKJTPLtqDyOH3Rrr+VZXca784i/05OYFYnTRxPTfDAxBj3NPdyIlcgfAIeH3ES3VgeQkDDiNyr8osahqjBhWpt9qQ9mXxV9t9l6KMI1jSHDRdEIx+/Ofw2NMXrmngU/t07SU52s9GwVDV+MnU+obUlVfYrbVNuozDZNARh3mq/fUvKO5dxLEtb6pYrDtbYWL9OUvpTMAHq1yAFaabxjoFVbAUZnow7KfvKl7TMQtWu6LN/pnxhU65ixELfYVxcWpolSlptvY4anPqHK9am3FBCTqfNNfrzrweZTROF6Dd2i0vDN/47oFqdjpIbVVsEJr8ZQ2NApZRruXF87g==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
- by GV2PR04MB12582.eurprd04.prod.outlook.com (2603:10a6:150:36f::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 17:37:59 +0000
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 17:37:59 +0000
-From: Frank.Li@oss.nxp.com
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Ulf Hansson <ulfh@kernel.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Will Deacon <will@kernel.org>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Vasut <marex@denx.de>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-pm@vger.kernel.org (open list:POWER MANAGEMENT CORE),
-	linux-kernel@vger.kernel.org (open list),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Mediatek SoC support:Keyword:mediatek),
-	linux-mediatek@lists.infradead.org (moderated list:ARM/Mediatek SoC support:Keyword:mediatek),
-	linux-rockchip@lists.infradead.org (open list:ARM/Rockchip SoC support:Keyword:\b[Rr]ock[Cc]hip\b)
-Cc: imx@lists.linux.dev,
-	Frank Li <Frank.Li@nxp.com>,
-	linux-pm@vger.kernel.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	"Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Alessio Belle <alessio.belle@imgtec.com>,
-	Luigi Santivetti <luigi.santivetti@imgtec.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	imagination@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
+	dkim=pass (2048-bit key, unprotected) header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=lLRXCGBE
+Received: from p-745-g5.pavel.bz (unknown [182.52.139.49])
+	by mail.pavel.bz (Postfix) with ESMTPSA id 0B778616B5;
+	Tue, 17 Nov 2026 18:07:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.pavel.bz 0B778616B5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pavel.bz; s=primary;
+	t=1794938860; bh=ntS5kUxEG1OsLuUHcjyS+rwv6Pass5CaGdbNoRFVibY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lLRXCGBEf7kbU0v1W7K1JXK6zp9NrWDBOIGyFiIXR+1Yoku48vjjtDWicw/sUMK4O
+	 wTrBbJvuSaASY4qOWuDV1UfRTD/Nr8GOtfqkeWWbNUhHT+pCBS0IVwkwFdCOJQSSul
+	 dHyhqFxyft5P096L+YXfCHFl/CcGm0JmWvRckWg1qNudLcqF/AOr0UBpXY7ZYcLHTf
+	 58RnJ0Sse4HM7vdnwrsyJFwFjQd+grXdHY2C84+fnhz4j3vLGS2z0HJpPSn85YAlD4
+	 UqeahFQqETUx0X2Oixod+9hw3ovXpID9LucwdGDdtrJx6W5yTdT9PUWDkxxsz/SusU
+	 Q6cdQuUTnlWrA==
+From: Pavel Artemev <a@pavel.bz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org
-Subject: [PATCH v3 2/2] PM: runtime: fix stub pm_runtime_get_if_in_use() for !CONFIG_PM
-Date: Tue, 17 Nov 2026 12:37:36 -0500
-Message-ID: <20261117173738.1073856-2-Frank.Li@oss.nxp.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261117173738.1073856-1-Frank.Li@oss.nxp.com>
-References: <20261117173738.1073856-1-Frank.Li@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH0PR07CA0115.namprd07.prod.outlook.com
- (2603:10b6:510:4::30) To MI3PR04MB12438.eurprd04.prod.outlook.com
- (2603:10a6:290:76::14)
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v6 0/2] ALSA: usb-audio: working hardware volume for XiiSound headsets (040b:0897)
+Date: Wed, 18 Nov 2026 01:07:26 +0700
+Message-ID: <20261117180728.117915-1-a@pavel.bz>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -155,204 +63,170 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|GV2PR04MB12582:EE_
-X-MS-Office365-Filtering-Correlation-Id: f388b5f8-7a45-4bd7-f30a-08df44d185fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|19092799006|7416014|376014|1800799024|22082099003|18002099003|6133799003|921020|11063799006|56012099006|261026140227099003|261028144727099003|261021123027099003|261021121427099003|10067099003|261026121527099003|261102123227099003|261022115727099003|261009223027099003|261022105027099003|261022075727099003;
-X-Microsoft-Antispam-Message-Info:
-	Jj2sg7l5PFXw+H4AOG9zak2KGj1d+ODAhuCpyyuTvVynNI12AyrNGkVRDG9O0BiiXAX58Buyb9A1oQbFiXzCxnxC0Q7P4dOhlH2N3knmCZw3gO+/66T1Y1SMbZLPMULPLH+HM6l4xa5V+ZmS/+iXhrbaCGZ3vamV6PvDNHHnTA7UcY5yjJ2DoiZvzGd9zpXsKTg+W7TggFzty7yHd2wUFZJze7RZwYMVjDvNmeueleZA0i1NdNPu7sWR05Z8eToxWBtBNiSj4aoSGBbjgbM53KMt4i2iHLaue3YNoWn3CDFlw0sDvJCY8+FfULLahbj+8lVdfXw5/VYkLu3IeHk0m1k7E+4x+Fk/wrPsiWRUoSlio7w2UuM78MsoeATUlKSHmZ//IHu7zz33DcUq2dcOxS4zBefHRMKswBcyBICouIQfSmQTtNbXcFSUb52kccUF94jQH6V5H/9c3xQhUCQrZa05caJndIMSEsEvWazvtxdEqTsNux4I3dCPAFHN+mNAo0hrtdhPaNMv0/E4L9VsQvKR82+nKRmZ9mDXEwbQzoLLyDFJR0BAQ3lSZ53VobAC8HPY7NQk8mORmzNTgChA+GKj89PAkCLBISOlj+Dw725szq9aWec+cLwB+o/ZPkLdpToOlgvrOhZV8Jl1s5A0KhAh6MRXl7bp5QnrENqhyHOy/W4Iv4yZZtHEEbliGuq8i3OakGQd+T9uB3rxTvoi6w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(19092799006)(7416014)(376014)(1800799024)(22082099003)(18002099003)(6133799003)(921020)(11063799006)(56012099006)(261026140227099003)(261028144727099003)(261021123027099003)(261021121427099003)(10067099003)(261026121527099003)(261102123227099003)(261022115727099003)(261009223027099003)(261022105027099003)(261022075727099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BzhnqsgxvfcKxhSHph9G4PC2oJg6GXYAqAfdurnIjDUbyIOY2MKptd+XshMD?=
- =?us-ascii?Q?KgYvPJNern9edV2PCM/Bkz4nj1aEGWTSS3lrQTcUJM74NhixH9jwjA2OFDqD?=
- =?us-ascii?Q?XhxuZg+KPGb9nDh6+Zi/2LBwVPuc5uq4U3aYYVOYZWkKhw+qFl3AmWFHwI9O?=
- =?us-ascii?Q?hngcGn8nYBeHf0hjm7xjepqReR1DkNTn19D6I9iC9fZSpmYgpqMeqWxJPKLe?=
- =?us-ascii?Q?tmz0O6MTuKgppHJSS5fd65lR5O4RIDHxU4tINhoMOvQ45GiQrVfdejKb52EO?=
- =?us-ascii?Q?VcT5M/A2n5If/ol4W/5KyvdNVWF+N3sLEq5zOVHoAFStSjZDF7MBPlISU7nQ?=
- =?us-ascii?Q?6pb6iIawLyO9wCSinN7LBqmk4rTKwryaGf+3SQwP0rCKYXVFupEQ/3FWXlW3?=
- =?us-ascii?Q?Y3QGmWE23AkiRDiBKfINQaSCH5gzZuRaU+Q3fcGRJL1/+aC+5S9eWpTSXP4M?=
- =?us-ascii?Q?fnCwVqk+Hk3RLr6a4d9B3irEof21dqggGD2vfGrON9b1Goy3l/czG2txV1yk?=
- =?us-ascii?Q?HvBDEEgFTt/HNS+3746NkARuHpIpnXa17d1bh3EdDCmbNqSXo24Sayox6lbR?=
- =?us-ascii?Q?3xGqeG67WAL3eAOOq5FiJfG691ez0JqIFyRF8+RC2C8uouOGE8uaI9eH7XBl?=
- =?us-ascii?Q?hgvDuLXYULwJdSxwpzgA9W6h987wJOInTTUalgoWYbVw5+NaNdI5b0kWoUBI?=
- =?us-ascii?Q?2n/9FHNIRCbMMsbovyGZm3MhsN6Y+Z/kb1MVWPZ/6jdSVZ4NctTYDfy6AnGW?=
- =?us-ascii?Q?8MX8Scx8/0n838CC9D+8kv9luGzPc40z5FXNO4Zow1r52AYlnupziFn9d7Yg?=
- =?us-ascii?Q?glT3Tzs8UHxYY/hh31py2GEma4oa2o37tYOTHmKdra6XPmtZemxKhbWVwkY0?=
- =?us-ascii?Q?7Ift2/DBjZZdeOnGUiTOrhJiCwskgVcKyybvYwPhc1skcsHN9FTFlx7/DNvv?=
- =?us-ascii?Q?9Y2q5Pu/vzjk14CAcfEUKh8P+GaMtwvCzlrjWbbQQ3FX9bZyQhdxHripsyHD?=
- =?us-ascii?Q?aLgwppAaX+kENdq2D+WooSKm5yTSDnlSRV9Zc3bkC/N9NOZ2N1p33DSGAR0l?=
- =?us-ascii?Q?3t8QUA37QKdrcvDXjkXNP+/OCath8+xmyyJ65HjynA3vqz9DAsTeSbs9Qlcp?=
- =?us-ascii?Q?T9RbyfxCx1w0EpJiFIFnJUo8zYTHFeJh1rkgAgVSO+tkZngLM0E3450nDqJ5?=
- =?us-ascii?Q?cRFbAuN6Y0uEWFHzQ5KpnhnrReF/EF9hP6Ma+rRNyx63uniLzFQ6OOAtXiyo?=
- =?us-ascii?Q?dKjT7hgAVTt3sA+HZB7c+E8pZsjoujwaTtcBiax9S8wbAuC5aPTEvIdRizvD?=
- =?us-ascii?Q?s9gJb1ga2YSaVCw8eqU/W8TA6RDLfTevgQW/4oAgte9rhBhHDTyIOEgNMw9t?=
- =?us-ascii?Q?ltpLtP8WwlnXvdC8cp4BJH4byffBm4U3XnbjXZRED+vkKXFHAsv2wAoLZsgn?=
- =?us-ascii?Q?WxIVZwZJUQREyXIBdFAwatoW3bdhe7Fi7rGEMXnqaPyUzwEfqWgRm4wHw5lj?=
- =?us-ascii?Q?on4WWXvB5d9QcA3cFQWvdWGYwjgEpEb7MBP1j+lt5do1Qg57lF/X6ZDFOU/w?=
- =?us-ascii?Q?3ZNvwIJnCdKY66QE46TRUDiF3FzdNjLQHEfg2iNupMXPWa37z2aU5LSEpBm9?=
- =?us-ascii?Q?1VSBk8nsAjloCLmtHnmvqEHQ9FnZJFTp2AyVXkmLN13OWnenKJjw9UzEfN+P?=
- =?us-ascii?Q?E4BaVgnv0m/2xXxSHofgFj3KfcdTTFgojz8qQEBC25lyHK/WPFwoU/yHvlJ/?=
- =?us-ascii?Q?8OfqMXmKcubyEqGfd6b0rGZ4NRW07Z0Nhke1TJd0CwBkQJJ0X2Cl?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f388b5f8-7a45-4bd7-f30a-08df44d185fd
-X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 17:37:59.7453
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sgIbX0QllbpVHh5CBK3uQR4gfDILGUBrlWOlvh71oaviY0NpvVLk368OZVogwC5pDC7A494j0lDv35OICEayUpJRI9Nb8Rw8/f5PTdB9aCVOvYod81DVcxzff0G5IJMh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB12582
+Content-Transfer-Encoding: 8bit
 
-From: Frank Li <Frank.Li@nxp.com>
+During a two-week campaign to make a Temple (XiiSound/Weltrend
+040b:0897) wireless dongle audible I captured the complete control
+traffic of the device on both Linux (usbmon) and the vendor's own
+Windows 10 stack (USBPcap).  This cover letter summarizes what the
+wire says about this chipset, because it differs from the device model
+encoded in the recently merged workaround, commit ba9bccdf711a
+("ALSA: usb-audio: Skip broken playback feature unit on XiiSound
+chips"), which is queued for 7.5.
 
-The stub for pm_runtime_get_if_in_use() under !CONFIG_PM currently
-returns -EINVAL.  The real implementation returns:
-  1  - device is active and its usage counter is non-zero (bumped)
-  0  - device is not in use or not active (counter not bumped)
- -EINVAL - runtime PM disabled for this device
+To be clear up front: that commit fixes the user-visible bug (the
+dongle coming up silent or one-eared), nothing here is a regression
+report against it, and this RFC is not asking for its immediate
+removal.  It proposes the alternative I ended up running locally -
+keep the playback feature unit exposed and make its hardware volume
+work - and offers the captures as evidence, both for this design
+discussion and for whoever debugs these devices next.
 
-When CONFIG_PM is not set every device is permanently "active" and
-always considered "in use", so the stub must return 1, mirroring
-__pm_runtime_resume() which already returns 1 in the same build.
+What the wire shows
+===================
 
-Returning -EINVAL breaks callers that test the return value with
-comparisons other than "!= 0 / == 0":
+1. The playback feature unit is a working hardware volume.  Per-
+   channel SET_CUR writes apply deterministically and independently
+   (a fast pair CN1<-50 + CN2<-100 applies exactly; a lone channel
+   write does not disturb its sibling), the master gates both ears
+   symmetrically, and intermediate values are audible and graded.
+   The vendor's Windows driver drives this exact unit on every slider
+   and hardware-button step, mapped linearly from its slider percent
+   (10% -> raw 9, 50% -> raw 49), and every intermediate value is
+   audible there too.
 
-drivers/gpu/drm/i915/intel_runtime_pm.c:
-  if (intel_runtime_pm_get_if_in_use(rpm))
-  which wraps to: ret = pm_runtime_get_if_in_use(); return ret > 0;
-  With -EINVAL the wrapper returns false, causing an incorrect error
-  path in the GT fence revocation code.
+2. The "any volume below the maximum mutes one or both channels"
+   behaviour that motivated the skip is host-side, in three stacked
+   layers:
 
-drivers/gpu/drm/xe/xe_pm.c:
-  if (pm_runtime_get_if_in_use(xe->drm.dev) > 0)
-  With -EINVAL the condition is false; xe_pm_runtime_get_if_in_use()
-  returns false, so callers believe the device is not usable.
+   - the unit advertises a bogus 0.00..0.39 dB range, under which
+      every user-space volume at or below 0 dB - the whole normal
+      PipeWire range, 100% included - resolves to the raw minimum,
+      which does silence the channel;
+   - the stereo control's GET_CUR returns a constant value, so the
+      sticky-GET sanity check classifies it broken and the probe
+      writes the minimum to both channels at every mixer build;
+   - user space applies one logical volume change as fragmented
+      writes (one per channel, the first carrying the stale sibling
+      value), and the device silently drops control writes in the
+      first seconds after enumeration (measured: the window closes
+      6.5-9 s after enumeration, with a ragged tail), so a stale
+      channel can survive until some later write happens to refresh
+      it.  The per-ear asymmetry users report is exactly this stale
+      state, not a channel-mapping property: under wire-verified
+      canonical writes the attenuation is symmetric (12/12 steps).
 
-drivers/gpu/drm/gma500/power.c:
-  return pm_runtime_get_if_in_use(dev) == 1;
-  -EINVAL != 1, so the helper always returns false when !CONFIG_PM.
+3. The Windows driver never reads back (GET_CUR is broken, so it
+   cannot), and does not need to: it keeps the whole channel picture
+   at a single source of truth, writes every channel of a control in
+   one short burst - master first - and re-pushes the complete state
+   at every device open.  That every-open re-push is what repairs
+   whatever the enumeration window swallowed.
 
-drivers/gpu/drm/imagination/pvr_power.c:
-  if (pm_runtime_get_if_in_use(...) <= 0)
-  -EINVAL <= 0 is true, so the driver always takes the "requeue" error
-  path instead of proceeding with the active device.
+One consequence worth recording: the create-time pin writes of the
+merged quirk sit inside the loss window and are dropped along with
+every other early write.  The dongle still comes up audible because
+it powers up with every volume channel at the maximum - which is what
+the pin intended to enforce anyway - and the resume re-pin added in
+its v3 is the part that does real work.  So the merged fix is sound
+in effect; only its description of the hardware is not.
 
-sound/soc/sof/debug.c:
-  if (pm_runtime_get_if_in_use(sdev->dev) == 1)
-  -EINVAL != 1, so d3_prevented is never set, corrupting exception
-  debug accounting.
+The RFC
+=======
 
-drivers/iommu/mtk_iommu.c:
-  if (pm_runtime_get_if_in_use(dom->plat_dev->dev) <= 0)
-  -EINVAL <= 0 skips the TLB flush, leaving stale IOMMU mappings.
+Patch 1 replaces the skip-and-pin with three quirk flags for
+040b:0897: the new QUIRK_FLAG_MIXER_INIT_VOLUME_MAX (initialize the
+channels of volume controls to the maximum instead of the minimum,
+exactly where the broken-GET minimum writes happen) plus the existing
+PLAYBACK/CAPTURE LINEAR_VOL flags (linear scale instead of the bogus
+dB range).  Hardware volume then behaves like on Windows.
 
-drivers/iommu/rockchip-iommu.c:
-  Three call sites use WARN_ON_ONCE(err < 0) or similar patterns.
-  -EINVAL < 0 triggers a spurious WARNING on every call.
+Patch 2 adds QUIRK_FLAG_MIXER_STATE_REPUSH, which replicates the
+vendor's write discipline for write-lossy devices: volume and mute
+puts only record values, one deferred flush writes each touched
+feature unit in a single canonical burst (master first, derived from
+the loudest channel), and every PCM stream open and resume re-push
+the full cached state - the every-open repair the Windows stack
+relies on.  This is new mechanism territory (I found no prior
+proposal for write batching or re-push in the archives), hence RFC.
 
-drivers/media/i2c/isl7998x.c:
-  if (pm_runtime_get_if_in_use(dev) <= 0)  (two call sites)
-  -EINVAL <= 0 causes the driver to always skip register programming
-  when !CONFIG_PM.
+Both ran as locally built DKMS modules - first against a 7.2 tree over
+the wire-verified campaign, then successive revisions against 7.3.4 -
+and in daily use; details in the commit messages.
 
-drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:
-  if (pm_runtime_get_if_in_use(dev) <= 0)  (two call sites)
-  -EINVAL <= 0 prevents any debug statistics from being collected.
+Known limitations, stated for the record:
 
-Fixes: a436b6a19f57 ("PM / runtime: Add new helper for conditional usage count incrementation")
-Fixes: 3b85b7bcccf4 ("drm/xe: Fix display runtime_pm handling")
-Fixes: 672c473576ca ("drm/gma500: Rewrite power management code")
-Fixes: b30289e7fa92 ("ASoC: SOF: Fix runtime pm usage counter balance after fw exception")
-Fixes: c0b57581b73b ("iommu/mediatek: Add power-domain operation")
-Fixes: 51ef2be546e2 ("media: i2c: isl7998x: Add driver for Intersil ISL7998x")
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
-Change in v3
-- drop tag: cbb819c363c5 ("media: rkisp1: debug: Collect input status by sampling ISP_FLAGS_SHD")
-selected PM at arch config
-- drop tag: 0f181d3cf7d9 ("iommu/rockchip: Add runtime PM support")
-selected PM at arch config
-- drop tag: 9d58aa46291d ("drm/i915: Fix the GT fence revocation runtime PM logic")
-guard by CONFIG_PM
-- drop tag 727538a4bbff ("drm/imagination: Implement power management")
-depend on PM
-`
-Change in v2
-- new patches.
+  - Through the linear scale PipeWire applies its cubic, so the
+    mid-slider feel is quieter than on Windows (50% -> raw ~12).
+    Users who want the vendor loudness feel can set
+    api.alsa.soft-mixer = true - which is effectively what the merged
+    skip approach gives everyone.  The value of this RFC is that the
+    choice stays with the user and the hardware volume keeps working
+    for stacks that do drive it.
+  - After a replug the device sits at its power-up state (maximum)
+    until the first write lands past the loss window; with patch 2 a
+    stream open re-pushes and heals, provided streams actually open
+    and close (a wedged PipeWire session that holds the device open
+    indefinitely defers the heal to the first user volume gesture).
+  - Hardware buttons keep stepping an internal device state that the
+    host cannot observe (no readback); neither approach - skip or
+    drive - syncs with the buttons.
 
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: linux-pm@vger.kernel.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: Alessio Belle <alessio.belle@imgtec.com>
-Cc: Luigi Santivetti <luigi.santivetti@imgtec.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Yong Wu <yong.wu@mediatek.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Heiko Stuebner <heiko@sntech.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Michael Tretter <m.tretter@pengutronix.de>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: imagination@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org
-Cc: iommu@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-media@vger.kernel.org
-Cc: linux-rockchip@lists.infradead.org
-Cc: linux-sound@vger.kernel.org
-Cc: sound-open-firmware@alsa-project.org
-Cc: imx@lists.linux.dev
----
- include/linux/pm_runtime.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am happy to rework or drop either patch; the capture evidence is
+offered independently of the design preference.
 
-diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
-index de9e7518ecef2..1d983fe55a16a 100644
---- a/include/linux/pm_runtime.h
-+++ b/include/linux/pm_runtime.h
-@@ -276,7 +276,7 @@ static inline int pm_schedule_suspend(struct device *dev, unsigned int delay)
- }
- static inline int pm_runtime_get_if_in_use(struct device *dev)
- {
--	return -EINVAL;
-+	return 1;
- }
- static inline int pm_runtime_get_if_active(struct device *dev)
- {
+Changes in v6
+=============
+
+Thanks to the sashiko AI review for the v5 pass; both findings are
+addressed:
+
+  - Master ownership now transfers on any volume-channel write
+    request, unchanged values included.  v5 only re-claimed
+    derivation when a channel value actually changed, so a master
+    restored by alsactl - which restores channels before the master,
+    leaving the master put as the last write - stayed the owner
+    through the audio server's subsequent no-op channel writes, and
+    the re-pushes kept asserting the alsactl master instead of the
+    derived one until the first changed gesture.
+  - A channel put superseding an unflushed explicit master put now
+    drops the master's cache entry along with its pending bit.  v5
+    kept the never-written value cached: when it equaled the control's
+    raw maximum, the limit-aware re-assert skip mistook it for device
+    state and swallowed every later derive - the hardware master
+    stayed stuck below its channels with no healer.
+
+  - A local pre-send review run of the same public prompts also
+    flagged smaller items, addressed here: patch 1's init-max quirk
+    now excludes mixer unit controls (their control selector field
+    stores a 1-based input pin number, which aliases UAC_FU_VOLUME -
+    a broken-GET mixer unit input would have been initialized to the
+    maximum instead of the minimum; latent, this device has no mixer
+    units); processing-unit selectors sharing the 0x02 value are
+    disclosed in the commit message as not excluded (none exist on
+    this device); the quirk flag documentation no longer describes
+    the stream-open re-push as a full-state re-push (it re-sends
+    cached volumes; only a resume additionally re-asserts cached
+    mutes) - in both the header comment and the docs; and a master
+    put arriving right after an ownership transfer dropped its cache
+    entry is now recorded unconditionally instead of read back (on
+    broken-GET master controls that read would fail until the next
+    derive re-caches).  The same review confirmed the two v5
+    findings as fixed in code and probed the ownership-transfer
+    machinery for residue; the one accepted residual is that an
+    ownership transfer empties the master cache, so the next re-push
+    re-derives the master even at the raw maximum - never a lone
+    write, it shares the burst with the channel re-pushes.
+
+Wire-verified on the device against 7.3.4: the v5 verification set
+still holds (superseded explicit value never reaching the wire,
+stream-open re-push re-asserting the master below the raw maximum,
+raw-max skip, runtime-PM paths); the v6 ownership changes likewise:
+a no-op volume-channel write following an explicit master put
+re-claims derivation, so the stream-open re-push derives the master
+instead of re-asserting the explicit value, and an explicit master
+put to the raw maximum superseded by a channel put in the same flush
+window produces the full derived burst including the master.
+
 -- 
-2.43.0
-
+2.56.1
