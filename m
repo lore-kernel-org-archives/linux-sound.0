@@ -1,47 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794916502;
-	b=4JqQjxoGpErbv4ePJWMfAvpmgGh+3kslrV/OTi5bVajBWw0biownDpAysA7GVehpAwFU
-	 GphZMh9BQP5JEjqp3Yf3RdhXtt1KOC6H3RjM8qYcIPuBzOaWLsdfSnooYZGg8g+w4QcX6
-	 Ft539z2Fgvi64W/1mXWzF/0jcgQEms78hoBcsX77Xl/mTYANIFBJEBi6ilXLMqtOFXVEi
-	 7WIhDJ/SJWArVt+1swXiAfSZEU0o4ydkRQf0w7Dk9TYWBEhmAllpsdpy3y3MtWa1WvMgY
-	 FxrPVhUwwYVR9CCOiv3IgY2nrYHwCrFBUXeYorMkhYcO40lHAjJzHxttAr5HK+P6DOw==
+	t=1794918304;
+	b=BM7R7DfyrdXyGbBlJwWR7Isi/oP1dl+LYew7tgR/RTGmqAFli0mc8+MTMiDbk9/l0OlR
+	 sJRRMswTp3Q2LKO8/mGDokyEPDM0HqcdpfvSW4nGnS4LJoJa8cRt/LB4H2CayXgRWr+pO
+	 EzG7my4A+l42H+hXaAc+jica46Hmae7NYiYEsBhzTLQDzDRWaHXJdTYBhASTQeaA31EU2
+	 w8zJ+Mfs7zVgaVHOZzngOtyd3EfYiYNChqAzfVuBPusnbPWFDcx3RSxRzDPKj5RxRt0gX
+	 FdDhtbqQH4nLi/ClrU5bfn8tjdjkn4570i69jDZJ3MKgoLIErhk0V2seywgm+Kj7n5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794916502;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Z9trxfAFJss4K3xIKv0B9mDUuBFb2Kvg6JIVRbNUhGI=;
-	b=DDXPsor3lspQM/qcMGhYJhwp+4n98khspcBEdbBLprHq//Ttn/4pXLHE8kd+O0EXD5gM
-	 ZZ2vwEwA1KjjOyUKKkzQrQvO7mdJJSnEW4Hg3ThrENSVJsRBkyfrbuPBWZ2jZACeoSlXp
-	 EY2Xs69/bf7lfj1xd2hjOxum7DhmpYZv8kc9eF+Adl0xgJHolWs5zB4inBA0c66KC4xPC
-	 AB7PJcyv33Pr5jhXYSO03Okc22U0sx9jOCX1VH9ShyT7cLmmMbCZvKsnXubIr5+Sef5V/
-	 rJbCzy01w8FUIyxx1e5SS+dGe5ziaoMrK6+00Ozwn3Q/gctN45RJ6obvVWSS9TpjC9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794918304;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=597o+fzVRa6upEiwDp/AfddNGeB1lk6wR6CKlinIETU=;
+	b=niLoj6vFvY8MwWI87Sm0mBxNv4EphRkWKvphh5Jvu0xV3RG/aXs/KVX1dTYPkVbJNIE8
+	 wMAFRUTFp1hhuulmlNViceqL/+alxbjP757fZMtOrxRdKJsQfW0doW2onHIAIVcnumjMd
+	 WqW9rufOHe0YVInzmUVcRWW3gDt6oq7LYlmzo3HuOR7g2ptOez8u90S6r3EC1TCjqUOZc
+	 XQ3kG5ahrgFAGEInY0bzOsN+VYKCiDILoetdui1iEiG8F7r9wwMgsS3J78kopc42lfaqn
+	 luvHuMYcD6FawvC73KToOf/4a9KpDy9DVHDCxMOI7wgtaXJgdjqZzlUIet100BAWkbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fjczvpFT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G+ycRSf2;
+	arc=none smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1038D606A323;
-	Tue, 17 Nov 2026 11:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760E7606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 12:25:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 760E7606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fjczvpFT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D4861F000C7;
-	Tue, 17 Nov 2026 11:54:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794916501;
-	bh=Z9trxfAFJss4K3xIKv0B9mDUuBFb2Kvg6JIVRbNUhGI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fjczvpFTfq9ybKsO40H6JWZsEIQb8mAKRe1IRo2vaTqnI/HWcbbj8kD1MWmn/SYdU
-	 F8cBXSlKwXaKS4VCz0p5ar3zewaLUie3kDyI5FPiY17L4+Pt/Seg0clq3tv+eV71/M
-	 ark4HT2Xg251Zn3i4dYn4+M5N9IpzWK82tzqx7BGUHD1t8D+30QK5rJYnu93xJBj77
-	 ItzQSxXtubaOYlYs5xeZLRGD7J0/iGaIUdN+h0FqDlch7cFZs7oq1nEY8iB63cnDDe
-	 X1RT06G2ulCfUysMxl4WJDFixolHkmKVgkANx2LEKaNPSVlPMOHf2KLduGAlvy+fAz
-	 VonpyiuEd4hug==
-Message-ID: <2929b0c4-39f0-41db-aef7-2a12fec4722f@kernel.org>
-Date: Tue, 17 Nov 2026 12:54:55 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G+ycRSf2
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3b3bf3bef9aso256755a91.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 04:25:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794918304; x=1795523104; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=597o+fzVRa6upEiwDp/AfddNGeB1lk6wR6CKlinIETU=;
+        b=G+ycRSf2Ula43Yh/kEvsvmD4oWnif+OT//3vYs9KhggfF79vBUPXqhykPZIX/AaNJT
+         Vk/vIaK0AbsgLH9n9j7vBOHXz8NrtPRKtFd8vSgyL/DnCzXnlarteIV8C4kBFWkl9nzF
+         V74lpXC+9Fdn35+ZsdKTT7SszTJe5kv2RzYkqQ0WBPlCY9/mXqYGKqtPDsLQoyD01Hcp
+         guFG4os5ptKp97uzmcvZYVgfMrXG3lwvNw/LXz75J8m4yBa0NIErZh0nUafK5QgWQ8PF
+         mQyL6ZJZv1AG8p9p0+7+q3KW/sINMBnQQGSJsI8ddL3+No4KIN+zDIlQOWvjkjk2ayRU
+         TMsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794918304; x=1795523104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=597o+fzVRa6upEiwDp/AfddNGeB1lk6wR6CKlinIETU=;
+        b=cTNm9MyMUKtVwVoDDO3eOs0jGqMznFBDfCH3BCreMS65NUiV2TrU7rlRFKJ5D/UZ5g
+         aGYMWrygegA9cBgpj+y8pOh+DWQPcQzaVlEFIJzVrqznnt6DUSAGbCJSUY6pHIZi307w
+         d0NqR26VUKPsJBfK+qUd1xyRf991+/Tij5BnsUO7rES1kjRWIo4aeIvyKmtu3tj2/jEo
+         LBMgTjv03IfNzllWyso20Q8t7ZQVgpICM0vkdSPhqyCArcD6w1eRELDFKprFePtZuy68
+         m4J11EeHN3pFsC8CBW2uDJj+N4bkhkI1G6OV+vqKlihdlIpaDlM09Y6d6JpVVwGndmS6
+         12QA==
+X-Forwarded-Encrypted: i=1; AL+hErFK64UXmDN/4UFmSLwFeKbsQpCQELX8g+5hCKSk7SzSrTFMXPqOHjcCH6v8+me4daG3JNPDnMgMtCmzvQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ODi4Unk7LdMr6cpi7tVUG7gUfPiIfuycnMFEtiKCGvindT1ae
+	yIf9PVt1S9YorR1GNgO19QN9xCFUsLchT/ZpYUTLr2OYss8tzb7P5JCj
+X-Gm-Gg: AZFdTZd8/WbeVEjTtEkM38fhSfc3nG61emBwq9ib2U9AB9VuZsH2Nd6tDVngLbdx+XE
+	6eSYrVFVYsGEhNoL3QAhqwynk0pMKQrurAB96MDsd3h8dMLZRdMB9mFeQmvAdOMBhpxhD1s5Qb7
+	GCFGaANmCGA2qO1fZRK1Luv+/BaPc8REfCELk9Ik0AZFXSJQeFN+t6GGCOOEMQM21c7carX4vy2
+	JoHNTlzSo9iCSkWYJixYnAmekGGMIOj6TV5Z91uEpvufwUVbGcI+pQjr67Qq1/X270a3tkjIsE6
+	jrGuk/xiLbW3xFPON7AZZE8pqbEj7aMvEei+2e1P1i0KtT7CJFrRRaXGOhUxfCXz6UX8ikmqSV2
+	wQowoj+qGzZu78wGLpaqyxnWoN14NKzM1VkAGb0tKwM1ecc6ICVEG55+qO0cycs1EeW0DyOaKph
+	AGxDNvKHd6t1QElsA7uPeOadrFs15Q3vYXwM7grqLbl2K5fOaQdclKchr8T8jW+lQuxCFbkFocZ
+	arY846ohScU0jepud86TfgRaOlzz16U3vwLEALaCcXwuKZPLaKZ6ZOiZFLuj2PLHRs7cQSM2Jyc
+	bWaMrWtyB810Z405nhzJDR+hvhIWtX5wEjY59WXgYZN4+GXDdixrbOjMMbgYPJdB8blQ6KRxbBa
+	44yp4imSP+75TDzgwuKTTFTf1GCNMSdvoopvhUz8I
+X-Received: by 2002:a17:90b:54cb:b0:3ac:a139:1b14 with SMTP id 98e67ed59e1d1-3b1b0d39a69mr13351435a91.57.1794918303790;
+        Tue, 17 Nov 2026 04:25:03 -0800 (PST)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac606d8csm4226371a91.16.2026.11.17.04.25.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 04:25:03 -0800 (PST)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Arnav Kapoor <kapoorarnav43@gmail.com>
+Cc: HyeongJun An <sammiee5311@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] ASoC: SOF: control: fix volume, switch and enum value handling
+Date: Tue, 17 Nov 2026 21:24:54 +0900
+Message-ID: <20261117122454.2448997-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261117105953.188645-1-kapoorarnav43@gmail.com>
+References: <20261117105953.188645-1-kapoorarnav43@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,86 +110,16 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] arm64: dts: qcom: talos-lyra-evk: enable audio
- support
-To: Karthik S <karthik.s@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: Abel Vesa <abelvesa@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261117110848.465407-1-karthik.s@oss.qualcomm.com>
- <20261117110848.465407-2-karthik.s@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261117110848.465407-2-karthik.s@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/11/2026 12:08, Karthik S wrote:
-> enable playback and capture over max98091 codec interfaces
-> for talos-lyra-evk platform.
-> 
-> Signed-off-by: Karthik S <karthik.s@oss.qualcomm.com>
-> ---
->  .../boot/dts/qcom/talos-lyra-evk-som.dtsi     |   1 +
->  arch/arm64/boot/dts/qcom/talos-lyra-evk.dts   | 131 ++++++++++++++++++
->  2 files changed, 132 insertions(+)
-> 
+Hello Arnav,
 
-Why are you sending the same v1 again? I see no problems resolved:
-1. There is no such file
-2. How drivers can depend on DTS?
+Patches 1 and 2 overlap with a patch I sent on 2026-11-14:
+https://lore.kernel.org/all/20261114021730.2349347-1-sammiee5311@gmail.com/
 
-How did you resolve my previous comments?
+Mark, I am fine with whichever version you prefer for those two.
+Patches 3 and 4 are not covered by mine. I have a Tiger Lake laptop
+with SOF and will test the series.
 
 Best regards,
-Krzysztof
+HyeongJun An
