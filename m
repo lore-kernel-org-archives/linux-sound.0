@@ -1,60 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794956677;
-	b=ra6QiHhgDI7RkJ7sSwXqf8IHgfBBUb0VsooEURUpqN1w9VyErDLH8gSosPK8AvMHuVTg
-	 mtkfbAn4bRGFWb2jjq/DHLB2kjZRXh21SfC4H+L/5+YEP4T2XzXQXbn0PxT1m1TbwUBSW
-	 r0ZNMv6pLdmJDPQQhc1lz3/41uw7z0R9T8gWPsb2HMWaONhbYftyq+RlcEW5IAAPvs6g4
-	 qx4n2Tvio2cPIs1zrQec5Fj6/6IcaXAfUC/uiH6nQLWB/L6bGaETZx0Icse4GRDU2VIlW
-	 GGnfqjuMQK8Lcnvk8v2unN1LYAWU6sNUiL9PA+rtN9+BxdnGSS2cdJ5f0mYFGpIJIyA==
+	t=1794956785;
+	b=CbT3Ee8UPQJa1LjRyJK3Wd0oIsb/iKZAFwKbfHgYJNXEcYVVUcqreyRxBKvaJSRRvDJD
+	 Z7e+dcnUqZm/YNXcBfbPYLUeYiFGzGiHNlwQStsVeqTPBAvfYF8qEYS/Wslxbm9UUhhJk
+	 Rh8a7UIydOZdeA3Snmi+j2tvPnU9XjUaCdnnJ5vSQhBPu+dYVSCF7dXh7SlkGhcQI/bjk
+	 4IFiQ+QoFc/ckjECx87n9o2ltBehCmvVWk7foGU/sedv2XGpHf5YeKeiLUGOEHcCop0qa
+	 l6ofG4onIX3vx2hBsrUIPa8diaFKsfbBiYHy8FSqh2C8nfTejHYdbm+9jtoenNGfGZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794956677;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=NpQhc381XiJQ2fH83GjkO0QvX8xd4FEwf5E14MxfCaY=;
-	b=joRgk1h4Z+LjWJRIMKK13yic/P057jyFimPaVhKdtiMBoopm1oFZN9lW+GX2tEjIf5m4
-	 cxyoIP2bJLkfG9rGfuCS5gcZtLzycLfRfRUF7akpGfNKsKKjcFkh8BqCcbZVOfqM+H1za
-	 IsoRwJaCjnLwa3KtZoCnwzRyE1lvqJqZU5G4LnrpwIhBjz6QLg7oe+4Ii7mc7GJ6MoI31
-	 cxt0dd94UQ2zC61fx829Hv6sQVTjBVWL/F58h943nlyKoi5ZjuHdi0bo0lAy93hzTmZjv
-	 6gfubuQPVUfvH8NI0mAqV1HXwM1D3FRSLzouAw8CSx19z4ty7XobQx8kThR2g1414Tw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794956785;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=CVXN+qwLQ/4ILSHfByjoRfxLA0JPwlmXH8qZtCGxHvY=;
+	b=iGvrO7XrEEKiLGClWoqEHb1TWjh4Er2HEBhl9uBrLbHnak7pVNvWhLKK4038D3hBZYqA
+	 uto/gU7SJOZG9KGYBMzQi/Ha8X3BHXu+1vgEFattPFZzE21KxS5UFTco6/vddz3biaECk
+	 iNRFZzMrizoHujzxvppmJ9xVKxasjgVA4HEjK+3QP8e+iRtxQEjaFzXiIlfMQdkq530xj
+	 oCw3epo+xOR896pFyEiP77kKFms7eNt2A5MJlwk4foXq7YQWjxHBTrT5G2RQHKYM5FpXx
+	 TPBMv0bqL67lLoCJNz2CzH0Ghu7/UEf6bpmuwHys5PabyW1bWmyrDjetN7k4Qy9/1ig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YbWhNvws;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FU4EajTC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B8A606A31C;
-	Tue, 17 Nov 2026 23:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C0F606A31C;
+	Tue, 17 Nov 2026 23:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YbWhNvws
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 369851F000C4;
-	Tue, 17 Nov 2026 23:04:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FU4EajTC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DFD21F000C4;
+	Tue, 17 Nov 2026 23:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794956677;
-	bh=NpQhc381XiJQ2fH83GjkO0QvX8xd4FEwf5E14MxfCaY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=YbWhNvwsaIj18DW+pogt8GI+vju6DCg1lXO2FTzH/nE6fSIKoHigtpnAIdMxLT2Oq
-	 JSmwFacANLecgpfE7voYDdkBpgXXHjXlZlCJsaEvEvFwIC/oZnL43q35NZuQBp25V5
-	 Ymfzf2YtGR2VNHXJHgbqE+P9YfTn+M5mYN2oLvENQKiy5fTjSRkVJwEPcXzzdt9OTu
-	 fI/GQfCwVr85map0ftHa71RMA+jNCaU8pAUSzz5mLt8AQdKd9rVMDEJxcW90GPg9Ug
-	 S+uHMOz8LsrB9x/yldB2137mAB+p0fslaAle3Wwy2N1VDXUKrRRaWUU9H6tJZbl80O
-	 VppkNUiQdg4BQ==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Marc Herrero <marcht@proton.me>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20261116-q6apm-fixes-v2-0-ea89fb43316a@proton.me>
-References: <20261116-q6apm-fixes-v2-0-ea89fb43316a@proton.me>
-Subject: Re: [PATCH v2 0/2] ASoC: qcom: audioreach: fix S24_LE playback and
- route mixer disconnects
-Message-Id: <179495307219.2707353.8339502612153999902.b4-ty@b4>
-Date: Tue, 17 Nov 2026 22:04:32 +0000
+	s=k20260515; t=1794956785;
+	bh=CVXN+qwLQ/4ILSHfByjoRfxLA0JPwlmXH8qZtCGxHvY=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=FU4EajTClbk+UNGRJaIu1Fbqw/8Hlb9cInBWDZULvl+q5Rs0S9qyU46IjlKdFjfjg
+	 tmtvhxfT5lSi689rW8I0/EySPCSr7OENtQOzvVhomrJ+Rj2nYyMnbXuyxt3a+NF/ZP
+	 YXH9WEoWQ8nKDwK4zNW2pV/3psrPMMnZwY6k1NF3wHOw7za+yw2RWxU9P03w+jyj8H
+	 kL6Luv5t69SO4ekKAK+JghYzzU0QRppFvexoAHYu9riMCUnxQPd3cAXg30rNdR7jgj
+	 9wEzxbMscwibkuPJUILSh5tzWdbKRl9gURWzUr4IG/SpUVmQ4KJJyNjRHft/wE5aHM
+	 uSfEsrTJulRPQ==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,55 +51,82 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v6 2/2] ASoC: airoha: Add support for AN7581 PCM driver
+From: Mark Brown <broonie@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261117193851.235272-3-ansuelsmth@gmail.com>
+References: <20261117193851.235272-1-ansuelsmth@gmail.com>
+ <20261117193851.235272-3-ansuelsmth@gmail.com>
+Date: Tue, 17 Nov 2026 23:06:20 +0000
+Message-Id: <179495678063.2707353.15768423590934276319.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1652; i=broonie@kernel.org;
- h=from:subject:message-id; bh=5Z8ABWEC5xPS6lG2iuk9aWLFYo/9y6R9jHXMcCTNkGY=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+3G3c+c7UXefvnCbtL94ti33Y6pveJDDN/S5tNE0nZ
- Z5Us9GVjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEykKI/hF5OTu1DCuULzpLZp
- aTceVL9a8uf/m+aVHcu2Lm4TvZq6houR4YjCteNXZny7tmzHx7cfrAu6RIRnzDq2puuyug2v+dK
- U/wwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1724; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=qrOI7FlHanErllct5TLZyyoHEFtyXcHacENy1NTm72M=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+3H3btndd62z+xVemHfos+rP5RvH8fwJHfzS7S3YwL
+ Ync3mAt0FHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJnDZj+B/K5jS/z+zxHc7F
+ XV3TH3e+bvrLyf9XNJ4vPO3OdQa2OasZ/jucYbteI6ny5VFTQeUjRoU9s6tmBN7i7LwdImLqZX6
+ riwUA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 16 Nov 2026 20:16:19 +0000, Marc Herrero wrote:
-> ASoC: qcom: audioreach: fix S24_LE playback and route mixer disconnects
-> 
-> Two AudioReach fixes found while bringing up 24-bit headphone playback
-> on the Radxa Dragon Q6A (QCS6490, sc8280xp machine driver, WCD9385).
-> 
-> Patch 1: S24_LE was described to the DSP as packed 3-byte samples, so
-> the ADSP audio_process crashed as soon as an S24_LE stream started.
-> Using the 32-bit container size makes S24_LE work.
-> 
-> [...]
+> The Airoha AN7581 SoC provides a PCM interface for VoIP applications,
+> supporting playback and capture at sample rates of 8 kHz and 16 kHz.
+> The driver configures the PCM bit clock to 2.048 KHz and supports
+> 8-bit and 16-bit samples, with up to 32 channels.
 
-Applied to
+> +++ b/MAINTAINERS
+> @@ -796,6 +796,13 @@ F:	Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
+>  F:	Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
+>  F:	sound/soc/mediatek/an7581/*
+>  
+> +AIROHA PCM CONTROLLER DRIVER
+> +M:	Christian Marangi <ansuelsmth@gmail.com>
+> +L:	linux-sound@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/sound/airoha,an7581-pcm.yaml
+> +F:	sound/soc/airoha/*
+> +
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+> --- /dev/null
+> +++ b/sound/soc/airoha/an7581-pcm.c
+> @@ -0,0 +1,931 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Airoha ALSA SoC PCM platform driver for AN7581
+> + *
+> + * Copyright (C) 2026 Christian Marangi <ansuelsmth@gmail.com>
+> + */
 
-Thanks!
+Please keep the entire comment block C++.
 
-[1/2] ASoC: qcom: audioreach: use a 32-bit container for S24_LE PCM
-      https://git.kernel.org/broonie/sound/c/feb416ba626e
-[2/2] ASoC: qcom: audioreach: only disconnect the route a mixer control owns
-      https://git.kernel.org/broonie/sound/c/562b2cc2aa88
+> +static irqreturn_t an7581_pcm_irq_handler(int irq, void *data)
+> +{
+> +	struct snd_pcm_substream *substream;
+> +	struct an7581_pcm_priv *priv = data;
+> +	unsigned long flags;
+> +	u32 status, isr = 0;
+> +	int ret;
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+This should be irqreturn_t and needs to be initialized in case we didn't
+see anything we recognise.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> +static struct platform_driver an7581_pcm_driver = {
+> +	.driver = {
+> +		   .name = "an7581-pcm",
+> +		   .of_match_table = an7581_pcm_dt_match,
+> +	},
+> +	.probe = an7581_pcm_probe,
+> +	.remove = an7581_pcm_remove,
+> +};
+> +module_platform_driver(an7581_pcm_driver);
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+You should set snd_soc_pm_ops too.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Mark Brown <broonie@kernel.org>
