@@ -1,110 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794928424;
-	b=PmWvK0c5aggBABEjooyO9OLgwGmbG2AWiDAHucp3As4eGBRRw4EvMqSj+ELPNZOoClY7
-	 8XpTRAvSioECQkVzVcj+z7Suy8ESqs0BR4PZFYX2BSoajCohHynsDbBP7bCGSriT8wsgj
-	 T0JvBryfPj1W5ZSw3pPhc3J6EFbcKihG+oXfx1K/VRH4pnIpFDWbnS4nfsk4i7qOItv76
-	 Qt3njSAJ1iDs6fNvSKJvtfI/0vhGx1kcpp9MiFPlNyL2cc4WI/LbkyDjdQBxecv89nCgh
-	 LOcDY7CzbT2KNeRFLQDX7GSOvYcW12Ux4uGd2gmhOPqL+H2JFBSH1TVnKyyBBbDotBQ==
+	t=1794929130;
+	b=d18uqWIxofOhpHYYdD4+dbaOfEwTInrlkXFU85amS5LRccEHYkXrnemCaFIWN8BkFkZc
+	 hX3b/hdWir/ghVq+wCEzKbFpJHcb7xSC5pjq7LGhUN4ytLjMTqj19HP7EDS2v5xCk3rAm
+	 wstDbjMjT6RPeNPuqL7Wa1O+Drlt2dLpnPmMg1G0K/5J3VCIrXbYZJvuB72AYwnnoGm1e
+	 +dHVyTtCag9XEwjBwvwLGmzVBK+8rh3uTWs/0OA53C7cktpx8ldtT0RVxDU7bTGj59wYO
+	 9F8eNd9TBMZ2IjM8fAIZrKClfUU8vJT2NzSzQIvNKvLgimsoW6IkLVdCwWXLRgKxJWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794928424;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=5bywH9Z+lJsAxzSeeoFsm7ea77DXoKZ0Ta2n8SrOMJ8=;
-	b=l2Nh6ckWjMfn4/MS6INrXG7EBnlEvMTy/M7wQuS00UQIJ6pVPBSGN7UEoHneWHqr5lAq
-	 8SKFr5CZV5V8ge0U3ks0brMC/7/spm2Vxt4nLL3G8fmAnbhjtv9Q0eYbPrevAbPsKqH6J
-	 CDlnvt/FTQyzCHmEZ+X1Vh0fORWcfZEGibuAjlYWGxbn619TNs/mFCCQNaDK4wfbuMsPI
-	 0EQ+7l8S1LkfFg3Y9/Nk5OZ7jKnRypd3Q5JjHRQ/pQdRAAABzXw4NRSd0mFsHKL1f9acB
-	 J1g0VnsZbqrqQ6qyqq5tz6pF77dWEGD8ktMTSFL70l55wdZ/P/pVUVW0rU2QL7CUuLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794929130;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=bafEnHj9OQp2os8W30yYIs+yQ2nbAuaGSL1q+Ya78F4=;
+	b=u0zRiaWC8Nsu+0VOaY0hBLoa9wB/e1YAqNyOhfiX5MnViLd0APWXSXp1H5J8+SZoDsPb
+	 nqV0gXU/cqpz4BGKxhe+plZhst0bR0ue6Lo7OkhT5Zf/FtFwNYk1jsFV0g1fFB8L5Z30a
+	 ebLFUPT3SakxkgL9qI4Ykic7d4pZv9tkVrnHYPuWLaN7LobdmlS3ItZmer8IveHuMmPee
+	 xuOEKpElJuXsh+TViB3C9w3nPRHVcVF92UlNwMFrVfmO3cqgTUerQILVEQzEMC05F4X55
+	 W9b4RwSh57Yzn6o77BCXJ+1HQ4o0iU4Ld8ksnZyiannR3v/kYzhZZj4AgCLat+GtdkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oQ1I10S7;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bQ2MhsfT;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oQ1I10S7;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bQ2MhsfT;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kMScttj5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FEBF606A31C;
-	Tue, 17 Nov 2026 15:13:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FEBF606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E685606A337;
+	Tue, 17 Nov 2026 15:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oQ1I10S7;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bQ2MhsfT;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oQ1I10S7;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bQ2MhsfT
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1D17721FA3;
-	Tue, 17 Nov 2026 15:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794928422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5bywH9Z+lJsAxzSeeoFsm7ea77DXoKZ0Ta2n8SrOMJ8=;
-	b=oQ1I10S7AcCaFbtDw43HzI7zRshQsWqFOHL0ZNxFUJdRUM1ZFm4us5FC5GQNnzwqy+TYch
-	8KSQQXSi+Mk+mte5Rtmn0quo5bNQTTC+n8HunlgiJ5sENnvHImVkM6jSm+eCoCVX9Jky/w
-	Xz7a/UI1PpPUIArcwgl33V2ynBVNN9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794928422;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5bywH9Z+lJsAxzSeeoFsm7ea77DXoKZ0Ta2n8SrOMJ8=;
-	b=bQ2MhsfTJmfobONknq/DzZ9vMV5Ppi3R4XaESqROjgzzmg13x1hgHjXLTRUXCQMuV0+xDM
-	PAZhaKm3mf26JeBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oQ1I10S7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bQ2MhsfT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794928422; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5bywH9Z+lJsAxzSeeoFsm7ea77DXoKZ0Ta2n8SrOMJ8=;
-	b=oQ1I10S7AcCaFbtDw43HzI7zRshQsWqFOHL0ZNxFUJdRUM1ZFm4us5FC5GQNnzwqy+TYch
-	8KSQQXSi+Mk+mte5Rtmn0quo5bNQTTC+n8HunlgiJ5sENnvHImVkM6jSm+eCoCVX9Jky/w
-	Xz7a/UI1PpPUIArcwgl33V2ynBVNN9E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794928422;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5bywH9Z+lJsAxzSeeoFsm7ea77DXoKZ0Ta2n8SrOMJ8=;
-	b=bQ2MhsfTJmfobONknq/DzZ9vMV5Ppi3R4XaESqROjgzzmg13x1hgHjXLTRUXCQMuV0+xDM
-	PAZhaKm3mf26JeBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB9161334C;
-	Tue, 17 Nov 2026 15:13:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ByQ+GiRv/GoLawAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 17 Nov 2026 15:13:40 +0000
-Date: Tue, 17 Nov 2026 16:13:40 +0100
-Message-ID: <87qzgjxzh7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz
-Subject: Re: [PATCH v2] ALSA: compress: Fix task resource leak on copy_to_user() failure
-In-Reply-To: <20261117062808.2807-1-sreekuttan2156239@gmail.com>
-References: <20261113110427.4256-1-sreekuttan2156239@gmail.com>
-	<20261117062808.2807-1-sreekuttan2156239@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kMScttj5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92D051F000C5;
+	Tue, 17 Nov 2026 15:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794929130;
+	bh=bafEnHj9OQp2os8W30yYIs+yQ2nbAuaGSL1q+Ya78F4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=kMScttj50pgYGX4tOqXNqQxBd14vvfsQSvpxUJxIyXUsxkpzfQGWZIr0cscd0qvto
+	 gT+R3gWwCzzJQA67X5fOYCjp2EP2k/ry806XWY3RacEvaiB7/uwm3KdH9ybfnROD5W
+	 BDJH3wKectxTh4DNlslQFwJqDLHzR2KjxF98wOwKaaZQx9xL7snwWjwmEpMoIRexVw
+	 BTy7GZQg2jsisz14TT8XNU9xjSkHzrX0HSU8iilG89Vj+H8V25rUVnyxUeH9c7MCmM
+	 L8fg8kiH86uvVraA0q+HIag+smt1jTCNYbxa9FIaKvr0Sz5K8aGfIhDqRnoxvhorwM
+	 jpidpahhrSJCQ==
+Message-ID: <sashiko-outbox-219063@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 2/2] PM: runtime: fix stub pm_runtime_get_if_in_use()
+ for !CONFIG_PM
+Reply-To: sashiko-reviews@lists.linux.dev
+To: Frank.Li@oss.nxp.com
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-sound@vger.kernel.org, imx@lists.linux.dev, Frank.Li@kernel.org, media-ci@linuxtv.org
+In-Reply-To: <20261116152513.2676573-2-Frank.Li@oss.nxp.com>
+References: <20261116152513.2676573-1-Frank.Li@oss.nxp.com>
+ <20261116152513.2676573-2-Frank.Li@oss.nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 15:25:29 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -113,63 +60,122 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 1D17721FA3
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Spam-Score: -12.51
 
-On Tue, 17 Nov 2026 07:28:08 +0100,
-Sreeraj S Kurup wrote:
-> 
-> Hi Takashi,
-> 
-> Thanks for reviewing my other patches.
-> 
-> I noticed that this patch is still pending review. 
-> Could you please take a look when you get a chance?
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] PM: runtime: inaccurate Fixes trailers and caller notes in
+  commit message
+--
 
-I'm still considering whether it's safe.  The open code in the error
-path looks a bit scary.
+commit 48057d65d03972fb7f912d84a7a35bf1b15bba82
+Author: Frank Li <Frank.Li@nxp.com>
 
-Aren't dma_buf_put() called already in snd_compr_task_free() that is
-called from snd_compr_task_free_one()?
+> PM: runtime: fix stub pm_runtime_get_if_in_use() for !CONFIG_PM
+>
+> The stub for pm_runtime_get_if_in_use() under !CONFIG_PM currently
+> returns -EINVAL.  The real implementation returns:
+>   1  - device is active and its usage counter is non-zero (bumped)
+>   0  - device is not in use or not active (counter not bumped)
+>  -EINVAL - runtime PM disabled for this device
+>
+> When CONFIG_PM is not set every device is permanently "active" and
+> always considered "in use", so the stub must return 1, mirroring
+> __pm_runtime_resume() which already returns 1 in the same build.
+>
+> Returning -EINVAL breaks callers that test the return value with
+> comparisons other than "!=3D 0 / =3D=3D 0":
+>
+> drivers/gpu/drm/i915/intel_runtime_pm.c:
+>   if (intel_runtime_pm_get_if_in_use(rpm))
+>   which wraps to: ret =3D pm_runtime_get_if_in_use(); return ret > 0;
+>   With -EINVAL the wrapper returns false, causing an incorrect error
+>   path in the GT fence revocation code.
+>
+> drivers/gpu/drm/xe/xe_pm.c:
+>   if (pm_runtime_get_if_in_use(xe->drm.dev) > 0)
+>   With -EINVAL the condition is false; xe_pm_runtime_get_if_in_use()
+>   returns false, so callers believe the device is not usable.
+>
+> drivers/gpu/drm/gma500/power.c:
+>   return pm_runtime_get_if_in_use(dev) =3D=3D 1;
+>   -EINVAL !=3D 1, so the helper always returns false when !CONFIG_PM.
+>
+> drivers/gpu/drm/imagination/pvr_power.c:
+>   if (pm_runtime_get_if_in_use(...) <=3D 0)
+>   -EINVAL <=3D 0 is true, so the driver always takes the "requeue" error
+>   path instead of proceeding with the active device.
+>
+> sound/soc/sof/debug.c:
+>   if (pm_runtime_get_if_in_use(sdev->dev) =3D=3D 1)
+>   -EINVAL !=3D 1, so d3_prevented is never set, corrupting exception
+>   debug accounting.
+>
+> drivers/iommu/mtk_iommu.c:
+>   if (pm_runtime_get_if_in_use(dom->plat_dev->dev) <=3D 0)
+>   -EINVAL <=3D 0 skips the TLB flush, leaving stale IOMMU mappings.
+>
+> drivers/iommu/rockchip-iommu.c:
+>   Three call sites use WARN_ON_ONCE(err < 0) or similar patterns.
+>   -EINVAL < 0 triggers a spurious WARNING on every call.
+>
+> drivers/media/i2c/isl7998x.c:
+>   if (pm_runtime_get_if_in_use(dev) <=3D 0)  (two call sites)
+>   -EINVAL <=3D 0 causes the driver to always skip register programming
+>   when !CONFIG_PM.
+>
+> drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:
+>   if (pm_runtime_get_if_in_use(dev) <=3D 0)  (two call sites)
+>   -EINVAL <=3D 0 prevents any debug statistics from being collected.
+>
+> Fixes: 9d58aa46291d ("drm/i915: Fix the GT fence revocation runtime PM lo=
+gic")
+> Fixes: cbb6a7413b17 ("drm/xe: Introduce xe_pm_runtime_get_noresume for in=
+ner callers")
+> Fixes: 672c473576ca ("drm/gma500: Rewrite power management code")
+> Fixes: 727538a4bbff ("drm/imagination: Implement power management")
+> Fixes: b30289e7fa92 ("ASoC: SOF: Fix runtime pm usage counter balance aft=
+er fw exception")
+> Fixes: c0b57581b73b ("iommu/mediatek: Add power-domain operation")
+> Fixes: 0f181d3cf7d9 ("iommu/rockchip: Add runtime PM support")
+> Fixes: 51ef2be546e2 ("media: i2c: isl7998x: Add driver for Intersil ISL79=
+98x")
+> Fixes: cbb819c363c5 ("media: rkisp1: debug: Collect input status by sampl=
+ing ISP_FLAGS_SHD")
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 
-Also, a bit concern is that we expose to user-space before actually
-installing the file descriptor.  I don't think there will be so much
-race here, but just need to be sure...
+[Severity: Low]
+Are the Fixes tags and caller descriptions in the commit message accurate?
 
+The !CONFIG_PM stub for pm_runtime_get_if_in_use() returning -EINVAL was
+introduced in a436b6a19f57 ("PM / runtime: Add new helper for conditional
+usage count incrementation"), which is missing from the Fixes tags.
 
-thanks,
+For i915, __intel_runtime_pm_get_if_active() guards the call to
+pm_runtime_get_if_in_use() with if (IS_ENABLED(CONFIG_PM)), so the
+!CONFIG_PM stub is never called there, and 9d58aa46291d ("drm/i915: Fix the
+GT fence revocation runtime PM logic") switched i915_vma_revoke_fence() to
+with_intel_runtime_pm_if_active, which calls pm_runtime_get_if_active().
 
-Takashi
+For imagination, DRM_POWERVR in drivers/gpu/drm/imagination/Kconfig has
+"depends on PM" (added in 727538a4bbff ("drm/imagination: Implement power
+management")), so pvr_power.c cannot be built with !CONFIG_PM.
+
+Also, several of the remaining Fixes tags do not point to the commits that
+introduced the affected checks:
+- In drivers/gpu/drm/xe/xe_pm.c, the pm_runtime_get_if_in_use() > 0 check
+  in xe_pm_runtime_get_if_in_use() was added by 3b85b7bcccf4 ("drm/xe: Fix
+  display runtime_pm handling"), whereas cbb6a7413b17 ("drm/xe: Introduce
+  xe_pm_runtime_get_noresume for inner callers") only added a caller.
+- In drivers/iommu/rockchip-iommu.c, 0f181d3cf7d9 ("iommu/rockchip: Add
+  runtime PM support") used boolean checks where -EINVAL evaluated to true;
+  the WARN_ON_ONCE() checks on negative or non-positive returns were added
+  by 3fc7c5c0cff3 ("iommu/rockchip: Handle errors returned from PM
+  framework").
+- In drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c, the first
+  pm_runtime_get_if_in_use() <=3D 0 check in rkisp1_debug_dump_regs() was
+  added earlier by 2a6b586035ec ("media: rkisp1: debug: Add debugfs files
+  to dump core and ISP registers").
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261116152513.2676=
+573-1-Frank.Li@oss.nxp.com?part=3D2
