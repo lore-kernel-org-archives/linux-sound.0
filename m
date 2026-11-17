@@ -1,56 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=154.81.10.38
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794880302;
-	b=sk0THqLOfQKJ+pFqM4tx8CNtC1L8c7xBZ5Skhxt2qLrl07N+ve82545AC13RoSKaWG4z
-	 4sTKEW+hbkEW8fP+Ah82Mxsm5vfdkTu2bDqgQnS00W9kRw408NzaqxFRat/26+6ruBaL1
-	 NWP18T9St8ka/LnmRONMHf6i643eg8rGVvMvk+tDy9lTP8+lZuDBJCOMxC/m5c+VcIIzh
-	 7Kz+TgaFh8MCJY0Ba2PUDdMICPa5NxRnCTJlpsBDX8JQqes6NQuuatvzQmSTEtH/gG9CW
-	 6VtNjnkVtm5G7+lBjgCiEyX5H9CZD46+1r+KSFUQmUEK8RysfzmWXDqOdyQRb5h7IRw==
+	t=1794883599;
+	b=28rcqF7BY2oG2tzsh1bntqmBBXWKDkcWLAgZSJBLzMG4OdtIYydCqB1Q1QpxyMWFnXai
+	 5XX0XWjAbPDmU0qhqHNNOxw4KP0R2JQQ162mSVdeZ9zEMz7D2rWYOCQSOqVhtcTlZb5p9
+	 YN92v+5qzhbf4sybze8Je+WWNUd2AM2wHPhUTY1ZgaQGdXxCUN60/wNtXp/Iingh7WAZN
+	 HC0mk2yc0bXL08MIIiJxBSSr5cUIgi3D7gKRy4TB2RYcsWlUyS0nt0wJqkgtMlunYo36O
+	 U9bG36wurTe6fHQALpt8QC/DGToMwL2CZ6s0wyfBx3gox8CdMpRHr7xJxnK8hOnJBsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794880302;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=a7JmCAT9UkxVgJmExFr8QBQQ3/QrKUYD7GeAz/3xZOE=;
-	b=fe8OM9KnWC4XR0NS75fvg5JtBZa0KJs365HxfOVqlfqnj1k+PL5cSKCVQGKJ8VN8+MJT
-	 pAzdLf0CV33mADzYhCFIdb2YDJZxcnJCU1ekwEJJuYefrEUgbohepJGS1cfHNXAxRthMP
-	 /ks0O4piaj5FR5XRmdRVBRf4Bs9gKrxKzvvGLqV5fYCPCn0EEx+tHGn5A9IL/e+nkMCDT
-	 LaFeqb5+xiWeWWusBIguZ92dnsKgxkS8pDv4AwGLbchIyoUy7+vqYbrxS/D3G1aqxzPFJ
-	 lGX941LHfYJUq4N9rkwJrvrLj6rlIBjpVwAHlZmKvuBfbT1xuRLIJyRgZxZYHMZprJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794883599;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 X-HM-Tid:X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
+	bh=GGtlptLpIPPvOpyab/z5feTP5H0T0rkGLqpYczLfqNg=;
+	b=m3BLvXTeBKYRgt9Mt+pliwRbtLx3qH3qpDYJ3iY4UQ/WsaLGAyJloG7yl42euiUN5BFw
+	 iAXzZbRhqECcWnKwDgM69isiA6NNHW108BzBG3O98P3RRWU6D4DwrypspXUZcRiecWlCH
+	 iJeXJwfXwSbe87FPDf5fzzeYYrvK6lvRjPVgJ0bsLVScKstTJoyrdqMDMuLsnhMmveSWg
+	 vsNwThG16sokPfoqU3+mt0CjY2WjrEbJm181YhozNk9uLrtILGYMonln71iv7DnmibZqB
+	 9CIvchNrP8zDmumymfWv1imxtKkMOJZ+2EnsC5zdimYzH2rIvVJgWRiSmpiVnSo0LsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dc4zzvvm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=senarytech.com;
+	spf=pass smtp.mailfrom=senarytech.com;
+	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=Aqu9w9XX;
+	arc=none smtp.remote-ip=154.81.10.38
+Received: from mail-m1038.netease.com (mail-m1038.netease.com [154.81.10.38])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2105D606A323
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 01:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E387606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 02:46:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E387606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dc4zzvvm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927D01F000C4;
-	Tue, 17 Nov 2026 01:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794880301;
-	bh=a7JmCAT9UkxVgJmExFr8QBQQ3/QrKUYD7GeAz/3xZOE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Dc4zzvvmoLEvAai9kX1di8+ah6B7dNeiXyUQmAT39ZMKnP61W6zK3PWKqroN1vkWH
-	 judydL9JKeGZm6IfG3tqC37PYyufpVsePEbqOlt6kBI3wG3CSDWiInAGb6+xBa+5Z0
-	 +YSZJdVRK3JmJEbTiHoNdUHJsguUy+dhL00X0/FUItaaHTlLTC2rsEwITy0hkdZhnF
-	 QEwEKXyOB+fQZmfPKuRP+9dwdGr+maPi9bedbkUYClDBHT8BbjEYLbWiYepapK9Q+H
-	 w76ambN89F103fqJbjWKKlJ8xBTayzST/+JuPgaKKmdVetoGDbnV0fEBpiNfh2+VcQ
-	 0Rz2iNcZr/T/A==
-Message-ID: <sashiko-outbox-218058@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: sn624x: honor ACPI DisCo when MIC SDCA function
- is absent
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qianghua Wang" <qianghua.wang@senarytech.com>
-Cc: linux-sound@vger.kernel.org
+	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=Aqu9w9XX
+Received: from Wangqianghua.localdomain (unknown [27.38.192.73])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 54eb98660;
+	Tue, 17 Nov 2026 10:46:25 +0800 (GMT+08:00)
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+To: linux-sound@vger.kernel.org
+Cc: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	bo.liu@senarytech.com
+Subject: [PATCH v2] ASoC: sn624x: skip DMIC when ACPI DisCo has no MIC function
+Date: Tue, 17 Nov 2026 10:46:23 +0800
+Message-ID: <20261117024623.2122935-1-qianghua.wang@senarytech.com>
+X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261117013558.1790310-1-qianghua.wang@senarytech.com>
 References: <20261117013558.1790310-1-qianghua.wang@senarytech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 01:51:41 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,182 +55,206 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa1e76605cb09d8kunme78558962d0995
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTRkeVk0eSk5MSUNKHk1NTlYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKQklVTEhZV1kWGg8SFR0UWUFZT0tIVUpLSU
+	JDQ0xVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=Aqu9w9XXhOsiix/9WHgEvyJrxmGT79c96LfDE7NxwNNhYR+P+l1SfgcL7y690pZGrJt6ski03f+Vyhj80DLbsPBf/EW8VPe9T4IT+MD+b7T3hY5ISYNxvLPWoLyD0Nigxu7DbA/ofsMUWdSBxL971KBcmlwBebJneJ1nuBhFSf0=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
+	bh=GGtlptLpIPPvOpyab/z5feTP5H0T0rkGLqpYczLfqNg=;
+	h=date:mime-version:subject:message-id:from;
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] ASoC: sn624x: sn624x_sdca_amp_function_init() fails with
-  -ENOENT without table
-- [Medium] ASoC: sn624x: sn624x_sdca_disco_has_mic() breaks non-DisCo
-  DMIC fallback
-- [Medium] ASoC: sn624x: sn624x_sdca_amp_function_init() skips init
-  table on re-attach
-- [Low] ASoC: sn624x: missing Fixes trailer for commit 12d9c9f8679c
---
+Some OEM platforms, such as certain Samsung designs, use Senary SN624x
+for headset jack and speaker playback only: ACPI _DSD DisCo describes
+jack and speaker amp SDCA functions but omits the MIC array function
+because no on-board DMIC is routed to the codec. The driver still
+advertised the DMIC capture port and ran DMIC function init against
+registers that DisCo does not expose, which breaks bring-up on these
+machines.
 
-commit 153fc2fac552f6999cee2b2fc0a8d624ceaed6fb
-Author: Qianghua Wang <qianghua.wang@senarytech.com>
+Probe the parsed DisCo function list before exposing the DMIC port and
+before running DMIC init. Apply AMP function init from the ACPI init
+tables when an amp function is present, using the same pattern as the
+existing jack and DMIC paths.
 
-> ASoC: sn624x: honor ACPI DisCo when MIC SDCA function is absent
->
-> Some laptops ship ACPI _DSD DisCo for Senary SN624x with jack and
-> speaker amp SDCA functions only, omitting the MIC array function even
-> though the codec might otherwise expose a DMIC. The driver always
-> advertised the DMIC capture port and ran DMIC function init against
-> registers not described in DisCo, which breaks bring-up on platforms
-> that use a minimal function list (for example some Panther Lake
-> designs).
->
-> Look at the parsed DisCo function list before exposing the DMIC port
-> and before running DMIC init. Apply AMP function init from the ACPI
-> init tables when an amp function is present, using the same pattern as
-> the jack and DMIC paths.
->
-> Link: https://github.com/thesofproject/linux/issues/6012
-> Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+Only omit DMIC when DisCo is present but lists no MIC function, so
+platforms without DisCo still use the OEM DMIC fallback. Do not fail amp
+init when there is no ACPI init table. Re-apply amp init tables after
+re-attach when FUN STATUS is idle but DisCo still supplies a table.
 
-[Severity: Low]
-Since this fixes bring-up on platforms with a minimal DisCo function list
-and wires up speaker amp initialization, should it include a Fixes tag?
+Fixes: 12d9c9f8679c
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+---
+Changes in v2:
+- Address Sashiko review (amp -ENOENT, DisCo vs no-DisCo DMIC, re-attach amp).
+- Add Fixes: 12d9c9f8679c.
 
-  Fixes: 12d9c9f8679c ("ASoC: codecs: add SN624x SDCA SoundWire driver")
+ sound/soc/codecs/sn624x-sdca-sdw.c | 101 +++++++++++++++++++++++++++--
+ 1 file changed, 97 insertions(+), 4 deletions(-)
 
-> diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x=
--sdca-sdw.c
-> index 081858689430c..49efa429b4268 100644
-> --- a/sound/soc/codecs/sn624x-sdca-sdw.c
-> +++ b/sound/soc/codecs/sn624x-sdca-sdw.c
-[ ... ]
-> @@ -1055,6 +1058,43 @@ static int sn624x_dmic_apply_defaults(struct devic=
-e *dev,
->  	return sn624x_dmic_oem_fallback_init(dev, sn624x);
->  }
-> =20
-> +static bool sn624x_sdca_disco_has_mic(const struct sdw_slave *slave)
-> +{
-> +	int i;
-> +
-> +	if (!slave->sdca_data.interface_revision || !slave->sdca_data.num_funct=
-ions)
-> +		return false;
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index 1d4e5f27a..8959b447f 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -176,6 +176,9 @@ static int sn624x_uaj_ge35_apply_detected_mode(struct device *dev,
+ 	SDW_SDCA_CTL(SN624X_FUNC_NUM_MIC_ARRAY, SN624X_SDCA_ENT_ENTITY0, \
+ 		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+ 
++#define SN624X_REG_AMP_FUN_STATUS_CTL \
++	SDW_SDCA_CTL(SN624X_FUNC_NUM_SPEAKER_AMP, SN624X_SDCA_ENT_ENTITY0, \
++		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+ /*
+  * Write REQUESTED_PS then poll ACTUAL_PS with the shared SDCA helper
+  * (sdca_asoc_pde_poll_actual_ps). Caller must not hand-roll ACTUAL_PS waits.
+@@ -1055,6 +1058,49 @@ static int sn624x_dmic_apply_defaults(struct device *dev,
+ 	return sn624x_dmic_oem_fallback_init(dev, sn624x);
+ }
+ 
++/*
++ * Return true only when ACPI DisCo is present and lists no MIC function.
++ * Without DisCo, return false so the legacy OEM fallback path still runs.
++ */
++static bool sn624x_sdca_disco_omits_mic(const struct sdw_slave *slave)
++{
++	int i;
++
++	if (!slave->sdca_data.interface_revision || !slave->sdca_data.num_functions)
++		return false;
++	for (i = 0; i < slave->sdca_data.num_functions; i++) {
++		const struct sdca_function_desc *desc = &slave->sdca_data.function[i];
++
++		if (desc->adr == SN624X_FUNC_NUM_MIC_ARRAY)
++			return false;
++		switch (desc->type) {
++		case SDCA_FUNCTION_TYPE_SMART_MIC:
++		case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
++			return false;
++		default:
++			break;
++		}
++	}
++	return true;
++}
++
++static int sn624x_amp_apply_defaults(struct device *dev,
++				     struct sn624x_sdca_priv *sn624x)
++{
++	int ret;
++
++	if (!sn624x || !sn624x->regmap || !sn624x->slave)
++		return -ENODEV;
++	if (!sn624x->amp_func)
++		return 0;
++	ret = sn624x_write_sdca_init_table(dev, sn624x, sn624x->amp_func, "amp");
++	if (ret == -ENOENT)
++		return 0;
++	if (ret == 0)
++		usleep_range(1000, 1500);
++	return ret;
++}
++
+ static int sn624x_sdca_jack_function_init(struct device *dev,
+ 					  struct sn624x_sdca_priv *sn624x)
+ {
+@@ -1088,11 +1134,18 @@ static int sn624x_sdca_jack_function_init(struct device *dev,
+ static int sn624x_sdca_dmic_function_init(struct device *dev,
+ 					  struct sn624x_sdca_priv *sn624x)
+ {
++	struct sdw_slave *slave = sn624x->slave;
+ 	unsigned int dmic_func_status;
+ 	const struct reg_sequence clear_status =
+ 		REG_SEQ0(SN624X_REG_DMIC_FUN_STATUS_CTL, 0x61);
+ 	int ret;
+ 
++	if (sn624x_sdca_disco_omits_mic(slave)) {
++		dev_dbg(dev,
++			"sn624x: ACPI DisCo has no MIC function, skip DMIC init\n");
++		return 0;
++	}
++
+ 	ret = regmap_read_bypassed(sn624x->regmap,
+ 				   SN624X_REG_DMIC_FUN_STATUS_CTL,
+ 				   &dmic_func_status);
+@@ -1104,6 +1157,39 @@ static int sn624x_sdca_dmic_function_init(struct device *dev,
+ 		return 0;
+ 
+ 	ret = sn624x_dmic_apply_defaults(dev, sn624x);
++	if (ret < 0)
++		return ret;
++	ret = regmap_multi_reg_write_bypassed(sn624x->regmap, &clear_status, 1);
++	if (ret < 0)
++		return ret;
++	usleep_range(1000, 1500);
++	return 0;
++}
++
++static int sn624x_sdca_amp_function_init(struct device *dev,
++					 struct sn624x_sdca_priv *sn624x)
++{
++	unsigned int amp_func_status;
++	const struct reg_sequence clear_status =
++		REG_SEQ0(SN624X_REG_AMP_FUN_STATUS_CTL, 0x61);
++	int ret;
++
++	if (!sn624x->amp_func)
++		return 0;
++	ret = regmap_read_bypassed(sn624x->regmap,
++				   SN624X_REG_AMP_FUN_STATUS_CTL,
++				   &amp_func_status);
++	if (ret < 0)
++		return ret;
++	if (!(amp_func_status & (SN624X_JACK_FUN_NEEDS_INIT |
++				 SN624X_JACK_FUN_HAS_BEEN_RESET))) {
++		if (!sn624x->amp_func->num_init_table)
++			return 0;
++		dev_dbg(dev,
++			"sn624x: amp FUN STATUS 0x%x, apply ACPI init table\n",
++			amp_func_status);
++	}
++	ret = sn624x_amp_apply_defaults(dev, sn624x);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -1161,6 +1247,11 @@ static int sn624x_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 		dev_err(dev, "sn624x: jack function init failed (%d)\n", ret);
+ 		goto err;
+ 	}
++	ret = sn624x_sdca_amp_function_init(dev, sn624x);
++	if (ret < 0) {
++		dev_err(dev, "sn624x: amp function init failed (%d)\n", ret);
++		goto err;
++	}
+ 
+ 	ret = sn624x_sdca_dmic_function_init(dev, sn624x);
+ 	if (ret < 0) {
+@@ -1253,8 +1344,9 @@ static int sn624x_sdca_read_prop(struct sdw_slave *slave)
+ 	prop->use_domain_irq = true;
+ 	prop->wake_capable = true;
+ 
+-	prop->source_ports = BIT(SN624X_PORT_JACK_CAPTURE) |
+-			     BIT(SN624X_PORT_DMIC_CAPTURE);
++	prop->source_ports = BIT(SN624X_PORT_JACK_CAPTURE);
++	if (!sn624x_sdca_disco_omits_mic(slave))
++		prop->source_ports |= BIT(SN624X_PORT_DMIC_CAPTURE);
+ 	prop->sink_ports = BIT(SN624X_PORT_JACK_PLAYBACK) |
+ 			   BIT(SN624X_PORT_SPEAKER_PLAYBACK);
+ 
+@@ -1292,8 +1384,9 @@ static int sn624x_sdca_read_prop(struct sdw_slave *slave)
+ 	prop->simple_clk_stop_capable = true;
+ 	prop->lane_control_support = true;
+ 	SN624X_DBG(&slave->dev,
+-		   "read_prop: src_ports=0x%x sink_ports=0x%x lane irq paging\n",
+-		   prop->source_ports, prop->sink_ports);
++		   "read_prop: src_ports=0x%x sink_ports=0x%x disco_omits_mic=%d lane irq paging\n",
++		   prop->source_ports, prop->sink_ports,
++		   sn624x_sdca_disco_omits_mic(slave));
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
-[Severity: Medium]
-Does returning false when SDCA DisCo properties are absent break the
-non-DisCo DMIC fallback?
-
-When slave->sdca_data.interface_revision is 0, is_sdca_endpoint_present()
-in sound/soc/sdw_utils/soc_sdw_utils.c returns 1, so the machine driver
-still creates the sn624x-sdca-aif3 DMIC capture DAI link.  However, with
-sn624x_sdca_disco_has_mic() returning false, sn624x_sdca_read_prop() omits
-SN624X_PORT_DMIC_CAPTURE from prop->source_ports and
-sn624x_sdca_dmic_function_init() skips sn624x_dmic_oem_fallback_init(),
-causing PCM hw_params on that DAI link to fail with -EINVAL in
-sdw_slave_port_config().
-
-> +	for (i =3D 0; i < slave->sdca_data.num_functions; i++) {
-> +		const struct sdca_function_desc *desc =3D &slave->sdca_data.function[i=
-];
-> +
-> +		if (desc->adr =3D=3D SN624X_FUNC_NUM_MIC_ARRAY)
-> +			return true;
-> +		switch (desc->type) {
-> +		case SDCA_FUNCTION_TYPE_SMART_MIC:
-> +		case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
-> +			return true;
-> +		default:
-> +			break;
-> +		}
-> +	}
-> +	return false;
-> +}
-> +
-> +static int sn624x_amp_apply_defaults(struct device *dev,
-> +				     struct sn624x_sdca_priv *sn624x)
-> +{
-> +	int ret;
-> +
-> +	if (!sn624x || !sn624x->regmap || !sn624x->slave)
-> +		return -ENODEV;
-> +	if (!sn624x->amp_func)
-> +		return -ENOENT;
-> +	ret =3D sn624x_write_sdca_init_table(dev, sn624x, sn624x->amp_func, "am=
-p");
-> +	if (ret =3D=3D 0)
-> +		usleep_range(1000, 1500);
-> +	return ret;
-> +}
-[ ... ]
-> @@ -1104,6 +1151,40 @@ static int sn624x_sdca_dmic_function_init(struct d=
-evice *dev,
->  		return 0;
-> =20
->  	ret =3D sn624x_dmic_apply_defaults(dev, sn624x);
-> +	if (ret < 0)
-> +		return ret;
-> +	ret =3D regmap_multi_reg_write_bypassed(sn624x->regmap, &clear_status, =
-1);
-> +	if (ret < 0)
-> +		return ret;
-> +	usleep_range(1000, 1500);
-> +	return 0;
-> +}
-> +
-> +static int sn624x_sdca_amp_function_init(struct device *dev,
-> +					 struct sn624x_sdca_priv *sn624x)
-> +{
-> +	unsigned int amp_func_status;
-> +	const struct reg_sequence clear_status =3D
-> +		REG_SEQ0(SN624X_REG_AMP_FUN_STATUS_CTL, 0x61);
-> +	int ret;
-> +
-> +	if (!sn624x->amp_func)
-> +		return 0;
-> +	ret =3D regmap_read_bypassed(sn624x->regmap,
-> +				   SN624X_REG_AMP_FUN_STATUS_CTL,
-> +				   &amp_func_status);
-> +	if (ret < 0)
-> +		return ret;
-> +	if (!(amp_func_status & (SN624X_JACK_FUN_NEEDS_INIT |
-> +				 SN624X_JACK_FUN_HAS_BEEN_RESET))) {
-> +		if (!sn624x->first_hw_init && sn624x->amp_func->num_init_table)
-> +			dev_dbg(dev,
-> +				"sn624x: amp FUN STATUS 0x%x, apply ACPI init table anyway\n",
-> +				amp_func_status);
-> +		else
-> +			return 0;
-> +	}
-
-[Severity: Medium]
-Does gating this fallback on !sn624x->first_hw_init skip re-applying the
-amp ACPI initialization table on re-attach after bus reset or suspend?
-
-When the slave transitions through SDW_SLAVE_UNATTACHED,
-sn624x_sdca_update_status() clears sn624x->hw_init while
-sn624x->first_hw_init stays true.  On re-attachment, if amp_func_status
-still does not assert NEEDS_INIT or HAS_BEEN_RESET,
-sn624x_sdca_amp_function_init() returns 0 without running the init table,
-and vendor registers in that table are not restored by regcache_sync()
-because sn624x_sdca_volatile_register() marks !SDW_SDCA_VALID_CTL(reg)
-registers as volatile.
-
-> +	ret =3D sn624x_amp_apply_defaults(dev, sn624x);
-> +	if (ret < 0)
-> +		return ret;
-
-[Severity: High]
-Can sn624x_sdca_amp_function_init() fail with -ENOENT and abort codec
-bring-up when the ACPI amp function omits
-mipi-sdca-function-initialization-table?
-
-find_sdca_init_table() treats that property as optional, so
-sdca_parse_function() succeeds and sets sn624x->amp_func with
-num_init_table =3D=3D 0.  When amp_func_status has SN624X_JACK_FUN_NEEDS_IN=
-IT
-or SN624X_JACK_FUN_HAS_BEEN_RESET set, execution reaches
-sn624x_amp_apply_defaults() -> sn624x_write_sdca_init_table(), which
-returns -ENOENT on !fn->num_init_table; unlike the jack and DMIC paths,
-sn624x_amp_apply_defaults() has no OEM fallback, so sn624x_sdca_io_init()
-aborts before clearing the status register or initializing DMIC.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117013558.1790=
-310-1-qianghua.wang@senarytech.com?part=3D1
