@@ -1,109 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794927789;
-	b=KZmqUW1QyBEl/s+40Vo6J3hOf9QCoZCOdBAkAc5M5TMbcrAQLS+IkUU6MtqYqnxkdAV2
-	 wV4ReHUooezs2StefqD5OnqzFDK4vDdCLfLqfLV/rhFavy567O0oQInMUYIwaCtzFBG+X
-	 0nDnt9rF9bitF59FeMMvy2ksBkJBq46qFdeKOv1IegQIYgm4s1IClBbRXkQ+ibH8rZd0A
-	 i573EE845F1OGA0l/R7SIsNmL1fyJgUPV6wtungb0WeJQDLV1q+Q+uJ4B1ZwM55FfJV9F
-	 6g9xogioDMpX797TUsPXWHU+1l4mBJUXuIdds58lliesMyuaiwzTT6PbxjO7IXIwLDw==
+	t=1794927862;
+	b=fIkEX/p0Rg/NuJ4MEU+Sv7o04JQDKK08SDn1qrUtoSNEH0bl7MBrNEVAZxjwPgXNDo3F
+	 Msv4ihqbeE0C1qIqn/PWhB4s2uOXRFeL26X9BR3h1lWdi3g28+frOanIkFP4EVG3xNtYV
+	 hBraGY7l7G/X9gEXyWcnCMI9y1QI3VzQs5Lav7c7+h75DMqCDYaa9kag+HxFQBgmz5zc1
+	 gvycqq07y6OQoStJ1GBMC6H88hJdarIsnQDXXvVumEfXroCkhhDRdy7tB4e8oAk2v66hg
+	 7DVfwe+DQ5q1laRG2wUp7MRZFYxDAcoGG8RR2RXRpU+Cdv1KsO8Uw0BTtkyRoyGitSA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794927789;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=hUv4OKsQyvEWhazdxRtoKfFJvndmTn3Nylnfh5JBWbI=;
-	b=Bu+1W/dYjgskaxrXmKO09vd3bDnluMx8rnhOQAhKFScK/H4UkH6PD8oacwbtOFFEN66A
-	 C2xb7+Y8JDUNLlO8eHSrd7X5ys1RlaIHfjWZEl/GOHW543Bg3bS8ylxem1Y/aeOS7Zbma
-	 7Uiu2y/vRb4/kT+IV2Z6dK+4t9iC1nIhhUIOXHpYI5rUsxwBseduizddk1cOhknvR87A5
-	 GrqgMCZmjxZp6LNpEc3IyJ5qk1BHiw1/fHFJeg5k+lvTmgU54uKjeRvkVoFZyXcAjMdZv
-	 ayRcW+YmLLxGF4pqHgKwmoDVOnj6qu5A4R449wQ5O3iC+Vmc3VUMQVkbxY+rGOwEIEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794927862;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=AHXyk6QEYpxdCP04rxSDRnWXaEbcjS1wiyKd1DAANnM=;
+	b=UpBehlN+gi/DIWn0qvhCSJaBr0bVAe7qDsNIvkZIoYPj9XnbWe7chJlhIxreAndv0QV0
+	 77HqAaQ5EEu5hlwvu8F0iKwD5kYHiXtfsD++MjjUp3dN2/A8OWPPBkstR+XpMJdkfSGfR
+	 6XOQjmpEs9nqWl5Bs7F2v7emcLYSzdbmt9VkG5U5hQ8eyrjSNdX3Wl3pgmCNy9KojmcdI
+	 YzsOrCnstchDff293nrBuc4fDxEQp7Vs3rgkx3QAHGNw1FdJJHWA/LNglZpIrR1AYZiGn
+	 Bq+lsJv96C6+LV4bTn2F/zy9jBhTz72cCT4V6D4x08jYDZd50Pct5Y24XCMqfkxRFOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eew6Mzg1;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6o3HwCQi;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eew6Mzg1;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6o3HwCQi;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IwrRu7zp;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9EE606A32A;
-	Tue, 17 Nov 2026 15:03:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F9EE606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5059606A32A;
+	Tue, 17 Nov 2026 15:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eew6Mzg1;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6o3HwCQi;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Eew6Mzg1;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6o3HwCQi
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 915301F788;
-	Tue, 17 Nov 2026 15:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794927786; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hUv4OKsQyvEWhazdxRtoKfFJvndmTn3Nylnfh5JBWbI=;
-	b=Eew6Mzg15MIomChOlfwEvQKLbV/H1XvQWO4y61RQLxiNIRzDW5DqAIPiYOreK4Ft6Bog+i
-	CeDsY5i1zgy8MOiZO3cA6xBP9IsHi8SmU0v+LqufEZ5xDWT3ejKuy61PrSdfbdAPrlowQ7
-	y7+V3K7S+iCR1QysQvAhi+lAmsPhiqo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794927786;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hUv4OKsQyvEWhazdxRtoKfFJvndmTn3Nylnfh5JBWbI=;
-	b=6o3HwCQiw6KSNd8lDysHbf3FLjZnN0A051S9csoB3YGzUaI4kMSAUUla9XJ3fIDBJStzV/
-	KQ0DsAY5D0uSFCBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Eew6Mzg1;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=6o3HwCQi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794927786; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hUv4OKsQyvEWhazdxRtoKfFJvndmTn3Nylnfh5JBWbI=;
-	b=Eew6Mzg15MIomChOlfwEvQKLbV/H1XvQWO4y61RQLxiNIRzDW5DqAIPiYOreK4Ft6Bog+i
-	CeDsY5i1zgy8MOiZO3cA6xBP9IsHi8SmU0v+LqufEZ5xDWT3ejKuy61PrSdfbdAPrlowQ7
-	y7+V3K7S+iCR1QysQvAhi+lAmsPhiqo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794927786;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hUv4OKsQyvEWhazdxRtoKfFJvndmTn3Nylnfh5JBWbI=;
-	b=6o3HwCQiw6KSNd8lDysHbf3FLjZnN0A051S9csoB3YGzUaI4kMSAUUla9XJ3fIDBJStzV/
-	KQ0DsAY5D0uSFCBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D6E81334C;
-	Tue, 17 Nov 2026 15:03:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lFSCDaps/GpDYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 17 Nov 2026 15:03:06 +0000
-Date: Tue, 17 Nov 2026 16:03:06 +0100
-Message-ID: <87se0zxzyt.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: core: Validate card indices in lookup helpers
-In-Reply-To: <20261117104155.3080-1-sreekuttan2156239@gmail.com>
-References: <20261117104155.3080-1-sreekuttan2156239@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IwrRu7zp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E9FF1F000C5;
+	Tue, 17 Nov 2026 15:04:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794927862;
+	bh=AHXyk6QEYpxdCP04rxSDRnWXaEbcjS1wiyKd1DAANnM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IwrRu7zpyMwz+3pBMKZEdNa3FOOhkJJ7rRDV7FsoGiEP25UZcd6COzVp73Ra3sDaY
+	 QTCIyNsfnvgjLMSziVizOUfmrmkBtgii/2XyZVbmzhERUvB2hsjTyXA/H4bwHHgolg
+	 iK8lvuKUTamnBheTf5ktoHxqC5Sq4or6kvlmDoN6rta1sp+KxZsYsrKlOO2wisUnVZ
+	 /mcsaO3ym5Ep9bdiCvKnkPwJbA5e2VMj4QIQ4+LHFk69aznFnALfdwhKClnREIU1Lf
+	 4sJEcX/+UELdExcK+3tr3TwMrq1jy4OPSGbMdC7ssnm7I1A3P/4cMGkkfE+3kKYI26
+	 GaW58uBuAsrjA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Linus Walleij <linusw@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ulf Hansson <ulfh@kernel.org>, linux-pm@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20261115-ux500-asoc-drop-vape-v1-1-46315e14642d@kernel.org>
+References: <20261115-ux500-asoc-drop-vape-v1-1-46315e14642d@kernel.org>
+Subject: Re: [PATCH] ASoC: ux500: Drop the VAPE regulator
+Message-Id: <179491836927.77896.17333378148547307247.b4-ty@b4>
+Date: Tue, 17 Nov 2026 12:26:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,62 +59,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 915301F788
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1091; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Fgd21gAwinj6UKOy3s9OTwKF0VSp7ifD/mLKvmpQ5mg=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+5Hy+9cji0bmMb0eDf8fMtrezUG3b/HyGIW+i2eOe7
+ 5sEfZwmd5SyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAi+2YyMjR33XbW4ectXf2S
+ 2WL/s7ki1Q6/yhQ6FkiZVU7y6vt2sJfhr9iBy12unYnGS+f6KT+wvvcj5uLtG4u+LDtew//Kef6
+ 7+5wA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 17 Nov 2026 11:41:54 +0100,
-Sreeraj S Kurup wrote:
-> 
-> Ensure card indices are within the valid range before accessing
-> the card array or lock bitmap in snd_card_ref() and
-> snd_card_locked().
-> 
-> This prevents out-of-range indices from causing invalid memory
-> accesses in these lookup helpers. It also protects against
-> invalid indices passed by existing or future callers.
-> 
-> Return NULL from snd_card_ref() and 0 from snd_card_locked()
-> when an invalid card index is supplied.
-> 
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+On Sun, 15 Nov 2026 23:38:14 +0100, Linus Walleij wrote:
+> ASoC: ux500: Drop the VAPE regulator
 
-If the value is out of range, it must be a bug in the driver, so this
-is worth for putting either WARN_ON() or snd_BUG_ON().
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-thanks,
+Thanks!
 
-Takashi
+[1/1] ASoC: ux500: Drop the VAPE regulator
+      https://git.kernel.org/broonie/sound/c/5515e4601aa0
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
