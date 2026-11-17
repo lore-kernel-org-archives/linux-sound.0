@@ -1,45 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794955620;
-	b=TP0WLlXdY3rQjCG+lMMkaqj5l6kUr++visk89uimiM1+O/P1ocbvioPt9S6ZqitSLIct
-	 nGbV4o7266/Z8e9PU5BvBnV19Yn0/H+63XwtkaaoOn3XJz57jLBYCYtrZpcomSbE+pKoO
-	 xoHRijbF+B4WO49h2rm6qYwTeR2Vi7grtt+UaYurvK7vDLCZypiFyZXPKjbsQEWuRYLk6
-	 xMX244+Ip59vZ7T/U+yccvP9zRVM1RDOKy0ChwTHo+cXpruafK9oMlF/bl01tr8Owo3fy
-	 giwcoMaQHt0HFNoiVsH5GIejSE1tNrHCGvSxE+fYOruUNlnHxNJFboqEbY/1N5sO7Aw==
+	t=1794955741;
+	b=fJlPhp9W+9sGKnzvcxD4XIZGFZSbJK8WATe/JTNOSpfnYwRPdvrE0ZiLF5wlALPTASgF
+	 4HD+EU9Ow6Vyxiry6hyrhPoUBsq9q8zKPlNDgE01YvjCjLhBB2w89zzBpS26qpCNKNN37
+	 aZkMj9namWNJZ7ERSQ8pv2gHpU1tTt92xqMKM785RurTvNZeh+9L/FZEoXdXWbWWYz/5F
+	 DpnoI9cUkfYUgvHgOlgLonBeRl9rortoIarsWon2OE3zNtNm/TZWpHNy+GfGWR9LeqiB0
+	 F2FgZ7GXfGyuWJSJ/pr45SsKA+EV0LLSXM8keTqYTr3y+KMDFgFXslQ0SryzXLZQPFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794955620;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=TxUFMRMYx3DJ6yj47nz6z8REqInSZBHxjQaoTXnZX/c=;
-	b=ldjEMFm7rPc1Z2ijmZ8MRk+kGWuIULt5oM05zrcoWBAdzrpHRIb+N0A0UU/9f2vJT/nr
-	 ktqFnOtPU8aFw/c1Z6XSldDDLbyQ9Bs9nwCj8RnVz9Omd7zqND/ATjUCAgJiW5oifovLg
-	 pCps1ZxEkkTEeoA+sMqlh330VoQSFfWDNg0X7BHDhqXSj9C8j1PfPBoHtv4Y53TneLMPq
-	 ml8O69bE7k0bxMpXW72yy7RzscInTXCVQj6tCGMrrVf6gOoZGM4YCoSfVI5O3156j2D8Z
-	 HIC/X401NBACcMrWmtyCNH3Ul67Vjic0SnIox16mGhGyQzrzUwxohaRYYcZ4C2GamgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794955741;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ArWVCioqRAYU1DBQ14iLq9nWjOPf/7wvzc8f5ZutiGQ=;
+	b=Y9Qk1C/mLT0+nCDsX7xFyTSkHjFTFlA98oQyoREuELJhrh4pk/agxahyWQm+tJmIt1cf
+	 DIF1RVOOU16eKz5bq3E9Z3k/k1P99+xV6E7J3zo9CmD68a2DlS617SyopTAUtpK3K6xdn
+	 HWY7VXkVyM/9pjVjhEvfk8jvCXBJygN/uurbzoVWAs1l7zQSHX2EKMRsvZzbFt7SmRb8F
+	 IYdTZo4gdquqr04EpF3Nuhz41F/SqOA75yemvcEwT3oShXbajmMbDFtAZSV+JX3oMpfzI
+	 VKExJ2G+k1ubJ0M3hwXDLDxakQKbCAhohN3xhFfPlLDYrsiBJ0ABjRsNM3fcr/6H4RQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I59gx9Qj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UctZxltv;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98928606A881;
-	Tue, 17 Nov 2026 22:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FB8606A31C;
+	Tue, 17 Nov 2026 22:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I59gx9Qj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B7C81F000C5;
-	Tue, 17 Nov 2026 22:46:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UctZxltv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260741F000C4;
+	Tue, 17 Nov 2026 22:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794955620;
-	bh=TxUFMRMYx3DJ6yj47nz6z8REqInSZBHxjQaoTXnZX/c=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=I59gx9QjhYIJYFa39a/lPSud0wDNSXu+myYH/WcHpvn9sUFqpCjch29DAXsJBrOpm
-	 9t5nnZJNyi/9LVF9nwXu8gSu0mzUCPcUYY3HSFePp8/TQhKgI8h7O0EYzFzAfBH+4H
-	 l9nyIwBBmSJ/oWvntSGlvWBpfXHMjz4TmGeNmXDGYWfE5k+sAvzd7An7tXv6aZFP+4
-	 b/d0Xw6y3yq6CohzJpNJ8cQ7YqaU9Joo1bzp77hi49jzbfkYAl1jaKVALo7qR8wxhj
-	 sHM8fkGu2nxtKQWh/RQ7NFVt2+Vg1pDDAM7wIfcQdtUOO9HbxmyuThsIcg6Nh3Rnkv
-	 bmXN72OiatgKA==
+	s=k20260515; t=1794955740;
+	bh=ArWVCioqRAYU1DBQ14iLq9nWjOPf/7wvzc8f5ZutiGQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=UctZxltvaA8GSDFkZU1da/WK7ISVXovEKUU3HsUfdT4YVagbG7/Qhz2FFwLqks+uS
+	 ibFu/nZLRSDTK/b2G/K5Sw91OnnriorHpie9ITQutchR7mqS00d9Xp/UF6alGd33ei
+	 ZVrtJCY3156QmFP0mkb534uxXT3j4b4gI97NpoQhvPCd8BpTF0KfgH1I2GSMxvbUJ1
+	 U9QrlpJ8NBbj2OnwNJJLZP6WlzlaWymyvJButqiQlmsN38lLcYESd5YQiJnYhBTd4h
+	 g2WFqcdW6fAATxjarhwX2dFULSiBa66COts8XcuHDV9e5dEiFK9ciXx9yQjR2pBHXS
+	 oeXlzm6z98sUQ==
+From: Mark Brown <broonie@kernel.org>
+To: Oder Chiou <oder_chiou@realtek.com>, Hyunjung Ko <hj351016@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20261117041323.4010546-1-hj351016@gmail.com>
+References: <20261117041323.4010546-1-hj351016@gmail.com>
+Subject: Re: [PATCH] ASoC: rt5665: do not block workqueue if card is
+ unbound
+Message-Id: <179495195777.77896.7427038422401917536.b4-ty@b4>
+Date: Tue, 17 Nov 2026 21:45:57 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,44 +62,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 2/2] ASoC: jz4740-i2s: Add support for the X1600
-From: Mark Brown <broonie@kernel.org>
-To: Olivier Louvignes <olivier@mgcrea.io>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- "H . Nikolaus Schaller" <hns@goldelico.com>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-mips@vger.kernel.org
-In-Reply-To: <20261024214438.33342-3-olivier@mgcrea.io>
-References: <20261024214438.33342-1-olivier@mgcrea.io>
- <20261024214438.33342-3-olivier@mgcrea.io>
-Date: Tue, 17 Nov 2026 22:46:17 +0000
-Message-Id: <179495557744.2707353.8222109296948133350.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=640; i=broonie@kernel.org;
- h=from:subject:message-id; bh=7cP4yHLtdpsCFF/6HyshCAsYCHoaRqR/0z0xThzsvmg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+3ExoN7jSGXP4aVd3llf4kbRL0jKS78yuNS6furpG7
- 6Loz9iXHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZiIsRvDf3dXDdVzt/L+qkru
- ml9j38/bxv51w9alUov51HIMkiZ2TGL478E+z84xTTN6ldBvziMhSh2VIVanXzh231uW/cd89yU
- uTgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=AXeVYozYsjRCpxzI2MuR4/w9+tKyWxglsY3orBFdiio=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+3LyZndEU3tDvlLTvEEtC4PKXfW9sgncqX1POvblvx
+ p49k719OkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRi/MY/ukf4vtaIPvjhZWo
+ fWjKRdb5zgKS2lPLH7seU/tko7J1ggXD/9ht3vcLwszWu5x97eiaLbzr+Mlo9xMb3UPkvl9s3VR
+ azQ0A
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The X1600's AIC is the X1000's, with two differences.
+On Tue, 17 Nov 2026 13:13:23 +0900, Hyunjung Ko wrote:
+> ASoC: rt5665: do not block workqueue if card is unbound
 
-> @@ -389,6 +408,16 @@ static const struct i2s_soc_info x1000_i2s_soc_info = {
->  	.field_i2sdiv_playback	= REG_FIELD(JZ_REG_AIC_CLK_DIV, 0, 8),
->  };
->  
-> +static const struct i2s_soc_info x1600_i2s_soc_info = {
-> +	.dai = &jz4740_i2s_dai,
-> +	.field_rx_fifo_thresh	= REG_FIELD(JZ_REG_AIC_CONF, 24, 27),
-> +	.field_tx_fifo_thresh	= REG_FIELD(JZ_REG_AIC_CONF, 16, 20),
-> +	.field_i2sdiv_capture	= REG_FIELD(JZ_REG_AIC_CLK_DIV, 0, 8),
+Applied to
 
-In the v2 thread Nikolaus said that there are separate TX and RX
-dividers, is that the case?
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
--- 
-Mark Brown <broonie@kernel.org>
+Thanks!
+
+[1/1] ASoC: rt5665: do not block workqueue if card is unbound
+      https://git.kernel.org/broonie/sound/c/337a0fd20549
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
