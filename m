@@ -1,74 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=8.221.36.76
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794875188;
-	b=jeBgXWDyLIXXp891I5ngbFO2NRtXwTAromd78Z1MIBogC2nfZx2YmUecS6ysmrSYx1yN
-	 uQ9VtMWJqLy/K6NnIRJsGkuGon80MaSq4wJT7YN940QQmGliOfrTn7oR3r1awZ53IWIso
-	 Vt+EYfqy8ltAoKcy8oKe7HW1YJ59Ys8FrSqqL3V21BlaflBA0O48z7rcYjZMvhBy4NVOJ
-	 ZoFoRHrmlBmfW5/fGOOKOQBCeVbp7gzpY8nB7XiRjZMZzOlpda58UG2RypZ+sMLygQCE2
-	 acKAUo+exVvGH/k3hfS3nknVbZXwCjbNpnujON7Oe7iGNX09yV/hcpm/DjS8YwH5/xA==
+	t=1794879376;
+	b=UQxiML0EDbhAG5X0kQY4gBqDqKoXHFbSOjpz6UHAgaLdB99ZeSo9Qmd6t/wDJ9x5J92f
+	 n3mnNYQnVySV6zroIIuu8wD24FZXxZdY+OebqBZsbCMk6ie4Taq3NsqFpd4QkheZcki9x
+	 +gUqu9Ath/FYu5ECMfBmGormpWp6PLSkk+J75s4bRqUf3AveMhA/SQt590pIvEmrvLN+n
+	 Wr+38TKgGY1HkqlRSwF25hbEf7bxe/VSjdC/mHzHZ//dC+WNoA2R0PAFJPkbLmvXiBD3X
+	 9I3rq3qYUjYXxV9rAsAtyuCafiQSDTj0uj0IvtvpnSmpYJk6QjEijwnXO9jReTiLu3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794875188;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:Received:Received:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:X-Gmail-Original-Message-ID:
-	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
-	bh=1IF7o/AtrOMvQGCYw2joPZttg4edu/s8LsP4afvyeNo=;
-	b=n6gFFjvr9WFRqmLfiGm+ttNn9iRHV5KTJtbpEIHpV47iiHb9YYN2mL0ybiKItN+nlWkP
-	 LlWrDVR+QcSnS+N/10LuPovDvrvggSHNdfDRCletmWJX6xJjWqd9n01cw4j7M+VNv3w0A
-	 hlM+GdAbVIJ5TMaC6lo1aFBpcwVZc/b7LfCv1IdHR2Fk4cGEpLPSH0AFxMyllrfCrdNe7
-	 bSr8bX8n8Nfl91vZkLeAZTv/+G5KOLJ4RPF4yko11sdeqXqsobQXpJ1BRmuT9O+DhpZDU
-	 bHdPkvHm6S2Ee0C77x/xxubuYwiJnwXUC425PE46hx9z/kaA49a84D5hmfUOtW4NTqw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794879376;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=PFCiqsnkXhx9VEkHtX1gsY7SvYMDgHSFrr/cDGG5GxE=;
+	b=WWvRIixy6oq0dr9026zUslnKwonbLnj5v1Xpd3L83evL0kwsxdlAGU/Doa4RS1b8MCQ7
+	 5k9fncYbMfXUNEAKzUHJ6v5WGFoGni0H1ofRadpjkIcwmC1qxQ30tBxAEmlGwAAyFu/wh
+	 ofmk9iTcWIVs8NeX3reo6Oz2yZ3P24G4WshS5tRPBU/D+CNSePgR5yLR6+bQM9OuEO14d
+	 z7W27sUJTUCN0tAKJleBPlL984Z5NVxXkJVQfwpxOF36G2quzac438HlRw6sAlJ1wD7yb
+	 xmVUmhPfCtFGvIaIuI/JHEM1Xvo81B3QgF4HcWXmXQyUZBNW7yTIQjbWfSRJAaBCOKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=telaak.dev;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.215.175
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=senarytech.com;
+	spf=pass smtp.mailfrom=senarytech.com;
+	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=OmDKHUEN;
+	arc=none smtp.remote-ip=8.221.36.76
+Received: from mail-m82213676.xmail.ntesmail.com (mail-m82213676.xmail.ntesmail.com [8.221.36.76])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E094606A31C
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 00:26:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E094606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso2243613a12.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 16:26:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794875187; x=1795479987;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1IF7o/AtrOMvQGCYw2joPZttg4edu/s8LsP4afvyeNo=;
-        b=Uhqt6ErijKw54A7D9AE6fVn76CBaTliWBbkuxNeH+BYM3ayGIPaUHHQS7WdLGdaWCA
-         WbNxnjUUecPLd0Gt7h2bofAz4lT+62s+trLg15fW3KOQU4WncG0HTJamJByVIFF2w28H
-         whUlGU+GyIL6gt+jxqE8S5y+74+1jejMhD4WWo/wmygEkow84meVyVmLmnnoMW3G1J7E
-         vNdnwsdxkdXnMbSAm1GIXO/qcZ4TT8Jyhfa2PvDffjQogx2MeFOlPNzD/1s6R9jEaCx+
-         uxgty8fGfWDe7Cw+tIGheaD4cuqNOBJIeGJE+HxnT5rjXyDyZjJxwVS11s+U2M6ce46U
-         fA0Q==
-X-Gm-Message-State: APuU4Z89YA0JiECqyGWXapAQsEyAIllqqnXl+p20JbOvw1wap2tqquBE
-	pEGTxN9BD35O9jVkQQS+n+UNEYhXPIxKxeglulw1CHG5ABjvelyaL3Mzqy65IX7w
-X-Gm-Gg: AZFdTZdhO8GOls463RHcZLfnBoMFkMPU/KV2KfuysJ7Fu/GYp89p2dQbPaEmYLFX3uF
-	TsmI5WSse97JwIJj5oXKDlsz40JEPLT1l9hOCBm9teyT29hL+G7BujnA+4kiyJoV5bqyEbA87pE
-	HL1zYCkiiOP6NblQjq2IZh++OgagBlkCnPaSRN2m9FwMpL2XmSHxLS5iNyPrLUNb+U2BPu3fzmd
-	OPC0QpSQsZ3Tir+2rTwcsdaY1cquc60i9BFFOY0XrrsYhWxUSA95cSn1H3irO5vpZmAuxAKWZF+
-	1hg6j+eMkZ0Dwqmal3Xwtdb34vp6e7gPOva4tcL0Es8rYNb2TW2sbLPULFK4ZKfm4PjT4XFUBU+
-	m5PBtDnpdJOeATUp/G9zQ8uzY3bZLujhJUoT/cwRJA7xTM+lPTgugBjxCBX26tX6wob5lVn6tam
-	B38OHr+3by1pLm/lFyR0KhAuSGLD447+6KEYWn+cd+akb4hkKKSH8cmca92A8QC5WJ+1hXFiytx
-	xn4Wto375QHUEFpMp+eQZDGospymQDRXE8FLCN25aVehDZYIS/s3zaQXRks59OINnnjsVung43A
-	KZr3de1yUNJYFjf7WQ3KECwiBef9r8c7aGLce9RuTKSaMToeHnWa8yY/sRpNcZfs7vqW2vVtxOD
-	+jVt+YUkT4i57uoYqbuIN54VM0+us6mSise1HGi8jUFZf
-X-Received: by 2002:a17:90b:580c:b0:3b0:a7b5:c046 with SMTP id 98e67ed59e1d1-3b1b0b50028mr11949608a91.54.1794875187172;
-        Mon, 16 Nov 2026 16:26:27 -0800 (PST)
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com. [74.125.82.176])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac4cff6fsm1202420a91.12.2026.11.16.16.26.26
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 16:26:26 -0800 (PST)
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso1834911eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 16:26:26 -0800 (PST)
-X-Received: by 2002:a05:693c:2804:b0:37b:7bba:8199 with SMTP id
- 5a478bee46e88-37b7bba83dbmr6574275eec.6.1794875186398; Mon, 16 Nov 2026
- 16:26:26 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC824606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 01:36:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC824606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=OmDKHUEN
+Received: from Wangqianghua.localdomain (unknown [27.38.192.73])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 54e8c7cd4;
+	Tue, 17 Nov 2026 09:36:00 +0800 (GMT+08:00)
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Qianghua Wang <qianghua.wang@senarytech.com>
+Subject: [PATCH] ASoC: sn624x: honor ACPI DisCo when MIC SDCA function is absent
+Date: Tue, 17 Nov 2026 09:35:57 +0800
+Message-ID: <20261117013558.1790310-1-qianghua.wang@senarytech.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -78,23 +61,191 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116-omap-mcbsp-tdm-slot-v1-0-6c9f7aa45a29@telaak.dev>
- <20261116-omap-mcbsp-tdm-slot-v1-1-6c9f7aa45a29@telaak.dev> <sashiko-outbox-217774@kernel.org>
-In-Reply-To: <sashiko-outbox-217774@kernel.org>
-From: Joseph Telaak <joseph@telaak.dev>
-Date: Mon, 16 Nov 2026 19:26:14 -0500
-X-Gmail-Original-Message-ID: <CAPY4CJ626GTu3Lvb6Fcn86BARRRV7YYg5=dcTmFt4L=QThS29Q@mail.gmail.com>
-X-Gm-Features: Aa3M54pgjWtyIXJ87iOCXvH7VHiLmPfsiy4hpiocOy5UhsnAmGKWL7LVFibdBLM
-Message-ID: <CAPY4CJ626GTu3Lvb6Fcn86BARRRV7YYg5=dcTmFt4L=QThS29Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: ti: omap-mcbsp: Use all 8 bits of CLKGDV
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa1e7258cbc09d8kunm3b66b7b22c3818
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZHR1JVhhLGEpKQ01JGkoZHVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKQklVTEhZV1kWGg8SFR0UWUFZT0tIVUpLSU
+	JDQ0xVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=OmDKHUENwCvahebsptHTj5jcoNzdvDDeUNBgiimgo+U/z/b1aIBcEH75C9gXN2vGhOAezRTK99m0v/VtnsTAT2fPZr4lWkF8A2netRvbyExLKjUFJUlkHchcPyXn5Itq70qhTtzOo9c3qAhG7Fuy0//OKLBfetnXa7QFrZQiDS4=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
+	bh=PFCiqsnkXhx9VEkHtX1gsY7SvYMDgHSFrr/cDGG5GxE=;
+	h=date:mime-version:subject:message-id:from;
 
-On Mon, Nov 16, 2026, sashiko-bot@kernel.org wrote:
-> Since this fixes the 7-bit mask introduced in 81da6a9e49b9 ("ASoC: OMAP:
-> mcbsp.h: Clean up bit definitions"), should it include a Fixes tag?
+Some laptops ship ACPI _DSD DisCo for Senary SN624x with jack and
+speaker amp SDCA functions only, omitting the MIC array function even
+though the codec might otherwise expose a DMIC. The driver always
+advertised the DMIC capture port and ran DMIC function init against
+registers not described in DisCo, which breaks bring-up on platforms
+that use a minimal function list (for example some Panther Lake
+designs).
 
-I left it out on purpose: the only set_clkdiv() user divides by 8, so no
-in-tree user was ever affected. Happy to add it if it should be
-backported.
+Look at the parsed DisCo function list before exposing the DMIC port
+and before running DMIC init. Apply AMP function init from the ACPI
+init tables when an amp function is present, using the same pattern as
+the jack and DMIC paths.
+
+Link: https://github.com/thesofproject/linux/issues/6012
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+---
+ sound/soc/codecs/sn624x-sdca-sdw.c | 96 ++++++++++++++++++++++++++++--
+ 1 file changed, 92 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index 1d4e5f27a..f201ff38c 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -176,6 +176,9 @@ static int sn624x_uaj_ge35_apply_detected_mode(struct device *dev,
+ 	SDW_SDCA_CTL(SN624X_FUNC_NUM_MIC_ARRAY, SN624X_SDCA_ENT_ENTITY0, \
+ 		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+ 
++#define SN624X_REG_AMP_FUN_STATUS_CTL \
++	SDW_SDCA_CTL(SN624X_FUNC_NUM_SPEAKER_AMP, SN624X_SDCA_ENT_ENTITY0, \
++		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+ /*
+  * Write REQUESTED_PS then poll ACTUAL_PS with the shared SDCA helper
+  * (sdca_asoc_pde_poll_actual_ps). Caller must not hand-roll ACTUAL_PS waits.
+@@ -1055,6 +1058,43 @@ static int sn624x_dmic_apply_defaults(struct device *dev,
+ 	return sn624x_dmic_oem_fallback_init(dev, sn624x);
+ }
+ 
++static bool sn624x_sdca_disco_has_mic(const struct sdw_slave *slave)
++{
++	int i;
++
++	if (!slave->sdca_data.interface_revision || !slave->sdca_data.num_functions)
++		return false;
++	for (i = 0; i < slave->sdca_data.num_functions; i++) {
++		const struct sdca_function_desc *desc = &slave->sdca_data.function[i];
++
++		if (desc->adr == SN624X_FUNC_NUM_MIC_ARRAY)
++			return true;
++		switch (desc->type) {
++		case SDCA_FUNCTION_TYPE_SMART_MIC:
++		case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
++			return true;
++		default:
++			break;
++		}
++	}
++	return false;
++}
++
++static int sn624x_amp_apply_defaults(struct device *dev,
++				     struct sn624x_sdca_priv *sn624x)
++{
++	int ret;
++
++	if (!sn624x || !sn624x->regmap || !sn624x->slave)
++		return -ENODEV;
++	if (!sn624x->amp_func)
++		return -ENOENT;
++	ret = sn624x_write_sdca_init_table(dev, sn624x, sn624x->amp_func, "amp");
++	if (ret == 0)
++		usleep_range(1000, 1500);
++	return ret;
++}
++
+ static int sn624x_sdca_jack_function_init(struct device *dev,
+ 					  struct sn624x_sdca_priv *sn624x)
+ {
+@@ -1088,11 +1128,18 @@ static int sn624x_sdca_jack_function_init(struct device *dev,
+ static int sn624x_sdca_dmic_function_init(struct device *dev,
+ 					  struct sn624x_sdca_priv *sn624x)
+ {
++	struct sdw_slave *slave = sn624x->slave;
+ 	unsigned int dmic_func_status;
+ 	const struct reg_sequence clear_status =
+ 		REG_SEQ0(SN624X_REG_DMIC_FUN_STATUS_CTL, 0x61);
+ 	int ret;
+ 
++	if (!sn624x_sdca_disco_has_mic(slave)) {
++		dev_dbg(dev,
++			"sn624x: no MIC SDCA function in ACPI DisCo, skip DMIC init\n");
++		return 0;
++	}
++
+ 	ret = regmap_read_bypassed(sn624x->regmap,
+ 				   SN624X_REG_DMIC_FUN_STATUS_CTL,
+ 				   &dmic_func_status);
+@@ -1104,6 +1151,40 @@ static int sn624x_sdca_dmic_function_init(struct device *dev,
+ 		return 0;
+ 
+ 	ret = sn624x_dmic_apply_defaults(dev, sn624x);
++	if (ret < 0)
++		return ret;
++	ret = regmap_multi_reg_write_bypassed(sn624x->regmap, &clear_status, 1);
++	if (ret < 0)
++		return ret;
++	usleep_range(1000, 1500);
++	return 0;
++}
++
++static int sn624x_sdca_amp_function_init(struct device *dev,
++					 struct sn624x_sdca_priv *sn624x)
++{
++	unsigned int amp_func_status;
++	const struct reg_sequence clear_status =
++		REG_SEQ0(SN624X_REG_AMP_FUN_STATUS_CTL, 0x61);
++	int ret;
++
++	if (!sn624x->amp_func)
++		return 0;
++	ret = regmap_read_bypassed(sn624x->regmap,
++				   SN624X_REG_AMP_FUN_STATUS_CTL,
++				   &amp_func_status);
++	if (ret < 0)
++		return ret;
++	if (!(amp_func_status & (SN624X_JACK_FUN_NEEDS_INIT |
++				 SN624X_JACK_FUN_HAS_BEEN_RESET))) {
++		if (!sn624x->first_hw_init && sn624x->amp_func->num_init_table)
++			dev_dbg(dev,
++				"sn624x: amp FUN STATUS 0x%x, apply ACPI init table anyway\n",
++				amp_func_status);
++		else
++			return 0;
++	}
++	ret = sn624x_amp_apply_defaults(dev, sn624x);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -1161,6 +1242,11 @@ static int sn624x_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 		dev_err(dev, "sn624x: jack function init failed (%d)\n", ret);
+ 		goto err;
+ 	}
++	ret = sn624x_sdca_amp_function_init(dev, sn624x);
++	if (ret < 0) {
++		dev_err(dev, "sn624x: amp function init failed (%d)\n", ret);
++		goto err;
++	}
+ 
+ 	ret = sn624x_sdca_dmic_function_init(dev, sn624x);
+ 	if (ret < 0) {
+@@ -1253,8 +1339,9 @@ static int sn624x_sdca_read_prop(struct sdw_slave *slave)
+ 	prop->use_domain_irq = true;
+ 	prop->wake_capable = true;
+ 
+-	prop->source_ports = BIT(SN624X_PORT_JACK_CAPTURE) |
+-			     BIT(SN624X_PORT_DMIC_CAPTURE);
++	prop->source_ports = BIT(SN624X_PORT_JACK_CAPTURE);
++	if (sn624x_sdca_disco_has_mic(slave))
++		prop->source_ports |= BIT(SN624X_PORT_DMIC_CAPTURE);
+ 	prop->sink_ports = BIT(SN624X_PORT_JACK_PLAYBACK) |
+ 			   BIT(SN624X_PORT_SPEAKER_PLAYBACK);
+ 
+@@ -1292,8 +1379,9 @@ static int sn624x_sdca_read_prop(struct sdw_slave *slave)
+ 	prop->simple_clk_stop_capable = true;
+ 	prop->lane_control_support = true;
+ 	SN624X_DBG(&slave->dev,
+-		   "read_prop: src_ports=0x%x sink_ports=0x%x lane irq paging\n",
+-		   prop->source_ports, prop->sink_ports);
++		   "read_prop: src_ports=0x%x sink_ports=0x%x mic_disco=%d lane irq paging\n",
++		   prop->source_ports, prop->sink_ports,
++		   sn624x_sdca_disco_has_mic(slave));
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
+
