@@ -1,101 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794953231;
-	b=jpRBn4Hy1seHSQHrxEnwtAo+2dLmTeszrOXFWsETr3PAf4kAhQU9P57SK7qoaYZQOFX0
-	 e6Cw2buJ6eWmWWvJOHMWFe9q0XmJa49LdU7Xm9UDOqJxhb6NIyRwj2UWMchP0AvPEGUSl
-	 6oVDdbTZN9B/W+FNG6d3h0/qx7l8Spk5PoHcmbESJbj2DjhG4U9TF8TWyzDa2sFHlMINC
-	 ZX/B7r7UaKAy7EvhnSSd1/en5ZmK0Vc2pDjNU+Kj/wpPSPom+VlYletc5yTeXyalkAW9N
-	 DcyDIpxTovpayLPz2ugi7PBEy0CbG07tqpPKYureZ2C3OJ0bDRFrD7X7FUJzgzALmmQ==
+	t=1794953512;
+	b=KaDSbFdOTZmvTq4brjdwFauBuQvW7NSezsYU7LN0aGduZcXLgDeqGdRcQdiVAoAjK/7W
+	 tTm3WxujU9n4CAWJDonDcBndoOWardf54xPHjeOKozDHVvZuhuMAToJkGRPmUMDVCIq8H
+	 7n1iH7C6VDp6KTB+h+atEF7puauueMSOaQs+RCMYM7yeAmr50DraI4+KwyyPJ0PUQR848
+	 N4EIY0IVXUPJAJzdKIAux1YU1/omIIwyCbV01PivgRMmjG1/asM0PKMcjv4UdgczVZ+1T
+	 OCT8sYfM1grhblnWqPVwWXRLSFaXz4PZHnxxPhjKo75DT6kpGYMHaA5kBuD7dUxze0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794953231;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=2GBjuuLx2RWaDTkuZWX477BOGa5Oz0VCn9xw/zNR/10=;
-	b=TMJdW9a05qyQPslvyAebJP0ilCkpq4xP7E5vQLKv8y+l9lPbGl4s56Npcl3EVylv5qpt
-	 G9YfoDtsbK7tRNtLjdwcsBI6I/EhfNIZvFD+NDQAd1RHt/L5hJ+e82ykOqOtzUuRd56Xq
-	 D2TKJIKqRPf/L07bhHogzGq+8/UKWinufkw+6ZI8aXTBDxRCQ5oHNiZuXYQ/DQjldO4G9
-	 NGl1ID5dg+OsAdIS7wnaYa01PdtP/ul6r9EyVChPSCLPOcUyzgmFHk31Rut3DWBYV0f0v
-	 FWnCR/QiFuMtVHqUJ/ZVnTwapjzPK0PU3+KoQmJD8cQIju9ncQdxhaaGLIysLCmBSrQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794953512;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=PQ1lkb7nCtNnaMBZ9SlFdtw9+jVlK/RLRabaEyTSzJo=;
+	b=rUgAk5V7e9dVROnIvZkLfdjb2CNaaF5lttz0pmdwM67yXQagk1jj81xNmznkCvAEQgZB
+	 leEDESzz16U4AG6YRo56xI562dIf/+eqmuu8r2n5IRPoJpWnOIelWfefmH+f6ON2HNcjs
+	 hUiukdLqBniz04SaGPgnjrhnC7Y6Lr6kJCncnxbPSN52Mvyrq36pFlnyDl8nhuduja1vn
+	 AMrmtvhzlz5+RP05nKrgirr/LmorHjM+cDIw0/UYzzYvA0/vs6pBivV2+gPuh3Akz8DKk
+	 hDT9WeBK6Z/xbkwue4BraWJQOoz0/0e4Jxdyfk7t7oIfRHHMFbEYnTZVrtHvhc0iFig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YjMcTPAa;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b+Udxlpe;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CB4606A32C
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 22:07:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2CB4606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A524B606A31C;
+	Tue, 17 Nov 2026 22:11:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YjMcTPAa
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so3374475e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 14:07:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794953229; x=1795558029; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2GBjuuLx2RWaDTkuZWX477BOGa5Oz0VCn9xw/zNR/10=;
-        b=YjMcTPAaCNLwh8YsFsR8o8tzBojZaFxao/nIUzjkmHeCAnTlRnk18p8hhIrmyoFrb0
-         WY/MtG30d17cQePBcSMFTOf9TW5ckUX8s3qtayr3oPTvHhkOYgayFQeLgs2nU/NWw0hq
-         rXgqZRMiPeaA+mhjiJfK9Gs9lqp8vlL/AZanTe8OEw/GQzlFe+IXt/WBGsHQm/aVqHAH
-         fuO+GY3GFEDPNs1OiWvgGeQs8Z8MKNNrkZwTXxGj2sigIWdJaAzrdj+8loP05qbF257K
-         kC5VCdfiH/15c4x6wJBwoRdbu9dLVd7/yED+i1EnuKg6jeP8ScbCPhPN5rjuuF9q/QEc
-         WZgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794953229; x=1795558029;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2GBjuuLx2RWaDTkuZWX477BOGa5Oz0VCn9xw/zNR/10=;
-        b=05bYIcuk/JWha5xo7s3mV3UyRbpDOqA9p5CBk1VraoeEZgRLyOE4HAzL3RVRedCmiA
-         YIQGL/+LfoHxQdtOkNGeiz8I6H7/pTjtKkiI5t/w3k6dxZ3V1zSLZ5vdFZZtwM8kxV65
-         URib2x4PbcEAXwBu7OCLF1MPYwfvKXoWZ26mMDbvs4V29zA4mpa2xZXFcAxkW6CYJWKf
-         vMgPOZeq858U7LAOTztm1jVUzSGk917JpEQchCzMTIZauzNikveajC76LCvYRIKwYcW9
-         gSV/hqz/3U2aBGjOeyGKdoUxmFg77LHtj6FZCuXF1/PVY7jg3+DLptZeGcsOboj20La2
-         mK4g==
-X-Forwarded-Encrypted: i=1; AL+hErGChWKsSmWudmzQ4m7FlN5KJB/rwWDajRtwEpYvaPM6iRbB/aPGplA3OJftLml7+q5YCJNjwVYidNm9lA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9VcuyRe3aunUNw5mLJJ13PeimMt5okZ2oUzIbc0L9mserY7gVH
-	IDQpGEV2V+ZO7oFb3RKP2vTTuAit+N92Qw0KMvzL38UCDIb1FLAB8jmq
-X-Gm-Gg: AYBFou2l8uMVH//jZmbXXCy+fcy08q2kh0CDcmI2j9Af2OewNztkL4mHKftpvNDZvtJ
-	8/4kKCMXNyf78yIC44wsmwmG/7pdqyKjb9TAk4dXJoQXzLFOtWpXbGKLKGlnWQOfj+sBgMyd5/N
-	ccT2Y0hzVOVbBhB86M0fSKrXvXqgdWU57jOBdMt6WJbIiy/XDmWuiORCtKc6ZAjViKFSfcad+9+
-	ySIwG0ZyJYTCkoqNlQrMmbCdOlelYjAUtrQxcsimc7iv2h4DeDh0J1nI4s8X4+QgXGlX7kdM1lh
-	iaUmR3U/RFy1EoJiov2zwe+QbLHCgz7HieRtds9CqcEC+xZLWa9M/sM7+bqMxsnqG4obXejP3qG
-	fja4l7tn0ps+kpUuVvSUgcLlA0nVGCErfCM1kRuGbLM4cb7aGRt1XArMthyaaWljuI7HzIEuZ2Q
-	lsptFnjuTko0YY+hbjOfVVEkd+GqEi8pCTb01Yq0j3dBEcqRD5sMGwihem5d9P+JkjhIkFWHkJG
-	HKACF2zcJaI2w9EtTTiVCRM3QyqpcQcPZqi6gC8hsJHDyHDfOq+EOWRYAEG6sgHc+zd0CzPtarE
-	WvnVa6Sjz0o12eFBkWBukpuJbYimhwDftGjyDOVh4Nz/Uw6bP9bcmo8QdrW1BFM4OI/DQjYUKXM
-	aE7oPMH/mzKBqJK7Odl8QpjGGJC4lqoeqrh7JFQ==
-X-Received: by 2002:a05:600c:3e19:b0:4bb:659c:b8db with SMTP id 5b1f17b1804b1-4bb7da18500mr9671815e9.12.1794953228777;
-        Tue, 17 Nov 2026 14:07:08 -0800 (PST)
-Received: from DESKTOP-0KSTGNI.localdomain ([41.44.127.147])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d2b8032sm15360655e9.10.2026.11.17.14.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 14:07:08 -0800 (PST)
-From: Temitope obabi <obabitemitope765@gmail.com>
-To: broonie@kernel.org
-Cc: cezary.rojewski@intel.com,
-	amadeuszx.slawinski@linux.intel.com,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	linux-sound@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Temitope obabi <obabitemitope765@gmail.com>
-Subject: [PATCH v3] ASoC: Intel: Remove unused intel-sst.h trace header
-Date: Wed, 18 Nov 2026 00:05:57 +0200
-Message-ID: <20261117220558.2702-1-obabitemitope765@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261111223102.1310-1-obabitemitope765@gmail.com>
-References: <20261111223102.1310-1-obabitemitope765@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b+Udxlpe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6F51F000C7;
+	Tue, 17 Nov 2026 22:11:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794953512;
+	bh=PQ1lkb7nCtNnaMBZ9SlFdtw9+jVlK/RLRabaEyTSzJo=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=b+UdxlpemwPOnSf43MqI4NgEf44TZ3ADYUpSOCmm5PfvQ0twBUB0liPEaHYotkpsO
+	 ZupUAg9wVep5QGZDP3HKvA/SQha6PvDI2qzNO+0Gl5RW+p1tP0ix3TvEe2SGc+nase
+	 QRSa++ghApI/BS/LMheMmPsDAAaNSd1ctDxQf4EsPrNvIuxlYmrjOWAuK75LuR1dOM
+	 u9a4wLL5/Pv1zI4f4SHkU+z2WjltOl+Pw+MD6d/J5L5L5JHkq3cgeJgBPJ/ABOfjTU
+	 SBVDOQnAG4WW77dYe4RIKLwJpEcFQNyktgrdtpoMQtbd86bKwtoCl7VjZMqpelR4aN
+	 JzR7MnTlIfREQ==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,191 +49,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 2/2] ASoC: ti: omap-mcbsp: Implement set_tdm_slot
+From: Mark Brown <broonie@kernel.org>
+To: Joseph Telaak <joseph@telaak.dev>
+Cc: Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261116-omap-mcbsp-tdm-slot-v1-2-6c9f7aa45a29@telaak.dev>
+References: <20261116-omap-mcbsp-tdm-slot-v1-0-6c9f7aa45a29@telaak.dev>
+ <20261116-omap-mcbsp-tdm-slot-v1-2-6c9f7aa45a29@telaak.dev>
+Date: Tue, 17 Nov 2026 22:11:46 +0000
+Message-Id: <179495350668.2707353.9603940609466130588.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2203; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=cRxcbpa3t4zw11M9tXL4PZCGMhSuhM/BTNbnsk47r/c=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+XFSZoZspZTiD+dqm25dzvbfuCEhavKVs8qzv+tbS8
+ 7MC7paFdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAizAIM/z35Zi56JHH66QrG
+ 82qpBTPWhF+dGNSz5tzdDXobJ90s9jjMyPD/wAk7BY+7Ow1m3eObw3pVpaf/1Ma5iXsDpJ7zHah
+ 5fIYfAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Commit 970d299b0a0a ("ASoC: Intel: Remove unused code") removed
-sound/soc/intel/common/sst-dsp.c, the only file that defined
-CREATE_TRACE_POINTS and included trace/events/intel-sst.h.
+> As bit clock and frame provider, McBSP sizes the frame from the SRG
+> input, the set_clkdiv() divider and the rate. Only a machine driver can
+> call set_clkdiv(), so with simple-audio-card or audio-graph-card the
+> divider stays 1 and the bit clock runs at the full SRG input: 96 MHz on
+> OMAP3, a 2000-bit frame at 48 kHz.
 
-Nothing includes this header anymore, so none of its tracepoints are
-built. Remove the unused header.
+> +static int omap_mcbsp_slot_constraints(struct snd_pcm_substream *substream,
+> +				       struct omap_mcbsp *mcbsp)
+> +{
+> +	struct snd_pcm_runtime *runtime = substream->runtime;
+> +	unsigned int format = mcbsp->fmt & SND_SOC_DAIFMT_FORMAT_MASK;
+> +	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+> +	unsigned int list[ARRAY_SIZE(omap_mcbsp_slot_rates)];
+> +	unsigned int active = tx ? mcbsp->tx_slots : mcbsp->rx_slots;
+> +	int ret;
+> +
+> +	if ((format == SND_SOC_DAIFMT_I2S || format == SND_SOC_DAIFMT_LEFT_J) &&
+> +	    mcbsp->slots != 2) {
+> +		dev_err(mcbsp->dev, "I2S/LEFT_J needs 2 slots, not %u\n",
+> +			mcbsp->slots);
+> +		return -EINVAL;
+> +	}
+> +	if (!active) {
+> +		dev_err(mcbsp->dev, "no %s slots in the TDM mask\n",
+> +			tx ? "TX" : "RX");
+> +		return -EINVAL;
+> +	}
+> +	if (!omap_mcbsp_slot_rate_list(mcbsp, list)) {
+> +		dev_err(mcbsp->dev, "no rate for %u x %u-bit slots from %u Hz\n",
+> +			mcbsp->slots, mcbsp->slot_width, mcbsp->in_freq);
+> +		return -EINVAL;
 
-Fixes: 970d299b0a0a ("ASoC: Intel: Remove unused code")
-Signed-off-by: Temitope obabi <obabitemitope765@gmail.com>
-Acked-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
+Will this do the right thing with a card like simple card that sets the
+sysclk dynamically?  The card might reprogram in hw_params() and should
+really set it to 0 on shutdown to tell things not to apply constraints.
 
-Notes:
-    Changes in v3:
-    
-    - Rebased on broonie/sound.git for-7.5, which already has the earlier sst_ipc_inbox_rdata patch applied.
-    
-    - Added Fixes tag.
-    
-    - Added Acked-by from Cezary.
-    
-    - Added the people from commit 970d299b0a0a to Cc.
-    
-    v2: https://lore.kernel.org/all/20261111223102.1310-1-obabitemitope765@gmail.com/
+> @@ -1020,7 +1125,15 @@ static int omap_mcbsp_dai_hw_params(struct snd_pcm_substream *substream,
+>  	/* In McBSP master modes, FRAME (i.e. sample rate) is generated
+>  	 * by _counting_ BCLKs. Calculate frame size in BCLKs */
+>  	master = mcbsp->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK;
+> -	if (master == SND_SOC_DAIFMT_BP_FP) {
+> +	if (master == SND_SOC_DAIFMT_BP_FP && mcbsp->slot_width) {
+> +		/* startup() limited channels, width and rate to the slots */
 
- include/trace/events/intel-sst.h | 148 -------------------------------
- 1 file changed, 148 deletions(-)
- delete mode 100644 include/trace/events/intel-sst.h
+While we're doing constraints stuff it'd be good to validate the params
+against the current slot configurastion.
 
-diff --git a/include/trace/events/intel-sst.h b/include/trace/events/intel-sst.h
-deleted file mode 100644
-index ae7c269b0824..000000000000
---- a/include/trace/events/intel-sst.h
-+++ /dev/null
-@@ -1,148 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#undef TRACE_SYSTEM
--#define TRACE_SYSTEM intel-sst
--
--/*
-- * The TRACE_SYSTEM_VAR defaults to TRACE_SYSTEM, but must be a
-- * legitimate C variable. It is not exported to user space.
-- */
--#undef TRACE_SYSTEM_VAR
--#define TRACE_SYSTEM_VAR intel_sst
--
--#if !defined(_TRACE_INTEL_SST_H) || defined(TRACE_HEADER_MULTI_READ)
--#define _TRACE_INTEL_SST_H
--
--#include <linux/types.h>
--#include <linux/ktime.h>
--#include <linux/tracepoint.h>
--
--DECLARE_EVENT_CLASS(sst_ipc_msg,
--
--	TP_PROTO(unsigned int val),
--
--	TP_ARGS(val),
--
--	TP_STRUCT__entry(
--		__field(	unsigned int,	val		)
--	),
--
--	TP_fast_assign(
--		__entry->val = val;
--	),
--
--	TP_printk("0x%8.8x", (unsigned int)__entry->val)
--);
--
--DEFINE_EVENT(sst_ipc_msg, sst_ipc_msg_tx,
--
--	TP_PROTO(unsigned int val),
--
--	TP_ARGS(val)
--
--);
--
--DEFINE_EVENT(sst_ipc_msg, sst_ipc_msg_rx,
--
--	TP_PROTO(unsigned int val),
--
--	TP_ARGS(val)
--
--);
--
--DECLARE_EVENT_CLASS(sst_ipc_mailbox,
--
--	TP_PROTO(unsigned int offset, unsigned int val),
--
--	TP_ARGS(offset, val),
--
--	TP_STRUCT__entry(
--		__field(	unsigned int,	offset		)
--		__field(	unsigned int,	val		)
--	),
--
--	TP_fast_assign(
--		__entry->offset = offset;
--		__entry->val = val;
--	),
--
--	TP_printk(" 0x%4.4x = 0x%8.8x",
--		(unsigned int)__entry->offset, (unsigned int)__entry->val)
--);
--
--DEFINE_EVENT(sst_ipc_mailbox, sst_ipc_inbox_wdata,
--
--	TP_PROTO(unsigned int offset, unsigned int val),
--
--	TP_ARGS(offset, val)
--
--);
--
--DEFINE_EVENT(sst_ipc_mailbox, sst_ipc_outbox_rdata,
--
--	TP_PROTO(unsigned int offset, unsigned int val),
--
--	TP_ARGS(offset, val)
--
--);
--
--DEFINE_EVENT(sst_ipc_mailbox, sst_ipc_outbox_wdata,
--
--	TP_PROTO(unsigned int offset, unsigned int val),
--
--	TP_ARGS(offset, val)
--
--);
--
--DECLARE_EVENT_CLASS(sst_ipc_mailbox_info,
--
--	TP_PROTO(unsigned int size),
--
--	TP_ARGS(size),
--
--	TP_STRUCT__entry(
--		__field(	unsigned int,	size		)
--	),
--
--	TP_fast_assign(
--		__entry->size = size;
--	),
--
--	TP_printk("Mailbox bytes 0x%8.8x", (unsigned int)__entry->size)
--);
--
--DEFINE_EVENT(sst_ipc_mailbox_info, sst_ipc_inbox_read,
--
--	TP_PROTO(unsigned int size),
--
--	TP_ARGS(size)
--
--);
--
--DEFINE_EVENT(sst_ipc_mailbox_info, sst_ipc_inbox_write,
--
--	TP_PROTO(unsigned int size),
--
--	TP_ARGS(size)
--
--);
--
--DEFINE_EVENT(sst_ipc_mailbox_info, sst_ipc_outbox_read,
--
--	TP_PROTO(unsigned int size),
--
--	TP_ARGS(size)
--
--);
--
--DEFINE_EVENT(sst_ipc_mailbox_info, sst_ipc_outbox_write,
--
--	TP_PROTO(unsigned int size),
--
--	TP_ARGS(size)
--
--);
--
--#endif /* _TRACE_SST_H */
--
--/* This part must be outside protection */
--#include <trace/define_trace.h>
 -- 
-2.53.0
-
+Mark Brown <broonie@kernel.org>
