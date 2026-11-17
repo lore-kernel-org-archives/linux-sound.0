@@ -1,67 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794896668;
-	b=3WfR8RNvOI3sG32bMt5Gh6mpx0uUzN9fkgBL/hNqxSBEM/efUAQwjUCwYuBYkNUTIZS+
-	 /n8sBZJ8vzwGKPyVT4Zy+Dej5i0Nm13Vgdqce15Tui7TlFCR1+ReIrL/w7T5iwCS03+2Q
-	 4V04F8rbAkfj/3lqzjIxNAnJH0Hw1fNo9ZMPJeb1jRvVPx6SdXr3Q0E3nDswf3NlCm76l
-	 KTaXx9GNWjHLRGNxl8q9sFBnXiQMf/dTv0n5g+Bd0dKScnLvGvdMg9RA90xJvEYiN5094
-	 quJJUgyyEYn3ZNYy8ml5Dk3yP0Jh2GQGhiZYHvRRrZLpQZOt3AdS7AI4qEOM0QAw9ag==
+	t=1794896911;
+	b=XeXx8pcXywNiSExTjP3IZ/iN58ndZ8QXSw0uZ8t0HEpcr9yY2SzIbZ13SJ/BCJvUur2t
+	 3fVGQoQxJe7yKWlIjwiLteI6N3RWpfjmu0oSJ5oaJqP/zvLMys0nG4gQPzHrXUhltMkF0
+	 Eyif2bqp3RoMNWBb+OBD9FRE9Uexp8+l3gI5B1DCQWlVKf64H/sbV4AAA8EK4IpKJtM+2
+	 QanJ6X/YpHmaefm26oK/aZJr+WpIpLrvqJVCSc/R5PdjsdpjpQGCwyXuML9X/umHaO470
+	 mMTPJD1IADvQZSzJmYDPw77fNm7At6mcBvuFy20wiFlOK6md19C4HA61mmEea6RPE+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794896668;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=uYf0dmk+DEmWciEUXlRmObZomIKtC11b5wdklOxzdYQ=;
-	b=gxj9S3B6OZUXNECnabgnyd5R8s6tgFDEEWapw6r663gUhwOdDu/3bgzWW6sov5Bl+g6J
-	 qTsK/8Sz7/GeQ7/nX/+1vVsFarYMbjzORzk100R82159Q7Xb4htDAQjNpVfsNLZALja77
-	 D5SH4ODz/vMw+eToOr7XcKAtImPABeg9YtAd4WX3v7UktMXnXszdeccqe7JTED7fFU2p9
-	 IBP6p9S66byCs1Xs5JeSbcPA06uZQzkX7zyeJSYITi+6VNS4zXctjLcEZhQMfqlxhyh6m
-	 f9y7vdjz3Ef05BKmHNtfXrtGY7eBcRQffs6bYwPoFJHKvmfUk18LwVQSFvlGahz66yw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794896911;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=EndUYlnDNaPj32UMOjAC//vbSb6zAqxPuHfiKHMO5DI=;
+	b=KADbYI0nOW0k+7VIz3b4LwYhVtny48QoORn1dt4herj8BXYp9BPDhQunSXtt72h8Zrpn
+	 y1tMx4Lx2rAH8TfNSa9KZAG858AgSqd1Ett/EbYAmOfsr23XPTJmVp7RjJ3rwY6RIu/0M
+	 KHJKM5VTtOLUJJurrPmThbLTRhOEoFqJuVdjoXXCcALTIsZD7ub/ZQkNBOuUb0FYOWnnN
+	 LcgByQBdrWd0tQ3tIiZFi9cALsSo/EwpWCfc+xYM2aJJqdMRjhcLB3HA2DBB2q49ipIfV
+	 0jAyNbKL5+KrDcj0WcBxM/NPybLb+TfGSLymSpJfg4PadtvhSRPm/heLb/sGcDYmjtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=KiNBTn7t;
-	arc=none smtp.remote-ip=54.204.34.129
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="upGkA/VO";
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67196606A31C;
-	Tue, 17 Nov 2026 06:24:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67196606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CCD606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 06:28:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39CCD606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=KiNBTn7t
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794896612;
-	bh=uYf0dmk+DEmWciEUXlRmObZomIKtC11b5wdklOxzdYQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=KiNBTn7t3eJAEOtk3/2VeRDFmefiykSARmU2xikrG5XUJuWnPkGlCRVU4ltAP14U5
-	 GYtsKQ3ZBbsyqcHGcCZHFvSfsPK8zxGw+t9GD2KdCu4vA8VpjVNAtIxCtux4Zf5xEe
-	 2URhub+zmFlCzrFDFgd3sHDL0aF55mX+ISnz4L4M=
-X-QQ-mid: esmtpsz10t1794896577t1e4edcdb
-X-QQ-Originating-IP: PMmzf6rOVt5JBrH48aHB5GXqSihzlivps6BWE5/XnRA=
-Received: from PEC004119 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 17 Nov 2026 14:22:55 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 7945630178983201446
-EX-QQ-RecipientCnt: 7
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=upGkA/VO
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso2345401eec.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 22:28:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794896910; x=1795501710; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EndUYlnDNaPj32UMOjAC//vbSb6zAqxPuHfiKHMO5DI=;
+        b=upGkA/VOO3mL3jxIxID4lXiksNnJ9vCBXK94U7h+6rp1m1ARc+F9DyzdzTVWhEvKoa
+         Vfdlw9dLY6Rsixv4M5PCivcrlkcsD2apWetKFr4F4SLBtdY7pXSCT/34MTH1UaANnjvA
+         GYeE7wqSpFpYUE5HvnfNxsYE5wFc035yIinyOvjC+PNom6k2a7ToNf0Vqq7Hm+oCY2WO
+         PjneAsrGOZQHMkYp8kBXM0SXu0iH8s0nQawG9KYdWfebKtPWBUVL5OhLHrLSg5rk8kRE
+         h5G7Y+HAE/kvsSLTkfBGdNlnRS/Ys11s+Hzj/zXmrAzAbBmP1cyJuKKchiySZLWaeieM
+         Nnew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794896910; x=1795501710;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EndUYlnDNaPj32UMOjAC//vbSb6zAqxPuHfiKHMO5DI=;
+        b=QNHS4tHE4sLnnHjfH/a6sW1p20i7SFQJACr1bQO5+bJvTwNr0xMeg6fmro8n08hgE/
+         iArHLITq8vjI7iwq1BPegoryKWeoaU3wSeDaTfVcOURpwxC+HTptpYGnIZ+9jUYjbYVD
+         aBRAydzNkJzyIn+YcJbIgUMylngMBUngJDrz2zpsOqa2/uuiWST8kmVMZtxfvo9ye7wV
+         +maAfIjzgW4CGahop8Dm8ZxKN/0A6jj2n+XGVloRFJ6EZs3X611E9tH0YkKWrzegxojK
+         5kzO4yxq0/naNN42OdjIJLziK9l9jUC9DeOWjpJ28kBzC1HfzsdyLbVoNDNJ/nmOsHWf
+         uiOQ==
+X-Forwarded-Encrypted: i=1; AL+hErEsZVIbSfA6PavHmdDUusHhnstK41DIohsDp/5vu0F5wtH08IKlnJF/DQNbclY2ZqYld+FElgBg8j9SjQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z87ftOtybgJ6LVNPT4YTEhQkRlq0dwRg5Jqj5SeWHW1PCSFQosx
+	tU0xz7LZ/CCG4uEf39E4wvlGmwEo6RBVmtB15ewMwMjvR/R2HM7WrRxIIBtOGCTu
+X-Gm-Gg: AZFdTZedAJacN4B2OBjqG5arrNiLbVnYc9CYva3w6x0RTnudqLAl7059fHrMZmUess3
+	sNN2ejzkUhR9tHw7wwQaoJuuFJmIfkrrRgLhVmV91PDvfvtvWAZxCLKg95BtEepOuiMvMTiOxUA
+	WYUV2t4ucjog9CTbHVKk7W6PyFguiIE18sWn2ZlCeDTxJ7YakW2ssulbedZPko11Pp+Ros3nvo8
+	zL8W9TxlMdcVPSqdhrLKwbbxeF3QkHWVKP4xFNYZ4ySQcOlnAOrO0a1+a1PTXkV3LiCQUkLt9AC
+	Bafp7VazPezkUcVaia5CtXH1EnQZczXfNxse3/Sme7aPMAXtHlm2jCuugzEmg5x9hsDF9IMXkOS
+	KbI0VCN6u99uiQqJANTzs3UyiJS1rVF+Wk+CPfxS6kqu0JSZIRkfZckcolkrZypjIF+QhrShGTm
+	JOPl7Mj4HzWZEW8kijAhUWSIB8bmfvXwRry+VFzVlPGl622mTTs9Hk9h6TB6tATAmiAt5PpiNEx
+	FVOEjCbeZXP5j4s/2552r2h80BEC8QzWbuCiygT8tnBmlKInMSwYsgu2JBBITsITk+kEQLswcRj
+	Z0kpDP/Giv5nhlNRZcu4vv+nQrsqQdqgjyupcBtZr9OVICGjAhg=
+X-Received: by 2002:a05:7301:5086:b0:36a:5042:85b1 with SMTP id 5a478bee46e88-37963376ef2mr12811480eec.2.1794896910148;
+        Mon, 16 Nov 2026 22:28:30 -0800 (PST)
+Received: from localhost.localdomain ([103.178.205.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379565d269asm43855185eec.23.2026.11.16.22.28.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 22:28:29 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: sreekuttan2156239@gmail.com,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH] ASoC: ak4375: Power off the codec on probe failure
-Date: Tue, 17 Nov 2026 14:22:53 +0800
-Message-ID: <4E11793720037898+20261117062253.3611273-1-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	perex@perex.cz
+Subject: Re: [PATCH v2] ALSA: compress: Fix task resource leak on copy_to_user() failure
+Date: Tue, 17 Nov 2026 06:28:08 +0000
+Message-ID: <20261117062808.2807-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261113110427.4256-1-sreekuttan2156239@gmail.com>
+References: <20261113110427.4256-1-sreekuttan2156239@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,108 +100,13 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: MxpHmR/vpz48AQUA3HcTUfp/R5uD3PeSdwSqHRhJEeYb9sJtSuGdT7Xs
-	AUbVoeQ5dOnRXcNxPaaezS3U7sXqYxl8mnPNgg6FiXSZISFhYZIq64HkkzGewyuw3vpLF5W
-	1EkQXibhZkWjsztJSddNQEqs4JgzPo0H130mCaF4luorHt7pnFgK/GmvANV9zjK2AC2u1n3
-	6I08ZSffe9k7IWpiYKsYwmC1Z9FEBiJpVjgsVWracdNLp+2d1/2w620BeD/uwhKMqN3To2E
-	Nco2GTe7sXm6dEU66FzkiZI14SHMhTdBVRBLbxr7a0kaAkBFNMbbNfLhcNC1x0U1U4TIP4N
-	TEzAC/eoANwHNJPGaY3EJV/N5UKAPivD3g2Z8lZmKWm67K+zHVlCM99Y7mbzhp7qY8gRGkP
-	IYVLOqfwCA6btMn9Z4dfywvtXhnZGdw8MsMZj6baQwwswyjjj/CTNyVPPRPz3PIrCNvtWH7
-	MPVXTvr6wwszDgQBs9wyARLninKMFhVWDI9gbdrXI0jS0nOt0x1BR+gId4p39b6q4FEyjTx
-	VYiSI4IGMPOTUUvDc2yz4ZU4exrcvUIWDGsrDfDO1AZ82BAmhF3Je8u39hM1WS1m+mgu+/2
-	k7HNK3dTF65ncrnq0Fy4DMCKpivUOYlqjhEKqX9J1Hf1rER3pzhWLWWcnbexYL5jh9himh3
-	4wd/6HzeO/E5EEpbkI0V76qKWViyV5PWQfJAIq1XfjHx/vPBZOBJaRIcGeiRmdhcgZLoRWY
-	LhpuuD94RwXfFLtOLMEp/TPF3Bvmrkd5lVNESVfI7pR9umJ5BrWrXnV7DBYlK6vAgFdJUIt
-	mDz7CMoqGZq5hQ2n63byoFavk7QOaXFdHKocqcehjqu9GJWDo626gbwdh1cw2RmvQH8UQ9h
-	LEo9uFIS1U8RCuljUeR8RCgVrm4opbE7QDxWNI5rQnL2EhVUgAxeF6GJE7O3ygiiQ2ovlhV
-	KcP+U6JeSnSd2KTe+FOQyLhV8YAd4D2hQ0Wf3zCBKCZnlHif6UnnYv0LlKzDi6AH7dNLcW5
-	ksLA4BWi16CM2uOZEtzBvFX52hePT5+tYBAPgh3g==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-X-QQ-RECHKSPAM: 0
 
-After ak4375_power_on() succeeds, probe can still fail while reading the
-device ID, rejecting an unsupported ID or registering the ASoC component.
-These paths return without disabling the supplies or taking PDN low.
-Managed regulator acquisition does not undo regulator_bulk_enable(), so
-the enabled supplies are leaked when the probe resources are released.
+Hi Takashi,
 
-Route these failures through ak4375_power_off(). Also disable runtime PM
-if component registration fails, since the remove callback is not called
-for a failed probe, and mark the device suspended after powering it off.
-Restore normal cache access after the device ID read regardless of whether
-it succeeds.
+Thanks for reviewing my other patches.
 
-Fixes: 53778b8292b5 ("ASoC: Add AK4375 support")
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
----
- sound/soc/codecs/ak4375.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+I noticed that this patch is still pending review. 
+Could you please take a look when you get a chance?
 
-diff --git a/sound/soc/codecs/ak4375.c b/sound/soc/codecs/ak4375.c
-index 28cc41014bd9..04c99b188981 100644
---- a/sound/soc/codecs/ak4375.c
-+++ b/sound/soc/codecs/ak4375.c
-@@ -536,19 +536,19 @@ static int ak4375_i2c_probe(struct i2c_client *i2c)
- 	regcache_cache_bypass(ak4375->regmap, true);
- 
- 	ret = regmap_read(ak4375->regmap, AK4375_15_AUDIO_IF_FORMAT, &deviceid);
-+	regcache_cache_bypass(ak4375->regmap, false);
- 	if (ret < 0) {
- 		dev_err(ak4375->dev, "unable to read DEVICEID!\n");
--		return ret;
-+		goto err_power_off;
- 	}
- 
--	regcache_cache_bypass(ak4375->regmap, false);
--
- 	deviceid = (deviceid & DEVICEID_MASK) >> 5;
- 
-+	ret = -EINVAL;
- 	switch (deviceid) {
- 	case DEVICEID_AK4331:
- 		dev_err(ak4375->dev, "found untested AK4331\n");
--		return -EINVAL;
-+		goto err_power_off;
- 	case DEVICEID_AK4375:
- 		dev_dbg(ak4375->dev, "found AK4375\n");
- 		break;
-@@ -557,13 +557,13 @@ static int ak4375_i2c_probe(struct i2c_client *i2c)
- 		break;
- 	case DEVICEID_AK4376A:
- 		dev_err(ak4375->dev, "found unsupported AK4376/A!\n");
--		return -EINVAL;
-+		goto err_power_off;
- 	case DEVICEID_AK4377:
- 		dev_err(ak4375->dev, "found unsupported AK4377!\n");
--		return -EINVAL;
-+		goto err_power_off;
- 	default:
- 		dev_err(ak4375->dev, "unrecognized DEVICEID!\n");
--		return -EINVAL;
-+		goto err_power_off;
- 	}
- 
- 	pm_runtime_set_active(ak4375->dev);
-@@ -573,10 +573,17 @@ static int ak4375_i2c_probe(struct i2c_client *i2c)
- 					      drvdata->dai_drv, 1);
- 	if (ret < 0) {
- 		dev_err(ak4375->dev, "Failed to register CODEC: %d\n", ret);
-+		pm_runtime_disable(ak4375->dev);
-+		ak4375_power_off(ak4375);
-+		pm_runtime_set_suspended(ak4375->dev);
- 		return ret;
- 	}
- 
- 	return 0;
-+
-+err_power_off:
-+	ak4375_power_off(ak4375);
-+	return ret;
- }
- 
- static void ak4375_i2c_remove(struct i2c_client *i2c)
--- 
-2.50.1
-
+Thanks,
+Sreeraj
