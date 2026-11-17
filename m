@@ -1,98 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.30
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794909622;
-	b=Ui7eJQXT+V0UFQvBg+v3Lky7INKSM2BpcNEv4grBC8WJ5bBPgdEYL2QwHD1+FE0fLVUJ
-	 Enuwk6bSO9xO479oeg2nUgeOta2PueRBRbppfZ975ir5T2wZL7CAnig2KTnJXn/VnQDqh
-	 wqHphNLhlQ0zMi/LR24JvGoB0hrC4TAUlGlitEaw3wIr3AMXF4kahkIOn8N5ZXs9BSZJR
-	 UxG9ltvTusWslEr6xJ7W2kYJ/0t6pBQuMZ8I6dGRbpyUDSK+mbNC4you/JFwe4OV/HVZL
-	 4kuYItm4oTOmESp0jJknoMxloY0WBk42UMHF2o4xmyyCjZF9w7tHc759wkUqLrmmWFA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794909622;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=LSSOq2sRF7yLaEhh9HGL4j9QUJjFRKQukBuXs+R8Vnc=;
-	b=pYmwPxU18hqKqvGw9UN7cnaH8D7DGu1DcjX67qFOkc+QEnPX/fcgUp2lgq70qDLKRNfe
-	 mMgq4KLFiqkBX3j6rzP6cVAAvhRd0PbDTkNAF9EmJLXDxlTPVUgEgezXh/ZMqKkz1RvqR
-	 WSwTBWf+E63yjLL1zuf1sPdsJArZNsyXEzwO0UPX+NWA543RFib/Tw64t9Xc4CSm9EyNa
-	 2UjA8GJSFNTnStAR+eH5+g8KSlcWYe/MQ2BGWR1pxQI0DP57uoYqeHFSNS86QJdK4TDmF
-	 628i+EJrcXAqHftc0mYZWlgO3nY5YIPSXGRuUz8inRZesEuSCSfdq2FZrsEmXH0caMQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=3znkW53v;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.56.30
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010030.outbound.protection.outlook.com [52.101.56.30])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794909726;
+	b=BWb68udFqeNJ47fjz/78J46mXHVrq/mIGb0LKVJI0kp1bwhrbeKJmkITOQ/eHNrc6qZu
+	 0LpJUjUWLiHbp/fADnzUidTQWIolk196IMHL0kfhXjJgh+JQsbjbYROte9BEBKv9MOvcf
+	 G5gemm7vtBeXQHGTWEX79sgp1PZxIvpV0TTyd9AHG9Wre7QNs/zlp6ZNZGJGD4PcjcNjT
+	 z9AkjLa9bDOz3fVjEq/oWdV9ULfF3dv6TGoxX7qFiv6wxYgg2t/9U0/3VG2ZDDG5QLekN
+	 zPgzMd/n8oufY9GV0Di8fVTP1mpR29yNYWW3GVbE2J8to7C/FDcidXHy5fITOeQCEbA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909726;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=vEqLxVjNWHrgIOYcHa7Zay375+bOBucK6ns8/L9IwVM=;
+	b=WgXVL71HHpC9Gn4YoAgjFkyy5vBhh+AArsrujDFbGCmbEOCgoMoYg/rZT7Cm+ZLahtPn
+	 +GV9zbavywZ0np1loxplw5furbtMp4mg9fEpH+hy4khW4NrXiEoUvCtd9A6e20eW2X5vB
+	 S1b3vBCYAPVRsaxTHqu8DQcyt0vQXuSJtLsk54Xwyp9p/msJsHnk4ACybtP9402FkKvKr
+	 73XLmr1hLuC9CaELxsjedDrRys6hvO6MJVGYnyWhY7u4uPTxPIiRfjE6jOMCjwuk0yLZv
+	 cBkhJibkEA+DwLydpQVoCW8qpi63y4g+H2S0odqWWhLBDkPSQdtdoBTFBAIwqZnf8MA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Is9c7ZAh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4F1606A31C
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 10:00:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A4F1606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175E6606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 10:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=3znkW53v
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JR+z70OZOA8a7kFGUOpO8fJdOWDtEPyar99nhCfv0pyjcjPBjSIWIGDQC9zLqSBOiwfJ2FITy+gJDrb4//bdE/GzpLIVEq0lSOEIsGz20VkaSIxOL2fqSizo9DvIFm76UJVEaqtxt+3qrOWTx5cptKFFCrPHsk7oooZ6cRspHP03UNBPECu4pGUuTBlfjM/qr4+z85kBCK7WIa866OCpLNi+Au7T2UIfd7IRFcAXsPE/7Oh6XRGOQVJ1Ssy4F5QTGeQrnK9b5rf5ggmDUdnDXzWGuvpnFRy63HL/5/AbB+vQd7uY5a2rtHz80bqZm/kKKyR+GKWDdzmNAzDNI6Fplg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LSSOq2sRF7yLaEhh9HGL4j9QUJjFRKQukBuXs+R8Vnc=;
- b=iOyWYlvHy1ApUBcMt65DYiFEgoAjONRxy76utbki9OYfbTnrCEodspJoCRsDtcMI0RwCpunc2N8o1q4pwjQZ+Xf848slsE2QSJz3O7pSYNMfiFzVcTlTQaG/StKFPEJxlXnxsXcp4NtqkAPss1u22H74SwkWUCrEdbytDos4Ui6BAF7afdSvS3+SdcUxCV9iciKS6lUoz5Z8qht1+gC45+ImRprQZ3vxVqX7N0I62QMjhfxuV4d5kR/uRW+Baxd7I3FHYoSEu3Mq7Ilr4o6U8X1NrnbxsF1Kj3w+rDkntN4ZZZSnynIlLyBHpg2vtAqgglyetHceTjmOyMDUE4ACMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LSSOq2sRF7yLaEhh9HGL4j9QUJjFRKQukBuXs+R8Vnc=;
- b=3znkW53vflUQN+U86zjnZe/Rm1bRCPOZuxEAEtJ3lmLu3uS6qTNURN//MnYe1N8sdvCR0z6hfBzOIRRsV5Ztos4O2+LE16/G0LH0H/Oq5S0srXqEPnBEs3+2UOvBFNZ/1DvbcomGVyypHnnyyV9j5aG63mNXvppBArpP91/LraI=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by PH9PR12MB497784.namprd12.prod.outlook.com (2603:10b6:510:411::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 10:00:18 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 10:00:18 +0000
-Message-ID: <054d6e64-540b-4f53-8866-4b46e3478859@amd.com>
-Date: Tue, 17 Nov 2026 15:33:01 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 12/23] soundwire: amd: fix work drain ordering in
- remove path
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, "vkoul@kernel.org" <vkoul@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
- <20261117070906.803139-13-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-218350@kernel.org>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <sashiko-outbox-218350@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0042.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:81::13) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Is9c7ZAh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B0241F000C7;
+	Tue, 17 Nov 2026 10:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794909725;
+	bh=vEqLxVjNWHrgIOYcHa7Zay375+bOBucK6ns8/L9IwVM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Is9c7ZAhXTWZDLw15Xrkmp2YVhn3iTqGF/7NzxTGRiQAWwhz3cxP9YyN5+0Oaajc2
+	 Z1fYu0PWUFlcvgIh+LvevRPh8CKIotZe/NpnNqzy3jn91kmkqeEq9ovfKRkivO6Z4P
+	 2+cm+siXdgMAy7cStw1EVThSUHEUKrdefFdArZJwgr/ml/r8MuixZRI0XW8q5InLc6
+	 CQjRwvAj/tsBgXWoaSDIJUtnUCQK64GTPWfs1LH7YWILRk3AK4Wz0wSD9LlBowyksA
+	 6i9+9DVFYj3bAA7q8/sUB6dGamaiySCHCEvkY8v6tB7W9zMGov4eOSQcQm+6zMhHVv
+	 6gFgpEZl8LXdQ==
+Message-ID: <sashiko-outbox-218562@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH v3 2/2] ALSA: usb-audio: add MIXER_STATE_REPUSH
+ quirk flag
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pavel Artemev" <a@pavel.bz>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261117092532.408981-3-a@pavel.bz>
+References: <20261117092532.408981-1-a@pavel.bz>
+ <20261117092532.408981-3-a@pavel.bz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 10:02:05 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,189 +60,428 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|PH9PR12MB497784:EE_
-X-MS-Office365-Filtering-Correlation-Id: 64568be8-f1ff-4bae-e734-08df44919563
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|261102123227099003|10067099003|11063799006|4143699003|56012099006|261021123027099003|261021121427099003|261026140227099003|261026121527099003|261022105027099003|261022075727099003|261028144727099003|261009223027099003|22082099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	yWtRfrznR6IGplZlizwpZNWzzFOrT3WWjfeuvZ6f5p2a5TUytC97yDl1Ua73SEiqptNVUTSrr60nmSYSCnkFTpxqJxwCtKiiDN0eiC6jWl6e4rXb6UnmmMI2hgva5Twn1jPOS9iYVfvrUppJcjqAHt1BH0D+CHB9xAWUYomljfmv4UCXNpWRJdi9KOXjUOqD8mc4LgAMxZxcbgE867urRccvYmwlBUrAHakJCeAqpI9d+SExRM89vtzrESg9T3ufcENcIjA2gtOgHghIb7eaBdF8Rc0qhGzWeN7yBb+O1yZdH0Q3H00jsUnBBE7VD8j2JiV3FzoqavgWEAd/OR58do9UFSpS/sCn7qkVEx7kgEKWYuzOKPTyOnp8Ztf6lv5BFzBC9nVRazl/cc4HQzad3d1Fn+f8I/gyh1QTF6ut/gyOE5kCS8LDFIAbwaCyZPUMyq8l2jJq4QB8yXO+uiYqMl03pZZvvDUZA4Emv/2xyaRuZOy9u+ZebbSt5dSQEltvTxEpU5G8MgWKWxVQ2Y7MXM4hLqDcP8BU+TL5tIG4QsOzAc38iaO/RkbAk+mz0ZNNUiViJ1oUt+MJglIGxATl6hbWFc/wMNHrUW459xOQ6eD4w2MMYhUciVFuAxiM8k7wTG28xBCYJd+XCGU/ID4lCyb2hclrpSBDEGUzdFMBvmw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(261102123227099003)(10067099003)(11063799006)(4143699003)(56012099006)(261021123027099003)(261021121427099003)(261026140227099003)(261026121527099003)(261022105027099003)(261022075727099003)(261028144727099003)(261009223027099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZkluM1c1Wldybm80SEc4N0xvM2VLOTRWUHZlaTFSNUxDWUREQVFzNVFLdno5?=
- =?utf-8?B?YjJ4cXE2TkpnK1NUc0ZFSmRoTDZzRk96K3J5Z0hEQTlSQVZRT0lJWDZRSFlX?=
- =?utf-8?B?dUpVSXBJWXdMTG1nY05aZVZpVlpPVkN5bXRkenhqOVBHNTZBQlJIeFlVTE1W?=
- =?utf-8?B?Q20zT3p5dUJ5Zi84TW9pUnFNejYzNTZPRk1Ca2lHVlJVUmZkYkl6N0w0bGhK?=
- =?utf-8?B?ZnNlZ2J4V1JqbTd4dnpmN2FOd1VnRFRzbTFpU2RCWUdrbFowcHM4NTZGRnE4?=
- =?utf-8?B?U1NKcDBjQ0xMeDZzYjRmcUtzdTRCOHRSS1FsQ2tNNXY2VWdTNmI1M0FwdUY3?=
- =?utf-8?B?cjlsRW9lc3pkc2ZubDY1M0dxZGlWVlkzRUMrVVcwZnRqS0xTUm8xT0pQSmww?=
- =?utf-8?B?SVFWaTI0d3NsUG96UE42c1BwNWJIWXI3aEhyQXR0cmhrbXlndVZnOVcyWW1C?=
- =?utf-8?B?Z0ZxUk5RaUNnQ1RXLzMrUlA4NVFReVJYbXUzUWEwMW5wOEdIMklKaTdJOVA2?=
- =?utf-8?B?TFRJSElka1NsNnAxZ1BqcjU2Z3QzQ1RFMk1yTU1kb1BSWWZ6TDUvRTFHT0wr?=
- =?utf-8?B?bVFQcFdNbTNKWENMemNxVy9wMGpZQUVWQ0szWkxqMm85OXZST2xBZ05oaVcx?=
- =?utf-8?B?cEJKMHdYSmJxcXBMTlIyUnhQSFUvcC9sQ2xFTjJadlZlSWUxRndteHNLU3dT?=
- =?utf-8?B?dnphTjdIVllibDFuNWI1WWZVZnVPazFVMDdObmZkWE9aUlA5bUtSdnJTMVl0?=
- =?utf-8?B?MVZ0WGZJQUZvUFh3RzRlbEdPakF3bFlsUGFmakZudVBick80dGd2QWV4VVEx?=
- =?utf-8?B?cE4zZU1XWG5RUHZSUEFmL2RIbFR5S09tVnRnck5ZTmlFUGNSZFlKeS92RFVo?=
- =?utf-8?B?dTlLRDAwaUYvNWlwaEJndmVvNkNtMnoxcS8xdFhLSW5XNlVoVkRRUFh6SDZw?=
- =?utf-8?B?R0I1R0lRZERsMitMZCt0TkVKNDRJWUJXcWRLVUVIK1V2YjlWL3FnZWtSU2FY?=
- =?utf-8?B?S3lvQ0FPVW1kSnpsOHlMSkw3QmJ6azAxWnV6S2pGNnpZQm1rY3hpSStraU5j?=
- =?utf-8?B?dGhKQ1FLUFhURHVxV0NQblFEMkZPbUcvK2pYUGtlbys3c1oyNXBPb2g1akZQ?=
- =?utf-8?B?Wlg3N1dVMC9qNzRpcWs3dkk4UGRHVXZIM1dGVGVCc081YjZVSEtCRTMvRndI?=
- =?utf-8?B?bnRNY0JOUVlReWQzaUtsMzkzVW1lYkRsMDVDaVJHMm0rMTJwWGN6WU5sdFRz?=
- =?utf-8?B?aGtZSk9IOGlUWkxZYVpBSjlMVndQdWI4ZkMyeU4rUE1rd2srUy8wdllzb0w4?=
- =?utf-8?B?T1d6VE9CaFY5eG4zUUNIa1d4dCt6QzJhR0o3Q2RBWEFzVStUTnJBM0o5aEUv?=
- =?utf-8?B?WUY3bEpsVENCQmVzVEhDc3dmNzN6c3lhS2U3Tm5pVlRmcTRId29LeE9ZdVU5?=
- =?utf-8?B?a0xpak9mS3FvTGZhQWZyQU9sR09hVFNIMTZyMFNPRmhTMWVJOGkxcjlQT2Iw?=
- =?utf-8?B?TVhuUE9hcU5IWHZCZ2l4ckFkKy81cmM4UHc3RFhwdUNVeUJYMERNTmhvbGxx?=
- =?utf-8?B?anVpQ0RPbjZTNGtmWXBaTk1RaEIzd0d0YXFMcEtSVkk0MExhd20wZUx2YTNE?=
- =?utf-8?B?TXRtQWQzTWdxbGVpTGEzei90Ylc1YzN2ZDVOSlczbzVvTmVGZDZwdkJ2RHFs?=
- =?utf-8?B?ZG4zb0k1QVNnNTI5SllpMWp5WlRJeXFBN09HTVFBU1pPWkIwZ3pNMjFraWp0?=
- =?utf-8?B?OFRaWlZKTHhtZEs0dU1uUEpGSndCZURPc3pjNmgvaUR2WnFra3AyVWk4LytT?=
- =?utf-8?B?N1dXMXJtUld2dWZjSnE4d2hscmxYZVhqTGFoaWdJd2dDUGFoc1BtQWZLU0Mw?=
- =?utf-8?B?TDQzZjRVRWFHVjZld0YxM29nWFV5dXVLekN6V2UzY1EydkJXdUFWUE9yMGNY?=
- =?utf-8?B?TnI0YkswN1EwVlBTYUpRT2NwTlhXU253YXphRU9KeWc2c0dGaS9vNnRKelNr?=
- =?utf-8?B?UGhEdUVad3dwZUVyL2lYOEtBY1FaVFN2MC9ja0V5TTVWc2xaYi9PYzBUZDZv?=
- =?utf-8?B?K095ekxjek1WMExsdHZsMnE3TjFqK1FwUW9CMU5BblY5cURzVzNZL050Z2Ji?=
- =?utf-8?B?UnZ3VENsYzBmMTRwdVlyeU82ZExCS3FWbmhDWnBUeHJsWFl2N1NKRVBINzEz?=
- =?utf-8?B?SEF2QUxPT2l3WFAvR2l1T3k0V2Q2RGhkSk1xQWlndHUvZmJQNUJwT2dKWDg3?=
- =?utf-8?B?VEtDNkRQbCtYYjI0T0VIQjZEMFEwZEgrS0FjTDkzOHVpby9BdHdtb2NoUktL?=
- =?utf-8?B?d0xKQmRxdWk3ZjFpOGJlbVB4T0sxZEZKaXlGdkRDU0JlZXFrQy81Zz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 64568be8-f1ff-4bae-e734-08df44919563
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2026 10:00:18.0814
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PAiu73bdUlT1zHX5R3Og8DHKhxYEmSCiPK4DzQDM1x6GJrabpgISYeMTPuAaFtUT1wUKj/IiLVQaXIEz8x5c8A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH9PR12MB497784
 
-On 17/11/26 13:00, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] soundwire: amd: unsynchronized in-flight IRQ in
->   amd_sdw_manager_remove()
-> --
->
-> commit 3506edf69d0fb093063647130bfc49c4745d7c81
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
-> soundwire: amd: fix work drain ordering in remove path
->
-> This commit masks SoundWire interrupts before cancelling amd_sdw_irq_thread
-> and amd_sdw_work in amd_sdw_manager_remove().
->
->> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
->> index 9715e2eb22498..44ef45ba943bc 100644
->> --- a/drivers/soundwire/amd_manager.c
->> +++ b/drivers/soundwire/amd_manager.c
->> @@ -1265,8 +1265,9 @@ static void amd_sdw_manager_remove(struct platform_device *pdev)
->>  	int ret;
->>  
->>  	pm_runtime_disable(&pdev->dev);
->> -	cancel_work_sync(&amd_manager->amd_sdw_work);
->>  	amd_disable_sdw_interrupts(amd_manager);
->> +	cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
->> +	cancel_work_sync(&amd_manager->amd_sdw_work);
->>  	sdw_bus_master_delete(&amd_manager->bus);
->>  	ret = amd_disable_sdw_manager(amd_manager);
->>  	if (ret)
-> [Severity: Medium]
-> Can an in-flight parent hard IRQ handler queue amd_sdw_irq_thread after
-> cancel_work_sync() returns?
+Thank you for your contribution! Sashiko AI review found 7 potential
+issues to consider:
+- [Medium] ALSA: usb-audio: stale master and mute writes in
+  snd_usb_mixer_resume()
+- [Medium] ALSA: usb-audio: unlocked restore_mixer_value() clobbers
+  deferred puts
+- [Medium] ALSA: usb-audio: mutex_trylock() in snd_usb_mixer_resume()
+  drops re-push
+- [Medium] ALSA: usb-audio: sticky master_explicit breaks volume after
+  alsactl restore
+- [Medium] ALSA: usb-audio: flush_work races with system suspend and
+  drops mute state
+- [Medium] ALSA: usb-audio: race re-arming flush_work in
+  snd_usb_mixer_disconnect()
+- [Low] ALSA: usb-audio: overly broad cache invalidation suppression on
+  notify
+--
 
-No changes required. 
+commit 111702616777f0f8b7d0639f8fa713f234292a2d
+Author: Pavel Artemev <a@pavel.bz>
 
-Patch 15 later in this series ("soundwire: amd: use interrupt_enabled
-flag to guard IRQ work scheduling") adds an early-return check at the
-top of amd_sdw_irq_thread(): 
+ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
 
-  if (!READ_ONCE(amd_manager->interrupt_enabled))
-      return;
+This commit adds the QUIRK_FLAG_MIXER_STATE_REPUSH quirk flag to defer
+Feature Unit volume and mute writes into coalesced master-first bursts and
+re-push cached volume state on PCM stream open and resume, and enables it
+for Weltrend/XiiSound (040b:0897) headsets.
 
-amd_disable_sdw_interrupts() clears interrupt_enabled before touching
-any hardware mask registers. Even if the parent IRQ handler re-schedules
-the work after cancel_work_sync() returns, the work exits immediately
-at the interrupt_enabled check without executing any interrupt handling
-logic.
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D221401
+Link: https://lore.kernel.org/linux-sound/20261117074318.378876-3-a@pavel.bz
 
->
-> The commit message notes that an IRQ handler already in flight may still
-> queue amd_sdw_irq_thread and relies on cancel_work_sync() to drain it
-> without synchronize_irq().  However, cancel_work_sync() only cancels or
-> waits for work that is already pending or running when checked, and leaves
-> the work item enabled on return.  When the amd_sdw_manager platform device
-> is unbound via sysfs while the parent ACP PCI IRQ remains active, an IRQ
-> that fired just before amd_disable_sdw_interrupts() can still schedule the
-> work item after both cancel_work_sync() calls finish:
-Agreed. cancel_work_sync() drains work that is pending or running at
-the time of the call. The interrupt_enabled guard in patch 15 handles
-work re-scheduled after cancel_work_sync() returns: such work finds
-interrupt_enabled false and returns immediately.
->
-> sound/soc/amd/ps/pci-ps.c:acp63_irq_handler() {
-> 	...
-> 	if (ext_intr_stat & ACP_SDW0_STAT) {
-> 		writel(ACP_SDW0_STAT, adata->acp63_base + ACP_EXTERNAL_INTR_STAT);
-> 		if (adata->sdw) {
-> 			amd_manager = dev_get_drvdata(&adata->sdw->pdev[0]->dev);
-> 			if (amd_manager)
-> 				schedule_work(&amd_manager->amd_sdw_irq_thread);
-> 		}
-> 		irq_flag = 1;
-> 	}
-> 	...
-> }
->
-> CPU0                                    CPU1
-> amd_sdw_manager_remove()                acp63_irq_handler()
->                                           ext_intr_stat & ACP_SDW0_STAT
->                                           amd_manager = dev_get_drvdata(...)
->   amd_disable_sdw_interrupts()
->   cancel_work_sync(...irq_thread)
->   cancel_work_sync(...amd_sdw_work)
->                                           schedule_work(...irq_thread)
->   sdw_bus_master_delete()
->   ...
-> devres_release_all()
->   /* frees amd_manager */
->                                         amd_sdw_irq_thread()
->                                           readl(amd_manager->mmio + ...)
->                                           <-- use-after-free
-With the interrupt_enabled guard in patch 15, amd_sdw_irq_thread() no
-longer proceeds to readl(amd_manager->mmio + ...) in this scenario.
-The re-scheduled work checks READ_ONCE(amd_manager->interrupt_enabled),
-finds it false, and returns without touching any hardware registers or
-manager state.
->
-> Even with commit "soundwire: amd: use interrupt_enabled flag to guard IRQ
-> work scheduling" later in the series, acp63_irq_handler() and
-> acp_irq_handler() still call schedule_work(&amd_manager->amd_sdw_irq_thread)
-> unconditionally. 
- The unconditional schedule_work() in the parent handlers is intentional.
-The interrupt_enabled guard inside amd_sdw_irq_thread() restricts
-execution rather than scheduling, keeping the IRQ handler fast and
-lock-free. The result is the same: no interrupt handling runs during
-teardown.
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index bf1d9fbf08aae..2ac5a54a40e4c 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
 
->  Using disable_work_sync() in amd_sdw_manager_remove() (or
-> synchronizing with the parent IRQ after masking) would prevent the work
-> items from being queued again during teardown.
-The patches 12 and 15 together achieve the same safety goal without
-requiring disable_work_sync() (a Linux 6.9+ API) or synchronize_irq()
-on the parent device's shared IRQ. The sequence is:
-  1. interrupt_enabled = false (before hardware mask writes)
-  2. hardware masks written
-  3. cancel_work_sync() drains pending/running work
-  4. any subsequently re-scheduled work returns at the
-     interrupt_enabled check
->
+[ ... ]
 
+> @@ -1608,15 +1618,275 @@ static int mixer_ctl_feature_get(struct snd_kcon=
+trol *kcontrol,
+> +		/* master first (the Windows burst order) */
+> +		if (master && !master_pending && !master->master_explicit &&
+> +		    have_ch &&
+> +		    (touched || full) &&
+> +		    (!test_bit(0, master->cached) ||
+> +		     *master->cache_val !=3D max_val)) {
+> +			int err =3D snd_usb_set_cur_mix_value(master, 0, 0,
+> +							    max_val);
+> +			if (err < 0)
+> +				usb_audio_dbg(mixer->chip,
+> +					      "derive ctl %d ch 0 failed (%d)\n",
+> +					      master->control, err);
+> +		}
+
+[Severity: Medium]
+When snd_usb_mixer_flush_work() runs while the device is runtime-suspended,
+does this snd_usb_set_cur_mix_value() call cause snd_usb_mixer_resume() to
+write stale master and mute values before the burst is sent?
+
+snd_usb_set_cur_mix_value() calls snd_usb_mixer_set_ctl_value() before
+updating cval->cache_val[index]:
+
+sound/usb/mixer.c:snd_usb_set_cur_mix_value() {
+    ...
+	err =3D snd_usb_mixer_set_ctl_value(cval,
+					  UAC_SET_CUR, (cval->control << 8) | channel,
+					  value);
+	if (err < 0)
+		return err;
+	set_bit(channel, cval->cached);
+	cval->cache_val[index] =3D value;
+	return 0;
+}
+
+Inside snd_usb_mixer_set_ctl_value(), CLASS(snd_usb_lock, pm)(chip) calls
+snd_usb_autoresume(), which synchronously runs snd_usb_mixer_resume() ->
+restore_mixer_value() on every control before the master UAC_SET_CUR
+transfer is issued.  Because master->cache_val[0] still holds its old
+pre-flush value, restore_mixer_value() writes the stale master value (which
+can re-trigger the spurious limit notification or transiently attenuate the
+output), writes cached UAC_FU_MUTE controls, and writes the channel volumes
+before snd_usb_mixer_flush_pending() sends the newly derived master and
+writes the pending channels a second time.  The same stale master and mute
+writes happen on resume after snd_usb_mixer_suspend() cancels a pending
+flush_work.
+
+Skipping controls matching is_feature_volume_mute_ctl(cval) in
+restore_mixer_value() when QUIRK_FLAG_MIXER_STATE_REPUSH is set would let
+the flush mechanism handle them exclusively.
+
+[ ... ]
+
+> @@ -1632,10 +1902,27 @@ static int mixer_ctl_feature_put(struct snd_kcont=
+rol *kcontrol,
+>  				return -EINVAL;
+>  			val =3D get_abs_value(cval, val);
+>  			if (oval !=3D val) {
+> -				err =3D snd_usb_set_cur_mix_value(cval, c + 1,
+> -								cnt, val);
+> -				if (err < 0)
+> -					return filter_error(cval, err);
+> +				if (deferred) {
+> +					/* record only; one flush writes the
+> +					 * whole unit in a single burst.
+> +					 * Read-only channels keep the
+> +					 * direct-path behaviour: no write,
+> +					 * no cache update.
+> +					 */
+> +					if (!mixer_ch_readonly(cval, c + 1)) {
+> +						set_bit(c + 1, cval->cached);
+> +						cval->cache_val[cnt] =3D val;
+> +						set_bit(c + 1, cval->pending);
+> +						mod_delayed_work(system_wq,
+> +								 &cval->head.mixer->flush_work,
+> +								 MIXER_FLUSH_DELAY);
+> +					}
+> +				} else {
+> +					err =3D snd_usb_set_cur_mix_value(cval, c + 1,
+> +									cnt, val);
+> +					if (err < 0)
+> +						return filter_error(cval, err);
+> +				}
+>  				changed =3D 1;
+>  			}
+>  			cnt++;
+
+[Severity: Medium]
+Can a concurrent restore_mixer_value() during resume overwrite a new value
+recorded here in cval->cache_val[cnt]?
+
+Unlike the direct path, the deferred path in mixer_ctl_feature_put() does
+not call snd_usb_lock_shutdown(), and restore_mixer_value() runs in
+snd_usb_mixer_resume() without holding mixer->lock:
+
+CPU0                                  CPU1
+snd_usb_mixer_resume()
+  restore_mixer_value()
+    val =3D cval->cache_val[idx] (V1)
+    snd_usb_set_cur_mix_value(..., V1)
+      snd_usb_mixer_set_ctl_value()
+                                      mixer_ctl_feature_put()
+                                        mutex_lock(&mixer->lock)
+                                        cval->cache_val[idx] =3D V2
+                                        set_bit(c + 1, cval->pending)
+                                        mutex_unlock(&mixer->lock)
+      cval->cache_val[idx] =3D V1  <-- overwrites V2
+
+When flush_work later runs flush_ctl_pending(), it writes the stale V1 back
+to the device.
+
+> @@ -1650,9 +1937,26 @@ static int mixer_ctl_feature_put(struct snd_kcontr=
+ol *kcontrol,
+>  			return -EINVAL;
+>  		val =3D get_abs_value(cval, val);
+>  		if (val !=3D oval) {
+> -			err =3D snd_usb_set_cur_mix_value(cval, 0, 0, val);
+> -			if (err < 0)
+> -				return filter_error(cval, err);
+> +			if (deferred) {
+> +				/* record only; one flush writes the whole
+> +				 * unit in a single burst.  Read-only
+> +				 * masters keep the direct-path behaviour:
+> +				 * no write, no cache update.
+> +				 */
+> +				if (!mixer_ch_readonly(cval, 0)) {
+> +					set_bit(0, cval->cached);
+> +					cval->cache_val[0] =3D val;
+> +					set_bit(0, cval->pending);
+> +					cval->master_explicit =3D true;
+> +					mod_delayed_work(system_wq,
+> +							 &cval->head.mixer->flush_work,
+> +							 MIXER_FLUSH_DELAY);
+> +				}
+> +			} else {
+> +				err =3D snd_usb_set_cur_mix_value(cval, 0, 0, val);
+> +				if (err < 0)
+> +					return filter_error(cval, err);
+> +			}
+>  			changed =3D 1;
+>  		}
+>  	}
+
+[Severity: Medium]
+Does setting cval->master_explicit =3D true permanently here break per-chan=
+nel
+volume control after alsactl store and alsactl restore?
+
+For Feature Units with both master and per-channel volume controls,
+parse_audio_feature_unit() creates both a per-channel kcontrol (index 0) and
+a master kcontrol (index 1).  When snd_usb_mixer_flush_pending() derives the
+master volume from the channels (for example, 35 or 0),
+snd_usb_set_cur_mix_value() stores that derived value in
+master->cache_val[0].  On shutdown or unplug, alsactl store saves both
+kcontrols; on the next boot or replug, init_cur_mix_raw() initializes the
+master cache to cval->max (100) under QUIRK_FLAG_MIXER_INIT_VOLUME_MAX, and
+alsactl restore writes the saved value back to index 1.
+
+Because val !=3D oval, that restore write sets cval->master_explicit =3D tr=
+ue.
+From that point on, snd_usb_mixer_flush_pending() never derives the master
+when PipeWire or PulseAudio adjusts the per-channel control, leaving the
+hardware master pinned at the restored value (or silent if it was saved at
+0).
+
+[ ... ]
+
+> @@ -3685,8 +3991,12 @@ void snd_usb_mixer_notify_id(struct usb_mixer_inte=
+rface *mixer, int unitid)
+>  		if (!list->is_std_info)
+>  			continue;
+>  		info =3D mixer_elem_list_to_info(list);
+> -		/* invalidate cache, so the value is read from the device */
+> -		if (!info->get_cur_broken)
+> +		/* invalidate cache, so the value is read from the device;
+> +		 * under QUIRK_FLAG_MIXER_STATE_REPUSH the cache is the
+> +		 * host-side truth and is never invalidated
+> +		 */
+> +		if (!info->get_cur_broken &&
+> +		    !(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH))
+>  			bitmap_zero(info->cached, MAX_CHANNELS + 1);
+>  		snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
+>  			       &list->kctl->id);
+> @@ -3783,8 +4093,13 @@ static void snd_usb_mixer_interrupt_v2(struct usb_=
+mixer_interface *mixer,
+> =20
+>  		switch (attribute) {
+>  		case UAC2_CS_CUR:
+> -			/* invalidate cache, so the value is read from the device */
+> -			if (!info->get_cur_broken) {
+> +			/* invalidate cache, so the value is read from the
+> +			 * device; under QUIRK_FLAG_MIXER_STATE_REPUSH the
+> +			 * cache is the host-side truth and is never
+> +			 * invalidated
+> +			 */
+> +			if (!info->get_cur_broken &&
+> +			    !(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH)) {
+>  				if (channel)
+>  					clear_bit(channel, info->cached);
+>  				else /* master channel */
+
+[Severity: Low]
+Should the QUIRK_FLAG_MIXER_STATE_REPUSH check in snd_usb_mixer_notify_id()
+and snd_usb_mixer_interrupt_v2() be restricted to
+is_feature_volume_mute_ctl(info)?  As written, it also suppresses cache
+invalidation for non-deferred controls on the mixer (such as UAC2 clock
+validity or other unit controls), causing their get callbacks to return
+stale cached values after a device notification.
+
+[ ... ]
+
+> @@ -3976,6 +4292,7 @@ void snd_usb_mixer_disconnect(struct usb_mixer_inte=
+rface *mixer)
+>  {
+>  	if (mixer->disconnected)
+>  		return;
+> +	cancel_delayed_work_sync(&mixer->flush_work);
+>  	if (mixer->urb)
+>  		usb_kill_urb(mixer->urb);
+>  	if (mixer->rc_urb)
+> @@ -3985,6 +4302,34 @@ void snd_usb_mixer_disconnect(struct usb_mixer_int=
+erface *mixer)
+>  	mixer->disconnected =3D true;
+>  }
+> =20
+> +/**
+> + * snd_usb_mixer_stream_opened - notify mixers of a PCM stream open
+> + * @chip: the USB audio chip
+> + *
+> + * Called from the PCM open path.  Devices flagged
+> + * QUIRK_FLAG_MIXER_STATE_REPUSH request a full-state re-push (the
+> + * vendor driver's every-open write pattern, healing writes swallowed
+> + * in the post-enumeration loss window), merged into the flush timer
+> + * so the burst never observes a half-applied gesture.
+> + */
+> +void snd_usb_mixer_stream_opened(struct snd_usb_audio *chip)
+> +{
+> +	struct usb_mixer_interface *mixer;
+> +
+> +	if (!(chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH))
+> +		return;
+> +
+> +	list_for_each_entry(mixer, &chip->mixer_list, list) {
+> +		if (mixer->disconnected)
+> +			continue;
+> +		scoped_guard(mutex, &mixer->lock) {
+> +			mixer->flush_full =3D true;
+> +			mod_delayed_work(system_wq, &mixer->flush_work,
+> +					 MIXER_FLUSH_DELAY);
+> +		}
+> +	}
+> +}
+
+[Severity: Medium]
+Can mixer->flush_work be re-armed during teardown after
+cancel_delayed_work_sync() has returned, leading to a use-after-free when
+snd_usb_mixer_free() frees mixer?
+
+In snd_usb_mixer_disconnect(), cancel_delayed_work_sync(&mixer->flush_work)
+runs before mixer->disconnected is set to true, and in snd_usb_mixer_free()
+it runs before snd_ctl_remove() unregisters the kcontrols.  Meanwhile, the
+deferred path in mixer_ctl_feature_put() neither calls
+snd_usb_lock_shutdown() nor checks mixer->disconnected under mixer->lock:
+
+CPU0                                  CPU1
+snd_usb_mixer_free()
+  snd_usb_mixer_disconnect()
+    cancel_delayed_work_sync()
+    ...
+    mixer->disconnected =3D true
+  cancel_delayed_work_sync()
+                                      mixer_ctl_feature_put()
+                                        mutex_lock(&mixer->lock)
+                                        mod_delayed_work(..., &mixer->flush=
+_work, ...)
+                                        mutex_unlock(&mixer->lock)
+  snd_ctl_remove()
+  kfree(mixer)
+                                      snd_usb_mixer_flush_work()
+                                        mutex_lock(&mixer->lock)  <-- use-a=
+fter-free
+
+snd_usb_mixer_stream_opened() also checks mixer->disconnected outside
+mixer->lock, and snd_usb_mixer_resume() calls mod_delayed_work() outside
+mixer->lock without checking mixer->disconnected.  Setting
+mixer->disconnected =3D true under mixer->lock before
+cancel_delayed_work_sync(), and checking !mixer->disconnected under
+mixer->lock at every mod_delayed_work() call site, would close this race.
+
+> @@ -4007,6 +4352,14 @@ static int snd_usb_mixer_activate(struct usb_mixer=
+_interface *mixer)
+> =20
+>  int snd_usb_mixer_suspend(struct usb_mixer_interface *mixer)
+>  {
+> +	/* Do not wait for an in-flight flush here: its control writes can
+> +	 * be blocked in runtime-PM resume, waiting for this very suspend
+> +	 * callback to finish - cancel_delayed_work_sync() would deadlock
+> +	 * the PM worker against the flush worker.  Cancel without waiting;
+> +	 * values recorded but not yet flushed stay in the cache, and the
+> +	 * resume path requests a full re-push that re-derives them.
+> +	 */
+> +	cancel_delayed_work(&mixer->flush_work);
+>  	snd_usb_mixer_inactivate(mixer);
+>  	if (mixer->private_suspend)
+>  		mixer->private_suspend(mixer);
+
+[Severity: Medium]
+What happens if snd_usb_mixer_flush_work() is already executing when
+system suspend calls snd_usb_mixer_suspend()?
+
+During system suspend (or whenever chip->active is already non-zero),
+snd_usb_autoresume() returns 0 without blocking in runtime PM.  Because
+cancel_delayed_work() does not wait for an executing work item,
+snd_usb_mixer_flush_work() can continue issuing USB control transfers
+concurrently with usb_suspend_both() suspending the device.  In addition,
+flush_ctl_pending() clears cval->pending before calling
+snd_usb_set_cur_mix_value(); if a UAC_FU_MUTE write fails during suspend,
+its pending bit is already cleared and the full re-push on resume will not
+retry it because snd_usb_mixer_flush_pending() only calls
+repush_ctl_cached() for UAC_FU_VOLUME controls.
+
+> @@ -4067,6 +4420,22 @@ int snd_usb_mixer_resume(struct usb_mixer_interfac=
+e *mixer)
+> =20
+>  	snd_usb_mixer_resume_quirk(mixer);
+> =20
+> +	/* A suspend may have cancelled a flush that had not fired yet:
+> +	 * the values are restored above, but a master derived only at
+> +	 * flush time may lag behind its channels.  Request a full
+> +	 * re-push, which re-derives and re-asserts everything.  The
+> +	 * lock is only tried: an in-flight flush whose control write
+> +	 * triggered this very resume holds it and already delivers the
+> +	 * state, so there is nothing to re-arm in that case.
+> +	 */
+> +	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH &&
+> +	    mutex_trylock(&mixer->lock)) {
+> +		mixer->flush_full =3D true;
+> +		mutex_unlock(&mixer->lock);
+> +		mod_delayed_work(system_wq, &mixer->flush_work,
+> +				 MIXER_FLUSH_DELAY);
+> +	}
+> +
+>  	return snd_usb_mixer_activate(mixer);
+>  }
+
+[Severity: Medium]
+Can mutex_trylock(&mixer->lock) here fail when mixer->lock is held by a
+caller that will not perform a full re-push, dropping the post-resume
+recovery?
+
+First, mixer_ctl_feature_get() and the deferred path of
+mixer_ctl_feature_put() take mixer->lock without holding
+snd_usb_lock_shutdown(), so either can hold mixer->lock on another CPU while
+snd_usb_mixer_resume() runs.  Second, non-deferred control callbacks (such
+as mixer_ctl_feature_info() -> get_min_max_with_quirks()) take mixer->lock
+before calling snd_usb_lock_shutdown() -> snd_usb_autoresume(), entering
+snd_usb_mixer_resume() on the same thread with mixer->lock already held.
+Third, even when snd_usb_mixer_flush_work() itself triggered the resume, it
+already latched full =3D mixer->flush_full and cleared mixer->flush_full
+before calling snd_usb_mixer_flush_pending():
+
+sound/usb/mixer.c:snd_usb_mixer_flush_work() {
+    ...
+	scoped_guard(mutex, &mixer->lock) {
+		full =3D mixer->flush_full;
+		mixer->flush_full =3D false;
+		if (mixer->disconnected)
+			return;
+		if (full)
+			usb_audio_dbg(mixer->chip,
+				      "flushing mixer state (stream open)\n");
+		snd_usb_mixer_flush_pending(mixer, full);
+	}
+}
+
+If snd_usb_mixer_suspend() cancelled an earlier pending flush and a
+single-channel put later started snd_usb_mixer_flush_work() with
+full =3D=3D false, the worker triggers runtime resume on its first USB writ=
+e,
+mutex_trylock(&mixer->lock) in snd_usb_mixer_resume() fails, and the worker
+only flushes the single pending channel rather than a full re-push.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117092532.4089=
+81-1-a@pavel.bz?part=3D2
