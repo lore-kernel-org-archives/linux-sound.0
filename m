@@ -1,100 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794946126;
-	b=tU2Q1nBoZ7RPHPVHRIiW/kOPMub73w10iUT6sjPEyeaPT+/ldNc5gAPBAaX/9G8MCxeN
-	 xoRTFa1y4Fg9mqPyX11hA2m1mDYJzBubTFeskrD/4+dvFc9vzVjjLO4OlmdTC7vXl6dvk
-	 R9zG46QYTF5X0vjqcA9PgRyihaTUe+0f/jXt3YpkfEjOI4nKnrrwSRTizjVrKRrLBSGtn
-	 oxqc+3Z3nVNWyfxuZhitdefcAjOCw4rmUrqQaxSgPGw0fYFn0YEnHlyXZmBeSYRSIx+pL
-	 oqK2EzfW5y6UaT/kqFr7Iu6JxvI24KFgnL2gKKyv0HoN4EzpmJofxArk3qFjI7HVqVw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794946126;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=WQbxDMA0GPyDW1ffh6WRnp7UyKwaepfSZxSw2JasMVU=;
-	b=q51tYS6ZT0PhGFiZ8qN08qTY3fTYCQrFkykLiAP850oHL0D2Uq1+oZ4m2bjscPmlcV3/
-	 QcPQwv5XtPRehLA597iyEo3YIgduI+TXUdnYaEmNR3vHEa9rpD7ElVuJErXbugcTvrC7u
-	 44U38ArUasZ0AO4LEr/sg2SqqqwAh0JPjog2jNEM84db8ocfp6Uu34MDMloKOHqUw5cTG
-	 NNv7IdCP2/7c8r3vVIRmg/j91hXcNrQBZcoIrflsoILA6xrfUT8Y0+eccYHqjzLEyY9nZ
-	 imyEsXgmosKXB2ESg9RoLT8YJjg599CTkaLymwRsoBPuM2l+8m6TDdBujFJg1z2fOQA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="FYt/cNDo";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.50
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794946424;
+	b=t3W6yBII+DcbOdSWR4F0KNlS9UGCAfuXzyh9OOtJ529NttDFC7j1U+SbJh2+CqUkWmrV
+	 mI51NOL9QB0RGENGQ+zHOI5toMi/z9/iV7URA+FLhh8eCPB3HHH6gn+zjG+ni/DvMP+/7
+	 Wq22Dq4KHy+MbCM/8HR/vzvKpc3KLk46MeXuIcwoxP3sVB9e1RBN0+N2f7e0v4v0vq6Gt
+	 wm+q1HvxKk5rszeuMEvy9z5NVwaUgrXWDtAb1wVlTk2CX1sweQRwp5uwtLW5GECoN9XtJ
+	 ChM3f4E+bDAEMGH5RaDxpB3wuNrBOFvKtHPpR0GmaA3/xQ5+lgAG3VXJ3hPEHiuSgbA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794946424;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=nh2NQc+W6THnkONS7eMacdzIcTzovSLQ/LB9pTpjBa4=;
+	b=XplAYjp9M5bwBlZgdJ3vccz1UgFTOxdbqHB9teeqNGf96DTaBegSOtaSCaPvpRBI+M1Z
+	 7QIdqjQ1ft+7ABmKze7zdB04y+zBG2YbXwlSmdAa9IYkFEcNnqEWMv3hd8k+eN9rAKEJr
+	 5osEqXvPy4qyMst73yAKMsGruMx7IQ+y4tzQlrJWJYOpGMtPz6hLMHs5bj0AH17Bo11oU
+	 P7MIu7frWyipkBBx109Vdh0Tn9AhuCes0dR/ksSVEkBREozHnIjL9rHuUZn7srJySxDri
+	 2lQ+4o0+UvGjXLzPBepiM+UY6T3NJ19KCxxbkglI6lfq/6wsxDPWeuMSALsEP4w+q4A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ftrZGTxl;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531C1606A31C
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 20:08:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 531C1606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21580606A32F
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 20:13:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FYt/cNDo
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-15dd124bbe7so485704c88.1
-        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 12:08:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794946125; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RDwN6QD+t0TY8ZY23pm5W5S8p1Esua7SiCBik6TBt+I6IysjdJYK9taSegVUcf2gq3
-         cQ4XRoRX8OFCGSvDp7W0LD87Y6eI7h0/enoWXOL5tUA1BAFdd7cAORZY7D2KmtP2jJ8h
-         XrtzM/P6HM1lgMF/btW9bPGf0Hx0OAW3yPpsAeYoPBeOx2T0YEbON7OsRRwjoj7GErm4
-         PKAOAMdzh+NCSU8JkhrnaDWcXvkkKbiC7UsVnmjRZi2/L4aWVvbVGim1FvSun6q1ZX+K
-         76sFte7HH8ZMc3aEMGwTgR9qc8BmdsppI56HfyX8RMWaY4Br0M5EknlslQHho0fH3lbk
-         CARA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WQbxDMA0GPyDW1ffh6WRnp7UyKwaepfSZxSw2JasMVU=;
-        fh=gpN34ZgZRCrJHkjz7Clynmi1EabggrEmE+k7GZUacQc=;
-        b=lE42VUSfKQxpra25rGvb79UVTOjnOnEGf1SbhsvPrhqHhXpSApLiZ7yZVjLeKZIzct
-         uxNuyjVasWC7PZfPWgIvbNKN8XVmTmNjDQ3z7JD/XkDP23CpsKIxqQtAqEE7RyqS2Fo3
-         wfMGw7+UGe6QMO/aqD4CTrFxRsoxoOEmO7oEU/yUTWzaSYeAlqveryCpeToK2LjOF7rJ
-         FYbyyK6xezrGXXfNa62oQe3MtywYcZUz3IjMyhVuvto60tAMhNHHMiQmaJfDvHS3jGL+
-         Yl3/kkAuosSoeA2M2F2jYsuj9XAcLeKheiVI47gkrsR4ObWREpROWH/z17FcPDsmnMps
-         87Dw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794946125; x=1795550925; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=WQbxDMA0GPyDW1ffh6WRnp7UyKwaepfSZxSw2JasMVU=;
-        b=FYt/cNDooL1obgAVhais9kt8KjQr0e5IUnAFHvoaXplLu7GJAqMecHnlFaXBR2Rk38
-         r/n0RuLlAAAZPcFQwv//QrvQ89zsYHwN83N6qq1g89mKNLGyTIu7xiRBeM6FVNZBTcYk
-         L/QdeRzNu8Xot6/RjF+12DbNNrf0asXWwSphbwBCZDgbniPhJy2XLWkR1XpJ9EkgoEkb
-         H4MQUagt4N+zI5+VlSK+wIbAz9+DhwhcyuVb6qvRaV/8Lsszkx4qlGCP3+Wnzjv9iP8s
-         zYlH3xu5vDotH+y0euXIORe6gqEd/Z27cN5iYrbPXDGTGEruSH8CuyYm4utDSGv8FVeQ
-         kUSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794946125; x=1795550925;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WQbxDMA0GPyDW1ffh6WRnp7UyKwaepfSZxSw2JasMVU=;
-        b=V1lLz2XndhIpnpyJ19BJBBSEbqnaSSU5BoMmwqhdNtOwIqUsuHMg0lvH4xjUUA2VB3
-         yav3t2lg6ld6QlMRDEsm9fYe/NVLzMfE5Qny2p871P2WQ9V1oPMScHxO+g0TRLk8iCbi
-         pxWaxW9iqWSmQsm26i4ki1HjZSvm6+ygMuIJ1L48VzYFy+WK2wT2NOqrFrvnHgqFcNLs
-         iWDpiUWNZAltScWFZH+nY3/lRg03rpwq6PDktWvcr80AeUIOubgplNHE+73uZUgrEX6G
-         2/57VCVVeiFMDIpX378jV2L959Xz9FWQb/LMdOBBt2pPlfmU2t1MdBtD/lQn5NvOClou
-         MDLA==
-X-Forwarded-Encrypted: i=1; AL+hErETYKwlNptMPy2OXKq1ykh+tBkruVJHS/38i/067vIJzxxQdxPDg57Ek/tap0GhAVdSZzE18xfS970Btw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z97UXZhmNszdupzleVrFCSWwEApAbzdk6vt/5YV2PmSn3BPXv8P
-	u5ZLPS54tII0V9qoOqTZ+icSqoxSgnFdgWFC0weyxE2rkts8T8T/2drdZwjxktxzzEhVfMRyIR5
-	QpTxZe1naJG4ebde97djGFQSzNjlCmCs=
-X-Gm-Gg: AYBFou2NiYDiji0wO76HPA3dRgn1Ip2+nQn13maiprqFUxZPqEyhmfaUUwCAcxLJUtS
-	YHRqgsWOuQMe4qt3540b6YaG/uPY0MGZmkTnVOV9IKu0VdCd2sIvYSjsc3t/HanbzHxbdruUMds
-	kTKWEDX3Geg5xUI7osgTaCCvqhJqR7FLNiJqStM8LV6w6gG5zeyodmqv2bm7EL15m6QlTxAgY8N
-	zGCAq9jNTMJFPW22mAYOwhf1JVH43/H3y8gW+rvAUdHjnpk4GKeQEKx0me7AL9Eex+N+Y6sIBVN
-	PEmkWltVbWnfd+WoU/iThxs2VeSq3XYnPhMWpPLS23sGHknWYXsGQmla+JJrKh056EHluL+uYDu
-	UiWe4+u5l6hbxqpfsklfMS4YmZyjN6Aw0Kmrk
-X-Received: by 2002:a05:7023:a8b:b0:151:2e62:fe5b with SMTP id
- a92af1059eb24-1b543c12c96mr654633c88.22.1794946125077; Tue, 17 Nov 2026
- 12:08:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ftrZGTxl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80291F000C6;
+	Tue, 17 Nov 2026 20:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794946424;
+	bh=nh2NQc+W6THnkONS7eMacdzIcTzovSLQ/LB9pTpjBa4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ftrZGTxlk6vUxJxylIcI2XQztl4tDAtLcASaZhY+lFYK8YrKK197f13XrhYvC7oTX
+	 0HEotuFI1Zr8r3o8fZaRI5vKkMhgVwkK4yv4qb50TEhtqkeYXSMb5evIUnH25jn2KE
+	 EMLXjwJ06cbLn7EQlT/K/K0yXiwlkf/ZBTyK1ErdKSonhpoG/iidFHges3vhUrlmDL
+	 VuIplmlyWTqgfVLn5IpSwjJnpWhs5d349KzJfZA0OrjfQ+ySPbaXY91WaQaYhed5lo
+	 Bfgnl1STduApH4LJrKr3qTVKIF8tIkvf/ISYXZoOOYvSin4LXF61VxpGHqlteLzv5J
+	 PBT9HduiZXFew==
+Message-ID: <sashiko-outbox-219579@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pavel Artemev" <a@pavel.bz>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261117194630.155912-3-a@pavel.bz>
+References: <20261117194630.155912-1-a@pavel.bz>
+ <20261117194630.155912-3-a@pavel.bz>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 20:13:43 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,115 +59,180 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-References: <CAFd_G9guhtVwE1aaFOXE3Ab43BAcwP3RBT=R_SdZ2KDfXB=LeQ@mail.gmail.com>
- <d5ece1f3-b70b-4c70-aa52-cd0d00253ea5@oss.qualcomm.com> <c0da379f-e10a-464d-b01a-d65e0e07e5e6@linux.dev>
-In-Reply-To: <c0da379f-e10a-464d-b01a-d65e0e07e5e6@linux.dev>
-From: Yauhen Kharuzhy <jekhor@gmail.com>
-Date: Tue, 17 Nov 2026 22:08:32 +0200
-X-Gm-Features: AclHuK9zM_Ls3MCzLaCDnl8n-_yZmMi5OFpkqnXIKOSPNu4QJjDT3wDoWJvAC1U
-Message-ID: <CAKWEGV5XEncchpzBJWjjYh+cXE4ZSSiBvEDUdN-3nLw8tA4W5w@mail.gmail.com>
-Subject: Re: ASoC: rt5677: Do not apply Yoga Book ACPI GPIO mappings to Samus
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: johannes.goede@oss.qualcomm.com, Ted Vera <tedvera@gmail.com>, 
-	linux-sound@vger.kernel.org, regressions@lists.linux.dev, 
-	oder_chiou@realtek.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Maurizio Casciano <mauriziocasciano7@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [Medium] ALSA: usb-audio: clearing master cache bit breaks
+  mixer_ctl_feature_get()
+- [Medium] ALSA: usb-audio: mixer_ctl_feature_put() drops unchanged
+  master ownership
+- [Medium] ALSA: usb-audio: snd_usb_mixer_flush_pending() loses pending
+  state on error
+--
 
-Cc: Maurizio who continues my YogaBook porting work.
+commit 44887f9cb8c6632f7e6e12e06a599b842f0a6231
+Author: Pavel Artemev <a@pavel.bz>
 
-=D0=B2=D1=82, 17 =D0=BD=D0=BE=D1=8F=D0=B1. 2026=E2=80=AF=D0=B3. =D0=B2 19:3=
-4, Pierre-Louis Bossart
-<pierre-louis.bossart@linux.dev>:
->
-> On 11/17/26 11:54, johannes.goede@oss.qualcomm.com wrote:
-> > Hi,
-> >
-> > Note adding Yauhen the author of the troublesome commit to the To: list
-> > (why was this not done in the first place ?).
-> >
-> >
-> > On 16-Nov-26 22:24, Ted Vera wrote:
-> >> Summary:
-> >> On a Google Pixel 2 LS Chromebook (Samus, EVT2) running Fedora 45
-> >> kernel 7.3.3-300.fc45.x86_64, the RT5677 codec repeatedly fails probe
-> >> with Failed to request POW_LDO2: -517 (-EPROBE_DEFER). The codec
-> >> appears in devices_deferred, no RT5677 ALSA card is registered, and
-> >> only HDMI audio is available.
-> >>
-> >> The driver=E2=80=99s ACPI GPIO mapping added by commit 0cc00de3dd5b ma=
-ps GPIO
-> >> resource indexes 0 and 1 to reset and pow-ldo2 for every ACPI RT5677
-> >> device. Samus=E2=80=99s DSDT uses those resources for codec GPIOs (jac=
-k detect
-> >> and mic-present), not Yoga Book-style external reset and power GPIOs.
-> >> The driver requests the mapped GPIOs before registering the codec=E2=
-=80=99s
-> >> GPIO chip, which appears to cause the deferred-probe loop.
-> >>
-> >> Test and result:
-> >> I built a temporary module against the matching Fedora kernel source
-> >> that skips devm_acpi_dev_add_driver_gpios() on DMI board Samus. With
-> >> that module, the RT5677 device bound successfully, the bdw-rt5677 ALSA
-> >> card appeared, and laptop-speaker audio worked. Secure Boot remained
-> >> enabled. This strongly supports the ACPI GPIO mapping as the cause.
-> >>
-> >> Suggested fix: Restrict the mapping to devices whose ACPI GPIO
-> >> resource layout matches the Yoga Book, rather than applying it to
-> >> every RT5677 ACPI device.
-> >
-> > Only adding the GPIO mappings (devm_acpi_dev_add_driver_gpios()) on
-> > a DMI match of the yogabook sounds good to me.
-> >
-> > DMI strings can be taken from:
-> >
-> > drivers/platform/x86/x86-android-tablets/dmi.c
-> >
-> > Note there are both a X90F/L models which ship with Android and
-> > use a different BIOS, as well as X91F/L models which ship with
-> > Windows (same hw, different BIOS).
-> >
-> > Yauhen, I guess the ACPI mappings where for the Windows X91 model,
-> > since on Android I expect the GPIO's to be hardcoded in the driver?
+ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
 
-For Android tablet (X90) I used x86-android-tablets module to create a
-ACPI-independent mapping via GPIO properties, see
-https://github.com/jekhor/yogabook-linux-kernel/commit/4e3c2f5f7c74305d4825=
-bd1c031fdb3bd16edefa
-,
-was submitted as
-https://lore.kernel.org/platform-driver-x86/20260611-x86-tablets-yogabook-v=
-3-0-de407672e4df@gmail.com/
+This commit introduces QUIRK_FLAG_MIXER_STATE_REPUSH to coalesce feature
+unit volume and mute writes into deferred bursts and re-push cached values
+on PCM stream open and resume.
 
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D221401
+Link: https://lore.kernel.org/linux-sound/20261117180728.117915-3-a@pavel.bz
 
-If GPIO mapping in the ACPI entry for RT5677 is not generic actually, then =
-we
-can use the similar approach for Yoga Book X91 also and don't use ACPI
-mapping et al.
+> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+> index ad96371add1ad..e487ed8dd158d 100644
+> --- a/sound/usb/mixer.c
+> +++ b/sound/usb/mixer.c
+[ ... ]
+> @@ -1608,18 +1618,370 @@ static int mixer_ctl_feature_get(struct snd_kcon=
+trol *kcontrol,
+>  	return 0;
+>  }
+[ ... ]
+> +static void snd_usb_mixer_flush_pending(struct usb_mixer_interface *mixe=
+r,
+> +					int level)
+> +{
+[ ... ]
+> +		for_each_mixer_elem(list, mixer, id) {
+> +			cval =3D mixer_elem_list_to_info(list);
+> +			if (!is_feature_volume_mute_ctl(cval))
+> +				continue;
+> +			if (cval->control =3D=3D UAC_FU_VOLUME && cval->cmask &&
+> +			    level !=3D FLUSH_TOUCHED) {
+> +				bitmap_zero(cval->pending, MAX_CHANNELS + 1);
+> +				repush_ctl_cached(cval);
+> +				continue;
+> +			}
+> +			if (cval->control =3D=3D UAC_FU_MUTE &&
+> +			    level =3D=3D FLUSH_RESUME_STATE) {
+> +				bitmap_zero(cval->pending, MAX_CHANNELS + 1);
+> +				repush_ctl_cached(cval);
+> +				continue;
+> +			}
+> +			if (!bitmap_empty(cval->pending, MAX_CHANNELS + 1))
+> +				flush_ctl_pending(cval);
+> +		}
+> +	}
+> +}
 
-> But the open is whether those GPIO mappings belong in the codec driver?
-> Back in 2017 (!) Andy moved the Samus mappings to the machine driver
-> bdw-rt5677, why not add those YogaBook mappings to the cht_rt5677
-> machine driver?
+[Severity: Medium]
+Does clearing cval->pending before calling repush_ctl_cached() lose
+pending writes if snd_usb_set_cur_mix_value() fails?
 
-I actually cannot remember why. Intel's SoC subsystem has so many similar t=
-hings
-made in different ways... AFAIR, I didn't find any mention about other real
-devices with ACPI and RT5677 so tried to apply these mappings as generic
-and belonging to the rt5677 driver instead of tricky management in the
-machine driver.
+Unlike flush_ctl_pending(), repush_ctl_cached() only logs an error when a
+transfer fails and does not set the bit back in cval->pending.  For a mute
+control during FLUSH_RESUME_STATE, a failed write is never retried by a
+subsequent FLUSH_TOUCHED or stream-open FLUSH_FULL_STATE because its
+pending bit was already cleared.
 
->
-> Looks like the addition of those mappings for the YogaBook didn't follow
-> the Samus precedent, now we have two different ways of doing the same
-> thing even though the codec is the same...
+[ ... ]
 
+> @@ -1632,16 +1994,152 @@ static int mixer_ctl_feature_put(struct snd_kcon=
+trol *kcontrol,
+>  				return -EINVAL;
+>  			val =3D get_abs_value(cval, val);
+[ ... ]
+> +			for_each_mixer_elem(ml, cval->head.mixer,
+> +					    cval->head.id) {
+> +				struct usb_mixer_elem_info *m =3D
+> +					mixer_elem_list_to_info(ml);
+> +				bool was_explicit;
+> +
+> +				if (!is_feature_volume_mute_ctl(m) ||
+> +				    m->control !=3D UAC_FU_VOLUME || m->cmask)
+> +					continue;
+> +				was_explicit =3D m->master_explicit;
+> +				m->master_explicit =3D false;
+> +				if (test_and_clear_bit(0, m->pending)) {
+> +					/* an unflushed explicit value never
+> +					 * reached the device: derive the
+> +					 * master instead of writing it
+> +					 */
+> +					clear_bit(0, m->cached);
+> +					re_push =3D true;
+> +				} else if (was_explicit && have_ch &&
+> +					   test_bit(0, m->cached) &&
+> +					   m->cache_val[0] !=3D ch_max) {
+> +					/* a flushed explicit value that
+> +					 * disagrees with the channels:
+> +					 * the device master is stale
+> +					 * until something re-derives it
+> +					 */
+> +					clear_bit(0, m->cached);
+> +					re_push =3D true;
+> +				}
+> +			}
 
+[Severity: Medium]
+Can clearing bit 0 of m->cached here break mixer_ctl_feature_get() on the
+master control before the next flush completes?
+
+mixer_ctl_feature_get() calls snd_usb_get_cur_mix_value(cval, 0, 0, &val).
+While bit 0 of m->cached is clear (during the 30 ms flush window, or for
+the entire duration of runtime suspend because snd_usb_mixer_flush_pending()
+returns early when MIXER_FLUSH_SUSPENDED is set), reading the master
+control either fails with -ENXIO when m->get_cur_broken is set or issues a
+USB GET_CUR readback when it is not.  That readback wakes a
+runtime-suspended device and re-sets bit 0 of m->cached; if the device
+returns m->max while ch_max =3D=3D m->max, snd_usb_mixer_flush_pending() wi=
+ll
+then hit the raw-max skip and omit writing the derived master.
+
+> +			if (re_push) {
+> +				set_bit(MIXER_FLUSH_FULL,
+> +					&cval->head.mixer->flush_flags);
+> +				mixer_arm_flush(cval->head.mixer);
+> +			}
+> +		}
+>  	} else {
+>  		/* master channel */
+> +		if (deferred && !test_bit(0, cval->cached)) {
+[ ... ]
+> +		}
+>  		err =3D snd_usb_get_cur_mix_value(cval, 0, 0, &oval);
+>  		if (err < 0)
+>  			return filter_error(cval, err);
+> @@ -1650,9 +2148,25 @@ static int mixer_ctl_feature_put(struct snd_kcontr=
+ol *kcontrol,
+>  			return -EINVAL;
+>  		val =3D get_abs_value(cval, val);
+>  		if (val !=3D oval) {
+> -			err =3D snd_usb_set_cur_mix_value(cval, 0, 0, val);
+> -			if (err < 0)
+> -				return filter_error(cval, err);
+> +			if (deferred) {
+> +				/* record only; one flush writes the whole
+> +				 * unit in a single burst.  Read-only
+> +				 * masters keep the direct-path behaviour:
+> +				 * no write, no cache update.
+> +				 */
+> +				if (!mixer_ch_readonly(cval, 0)) {
+> +					set_bit(0, cval->cached);
+> +					cval->cache_val[0] =3D val;
+> +					set_bit(0, cval->pending);
+> +					if (cval->control =3D=3D UAC_FU_VOLUME)
+> +						cval->master_explicit =3D true;
+> +					mixer_arm_flush(cval->head.mixer);
+> +				}
+> +			} else {
+
+[Severity: Medium]
+Does gating cval->master_explicit =3D true on val !=3D oval lose master
+ownership when an explicit master write matches the pre-flush master cache?
+
+When user space writes a new value to the volume channels while
+cval->master_explicit is false, cval->cache_val[0] on the master control
+keeps its previous value until snd_usb_mixer_flush_pending() runs.  If user
+space then writes that previous value to the master control before the
+flush fires (or while the device is runtime-suspended), val =3D=3D oval hol=
+ds,
+so cval->master_explicit and bit 0 of cval->pending remain unset and the
+flush overwrites the master with the derived channel value.
 
 --=20
-Yauhen Kharuzhy
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117194630.1559=
+12-1-a@pavel.bz?part=3D2
