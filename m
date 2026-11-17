@@ -1,82 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=47.88.81.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794891842;
-	b=jkoVrBFpiDdc4AQNrXX5xybgw/c0XrrY2GIhPJuHiHo0h0i1/dgy3fzrZ/vlwuTQa0Jm
-	 4w7jDv3IcubnRg2Ud2/q5P2fXCwDCjiKWgMl/e57NVNL33YgL5PbuhYmDy9f3WN4XO6E8
-	 /7TMVW9r8LALs6FY2mWd3xGTt5ry29oPL6rGkCZZAa6YpjiqKO1QGZb1FSRWz3yq7jvME
-	 EeO+3y2xyu9xqDe8xaFAxihoBUfEUtlsZyMMgsSjU99xPovR5Z44khbdasbFJx8tuV2gz
-	 /NktmUtnJoXZymwqXJyR8pxc0c9LZrhEDY6Z0L/PcoJ9YHSyL+gvCiFka/g2TVKD1ag==
+	t=1794895349;
+	b=3Y0okv4ooc7XyrD15PhkDoFkrsGtbCdXNA2wfRn6HADT30Qi3GtFcE84Mnz5FPlu9ajh
+	 kmrTFR6V38ARtmIn07/rWEwluhMu7oBA4I1NKJ/BIapCkcVd8vXDEkU3jZpwqZn09dgLm
+	 +YJyq5Yi1+Kkntk8UGW2or+RfUwaixj7O50aEdkGB5BV9WmwPQh9neu0WkJENgjy436F0
+	 OyoNS63rhcKPnuDJMjwFTnFpfqgfmZXrm4zJlhhWpN/HTM/m2lOSA7Cvwt47GZ8qd5z0M
+	 ub7UCGwM4tOLrMEZuFZfQmpSHNK2OYj2lnISF9Bfs+XhiBVueB8OgugYOfZwIfIL6aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794891842;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-Reinject:X-QCInternal:
-	 X-QCInternal:X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=xkhEq9wyas0B+GeV5cgodWz7ppYz9ekt73WDjprZA3Q=;
-	b=mGdu1Uqvks5kbBt44axkB3r19RUWamVcRDaEKQIjCGkWyT8VrE++E07HgwTkJdhX6sD6
-	 wOEUdAG/aTpILtZfH9yQSVvnwQR23Pmq2ybiqTJ/8zt2Gp4Z24GVZjdYwUtiF2isngj54
-	 ZRPu0FGTktw7f2JrUsUF8dit1yJcR0Z25rzVo+xkm0qMvflw+QFgGQeiZ5XiR7h2zMNIE
-	 QF/eeZCMIMrt1sVAhlkJ4RVIOejb8O82dwgP2Vm0utBUVTLRtN1gEmIGMXXob00kE0IJ9
-	 RM9ayhaIfZzHppqRleV0PsRCHTjGPmqVnbJW++pH9dQEvBrg2z8cHf9BtzDkkgy9rFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794895349;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 X-HM-Tid:X-HM-MType:X-HM-Spam-Status:DKIM-Signature;
+	bh=BqzBSFumBjSfiT9hVXC0RGNN2q1qnjABaIknP0p+59E=;
+	b=g1icq2aoxFPsXB9qvjwPHyBHRP7cNNCj0fFkc1umZGnywbBWbSQppZYGVrSHNSNRZ1wU
+	 hSqlELwkR8bMc4qiqm0WuPSOf9W0/W/hKN940Xo/c+NofzpPH9tKpeQCQK80EC7X3nfMl
+	 NqDCiDHn6rDbifAme8+RIc35aKM+xaRTAODGZ8w57AVjBdxamiT3QIcmTx9x5US7MQ+e2
+	 /KDpLZIeBP1v+gOIgX+F1hn/hD03kBJTilXY5K6vkvG8Auj+wbTMtV+0pFKFWxwpPlOSZ
+	 yywBLM5SsJ0G4oGzLQL1KeLXemvN0noetJ97Qta74LI2RhyBIvhWrseGd5616oPKjdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ipYaOsOp;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=pass header.from=senarytech.com;
+	spf=pass smtp.mailfrom=senarytech.com;
+	dkim=pass header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=SQ+j4O4K;
+	arc=none smtp.remote-ip=47.88.81.175
+Received: from mail-m81175.netease.com (mail-m81175.netease.com [47.88.81.175])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D666D606A31C;
-	Tue, 17 Nov 2026 05:04:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D666D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551D2606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 06:02:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 551D2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ipYaOsOp
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AH441n61699110;
-	Tue, 17 Nov 2026 05:03:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=xkhEq9wyas0B+GeV5cgodWz7ppYz9ekt73W
-	DjprZA3Q=; b=ipYaOsOpml7cCoBxXo7Yw+OWpfQncctQXB+r99Ar1pvFT4mMnoM
-	SjOhtVBTv9mjwHm16vdCmdKscRdVFNmQOdBa6k17nmcpgqyZPSP9eTmZnUUV9zS+
-	TvJpp4u+PPYoXblziObArYQ1SMyASg+jvpkI4IzB2maIXLzkCkuhWxvPT4wl469K
-	VUqv1bK0o6IBl4/ldrhl4/2hJXnCyh2DNDKq2HIv13WJHkcLrOxndCqjY2dyh8J9
-	CtKTk+VRwAzX12+NkmjVDt00g0pBj2hOD95zXfnaGOf+s3P7PM6Nq0YWSOBabyAZ
-	fUodIwturz0KFd5D8gYaNcMryAOkM6xN22Q==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j0fjug52a-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 17 Nov 2026 05:03:48 +0000 (GMT)
-Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AH53jpd201539;
-	Tue, 17 Nov 2026 05:03:45 GMT
-Received: from ap-kernel-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 6AH53jgN201531
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 17 Nov 2026 05:03:45 +0000 (GMT)
-Received: by ap-kernel-sh03-lnx.qualcomm.com (Postfix, from userid 4851478)
-	id 6299B4055C; Tue, 17 Nov 2026 13:03:44 +0800 (CST)
-From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
-        bartosz.golaszewski@oss.qualcomm.com,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-Subject: [PATCH v4] ASoC: qcom: audioreach: support multichannel PCM formats
-Date: Tue, 17 Nov 2026 13:03:28 +0800
-Message-ID: <20261117050328.213157-1-zhangfei.gao@oss.qualcomm.com>
+	dkim=pass (1024-bit key, unprotected) header.d=senarytech.com header.i=@senarytech.com header.a=rsa-sha256 header.s=default header.b=SQ+j4O4K
+Received: from Wangqianghua.localdomain (unknown [27.38.192.73])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 54f1dac19;
+	Tue, 17 Nov 2026 14:02:15 +0800 (GMT+08:00)
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+To: linux-sound@vger.kernel.org
+Cc: broonie@kernel.org,
+	lgirdwood@gmail.com,
+	bo.liu@senarytech.com
+Subject: [PATCH v3] ASoC: sn624x: skip DMIC when ACPI DisCo has no MIC function
+Date: Tue, 17 Nov 2026 14:02:13 +0800
+Message-ID: <20261117060213.2327503-1-qianghua.wang@senarytech.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261117013558.1790310-1-qianghua.wang@senarytech.com>
+References: <20261117013558.1790310-1-qianghua.wang@senarytech.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -87,268 +57,203 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE3MDAxOSBTYWx0ZWRfX0pniSluI4MiE
- Afuk+D5JkKMli032bjt+zhcSm0D31Q2vOx/pFRTfQFiSYdfqDnH8ImqNai+cwpawl+mn72AMne6
- LUBebzWHCoR7oRk7d0aMElUxWlyHJ4DHcNWpv7sMXmRGgpkIrgAUnh1ns18V8grTU3ssvZ6Npbu
- xU/7PeJCpfeXoNExGguVXQzqcuoTyMPe+4DEgLY393fjaHlS5YjQ12GWIBb9LgPtUIIKLXDSWlI
- SCh4M+1BM5KRLrRN3UlI5lAuSNrXmhe/NqNroRiSQ6VZ7rlzitI5FOY3XitkZOrZF7rnsxt2MFh
- j+pDFA7/TAPqhQfC4O786hulk8tilfi6xEc1AJScz4NrOFws5GuuSOv+KdhHbqXu/t/sKiKbwuP
- NCWpyQfQwzoEPDLRQs/s+Iy60lmH7EG8E9gFFigPbox3R59OEwO34r1Slx86qdAPOfnw9K2V6DM
- q5uOrxR5X3qfsYmdJPw==
-X-Authority-Analysis: v=2.4 cv=JfIpPkKV c=1 sm=1 tr=0 ts=6afbe034 cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8 a=Sw036wB_Sbj6ZPNlFA4A:9
-X-Proofpoint-ORIG-GUID: slB78NWPxgdfr6oiCiqphcbaQZ4rwceV
-X-Proofpoint-GUID: slB78NWPxgdfr6oiCiqphcbaQZ4rwceV
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE3MDAxOSBTYWx0ZWRfX7KGl5biuvuBF
- 9Nxv12Ksrk/YJVigAafTaFLt+cMI4UwXI40HBKYJDyxhMrTGkPga5JYUusUVKkT9BX+cfNNwxKJ
- rcTWlRx69W+Vf3sMBc+gN24YpHqHycE=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-17_01,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0 clxscore=1015 suspectscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 malwarescore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611170019
+X-HM-Tid: 0aa1e8194dfb09d8kunm5a9821072ec259
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDSkIYVk5MThpJQkNDGE1CHVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJTFVIQ1VKQklVTEhZV1kWGg8SFR0UWUFZT0tIVUpLSU
+	JDQ0xVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=SQ+j4O4KFVHvxlp11SoL8OujduXsDULkoldRCBCaJ2LF2UhlPCQvs4KfnJzIbgsb6EdsHJR3bOhrZOgnUqP5Bqtf27i0TXGI34p1jb01DpZ1mCVQuKlylZCrCdfV9d2GKKZj5aKc1IQWzipciihIAbGdaMNcU7AbggMoGl8F66M=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
+	bh=BqzBSFumBjSfiT9hVXC0RGNN2q1qnjABaIknP0p+59E=;
+	h=date:mime-version:subject:message-id:from;
 
-AudioReach currently rejects PCM streams with more than four channels in
-the PCM and shared-memory media format paths.
+Some OEM platforms, such as certain Samsung designs, use Senary SN624x
+for headset jack and speaker playback only: ACPI _DSD DisCo describes
+jack and speaker amp SDCA functions but omits the MIC array function
+because no on-board DMIC is routed to the codec. The driver still
+advertised the DMIC capture port and ran DMIC function init against
+registers that DisCo does not expose, which breaks bring-up on these
+machines.
 
-This prevents TDM links that expose more channels, such as the 6-channel
-playback path used on SA8797P Ride, from being configured.
+Probe the parsed DisCo function list before exposing the DMIC port and
+before running DMIC init. Apply AMP function init from the ACPI init
+tables when an amp function is present, using the same pattern as the
+existing jack and DMIC paths.
 
-Reuse q6dsp_map_channels() to support multichannel PCM formats and use
-the common PCM channel limit definition.
+Only omit DMIC when DisCo is present but lists no MIC function, so
+platforms without DisCo still use the OEM DMIC fallback. Do not fail amp
+init when there is no ACPI init table. Re-apply amp init tables after
+re-attach when FUN STATUS is idle but DisCo still supplies a table.
 
-Reviewed-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Tested-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-Signed-off-by: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+Fixes: 12d9c9f8679c ("ASoC: codecs: add SN624x SDCA SoundWire driver")
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
 ---
+Changes in v3:
+- Add commit subject to Fixes: trailer (Sashiko review).
 
-v4: Rebased onto sound.git/for-next at 7cd6b1fd8f9c
-v3: reuse PCM_MAX_NUM_CHANNEL to replace AR_PCM_MAX_NUM_CHANNEL (Srinivas)
-v2: reuse q6dsp_map_channels
+Changes in v2:
+- Address Sashiko review (amp -ENOENT, DisCo vs no-DisCo DMIC, re-attach amp).
 
- sound/soc/qcom/qdsp6/audioreach.c       | 36 ++++---------------------
- sound/soc/qcom/qdsp6/audioreach.h       |  5 ++--
- sound/soc/qcom/qdsp6/q6apm-dai.c        | 12 ++++++---
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 11 +++++---
- 4 files changed, 24 insertions(+), 40 deletions(-)
+ sound/soc/codecs/sn624x-sdca-sdw.c | 101 +++++++++++++++++++++++++++--
+ 1 file changed, 97 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index d2dc5d37bccf8..e6f077a5b750f 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -306,22 +306,6 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index 1d4e5f27a..8959b447f 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -176,6 +176,9 @@ static int sn624x_uaj_ge35_apply_detected_mode(struct device *dev,
+ 	SDW_SDCA_CTL(SN624X_FUNC_NUM_MIC_ARRAY, SN624X_SDCA_ENT_ENTITY0, \
+ 		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+ 
++#define SN624X_REG_AMP_FUN_STATUS_CTL \
++	SDW_SDCA_CTL(SN624X_FUNC_NUM_SPEAKER_AMP, SN624X_SDCA_ENT_ENTITY0, \
++		     SN624X_SDCA_CTL_FUNCTION_STATUS, 0)
+ /*
+  * Write REQUESTED_PS then poll ACTUAL_PS with the shared SDCA helper
+  * (sdca_asoc_pde_poll_actual_ps). Caller must not hand-roll ACTUAL_PS waits.
+@@ -1055,6 +1058,49 @@ static int sn624x_dmic_apply_defaults(struct device *dev,
+ 	return sn624x_dmic_oem_fallback_init(dev, sn624x);
  }
- EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
  
--void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
--{
--	if (num_channels == 1) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--	} else if (num_channels == 2) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--		ch_map[1] =  PCM_CHANNEL_FR;
--	} else if (num_channels == 4) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--		ch_map[1] =  PCM_CHANNEL_FR;
--		ch_map[2] =  PCM_CHANNEL_LS;
--		ch_map[3] =  PCM_CHANNEL_RS;
--	}
--}
--EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
--
- static void apm_populate_container_config(struct apm_container_obj *cfg,
- 					  const struct audioreach_container *cont)
- {
-@@ -760,7 +744,7 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
- 	intf_cfg->cfg.intf_index = module->hw_interface_idx;
- 	intf_cfg->cfg.active_channels_mask = 0;
- 	/* Convert the physical channel mapping into a bit field */
--	for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
-+	for (i = 0; i < PCM_MAX_NUM_CHANNEL; i++)
- 		if (cfg->channel_map[i])
- 			intf_cfg->cfg.active_channels_mask |= BIT(i);
- 
-@@ -883,7 +867,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- 	media_format->bit_width = cfg->bit_width;
- 	media_format->num_channels = cfg->num_channels;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
- 		if (!cfg->channel_map[i])
- 			continue;
- 		media_format->channel_mapping[j++] = cfg->channel_map[i];
-@@ -1185,11 +1169,6 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	int payload_size;
- 	int i, j;
- 
--	if (num_channels > 4) {
--		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
--		return -EINVAL;
--	}
--
- 	payload_size = APM_PCM_MODULE_FMT_CMD_PSIZE(num_channels);
- 
- 	struct gpr_pkt *pkt __free(kfree) =
-@@ -1218,7 +1197,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	media_cfg->q_factor = mcfg->bit_width - 1;
- 	media_cfg->bits_per_sample = mcfg->bit_width;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
- 		media_cfg->channel_mapping[j++] = mcfg->channel_map[i];
-@@ -1275,11 +1254,6 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 	int i, j;
- 	void *p;
- 
--	if (num_channels > 4) {
--		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
--		return -EINVAL;
--	}
--
- 	payload_size = APM_SHMEM_FMT_CFG_PSIZE(num_channels) + APM_MODULE_PARAM_DATA_SIZE;
- 
- 	struct gpr_pkt *pkt __free(kfree) =
-@@ -1313,7 +1287,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 		cfg->endianness = PCM_LITTLE_ENDIAN;
- 		cfg->num_channels = mcfg->num_channels;
- 		/* Convert the physical mapping to a logical mapping of the channels */
--		for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
-+		for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
- 			if (!mcfg->channel_map[i])
- 				continue;
- 			cfg->channel_mapping[j++] = mcfg->channel_map[i];
-@@ -1436,7 +1410,7 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 
- 	cm_cfg->cfg.num_channels = num_channels * 2;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
- 		/*
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 587f14ce71d23..9f4166ebdc107 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -6,6 +6,7 @@
- #include <linux/soc/qcom/apr.h>
- #include <uapi/sound/snd_ar_tokens.h>
- #include <sound/soc.h>
-+#include "q6dsp-common.h"
- struct q6apm;
- struct q6apm_graph;
- 
-@@ -805,7 +806,6 @@ struct param_id_hw_ep_power_mode_cfg {
- #define PARAM_ID_HW_EP_DMA_DATA_ALIGN	0x08001233
- #define AR_HW_EP_DMA_DATA_ALIGN_MSB	0
- #define AR_HW_EP_DMA_DATA_ALIGN_LSB	1
--#define AR_PCM_MAX_NUM_CHANNEL		8
- 
- struct param_id_hw_ep_dma_data_align {
- 	uint32_t dma_data_align;
-@@ -998,7 +998,7 @@ struct audioreach_module_config {
- 	u16	nslots_per_frame;
- 	u16	slot_width;
- 	struct snd_codec codec;
--	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
-+	u8 channel_map[PCM_MAX_NUM_CHANNEL];
- };
- 
- /* Packet Allocation routines */
-@@ -1009,7 +1009,6 @@ static inline u16 audioreach_gpr_dest_domain(gpr_device_t *gdev)
- 
- void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode,
- 				   uint32_t token);
--void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels);
- void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
- 			       uint32_t token, uint32_t src_port,
- 			       uint32_t dest_port);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index dc092ec8a2746..7d65e80eea61a 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -21,6 +21,7 @@
- #include <asm/div64.h>
- #include <asm/dma.h>
- #include "q6apm.h"
-+#include "q6dsp-common.h"
- 
- #define DRV_NAME "q6apm-dai"
- #define POS_BUFFER_BYTES	4096
-@@ -344,7 +345,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
- 	cfg.num_channels = runtime->channels;
- 	cfg.bit_width = prtd->bits_per_sample;
- 	cfg.fmt = SND_AUDIOCODEC_PCM;
--	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
-+	ret = q6dsp_map_channels(cfg.channel_map, runtime->channels);
-+	if (ret)
-+		return ret;
++/*
++ * Return true only when ACPI DisCo is present and lists no MIC function.
++ * Without DisCo, return false so the legacy OEM fallback path still runs.
++ */
++static bool sn624x_sdca_disco_omits_mic(const struct sdw_slave *slave)
++{
++	int i;
 +
- 	if (prtd->state) {
- 		/* clear the previous setup if any  */
- 		q6apm_graph_stop(prtd->graph);
-@@ -1007,8 +1011,10 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
- 		cfg.num_channels = 2;
- 		cfg.bit_width = prtd->bits_per_sample;
- 		cfg.fmt = codec->id;
--		audioreach_set_default_channel_mapping(cfg.channel_map,
--						       cfg.num_channels);
-+		ret = q6dsp_map_channels(cfg.channel_map, cfg.num_channels);
-+		if (ret)
-+			return ret;
++	if (!slave->sdca_data.interface_revision || !slave->sdca_data.num_functions)
++		return false;
++	for (i = 0; i < slave->sdca_data.num_functions; i++) {
++		const struct sdca_function_desc *desc = &slave->sdca_data.function[i];
 +
- 		memcpy(&cfg.codec, codec, sizeof(*codec));
- 
- 		ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-index fb9a0d7c5c1cd..d43d97d138410 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -94,7 +94,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
- 			return -EINVAL;
- 		}
- 
--		if (tx_num > AR_PCM_MAX_NUM_CHANNEL) {
-+		if (tx_num > PCM_MAX_NUM_CHANNEL) {
- 			dev_err(dai->dev, "invalid tx num %d\n",
- 				tx_num);
- 			return -EINVAL;
-@@ -147,7 +147,9 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
- 	cfg->bit_width = params_width(params);
- 	cfg->sample_rate = params_rate(params);
- 	cfg->num_channels = channels;
--	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
-+	ret = q6dsp_map_channels(cfg->channel_map, channels);
-+	if (ret)
-+		return ret;
- 
- 	switch (dai->id) {
- 	case DISPLAY_PORT_RX_0:
-@@ -173,11 +175,14 @@ static int q6dma_hw_params(struct snd_pcm_substream *substream,
- 	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
- 	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
- 	int channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
++		if (desc->adr == SN624X_FUNC_NUM_MIC_ARRAY)
++			return false;
++		switch (desc->type) {
++		case SDCA_FUNCTION_TYPE_SMART_MIC:
++		case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
++			return false;
++		default:
++			break;
++		}
++	}
++	return true;
++}
++
++static int sn624x_amp_apply_defaults(struct device *dev,
++				     struct sn624x_sdca_priv *sn624x)
++{
 +	int ret;
++
++	if (!sn624x || !sn624x->regmap || !sn624x->slave)
++		return -ENODEV;
++	if (!sn624x->amp_func)
++		return 0;
++	ret = sn624x_write_sdca_init_table(dev, sn624x, sn624x->amp_func, "amp");
++	if (ret == -ENOENT)
++		return 0;
++	if (ret == 0)
++		usleep_range(1000, 1500);
++	return ret;
++}
++
+ static int sn624x_sdca_jack_function_init(struct device *dev,
+ 					  struct sn624x_sdca_priv *sn624x)
+ {
+@@ -1088,11 +1134,18 @@ static int sn624x_sdca_jack_function_init(struct device *dev,
+ static int sn624x_sdca_dmic_function_init(struct device *dev,
+ 					  struct sn624x_sdca_priv *sn624x)
+ {
++	struct sdw_slave *slave = sn624x->slave;
+ 	unsigned int dmic_func_status;
+ 	const struct reg_sequence clear_status =
+ 		REG_SEQ0(SN624X_REG_DMIC_FUN_STATUS_CTL, 0x61);
+ 	int ret;
  
- 	cfg->bit_width = params_width(params);
- 	cfg->sample_rate = params_rate(params);
- 	cfg->num_channels = channels;
--	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
-+	ret = q6dsp_map_channels(cfg->channel_map, channels);
-+	if (ret)
++	if (sn624x_sdca_disco_omits_mic(slave)) {
++		dev_dbg(dev,
++			"sn624x: ACPI DisCo has no MIC function, skip DMIC init\n");
++		return 0;
++	}
++
+ 	ret = regmap_read_bypassed(sn624x->regmap,
+ 				   SN624X_REG_DMIC_FUN_STATUS_CTL,
+ 				   &dmic_func_status);
+@@ -1104,6 +1157,39 @@ static int sn624x_sdca_dmic_function_init(struct device *dev,
+ 		return 0;
+ 
+ 	ret = sn624x_dmic_apply_defaults(dev, sn624x);
++	if (ret < 0)
 +		return ret;
++	ret = regmap_multi_reg_write_bypassed(sn624x->regmap, &clear_status, 1);
++	if (ret < 0)
++		return ret;
++	usleep_range(1000, 1500);
++	return 0;
++}
++
++static int sn624x_sdca_amp_function_init(struct device *dev,
++					 struct sn624x_sdca_priv *sn624x)
++{
++	unsigned int amp_func_status;
++	const struct reg_sequence clear_status =
++		REG_SEQ0(SN624X_REG_AMP_FUN_STATUS_CTL, 0x61);
++	int ret;
++
++	if (!sn624x->amp_func)
++		return 0;
++	ret = regmap_read_bypassed(sn624x->regmap,
++				   SN624X_REG_AMP_FUN_STATUS_CTL,
++				   &amp_func_status);
++	if (ret < 0)
++		return ret;
++	if (!(amp_func_status & (SN624X_JACK_FUN_NEEDS_INIT |
++				 SN624X_JACK_FUN_HAS_BEEN_RESET))) {
++		if (!sn624x->amp_func->num_init_table)
++			return 0;
++		dev_dbg(dev,
++			"sn624x: amp FUN STATUS 0x%x, apply ACPI init table\n",
++			amp_func_status);
++	}
++	ret = sn624x_amp_apply_defaults(dev, sn624x);
+ 	if (ret < 0)
+ 		return ret;
+ 
+@@ -1161,6 +1247,11 @@ static int sn624x_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 		dev_err(dev, "sn624x: jack function init failed (%d)\n", ret);
+ 		goto err;
+ 	}
++	ret = sn624x_sdca_amp_function_init(dev, sn624x);
++	if (ret < 0) {
++		dev_err(dev, "sn624x: amp function init failed (%d)\n", ret);
++		goto err;
++	}
+ 
+ 	ret = sn624x_sdca_dmic_function_init(dev, sn624x);
+ 	if (ret < 0) {
+@@ -1253,8 +1344,9 @@ static int sn624x_sdca_read_prop(struct sdw_slave *slave)
+ 	prop->use_domain_irq = true;
+ 	prop->wake_capable = true;
+ 
+-	prop->source_ports = BIT(SN624X_PORT_JACK_CAPTURE) |
+-			     BIT(SN624X_PORT_DMIC_CAPTURE);
++	prop->source_ports = BIT(SN624X_PORT_JACK_CAPTURE);
++	if (!sn624x_sdca_disco_omits_mic(slave))
++		prop->source_ports |= BIT(SN624X_PORT_DMIC_CAPTURE);
+ 	prop->sink_ports = BIT(SN624X_PORT_JACK_PLAYBACK) |
+ 			   BIT(SN624X_PORT_SPEAKER_PLAYBACK);
+ 
+@@ -1292,8 +1384,9 @@ static int sn624x_sdca_read_prop(struct sdw_slave *slave)
+ 	prop->simple_clk_stop_capable = true;
+ 	prop->lane_control_support = true;
+ 	SN624X_DBG(&slave->dev,
+-		   "read_prop: src_ports=0x%x sink_ports=0x%x lane irq paging\n",
+-		   prop->source_ports, prop->sink_ports);
++		   "read_prop: src_ports=0x%x sink_ports=0x%x disco_omits_mic=%d lane irq paging\n",
++		   prop->source_ports, prop->sink_ports,
++		   sn624x_sdca_disco_omits_mic(slave));
  
  	return 0;
  }
