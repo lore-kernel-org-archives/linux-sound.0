@@ -1,62 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=89.253.219.113
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794901420;
-	b=vFBai6obK2g0CTluuzJ/2mUMsVhhGVV3ER3duR0WACPqNdKH4gJBKI4Wb5isR1KW4vkp
-	 Pnulf2nkmFaKT56CccL373+8S7ezrm/UaXA6rH3z/dpjTfIjFNP99Prf8XIkcLNOgPI9j
-	 LhPKrKgTMFq3KgWAp8q18nZ8265CFb+K2/Ttz0MdpxyC4cinQ4LX5aXMw67aENxRVCa+0
-	 ZzoHyVu79gIvuO1jdk97Q25cG+rlMqbQz+0nPDeNE0Q2E7281FRDOqrhki4szCfSVNbJH
-	 am5OMjpk++otksINqy999BXUtrOJxVOfGDCcyXydxTzC3OWWm4fh1C2sGhiZQTQR9Hg==
+	t=1794901734;
+	b=oa20Z7pTiWxpHXzg2RGSIrypDEiG7pn1aXXTH8tJ0Nzcpcz8WfbRuuM9f+lcDED4QNlg
+	 2asUqMxxa+YmxSdnM2GGt+Yp/fV4SN0UgoUOzdEDypfZrvhHyRDCMnxrdI9yNfawMEX+b
+	 JO1TuEwTfwSXfFMSn5buSjXIrSQjXZhj6joywpgRimXv3Cc8Rdg1yEHMjt/2SP25RIXey
+	 KUsRpnJGa+oSmUDmtfKUWKE5mdWz09kh6+pZArb3LMd/jp5EibyJc9YsYFaR9x9wbqc9r
+	 gpduOdrWYqJg8PdfXy6rODiS1lLm/oh+mbJM4KH7OEbHIIx8nRcK2uFePEjICM36sJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794901420;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=zVvd98wZmQrWlpgbGKi3w8LdtJubJfHYmhlWb3yy/4s=;
-	b=IXezWu+xPAQ6JGtQFB4Ay1r9jccfPomJ2UrtRPRcf7G3QivTaQqLWAvqd0E/fj/YaPAw
-	 V7EQqrGxcTL7Z2FetbCz1NgD8X8Bqm58ahfr/xa5f7zj8fS7n7kQ0Oe2uoALIJ2G7RlRl
-	 HNay6GPXjCH2QSt6G0sThlRWRoavzmGnUSAgsjQqM3AUmzjTQwY17cy+BD6SJP+BUnZpR
-	 yVB9VvnqmeU5UWWzjR8t0aM/yhfTWYJ8KdONsHHJ/NcKi+Mz5DGX6pDUr6FssdAqXWRnH
-	 x15qb7wGfaSWVNRcyA/VPscbCeu5DQ6F3F5if5Y2x3MwLtLIeQwmLGxE/MUNAxiFelg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794901734;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=FXO/KnGMUHe1lx1XKTfuGNvFYaS7k5EuhcB6VaSsrNU=;
+	b=3xAXs8qxz2aSagmTvhZVqT9SdPIao7r6DiXtzMcsoPUlRZ17H1BxaygvZSolBa/WlLBU
+	 T3F7P9GAtlZEga5MuB1T6S7fjkHobqRNHkSSMdD2GByJSUHHo89zJNs3V4MbfJeBMp6Ln
+	 qPlRrMhVYXNj9Oayh4JJT5LcVgw3zCnbrvU/f0YBezAfHAj05xXsWy/hzhp6w4bx9Qz4U
+	 E1vv5jbGr9deDAbrgAI16KDxFtEbnfAfCNVN/NiAGWYo/jOIRISn+XjJRaHBPYncL6TJw
+	 zJ6X+mdRjMo5CTxrGi7ykb0diDtiNK+sGKc2yYKNF72FpcnVx0zQ4IPLjwJlolmOVDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pavel.bz;
-	spf=pass smtp.mailfrom=pavel.bz;
-	dkim=pass header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=I7xkzXH0;
-	arc=none smtp.remote-ip=89.253.219.113
-Received: from mail.pavel.bz (mail.pavel.bz [89.253.219.113])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dXVW2lhJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F242A606A31C;
-	Tue, 17 Nov 2026 07:43:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F242A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pavel.bz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pavel.bz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4999606A31C
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 07:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pavel.bz header.i=@pavel.bz header.a=rsa-sha256 header.s=primary header.b=I7xkzXH0
-Received: from p-745-g5.lan (unknown [182.52.139.49])
-	by mail.pavel.bz (Postfix) with ESMTPSA id 726F5616C8;
-	Tue, 17 Nov 2026 07:43:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.pavel.bz 726F5616C8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pavel.bz; s=primary;
-	t=1794901417; bh=zVvd98wZmQrWlpgbGKi3w8LdtJubJfHYmhlWb3yy/4s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=I7xkzXH0zP9hI9bevPJ56WB6XDoKgShWd9A2fVBF4nb3uRoS9LMZrjhzrZPriHUG0
-	 Bs+gQp0rUM0/U4cII4Nj6v+KkUo/cguSJKRXpEDkUeDCnis34QZJJnLdhaVwLm4FG4
-	 DDa0oVGWpCTLuNAcdQUVw98NXP9EifsK5fSpMqwgP4zX1XMv5dA4jTUKpqByfPUWtS
-	 Y9tbM+d2lO9by0JwkejvUXH3ou7ukkT9iz+tRHTjkQ9PbUOhcETZJorP/FFcrdpVbu
-	 B7qnsoaz8Txd7Uk7HCwcHs0asVKr9dUJ8R/bQpZI0xQLOrGZfMJKMavQkknpazMRCp
-	 GRHNWjh8ZPHeg==
-From: Pavel Artemev <a@pavel.bz>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 2/2] ALSA: usb-audio: add MIXER_STATE_REPUSH quirk flag
-Date: Tue, 17 Nov 2026 14:43:18 +0700
-Message-ID: <20261117074318.378876-3-a@pavel.bz>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261117074318.378876-1-a@pavel.bz>
-References: <20261117074318.378876-1-a@pavel.bz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dXVW2lhJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76EC61F000C4;
+	Tue, 17 Nov 2026 07:48:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794901734;
+	bh=FXO/KnGMUHe1lx1XKTfuGNvFYaS7k5EuhcB6VaSsrNU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=dXVW2lhJMdjYorG6Zl6e3c06qKqpmbjfFVZdywqgZJ4n7yA4cws6+/91p206YrWUJ
+	 muPtuEtot7OaXPt4PKrn2CaFLEpfEYnL629qz/cytZucPGFTO4TU8+xQ54hehj8Dh6
+	 NdoZI1u+skGJuqqGEgSVQxEW1Li0gfvNBySTGEEzBHJ1E0VBFzKS5JWlCZhfKdUfA5
+	 dlnwofkoj+apVVoR0+0b4480mZilVsdC/SY0DxIwipcsEzWu76UGG9g9slTNAux186
+	 wOCqIcD0WJnjtN5brHbJSw0bfKXc50xNON/yI30dyYuNyLOv17FksOwEcVilSOpxkj
+	 pXqsTJF0izVow==
+Message-ID: <sashiko-outbox-218381@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 20/23] soundwire: amd: fix interrupt gate and work
+ drain ordering in PM ops
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261117070906.803139-21-Vijendar.Mukunda@amd.com>
+References: <20261117070906.803139-1-Vijendar.Mukunda@amd.com>
+ <20261117070906.803139-21-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 07:48:54 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,645 +60,137 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Some USB audio devices silently drop Feature Unit control writes in
-the first seconds after USB enumeration, and occasionally drop
-individual writes at any later time as well.  When GET_CUR on such a
-device is broken there is no way to detect the divergence by reading
-back, so the state the host believes in silently drifts from the
-hardware state: a channel left at a stale value is never corrected.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] soundwire: amd: runtime PM deadlock in amd_suspend_runtime()
+  work drain
+- [Medium] soundwire: amd: stale status bits and early IRQ enable in
+  amd_suspend()
+--
 
-The Windows driver of one such chipset (Weltrend/XiiSound, 040b:0897)
-handles this by never reading back at all.  USBPcap captures of it
-show a single source of truth for the whole channel picture, every
-channel of a control written in one short burst - master first, then
-the channels - and the complete state re-pushed at every device open.
-That every-open re-push is the load-bearing mechanism: it repairs
-whatever writes were swallowed around enumeration.
+commit 9fb00434cce0e9e4cd0523448b2e4bde7b333b08
+Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-Add QUIRK_FLAG_MIXER_STATE_REPUSH, which replicates that write
-discipline in the driver:
+soundwire: amd: fix interrupt gate and work drain ordering in PM ops
 
-  * volume and mute puts only record values; the cache is defined as
-    "what user space last asked for" and is never read back from the
-    device, and never invalidated by device status notifications;
-  * a single deferred flush (30 ms quiescence) writes each touched
-    feature unit in one burst, master first, derived as the loudest
-    channel - never asserted from its own possibly stale cache, and
-    never overriding a value user space put explicitly;
-  * a PCM stream open re-pushes all cached volume values through the
-    same timer - the every-open repair the Windows stack relies on.
+This commit reorders interrupt masking, workqueue draining, and wake
+configuration across the CLK_STOP_MODE and POWER_OFF_MODE paths in
+amd_suspend() and amd_suspend_runtime().
 
-The flush runs under the mixer lock, like the write path of the put
-callback it replaces, so a put can never interleave with a burst.
-The flush worker is cancelled on disconnect and suspend.  Only
-controls written through mixer_ctl_feature_put() with a volume or
-mute selector are deferred; other feature unit controls (AGC, tone)
-keep the direct write path.  A derived master equal to the cached
-value is not re-sent: an unchanged limit value re-delivered makes
-these devices emit their in-headset limit notification with no user
-action nearby.  The residual gap - a sporadically dropped master
-write is only healed by the next change, not by an unchanged
-re-push - is accepted; the vendor driver has no readback either.
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_mana=
+ger.c
+> index 57238c81997a2..220abf73cb25e 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -1430,17 +1430,20 @@ static int __maybe_unused amd_suspend(struct devi=
+ce *dev)
+>  	}
+> =20
+>  	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+> +		amd_disable_sdw_interrupts(amd_manager);
+> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+>  		cancel_work_sync(&amd_manager->amd_sdw_work);
+> -		amd_sdw_wake_enable(amd_manager, false);
+>  		ret =3D amd_sdw_host_wake_enable_by_rev(amd_manager, false);
+>  		if (ret)
+>  			return ret;
+>  		ret =3D amd_sdw_clock_stop(amd_manager);
+>  		if (ret)
+>  			return ret;
+> +		amd_enable_sdw_interrupts(amd_manager);
 
-Mute switches are only written when user space changed them: a lost
-re-assert can at worst fail to mute (power-up is unmuted), and mute
-writes during playback audibly chop the stream on these devices.
-Volume writes are delayed by the quiescence window, which is not
-perceptible for a volume control.
+[Severity: Medium]
+Can calling amd_enable_sdw_interrupts() after amd_sdw_clock_stop() without
+clearing ACP_SW_STATE_CHANGE_STATUS_0TO7 and
+ACP_SW_STATE_CHANGE_STATUS_8TO11 cause amd_sdw_irq_thread() to process
+stale peripheral status bits while the SoundWire clock is stopped?
 
-The flag is enabled for 040b:0897, whose loss window was measured on
-the wire at 6.5-9 s after enumeration with a ragged tail (beep-ACKed
-limit-write probes at increasing delays).
+When a SoundWire interrupt fires just before amd_disable_sdw_interrupts(),
+the parent ACP hard IRQ handler clears ACP_EXTERNAL_INTR_STAT and schedules
+amd_sdw_irq_thread, but the status registers are only cleared at the end of
+amd_sdw_irq_thread():
 
-Testing: ran on the device as a locally built DKMS module (7.2 tree,
-daily use over 10 days) and wire-verified: 21 volume gestures produced
-21 bursts of exactly one write per channel in the master-first order,
-no readbacks, no re-sends; endpoint limit notifications fire only on
-user arrivals at a limit; no stream chops during playback; replug,
-suspend/resume, balance and mute pass end to end.  This exact tree
-also ran on the device as a DKMS module against 7.3.4, wire-verified:
-volume gestures (PipeWire 0.5/1.0/0.7) each produced exactly one
-burst of one write per channel in the master-first order (13/100/35),
-with no readbacks, no re-sends, and no writes to the capture unit.
+drivers/soundwire/amd_manager.c:amd_sdw_irq_thread() {
+	if (!READ_ONCE(amd_manager->interrupt_enabled))
+		return;
 
-Closes: https://github.com/alsa-project/alsa-ucm-conf/issues/760
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221401
-Link: https://lore.kernel.org/linux-sound/20261116153521.188570-3-a@pavel.bz
-Assisted-by: LLM
-Signed-off-by: Pavel Artemev <a@pavel.bz>
----
- Documentation/sound/alsa-configuration.rst |   5 +
- sound/usb/mixer.c                          | 336 ++++++++++++++++++++-
- sound/usb/mixer.h                          |  10 +
- sound/usb/pcm.c                            |   4 +
- sound/usb/quirks.c                         |   2 +
- sound/usb/usbaudio.h                       |  18 ++
- 6 files changed, 364 insertions(+), 11 deletions(-)
+	status_change_8to11 =3D readl(amd_manager->mmio + ACP_SW_STATE_CHANGE_STAT=
+US_8TO11);
+	status_change_0to7 =3D readl(amd_manager->mmio + ACP_SW_STATE_CHANGE_STATU=
+S_0TO7);
+    ...
+}
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index ea7f5aa31..38047c36a 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2417,6 +2417,11 @@ quirk_flags
-           Initialize the volume control channels to the maximum value instead
-           of the minimum at mixer creation.  For devices that silence their
-           audio path while a volume channel sits at the minimum value.
-+        * bit 35: ``mixer_state_repush``
-+          Defer volume and mute writes into one burst per feature unit, and
-+          re-push the complete cached mixer state at every PCM stream open.
-+          For devices that silently drop control writes around enumeration
-+          and whose controls cannot be read back.
- 
- This module supports multiple devices, autoprobe and hotplugging.
- 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index bf1d9fbf0..cf3a211bf 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -37,6 +37,7 @@
- #include <linux/usb/audio.h>
- #include <linux/usb/audio-v2.h>
- #include <linux/usb/audio-v3.h>
-+#include <linux/workqueue.h>
- 
- #include <sound/core.h>
- #include <sound/control.h>
-@@ -1608,15 +1609,262 @@ static int mixer_ctl_feature_get(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
-+
-+
-+/*
-+ * Atomic mixer write bursts (QUIRK_FLAG_MIXER_STATE_REPUSH).
-+ *
-+ * Some devices silently drop mixer writes issued in the first seconds
-+ * after USB enumeration, and can drop individual writes at any later
-+ * time as well; GET_CUR is broken on them, so the divergence cannot
-+ * be detected by reading back.  The vendor's Windows driver never
-+ * reads either: it collects the whole channel picture at a single
-+ * source of truth and writes every channel of a control in one short
-+ * burst (master first), re-pushing the complete state at every device
-+ * open.
-+ *
-+ * User space applies one logical volume change as multiple fragmented
-+ * control writes (one per channel, the first carrying stale siblings),
-+ * so the stock write-per-put path cannot produce that burst.  Puts
-+ * therefore only record values - the cache is defined as "what user
-+ * space last asked for" and is never read back from the device - and
-+ * a single flush timer coalesces the fragments.  When it fires, each
-+ * touched feature unit is written in the Windows order: the master,
-+ * derived as the loudest channel, first, then the changed channels,
-+ * one write each.  A stream open requests a full-state re-push
-+ * (healing writes lost in the post-enumeration window), merged into
-+ * the same timer so a burst never observes a half-applied gesture
-+ * (user space opens streams mid-gesture for UI feedback sounds).
-+ *
-+ * The whole flush runs under the mixer lock, like the write path of
-+ * the put callback it replaces: snd_usb_set_cur_mix_value() completes
-+ * its USB transfer before updating the cache, so an unlocked flush
-+ * could clobber values recorded concurrently by a put.
-+ */
-+
-+/* quiescence window for the flush; user space applies a stereo change
-+ * as two control writes 5..20 ms apart
-+ */
-+#define MIXER_FLUSH_DELAY	msecs_to_jiffies(30)
-+
-+static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
-+				 struct snd_ctl_elem_value *ucontrol);
-+
-+static bool is_feature_volume_mute_ctl(struct usb_mixer_elem_info *cval)
-+{
-+	if (!cval->head.kctl || !cval->head.kctl->put)
-+		return false;
-+	/* the info callback is shared with processing unit controls
-+	 * (whose put writes through a different path and does not manage
-+	 * the shared cache); the put callback is unique to feature unit
-+	 * and mixer unit controls, which the cache does cover
-+	 */
-+	if (cval->head.kctl->put != mixer_ctl_feature_put)
-+		return false;
-+	return cval->control == UAC_FU_VOLUME || cval->control == UAC_FU_MUTE;
-+}
-+
-+/* Re-send every cached channel of one control, unchanged values
-+ * included
-+ */
-+static void repush_ctl_cached(struct usb_mixer_elem_info *cval)
-+{
-+	int c, err, idx = 0;
-+
-+	if (cval->cmask) {
-+		for (c = 0; c < MAX_CHANNELS; c++) {
-+			if (!(cval->cmask & BIT_ULL(c)))
-+				continue;
-+			if (test_bit(c + 1, cval->cached)) {
-+				err = snd_usb_set_cur_mix_value(cval, c + 1,
-+						idx, cval->cache_val[idx]);
-+				if (err < 0)
-+					usb_audio_dbg(cval->head.mixer->chip,
-+						      "repush ctl %d ch %d failed (%d)\n",
-+						      cval->control, c + 1, err);
-+			}
-+			idx++;
-+		}
-+	} else {
-+		/* master channel */
-+		if (test_bit(0, cval->cached)) {
-+			err = snd_usb_set_cur_mix_value(cval, 0, 0,
-+							*cval->cache_val);
-+			if (err < 0)
-+				usb_audio_dbg(cval->head.mixer->chip,
-+					      "repush ctl %d ch 0 failed (%d)\n",
-+					      cval->control, err);
-+		}
-+	}
-+}
-+
-+/* Write one control's pending (changed-since-last-flush) channels.
-+ * Pending bits are only set together with cache_val by a put, so the
-+ * value is written unconditionally; the cache bit may have been
-+ * cleared under us, and snd_usb_set_cur_mix_value() sets it again.
-+ */
-+static void flush_ctl_pending(struct usb_mixer_elem_info *cval)
-+{
-+	int c, err, idx = 0;
-+
-+	for (c = 0; c < MAX_CHANNELS; c++) {
-+		if (!(cval->cmask & BIT_ULL(c)))
-+			continue;
-+		if (test_bit(c + 1, cval->pending)) {
-+			clear_bit(c + 1, cval->pending);
-+			err = snd_usb_set_cur_mix_value(cval, c + 1,
-+					idx, cval->cache_val[idx]);
-+			if (err < 0)
-+				usb_audio_dbg(cval->head.mixer->chip,
-+					      "flush ctl %d ch %d failed (%d)\n",
-+					      cval->control, c + 1, err);
-+		}
-+		idx++;
-+	}
-+	if (!cval->cmask && test_bit(0, cval->pending)) {
-+		/* master channel */
-+		clear_bit(0, cval->pending);
-+		err = snd_usb_set_cur_mix_value(cval, 0, 0,
-+						*cval->cache_val);
-+		if (err < 0)
-+			usb_audio_dbg(cval->head.mixer->chip,
-+				      "flush ctl %d ch 0 failed (%d)\n",
-+				      cval->control, err);
-+	}
-+}
-+
-+/*
-+ * One atomic write burst per touched feature unit, Windows-style:
-+ * full = re-push every cached volume value (the stream-open heal),
-+ * otherwise only the channels user space changed since the last
-+ * flush.  The master is written first and derived as the loudest
-+ * cached channel - never asserted from its own (possibly stale)
-+ * cache, and never overridden when user space put it explicitly.
-+ * The derived master is skipped when it already equals the cached
-+ * value: re-sending an unchanged limit value makes these devices emit
-+ * their in-headset limit notification with no user action nearby.
-+ * Mute switches are only written when user space changed them: a
-+ * lost re-assert can only fail to mute (power-up is unmuted), and
-+ * mute writes during playback audibly chop the stream on these
-+ * devices.
-+ *
-+ * Called with mixer->lock held.
-+ */
-+static void snd_usb_mixer_flush_pending(struct usb_mixer_interface *mixer,
-+					bool full)
-+{
-+	struct usb_mixer_elem_list *list;
-+	struct usb_mixer_elem_info *cval, *master;
-+	int id, c, idx, max_val;
-+	bool have_ch, touched, master_pending;
-+
-+	lockdep_assert_held(&mixer->lock);
-+
-+	if (mixer->disconnected)
-+		return;
-+
-+	for (id = 0; id < MAX_ID_ELEMS; id++) {
-+		master = NULL;
-+		max_val = 0;
-+		have_ch = false;
-+		touched = false;
-+		master_pending = false;
-+		for_each_mixer_elem(list, mixer, id) {
-+			cval = mixer_elem_list_to_info(list);
-+			if (!is_feature_volume_mute_ctl(cval) ||
-+			    cval->control != UAC_FU_VOLUME)
-+				continue;
-+			if (!cval->cmask) {
-+				if (!master) {
-+					master = cval;
-+					master_pending =
-+						test_bit(0, cval->pending);
-+				}
-+				continue;
-+			}
-+			if (!bitmap_empty(cval->pending, MAX_CHANNELS + 1))
-+				touched = true;
-+			idx = 0;
-+			for (c = 0; c < MAX_CHANNELS; c++) {
-+				if (!(cval->cmask & BIT_ULL(c)))
-+					continue;
-+				if (test_bit(c + 1, cval->cached)) {
-+					/* seed from the first cached value:
-+					 * raw volume ranges can be signed
-+					 * and all-negative
-+					 */
-+					if (!have_ch ||
-+					    cval->cache_val[idx] > max_val)
-+						max_val = cval->cache_val[idx];
-+					have_ch = true;
-+				}
-+				idx++;
-+			}
-+		}
-+		/* master first (the Windows burst order) */
-+		if (master && !master_pending && have_ch &&
-+		    (touched || full) &&
-+		    (!test_bit(0, master->cached) ||
-+		     *master->cache_val != max_val)) {
-+			int err = snd_usb_set_cur_mix_value(master, 0, 0,
-+							    max_val);
-+			if (err < 0)
-+				usb_audio_dbg(mixer->chip,
-+					      "derive ctl %d ch 0 failed (%d)\n",
-+					      master->control, err);
-+		}
-+		if (master && full && !have_ch && !master_pending)
-+			/* unit without per-channel data: own cache */
-+			repush_ctl_cached(master);
-+		for_each_mixer_elem(list, mixer, id) {
-+			cval = mixer_elem_list_to_info(list);
-+			if (!is_feature_volume_mute_ctl(cval))
-+				continue;
-+			if (cval->control == UAC_FU_VOLUME && full &&
-+			    cval->cmask) {
-+				bitmap_zero(cval->pending, MAX_CHANNELS + 1);
-+				repush_ctl_cached(cval);
-+				continue;
-+			}
-+			if (!bitmap_empty(cval->pending, MAX_CHANNELS + 1))
-+				flush_ctl_pending(cval);
-+		}
-+	}
-+}
-+
-+static void snd_usb_mixer_flush_work(struct work_struct *work)
-+{
-+	struct usb_mixer_interface *mixer =
-+		container_of(work, struct usb_mixer_interface,
-+			     flush_work.work);
-+	bool full;
-+
-+	scoped_guard(mutex, &mixer->lock) {
-+		full = mixer->flush_full;
-+		mixer->flush_full = false;
-+		if (mixer->disconnected)
-+			return;
-+		if (full)
-+			usb_audio_info(mixer->chip,
-+				       "flushing mixer state (stream open)\n");
-+		snd_usb_mixer_flush_pending(mixer, full);
-+	}
-+}
-+
- /* put the current value to feature/mixer unit */
- static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 				 struct snd_ctl_elem_value *ucontrol)
- {
- 	struct usb_mixer_elem_info *cval = snd_kcontrol_chip(kcontrol);
-+	bool deferred;
- 	int max_val;
- 	int c, cnt, val, oval, err;
- 	int changed = 0;
- 
-+	deferred = (cval->head.mixer->chip->quirk_flags &
-+		    QUIRK_FLAG_MIXER_STATE_REPUSH) &&
-+		   is_feature_volume_mute_ctl(cval);
-+
- 	guard(mutex)(&cval->head.mixer->lock);
- 	max_val = get_max_exposed(cval);
- 	if (cval->cmask) {
-@@ -1632,10 +1880,22 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 				return -EINVAL;
- 			val = get_abs_value(cval, val);
- 			if (oval != val) {
--				err = snd_usb_set_cur_mix_value(cval, c + 1,
--								cnt, val);
--				if (err < 0)
--					return filter_error(cval, err);
-+				if (deferred) {
-+					/* record only; one flush writes the
-+					 * whole unit in a single burst
-+					 */
-+					set_bit(c + 1, cval->cached);
-+					cval->cache_val[cnt] = val;
-+					set_bit(c + 1, cval->pending);
-+					mod_delayed_work(system_wq,
-+							 &cval->head.mixer->flush_work,
-+							 MIXER_FLUSH_DELAY);
-+				} else {
-+					err = snd_usb_set_cur_mix_value(cval, c + 1,
-+									cnt, val);
-+					if (err < 0)
-+						return filter_error(cval, err);
-+				}
- 				changed = 1;
- 			}
- 			cnt++;
-@@ -1650,9 +1910,21 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
- 			return -EINVAL;
- 		val = get_abs_value(cval, val);
- 		if (val != oval) {
--			err = snd_usb_set_cur_mix_value(cval, 0, 0, val);
--			if (err < 0)
--				return filter_error(cval, err);
-+			if (deferred) {
-+				/* record only; one flush writes the
-+				 * whole unit in a single burst
-+				 */
-+				set_bit(0, cval->cached);
-+				cval->cache_val[0] = val;
-+				set_bit(0, cval->pending);
-+				mod_delayed_work(system_wq,
-+						 &cval->head.mixer->flush_work,
-+						 MIXER_FLUSH_DELAY);
-+			} else {
-+				err = snd_usb_set_cur_mix_value(cval, 0, 0, val);
-+				if (err < 0)
-+					return filter_error(cval, err);
-+			}
- 			changed = 1;
- 		}
- 	}
-@@ -3259,6 +3531,8 @@ static void snd_usb_mixer_free(struct usb_mixer_interface *mixer)
- 	/* kill pending URBs */
- 	snd_usb_mixer_disconnect(mixer);
- 
-+	cancel_delayed_work_sync(&mixer->flush_work);
-+
- 	/* Unregister controls first, snd_ctl_remove() frees the element */
- 	if (mixer->id_elems) {
- 		for (id = 0; id < MAX_ID_ELEMS; id++) {
-@@ -3685,8 +3959,12 @@ void snd_usb_mixer_notify_id(struct usb_mixer_interface *mixer, int unitid)
- 		if (!list->is_std_info)
- 			continue;
- 		info = mixer_elem_list_to_info(list);
--		/* invalidate cache, so the value is read from the device */
--		if (!info->get_cur_broken)
-+		/* invalidate cache, so the value is read from the device;
-+		 * under QUIRK_FLAG_MIXER_STATE_REPUSH the cache is the
-+		 * host-side truth and is never invalidated
-+		 */
-+		if (!info->get_cur_broken &&
-+		    !(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH))
- 			bitmap_zero(info->cached, MAX_CHANNELS + 1);
- 		snd_ctl_notify(mixer->chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
- 			       &list->kctl->id);
-@@ -3783,8 +4061,13 @@ static void snd_usb_mixer_interrupt_v2(struct usb_mixer_interface *mixer,
- 
- 		switch (attribute) {
- 		case UAC2_CS_CUR:
--			/* invalidate cache, so the value is read from the device */
--			if (!info->get_cur_broken) {
-+			/* invalidate cache, so the value is read from the
-+			 * device; under QUIRK_FLAG_MIXER_STATE_REPUSH the
-+			 * cache is the host-side truth and is never
-+			 * invalidated
-+			 */
-+			if (!info->get_cur_broken &&
-+			    !(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH)) {
- 				if (channel)
- 					clear_bit(channel, info->cached);
- 				else /* master channel */
-@@ -3914,6 +4197,7 @@ int snd_usb_create_mixer(struct snd_usb_audio *chip, int ctrlif)
- 	if (!mixer)
- 		return -ENOMEM;
- 	mixer->chip = chip;
-+	INIT_DELAYED_WORK(&mixer->flush_work, snd_usb_mixer_flush_work);
- 	mixer->ignore_ctl_error = !!(chip->quirk_flags & QUIRK_FLAG_IGNORE_CTL_ERROR);
- 	mixer->id_elems = kzalloc_objs(*mixer->id_elems, MAX_ID_ELEMS);
- 	if (!mixer->id_elems) {
-@@ -3976,6 +4260,7 @@ void snd_usb_mixer_disconnect(struct usb_mixer_interface *mixer)
- {
- 	if (mixer->disconnected)
- 		return;
-+	cancel_delayed_work_sync(&mixer->flush_work);
- 	if (mixer->urb)
- 		usb_kill_urb(mixer->urb);
- 	if (mixer->rc_urb)
-@@ -3985,6 +4270,34 @@ void snd_usb_mixer_disconnect(struct usb_mixer_interface *mixer)
- 	mixer->disconnected = true;
- }
- 
-+/**
-+ * snd_usb_mixer_stream_opened - notify mixers of a PCM stream open
-+ * @chip: the USB audio chip
-+ *
-+ * Called from the PCM open path.  Devices flagged
-+ * QUIRK_FLAG_MIXER_STATE_REPUSH request a full-state re-push (the
-+ * vendor driver's every-open write pattern, healing writes swallowed
-+ * in the post-enumeration loss window), merged into the flush timer
-+ * so the burst never observes a half-applied gesture.
-+ */
-+void snd_usb_mixer_stream_opened(struct snd_usb_audio *chip)
-+{
-+	struct usb_mixer_interface *mixer;
-+
-+	if (!(chip->quirk_flags & QUIRK_FLAG_MIXER_STATE_REPUSH))
-+		return;
-+
-+	list_for_each_entry(mixer, &chip->mixer_list, list) {
-+		if (mixer->disconnected)
-+			continue;
-+		scoped_guard(mutex, &mixer->lock) {
-+			mixer->flush_full = true;
-+			mod_delayed_work(system_wq, &mixer->flush_work,
-+					 MIXER_FLUSH_DELAY);
-+		}
-+	}
-+}
-+
- /* stop any bus activity of a mixer */
- static void snd_usb_mixer_inactivate(struct usb_mixer_interface *mixer)
- {
-@@ -4007,6 +4320,7 @@ static int snd_usb_mixer_activate(struct usb_mixer_interface *mixer)
- 
- int snd_usb_mixer_suspend(struct usb_mixer_interface *mixer)
- {
-+	cancel_delayed_work_sync(&mixer->flush_work);
- 	snd_usb_mixer_inactivate(mixer);
- 	if (mixer->private_suspend)
- 		mixer->private_suspend(mixer);
-diff --git a/sound/usb/mixer.h b/sound/usb/mixer.h
-index c40f83285..2de8f2fec 100644
---- a/sound/usb/mixer.h
-+++ b/sound/usb/mixer.h
-@@ -41,6 +41,10 @@ struct usb_mixer_interface {
- 
- 	bool disconnected;
- 
-+	/* atomic write bursts (QUIRK_FLAG_MIXER_STATE_REPUSH) */
-+	struct delayed_work flush_work;
-+	bool flush_full;	/* full-state re-push requested at next flush */
-+
- 	void *private_data;
- 	void (*private_free)(struct usb_mixer_interface *mixer);
- 	void (*private_suspend)(struct usb_mixer_interface *mixer);
-@@ -95,6 +99,10 @@ struct usb_mixer_elem_info {
- 	int dBmin, dBmax;
- 	DECLARE_BITMAP(cached, MAX_CHANNELS + 1);
- 	int cache_val[MAX_CHANNELS];
-+	/* channels changed since the last flush
-+	 * (QUIRK_FLAG_MIXER_STATE_REPUSH); same bit layout as cached
-+	 */
-+	DECLARE_BITMAP(pending, MAX_CHANNELS + 1);
- 	u8 initialized;
- 	u8 min_mute;
- 	u8 get_cur_broken;
-@@ -129,6 +137,8 @@ int snd_usb_mixer_vol_tlv(struct snd_kcontrol *kcontrol, int op_flag,
- int snd_usb_mixer_suspend(struct usb_mixer_interface *mixer);
- int snd_usb_mixer_resume(struct usb_mixer_interface *mixer);
- 
-+void snd_usb_mixer_stream_opened(struct snd_usb_audio *chip);
-+
- int snd_usb_set_cur_mix_value(struct usb_mixer_elem_info *cval, int channel,
-                              int index, int value);
- 
-diff --git a/sound/usb/pcm.c b/sound/usb/pcm.c
-index 57a26492d..ec8ad7bd7 100644
---- a/sound/usb/pcm.c
-+++ b/sound/usb/pcm.c
-@@ -24,6 +24,7 @@
- #include "power.h"
- #include "media.h"
- #include "implicit.h"
-+#include "mixer.h"
- 
- #define SUBSTREAM_FLAG_DATA_EP_STARTED	0
- #define SUBSTREAM_FLAG_SYNC_EP_STARTED	1
-@@ -1271,6 +1272,9 @@ static int snd_usb_pcm_open(struct snd_pcm_substream *substream)
- 	if (ret < 0)
- 		goto err_resume;
- 
-+	/* may re-push the cached mixer state (write-loss recovery) */
-+	snd_usb_mixer_stream_opened(chip);
-+
- 	return 0;
- 
- err_resume:
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 6ef6d4410..5328faa3d 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2504,6 +2504,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x040b, 0x0897, /* XiiSound/Weltrend Temple and rebranded headsets */
- 		   QUIRK_FLAG_MIXER_INIT_VOLUME_MAX |
-+		   QUIRK_FLAG_MIXER_STATE_REPUSH |
- 		   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL |
- 		   QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL),
- 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
-@@ -2984,6 +2985,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
- 	QUIRK_STRING_ENTRY(ALWAYS_SET_RATE),
- 	QUIRK_STRING_ENTRY(SWAP_RATES),
- 	QUIRK_STRING_ENTRY(MIXER_INIT_VOLUME_MAX),
-+	QUIRK_STRING_ENTRY(MIXER_STATE_REPUSH),
- 	NULL
- };
- 
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 61794fdc4..b530513a3 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -271,6 +271,22 @@ extern bool snd_usb_skip_validation;
-  *  Initialize the volume control channels to the maximum instead of
-  *  the minimum; the controls remain writable and the hardware volume
-  *  operates normally afterwards.
-+ * QUIRK_FLAG_MIXER_STATE_REPUSH
-+ *  Some devices silently drop mixer writes issued in the first seconds
-+ *  after USB enumeration, and can drop individual writes at any later
-+ *  time as well, so the state the host believes in never reaches the
-+ *  hardware (and GET_CUR is typically broken on these devices, so the
-+ *  divergence cannot be detected by reading back).  The vendor's own
-+ *  Windows driver never reads back either: it collects the whole
-+ *  channel picture at a single source of truth and writes every
-+ *  channel of a control in one short burst, re-pushing the complete
-+ *  state at every device open.  Record volume and mute control writes
-+ *  instead of issuing them directly, and write each touched feature
-+ *  unit in one burst from a deferred flush (the master volume first,
-+ *  derived from the loudest channel); a PCM stream open requests a
-+ *  full-state re-push through the same timer.  Under this flag the
-+ *  cache holds what user space last asked for and is never invalidated
-+ *  by device status notifications.
-  */
- 
- enum {
-@@ -309,6 +325,7 @@ enum {
- 	QUIRK_TYPE_ALWAYS_SET_RATE		= 32,
- 	QUIRK_TYPE_SWAP_RATES			= 33,
- 	QUIRK_TYPE_MIXER_INIT_VOLUME_MAX	= 34,
-+	QUIRK_TYPE_MIXER_STATE_REPUSH		= 35,
- /* Please also edit snd_usb_audio_quirk_flag_names and alsa-configuration.rst */
- };
- 
-@@ -349,5 +366,6 @@ enum {
- #define QUIRK_FLAG_ALWAYS_SET_RATE		QUIRK_FLAG(ALWAYS_SET_RATE)
- #define QUIRK_FLAG_SWAP_RATES			QUIRK_FLAG(SWAP_RATES)
- #define QUIRK_FLAG_MIXER_INIT_VOLUME_MAX	QUIRK_FLAG(MIXER_INIT_VOLUME_MAX)
-+#define QUIRK_FLAG_MIXER_STATE_REPUSH		QUIRK_FLAG(MIXER_STATE_REPUSH)
- 
- #endif /* __USBAUDIO_H */
--- 
-2.56.1
+Because amd_disable_sdw_interrupts() sets interrupt_enabled to false and
+cancels amd_sdw_irq_thread without clearing those registers, any pending
+status bits (or bits latched during amd_sdw_clock_stop()) remain set in
+hardware.  In amd_suspend_runtime(), when a subsequent wake event triggers
+amd_sdw_irq_thread(), amd_sdw_process_wake_event() only queues an
+asynchronous pm_request_resume() before falling through to read the stale
+status_change_8to11 and status_change_0to7 bits and schedule amd_sdw_work
+while the link is still down, resulting in MIPI command timeouts
+(-ETIMEDOUT).
 
+In addition, the parent ACP IRQ handlers do not check interrupt_enabled
+before calling schedule_work(&amd_manager->amd_sdw_irq_thread), so an
+in-flight hard IRQ can queue amd_sdw_irq_thread after cancel_work_sync()
+returns and run once amd_enable_sdw_interrupts() sets interrupt_enabled
+back to true.  Finally, amd_sdw_clock_stop() returns 0 on its error paths,
+so if clock stop fails, amd_enable_sdw_interrupts() re-enables state-change
+interrupts with the bus clock still running.
+
+[ ... ]
+
+> @@ -1491,18 +1493,24 @@ static int __maybe_unused amd_suspend_runtime(str=
+uct device *dev)
+>  		return 0;
+>  	}
+>  	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+> -		amd_sdw_wake_enable(amd_manager, true);
+> +		amd_disable_sdw_interrupts(amd_manager);
+> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+> +		cancel_work_sync(&amd_manager->amd_sdw_work);
+>  		ret =3D amd_sdw_host_wake_enable_by_rev(amd_manager, true);
+>  		if (ret)
+>  			return ret;
+>  		ret =3D amd_sdw_clock_stop(amd_manager);
+>  		if (ret)
+>  			return ret;
+> +		amd_enable_sdw_interrupts(amd_manager);
+> +		amd_sdw_wake_enable(amd_manager, true);
+>  	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
+> +		amd_disable_sdw_interrupts(amd_manager);
+> +		cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+> +		cancel_work_sync(&amd_manager->amd_sdw_work);
+
+[Severity: High]
+Can cancel_work_sync(&amd_manager->amd_sdw_work) in amd_suspend_runtime()
+deadlock with amd_sdw_update_slave_status_work()?
+
+kworker/0                          kworker/1
+rpm_suspend(amd_manager->dev)
+  runtime_status =3D RPM_SUSPENDING
+  amd_suspend_runtime()
+                                   amd_sdw_update_slave_status_work()
+                                     sdw_handle_slave_status()
+                                       sdw_handle_slave_alerts()
+                                         pm_runtime_get_sync(&slave->dev)
+                                           rpm_resume(bus->dev, 0)
+                                             rpm_resume(amd_manager->dev, 0)
+                                               /* waits on RPM_SUSPENDING */
+    cancel_work_sync(&amd_sdw_work)  <-- deadlock
+
+In the SoundWire device hierarchy, slave->dev is a child of bus->dev, which
+is a child of amd_manager->dev, so both children are in RPM_SUSPENDED when
+amd_manager->dev enters rpm_suspend().  If a peripheral alert schedules
+amd_sdw_work just before amd_disable_sdw_interrupts() masks interrupts,
+sdw_handle_slave_alerts() calls pm_runtime_get_sync(&slave->dev), which
+synchronously resumes the parent chain up to amd_manager->dev and sleeps on
+amd_manager->dev->power.wait_queue waiting for amd_suspend_runtime() to
+finish, while amd_suspend_runtime() waits in cancel_work_sync() for
+amd_sdw_work to complete.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117070906.8031=
+39-1-Vijendar.Mukunda@amd.com?part=3D20
