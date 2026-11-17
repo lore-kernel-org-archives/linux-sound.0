@@ -1,81 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794908742;
-	b=3roEDiwktp7go51m4nB3eD86mMTGDDGoQ/1VGPs5e7b5PhCXxWAKAAW9clqBXgw46dRo
-	 J7bjjI/M6ileC4553qISBaqRhu1g28YfeawVOFihyzN16AM1unBza7iiqi+t/HXYgO6Vr
-	 OL9k3IoQfU0iXzMHzSCNUwWrr6SwBU1Qhd0LShhhN89X0XnOVrT+gb7NeXlqpnJSJRIAM
-	 fWod4D0Qa5wu91WjCsM+XiSXsQmL5DnYthrHJoRb1Rsnzgm5T20kwV67c7/Mu6Ju/Dkko
-	 2iWB4M+5kqS+WmV2H7SHm2dwRWSdPdUUBcrsBX9vZpyIYpLKa0yOHwYoB/bYAwcL+5w==
+	t=1794909405;
+	b=Qk8xvDwIV+0KWwodrhVe8RrN6yULHBO+Zn7T9x9cls90jbKtgX1yEfSG/hA0aQQ08NVf
+	 /zfuaupIvoBn0KQS04UHFGq4hHReyeBabP+Dixxrfjp1aXIVjNH6PYBI1F8Qx4pXchk1t
+	 eKgskWE4Uxo6enhgDvHwQpW+hXCqJJE7miKuPOLBowbJgruJJ09E+twewYRzQmzFuNtpO
+	 FQ9Sgp8x0lxkUzXeAjs+kwt5HhOmLkEdNppvkV4xsvguPLo7lYx7UPQywO7Eo8Kmpjcln
+	 q97PQmV8QoCAnVUekcRH6l29uhuxy1j4XxW4pcx6/EtOaCxufzlMHQ/5GT7JEHuq0mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794908742;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:cc:
-	 Subject:In-Reply-To:Message-ID:References:Organization:MIME-Version:
-	 Content-Type:Content-ID;
-	bh=XVOLc8lsb6qY90foRQo1hmcRdepqZtalNBhvqMfPf7o=;
-	b=277cVmNUzmKl6EFchN2yb08A5HdIoicpvbE9H96B8wP+c8nX5WYDiuv256auVL2wwalp
-	 rL9P113SRWuRkrat3gTCoSJk5jDbCM5Mql2BivjsMXbG3zt5mzdUHVCFcKGC7bjqHXF6K
-	 PYtdHKdbgitOXzdiZAnlBYbY161BuIdieGau0COf4u1VuEs/bp3bGQHTiJkMgzdCuRXuh
-	 cDLOGZHn+oVOxA9gNDlPlFcHM9HqdWtOz3zW9gwktaYV4w7e2gKYytN4VHM/dgJ3obF0s
-	 RNXj6V9HebHTH4PvwpHdHc/uqZAhYy0AqhnunMIaVDhBu9qXOeWOT4xp0AJ07jbLfvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794909405;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=uzJ7zdzUB3cdGIuk2i9Y+NNhABXVFT8DILTBgFlRwyA=;
+	b=oM+1Trhw+wrkaEd7ykWgxZ9gzbNqdjDNOBrGT3X1TtE3sja1yOo8MEEOHI4wevkRSbW8
+	 scyTAFEkv9UdXF8bbkzeSRPeplJp4vGf4LZ2/0dDOPs5RcU8aFr9ZAopXOicHHc/vcxIl
+	 fPqTHgnbCGbwV6a9Kke+Hq7tvaJkJWngfb31jZ4Rf+3Z9sMN+q8sQxI470PEENvdGM54e
+	 a/dSjjt4eKBWjIZxxrcrYe3mclAUOmjAa+ILgu1NIRR8ewIeQFhaxBr1TBmBOdtV/KpZV
+	 S1uCF+vxudJnh23419Ygu0xMLdXeC6CD+AJt3TWZUE5pXehNtAhHHj2l8ANwJWhma2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BL4Ax1IY;
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nMsTG+Xm;
+	arc=none smtp.remote-ip=209.85.216.48
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3836606A330;
-	Tue, 17 Nov 2026 09:45:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3836606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D27606A323
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 09:56:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3D27606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=BL4Ax1IY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794908742; x=1826444742;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=jXY1nxpVykfYhsV5vIMVxF0y5E9OhVFRg6ErvosjZCE=;
-  b=BL4Ax1IYZhShmDOrsfioBUhQ65SHBVQKOqLW9ajzLKdluqAhHzyrVQrb
-   mEpRM0QydH8TaalMpEwnHDzxSzJTbZ6ypKKbkg2NCAmAOF9W4LiZlAeM9
-   36UhaASA67VQ2O4ZfOC294IZ3CoE+9ud9Rp+IoAPqjSxu1o++h+iWGxF9
-   h+4h4bmoLBTNu656NnikHdjBjuuOhIg5hMgkbEBriBIGHoS5NvFjPQizi
-   e7jxU8i+z/hkU9Vcy55q3w2EWTXQExk1SRXqujb1khtsVpvqK5OClo450
-   yJePHXJCJzH21bWmkcuz8sNS4sqUs8hizJbZRSFuA3c/UFnfelbHnLJVy
-   A==;
-X-CSE-ConnectionGUID: I02DMf+DS1WcGq1R62p6pw==
-X-CSE-MsgGUID: WG7ZvXo/QLC0P+vKZzJvDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3525623"
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="3525623"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:45:41 -0800
-X-CSE-ConnectionGUID: 5jpc0Bh6SlGssZEjq6hxDw==
-X-CSE-MsgGUID: MMfgBkhiRYK7LwCUEdkpNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,218,1787036400"; 
-   d="scan'208";a="9926805"
-Received: from conormcd-mobl2.ger.corp.intel.com ([10.245.244.15])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2026 01:45:38 -0800
-Date: Tue, 17 Nov 2026 11:45:28 +0200 (EET)
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-To: =?ISO-8859-15?Q?Germ=E1n_Poo-Caama=F1o?= <gpoo@igalia.com>
-cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-    linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-    Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-    Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-    =?ISO-8859-15?Q?Germ=E1n_Poo-Caama=F1o?= <gpoo@igalia.com>
-Subject: Re: [PATCH 0/3] ASoC: hdac_hda/soc-pcm: fix NULL ops.open() call
- and failed BE open cleanup
-In-Reply-To: <20261114024706.2659774-1-gpoo@igalia.com>
-Message-ID: <e98302a0-faf1-7912-47b6-f8d9c0637716@linux.intel.com>
-References: <20261114024706.2659774-1-gpoo@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nMsTG+Xm
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3ae1da332bcso1498264a91.2
+        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 01:56:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794909404; x=1795514204; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uzJ7zdzUB3cdGIuk2i9Y+NNhABXVFT8DILTBgFlRwyA=;
+        b=nMsTG+XmerQhGlQnp0vHT8btzgQIbwUp3Rw5mEQHvhwvaWn/s23nUpFRaZtgySEUed
+         pVeZup08T1ee7EhJPsiC5GvMzI+ceZtR8wa8mkaobHQkt7bitoVgYZ4qsQ0Ok0PYMzCm
+         dHADgOGDzpi1zp/yZU9Sn0kHEYkwyLfHjcGlN22u7lFxDuc3PJMidTUUE/DqOXofdfB4
+         Jbp1/z4N729Kh+mDUK8EveWG9xyULBbE1dg26d0x++yRKUK63PufGQ40/annughbpp11
+         UeATTFGxHHKaVhAl5ncHn69XLdY1iLje9fvtWVLEuzy+PP6wZuu3HddXTwPZQorQThE5
+         LlXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794909404; x=1795514204;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uzJ7zdzUB3cdGIuk2i9Y+NNhABXVFT8DILTBgFlRwyA=;
+        b=0xN11oULy6OtVHvjgB3tDUYvlgKkul8W7gMGFBjNfMTQCWCPy9Bn+jYOc4lrZ+/W41
+         H3z3Car9LY0RDNmN7A9RvCluZRN3KQJbY4zmz9wnPYYAzasvwNwwcV0dBr7tZv1I6CT3
+         ZNmH43/3alyaHSuTlrhZrmFPLzmo9tfllFP3DgHbbAW3vCi7h++m+zBk/uHP9mabapJN
+         gUrsoVtSgKgRJ5YFXe/c2XjrT28xTaSsA0wsMVboSymH4Fr8DUWbKDkwVbyJMirRkqIg
+         6xa1W2HFk+jWkwu+EKcX8DfOAJ5ZdK2ks9sAVcmYxp8K6rq/rL55ROZINuohga44p6UV
+         XDGw==
+X-Forwarded-Encrypted: i=1; AL+hErFC+2ECrcCNpbCwfr9VzmwXnty1hfyc+He9qQMjCgZGt3xqvR7tHbPhzDXL4gNdl6o6ewbFtMBOk5N1vg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+coEW3F9fWdkhWzvrZgapHYxwiY6keVPs/fZW/y1KhOFkUoBsE
+	l78EDXl0VewkN6msrpoolDgZObMIiKH6j4IexrFqTTt8S36GsamolZPY
+X-Gm-Gg: AZFdTZdH/dKCbu3Ri3JlzDQN/uMf64GUFUHN87JjkGBS624WJCQBkhY5vvJL5lAaeVC
+	PusjC9na2HQf3IUaitYkzbj4kD8Nxf9KaXkwWzGapKpEQwoHFGY3whI/GX0dI66bHozFpJo13L5
+	p064ekdMm5DU/tVpl8/xONJrIurfdAZz+vEQQSqkuQR436Qh+BhEwx0F/rGkl05FDunfv9PC5Ch
+	39tdSjPp3+hDZuoe+a9m40/iqmrrxWCgFr05vjyKP6KZGrfmQ6x1qsjUtCzhSqyOJvBEwtdU0W+
+	GIdhmbtiBLRHWA7IVqglOqdg5kMqawFNScofwUwJuHjpMN0rGDmZNg+fmGgyZ10+smnHLN+GKV8
+	P4KMz5s6TxCyqKRDEoaCRf5Xj05r6p4DECTedMTBAFIApHgDWgt5cQTuX2QlLsx3FEvjjUCW3aU
+	xSNvpRkjwGFc7baIqR18CVOJJNc6OTGpAIou5QbGz/fOMj7HcMJdzQpjXCu3PbEXtChnaFKlWaB
+	Sl/+XeaHtzroYR84iuFT9R2vouMOMYN5DPGg9CwQN4C5oCuy6Pn69clPHG9dY0dWTj094NMOBR3
+	sE+qdZPxam6e58bkzZ9KNPmC0tStw6tCWsRiwbl1MGhjNQoHLqwFW8IXCW+v
+X-Received: by 2002:a17:90b:17c7:b0:3ab:884b:65ab with SMTP id 98e67ed59e1d1-3b1b0ba4fd8mr14060000a91.55.1794909404192;
+        Tue, 17 Nov 2026 01:56:44 -0800 (PST)
+Received: from [172.20.10.2] (42-79-72-63.emome-ip.hinet.net. [42.79.72.63])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b39d73c9sm11164505a91.2.2026.11.17.01.56.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 01:56:43 -0800 (PST)
+Message-ID: <5c4ec348-e0cf-4f4e-958a-f0c86296bf83@gmail.com>
+Date: Tue, 17 Nov 2026 17:54:23 +0800
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,38 +92,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-1499736629-1794908640=:4809"
-Content-ID: <420ae183-b66b-139f-ee15-3fe906b8fb4d@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8310: Add support for NAU83G10
+ amplifier
+To: Krzysztof Kozlowski <krzk@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
+ krzk+dt@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ alsa-devel@alsa-project.org, kchsu0@nuvoton.com, sjlin0@nuvoton.com,
+ lkp@intel.com
+References: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
+ <20261109051251.471879-3-YLCHANG2@nuvoton.com>
+ <20261109-myna-of-noble-downpour-e09d3e@quoll>
+ <6d7f4ecd-bac0-44d6-a704-57cdd2877729@gmail.com>
+ <9078a957-c183-42cb-84a8-0f15661fd23d@kernel.org>
+Content-Language: en-US
+From: YLCHANG2 <neo.chang70@gmail.com>
+In-Reply-To: <9078a957-c183-42cb-84a8-0f15661fd23d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-1499736629-1794908640=:4809
-Content-Type: text/plain; CHARSET=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
-Content-ID: <6ff3272f-569e-45cb-a07b-857b9f6b7ee1@linux.intel.com>
+On 11/17/26 17:28, Krzysztof Kozlowski wrote:
+> On 17/11/2026 04:38, YLCHANG2 wrote:
+>>>> +static void nau8310_i2c_remove(struct i2c_client *client)
+>>>> +{
+>>>> +	struct nau8310 *nau8310 = i2c_get_clientdata(client);
+>>>> +
+>>>> +	cancel_work_sync(&nau8310->load_fw_work);
+>>> This looks safe, but still error-prone and discouraged. Use same order
+>>> of cleanup as order of init/allocation in probe.
+>>>
+>>> See also include/linux/devm-helpers.h
+>> Got it. I will use devm_work_autocancel() in probe instead of manual
+>> cancellation in remove().
+> To clarify: use reversed order of the cleanup, obviously, to match the
+> probe in a reversed way.
+>
+> Best regards,
+> Krzysztof
+Hi Krzysztof,
 
-Hello,
+Thanks for the reminder. I will adjust the initialization order in probe()
+so that devm_work_autocancel() is registered after the regmap 
+initialization.
+This ensures the cleanup follows in the proper reverse order.
 
-On Fri, 13 Nov 2026, Germán Poo-Caamaño wrote:
-
-> From: Germán Poo-Caamaño <gpoo@igalia.com>
-> 
-> On a ThinkPad X1 Carbon Gen 10 (ALC287, SOF with skl_hda_dsp_generic),
-> the codec sometimes comes up without pin configuration and the
-> analog PCM has no playback stream. Opening the SOF analog playback
-> PCM then calls a NULL ops.open() in hdac_hda_dai_open(). The task
-> dies holding the card's DPCM mutex and system suspend can no longer
-> freeze tasks.
-
-thank you, for the series:
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-
-Covering the history with commit 06f07e236537 ("ASoC: hdac_hda: fix
-deadlock after PCM open error") and commit 00a0b46c99e2 ("ASoC: soc-dai: 
-add mark for snd_soc_dai_startup/shutdown()") in third patch is very 
-helpful. And looks good.
-
-Br, Kai
-
---8323329-1499736629-1794908640=:4809--
+Best regards,
+Neo
