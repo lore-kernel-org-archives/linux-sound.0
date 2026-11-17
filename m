@@ -1,88 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794887135;
-	b=BvZOC6JJhQoKmKfcQlWHMVrw9LPae8MliGWQaRORD1IObsDE+jcv6NDN+iOunrgh+FhX
-	 DTS4PMsJHWRO5UOJ7QVw+TuHK7aNjCL2L8s7l5oP/+L56nTyubMw88LJSPFBSqPilfxBE
-	 iXTXTIrcmn4ZaGz5LX1Dr8FvjHUWT7SogZZ2fAXNppwoxz23LuFYNljsl8TtQpxrQtCM/
-	 p3hT4LoE4vyaEriM2ILut0BNYiZdpG4YEEAq463LAMGjcvxsGdOHCsyOq5o/F6Gy8CQiQ
-	 y34wY/I13BvEvbSF2wyz+EAUqtWWs1uUzdUFOYk58euvKlcLkd+SgGA/KTTMQVob3ZA==
+	t=1794888823;
+	b=XV+PfuMwge+pFatKZQWof0rnv4fxz8oZVlQ39M9qaRDyCtmcMMSJMlCzleqHj3Dd8Aen
+	 baFQHvycd/ww7gP06bhJ9nKLBpAmawNnMi1LkewI+zEp7w1tscYgRU5gS7UPqxWErzKUt
+	 ByuDB3RWyNv9l1Tt6sTJ2P/vggtZC4kZIRnzsWeMUepF30AwJWPV5KXO28wipdB07+a38
+	 zvTffWplRmGUEebgQ2I5z/7tTn4WBhb4ZFwy6Q1z6Ugspi4sszEibuzE+yTHfD50wTZhF
+	 HUVOzwK6tBPswmKutSIMMMvhNESR1Ew5rKXGl204fOIwbQn0aXZHz1iXT0uynutMwQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794887135;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794888823;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=O/hLof7T98UFzgwiFM30+8SkQ46zhWKH/5V6aesQdyI=;
-	b=mHFgbXM+yDZV+G1eymgH6/xXCT3BN3fwh53EXPWyDRNSsee8/sodWAbh5Y3e6engtXX1
-	 /dcdMM34WejtnJeO39yp0Y2AG40JoF+gLcE5biXlXgjvPbN9nUsObM5fsnXgO9JsIyId6
-	 RwH6onHLwK6CQyjQKu3+gQM8bx4QlBx3/JhYhOFzMk4AovvHDbHwHIagOUljrafaXIYvP
-	 2Xn/ILAiOczhyYhDbDar9S283BzQmAeYdZ0/D9YBAfjN9II8DyQGNGE3i3+xROFbsEf6Q
-	 6LHM1XsIkW4PvBbUl7dEvbQyVk/6kK0GwgkhEjkowmQu6DzCqp+j4zoIxB7GjIE7UFQ==
+	bh=xaBQcyvWhB0cz+X9HCEzHnyDC+TDtuFefgVmaYYwRlA=;
+	b=2Ku3EseGDcmynNoKd80la2PNQUs64JU4gSuZGCK++tHFyxrgWE2JRSW8IyTwISu2CvkC
+	 BYKf3WCidUVfvmiFZDyKarIjr/mebp2ZE0RAJXGqQwJCyn+5sH2oBEWSnbA/YOyH84uUF
+	 e33v440mQG4XZqsE25AjrC9V2iBS3Kp1qjZPaxVOLINJMIl0R0CIaNG8wK7d9dgj8tQOu
+	 jybWUjDdC2WPJhd8xioxlEIftdJl3/N5zqfZabMnS4jaHRHaOuBshvqnEuGzZK+B1giP3
+	 FPMaUnxIhA6ZjHq90tipr7Y695QwOqfckV8Q2YAcOSWtwqiZTOwV1Cadcdn1Q4ZEodg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aGUizyGi;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y5WJtfav;
+	arc=none smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BEF606A323
-	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 03:45:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15BEF606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA78B606A32A
+	for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 04:13:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA78B606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aGUizyGi
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b155f50c24so5048144a91.3
-        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 19:45:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y5WJtfav
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8a052aff9e9so3732570b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Nov 2026 20:13:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794887134; x=1795491934; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=O/hLof7T98UFzgwiFM30+8SkQ46zhWKH/5V6aesQdyI=;
-        b=aGUizyGiGi3uLcL9QQvTy5AA2VY6Qww1sA0A4hfG4VuL3CIU9790SlCWZpqPh0I/oK
-         LpJ1tBmhfFuUCQ6c/xm7YjRW1uVOYGMoJvwsDL9um2eNP0Wi+xSM7bIS0PH9rP6BhGWP
-         I1VI1E2UPiBJbeF++JWJ82Ebm1q18pck+r1GrQhZp7Fdyb+QRvQhQ6E0HYfjpxuReQfE
-         XrFbs/eBaTPKn/nkzsgya0Tull4U1RZ47oPCVk0skQCkkFzzx2qmROkDPf5UXmex199q
-         jEH82FFZCy0c6Ys2BBfarQUYb08ijHN0Vb3oCBcFM36Vmj05KmUQN36a2gumZHN7vtAi
-         zRjw==
+        d=gmail.com; s=20260707; t=1794888822; x=1795493622; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xaBQcyvWhB0cz+X9HCEzHnyDC+TDtuFefgVmaYYwRlA=;
+        b=Y5WJtfavvBWy2qQK4qGinld1CQXCcnizLC8Ol+wdzNSIAXRTjLhfoKsSVo6VLeHF2J
+         oYZMZ4/rppx4f4f9wejyW1XuxF+dR/jsWhcsTJLK43JFLm+598AkTnf1cYXD23FQbBxh
+         biaGh21t+9UMVkbUVk0tvtNPNxre46U4PpHA8IiCPeSX/tZWs1SbXGOHPbFS81Ww1iRf
+         CKonqQx5GgNjf9ptU92erf28LyPuF5BFxJMyHC42dOYtB/3vnIujRigsLHVBNbrMhooz
+         eArJdQ4rAQSpICE03hrYGofc//+YvJjc02zBSOHVs8/2USfwJRhvcAXF7A4KTezbIswt
+         /APw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794887134; x=1795491934;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1794888822; x=1795493622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=O/hLof7T98UFzgwiFM30+8SkQ46zhWKH/5V6aesQdyI=;
-        b=cvKQKNNBuiH2rOJjiK26LA7YC/FGBltnDtTjkft1pgzcXWGQu3sljPBazRPfHcHCp/
-         QxsK1RKbFCqPJ4eGXJ6Aw9jUZpGC0mrfbyZLfuwbGdXItDuhfhag1aB3Ca96MMg8RE0e
-         VLrwFYvbAYNcGIIhO6KRHTMc2G75n58q+mfl1jpaYBviNuuMv8pSccjX2zjlPqD6jjwI
-         x54268/ojreNV8wOsTWsYXy5eZBXJRV9VAb+xU411MOk2OlFSD9617tWhq3fKoX9guJl
-         pxV2k4anJuFEZv3mbwEcBVFa8iE5862NPLnJ/JfjCGzyxejvMRHB6GQYKufCgQqZ8S6l
-         gfsQ==
-X-Forwarded-Encrypted: i=1; AL+hErHngAB6aXNJrC1MwFQwOVPXYOExl65kjlpaKwWilGIVGWh8skYNXrkYu4/KR1snoHRmnrOkoUzMqMX0rA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8fbw922/2KiWKVDPwEpnGThWHR6SWh/HX14BQyYQVz001WAsLg
-	FV6jerMuKjmS/cmikwKeYB+0w8rAMjKRSUvytkD6Ccbs4m/ChkTmzV0S
-X-Gm-Gg: AZFdTZfJi3kQtVNk9uHAS93VU7G/2um8k97bTAp5YqL5Rk863fRmP4yvhs06SuNfgXJ
-	k0A4esgP06xaNqFxA2SelBVjiLiEEJxaDt2Y1f3c3GBLmYdfysGQI5joaULsk5UZciaAuRKELdK
-	KgBhHQbDhwv1psAjGzMt/jhhJ9M3djoZ3AIsWA1suWDIPYkt+dYHRuF5Jisv8xAOcHMhD6n0M27
-	xtv0i1n+zoLJxzs0fVSLfHhFfE0Fb8PitGWClaDQkaQV+kB/8OnJW7vYgSXNGEP/zxyGh1gocST
-	VMe1KjNMkfExqc8Lo6RPq//hJOI++G99Qa0ZwuZ5Jyd3RgdAgzbfB9PyC8l1f3fjvQPciKDr1gf
-	xBqy1hhOW3EKj8Q+K5IE3F9Of8k4oR2DmQkWMiGt8syIs5wXqAsZfz16tLFJxFOcZu46SQwfi2F
-	fs3wPTOIztQV07kHIsbtaoozBLQ6oTNWnMMdJ7hrNFIVqpzIhN7C0yRNUAjNtt+cE9XqzEz/uLD
-	E2xzhYIwH0NgZOPjWQjMKFj/auxud+hjwr96gsXR5o4k9h/yX4vf8GGUEBrGdo9MKh8m2ymOS5p
-	8PMQvWj2fMPwvnNW+/IXjae3chgUiSR78OfFpozv8uMXfDlCdOhQ+YbLguqS
-X-Received: by 2002:a17:90b:5105:b0:3b0:d0c5:c10e with SMTP id 98e67ed59e1d1-3b1b0b546f7mr12821409a91.17.1794887134435;
-        Mon, 16 Nov 2026 19:45:34 -0800 (PST)
-Received: from [172.20.10.2] (42-79-72-63.emome-ip.hinet.net. [42.79.72.63])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac70ea45sm1720814a91.17.2026.11.16.19.45.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 19:45:33 -0800 (PST)
-Message-ID: <e87bc85d-c9e3-44b5-99e6-007944d75200@gmail.com>
-Date: Tue, 17 Nov 2026 11:39:57 +0800
+        bh=xaBQcyvWhB0cz+X9HCEzHnyDC+TDtuFefgVmaYYwRlA=;
+        b=uT2JQmYi/HfwM+fbixJ74++7HgxrZKyR1Sl21MQFKeNQPCf4MukkryDnsuAS34h/sd
+         lxYGgPO4p8M7guGVpAsBQ644Vh7Kva3ov9pm9ISyg2kk9bVBxulHqeaUu3JRNHBDypY1
+         XdJCwVlOg3qpiooDOqrc1psMbtZopos/srwFQofgnZGzHOvDikgbOfK/gYWM9x8yr8c4
+         y0iBvHl7Wlj8+gZKmVmrgiCRcLu6bGRtYvsB+v+3z96OIwoLGFfo5VwEWPgoc7b6CqAx
+         YFlsYsPOULkHh/ZjtXCZ5uoNZd0DiCSOOmbLDOI+rcSBe/k3pz2Q9dpsw8Qweb9VhVvR
+         1+tg==
+X-Forwarded-Encrypted: i=1; AL+hErFjaLYL/lFfwzcVtlJQ0ZnuojlDrxyjfrgruzvZLGoTjUSRFMfzLNzq9JbAKOO4ZtnKxpPA+iO8wExYww==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9usNy9e0+JcCfEOAA/L4sGzO4Jsy40YlLppzn9VrMfQpoefvFI
+	X/vWoDibRsFfE1pTHhaWoNy45I9nDZPNjWNyIl8Yuifio/uMg2qG6gpb
+X-Gm-Gg: AYBFou0zQbwVBo3XCzaGQQZv4SwRCNoNslEemkWgUxm9te3WrGdRFg8cXzJ4WelRuwz
+	KR0a4Ey8F3Rdcdd6LgYBrz6j50HhqaJIFYotG1ryYivFIyAsarAmV3Rd7idu1Iw34g01dQXcisj
+	ElVc29CGPoGIRmNf7iuJ8GpL6lkt9iTpceNarlUda/t8xkWky/rRdP0BVYkX3RTMJJ65tMKGaR3
+	DdEGf6g/tlMC/PUJ0zwNY+Jgu3RcZi/K6IBzRJJ/PSY411Z80ZxtK9DFBbI2IyherzkQLJxKOMB
+	cTMocceervF/5IwW5IS+0pmKxA6Fpv5Al2aEDrsuFodckrHZ7kaK3GcChOMiu7mMUqMEVYW3mIA
+	CibIuUxmHZLbH2LmSYrC35AYrahgZojsGHlUQcecYDuNsQL+h0VZepomjNlM94xE9SJXBx7BN8G
+	lGVc8JeXHfq9CAPpo4hpki93xpsKdAiaNLtKEj7XP9PxBimql7C5Cba1z6679QYAXexmlwDebzK
+	d+SP71xLLQfhJf6KqsCdMzyjtH9wQBuhN0yMPtyVu3jVxnPojIJuui0FowQhtYqEv+UW9eDthb8
+	rvqoRx4+0PZlsLuQV4AsHTMQDxUk8+NI9T9mmpzA8qhQRyMC
+X-Received: by 2002:a05:6a00:908e:b0:880:78ca:8400 with SMTP id d2e1a72fcca58-8beb58bcc22mr12493288b3a.12.1794888821899;
+        Mon, 16 Nov 2026 20:13:41 -0800 (PST)
+Received: from hj.. ([163.239.22.29])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a902esm4414882b3a.16.2026.11.16.20.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 20:13:41 -0800 (PST)
+From: Hyunjung Ko <hj351016@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Oder Chiou <oder_chiou@realtek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Hyunjung Ko <hj351016@gmail.com>
+Subject: [PATCH] ASoC: rt5665: do not block workqueue if card is unbound
+Date: Tue, 17 Nov 2026 13:13:23 +0900
+Message-ID: <20261117041323.4010546-1-hj351016@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -92,97 +100,92 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: nau8310: Add support for NAU83G10
- amplifier
-To: Mark Brown <broonie@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- alsa-devel@alsa-project.org, kchsu0@nuvoton.com, sjlin0@nuvoton.com,
- lkp@intel.com
-References: <20261109051251.471879-1-YLCHANG2@nuvoton.com>
- <20261109051251.471879-3-YLCHANG2@nuvoton.com>
- <179425369963.3711751.8538085283431158098.b4-review@b4>
-Content-Language: en-US
-From: YLCHANG2 <neo.chang70@gmail.com>
-In-Reply-To: <179425369963.3711751.8538085283431158098.b4-review@b4>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Commit 4561d07d897f ("ASoC: rt5665: cancel jack detect work on removal
+to avoid use-after-free") added cancel_delayed_work_sync() for
+jack_detect_work and jd_check_work on shutdown and remove. However
+rt5665_jack_detect_handler() and rt5665_calibrate_handler() busy-wait
+inside the work callback until the component is bound, the card is
+instantiated and calibration has finished. If such a work item is queued
+and the device is then unbound before the card is instantiated, those
+loops never make progress and cancel_delayed_work_sync() blocks forever.
 
-On 11/10/26 03:48, Mark Brown wrote:
->> Add support for the Nuvoton NAU83G10 audio amplifier.
->> The NAU83G10 is a mono boost Class-D audio amplifier with
->> integrated DSP and I/V-sense support.
->> +config SND_SOC_NAU8310
->> +	tristate "Nuvoton Technology Corporation NAU83G10 Mono Boosted Amplifier"
-> This handles NAU83G20 as well.
-Got it. I will update the config description to include NAU83G20 in the 
-next version.
->
->> +static int nau8310_dsp_idle(struct snd_soc_component *cp)
->> +{
->> +	struct nau8310 *nau8310 = snd_soc_component_get_drvdata(cp);
->> +	struct regmap *regmap = nau8310->regmap;
->> +	unsigned int idle_pattern, timeout = NAU8310_DSP_IDLE_RETRY * USEC_PER_MSEC;
->> +	int ret = 0;
->> +
->> +	ret = regmap_read_poll_timeout(regmap,
->> +		NAU8310_RF000_DSP_COMM, idle_pattern,
->> +		idle_pattern == NAU8310_DSP_COMM_IDLE_WORD, USEC_PER_MSEC, timeout);
->> +	if (ret) {
->> +		dev_err(nau8310->dev, "Timeout waiting for DSP idle state: %d", ret);
->> +		nau8310_sw_reset_chip(regmap);
-> If you need to reset the chip you should probably also resync the cache,
-> and there's some redundancy here with nau8310_software_reset().
-This reset function only resets the internal state machines without 
-clearing the register values, so a cache resync is not necessary.
-I will remove the redundant function in the next version.
->
->> +int nau8310_dsp_init(struct snd_soc_component *cp)
->> +{
->> +	struct regmap *regmap = cp->regmap;
->> +
->> +	nau8310_sw_reset_chip(regmap);
->> +
->> +	/* wait for the power ready */
->> +	msleep(120);
->> +
->> +	regmap_update_bits(regmap, NAU8310_R1A_DSP_CORE_CTRL2,
->> +		NAU8310_DSP_RUNSTALL | NAU8310_DAC_SEL_DSP_OUT, NAU8310_DAC_SEL_DSP_OUT);
-> NAU8310_DAC_SEL_DSP_OUT is used by DAPM, you might want to solve this
-> the way nau8360 does.
-Got it. I will remove NAU8310_DAC_SEL_DSP_OUT from here in the next version.
->
->> +static int nau8310_biq_coeff_put(struct snd_kcontrol *kcontrol,
->> +	struct snd_ctl_elem_value *ucontrol)
->> +{
->> +	struct snd_soc_dapm_context *dapm = snd_soc_dapm_kcontrol_to_dapm(kcontrol);
->> +	struct snd_soc_component *cp = snd_soc_dapm_to_component(dapm);
-> This is the same issue as was fixed in nau8310_clkdet_put() in this
-> version.
-Got it. I will fix it in the next version.
->
->> +	/* Boost Control Target Value Limit. 0.16 V per step. */
->> +	SOC_SINGLE("Boost Target Limit", NAU8310_R17_BOOST_CTRL1,
->> +		NAU8310_BSTLIMIT_SFT, NAU8310_BSTLIMIT_MAX, 0),
-> The binding describes nuvoton,boost-target-limit/-margin as having
-> 0.19V steps - either that or the comment here is wrong.
-Got it. I will fix the comment/binding to match the correct value in the 
-next version.
->
->> +	ret = nau8310_clock_config(nau8310, fs, nau8310->mclk);
->> +	if (ret)
->> +		return -EINVAL;
-> Just return ret in case it's more descriptive.
-Got it. I will return 'ret' directly instead of -EINVAL in the next version.
->
->> +static struct i2c_driver nau8310_i2c_driver = {
->> +	.driver = {
->> +		.name = "nau8310",
->> +		.of_match_table = of_match_ptr(nau8310_of_ids),
->> +		.acpi_match_table = ACPI_PTR(nau8310_acpi_match),
-> We don't need the wrappers for these pointers these days.
-Got it. I will remove the wrappers (of_match_ptr and ACPI_PTR) in the 
-next version.
->
+calibrate_work is scheduled from rt5665_probe() but is never canceled, so
+on unbind its handler can also run against the devm-freed rt5665_priv.
+
+Reschedule the work with mod_delayed_work() when the card is not ready
+yet instead of looping, and cancel calibrate_work on teardown too, as the
+sibling rt5682 and rt5668 drivers already do:
+
+commit 4c33de0673ce ("ASoC: rt5682: do not block workqueue if card is unbound")
+commit a6d78661dc90 ("ASoC: rt5668: do not block workqueue if card is unbound")
+
+Found by static analysis and code review; not runtime-reproduced (needs
+RT5665 hardware).
+
+Fixes: 4561d07d897f ("ASoC: rt5665: cancel jack detect work on removal to avoid use-after-free")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hyunjung Ko <hj351016@gmail.com>
+---
+ sound/soc/codecs/rt5665.c | 30 ++++++++++++++----------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
+
+diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
+index 4f7b13571369..27744497033a 100644
+--- a/sound/soc/codecs/rt5665.c
++++ b/sound/soc/codecs/rt5665.c
+@@ -1194,19 +1194,13 @@ static void rt5665_jack_detect_handler(struct work_struct *work)
+ 		container_of(work, struct rt5665_priv, jack_detect_work.work);
+ 	int val, btn_type;
+ 
+-	while (!rt5665->component) {
+-		pr_debug("%s codec = null\n", __func__);
+-		usleep_range(10000, 15000);
+-	}
+-
+-	while (!snd_soc_card_is_instantiated(rt5665->component->card)) {
+-		pr_debug("%s\n", __func__);
+-		usleep_range(10000, 15000);
+-	}
+-
+-	while (!rt5665->calibration_done) {
+-		pr_debug("%s calibration not ready\n", __func__);
+-		usleep_range(10000, 15000);
++	if (!rt5665->component ||
++	    !snd_soc_card_is_instantiated(rt5665->component->card) ||
++	    !rt5665->calibration_done) {
++		/* card not instantiated or calibration pending, try later */
++		mod_delayed_work(system_power_efficient_wq,
++				 &rt5665->jack_detect_work, msecs_to_jiffies(15));
++		return;
+ 	}
+ 
+ 	guard(mutex)(&rt5665->calibrate_mutex);
+@@ -4652,9 +4646,12 @@ static void rt5665_calibrate_handler(struct work_struct *work)
+ 	struct rt5665_priv *rt5665 = container_of(work, struct rt5665_priv,
+ 		calibrate_work.work);
+ 
+-	while (!snd_soc_card_is_instantiated(rt5665->component->card)) {
+-		pr_debug("%s\n", __func__);
+-		usleep_range(10000, 15000);
++	if (!rt5665->component ||
++	    !snd_soc_card_is_instantiated(rt5665->component->card)) {
++		/* card not instantiated yet, try later */
++		mod_delayed_work(system_power_efficient_wq,
++				 &rt5665->calibrate_work, msecs_to_jiffies(15));
++		return;
+ 	}
+ 
+ 	rt5665_calibrate(rt5665);
+@@ -4840,6 +4837,7 @@ static void rt5665_i2c_shutdown(struct i2c_client *client)
+ 		disable_irq(client->irq);
+ 	cancel_delayed_work_sync(&rt5665->jack_detect_work);
+ 	cancel_delayed_work_sync(&rt5665->jd_check_work);
++	cancel_delayed_work_sync(&rt5665->calibrate_work);
+ 
+ 	regmap_write(rt5665->regmap, RT5665_RESET, 0);
+ }
+-- 
+2.43.0
+
