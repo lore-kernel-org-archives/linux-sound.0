@@ -1,45 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794957466;
-	b=v09L5c2Yo0zJcfyVbjW8Tcw4ZtEzNEYKUW0dqFHZjc9GvrGXr2yP6AD5PPwi7hinID+3
-	 U0ePACMwobuJdR90LWAWeCdJR7jKoWaPcs+iZ6aLy2mrtVfd1+CljfqMCHC1ng1O9W6u7
-	 fGghp3rn2MmbxvhEo0Wgifrh3XGCSKeBjnzPPQeJc8kkAJDmCm3aVCHrzAZRIZHEUO22n
-	 bPYrX4tiSF7TRNZ+dTXwG5x7DdOL/jtZ2dX+mcccrJSCctl0o4EsmVA/I54qX+YLGJPSo
-	 O2YalacuqaVPGB7CyzB6Ou+UQMO6HHzw6GSb8cuV+I/MTLo/xASdOhFgmblZL74QoVA==
+	t=1794958762;
+	b=GXrHR+UVvqjH9bcux+MiZ63BFxpBFonmEiVzyELok8yAOVjt7+6pQ2K1n1Q+tVWPP8X7
+	 Ul0H/n1YrIl7GDmIHkztW0IfU37FrXRGY+r0Ns6N4bSiuMYOHN12ss8yUnh6e/CFcEsug
+	 kTkyRoUQBWcyhk6xnETMyh+IZ6xwzHSx5IXYoAjK8Gj/O1H7sCWPX4DCZBc5eCbxkfcbK
+	 0ZkENm2oaH/pttCp9YGPkq3IUi55bvMH33nV6s89fefv5bzPTxovf0usQaeoQ/7iJHOiF
+	 xkFcdjfgDn+ViBM+Rg4xoo8Ngo3MCRuH6Qm29BL8q1pqDU7+OscTjbjtav37b4UrnDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794957466;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=glRxYCcN3SAkjrdd4zWA5HRb107KHbueK2xhJQ3L+xg=;
-	b=qxv8UmYhma6MVg75NXDVD6mR6D05C6/0b7eT53hQP9mzmGHD169Oe5tIvEAq5Ro9IVXU
-	 sJQDQMQfURh3zpfh89jKXJn6WoNDlZlSfj4jVqiEsoBNTv4OtXQV7YJ0+S6t4fdltMC+j
-	 ndbr4H5DZYiZKmMH3iJVHQVSXzor+z9GZ880GGOKNRhtePptEpAhGCTmc441H8dQlQwZA
-	 Q5+oSOqTs4eFYq93U0dFNbGU16plKDOa7BZhtYm2BLU7SNoK4n1/PimnI70/pKI5116di
-	 2zAKLrasbVhjhwJL0wa9pVwzfGnJCFath7H5gUfyQ+41+7q0rBHPYAmtlRUYUizxWDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794958762;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=wkFBKPQXTtUyZziZ1ANq/sgDTGMxbX4P5wGnOw/2HDw=;
+	b=u83rQgSitu3/3/9IVygLBsi0g22uGfgvJJQyPhB6RwqxwP8t1NT9E4MFyKEEwxH80baU
+	 uwZ/ctg/Dfl0vLlkGc8NYb+5B23irnyiYbdcgcRbQhw957MRa+Ks6xVglF0+SkgImAYLt
+	 V0p4N7Lp27eh9M2I8UxDB+j8/C8izvv8VssfrHSOcwlyCge98l0E0Ad+w6cwnmy8oFzdy
+	 yojwH2fR37gHk1F8HpyRcb9QuG8YilzjZLusNPZUc6y8aQai6mRKfvjQ4EpKxYHr9pqfx
+	 Xd5yuFoN3K7L/viqZgHcVbeiMEXkoD3t/FamZ9/dzbQFaTohdLzujzdohi5HtCZX0Iw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F3peEo4W;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hz27g2RL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98951606A31C;
-	Tue, 17 Nov 2026 23:17:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D003606A31C;
+	Tue, 17 Nov 2026 23:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F3peEo4W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3471F000C4;
-	Tue, 17 Nov 2026 23:17:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hz27g2RL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D98C1F000C4;
+	Tue, 17 Nov 2026 23:39:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794957466;
-	bh=glRxYCcN3SAkjrdd4zWA5HRb107KHbueK2xhJQ3L+xg=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=F3peEo4WgXuV5hQ1+AKe2G7VGXbN7ELA81lbQV5I4kSHJBJuhdgXHHqXd+hQCgi8Z
-	 Pdj9Yk5spwvTunIRypexbvmoGarJ1UZYfEi+z9fdEEU0CjFeZpdoSWGH5t5V8FkIjp
-	 b40S9EldAaFQkW+/6HMJVciKRDq7Pn36cJYHVT6Pb6CnS4SjeDAHq7Id/52M3Oy0x3
-	 xAp5zrthdQwTAwnZaKMFtJFD+PeP76X1nK2xCmiFQOvqIEtx30pu8HPYCdfEh03g39
-	 SKzQR6tQKvG8CtT2MflPCeuFDQEaJBAwFdVkcQxOL2h3kWr7PW6nWdCWa6EPb3NCab
-	 n+SdhrjHahXrw==
+	s=k20260515; t=1794958762;
+	bh=wkFBKPQXTtUyZziZ1ANq/sgDTGMxbX4P5wGnOw/2HDw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hz27g2RLMQHpLHwHyl8zLPWJobmOAbmeJyum5J3YQgBThZJqFGaSKAL45IRRe54BA
+	 4+sefngXTsZMNuUWI1UBCTVT9nA4NQItirkXGnYHTWODm9ZNJCP7YsmUEDN548fg0L
+	 aXRNFSEmInI0FTH/WHNbRKl3pLqIz7+XWVzl9qDEHtq81IUvVuiVJnP8bi+WYKRc9E
+	 AfQARqRfpd+fO2gKcgijojor7sQskF56om6vbbvlI2TTV6+Z4Z+f3AwFlXuIGmXIpD
+	 F4eI2kMDMY8GWgYCfDdPnnlDoNSJB9xige8Fa+kd0ALzIcfaB6W2nsI3KlNGn+WRsF
+	 2RYJqf2XUr+JA==
+Date: Tue, 17 Nov 2026 23:39:17 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: johannes.goede@oss.qualcomm.com, Ted Vera <tedvera@gmail.com>,
+	linux-sound@vger.kernel.org, Yauhen Kharuzhy <jekhor@gmail.com>,
+	regressions@lists.linux.dev, oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: ASoC: rt5677: Do not apply Yoga Book ACPI GPIO mappings to Samus
+Message-ID: <51903d75-8831-4e2f-9b25-92deb979f5a7@sirena.org.uk>
+References: <CAFd_G9guhtVwE1aaFOXE3Ab43BAcwP3RBT=R_SdZ2KDfXB=LeQ@mail.gmail.com>
+ <d5ece1f3-b70b-4c70-aa52-cd0d00253ea5@oss.qualcomm.com>
+ <c0da379f-e10a-464d-b01a-d65e0e07e5e6@linux.dev>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -49,58 +62,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 3/4] ASoC: SOF: report volume changes in mixer steps
-From: Mark Brown <broonie@kernel.org>
-To: Arnav Kapoor <kapoorarnav43@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261117105953.188645-4-kapoorarnav43@gmail.com>
-References: <20261117105953.188645-1-kapoorarnav43@gmail.com>
- <20261117105953.188645-4-kapoorarnav43@gmail.com>
-Date: Tue, 17 Nov 2026 23:17:38 +0000
-Message-Id: <179495745842.2707353.6764300085755200722.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1223; i=broonie@kernel.org;
- h=from:subject:message-id; bh=b0C4iU9LsFLLVskI9/JhFzqXZEfIgZbhQ6JydxsTHHI=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+PJj2Y3XH87eHm57VL9/b/fAbg6CfmvgjFs7pGoqmP
- zM+qyqpdJSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiAUcZGS6lTWKxEXsksdvx
- y3e7E9rP9R99DF/jH+TjOPe3DPuz42EM/+PttywSc9KTO3bn2gfXpZ2xEW1bjsvsa8kUPSV5efX
- cd/wA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SjdPSLczvmqMTBs+"
+Content-Disposition: inline
+In-Reply-To: <c0da379f-e10a-464d-b01a-d65e0e07e5e6@linux.dev>
+X-Cookie: Marriage, n.:
 
-> The IPC3 and IPC4 volume_put() ops decide whether the control changed by
-> comparing the new linear gain from the volume table with the stored one.
-> The stored gain does not always come from the table: topology loading
-> initialises it to 0 dB (VOL_ZERO_DB or SOF_IPC4_VOL_ZERO_DB), and
-> volume_get() reports that as the first table entry at or above it, which
-> is usually not exactly 0 dB. Writing back the value that was just read
-> then changes the stored gain, so put() returns true and user space gets
-> a change notification although the control value is the same.
 
-> @@ -180,10 +180,12 @@ static bool sof_ipc3_volume_put(struct snd_sof_control *scontrol,
->  
->  	/* update each channel */
->  	for (i = 0; i < channels; i++) {
-> +		u32 old = ipc_to_mixer(cdata->chanv[i].value,
-> +				       scontrol->volume_table, scontrol->max + 1);
->  		u32 value = mixer_to_ipc(ucontrol->value.integer.value[i],
->  					 scontrol->volume_table, scontrol->max + 1);
->  
-> -		change = change || (value != cdata->chanv[i].value);
-> +		change = change || (ucontrol->value.integer.value[i] != old);
+--SjdPSLczvmqMTBs+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-You need to compare ipc_to_mixer(), there can be duplicated steps.
+On Tue, Nov 17, 2026 at 06:34:24PM +0100, Pierre-Louis Bossart wrote:
 
--- 
-Mark Brown <broonie@kernel.org>
+> But the open is whether those GPIO mappings belong in the codec driver?
+> Back in 2017 (!) Andy moved the Samus mappings to the machine driver
+> bdw-rt5677, why not add those YogaBook mappings to the cht_rt5677
+> machine driver?
+
+> Looks like the addition of those mappings for the YogaBook didn't follow
+> the Samus precedent, now we have two different ways of doing the same
+> thing even though the codec is the same...
+
+If the GPIOs are for LDO enable and reset those sound very cleearly like
+something the CODEC should manage, the CODEC driver needs to know what's
+going on there and those devices are used on non-ACPI platforms.  So too
+do jack detection signals, but possibly the GPIO usage here is intended
+to be as extra interrupt signals since it looks like the device has
+integrated detection?  That'd mean a separate per-platform mapping.
+
+--SjdPSLczvmqMTBs+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr85aUACgkQJNaLcl1U
+h9A2Gwf8D4EKk70pupTjkgmJDPNl6uX67k9wZaLEj1G+SkItsKPsDGhKxjcqvj3i
+5cZuFPcU5naDPdhPKxYVziEyBEHrcLxrUw+Xd7ltaOJK+8XKspX4nxYcQpL058iq
+ryO21QROwCbcss5oR8Ymxiu2mzts4qsv2xy37gwt2KURLQrHBGHZe2QVPRPRtvD3
+ER+gv3D6/5181H7UDyRza2UcqaRJNl7Oc43GjWlqaCcXqmtpxS4L8wUwdqGBiTYU
+7kHNWMKFaLSSnPEdkzakzy5MOL+b3UBy1XfqKOYYelVhIt5tLv9032h5PtX+jp3z
+XbBcVbwfHf5dQ4n2FXBze49iWeME2Q==
+=rJdv
+-----END PGP SIGNATURE-----
+
+--SjdPSLczvmqMTBs+--
