@@ -1,92 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=219.87.157.213
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794978343;
-	b=WAxItr0nnwEqjZ+iZaxNmbucliP9GhTz+di4XuPVD/3oi4THUx02e8c0Qv1PSZ5Vrn3W
-	 RUI43KNNiQF5cyCTZqw1CloMih7Bc1O1UtE5ouyxv7zFSpqdnEF8qiaC+7B74S3VUlLuJ
-	 1GNGiecCXgPOWDnqWGXPrceRbGm6cRHBw6c5YYVKUZOVeMmwBcuQe/6NutsZ9DlIjf0Ue
-	 /PhmEAX2yqTgUzDmQUrbwTsyKStu1e7ZsYVJtx/hwg1IUPoMiOY9vLSnsuRV63dF7lNVy
-	 u1EAROitADOoH0ZG+tSy5ahv8uKerjmFaMPSgIqrrSuTaymawGE7LrCfcKEDW/BqGHA==
+	t=1794978559;
+	b=iG7xZFfpBfsfA3HdLB3eDIkSmhycyutVlJdU/OiWMLaWyEb/PryAHGlmCfifpyjZUwMc
+	 H4CxG/clfN8ZLP85iOPB15Z9Thm3coBDOgIsPG+pDr7OxqkzL0Wrb9SIkKZ9pSjsx/Z0o
+	 yYZ1v96WiPJLcbmMEVqljC8HLRWMx0tpn2qpqK7N0LU70AxN8XomXeNtdG9XF1VekooJA
+	 0cz9J1s7MjWESCWleOqrbS++3FAxFrgeeOuid2SLpQqqWWx/ruqXl/VqJxX/Ch0Z04TfT
+	 B1vKgsnPrlS6EOd67zZC3RuozZ4i7aS1G3JJnMq32095UGkuDOD52z00brgewLr3dIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794978343;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 Received:Received:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-originating-ip:x-tm-snts-smtp:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-MAIL;
-	bh=niL/66HcQYfGiv+TPYu+CovP2Oq0rJ3Fl4O5tMwyo68=;
-	b=qzMo/sEI+vjWewoIPuSV3Z1yKwRsgGxTbkx7lTrwtLQbO+XCv/jsObLETYR/gKvcybpE
-	 XUafoPP1D7q1VVfk9/VpE00SHGvsKPlkAzr9IiuyzOHayiCKrM+HgVz+wjum6d+80w560
-	 i84ycNzVSv4+bi7lWSdAaYCYSUdhEuqJAyXWRmHJAzv7dXpQqXagedONWTt+4Q6IGXvxF
-	 aqibDhOWT/KgpIqZf0a4vJ1iFp4L72cIOEKnQY4EZ6C7MelVB1psnpWP1Ai/c3oFZ+CDH
-	 vDCm3Zzwz03mv+HcEuoGAHTWnCw/+MY61dyxnb7CNwYuevFnbUrUPg+1vPHuEUOBZfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794978559;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=GDWt7Xx8f2hrTHrvXOUqAMcvT8tyJ1b4aUv40Hj2kOI=;
+	b=IdxdtElRtA2znrNlB5iuMzS2pZgWdYSxWsG6xveiKuKzXKXHRfu3h2/2xs1dpad9gLtI
+	 0MtX6q8ODDOXfGXj0twTCwnfxbQZsJGSckpYkjON/CWcbUbHqD2NKwI1Ym5hiYiuEPLCt
+	 wi/i5OU2aGfh7yLDRr9c/u5830aLpUOO8nV4UYydi3ocDAeip/oeFG3zRx9qILEPpAq6n
+	 KIFOa8I6lcMvl4EHhR6QZTiI0y1R2MyG6riY9YoboTi48VCGBGt5k7FBKImNpcyOSzUnU
+	 M61dsSb+EhlNPTKeytLerQBMDg2lNHuzKgZWXK51vLnRm3e9u2E2A1G0iqFE5Fp+MkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ite.com.tw;
-	spf=pass smtp.mailfrom=ite.com.tw;
-	dkim=pass header.d=ite.com.tw header.i=@ite.com.tw header.a=rsa-sha256 header.s=dkim header.b=FsGb51LQ;
-	arc=none smtp.remote-ip=219.87.157.213
-Received: from ironport.ite.com.tw (unknown [219.87.157.213])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=telaak.dev;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.215.175
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B09606A31C;
-	Wed, 18 Nov 2026 05:05:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43B09606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.a=rsa-sha256 header.s=dkim header.b=FsGb51LQ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=ite.com.tw; s=dkim;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=niL/66HcQYfGiv+TPYu+CovP2Oq0rJ3Fl4O5tMwyo68=;
-  b=FsGb51LQ/RKVjK/nuNsStcVypaHOTe6x0fHEXJI2NlHkAQxO/6mESi8t
-   JhybBRNwKbyEiLFxxNtMRi6rCnwJM9FIfW/HgAgFnTr+y0vwTRGW19KA9
-   fhPaLEYDBwgR8YfmvLfOdU+ctG0RWVxpnDne/iLBOJJrItc9i83vEie8m
-   Ymi9ZHlZH54OdhC6ZSsP2Fm+lLnRjoVqVyKV0iPw0uRrokJypKMCkLwQw
-   von89QR2Dt7zXXQbpwI6h1xknb0iJvcASEmnHioKtGpRaynwdkWar0Hox
-   zfBjm7qaydvsh5DISa6q+ZM7QsYKA1B2gDK4irQQ5SNlmd+Lw7uDl0zQX
-   Q==;
-X-CSE-ConnectionGUID: 3NBhzDxdTXu0g35DtVtuBA==
-X-CSE-MsgGUID: cAQN69FkRqSfn9+S4FIXww==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
-  by ironport.ite.com.tw with ESMTP; 18 Nov 2026 13:05:39 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw [192.168.15.58])
-	by mse.ite.com.tw with ESMTP id 6AI55XPM009808;
-	Wed, 18 Nov 2026 13:05:33 +0800 (+08)
-	(envelope-from Hermes.Wu@ite.com.tw)
-Received: from TPEMAIL1.internal.ite.com.tw (192.168.15.58) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Wed, 18 Nov 2026 13:05:32 +0800
-Received: from TPEMAIL1.internal.ite.com.tw ([fe80::63c1:9095:c5a6:3291]) by
- TPEMAIL1.internal.ite.com.tw ([fe80::63c1:9095:c5a6:3291%3]) with mapi id
- 15.02.2562.046; Wed, 18 Nov 2026 13:05:32 +0800
-From: <Hermes.Wu@ite.com.tw>
-To: <hverkuil+cisco@kernel.org>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>
-CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <linux-api@vger.kernel.org>
-Subject: RE: [PATCH 2/5] media: Documentation: it6625: document the audio
- controls
-Thread-Topic: [PATCH 2/5] media: Documentation: it6625: document the audio
- controls
-Thread-Index: AQHdcdX93RoL2u2CFUyeme408I10pbczUFWA
-Date: Wed, 18 Nov 2026 05:05:32 +0000
-Message-ID: <4b85b91fba654ab18c2d5afd1820e473@ite.com.tw>
-References: <20261103-upstream-it6625-alsa-i2s-v1-0-bb91e2879b01@ite.com.tw>
- <20261103-upstream-it6625-alsa-i2s-v1-2-bb91e2879b01@ite.com.tw>
- <a554e557-3d10-465e-ad3b-90d8357b60f2@kernel.org>
-In-Reply-To: <a554e557-3d10-465e-ad3b-90d8357b60f2@kernel.org>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-snts-smtp: F9F7769ED813F902E0C8B49A24F5A47D5679E3D240F4F49702DF0BCE5CEBA6692002:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384C0606A334
+	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 05:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 384C0606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cdb1199bfd8so321288a12.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 21:09:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794978558; x=1795583358;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GDWt7Xx8f2hrTHrvXOUqAMcvT8tyJ1b4aUv40Hj2kOI=;
+        b=nE1xMeuigYBln2bmibqVN65jk9D263RFCIzzTAY2E7IdUY0ikDE11i7V/OhvoVzmR8
+         FHzD8+igfmS/cwXMgjvcbv+vXq+Rx13Np2UcNrQa82WcmHc1h6n/gzwU8Co1TGgSjNKN
+         qv7fdl3nfCOjRRtFtQER+Ngbm9n9K3ujOXLPNEoKM0K2yErHiAVvhiGPgume+shKLUPa
+         qiz4/nZ1YIgzjpl6HGrinhnYycrVCf7X2q8qlw/W8N0btD7HyCICulrE89DGK7UCzC39
+         hzDWYoC2cd4ZYUaE7lwmWm/6AseoGVlBzrX16KujhzyTCu3oNSwrCUpU4tf6WQkuteGB
+         /nYA==
+X-Forwarded-Encrypted: i=1; AL+hErGeshWHh5oFImLTaN314kQiPGXZBxdSjtMZ6WV80kMblIoXAUe8bA457o0ClCTGgDh/5vYXO2DrtGbKew==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/aRxl3XgdGZBvfpkoGdIjufNA/6fzfwqgyrrpxFq+NWVWrkw8
+	GKXDAoKnhrDOY/IME4dhFeFCWScAgMntmTU6qj7wUIO3A0vRnPUJomg7QfYVYOl6
+X-Gm-Gg: AZFdTZf7dejVlaICrAAkLHRW6HvI5TRk5XeWqPBuzi9GjfI/1W1nKvX6DBmNq5P7I/X
+	ATAvbN8+Ano8m+U2ZKhA7yHWggmrWNDuYN/h2BiXZsRMk4BmctSrnGos9SjDF6YaFHN5+7H0BJb
+	NzDBcYo5C0iDwqDKDFk0f7kyNIbL2gnSJKXhlnIQ9z5daeW8tmX50X2Ylg3Hwg+AiphzHk6f/Pu
+	+fRIX4atRoAkZB/rGRDgbh2JwO6lNpKHbb5RJSPFxFfeu6x94ADIiv69TghADFvbO3ETlATQ541
+	18UQjz48Gp5lVaocAnapX1ca1p2oouQk9Ne3FQI1oQPTfheYcN9OlIA5iTTfTRJzfUHYVvOEC0i
+	zA8Zo90Lo/knDjErw2ESyqT/+DJTlJkrxmzEREXG0t6EMj/HnaRj27+Cvt/sgqVh2A2RETeOgy5
+	DGDXR753oEmsIOJrAmEjcUa7ky1MyntF0bA0ozj1JGKr/hEpcIvT/rxzwQhYOGYeVRG6LzfTSXh
+	1vTQQFqOSp1RHjT0eAJrGxWqa0A5xjgEQR2A5ll+amRzxI+eb2EvNONCsfTah3Sx5tZaN2i65qh
+	qF9NKW2zP1fMNs8907aZe51iqau+QUniNNYsp/L2kOLbJ7B9z5gG/3rizvtETzvd1mBafmLADJB
+	oX4CF3quiHmzh6XjRudhYaSVe5H0F4nc50LYiOaTPijS+
+X-Received: by 2002:a17:90b:3c83:b0:3ae:898e:a123 with SMTP id 98e67ed59e1d1-3b3d074cb2cmr1626052a91.14.1794978558432;
+        Tue, 17 Nov 2026 21:09:18 -0800 (PST)
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com. [74.125.82.175])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3d1c03e04sm2130894a91.15.2026.11.17.21.09.17
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 21:09:17 -0800 (PST)
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36eb1cb7aabso932926eec.0
+        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 21:09:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErETFDi7r4Zg4xJ3JZExVXMVdRO719HqOPr5VG0BnJqnEpYFrXS/IVbk7XEIH+n68XVE8wdbkByQvzfcCA==@vger.kernel.org
+X-Received: by 2002:a05:7301:710e:b0:36c:3b8a:8090 with SMTP id
+ 5a478bee46e88-3827db0e75bmr1699348eec.2.1794978557201; Tue, 17 Nov 2026
+ 21:09:17 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,54 +81,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MAIL:mse.ite.com.tw 6AI55XPM009808
+References: <20261116-omap-mcbsp-tdm-slot-v1-0-6c9f7aa45a29@telaak.dev>
+ <20261116-omap-mcbsp-tdm-slot-v1-2-6c9f7aa45a29@telaak.dev> <179495350668.2707353.9603940609466130588.b4-review@b4>
+In-Reply-To: <179495350668.2707353.9603940609466130588.b4-review@b4>
+From: Joseph Telaak <joseph@telaak.dev>
+Date: Wed, 18 Nov 2026 00:09:05 -0500
+X-Gmail-Original-Message-ID: <CAPY4CJ4QAvENNYMNz0vfjhwGPi8HMUJO8M3G0zBcxn6nBd1SrQ@mail.gmail.com>
+X-Gm-Features: Aa3M54rshe7OANZPuVP9PlNMTTXkt0PN_Sfmm0dIkeYRICbDlqlKakJADXPsyNc
+Message-ID: <CAPY4CJ4QAvENNYMNz0vfjhwGPi8HMUJO8M3G0zBcxn6nBd1SrQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] ASoC: ti: omap-mcbsp: Implement set_tdm_slot
+To: Mark Brown <broonie@kernel.org>
+Cc: Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgSGFucywNCg0KT24gMTEvMTEvMjAyNiAxMzoxMiwgSGFucyBWZXJrdWlsIHdyb3RlOg0KPiBX
-ZSBuZWVkIHRvIG1ha2Ugc3RhbmRhcmQgY29udHJvbHMgZm9yIHRoZSBhdWRpbyBzYW1wbGluZyBy
-YXRlIGFuZCBwcmVzZW5jZS4NCj4gVGhleSBhcmUgYWxzbyB1c2VkIGJ5IHRoZSB0YzM1ODc0MyBk
-cml2ZXIsIGFuZCBhcmUgaW4gZmFjdCBjb21tb24gZm9yIGFsbA0KPiBIRE1JIHJlY2VpdmVyIGRy
-aXZlcnMgKEkga25vdyBvZiBhIGJ1bmNoIG9mIG91dC1vZi10cmVlIGRyaXZlcnMgdGhhdCB1c2Ug
-dGhlDQo+IHNhbWUgY29udHJvbHMpLg0KPg0KPiBTbyByYXRoZXIgdGhhbiBjcmVhdGluZyBkcml2
-ZXItc3BlY2lmaWMgY29udHJvbHMsIGNhbiB5b3UgYWRkIHN0YW5kYXJkDQo+IGNvbnRyb2xzIGZv
-ciB0aGlzPyBUaGV5IGJlbG9uZyB0byB0aGUgVjRMMl9DSURfRFZfQ0xBU1MgY29udHJvbCBjbGFz
-cy4NCj4NCj4gU28gdGhlIGRlZmluZXMgYmVjb21lOg0KPg0KPiBWNEwyX0NJRF9EVl9SWF9BVURJ
-T19TQU1QTElOR19SQVRFIGFuZCBWNEwyX0NJRF9EVl9SWF9BVURJT19QUkVTRU5ULg0KDQpUaGFu
-a3MgZm9yIHRoZSByZXZpZXcuIEkgd2lsbCBhZGQgdGhlIHR3byBzdGFuZGFyZCBjb250cm9scyBh
-bmQgc2VuZA0KdjIgaW4gdGhpcyBvcmRlcjoNCg0KICAxLiB2NGwyLWN0cmxzOiBhZGQgVjRMMl9D
-SURfRFZfUlhfQVVESU9fU0FNUExJTkdfUkFURSBhbmQNCiAgICAgVjRMMl9DSURfRFZfUlhfQVVE
-SU9fUFJFU0VOVCAocmVhZC1vbmx5OyB0aGUgcmF0ZSBhcyBhbiBpbnRlZ2VyIGluDQogICAgIEh6
-LCAwIHdoZW4gdGhlcmUgaXMgbm8gYXVkaW8gb3IgdGhlIHJhdGUgaXMgdW5rbm93bjsgcHJlc2Vu
-dCBhcyBhDQogICAgIGJvb2xlYW4pLCB3aXRoIHRoZWlyIGRvY3VtZW50YXRpb24gaW4gZXh0LWN0
-cmxzLWR2LnJzdC4NCiAgMi4gdGMzNTg3NDM6IHNldCB0aGUgc3RhbmRhcmQgY29udHJvbHMgaW4g
-YWRkaXRpb24gdG8gaXRzIGN1c3RvbSBvbmVzLg0KICAzLiBUaGUgSVQ2NjI1IHBhdGNoZXMsIHVz
-aW5nIHRoZSBzdGFuZGFyZCBjb250cm9scy4gVGhlIGl0NjYyNS5yc3QNCiAgICAgcGF0Y2ggaXMg
-ZHJvcHBlZC4NCg0KU2hvdWxkIHRoZSB0YzM1ODc0MyBjaGFuZ2UgZ28gaW4gdGhlIHNhbWUgc2Vy
-aWVzLCBvciB3b3VsZCB5b3UgcHJlZmVyDQppdCBzZW50IHNlcGFyYXRlbHk/DQoNCk9uZSBxdWVz
-dGlvbiBhYm91dCBJVDY2MjUgaXRzZWxmLiBJdHMgdHdvIGRyaXZlci1zcGVjaWZpYyBjb250cm9s
-cywNClY0TDJfQ0lEX0lUNjYyNV9BVURJT19TQU1QTElOR19SQVRFIGFuZCBWNEwyX0NJRF9JVDY2
-MjVfQVVESU9fUFJFU0VOVCwNCmFyZSBub3QgbmV3IGluIHRoaXMgc2VyaWVzLiBUaGV5IGNhbWUg
-d2l0aCB0aGUgZHJpdmVyIGl0c2VsZiwgY29tbWl0DQoxNDJlNWYwMGJkNTcgKCJtZWRpYTogaTJj
-OiBhZGQgZHJpdmVyIGZvciBJVEUgSVQ2NjI1L0lUNjYyNiIpLCB3aGljaCBpcw0KaW4gbWVkaWEg
-bmV4dCBhbmQgaW4gdjcuNC1yYzEgYnV0IG5vdCB5ZXQgaW4gYSByZWxlYXNlZCBrZXJuZWwuIFRo
-aXMNCmF1ZGlvIHNlcmllcyBvbmx5IGRvY3VtZW50cyB0aGVtLiBXaGljaCBkbyB5b3UgcHJlZmVy
-Og0KDQogIGEpIGtlZXAgdGhlbSBhbmQgYWxzbyBzZXQgdGhlIHN0YW5kYXJkIGNvbnRyb2xzLCBh
-cyBmb3IgdGMzNTg3NDM7IG9yDQogIGIpIHJlbW92ZSB0aGVtIHdpdGggYSBmaXggZm9yIHY3LjQs
-IGJlZm9yZSB0aGV5IGVuZCB1cCBpbiBhIHJlbGVhc2UsDQogICAgIHNvIHRoYXQgSVQ2NjI1IG9u
-bHkgaGFzIHRoZSBzdGFuZGFyZCBjb250cm9scz8NCg0KQWJvdXQgeW91ciBjb21tZW50IG9uIHBh
-dGNoIDUvNSAodGhlIGF1ZGlvIHR5cGUgY29udHJvbCBhcyBhIHN0YW5kYXJkDQpEViBjb250cm9s
-KTogdGhlIHZhbHVlIElUNjYyNSByZXBvcnRzIHRoZXJlIGlzIHRoZSB0eXBlIG9mIHRoZSBIRE1J
-DQphdWRpbyBzdHJlYW0gYXMgdGhlIGJyaWRnZSBmaXJtd2FyZSBjbGFzc2lmaWVzIGl0IChMUENN
-LCBjb21wcmVzc2VkLA0KSEJSIG9yIG9uZS1iaXQpLCBub3QgdGhlIGNvZGVjLiBJdCBpcyBub3Qg
-YWx3YXlzIGV4YWN0OiB0aGUgZmlybXdhcmUNCmFsc28gcmVwb3J0cyBIQlIgZm9yIHNvbWUgY29t
-cHJlc3NlZCBzdHJlYW1zIGF0IG9yZGluYXJ5IHJhdGVzLCBzdWNoIGFzDQo0OCBrSHogRFRTLiBJ
-IHdvdWxkIHByb3Bvc2UgYSByZWFkLW9ubHkgbWVudSBjb250cm9sOg0KDQogIFY0TDJfQ0lEX0RW
-X1JYX0FVRElPX1RZUEUNCiAgICBWNEwyX0RWX1JYX0FVRElPX1RZUEVfTFBDTSAgICAgIGxpbmVh
-ciBQQ00gKGF1ZGlvIHNhbXBsZSBwYWNrZXRzKQ0KICAgIFY0TDJfRFZfUlhfQVVESU9fVFlQRV9J
-RUM2MTkzNyAgY29tcHJlc3NlZCBhdWRpbywgSUVDIDYxOTM3DQogICAgVjRMMl9EVl9SWF9BVURJ
-T19UWVBFX0hCUiAgICAgICBoaWdoIGJpdCByYXRlIGF1ZGlvIHBhY2tldHMNCiAgICBWNEwyX0RW
-X1JYX0FVRElPX1RZUEVfT05FX0JJVCAgIG9uZS1iaXQgKERTRCkgYXVkaW8gcGFja2V0cw0KDQpU
-aGUgY29kZWMgb2YgYSBjb21wcmVzc2VkIHN0cmVhbSAoQUMtMywgRFRTLCAuLi4pIGlzIG5vdCBy
-ZXBvcnRlZCBieQ0KdGhlIGJyaWRnZTsgdXNlcnNwYWNlIGZpbmRzIGl0IGluIHRoZSBJRUMgNjE5
-MzcgZGF0YS4gRG9lcyB0aGF0IGZpdA0Kd2hhdCB5b3UgaGFkIGluIG1pbmQsIG9yIHNob3VsZCB0
-aGUgY29udHJvbCBkZXNjcmliZSBzb21ldGhpbmcgZWxzZT8NCg0KQmVzdCByZWdhcmRzLA0KSGVy
-bWVzDQo=
+> Will this do the right thing with a card like simple card that sets
+> the sysclk dynamically?
+
+No. A sysclk of 0 at open fails startup(), and later opens keep the
+last stream's rates. In v2 I'll only limit rates at open for a sysclk
+set outside a stream, as simple-audio-card does at init, and check the
+rest in hw_params().
+
+> it'd be good to validate the params against the current slot
+> configuration
+
+Will do. hw_params() will check the channels, width and rate against
+the slots and sysclk, and against the other direction, since both
+share the sample rate generator.
