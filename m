@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.8
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.31
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795015091;
-	b=YGV6t1FMk2FtwXRpuzV8GnaeYrncc5ACFBWA9tGEguOR5cZ2FdIRBpE0PhKlBQ7xA1qx
-	 pEvcZDgp9KDmbqQSpsu/x/3wRt+V+g0OWZeYoGi6ZFju1HPe/5nZlEfi9WaIS7bCFGE9n
-	 xykaJB7Qfpkd15dsQE5DclcMLRM69HJAdLvwIbxja9x0UksUysu3bF/j1jSSMNh3Rhks2
-	 3kWuDXJrT4BH/sUXcs8mimpH6PrgFZ22cmB1F+pw5M2FXNKF92IESi4W79qM7mG++bvVl
-	 CsJN6aMupWabFgbU4zUNaHtS/VCnJBp9j2AmGAfVTDHfFyC+SvKWKk3n8W49DxdN2sQ==
+	t=1795015093;
+	b=z51BBAb6jxf7JSDvmWoRiXYh/2C1/9+NzWCzplR4nT091ZzHIwAr4kWfROTu+m9jP0qO
+	 yKIqlcUFJIFG5oWTe62IW/6Q1NOs1LC1ftKjJXcB7p4uJMF8bGtRaaSlW0WUXLiCn3W+v
+	 h3xQe60Z6aPnF0+2vA3oHfeQ0cau/INc4MA2jkM6TLBdMMO8VO8OFvdoDnTewCth0jjAa
+	 YQjczIMqeZbMUgH8GEsbVaHn7/q092fWyV4uHRiSPe5TgNIlSWAgPkrY0BShgdHkpHqCo
+	 ow9vOUUzNtHXQWEnSyMMpdLPRYngLOunkJD+wtV0qV4xxdvgqagDNs/aBtIfTTzDE0w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015091;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015093;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
 	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
 	 Received:From:Date:Subject:MIME-Version:Content-Type:
@@ -26,35 +26,35 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=5/apfe6ZSUpael6tbmztgMY9njgpjW9dtz0USWVmYMg=;
-	b=U4jbdUd0ef3x/MsOnKtIqw0ZHsjWKGpPCgSP8M+cHNVXM+fAwq450cuMW4aJH6azKcGQ
-	 FudLazEM75YoMsGTGpjaZO3jGfxVFI3BDfnSU8wvuCwOseoPxHvc+IPmM4QaHoDvUCU0z
-	 5nX7uueSr1qxCwMKP/AiDjc80Fs5X2OiuqKM49xiBeBDkhorDoOVi6lo8Qt/ZEf5iNEbY
-	 CQCOqJx58wNTDvxAr0a+SKqtcQoSvfb77ErXIaBHDcmo6rf/gbFROKBBxV2snR1s/3ua5
-	 UuF9jVHVE3N0aCJmvJFOicQ4uVGYB0ht3ydTFVkmmRc7B6ufPlYkJhWamal2w9SgiIA==
+	bh=ue38d4wJQjL0sQHjAnJQYpbkHCQXhKI5nEkJUrB4zwA=;
+	b=aaNgnBhiFw71ne371ZxYsiKmshhYd/1sskL7t0IdfSZ5eieCxbbx6+pe4ULlFU9KlnTz
+	 WNbC38d4omCHK0Ittn9lpY1ZxptIFC8563fgXIScX2pyYz8aKHzc379gdSY48W9KX2g/n
+	 UHJDb5K6DyuLJiJpEfRaePDHCJVvnIWvCpAvpEw7iRQmqLXj3ewEYwCs4PTY2YmRzCuua
+	 4uW8Vl9K/rxFBtEXiVoCzqyomRWiDx6/CjYj5C5jgP/hOOh2sWjYrpchoJon5VjnPCQvt
+	 EWMkA4UPlo5h4OBJl79YEDCh+vcpfck1gD+676NjSOS3ug7W5/yPvHTbFIz7bE9Eh6w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=foss.st.com;
 	spf=pass smtp.mailfrom=foss.st.com;
-	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=oSVPKfEv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.70.8
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011008.outbound.protection.outlook.com [52.101.70.8])
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=E6TvIfBF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.72.31
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013031.outbound.protection.outlook.com [52.101.72.31])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA2B606A338;
-	Wed, 18 Nov 2026 15:18:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AA2B606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A56660A2618;
+	Wed, 18 Nov 2026 15:18:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A56660A2618
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=oSVPKfEv
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=E6TvIfBF
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lfH15P8lhsOzuzEpol+u/W09xqmvt5y+9/ob3rEK+aOnm1ThciIm1eWF7lwRYLjSaOTim5JzHU0y7uGBb9Nj6j/J1rCYo0pqfVeajoqkw+7Z07KYbpAPlxupMe7pUNVkv7MaB0yTalnEj7x2UprQplBIRtGws/cFZhUkqrqyydBbfJ6tN73ggEqauYTx9HokJDKc9Rj1upLMxvGT5Rw8rN7MbB9ezQKVpPKvNPtT33tFopaKnzRHZafe68W8p1P1Md4hIqIJvGem2N48YVTM7PIypfUmBhL6d+XRBo1cWp/BpaR0BbuFdc2pkgFOKag8yU3tn0mwO98DE9UNht5FLw==
+ b=eBrmqPP7bTD+aQRZiBCmO2kiAO+Np2XuTiL65wf/YtntU4PbVJnWqJVGfMPRGkTOjNgWT/cQaa9AaEX0CuAXfN6+npeGd17fRAa4nAYR9KojSiOJxQ+0Rz2f6GFDDydHkX0z1X4+SLYeH2bWJPogMXWF+jkkdl20eefJcBlwZM/R2ZtbaVaQuflCuqEtnTe5RWJPL3BABJGXeKgcoheBM8voE80EBrD1bxz2DqD6sfHX7AT+qCROCf97zNdlbXOBU1ubcpfu2hOdyxSWQzJjH+Y8vBDbLKm1NhehnQHNOoLUpOzBTFDdMYjoZGUe+IMBA7M3OMJxj3p80rbajQC6kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5/apfe6ZSUpael6tbmztgMY9njgpjW9dtz0USWVmYMg=;
- b=Dh1STb3x9MIkJ/tN6KbCsrcolego9wh8X5L6JsAftjXyiM63n/NYgNafHzViaadEgQvQdDL49t5y1ae2SN9iPlvxM0UaEPez+yw6Iu9jHdq40QeBm+L6UuLcuaBNNU3DwAvaGOb7kf90wLc51qiYD4NbNz6UdqGu9zl8wgnh6o3PDG/1NPhpdfiWZlVm20lxMN2XzYb2zgprCANZ+zQg7iyP2swgC9QGtkZYuGFeRm2KyBRAO06Jo5+bRXgTlA60jLrW5ucMCMBMZVDons2PalY+b7CkHPYRsjvUW7VGEGmYVZKZ7UXjFJ8CsUlwqDfSrpuEOnRyIGVqF+XQmHAnjw==
+ bh=ue38d4wJQjL0sQHjAnJQYpbkHCQXhKI5nEkJUrB4zwA=;
+ b=UvJLUcStbd/EQ1M39gbfXbdoOrMd8jQfADH3ZWoYrpmyiT2FyJMXSQlypwZ14Pj86jUDxToW58MDOOOP7KknkYWzoypW762W7qWAFdn1r0Hp0wHgHkFXpfNT+W8URr784lpzaWb2FV3ANjXemzxcvLXS3D42UpZorXm++NmOe5Wc4XyJICN3+Kis6DY2tYcyIo/JK04u/cBMoUbD5f3Mj/vdvxDOrtM2RKHOUlzLpQlBHRAOeBxSf8dutPI+ybB27YZvYKB6grezo2v9Fu4xbhghaBPzRuV5WKO0usvGdVqYMcz5vhL/GlxZd96oWeD6ktd4eTG5c0+ymKpolYL0Tw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  164.130.1.60) smtp.rcpttodomain=amd.com smtp.mailfrom=foss.st.com; dmarc=fail
  (p=none sp=none pct=100) action=none header.from=foss.st.com; dkim=none
@@ -62,18 +62,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5/apfe6ZSUpael6tbmztgMY9njgpjW9dtz0USWVmYMg=;
- b=oSVPKfEvJk5tetF/iR/r9h37tQEEiL64dfFcv2KmxFbei6FTPAXD0K06u9CGYOB9iP5f2Kp8cyGZNqUtLshxEHCcbNTR/7QWxbIPjQNOpMJI7MC0xuyIG/q9gwFCyY6Wv84JhHHyrbwi5L3a/JpeZnHVa7Z53cq+u0zH138dTkomofUmcJ+BCmoCYEbV+dgwyVorq2g99PVsAijIAOOu+f4Gz9+adhiCsrf+IZMOpx3STugKkl+S4KuuZ12MAui3J1vgcVQfsoJ6KM5R20RKaPMd5a5H3D8ZtZDeAK7y2KhNb4bIqpGyGZHt2WKINmpKlFoedQ/LTjAQ4snV+tBOOg==
-Received: from DUZPR01CA0018.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:46b::6) by PAVPR10MB7012.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:303::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.8; Wed, 18 Nov
- 2026 15:18:03 +0000
+ bh=ue38d4wJQjL0sQHjAnJQYpbkHCQXhKI5nEkJUrB4zwA=;
+ b=E6TvIfBFRn44uoREAW270bIZTdEzlgzZlYrTGOPJKkPYBpfcMgsLZW1ICR5yEAQDQ/J6o7nC8qfm9t6W52RwGi/izoD3317NrJuKoIdiKG8OnY/0SBjaNiVyJuTIzC5xPq5RfyVcWb8pqwMBdn+610M22uur5jHjBHZG+3L6nvE6ozAIAuep5GkcYkypEmwJE08Q2EJyM3Gl3wGtWWmdE8FenG9yoLdZkOc6+/uAzBGaitON+HDhd8bZIorWc80Gs3yL4MCSbinOPYdpKQizQaBz2XxMPNXlUeNrgEyH7q3jkb8JwMOTm3PH6CAMxHiQimXZsAJbUwtCahFFdsawMw==
+Received: from DUZPR01CA0022.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:46b::12) by PAWPR10MB7174.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:102:2ed::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.6; Wed, 18 Nov
+ 2026 15:18:05 +0000
 Received: from MA3PEPF00000408.eurprd04.prod.outlook.com
- (2603:10a6:10:46b:cafe::82) by DUZPR01CA0018.outlook.office365.com
- (2603:10a6:10:46b::6) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:10:46b:cafe::9c) by DUZPR01CA0022.outlook.office365.com
+ (2603:10a6:10:46b::12) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.14 via Frontend Transport; Wed,
- 18 Nov 2026 15:18:02 +0000
+ 18 Nov 2026 15:18:05 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
  is 164.130.1.60) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
@@ -83,18 +83,19 @@ Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
 Received: from smtpO365.st.com (164.130.1.60) by
  MA3PEPF00000408.mail.protection.outlook.com (10.167.241.153) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Wed, 18 Nov 2026 15:18:02 +0000
+ 15.21.615.4 via Frontend Transport; Wed, 18 Nov 2026 15:18:04 +0000
 Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
  (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Wed, 18 Nov
- 2026 16:19:03 +0100
+ 2026 16:19:04 +0100
 Received: from localhost (10.252.16.78) by STKDAG1NODE2.st.com (10.75.128.133)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 18 Nov
- 2026 16:18:01 +0100
+ 2026 16:18:02 +0100
 From: Olivier Moysan <olivier.moysan@foss.st.com>
-Date: Wed, 18 Nov 2026 16:17:48 +0100
-Subject: [PATCH v2 03/11] iio: adc: stm32-mdf: add cck clocks provider
+Date: Wed, 18 Nov 2026 16:17:49 +0100
+Subject: [PATCH v2 04/11] iio: adc: stm32-mdf: add serial interfaces
+ support
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,7 +107,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20261118-upstream_mdf_v2-v2-3-7939d3c3720a@foss.st.com>
+Message-ID: <20261118-upstream_mdf_v2-v2-4-7939d3c3720a@foss.st.com>
 References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
 In-Reply-To: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
 To: Jonathan Cameron <jic23@kernel.org>, David Lechner
@@ -132,515 +133,448 @@ X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
  (10.75.128.133)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MA3PEPF00000408:EE_|PAVPR10MB7012:EE_
-X-MS-Office365-Filtering-Correlation-Id: 661dd2db-3e62-4ea7-7477-08df45872332
+X-MS-TrafficTypeDiagnostic: MA3PEPF00000408:EE_|PAWPR10MB7174:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea831d3b-62bd-4836-94e8-08df458724bb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|36860700016|7416014|376014|1800799024|82310400026|921020|10067099003|11063799006|5023799004|56012099006|261021121427099003|261021123027099003|261102130727099003|261102123227099003|261009223027099003|261009221227099003|261028144727099003|261026140227099003|261022105027099003|261022075727099003|261026121527099003|22082099003|18002099003|6133799003|3023799007;
+	BCL:0;ARA:13230040|376014|7416014|1800799024|23010399003|82310400026|36860700016|921020|261022075727099003|11063799006|261026140227099003|56012099006|261026121527099003|261028144727099003|261022105027099003|261021123027099003|261021135927099003|261021121427099003|10067099003|261102130727099003|261102123227099003|261009221227099003|261009223027099003|18002099003|22082099003|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	zfaIeF7StOS5I4DX26/waZYy9/q8Ws1yxa56kPIQQ3QqnlK/S8s1MadTbtlfIDvsvLYbnvoorE129am/uGGsInmgThsAhKTg7BnJBlrUfE2BOAAG8BeOpnBW0Qi7JzPkinfITsP0VlYxxVi7KdhG8MFc+dwCVY/zkFNhMn6qFHriZFrllViOUetSiAbcAUGgDalRZNLZVq+v8uVTHyZdg5RqQelNlEAuYTkbgbgqa1wbL+j6g62xn+FpaPzIAZdosIx4+YU/jOhJRLSU42onUq45sVt6a0o7tW5PqAOA7SBhZBuUnh/IBBgoNuNnAcju5XxHS6NnluGvSbHxBMYMgXpgabW4oa4OdvFD9afgCsRVMn2lVU+LAwsET24K/NnQG9LmJozy6HYptrpUmElM2Q43Ugb60/3HY9LKvGvsseaUMCtPJBAF1Yus1GyzQ8YCti9wxWPeG4ozXFMX0dmhZvJgbB2zBPbabjGIfeDrlIcsD6w2Q3NuN7eee3BPPLhIqSDCXeHYDvw9tj3M/WshxUdhDrvI/jxn4m2Q0WLTxCdePmMK2mnRCipwiT9zeYtFCNsfkopifrqo/V5jjkyGZczLT8sIH3F/PHF9bqjRrzGFmHCyXdkAYjUGMsb0HzGI6m2lRdBcQP6zi7gkTBc615WbrhLVWxZGBLq/MfzbY9YmB3lsynZG60vmrZMGf9R5tIaiFBaeRPvJ2sEcXbUFuOaSyIF9bgl2BpaBcmgx6Vy82NNgcGfX4bQ/l/XIT3S2
+	HYDRnk5sdU2RlGnS3Se0Yf+k3LzAkIMoCGOOACj139dVUZinMo6XOxatWamQtxd0gNxMNUYBPKNGerheUs4DH4YCa4A6zColcCpFygKgFdObB6HIuPrSn+JJAnSg634Mjtlnc8rN93CuPttwUJWixQTtwe0gt2f7GrSESW8vXOjmhthTYn8zl38Ctf4IZA5DmuPi+mBv8UPOOI7lxvFmjBbU7NPCkSWqSAl6X6khiC5erM7gZmthSV1o+5kvO6/7wDbn2gAVXIg95avIQE9wProngTE0g8RMsYSLugAcRtz56L6fWwJLMEjAcPZ/+SFnCHyx7Mg+hlW35B+xyVvcXDnBGXlk3QQhRrurHUXis3P6i1mxCWTbfWCpSkubs+zRJWFKqUy1lj/54+kq3Y1bLfd+0j8M1loyWgQxYvGtDw71TIC/fRtjFiZc9f+9TcUYur0gSalZ2o3nxwbA/6I/hi4mcE27hHx/Sb0twlLzmNOE7e+WZjuTrtWZN299fYrC1HF+paRaJJN+qTD2ZZxLNNqScNYjTLNwupu7irxhOuO6xVwpTmco83IfNKnRd+ySSt0xW2YR8J1Nk52Ht47jtq6HZbBFNxn/cf3FnNH7u+cqsRMSJrz/R4liX9Fyw0BE+ZNwPPZ81Rogt2dW7dIrk7+/5ryVNJqzLV6sZEoWCQn+VYOO/HorwGwX6yG4bl9K2k4/PG5FwT2BExSB5qYq3nv3srWGPuHKAbQKRG+1zgr2T96R6W9xh3glR0WHuHOG
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(7416014)(376014)(1800799024)(82310400026)(921020)(10067099003)(11063799006)(5023799004)(56012099006)(261021121427099003)(261021123027099003)(261102130727099003)(261102123227099003)(261009223027099003)(261009221227099003)(261028144727099003)(261026140227099003)(261022105027099003)(261022075727099003)(261026121527099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(23010399003)(82310400026)(36860700016)(921020)(261022075727099003)(11063799006)(261026140227099003)(56012099006)(261026121527099003)(261028144727099003)(261022105027099003)(261021123027099003)(261021135927099003)(261021121427099003)(10067099003)(261102130727099003)(261102123227099003)(261009221227099003)(261009223027099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	KJ66mNR7bohJAUHgSpK31aNycBsSM4YByswPKFf7jsG7DvorCsMbFZ4n6phVd+1facVpN7eNOE6zJyP5VH3xjdpcoVGQan+OC7apvhVZU1SWeHw+8VTtRCK2grTMQ8QsEM/cpzH9mtLxSXOvKIJWiLuaya8yQZlLOq4txMpJUQt5CuGP0bZ0EBrxliET+egs9/UcDfcJDPgytT50bGmPaLft8YOKWEfjt2XtQBzmliTDynE7+94IFFdHl5+wTVJGN5WBSMas5YLB5QgqnPESO8O0yrsPwYWUvpyGEuwUtu5w4WcCcOO4FjqTPiTVNo4T2QjhLsAgx5+Kya2hOWYFPsH0Dq1a+zLpdX3dMDesZXbL8ZNvOIaiYmjUsvpwxxbcy+NqZrUeZXk/UQWq32maoP6sJ/nss7QgIeuU7ZUf1wzzO3BaF9FzcbEnnoHuusI1
+	arerOmY2sq6kH4ftCMK1HSd5QUnzI8+4E0+jAl6CY4hDK/qh2xbAZnlA6wQHd3VXe/2rtcyMlIpR9csTQ6ZSsua5QEr0N0SeQZ2z/J4UtDNeqKlf6NV65vklaB3M976rOl5WgA2IhkRCaJn+g6cDed66oJ2JUqIuWC+48WCawIOcv5ecIt2SHL9s+pLDoKntRy/vSDKJ+G/P6lRCmF6VqX6a5fQj/ZFn0L4u8AYbwEyvMuGdl30cGsi4zi+U+Us9iTc6nMkyqRM/+BZda+icBD3bAFaDLA4DqENp8WAmNcr4lb+rPqwPy2+T1Fl1LA0gk8ceu8iz+Xkb9ucfqafScHNNto7Db7Q1OT/R9Lr1eXn7HtJNVVe1/EqETUck/j870LmspcqWKpbXx0j+C7H4kUyDq4a+T+KMuXNjppzSArMGBzVv0j09MJgrNzUwyY6K
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 15:18:02.2180
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 15:18:04.7967
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 661dd2db-3e62-4ea7-7477-08df45872332
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea831d3b-62bd-4836-94e8-08df458724bb
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	MA3PEPF00000408.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7012
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB7174
 
-MDF clock outputs can supply the serial interfaces and their external
-converters. Register CCK0 and CCK1 with the common clock framework so that
-consumers can configure and gate these outputs through the clock API.
+The MDF serial interfaces receive the bitstreams from external sigma delta
+modulators supporting SPI and Manchester protocols.
 
-Implement rate selection using the processing and CCK dividers, checking
-the hardware limits and clock accuracy.
-
-Expose helpers for child drivers to retrieve the CCK rate and restore its
-configuration.
+Select an external serial clock or an MDF CCK output, validate the clock
+requirements of each mode and program the serial interface.
+Expose reference-counted start and stop helpers so that multiple filters
+can share an interface.
 
 Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
 ---
- drivers/iio/adc/stm32-mdf-core.c | 398 ++++++++++++++++++++++++++++++++++++++-
- drivers/iio/adc/stm32-mdf.h      |   5 +
- 2 files changed, 402 insertions(+), 1 deletion(-)
+ drivers/iio/adc/Makefile           |   2 +-
+ drivers/iio/adc/stm32-mdf-core.c   |  34 +++++-
+ drivers/iio/adc/stm32-mdf-serial.c | 223 +++++++++++++++++++++++++++++++++++++
+ drivers/iio/adc/stm32-mdf.h        |  49 ++++++++
+ 4 files changed, 306 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/iio/adc/Makefile b/drivers/iio/adc/Makefile
+index d5fc809c33ca..811ef85a88fb 100644
+--- a/drivers/iio/adc/Makefile
++++ b/drivers/iio/adc/Makefile
+@@ -147,7 +147,7 @@ obj-$(CONFIG_STM32_ADC) += stm32-adc.o
+ obj-$(CONFIG_STM32_DFSDM_ADC) += stm32-dfsdm-adc.o
+ obj-$(CONFIG_STM32_DFSDM_CORE) += stm32-dfsdm-core.o
+ obj-$(CONFIG_STM32_MDF_CORE) += stm32-mdf.o
+-stm32-mdf-y := stm32-mdf-core.o
++stm32-mdf-y := stm32-mdf-core.o stm32-mdf-serial.o
+ obj-$(CONFIG_STMPE_ADC) += stmpe-adc.o
+ obj-$(CONFIG_SUN20I_GPADC) += sun20i-gpadc-iio.o
+ obj-$(CONFIG_SUN4I_GPADC) += sun4i-gpadc-iio.o
 diff --git a/drivers/iio/adc/stm32-mdf-core.c b/drivers/iio/adc/stm32-mdf-core.c
-index ca50ce566a43..4e462c6c42bc 100644
+index 4e462c6c42bc..5b5d2d4cbb5c 100644
 --- a/drivers/iio/adc/stm32-mdf-core.c
 +++ b/drivers/iio/adc/stm32-mdf-core.c
-@@ -8,6 +8,7 @@
+@@ -748,8 +748,13 @@ static int stm32_mdf_core_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
  
- #include <linux/cleanup.h>
- #include <linux/clk.h>
-+#include <linux/clk-provider.h>
- #include <linux/device.h>
- #include <linux/list.h>
- #include <linux/module.h>
-@@ -82,6 +83,7 @@ static const struct regmap_config stm32_mdf_regmap_cfg = {
-  * @n_active_ch: number of active channels
-  * @lock: lock to manage common resources
-  * @kclk_rate: save kclk rate at probe
-+ * @cck_freq_actual: actual output cck clocks frequency
-  * @exclusive_flg: exclusive rate request flag
-  */
- struct stm32_mdf_priv {
-@@ -94,10 +96,24 @@ struct stm32_mdf_priv {
- 	atomic_t n_active_ch;
- 	spinlock_t lock; /* Manage common resources race conditions */
- 	unsigned long kclk_rate;
-+	unsigned long cck_freq_actual;
- 	bool exclusive_flg;
- };
++	INIT_LIST_HEAD(&priv->mdf.sitf_list);
+ 	INIT_LIST_HEAD(&priv->mdf.filter_list);
  
-+#define STM32_MDF_MAX_CCK 2
- #define STM32_MDF_MP23_FILTER_NB 4
-+#define STM32_MDF_MAX_CCK_RATE 25000000
-+
-+struct clk_mdf_cck {
-+	struct clk_hw	hw;
-+	struct stm32_mdf_priv *priv;
-+};
-+
-+static const struct clk_parent_data clk_cck_parent_data[] = {
-+	{ .index = 0 },
-+};
-+
-+#define to_clk_mdf_cck(_hw) container_of(_hw, struct clk_mdf_cck, hw)
- 
- static inline struct stm32_mdf_priv *to_stm32_mdf_priv(struct stm32_mdf *mdf)
- {
-@@ -194,6 +210,96 @@ int stm32_mdf_core_trigger(struct stm32_mdf *mdf)
- }
- EXPORT_SYMBOL_GPL(stm32_mdf_core_trigger);
- 
-+/**
-+ * stm32_mdf_core_get_cck() - Get the configured CCK frequency
-+ * @mdf: MDF instance
-+ *
-+ * Return: The actual CCK frequency, in Hz.
-+ */
-+unsigned long stm32_mdf_core_get_cck(struct stm32_mdf *mdf)
-+{
-+	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
-+
-+	return priv->cck_freq_actual;
-+}
-+EXPORT_SYMBOL_GPL(stm32_mdf_core_get_cck);
-+
-+/**
-+ * stm32_mdf_core_lock_kclk_rate() - Prevent changes to the MDF kernel clock rate
-+ * @mdf: MDF instance
-+ *
-+ * Request an exclusive rate on the kernel clock when no MDF channels are
-+ * active. While channels are active, the rate is already held exclusive by
-+ * the start operation.
-+ *
-+ * Return: 0 on success, or a negative error code on failure.
-+ */
-+int stm32_mdf_core_lock_kclk_rate(struct stm32_mdf *mdf)
-+{
-+	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
-+	struct device *dev = &priv->pdev->dev;
-+	int ret;
-+
-+	if (!atomic_read(&priv->n_active_ch)) {
-+		/* Request rate exclusivity on kernel clock right now */
-+		ret = clk_rate_exclusive_get(priv->kclk);
-+		if (ret < 0) {
-+			dev_err(dev, "Failed to get exclusive rate on kernel clock: [%d]\n", ret);
-+			return ret;
-+		}
-+
-+		priv->exclusive_flg = true;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(stm32_mdf_core_lock_kclk_rate);
-+
-+/**
-+ * stm32_mdf_core_unlock_kclk_rate() - Release the MDF kernel clock rate lock
-+ * @mdf: MDF instance
-+ *
-+ * Release an exclusive rate acquired by stm32_mdf_core_lock_kclk_rate() when
-+ * no MDF channels are active. The lock is retained while channels are active.
-+ */
-+void stm32_mdf_core_unlock_kclk_rate(struct stm32_mdf *mdf)
-+{
-+	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
-+
-+	if (!atomic_read(&priv->n_active_ch)) {
-+		clk_rate_exclusive_put(priv->kclk);
-+		priv->exclusive_flg = false;
-+	}
-+}
-+EXPORT_SYMBOL_GPL(stm32_mdf_core_unlock_kclk_rate);
-+
-+/**
-+ * stm32_mdf_core_restore_cck() - Restore the MDF kernel clock rate
-+ * @mdf: MDF instance
-+ *
-+ * Set the kernel clock to the rate recorded when the MDF core was probed.
-+ *
-+ * Return: 0 on success, or a negative error code on failure.
-+ */
-+int stm32_mdf_core_restore_cck(struct stm32_mdf *mdf)
-+{
-+	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
-+	struct device *dev = &priv->pdev->dev;
-+	int ret;
-+
-+	ret = clk_set_rate(priv->kclk, priv->kclk_rate);
-+	if (ret) {
-+		dev_err(dev, "Failed to change kernel clock rate from [%lu]Hz to [%lu]Hz: [%d]\n",
-+			clk_get_rate(priv->kclk), priv->kclk_rate, ret);
++	ret = stm32_mdf_sitf_init(&pdev->dev, &priv->mdf);
++	if (ret)
 +		return ret;
++
+ 	platform_set_drvdata(pdev, priv);
+ 
+ 	pm_runtime_get_noresume(&pdev->dev);
+@@ -785,8 +790,15 @@ static int stm32_mdf_core_suspend(struct device *dev)
+ {
+ 	struct stm32_mdf *mdf = dev_get_drvdata(dev);
+ 	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
++	struct stm32_mdf_sitf *sitf;
+ 	int ret;
+ 
++	list_for_each_entry(sitf, &mdf->sitf_list, entry) {
++		ret = regmap_read(sitf->regmap, MDF_SITFCR_REG, &sitf->sitfcr);
++		if (ret)
++			return ret;
 +	}
 +
-+	dev_dbg(dev, "MDF kernel clock rate changed to [%lu]Hz.\n", priv->kclk_rate);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(stm32_mdf_core_restore_cck);
-+
- /**
-  * stm32_mdf_core_stop_mdf() - Stop an MDF channel
-  * @mdf: MDF instance
-@@ -223,11 +329,301 @@ int stm32_mdf_core_stop_mdf(struct stm32_mdf *mdf)
- }
- EXPORT_SYMBOL_GPL(stm32_mdf_core_stop_mdf);
+ 	ret = pm_runtime_force_suspend(dev);
+ 	if (ret)
+ 		return ret;
+@@ -794,7 +806,9 @@ static int stm32_mdf_core_suspend(struct device *dev)
+ 	regcache_cache_only(priv->regmap, true);
+ 	regcache_mark_dirty(priv->regmap);
  
-+static int stm32_mdf_core_cck_divider_set_rate(struct platform_device *pdev,
-+					       struct stm32_mdf_priv *priv,
-+					       unsigned long rate,
-+					       unsigned long parent_rate)
+-	/* Balance regmap_mmio_attach_clk() clk_prepare() */
++	/* Balance regmap_mmio_attach_clk() for the SITFs and the core. */
++	list_for_each_entry(sitf, &mdf->sitf_list, entry)
++		clk_unprepare(priv->kclk);
+ 	clk_unprepare(priv->kclk);
+ 
+ 	return pinctrl_pm_select_sleep_state(dev);
+@@ -804,6 +818,8 @@ static int stm32_mdf_core_resume(struct device *dev)
+ {
+ 	struct stm32_mdf *mdf = dev_get_drvdata(dev);
+ 	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
++	struct stm32_mdf_sitf *sitf;
++	unsigned int prepared = 0;
+ 	int ret;
+ 
+ 	ret = pinctrl_pm_select_default_state(dev);
+@@ -825,8 +841,24 @@ static int stm32_mdf_core_resume(struct device *dev)
+ 		goto err_cache;
+ 	}
+ 
++	list_for_each_entry(sitf, &mdf->sitf_list, entry) {
++		ret = clk_prepare(priv->kclk);
++		if (ret)
++			goto err_sitf;
++		prepared++;
++
++		ret = regmap_write(sitf->regmap, MDF_SITFCR_REG, sitf->sitfcr);
++		if (ret)
++			goto err_sitf;
++	}
++
+ 	return pm_runtime_force_resume(dev);
+ 
++err_sitf:
++	while (prepared) {
++		clk_unprepare(priv->kclk);
++		prepared--;
++	}
+ err_cache:
+ 	clk_unprepare(priv->kclk);
+ err_clk:
+diff --git a/drivers/iio/adc/stm32-mdf-serial.c b/drivers/iio/adc/stm32-mdf-serial.c
+new file mode 100644
+index 000000000000..6ba3be019847
+--- /dev/null
++++ b/drivers/iio/adc/stm32-mdf-serial.c
+@@ -0,0 +1,223 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * This file is part of STM32 MDF driver
++ *
++ * Copyright (C) 2023-2026, STMicroelectronics - All Rights Reserved
++ */
++
++#include <linux/cleanup.h>
++#include <linux/clk.h>
++#include <linux/clk/clk-conf.h>
++#include <linux/clk-provider.h>
++#include <linux/device.h>
++#include <linux/export.h>
++#include <linux/list.h>
++#include <linux/of.h>
++#include <linux/regmap.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++#include <linux/string.h>
++
++#include "stm32-mdf.h"
++
++enum {
++	STM32_MDF_SCKSRC_CCK0,
++	STM32_MDF_SCKSRC_CCK1,
++	STM32_MDF_SCKSRC_CLK,
++	STM32_MDF_SCKSRC_NONE,
++};
++
++static const char * const stm32_mdf_sitf_modes[] = {
++	[STM32_MDF_MODE_SPI] = "spi",
++	[STM32_MDF_MODE_LF_SPI] = "lf_spi",
++	[STM32_MDF_MODE_MANCHESTER_R] = "manchester_r",
++	[STM32_MDF_MODE_MANCHESTER_F] = "manchester_f",
++};
++
++static const struct regmap_config stm32_sitf_regmap_cfg = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = sizeof(u32),
++	.max_register = MDF_SITFCR_REG,
++	.fast_io = true,
++	/* Do not use regcache as it does not support single register map */
++};
++
++/**
++ * stm32_mdf_sitf_start() - Enable an MDF serial interface
++ * @sitf: Serial interface to enable
++ *
++ * Enable the serial interface and increment its active-user count on success.
++ * Each successful call must be balanced by stm32_mdf_sitf_stop().
++ *
++ * Return: 0 on success, or a negative error code on failure.
++ */
++int stm32_mdf_sitf_start(struct stm32_mdf_sitf *sitf)
 +{
-+	struct device *dev = &pdev->dev;
-+	unsigned long ratio, delta, delta_ppm, procdiv;
-+	unsigned int cckdiv;
 +	int ret;
 +
-+	if (!rate || rate > STM32_MDF_MAX_CCK_RATE || !parent_rate)
-+		return -EINVAL;
++	guard(spinlock)(&sitf->lock);
 +
-+	ratio = DIV_ROUND_CLOSEST(parent_rate, rate);
-+	if (!ratio) {
-+		dev_err(dev, "CCK frequency above kernel frequency\n");
-+		return -EINVAL;
-+	}
-+
-+	delta = abs(parent_rate - (ratio * rate));
-+
-+	delta_ppm = (1000000 * delta) / parent_rate;
-+	if (delta_ppm > 1000) {
-+		/* If frequency deviation is higher than 1000 ppm return error */
-+		dev_dbg(dev, "CCK clock deviation [%lu] ppm too large: [%lu] vs [%lu] Hz\n",
-+			delta_ppm, DIV_ROUND_CLOSEST(parent_rate, ratio), rate);
-+		return -EINVAL;
-+	} else if (delta_ppm) {
-+		dev_dbg(dev, "CCK clock frequency not accurate: [%lu] ppm deviation\n", delta_ppm);
-+	}
-+
-+	/*
-+	 * The total divider ratio must be split between proc divider and
-+	 * cck divider. Try to maximize cck divider first, to help fulfilling
-+	 * frequency ratio requirements between fproc and fcck.
-+	 */
-+	cckdiv = min_t(unsigned long, ratio, MDF_CKG_CCKDIV_MAX);
-+	while (ratio % cckdiv)
-+		cckdiv--;
-+	procdiv = ratio / cckdiv;
-+
-+	if (procdiv > MDF_PROCDIV_MAX) {
-+		dev_err(dev, "Proc divider out of range: %lu > %lu\n", procdiv,
-+			MDF_PROCDIV_MAX);
-+		return -EINVAL;
-+	}
-+
-+	priv->mdf.fproc = DIV_ROUND_CLOSEST(parent_rate, procdiv);
-+
-+	/* Configure CKGCR register */
-+	dev_dbg(dev, "Set MDF dividers: CCKDIV [%u], PROCDIV [%lu]\n", cckdiv, procdiv);
-+	ret = regmap_update_bits(priv->regmap, MDF_CKGCR_REG,
-+				 MDF_CKG_CCKDIV_MASK | MDF_CKG_PROCDIV_MASK,
-+				 FIELD_PREP(MDF_CKG_CCKDIV_MASK, cckdiv - 1) |
-+				 FIELD_PREP(MDF_CKG_PROCDIV_MASK, procdiv - 1));
++	ret = regmap_set_bits(sitf->regmap, MDF_SITFCR_REG, MDF_SITFCR_SITFEN);
 +	if (!ret)
-+		priv->cck_freq_actual = DIV_ROUND_CLOSEST(parent_rate, ratio);
++		sitf->refcnt++;
 +
 +	return ret;
 +}
++EXPORT_SYMBOL_GPL(stm32_mdf_sitf_start);
 +
-+static int stm32_mdf_core_cck_set_rate(struct clk_hw *hw, unsigned long rate,
-+				       unsigned long parent_rate)
++/**
++ * stm32_mdf_sitf_stop() - Release an MDF serial interface user
++ * @sitf: Serial interface to release
++ *
++ * Decrement the active-user count and disable the serial interface when the
++ * last user releases it.
++ *
++ * Return: 0 on success, -EPERM if there are no active users, or a negative
++ * error code if disabling the interface fails.
++ */
++int stm32_mdf_sitf_stop(struct stm32_mdf_sitf *sitf)
 +{
-+	struct clk_mdf_cck *clk = to_clk_mdf_cck(hw);
-+	struct stm32_mdf_priv *priv = clk->priv;
++	int ret = 0;
 +
-+	return stm32_mdf_core_cck_divider_set_rate(priv->pdev, priv, rate, parent_rate);
-+}
++	guard(spinlock)(&sitf->lock);
 +
-+static int stm32_mdf_core_cck_determine_rate(struct clk_hw *hw,
-+					     struct clk_rate_request *req)
-+{
-+	struct clk_mdf_cck *clk = to_clk_mdf_cck(hw);
-+	struct stm32_mdf_priv *priv = clk->priv;
-+	struct platform_device *pdev = priv->pdev;
-+	unsigned long ratio;
-+
-+	if (!req->rate || req->rate > STM32_MDF_MAX_CCK_RATE || !req->best_parent_rate)
-+		return -EINVAL;
-+
-+	ratio = DIV_ROUND_CLOSEST(req->best_parent_rate, req->rate);
-+	if (!ratio) {
-+		dev_err(&pdev->dev, "CCK frequency above kernel frequency\n");
-+		return -EINVAL;
++	if (!sitf->refcnt) {
++		dev_err(sitf->dev, "Unbalanced serial interface stop ?\n");
++		return -EPERM;
 +	}
 +
-+	req->rate = DIV_ROUND_CLOSEST(req->best_parent_rate, ratio);
++	sitf->refcnt--;
 +
-+	return 0;
++	if (!sitf->refcnt)
++		ret = regmap_clear_bits(sitf->regmap, MDF_SITFCR_REG, MDF_SITFCR_SITFEN);
++
++	return ret;
 +}
++EXPORT_SYMBOL_GPL(stm32_mdf_sitf_stop);
 +
-+static unsigned long stm32_mdf_core_cck_divider_recalc_rate(struct clk_hw *hw,
-+							    unsigned long parent_rate)
++static int stm32_mdf_sitf_get_clk(struct device *dev, struct device_node *np,
++				  struct stm32_mdf_sitf *sitf)
 +{
-+	struct clk_mdf_cck *clk = to_clk_mdf_cck(hw);
-+	struct stm32_mdf_priv *priv = clk->priv;
-+	unsigned int val;
-+	unsigned int ratio;
++	struct clk *sck;
 +	int ret;
 +
-+	ret = regmap_read(priv->regmap, MDF_CKGCR_REG, &val);
++	/* SITF nodes have no device to apply their assigned clock configuration. */
++	ret = of_clk_set_defaults(np, false);
 +	if (ret)
-+		/* Gives a hint that something is wrong */
++		return dev_err_probe(dev, ret, "Can't configure serial clock for %pOF\n", np);
++
++	sitf->scksrc = STM32_MDF_SCKSRC_NONE;
++	/* Optional clock. Clock not needed in Manchester mode. */
++	if (!of_property_present(np, "clocks"))
 +		return 0;
 +
-+	ratio = (FIELD_GET(MDF_CKG_PROCDIV_MASK, val) + 1) *
-+		(FIELD_GET(MDF_CKG_CCKDIV_MASK, val) + 1);
++	sck = devm_get_clk_from_child(dev, np, NULL);
++	if (IS_ERR(sck))
++		return dev_err_probe(dev, PTR_ERR(sck), "Can't get serial clock for %pOF\n", np);
 +
-+	return DIV_ROUND_CLOSEST_ULL((u64)parent_rate, ratio);
-+};
-+
-+static const struct clk_ops clk_cck_ops = {
-+	.recalc_rate = stm32_mdf_core_cck_divider_recalc_rate,
-+	.set_rate = stm32_mdf_core_cck_set_rate,
-+	.determine_rate = stm32_mdf_core_cck_determine_rate,
-+};
-+
-+static struct clk_mdf_cck clk_cck;
-+
-+struct clk_cckx_gate {
-+	struct clk_hw hw;
-+	struct regmap	*map;
-+	u32		map_offset;
-+	u8		bit_idx;
-+	u8		flags;
-+	spinlock_t	*lock; /* Protect cckx gating */
-+};
-+
-+#define to_clk_cckx_gate(_hw) container_of(_hw, struct clk_cckx_gate, hw)
-+
-+static inline u32 clk_cckx_gate_readl(struct clk_cckx_gate *gate)
-+{
-+	u32 val;
-+
-+	regmap_read(gate->map, gate->map_offset, &val);
-+
-+	return val;
-+}
-+
-+static inline void clk_cckx_gate_writel(struct clk_cckx_gate *gate, u32 val)
-+{
-+	regmap_write(gate->map, gate->map_offset, val);
-+}
-+
-+static void clk_cckx_gate_endisable(struct clk_hw *hw, int enable)
-+{
-+	struct clk_cckx_gate *gate = to_clk_cckx_gate(hw);
-+	unsigned long flags = 0;
-+	u32 reg;
-+
-+	if (gate->lock)
-+		spin_lock_irqsave(gate->lock, flags);
++	sitf->sck = sck;
++	if (!strncmp(__clk_get_name(sck), STM32_MDF_CCK0, sizeof(STM32_MDF_CCK0)))
++		sitf->scksrc = STM32_MDF_SCKSRC_CCK0;
++	else if (!strncmp(__clk_get_name(sck), STM32_MDF_CCK1, sizeof(STM32_MDF_CCK1)))
++		sitf->scksrc = STM32_MDF_SCKSRC_CCK1;
 +	else
-+		__acquire(gate->lock);
-+
-+	reg = clk_cckx_gate_readl(gate);
-+
-+	if (enable)
-+		reg |= BIT(gate->bit_idx);
-+	else
-+		reg &= ~BIT(gate->bit_idx);
-+
-+	clk_cckx_gate_writel(gate, reg);
-+
-+	if (gate->lock)
-+		spin_unlock_irqrestore(gate->lock, flags);
-+	else
-+		__release(gate->lock);
-+}
-+
-+static int clk_cckx_gate_enable(struct clk_hw *hw)
-+{
-+	clk_cckx_gate_endisable(hw, 1);
++		sitf->scksrc = STM32_MDF_SCKSRC_CLK;
 +
 +	return 0;
 +}
 +
-+static void clk_cckx_gate_disable(struct clk_hw *hw)
++static int stm32_mdf_sitf_parse(struct device *dev, struct device_node *np,
++				struct stm32_mdf_sitf *sitf)
 +{
-+	clk_cckx_gate_endisable(hw, 0);
-+}
++	const char *str;
++	int ret, mode;
++	u32 idx, sitfcr;
 +
-+static int clk_cckx_gate_is_enabled(struct clk_hw *hw)
-+{
-+	struct clk_cckx_gate *gate = to_clk_cckx_gate(hw);
-+	u32 reg;
-+
-+	reg = clk_cckx_gate_readl(gate);
-+
-+	reg &= BIT(gate->bit_idx);
-+
-+	return reg ? 1 : 0;
-+}
-+
-+static const struct clk_ops clk_cckx_gate_ops = {
-+	.enable = clk_cckx_gate_enable,
-+	.disable = clk_cckx_gate_disable,
-+	.is_enabled = clk_cckx_gate_is_enabled,
-+};
-+
-+static struct clk_cckx_gate clk_cck0 = {
-+	.map_offset = MDF_CKGCR_REG,
-+	.bit_idx = 1,
-+};
-+
-+static struct clk_cckx_gate clk_cck1 = {
-+	.map_offset = MDF_CKGCR_REG,
-+	.bit_idx = 2,
-+};
-+
-+static int stm32_mdf_core_register_clock_provider(struct platform_device *pdev,
-+						  struct stm32_mdf_priv *priv)
-+{
-+	struct device_node *node = pdev->dev.of_node;
-+	struct device *dev = &pdev->dev;
-+	struct clk_hw_onecell_data *clk_data;
-+	struct property *prop;
-+	const char *clk_name;
-+	u32 ckgcr = 0;
-+	int index = 0, ret, clk_id;
-+	struct clk_hw *mdf_hw[] = { &clk_cck0.hw, &clk_cck1.hw };
-+	struct clk_cckx_gate *gate;
-+
-+	clk_cck.hw.init = CLK_HW_INIT_PARENTS_DATA("clk_cck", clk_cck_parent_data,
-+						   &clk_cck_ops, 0);
-+	clk_cck0.hw.init = CLK_HW_INIT_HW(STM32_MDF_CCK0, &clk_cck.hw, &clk_cckx_gate_ops,
-+					  CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED);
-+	clk_cck1.hw.init = CLK_HW_INIT_HW(STM32_MDF_CCK1, &clk_cck.hw, &clk_cckx_gate_ops,
-+					  CLK_SET_RATE_PARENT | CLK_IGNORE_UNUSED);
-+
-+	clk_cck.priv = priv;
-+
-+	ret = devm_clk_hw_register(dev, &clk_cck.hw);
++	ret = of_property_read_u32(np, "reg", &idx);
 +	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to register clk_cck");
++		return dev_err_probe(dev, ret, "Could not get interface index for %pOF\n", np);
 +
-+	clk_data = devm_kzalloc(dev, struct_size(clk_data, hws, STM32_MDF_MAX_CCK), GFP_KERNEL);
-+	if (!clk_data)
-+		return -ENOMEM;
-+
-+	of_property_for_each_string(node, "clock-output-names", prop, clk_name) {
-+		if (index >= STM32_MDF_MAX_CCK) {
-+			dev_err(dev, "Too many cck providers defined\n");
-+			return -EINVAL;
-+		}
-+
-+		if (!strncmp(clk_name, "cck0", 4)) {
-+			clk_id = 0;
-+		} else if (!strncmp(clk_name, "cck1", 4)) {
-+			clk_id = 1;
-+		} else {
-+			dev_err(dev, "Unexpected cck clock provider name [%s]\n", clk_name);
-+			return -EINVAL;
-+		}
-+
-+		gate = to_clk_cckx_gate(mdf_hw[clk_id]);
-+		gate->map = priv->regmap;
-+
-+		ret = devm_clk_hw_register(dev, mdf_hw[clk_id]);
-+		if (ret)
-+			return dev_err_probe(dev, ret, "Failed to register %s clock provider",
-+					     clk_name);
-+
-+		clk_data->hws[index] = mdf_hw[clk_id];
-+
-+		/* Configure the CCKx clock as output */
-+		ckgcr |= clk_id ? MDF_CKG_CCK1DIR : MDF_CKG_CCK0DIR;
-+
-+		index++;
++	if (idx % 0x80) {
++		dev_err(dev, "Unexpected reg property value [%x]\n", idx);
++		return -EINVAL;
 +	}
 +
-+	/*
-+	 * Set num to max number of clock. This allows any clocks indice below maximum
-+	 * in of_clk_hw_onecell_get, whatever the actual number of providers.
-+	 */
-+	clk_data->num = STM32_MDF_MAX_CCK;
-+	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get, clk_data);
-+	if (ret) {
-+		dev_err(dev, "Failed to add %s clock provider: %d\n",
-+			clk_name ? clk_name : "", ret);
++	idx = (idx >> 7) - 1;
++	if (idx > sitf->mdf->nbf) {
++		dev_err(dev, "Interface index [%d] exceeds maximum [%d]\n", idx, sitf->mdf->nbf);
++		return -EINVAL;
++	}
++
++	ret = of_property_read_string(np, "st,sitf-mode", &str);
++	if (ret)
++		return dev_err_probe(dev, ret, "Could not get interface mode for %pOF\n", np);
++
++	mode = match_string(stm32_mdf_sitf_modes, ARRAY_SIZE(stm32_mdf_sitf_modes), str);
++	if (mode < 0) {
++		dev_err(dev, "Unknown serial interface mode [%s]\n", str);
++		return mode;
++	}
++
++	sitf->mode = mode;
++	sitfcr = FIELD_PREP(MDF_SITFCR_SITFMOD_MASK, mode);
++
++	ret = stm32_mdf_sitf_get_clk(dev, np, sitf);
++	if (ret)
 +		return ret;
++
++	if (mode == STM32_MDF_MODE_SPI && sitf->scksrc == STM32_MDF_SCKSRC_NONE) {
++		dev_err(dev, "Missing clock for serial interface [%d] in SPI mode\n", idx);
++		return -EINVAL;
 +	}
 +
-+	/* Configure CKGCR register */
-+	return regmap_update_bits(priv->regmap, MDF_CKGCR_REG,
-+				  MDF_CKG_CCK1DIR | MDF_CKG_CCK0DIR, ckgcr);
++	if (mode == STM32_MDF_MODE_LF_SPI && (sitf->scksrc != STM32_MDF_SCKSRC_CCK0 &&
++					      sitf->scksrc != STM32_MDF_SCKSRC_CCK1)) {
++		dev_err(dev, "Missing CCKx clock for serial interface [%d] in LF_SPI mode\n", idx);
++		return -EINVAL;
++	}
++
++	sitf->id = idx;
++	sitf->node = of_fwnode_handle(np);
++	spin_lock_init(&sitf->lock);
++
++	sitfcr |= FIELD_PREP(MDF_SITFCR_SCKSRC_MASK, sitf->scksrc);
++
++	return regmap_set_bits(sitf->regmap, MDF_SITFCR_REG, sitfcr);
 +}
 +
- static int stm32_mdf_core_parse_clocks(struct platform_device *pdev, struct stm32_mdf_priv *priv)
- {
- 	priv->kclk_rate = clk_get_rate(priv->kclk);
- 
--	return 0;
-+	/* The consumer assigns the CCK rate after the provider is registered. */
-+	return stm32_mdf_core_register_clock_provider(pdev, priv);
- }
- 
- static int stm32_mdf_core_parse_of(struct platform_device *pdev, struct stm32_mdf_priv *priv)
++int stm32_mdf_sitf_init(struct device *dev, struct stm32_mdf *mdf)
++{
++	struct stm32_mdf_sitf *sitf;
++	void __iomem *base;
++	int ret;
++
++	for_each_available_child_of_node_scoped(dev->of_node, child) {
++		if (!of_node_name_eq(child, "sitf"))
++			continue;
++
++		sitf = devm_kzalloc(dev, sizeof(*sitf), GFP_KERNEL);
++		if (!sitf)
++			return -ENOMEM;
++		sitf->dev = dev;
++		sitf->mdf = mdf;
++
++		base = devm_of_iomap(dev, child, 0, NULL);
++		if (IS_ERR(base))
++			return PTR_ERR(base);
++
++		sitf->regmap = stm32_mdf_regmap_init(dev, mdf->kclk, base,
++						     &stm32_sitf_regmap_cfg);
++		if (IS_ERR(sitf->regmap))
++			return dev_err_probe(dev, PTR_ERR(sitf->regmap),
++					     "Failed to init SITF regmap\n");
++
++		ret = stm32_mdf_sitf_parse(dev, child, sitf);
++		if (ret)
++			return ret;
++
++		list_add(&sitf->entry, &mdf->sitf_list);
++	}
++
++	return 0;
++}
 diff --git a/drivers/iio/adc/stm32-mdf.h b/drivers/iio/adc/stm32-mdf.h
-index b334769f8b17..e3617b181e28 100644
+index e3617b181e28..fa689954d7c1 100644
 --- a/drivers/iio/adc/stm32-mdf.h
 +++ b/drivers/iio/adc/stm32-mdf.h
-@@ -174,6 +174,9 @@
+@@ -19,6 +19,9 @@
+ #define MDF_IPIDR_REG 0xff8
+ #define MDF_SIDR_REG 0xffc
  
- #define STM32MP25_MDF_IPIDR_NUMBER 0x00110032
++/* Registers offsets relative to sitf base address */
++#define MDF_SITFCR_REG 0x00 /* 0x80 * x + offset */
++
+ /* Registers offsets relative to filter base address */
+ #define MDF_BSMXCR_REG 0x00 /* 0x84 * x + offset */
+ #define MDF_DFLTCR_REG 0x04
+@@ -177,8 +180,49 @@
+ #define STM32_MDF_CCK0 "clk_cck0"
+ #define STM32_MDF_CCK1 "clk_cck1"
  
-+#define STM32_MDF_CCK0 "clk_cck0"
-+#define STM32_MDF_CCK1 "clk_cck1"
++enum stm32_sitf_mode {
++	STM32_MDF_MODE_LF_SPI,
++	STM32_MDF_MODE_SPI,
++	STM32_MDF_MODE_MANCHESTER_R,
++	STM32_MDF_MODE_MANCHESTER_F,
++	STM32_MDF_MODE_NB,
++};
++
++/*
++ * struct stm32_mdf_sitf - STM32 MDF serial interface data
++ * @entry: serial interface list head
++ * @dev: pointer to parent device
++ * @regmap: regmap for register read/write
++ * @mdf: mdf common data pointer
++ * @node: serial interface node handle
++ * @sck: sitf clock handle
++ * @base: sitf registers base cpu addr
++ * @lock: sitf state manegement lock
++ * @refcnt: sitf usage reference counter
++ * @scksrc: sitf clock source
++ * @id: serial interface index
++ * @mode: sitf mode
++ * @sitfcr: sitf configuration register backup
++ */
++struct stm32_mdf_sitf {
++	struct list_head entry;
++	struct device *dev;
++	struct regmap *regmap;
++	struct stm32_mdf *mdf;
++	struct fwnode_handle *node;
++	struct clk *sck;
++	void __iomem *base;
++	spinlock_t lock; /* Manage race conditions on sitf state */
++	unsigned int refcnt;
++	unsigned int scksrc;
++	u32 id;
++	u32 mode;
++	u32 sitfcr;
++};
 +
  /*
   * struct stm32_mdf - STM32 MDF driver common data (for all instances)
++ * @sitf_list: pointer to serial interfaces list
   * @filter_list: pointer to filter interfaces list
-@@ -216,6 +219,8 @@ static inline struct regmap *stm32_mdf_regmap_init(struct device *dev, struct cl
- int stm32_mdf_core_start_mdf(struct stm32_mdf *mdf);
- int stm32_mdf_core_stop_mdf(struct stm32_mdf *mdf);
- int stm32_mdf_core_trigger(struct stm32_mdf *mdf);
-+int stm32_mdf_core_restore_cck(struct stm32_mdf *mdf);
- int stm32_mdf_core_lock_kclk_rate(struct stm32_mdf *mdf);
+  * @kclk: kernel clock shared by the core and its children
+  * @fproc: processing clock frequency
+@@ -186,6 +230,7 @@
+  * @nb_interleave: number of interleaved filters
+  */
+ struct stm32_mdf {
++	struct list_head sitf_list;
+ 	struct list_head filter_list;
+ 	struct clk *kclk;
+ 	unsigned long fproc;
+@@ -224,3 +269,7 @@ int stm32_mdf_core_lock_kclk_rate(struct stm32_mdf *mdf);
  void stm32_mdf_core_unlock_kclk_rate(struct stm32_mdf *mdf);
-+unsigned long stm32_mdf_core_get_cck(struct stm32_mdf *mdf);
+ unsigned long stm32_mdf_core_get_cck(struct stm32_mdf *mdf);
  
++int stm32_mdf_sitf_init(struct device *dev, struct stm32_mdf *mdf);
++int stm32_mdf_sitf_start(struct stm32_mdf_sitf *sitf);
++int stm32_mdf_sitf_stop(struct stm32_mdf_sitf *sitf);
++
 
 -- 
 2.43.0
