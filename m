@@ -1,60 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096060;
-	b=K1SD3nNQaq7I18WvMk7uMKMbGi1IQwAf6/IUHocriLlsNPZuwiImT/NUjVkp0MJJ0lYI
-	 4CFYgXnJtBJuwoEehzNxa9Yp/AoeBodmMS4dGBiAkh9tUdFOfRvPGfiuV3uyh/FnLkpiG
-	 U4OXafZ+n/s/vMklUdQcbBprAtlFN2m5ow0GyV0SM/BCXvh5Ba436YFrWWzroOqnicIsR
-	 i1tlyAykqd3OMQmMbk0fpRxf39glO7F6SZFz3MWptYjJn8M36jDwphIXQnSFFAa0qOOof
-	 JQ5rFFW0dB5btzQwBNY0gOEA6I759Pd/CHSBizSWK6iTWhvTzwfvJMpzQq8bjju5q4Q==
+	t=1795096064;
+	b=R0JYT3Zvf1E4dXIgt62wAAAXS4LXlP4Sfyf7qnad00ai2g/8kElwWA4xhpgWrdlSOzpE
+	 eqq80ktSAls5I/dGajUgKzeSuJp4DNvH9NLQvTpI/nwC7yEDKnJvTPGIR1e+u4IksPKdb
+	 7SHiFrmvLMHnWo+Q2m+NMP0LbV5+kFgjw4tsIMMhJa1/u/VQuAAIBfzc0luHf3EYJnKI5
+	 xA+TTDGjO9ShielI7AbOHuQapnipY4da516vYW+cJdOk+Wys2jEms7URxdTFLLeucX2FS
+	 10Kx6BstXwFFO8RdQW2NyAnh+MNzPn8I1FWCtIHF0Ip608EvNzWj8X+Gp1nS/V+ghJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096060;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795096064;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=En+020RPVc7mTytUQ4HcwO7rcu8cEIxHcFHIbahL/4k=;
-	b=mxJX11EIF5yipi5DHFGuZ43pKkzWfBKF8VHFWF65UcQDxwIcQeUBUGpCmdpz+7JKlf0r
-	 /nfWDLpPeIeqchybdmRvQjHtNpUKGcy9nIJR5QzAjvTX15DBtrSM2n5hmOVueWFuRMetg
-	 K9lJ2p9BgRHIR7LOy06MtamJQDbnogq0eV1yIfINq9VtHtpo0/486rZgm2+Q6lGcTqUVw
-	 0mC3DGWj+sTpUmb6G8zw2nOmvVtzT+MVgIXTsUPbHPDdJ5bb+ezah/Coq/PThaM5WwBvS
-	 fcpWWzBqbTSAdtLCP0eFc1SLuKfNg6t2ElleS5hj+J9Pfiio24rLelQTAUA6VA7bHXA==
+	bh=KuaSAeiK1uYc9mpnxRzjNwjlesbXX8iHWkaUCVjsGak=;
+	b=Id/OH0fa+B7AQbv/fwWyvfcGkpixy8tf9mmfUF1xn8+df2Bm1fIGBLhW6rZfW5oCLpzp
+	 4EcuX4BRM7wp5ifdhBxhJekyQGGEVwcQbjCY2wFKfVRX7wuIG93tczLOMt9LWxCh3w/Xd
+	 Jkqcd7c7HsRFAVmix3/7eoQW3dYdsWqLNavAF89g43T7gF6UcsC8lKMzm8i7ftnDcB/0s
+	 SndMEEKbPclnYVLNzo1Bls9s+ya7wuot7js9vibVr4r3L8Ts5FFhy10CtxDiTq2NZ5e8r
+	 W4hop5yE7Kw15+9xY2wPsblbrZtNbbKuNRHUMvKlNCe5BqIn9DkDNEOxFhQeCgBmzGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CCZzmd6Y;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fxiNL9Lp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC1A606A326;
-	Thu, 19 Nov 2026 13:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F852606A33E;
+	Thu, 19 Nov 2026 13:47:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CCZzmd6Y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79411F000D2;
-	Thu, 19 Nov 2026 13:47:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fxiNL9Lp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777121F000CE;
+	Thu, 19 Nov 2026 13:47:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795096059;
-	bh=En+020RPVc7mTytUQ4HcwO7rcu8cEIxHcFHIbahL/4k=;
+	s=k20260515; t=1795096064;
+	bh=KuaSAeiK1uYc9mpnxRzjNwjlesbXX8iHWkaUCVjsGak=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CCZzmd6YUnidfBZm/fLzgFVzXL1idWVLjz+xkCSsvEv8m1PyGHLYSU5LJ4orWXpdY
-	 5+o07Ata43r1KwwLqP7p0Vv4mO9eOrFDt+SOpyeIJkE3hAE7Ut3TgLaOwjSzbq0ypw
-	 cOmPEOnnsEtOcwtia94Iz8BhZU0k2xqZvPhGvbsb+XBQ/tPQ3Is4uItwVUwcpwoeNi
-	 MFtFfseb/BPHQNNvoshNSAkVwKfxR3jOpebDnt6glAQkrBMoR1MdAJm1WzB3VaSgy6
-	 Xi99eebdlGwAoTe6wDshS2W8jTvtx/KFgDivsHrTTFkqH9xXqLrIs75+3hjutV8q2m
-	 W1EVXBSMHO+BA==
+	b=fxiNL9LpJJ6gDgpGY/AkTrXCh7kosYEAygK/24M5EmuNJmXLYWba99HJTbEK8ynZN
+	 i9ZifhVphYs9mEBgR0++c+OgXf3lUxE951dOUq3SARzHbO0CMDtopRZpeFbqPwgUr/
+	 k7Omqwag/IQERKZ6zD8SnRW8cUqbqibT6DQ64Ovs1GmpKaVJ6kjLozjWvVvfTMqR30
+	 AOccgxrC88YkndN8pvBlxNQbLfbTm0Xe0z3zi1KLmZ0tHCH4CUdL0yV9182WrW9yab
+	 SCOJIqOXjRdQFlK2j7kGzbGxGDD+fbI5JFtGo+7I6pMRQFcQDn+jT8EDG/g8CbIfBV
+	 awmVfxzr6Lnzw==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Julius Bairaktaris <julius@bairaktaris.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>, 
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Tim Surber <me@timsurber.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Heiko Stuebner <heiko@sntech.de>, linux-sound@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20261111080624.244291-1-julius@bairaktaris.de>
-References: <20261111080624.244291-1-julius@bairaktaris.de>
-Subject: Re: [PATCH 0/2] ASoC: qcom: qdsp6: bound the compress ring by the
- DMA buffer
-Message-Id: <179502346399.349622.9493801754958983425.b4-ty@b4>
-Date: Wed, 18 Nov 2026 17:37:43 +0000
+In-Reply-To: <20261111215125.3560398-1-me@timsurber.de>
+References: <20261111215125.3560398-1-me@timsurber.de>
+Subject: Re: [PATCH] ASoC: rockchip: i2s-tdm: Don't reset a pending clear
+ in consumer mode
+Message-Id: <179502607252.810609.158294566774714648.b4-ty@b4>
+Date: Wed, 18 Nov 2026 18:21:12 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -67,27 +65,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1769; i=broonie@kernel.org;
- h=from:subject:message-id; bh=NWPtdka5pFVfl4DdBH0dB1abmby7OY5vLNIMpV6KvoY=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/f3xo+DJhrUv2r6t+qj+Q76wZP5T/smWE2s0KvZGX
- 5kRcENRqKOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQATkW9hZHi/6/4My7w5O47X
- fFUvFi8+8kPh51QVl1Xv3x338JfLOnmIkeGErP/E+oDoRIWZp+Od7k6U49nBLs5+r8LP9tjUmHP
- Vu9gB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=fimSRl/EIz2UKRbOsZbukLYqOThFn2yXzoZlHkw7lcM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/f2TeLZgDku6vnoq28pPRh9qbq64+fhW6fbm/yJnb
+ /32mfu6vKOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQAT+cDByPD+qcfT6IMb3GqZ
+ 7i86rcnrbZrqqLBYa+NRsR2//4UtWHyd4Z/umpmsXDJ1vveVtqQGCb7h/+qmlerAdFA12qJ1m79
+ BDDMA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 11 Nov 2026 09:06:22 +0100, Julius Bairaktaris wrote:
-> ASoC: qcom: qdsp6: bound the compress ring by the DMA buffer
-> 
-> q6apm-dai and q6asm-dai allocate a fixed 8 MiB DMA buffer when a
-> compress stream opens and take the ring geometry from
-> SNDRV_COMPRESS_SET_PARAMS without comparing it to that buffer. Their
-> copy callbacks place each write() at the stream position modulo the
-> ring size, so a user who can open the compress node and asks for a
-> larger ring makes write() copy data of their choice past the buffer.
-> Each patch rejects such a ring in set_params.
-> 
-> [...]
+On Wed, 11 Nov 2026 22:51:20 +0100, Tim Surber wrote:
+> ASoC: rockchip: i2s-tdm: Don't reset a pending clear in consumer mode
 
 Applied to
 
@@ -95,10 +83,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: qcom: q6apm-dai: reject compress rings larger than the DMA buffer
-      https://git.kernel.org/broonie/sound/c/3857bc06e5a4
-[2/2] ASoC: qcom: q6asm-dai: reject compress rings larger than the DMA buffer
-      https://git.kernel.org/broonie/sound/c/4c15e549b7ad
+[1/1] ASoC: rockchip: i2s-tdm: Don't reset a pending clear in consumer mode
+      https://git.kernel.org/broonie/sound/c/6a4f9e7cf13e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
