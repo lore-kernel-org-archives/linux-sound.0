@@ -1,98 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795033360;
-	b=mZlSlaww0QcPTFEv0D57H59aVHpgj3PPnVFMudMQZvfeP+KD6ZGkagSM8OCopWmWEu/6
-	 QFP9ezCUCUof7aI1GqrbRjkgG+TH/mJkCqJ/wEvtlYANyb6B1hypFbkYBeOnpjCOOyhZo
-	 wrdwwXPjXU9qke02DziOtzUOzhbGYUCAvNZHQA/ZGLekMSULm9vloNrAMft4sbpFhcrnF
-	 tlL5lVCShA0ZOzUbP5XrQwmGlXPJqlkpYoiJWUaIAxVmzLmbeg5Mze71ouznUVnqTZBXV
-	 9/Q5vgeEQgYppjmPC/Pr2jGcjDQZ+E4jHDTDEHh908CnB0u6n9+cFyOXFx6XZm9ccqg==
+	t=1795036693;
+	b=fgUGVrIohCrXhgQFqNsOslaSzB5DmqChzLjn/a80TfA2rQtL8S+jB6tqkrdCoXDOT5sk
+	 PLIuVNoy9jZO0+4ogQ3Lhiqu48eL9/ZgPIWdCDjGj4eWiW0RG3bDZHAhVqjGGhhscLWor
+	 e0crxmy5sWGHvHh72rbTFMG0EewIR5uEqcW8pDxHU5hccIX2uZB5eXYlTHJ0O7/xI3ywX
+	 mX5VshRRTOyrHmv8lwanyfJKBHGKmSOIZrRyBJ4bG2u8eH3scv8leBEb+4GRfEVT2YgDu
+	 6OmFgw4IXRITIHqQc5R+ZwYDPhIoJOLyRmnwkpIS6we9fzWY1ih+denZaMuCJh0j3Ng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795033360;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=83WZjXw0m9X3Ou7HW+EzfUQVbMPBRYNOgGwn1hvvtI4=;
-	b=h+LwGdqoCMwaQVDZ45kdQSCBT6jz7n2m6Y4WRlF5U7gA0MGGVHMDVTnKCfHnIoEPyzo5
-	 kbc+Hd5Kdw7b4K2FbQQJMVigT1aP84DOy0A16vIyj2SBFiNtSoOZRMVXfOn0H0C13QtRD
-	 JFoorYSTXrG019wYdFBErcuOzqOKP6ibnMxQOfO1wN7TPcjh/6S1Bccx940oRBttPCR6o
-	 kgN5CxT6R8g8IGShx2xZJJPLq5rmMIsZ1plhNI1Y7qy3mhjenNcd0JBlBSagXL7fhpLrl
-	 JqLgvJyBg7LtDT05asLI/snmvk+mvQyqAHCYGg6wM8fP/1kUiuNMV+FQSrzHHURH+Cw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795036693;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=LKlJADHwH5NqUO0o0wdmoyXzEqNGvmRzK8dmHnsCwl0=;
+	b=hgfhIK27/4TmLGi7+lrEiAVIKXBZEDcOOdg7+kHcHcoiFozJjBPZOL+TUcNT5y2TPIEW
+	 9CkmGFd0tQS65FZuKSNyGCS8uOKushUjR2KUU962aOQwl1hZFI+QKuDQOuEm+NX6zwOf6
+	 8WzsIGjzBJ9Q1JWcuyaHN1VHVq3lzpZ2IPinDJGCRnXenMCgz41R4IppqmtpXQq7slmmy
+	 /ewmR7xKzD4XKRqe92tZMtyoLMHlkCeaxMG0oDuFAtEsqfD+JrNl7SFpGR9yxsFWRo+yY
+	 IX0W1JGHqXeQgg2P2rF0Ot/QmuiRNC3QDzAsjqeSKqXarYGgrzDSDg+AlTjrErKx4tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=PDzvVA0d;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=COdceWXC;
+	arc=none smtp.remote-ip=74.125.82.51
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627FC606A31C;
-	Wed, 18 Nov 2026 20:22:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 627FC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE51606A32A
+	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 21:18:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FE51606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=PDzvVA0d
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=83WZjXw0m9X3Ou7HW+EzfUQVbMPBRYNOgGwn1hvvtI4=; b=PDzvVA0dUL6X8a07m7W3FtiHvq
-	LePg1RVFpWzznF0js/ikqR1IzilBKVSOUmy8h9aKRnAwxpYoxqprli7vjNifq9IrxVN+EUiCgaPNG
-	4rQZEsMDX0Xmbd6Ah6hLNSO3HY0lLWTY1/+eE0gbxcfsyM8B16K+idR7+paawH6C6Uiw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xTmA5-00HVa7-0i; Wed, 18 Nov 2026 21:21:45 +0100
-Date: Wed, 18 Nov 2026 21:21:45 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, linux-coco@lists.linux.dev,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v3 18/31] net: phy: Use the compatibility driver
- attachment API
-Message-ID: <71c1b931-c553-46e3-b49a-51167f168ac4@lunn.ch>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=COdceWXC
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1b50a4bd2f3so2353553c88.1
+        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 13:18:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795036692; x=1795641492; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LKlJADHwH5NqUO0o0wdmoyXzEqNGvmRzK8dmHnsCwl0=;
+        b=COdceWXC1oh1o3WBBgewEsNco92OICaTqVnIacXcPxsH5zYtwtdhg+uwnQrB9fqxqB
+         g/xHfyRSnGghl54HHGs9f3vY2LQahFBzTBRY6tQJu46ysB9zMQsXdiqL6v+zg9smlOZm
+         0J0AEzGJPWTDRw2LHN/dorK9Lvg5NT9Ne9hBJOMP7ffNNIlMGPMSR0u4S0yWgMHo9jUS
+         iHHJ6AtBIR3otH3Cx85uE098MAv1AOU/WO6xBGvDp5uzuADZhkpWVrOdjejG76SQlgtU
+         JU73EyAzRY+rO+V/ZgyZNU4xzpYG6X56E0QmqV3SoVfOwpPpV+rFTczzVYKCawS945oY
+         0zCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795036692; x=1795641492;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LKlJADHwH5NqUO0o0wdmoyXzEqNGvmRzK8dmHnsCwl0=;
+        b=abu+KZEQEbI+pxfMwUmyQci7lt+hdoHNNvPAAf4M/g3XGQ8z1sMnzqG/VkZ4LNJOse
+         egIceyTS9SSEFHuPLW5tdJ4SVfPknuceO3vtDY+Q/UAOCNZ8w8vzBwq+doHGtbl2Kmyf
+         AljgxU/hNcWzL0chYMAPluNO70VhYTiV1Zxb4/KwUYeiSbO6OBY6U/e4fKLnRJK5sH2f
+         bpRDkvIyr7ZQsd1ZW6uY7quNz/lp1SjAEMUnTY3Q25w0IIVefGTv+kj5DCQoxJINnjcY
+         eueV5WCzC4A1/ux7WZAj81zxDXrfdY7ZXB3EbPvB6sMePV8JO9+v66i7YdJN3bkYK05t
+         81CQ==
+X-Forwarded-Encrypted: i=1; AL+hErFeKYsJO9YTTqYylojnIIA2HnzhDptrv+41zOSjGMhfOSMsdum9Dznd84h9Dzjmj8/puvcXi7idEfr7qg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+CN9b4tTXklJMhiv4e4Vinuy3cy4SYqRETh+tAQGoWsub5Fyyb
+	cK8eW4lhGOMMQAdLmyqQotcWoGm7+73onKF8+YkwXNIMgPtljkRtF0cQUiC6qA==
+X-Gm-Gg: AYBFou3Ro5jioY4RcPmDpTlLs5CqnQ2i6K6hnFqsFPRvw5fyTTv1+Ulw2xXD0nw61Y0
+	ZXpT5dxUcsp3yN5LAU5Bdw+U7G4e4nMeHDKpJ7eFMyMga8gUCTFnlSpQrlbxbXJu9DadhOJLkQn
+	F5SEMYmOnAs0fxJN/Ha95IsIkhhDOB4PraL7RkUiccG7pdp0hqeE8VMePWUwXp0PeAtU+zN/tuT
+	BgSWgg+Sl1MV48Q3XOJB9vj8mc1Zs9lhZZdFEH1l99jv7+yfK+5qOKIjGWpc55da5bjWCkuq1CE
+	9yCl6gNRhBHac5zQrFL+nkseoKOUbP9TNUWAbOqaX0mYbFVfcdJnw5UMzNrSQGBrnIR5SFpc8aE
+	pX5Wj0f65nsA1BmjXegi2kIqN6/gCV9LPajFBBDUVRp0M6f/dfznbS473T6N45fBzPPvbZpBhQB
+	AdCnlV5AyPtWlpD4FRtRrwVJJJPmMfRKGqQvgexhyZkB4l3xKge0ddW16KB+mAPgJ1g+wXUYJNv
+	WlpgVzFPX1Ih7ZOUc12msvwXoiBJwmOjBWY4L30VUaMTUtsBIV1TaGfnN8sTPAUGNmkFExapXoQ
+	fm4ZwCqwCZsMr+Ibys4H5fJXy6EtuvvyuZqyPiKbqTCV2J0uBYwZWcnN3A49KjVBFn2Y6/LLpyN
+	B05ujS2/xrm+2mwG2Iin4DQ==
+X-Received: by 2002:a05:701a:ccde:20b0:1a5:9abb:fdd7 with SMTP id a92af1059eb24-1b543ce5e34mr3635627c88.9.1795036692103;
+        Wed, 18 Nov 2026 13:18:12 -0800 (PST)
+Received: from fabio-X870-EAGLE-WIFI7.tail2bb604.ts.net ([2804:1b3:a803:1afe:2fea:c6f8:d30d:433])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b544784017sm8736807c88.4.2026.11.18.13.18.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 13:18:11 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: broonie@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	sen@ti.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Fabio Estevam <festevam@nabladev.com>
+Subject: [PATCH 1/2] ASoC: dt-bindings: pcm512x: Add mute-gpios property
+Date: Wed, 18 Nov 2026 18:17:59 -0300
+Message-ID: <20261118211800.63292-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,22 +103,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-> @@ -3813,6 +3809,8 @@ static int phy_probe(struct device *dev)
->  	int err = 0;
->  
->  	phydev->drv = phydrv;
-> +	phydev->is_genphy_driven = phydrv == &genphy_driver ||
-> +				 phydrv == &genphy_c45_driver;
->  
+From: Fabio Estevam <festevam@nabladev.com>
 
-Why do this here?
+Document the optional GPIO connected to the active-low XSMT soft-mute
+input.
 
-It also makes the code asymmetric. If you set it in phy_probe, you
-should unset it in phy_remove. At the moment, it is symmetric,
-phy_attach_direct sets it, phy_detach clears it.
+Signed-off-by: Fabio Estevam <festevam@nabladev.com>
+---
+ Documentation/devicetree/bindings/sound/ti,pcm512x.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-	Andrew
+diff --git a/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml b/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml
+index 21ea9ff5a2bb..58ea52e79860 100644
+--- a/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,pcm512x.yaml
+@@ -42,6 +42,10 @@ properties:
+   '#sound-dai-cells':
+     const: 0
+ 
++  mute-gpios:
++    description: GPIO connected to the active-low XSMT soft-mute input.
++    maxItems: 1
++
+   pll-in:
+     description: GPIO pin used to connect the pll using <1> through <6>. The
+       device will be configured for clock input on the given pll-in pin.
+-- 
+2.43.0
+
