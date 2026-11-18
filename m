@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016530;
-	b=muzJ+ECYqudW19OatNZZQCVZ4d+Y9XDTFioy9FmxmrB9d1IvvseOfzD/onimMi8OCobV
-	 IxJx7CebZ2WAh63Q0PNqgzvTUaXCukvigS82up1NsXemAykjbjDlXEj0xAstN5Sb5HcCH
-	 R/Ie+uksdqhWjiqAYtc3zP4HPBppnCYRgI6DiD98s0TX+o6XOrIPzSCDYYR6d3WS5lxO/
-	 Byr38k08MTyI1fhk4s9fvjo2CgJddN23uDPwIDJIi4XqI7Iyedi/ZVWYDTDfZBzIFxUEj
-	 Lbucdm0GMV3SVJUTbajsahRxTPeUGjbe2C7PRajBP2sxEthVwNnUWKx/WZwzyHaD+BQ==
+	t=1795016717;
+	b=VgE5ua4Y8DpnNMutHVhYPNvKcEiS1lVq4K6K/Wvolh4V8IwAtdynVUmWkAIScrX4mRmb
+	 pM5TGInq2t+TmplJp7HNCymE7//QEf51OWXoThbKqXmhyoLBCHnZ6fQemD3+vHswBHpBX
+	 BPe2MpgFPU0vxbKWNR6Yly9UcUeDSbZOeVo4hrSNBld4h7KndqImJYcM6hXOEqeqiNkuO
+	 OiCfVw5FnQ0UgPKzQ2jlYdNYw0m9DWPUq75XijbWof9OGUYPBDIBjg2ddjm9/udtSmyJg
+	 ITQVU2BVefBpwPOK/LciOgnrGxnR4Nbf15xQ/bfabUPgFu0ve4Sw5ptL2+14JszOm3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016530;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016717;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=RohgLBAexgLmQgnocxGNiSi0y1sBJm0zvNG/HBAbkDI=;
-	b=LYV/AkcVPegxwrAyFxyz/ZGbIpNpTP7Q9eC5gs/7VEAvqkzhfPIORHYl23lJO6p9QPrb
-	 ts8YU85+WOtjVaYl7BXLWqcUILQaocs1Ne+blH8PMKMqDnVp13Vi3u/M3UIEci5CaN0u1
-	 kMPa7GAsJPJTO7eTapulJ4glyjx7zhCkvlpjQHnIJDSBkLQTp/2Y7WYRs9I6DkHCp/8qG
-	 1uvbxDdzZYZgNkJAnjAIhuZe0skKUWVFtB3Ep8Fc3k2OQ6HXNiHKcC7gS8q2agKuLb24a
-	 NbDEV1hCM8TmipCo+lWhUtG/zzMRFGQ3nakcsWrUpNOZ2at/2RUnv6WiNSVtf2wGJ+A==
+	bh=2G51rEyfqi6bjd6wrXqr2TDfrIHimcl6sRFrz0Sp5Ys=;
+	b=bEsVrVJcmHXGhiRzDhkgxnXbrSqo0mTyLaLy9hEpn1AzEoRrx+koicNaSVfMKbl2e7zj
+	 LXo7Mu6IdS91gfc55j06Tig/qNPJyr+UJeMP5+0jmGJtuPJDcSQJojiY/ggDxF1a72Thh
+	 HOeG6v9NMUJDL1GzDhAA2xYSfoMvUVWVx/DIawrq4NqVENYtnr68KDeS/Q3NfOnTf3kUe
+	 gxha0I+bOXC0E4ly/DAjWbDKmh68pTThrjA5cevAymtLVX5Xe9rIq8GZaZNH3oHTbY7tS
+	 JxuH1YNtybObufRabarz68pZFqcTvuaE2hi+80kZ/eeNXpkDDIkGeYZnDdiO8XVceNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VtEc1rXG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J9pMVfA7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0C2606A320;
-	Wed, 18 Nov 2026 15:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165BC60A2605;
+	Wed, 18 Nov 2026 15:45:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VtEc1rXG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB8B1F000C5;
-	Wed, 18 Nov 2026 15:42:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J9pMVfA7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53E621F000C5;
+	Wed, 18 Nov 2026 15:45:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016530;
-	bh=RohgLBAexgLmQgnocxGNiSi0y1sBJm0zvNG/HBAbkDI=;
+	s=k20260515; t=1795016716;
+	bh=2G51rEyfqi6bjd6wrXqr2TDfrIHimcl6sRFrz0Sp5Ys=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VtEc1rXGOBygt6PrHOHw5Tzy8cphLduSMMqPvR97JUHaHhuCVb1WHRW/9K2qj+aBJ
-	 CVCtxJJYO1TUF1b5D2okY3YK8MB9MrF0nidJFjpjwJtkUAZN6caoGM6UfS1ZSaEn+c
-	 qJYxGSUN6oqnT1h/+BhLOFps4cUTtxl0fOM1Wn/tvzw3eI1Otd1rxj7Ep81+wGjbNo
-	 vcetSnJb6ueAwRxDYWyhyZKN7w+BCgyELLrIrkYANd5JD5/ZfSAm33oo5k1ash851k
-	 1BV4F3uZQPQlgUhOXOmeL/hmUZYK4YiUPIOKqJ+VxWaGKaM2EiY9xEXtG/9xCHpcV1
-	 jfA9a6eI/+i5w==
-Message-ID: <sashiko-outbox-221361@kernel.org>
+	b=J9pMVfA7sWsDlm/DPa3FjDpqTzmRLQzYGvMTpXEzMeOjjM4kEJPcz1S2IkdVNQz7X
+	 SPPgoxVAFe3RDjFcmPKgb6CuoXpPQBDHOYR1N8ejDMM+mC1nbvDhxpeIJljliKwuIC
+	 OQeVVw/7tS1FGzzRC5muQ69B7mgalcfPHHsmIO+uGHv9ikwrHva7bT7TDVC0fDIyld
+	 WFt3BLj0Cisgujri2iGUml2R0OvrWY+MUraqAKPXapHWJUaQ3GvAUoBUDK4t5IwHzE
+	 lbxyIJ9+VnO4kDr0R8RVLmfNtwFsSiwx0SaAhT/w4MB9G8eVJ2MM07bJ1g++DO2Exa
+	 fyLiId2lNsPUw==
+Message-ID: <sashiko-outbox-221370@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 04/11] iio: adc: stm32-mdf: add serial interfaces
- support
+Subject: Re: [PATCH v2 02/11] iio: adc: stm32-mdf: add core registration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Olivier Moysan" <olivier.moysan@foss.st.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org
-In-Reply-To: <20261118-upstream_mdf_v2-v2-4-7939d3c3720a@foss.st.com>
+In-Reply-To: <20261118-upstream_mdf_v2-v2-2-7939d3c3720a@foss.st.com>
 References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
- <20261118-upstream_mdf_v2-v2-4-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-2-7939d3c3720a@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 15:42:09 +0000
+Date: Wed, 18 Nov 2026 15:45:15 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,274 +60,484 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 7 potential
+Thank you for your contribution! Sashiko AI review found 12 potential
 issues to consider:
-- [High] iio: adc: stm32-mdf: NULL pointer dereference in
-  stm32_mdf_sitf_get_clk()
-- [Medium] iio: adc: stm32-mdf: off-by-one and underflow in
-  stm32_mdf_sitf_parse()
-- [Medium] iio: adc: stm32-mdf: invalid SCKSRC and bit update in
-  stm32_mdf_sitf_parse()
-- [Medium] iio: adc: stm32-mdf: missing max_register_is_0 and name in
-  sitf regmap_config
-- [Medium] iio: adc: stm32-mdf: unbalanced kclk prepare count on
-  suspend/resume errors
-- [Low] iio: adc: stm32-mdf: module self-pinning in
-  stm32_mdf_sitf_get_clk()
-- [Low] iio: adc: stm32-mdf: unused base member in struct stm32_mdf_sitf
+- [High] iio: adc: stm32-mdf: reset in stm32_mdf_core_parse_of() breaks
+  regcache/probe
+- [Medium] iio: adc: stm32-mdf: unchecked read and missing rollback in
+  start_mdf()
+- [Medium] iio: adc: stm32-mdf: lockless n_active_ch races in
+  start_mdf() and stop_mdf()
+- [Medium] iio: adc: stm32-mdf: unlocked regcache_cache_bypass() races
+  with trigger()
+- [Medium] iio: adc: stm32-mdf: missing state rollback on suspend and
+  resume failure
+- [Medium] iio: adc: stm32-mdf: unmapped resource 1 read in
+  stm32_mdf_core_probe()
+- [Low] iio: adc: stm32-mdf: unused PM callbacks when CONFIG_PM_SLEEP or
+  CONFIG_PM=3Dn
+- [Low] iio: adc: stm32-mdf: drvdata pointer type mismatch in
+  stm32_mdf_core_probe()
+- [Low] iio: adc: stm32-mdf: unchecked regmap_read() for MDF_VERR_REG
+- [Low] iio: adc: stm32-mdf: guard() mixed with goto in
+  stm32_mdf_core_trigger()
+- [Low] iio: adc: stm32-mdf: invalid OPTION() macro in
+  MDF_OR_OPTION_MASK
+- [Low] iio: adc: stm32-mdf: missing header include guards in
+  stm32-mdf.h
 --
 
-commit a885a42b631244af337425ef9681fd1c4db1960e
+commit 016595fa648050f874751e37d47a5cfa33a78bde
 Author: Olivier Moysan <olivier.moysan@foss.st.com>
 
-iio: adc: stm32-mdf: add serial interfaces support
+iio: adc: stm32-mdf: add core registration
 
-This commit adds support for the STM32 MDF serial interfaces (SPI and
-Manchester modes), including Device Tree parsing, clock selection,
-suspend/resume handling, and reference-counted start and stop helpers.
+This commit adds the core driver for the STM32 multifunction digital
+filter (MDF) to manage shared registers, clocks, and power resources on
+STM32MP2.
 
 > diff --git a/drivers/iio/adc/stm32-mdf-core.c b/drivers/iio/adc/stm32-mdf=
 -core.c
-> index 4e462c6c42bc8..5b5d2d4cbb5c5 100644
-> --- a/drivers/iio/adc/stm32-mdf-core.c
+> new file mode 100644
+> index 0000000000000..ca50ce566a435
+> --- /dev/null
 > +++ b/drivers/iio/adc/stm32-mdf-core.c
 [ ... ]
-> @@ -794,7 +806,9 @@ static int stm32_mdf_core_suspend(struct device *dev)
->  	regcache_cache_only(priv->regmap, true);
->  	regcache_mark_dirty(priv->regmap);
-> =20
-> -	/* Balance regmap_mmio_attach_clk() clk_prepare() */
-> +	/* Balance regmap_mmio_attach_clk() for the SITFs and the core. */
-> +	list_for_each_entry(sitf, &mdf->sitf_list, entry)
-> +		clk_unprepare(priv->kclk);
->  	clk_unprepare(priv->kclk);
-> =20
->  	return pinctrl_pm_select_sleep_state(dev);
-> @@ -804,6 +818,8 @@ static int stm32_mdf_core_resume(struct device *dev)
->  {
->  	struct stm32_mdf *mdf =3D dev_get_drvdata(dev);
->  	struct stm32_mdf_priv *priv =3D to_stm32_mdf_priv(mdf);
-> +	struct stm32_mdf_sitf *sitf;
-> +	unsigned int prepared =3D 0;
->  	int ret;
-> =20
->  	ret =3D pinctrl_pm_select_default_state(dev);
-> @@ -825,8 +841,24 @@ static int stm32_mdf_core_resume(struct device *dev)
->  		goto err_cache;
->  	}
-> =20
-> +	list_for_each_entry(sitf, &mdf->sitf_list, entry) {
-> +		ret =3D clk_prepare(priv->kclk);
-> +		if (ret)
-> +			goto err_sitf;
-> +		prepared++;
-> +
-> +		ret =3D regmap_write(sitf->regmap, MDF_SITFCR_REG, sitf->sitfcr);
-> +		if (ret)
-> +			goto err_sitf;
-> +	}
-> +
->  	return pm_runtime_force_resume(dev);
-> =20
-> +err_sitf:
-> +	while (prepared) {
-> +		clk_unprepare(priv->kclk);
-> +		prepared--;
-> +	}
->  err_cache:
->  	clk_unprepare(priv->kclk);
->  err_clk:
-
-[Severity: Medium]
-Does an error in pinctrl_pm_select_sleep_state() or in
-stm32_mdf_core_resume() leave priv->kclk unprepared while the regmap_mmio
-instances remain active?
-
-Each regmap_mmio_attach_clk() call at probe holds a clk_prepare() reference
-that regmap_mmio_free_context() releases on teardown.  If
-pinctrl_pm_select_sleep_state() fails in stm32_mdf_core_suspend(), or if
-stm32_mdf_core_resume() fails and unwinds clk_prepare(priv->kclk) (while
-also leaving priv->regmap out of cache-only mode), later register accesses
-call clk_enable() on an unprepared clock and driver removal triggers
-clk_unprepare() underflow warnings.
-
-> diff --git a/drivers/iio/adc/stm32-mdf-serial.c b/drivers/iio/adc/stm32-m=
-df-serial.c
-> new file mode 100644
-> index 0000000000000..6ba3be0198478
-> --- /dev/null
-> +++ b/drivers/iio/adc/stm32-mdf-serial.c
-[ ... ]
-> +static const struct regmap_config stm32_sitf_regmap_cfg =3D {
-> +	.reg_bits =3D 32,
-> +	.val_bits =3D 32,
-> +	.reg_stride =3D sizeof(u32),
-> +	.max_register =3D MDF_SITFCR_REG,
-> +	.fast_io =3D true,
-> +	/* Do not use regcache as it does not support single register map */
-> +};
-
-[Severity: Medium]
-Should stm32_sitf_regmap_cfg set .max_register_is_0 =3D true and give each
-serial interface regmap a distinct .name?
-
-Because MDF_SITFCR_REG is 0, __regmap_init() treats .max_register as
-unspecified unless .max_register_is_0 =3D true is set, which disables upper
-bounds checking on the 4-byte iomapped region (and is also why regcache
-rejected the single-register map).  In addition, stm32_mdf_sitf_init()
-registers every sitf->regmap on the parent device with .name =3D=3D NULL, so
-their debugfs entries collide with priv->regmap and with each other.
-
-[ ... ]
-
-> +static int stm32_mdf_sitf_get_clk(struct device *dev, struct device_node=
- *np,
-> +				  struct stm32_mdf_sitf *sitf)
+> +int stm32_mdf_core_start_mdf(struct stm32_mdf *mdf)
 > +{
-> +	struct clk *sck;
+> +	struct stm32_mdf_priv *priv =3D to_stm32_mdf_priv(mdf);
+> +	struct device *dev =3D &priv->pdev->dev;
 > +	int ret;
+> +	u32 val;
 > +
-> +	/* SITF nodes have no device to apply their assigned clock configuratio=
-n. */
-> +	ret =3D of_clk_set_defaults(np, false);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Can't configure serial clock for %pOF\=
-n", np);
+> +	if (atomic_inc_return(&priv->n_active_ch) =3D=3D 1) {
+> +		ret =3D pm_runtime_resume_and_get(dev);
+> +		if (ret < 0)
+> +			goto err;
 > +
-> +	sitf->scksrc =3D STM32_MDF_SCKSRC_NONE;
-> +	/* Optional clock. Clock not needed in Manchester mode. */
-> +	if (!of_property_present(np, "clocks"))
-> +		return 0;
+> +		/* Enable PROCDIV and CCKDIV clock dividers */
+> +		ret =3D regmap_set_bits(priv->regmap, MDF_CKGCR_REG, MDF_CKG_CKGDEN);
+> +		if (ret < 0)
+> +			goto pm_put;
 > +
-> +	sck =3D devm_get_clk_from_child(dev, np, NULL);
-> +	if (IS_ERR(sck))
-> +		return dev_err_probe(dev, PTR_ERR(sck), "Can't get serial clock for %p=
-OF\n", np);
+> +		/* Check clock status. Bypass cache to access volatile CKGACTIVE activ=
+e bit */
+> +		regcache_cache_bypass(priv->regmap, true);
+> +		regmap_read(priv->regmap, MDF_CKGCR_REG, &val);
+> +		regcache_cache_bypass(priv->regmap, false);
+> +		if (!(val & MDF_CKG_ACTIVE)) {
+> +			ret =3D -EINVAL;
+> +			dev_err(dev, "MDF clock not active\n");
+> +			goto pm_put;
+> +		}
 
-[Severity: Low]
-When the SITF clock is one of the internal CCK0 or CCK1 clocks registered
-by the same driver in stm32_mdf_core_register_clock_provider(), does
-devm_get_clk_from_child() pin stm32-mdf.ko to itself?
+[Severity: Medium]
+What happens if regmap_read() fails here, or if MDF_CKG_ACTIVE is not set?
+The return value of regmap_read() is not checked, so a read failure tests
+an uninitialized val on the stack.
 
-devm_get_clk_from_child() resolves the clock through OF with a NULL
-consumer owner, so clk_hw_create_clk() sees owner !=3D core->owner and calls
-try_module_get() on stm32-mdf.ko, preventing rmmod until the device is
-manually unbound.
+In addition, jumping to pm_put when MDF_CKG_ACTIVE is not set leaves
+MDF_CKG_CKGDEN set in hardware and in REGCACHE_FLAT, so subsequent
+non-forced regmap_set_bits() calls will skip writing MDF_CKG_CKGDEN.
 
 > +
-> +	sitf->sck =3D sck;
-> +	if (!strncmp(__clk_get_name(sck), STM32_MDF_CCK0, sizeof(STM32_MDF_CCK0=
-)))
-> +		sitf->scksrc =3D STM32_MDF_SCKSRC_CCK0;
-> +	else if (!strncmp(__clk_get_name(sck), STM32_MDF_CCK1, sizeof(STM32_MDF=
-_CCK1)))
-> +		sitf->scksrc =3D STM32_MDF_SCKSRC_CCK1;
-> +	else
-> +		sitf->scksrc =3D STM32_MDF_SCKSRC_CLK;
+> +		if (!priv->exclusive_flg) {
+> +			clk_rate_exclusive_get(priv->kclk);
+> +			priv->exclusive_flg =3D true;
+> +		}
+> +	}
 > +
 > +	return 0;
-> +}
-
-[Severity: High]
-Can sck be NULL here, causing a NULL pointer dereference in strncmp()?
-
-In stm32_mdf_core_register_clock_provider(), clk_data->num is set to
-STM32_MDF_MAX_CCK while only clocks listed in clock-output-names are
-populated in clk_data->hws[]:
-
-drivers/iio/adc/stm32-mdf-core.c:stm32_mdf_core_register_clock_provider() {
-    ...
-		clk_data->hws[index] =3D mdf_hw[clk_id];
-    ...
-		index++;
-	}
-
-	clk_data->num =3D STM32_MDF_MAX_CCK;
-}
-
-If a sitf node references an unpopulated CCK index, of_clk_hw_onecell_get()
-returns NULL and devm_get_clk_from_child() returns sck =3D NULL.  IS_ERR(sc=
-k)
-does not catch NULL, so __clk_get_name(sck) returns NULL and strncmp()
-dereferences it.
-
 > +
-> +static int stm32_mdf_sitf_parse(struct device *dev, struct device_node *=
-np,
-> +				struct stm32_mdf_sitf *sitf)
+> +pm_put:
+> +	pm_runtime_put_sync(dev);
+> +err:
+> +	atomic_dec(&priv->n_active_ch);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(stm32_mdf_core_start_mdf);
+> +
+> +/**
+> + * stm32_mdf_core_trigger() - Trigger MDF filters
+> + * @mdf: MDF instance
+> + *
+> + * Trigger MDF filters via TRGO trigger.
+> + *
+> + * Return: 0 on success, or a negative error code on failure.
+> + */
+> +int stm32_mdf_core_trigger(struct stm32_mdf *mdf)
 > +{
-> +	const char *str;
-> +	int ret, mode;
-> +	u32 idx, sitfcr;
+> +	struct stm32_mdf_priv *priv =3D to_stm32_mdf_priv(mdf);
+> +	int ret;
+> +	u32 val;
 > +
-> +	ret =3D of_property_read_u32(np, "reg", &idx);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Could not get interface index for %pOF=
-\n", np);
+> +	guard(spinlock)(&priv->lock);
 > +
-> +	if (idx % 0x80) {
-> +		dev_err(dev, "Unexpected reg property value [%x]\n", idx);
-> +		return -EINVAL;
+> +	/* Bypass cache to access TRGO volatile bit */
+> +	regcache_cache_bypass(priv->regmap, true);
+> +
+> +	ret =3D regmap_read(priv->regmap, MDF_GCR_REG, &val);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	if (val & MDF_GCR_TRGO) {
+> +		ret =3D -EBUSY;
+> +		goto err;
 > +	}
 > +
-> +	idx =3D (idx >> 7) - 1;
-> +	if (idx > sitf->mdf->nbf) {
-> +		dev_err(dev, "Interface index [%d] exceeds maximum [%d]\n", idx, sitf-=
->mdf->nbf);
-> +		return -EINVAL;
-> +	}
-
-[Severity: Medium]
-Should the bounds check on the 0-based idx be idx >=3D sitf->mdf->nbf?
-
-With nbf serial interfaces at offsets 0x80 .. 0x80 * nbf, valid 0-based
-indices are 0 .. sitf->mdf->nbf - 1, so idx > sitf->mdf->nbf is off by one
-and accepts idx =3D=3D sitf->mdf->nbf.  Also, if reg is 0, idx % 0x80 is 0 =
-and
-(idx >> 7) - 1 underflows u32 idx to U32_MAX, which %d prints as -1.
-
-[ ... ]
-
-> +	sitf->id =3D idx;
-> +	sitf->node =3D of_fwnode_handle(np);
-> +	spin_lock_init(&sitf->lock);
+> +	ret =3D regmap_set_bits(priv->regmap, MDF_GCR_REG, MDF_GCR_TRGO);
 > +
-> +	sitfcr |=3D FIELD_PREP(MDF_SITFCR_SCKSRC_MASK, sitf->scksrc);
+> +err:
+> +	regcache_cache_bypass(priv->regmap, false);
 > +
-> +	return regmap_set_bits(sitf->regmap, MDF_SITFCR_REG, sitfcr);
+> +	return ret;
 > +}
 
 [Severity: Medium]
-Does this write the software sentinel STM32_MDF_SCKSRC_NONE into
-MDF_SITFCR_SCKSRC_MASK when no clock is provided in Manchester mode, and
-leave stale bits set in MDF_SITFCR_REG?
+Can regcache_cache_bypass() in stm32_mdf_core_start_mdf() race with
+stm32_mdf_core_trigger()?
 
-When the optional clocks property is absent, sitf->scksrc is
-STM32_MDF_SCKSRC_NONE (3), which FIELD_PREP() encodes as reserved value
-0b11 in SCKSRC[1:0].  Furthermore, regmap_set_bits() only sets 1-bits in
-sitfcr and never clears 0-bits in MDF_SITFCR_SITFMOD_MASK |
-MDF_SITFCR_SCKSRC_MASK (and performs no write at all when sitfcr is 0);
-should this use regmap_update_bits() with that mask instead?
+stm32_mdf_core_trigger() takes priv->lock before toggling map-wide
+cache_bypass on priv->regmap, but stm32_mdf_core_start_mdf() and
+stm32_mdf_core_stop_mdf() access priv->regmap and toggle cache_bypass
+without holding priv->lock:
 
-> diff --git a/drivers/iio/adc/stm32-mdf.h b/drivers/iio/adc/stm32-mdf.h
-> index e3617b181e28a..fa689954d7c15 100644
-> --- a/drivers/iio/adc/stm32-mdf.h
-> +++ b/drivers/iio/adc/stm32-mdf.h
-[ ... ]
-> +struct stm32_mdf_sitf {
-> +	struct list_head entry;
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct stm32_mdf *mdf;
-> +	struct fwnode_handle *node;
-> +	struct clk *sck;
-> +	void __iomem *base;
-> +	spinlock_t lock; /* Manage race conditions on sitf state */
+CPU0                                  CPU1
+stm32_mdf_core_trigger()              stm32_mdf_core_start_mdf()
+  guard(spinlock)(&priv->lock)
+  regcache_cache_bypass(..., true)
+  regmap_read(..., MDF_GCR_REG, ...)
+                                        regcache_cache_bypass(..., true)
+                                        regmap_read(..., MDF_CKGCR_REG, ...)
+                                        regcache_cache_bypass(..., false)
+  regmap_set_bits(..., MDF_GCR_TRGO)
+    <-- cached in REGCACHE_FLAT
+
+With MDF_GCR_TRGO cached in REGCACHE_FLAT, later regcache_sync() calls on
+resume will re-trigger the filters.
 
 [Severity: Low]
-This isn't a bug, but base in struct stm32_mdf_sitf is never read or
-written and can be dropped.
+This isn't a bug, but stm32_mdf_core_trigger() mixes guard(spinlock) with
+goto err error handling in the same function.
+
+> +EXPORT_SYMBOL_GPL(stm32_mdf_core_trigger);
+> +
+> +/**
+> + * stm32_mdf_core_stop_mdf() - Stop an MDF channel
+> + * @mdf: MDF instance
+> + *
+> + * Drop one active-channel reference. When the last channel stops, relea=
+se the
+> + * exclusive kernel clock rate and disable the MDF clock.
+> + *
+> + * Return: 0 on success, or a negative error code on failure.
+> + */
+> +int stm32_mdf_core_stop_mdf(struct stm32_mdf *mdf)
+> +{
+> +	struct stm32_mdf_priv *priv =3D to_stm32_mdf_priv(mdf);
+> +	int ret =3D 0;
+> +
+> +	if (atomic_dec_and_test(&priv->n_active_ch)) {
+> +		if (priv->exclusive_flg) {
+> +			clk_rate_exclusive_put(priv->kclk);
+> +			priv->exclusive_flg =3D false;
+> +		}
+> +
+> +		ret =3D regmap_clear_bits(priv->regmap, MDF_CKGCR_REG, MDF_CKG_CKGDEN);
+> +
+> +		pm_runtime_put_sync(&priv->pdev->dev);
+> +	}
+> +
+> +	return ret;
+> +}
+
+[Severity: Medium]
+Can concurrent calls to stm32_mdf_core_start_mdf() and
+stm32_mdf_core_stop_mdf() race on priv->n_active_ch?
+
+Only the atomic counter update is serialized, not the hardware startup and
+teardown sequences gated by the 0->1 and 1->0 transitions:
+
+CPU0                                  CPU1
+stm32_mdf_core_start_mdf()            stm32_mdf_core_start_mdf()
+  atomic_inc_return() =3D=3D 1
+                                        atomic_inc_return() =3D=3D 2
+                                        return 0  <-- clocks not enabled yet
+  pm_runtime_resume_and_get()
+  ...
+
+A similar race occurs when one channel calls stm32_mdf_core_stop_mdf()
+(decrementing n_active_ch from 1 to 0) concurrently with another channel
+calling stm32_mdf_core_start_mdf() (incrementing n_active_ch from 0 to 1),
+allowing stm32_mdf_core_stop_mdf() to clear MDF_CKG_CKGDEN and call
+pm_runtime_put_sync() after the new channel has started.  Using a mutex to
+serialize start and stop would avoid both races.
+
+[ ... ]
+> +static int stm32_mdf_core_parse_of(struct platform_device *pdev, struct =
+stm32_mdf_priv *priv)
+> +{
+> +	struct device_node *node =3D pdev->dev.of_node;
+> +	struct reset_control *rst;
+> +	struct device *dev =3D &pdev->dev;
+> +	u32 count;
+> +	int ret;
+> +
+> +	if (!node)
+> +		return -EINVAL;
+> +
+> +	rst =3D devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return dev_err_probe(dev, PTR_ERR(rst), "Failed to get reset controlle=
+r\n");
+> +
+> +	ret =3D reset_control_reset(rst);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to reset MDF\n");
+
+[Severity: High]
+Does reset_control_reset() fail with -ENOTSUPP on STM32MP25 when resets is
+present in the device tree?
+
+The STM32 RCC reset controller driver only implements .assert, .deassert,
+and .status:
+
+drivers/clk/stm32/reset-stm32.c:
+static const struct reset_control_ops stm32_reset_ops =3D {
+	.assert		=3D stm32_reset_assert,
+	.deassert	=3D stm32_reset_deassert,
+	.status		=3D stm32_reset_status,
+};
+
+Because .reset is NULL, reset_control_reset() returns -ENOTSUPP and aborts
+probe.
+
+In addition, stm32_mdf_core_probe() calls stm32_mdf_regmap_init() and
+stm32_mdf_core_identification() before stm32_mdf_core_parse_of() resets
+the hardware.  Reading identification registers and populating
+REGCACHE_FLAT before deasserting reset reads registers while the block may
+still be in reset, and resetting afterward clears hardware registers behind
+the initialized cache.
+
+[ ... ]
+> +static int stm32_mdf_core_identification(struct platform_device *pdev, s=
+truct stm32_mdf_priv *priv)
+> +{
+> +	struct stm32_mdf *mdf =3D &priv->mdf;
+> +	u32 val;
+> +	int ret;
+> +
+> +	/* If filter number is explicitly defined, don't check identification r=
+egisters */
+> +	mdf->nbf =3D ((unsigned long)device_get_match_data(&pdev->dev));
+> +	if (mdf->nbf)
+> +		return 0;
+> +
+> +	ret =3D regmap_read(priv->regmap, MDF_IPIDR_REG, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val =3D=3D STM32MP25_MDF_IPIDR_NUMBER) {
+> +		ret =3D regmap_read(priv->regmap, MDF_HWCFGR_REG, &val);
+> +		if (ret)
+> +			return ret;
+> +
+> +		mdf->nbf =3D FIELD_GET(MDF_HWCFGR_NBF_MASK, val);
+> +
+> +		ret =3D regmap_read(priv->regmap, MDF_VERR_REG, &val);
+> +
+> +		dev_dbg(&pdev->dev, "MDF version: %lu.%lu\n", FIELD_GET(MDF_VERR_MAJRE=
+V_MASK, val),
+> +			FIELD_GET(MDF_VERR_MINREV_MASK, val));
+
+[Severity: Low]
+Should ret be checked after reading MDF_VERR_REG?  Right now ret is
+assigned and ignored, so a failed read logs stale bits from MDF_HWCFGR_REG
+and returns 0.
+
+[ ... ]
+> +static int stm32_mdf_core_probe(struct platform_device *pdev)
+> +{
+> +	struct stm32_mdf_priv *priv;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +	priv->pdev =3D pdev;
+> +	spin_lock_init(&priv->lock);
+> +
+> +	priv->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +	priv->phys_base =3D res->start;
+> +
+> +	priv->kclk =3D devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->kclk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(priv->kclk),
+> +				     "Failed to get kernel clock\n");
+> +	priv->mdf.kclk =3D priv->kclk;
+> +
+> +	priv->regmap =3D stm32_mdf_regmap_init(&pdev->dev, priv->kclk, priv->ba=
+se,
+> +					     &stm32_mdf_regmap_cfg);
+
+[Severity: Medium]
+Does stm32_mdf_regmap_init() read past the end of the ioremapped resource
+0 region?
+
+In the DT binding (Documentation/devicetree/bindings/iio/adc/st,stm32mp25-m=
+df.yaml),
+resource 0 is only 8 bytes (reg =3D <0x504d0000 0x8>, <0x504d0ff0 0x10>),
+while the identification registers at 0xff0..0xffc are in resource 1.
+stm32_mdf_core_probe() only maps resource 0, yet stm32_mdf_regmap_cfg sets
+max_register =3D MDF_SIDR_REG (0xffc) with REGCACHE_FLAT, causing both
+regcache_hw_init() and stm32_mdf_core_identification() to read offsets
+0xff0..0xffc from priv->base without requesting or mapping resource 1.
+
+[ ... ]
+> +	INIT_LIST_HEAD(&priv->mdf.filter_list);
+> +
+> +	platform_set_drvdata(pdev, priv);
+
+[Severity: Low]
+Should platform_set_drvdata() pass &priv->mdf instead of priv?
+stm32_mdf_core_suspend(), stm32_mdf_core_resume(), and child filter
+drivers treat dev_get_drvdata() as a struct stm32_mdf * pointer and pass
+it to to_stm32_mdf_priv(), which only works today because mdf happens to
+be the first member of struct stm32_mdf_priv.
+
+[ ... ]
+> +static int stm32_mdf_core_suspend(struct device *dev)
+> +{
+> +	struct stm32_mdf *mdf =3D dev_get_drvdata(dev);
+> +	struct stm32_mdf_priv *priv =3D to_stm32_mdf_priv(mdf);
+> +	int ret;
+> +
+> +	ret =3D pm_runtime_force_suspend(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	regcache_cache_only(priv->regmap, true);
+> +	regcache_mark_dirty(priv->regmap);
+> +
+> +	/* Balance regmap_mmio_attach_clk() clk_prepare() */
+> +	clk_unprepare(priv->kclk);
+> +
+> +	return pinctrl_pm_select_sleep_state(dev);
+> +}
+> +
+> +static int stm32_mdf_core_resume(struct device *dev)
+> +{
+> +	struct stm32_mdf *mdf =3D dev_get_drvdata(dev);
+> +	struct stm32_mdf_priv *priv =3D to_stm32_mdf_priv(mdf);
+> +	int ret;
+> +
+> +	ret =3D pinctrl_pm_select_default_state(dev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to set pins default state: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D clk_prepare(priv->kclk);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to prepare kernel clock: %d\n", ret);
+> +		goto err_clk;
+> +	}
+> +
+> +	regcache_cache_only(priv->regmap, false);
+> +	ret =3D regcache_sync(priv->regmap);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to sync cache: %d\n", ret);
+> +		goto err_cache;
+> +	}
+> +
+> +	return pm_runtime_force_resume(dev);
+> +
+> +err_cache:
+> +	clk_unprepare(priv->kclk);
+> +err_clk:
+> +	pinctrl_pm_select_sleep_state(dev);
+> +
+> +	return ret;
+> +}
+
+[Severity: Medium]
+If pinctrl_pm_select_sleep_state() fails in stm32_mdf_core_suspend(), does
+the device stay in cache-only mode with priv->kclk unprepared?  When
+.suspend returns an error, .resume is not called, so failing without
+re-preparing priv->kclk and restoring regcache_cache_only(false) and
+pm_runtime_force_resume() leaves the clock prepare count unbalanced on
+teardown.
+
+Similarly, in stm32_mdf_core_resume(), if regcache_sync() fails, err_cache
+unprepares priv->kclk while leaving regcache_cache_only(priv->regmap,
+false) set.
+
+> +
+> +static int stm32_mdf_core_runtime_suspend(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int stm32_mdf_core_runtime_resume(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops stm32_mdf_core_pm_ops =3D {
+> +	SET_SYSTEM_SLEEP_PM_OPS(stm32_mdf_core_suspend, stm32_mdf_core_resume)
+> +	SET_RUNTIME_PM_OPS(stm32_mdf_core_runtime_suspend, stm32_mdf_core_runti=
+me_resume, NULL)
+> +};
+> +
+> +static struct platform_driver stm32_mdf_driver =3D {
+> +	.probe =3D stm32_mdf_core_probe,
+> +	.remove =3D stm32_mdf_core_remove,
+> +	.driver =3D {
+> +		.name =3D "stm32-mdf",
+> +		.of_match_table =3D stm32_mdf_of_match,
+> +		.pm =3D &stm32_mdf_core_pm_ops,
+> +	},
+> +};
+
+[Severity: Low]
+Building with CONFIG_PM_SLEEP=3Dn or CONFIG_PM=3Dn (for example under
+COMPILE_TEST) will warn about unused static PM callbacks because
+SET_SYSTEM_SLEEP_PM_OPS() and SET_RUNTIME_PM_OPS() compile out the
+references.  Using SYSTEM_SLEEP_PM_OPS(), RUNTIME_PM_OPS(), and
+pm_ptr(&stm32_mdf_core_pm_ops) allows the compiler to drop them cleanly
+when PM is disabled.
+
+> diff --git a/drivers/iio/adc/stm32-mdf.h b/drivers/iio/adc/stm32-mdf.h
+> new file mode 100644
+> index 0000000000000..b334769f8b175
+> --- /dev/null
+> +++ b/drivers/iio/adc/stm32-mdf.h
+[ ... ]
+> +/* MDF_OR: Option Register */
+> +#define MDF_OR_OPTION_MASK OPTION(31, 0)
+
+[Severity: Low]
+Should OPTION(31, 0) be GENMASK(31, 0)?  OPTION() is not defined anywhere,
+so any use of MDF_OR_OPTION_MASK will fail to build.
+
+[ ... ]
+> +struct stm32_mdf {
+> +	struct list_head filter_list;
+> +	struct clk *kclk;
+> +	unsigned long fproc;
+> +	unsigned int nbf;
+> +	unsigned int nb_interleave;
+> +};
+
+[Severity: Low]
+stm32-mdf.h has no #ifndef/#define/#endif include guards, so including it
+more than once in a translation unit will cause redefinition errors for
+struct stm32_mdf and stm32_mdf_regmap_init().
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-upstream_m=
-df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D4
+df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D2
