@@ -1,58 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096386;
-	b=GRlZAlfRRd8E1kzdT95UYO90OPZy5WCMofQckPyGgGc3PpOcRyWsgPNvWIpHfmGeOFot
-	 jM6pxaAEy49XaxUWrhlhDDv962zvVloTD6RL5L/ZjB4WY9k7aaVuNb6gkANtz+p8GQOJX
-	 IEwj7sGw9NPrBfdXzB54p8jjCnQcQSt1M4tnrN5ER1GyeCcfDqVtGrezf9obA6sQ49spm
-	 tQb84OTu9/h/fpZiy8mMGcWr6HIm7nFg3PKLiRRZqys+SQsvkhURb54MZ3quDbOvRMlIl
-	 dlIe6hKjhbBVkkF4AO1tNBN+iUEnpw7l85ppipbBmYhCzWXmsCcaFWyQMtaWz5jOa8Q==
+	t=1795096392;
+	b=Qy9v8VO+BxPRRdQdfql1yQ4dd2YFP6pvaFiXp79g9U+4H4MLtoSZqwDAXKFw51diLkOU
+	 HTjNDM+Td6ERpX2kydm3ExVq3m7EC3EDDV39RYSZUCsmk8wJy8hi7ZTdevKaEotZOdDZi
+	 676JQiKEH0VNtA28i54lWzE3JPzKizaARDrvbIR7BqFSgKRUmIBi8Src3OLWYLnIIxp2n
+	 RdbSTr4DBhNYdjEc+oec0akgZwpg9NukE7v3zo/7iI+AqeyDFrT8y62Dz3yhBVNajntCZ
+	 Q3IbXQZVZ7mb92N07hN7+bkJAZTb9NUbpx8rrl0J+ARR+KznQEb54F+GsAj1GtcR/Rg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096386;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795096392;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=BgPJ4JAT05hiMXemhHUkYrAVFx4ABDtlAbs3K+C/G8I=;
-	b=jcxTGpInM68FJUN+vnQ7GXBHeQ+xYcKLvQ35PBLCvVqA6svhyyZG1WfN2Ofh7gV6ftMh
-	 wwlyLMmKCd3n+aiU/NQBD7kW2tM7ypL6FyabXp4JPgtX8bTd/eZYA0bXxylmokak6i+Cn
-	 FdlFyVTo+2EwYl6iFwjTF0hHjEJFrFBrQVhmr2AhRlAyJjQ9AU0v8VCyQiM1WxPD+QRzI
-	 aBnwVqHe1YbA9OYQkQ0gPpOd+QtdWs9jDRJatydThnADgw0JTCRkFmJmsegZdNZ/esFnx
-	 7kNw6nSv8I51BWn09hF85IkAwM0lyqFzpIOm3ASnd35Blaa4CHPA2ASn0j6MtMD+Msg==
+	bh=mPThn7hmWxFFOkKLnM6RILYilZeG4F+al+8NhYqs7bc=;
+	b=kJ0rYg0e1R8VCi87zuegBhxl3eqgyWYJ5VBZJGAp3VklHNqFzpdphpLRLfDWXtrGsAJr
+	 I6NGHwapeVhDPqeyDJN7tDrAmaA02Z8S4XtO8kRl9NqXF2GcszQRvvUwTsLIfd+aoe6Z/
+	 0KeC5SuBdgWCCN9P7sOgphNiv7NwHAbzGyhhfWIebaCL/GX7w3Rywy3nkx+PDHUNowpIm
+	 PEzDxxuk15dKrsc2LRFEqw0kYX5dOHF708JiusprLlu+MmD+tZ7j1KfFO7f/BlRv2CeMP
+	 +hyakp8DjG5qbdc1BSXgqLfHd+ByZEiGJDmI26wa6rgx0bWA8RGyXQqYyIei2UI3TOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C7B+zUyT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IYq09nlD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C958606A320;
-	Thu, 19 Nov 2026 13:53:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFB6606A32F;
+	Thu, 19 Nov 2026 13:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C7B+zUyT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AD21F000C6;
-	Thu, 19 Nov 2026 13:53:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IYq09nlD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A71F51F000C6;
+	Thu, 19 Nov 2026 13:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795096386;
-	bh=BgPJ4JAT05hiMXemhHUkYrAVFx4ABDtlAbs3K+C/G8I=;
+	s=k20260515; t=1795096391;
+	bh=mPThn7hmWxFFOkKLnM6RILYilZeG4F+al+8NhYqs7bc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=C7B+zUyTI23zMCF5XPDZKHWQltnSOCzUEoPBj494k3f/qVTPjdHgLgUV1Auuu4UP0
-	 OP9sWZOVyE25PiHnlCaYumT9e98Zh8LKkG+dS9BVJXkRoF4xgQ5kciq+2v8vrLwIKX
-	 s9MPwhNOf3kN4gKJrS1xWtK+ECKFly34WKtcceAB+FoIOCnr2XJa6XQHPIR5BsUPCr
-	 QBeqlruK227sP0pTrIVgL5i0mKlEPdJkkYdoUMeTgjW6J3jTviDdWVg6yG4ODywSHK
-	 MCr2PVvNjy2o8c4D8Enk3oYYbJeStcKpNdkHGhM9YNRLiBWsACJpyyEqwkKCmGMMZ/
-	 Ut6efdruuDBjg==
+	b=IYq09nlDw/S4RjUpNqJF6KkGRmXYo7CUAsJkzaP3keSHT15nm7ChlfA9OTyaJOvgt
+	 cNAL+/2p7nX4MMLT4N2EdDYjfocOyV5a2tEyhvsUm32Q6jOcipUvJsbl8FmJaP3o6t
+	 yTS2l1N07JitPxe06LuH4HBRJ7guCvmaqYE795I5XmfOxTSiLzpaDcjvLJhdeugiH/
+	 jcv1PTmkXmmibUnkNAmg0jQiMExL/rHORH7r+P6yjYcYJyaJJl2qzDmRkH06uVgOyu
+	 sXwWONtVvn6sAIQOw55m8a8siN2XULku53n3QID3tciwVcc0CCfl4bPFpdhdpJgtb4
+	 ybzBqW5z3O09Q==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
-Cc: linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Andrei Simion <andrei.simion@microchip.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <20261110-9f141e6bc8-asoc-tegra@mail.sdu.edu.cn>
-References: <20261110-9f141e6bc8-asoc-tegra@mail.sdu.edu.cn>
-Subject: Re: [PATCH] ASoC: tegra: Fix potential NULL dereference on AHUB
- removal
-Message-Id: <179502560848.810609.14658814498721333121.b4-ty@b4>
-Date: Wed, 18 Nov 2026 18:13:28 +0000
+In-Reply-To: <20261111100616.31211-1-phucduc.bui@gmail.com>
+References: <20261111100616.31211-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH v2 0/2] ASoC: atmel-i2s: Fix clock and slot width
+ handling
+Message-Id: <179501012503.349622.11739221636052053078.b4-ty@b4>
+Date: Wed, 18 Nov 2026 13:55:25 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,17 +68,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=broonie@kernel.org;
- h=from:subject:message-id; bh=aKtCarVSUIFnvwgNx+xsDOkLUdkZWp05USNGdxGHGn8=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/bd7u2vT1byXSZ/33LlseWvb1DOz1Jrr1O6bp+gKT
- 304TbNrS0cpC4MYF4OsmCJLXBb3y/qS12v4Di5sg5nDygQyhIGLUwAm8kmR4X9amVZ/YN5+Pv+u
- 59/cZl/bxtSvJnKGz2/dpdLVv7OfHIpk+MX8bfvv6x8lr5YqzsthbNg+v6flbfj55nZdG8OL18R
- n6nMDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1458; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=J7RtMztD0VkcpU5WGmYpngD3kqOdRp9XomIjDn+CNtw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/Xd+9f7vZLXmrF6+opzXoZaylR4zGy4dncH/6YHzn
+ E9zg736OkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjARlRcM/6POh++8Vnboo+nr
+ f+8lRdilDZd+P/MmKP/6bIn3ifMarnIx/BVb/7V8/u3dRTZTw00cYlte+jmq9iq31ngo/V7A73p
+ nHTsA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 10 Nov 2026 22:32:32 +0800, Guangshuo Li wrote:
-> ASoC: tegra: Fix potential NULL dereference on AHUB removal
+On Wed, 11 Nov 2026 17:06:14 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: atmel-i2s: Fix clock and slot width handling
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series simplifies peripheral clock handling and fixes the
+> I2SC_WS slot width configuration in the Atmel I2S driver.
+> 
+> [...]
 
 Applied to
 
@@ -83,8 +95,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tegra: Fix potential NULL dereference on AHUB removal
-      https://git.kernel.org/broonie/sound/c/2ff99ddbb22a
+[1/2] ASoC: atmel-i2s: Use devm_clk_get_enabled() for pclk
+      https://git.kernel.org/broonie/sound/c/a19f318322c5
+[2/2] ASoC: atmel-i2s: Fix I2SC_WS slot width configuration
+      https://git.kernel.org/broonie/sound/c/f0903e6544fb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
