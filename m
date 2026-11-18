@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016274;
-	b=AKRqXxvtjsxhaj/3MP6J2PvPjQAxFRD5OsvCuyTIud5W6aK9nat04s7XrkqKHg1jdpeT
-	 /4MxG+TKIDpg9ZQrVn0/LLIb3Tw6jm/6TFd7SHLwjkw8BPvy5yXghDNlNVrb2KNdY2OsT
-	 AYE0O3acM4fX4mcVx6l4KBrJ710UzzezrYVJCOdXQzTxsZU89kDjhwDR3KtZJz9G1o8lB
-	 lw9m7c76u+61FcrNnVy4ZQbkkMbuIle8sQa5X/JVmMXEZy5ccYp47WnWtCkRV06QyQB78
-	 icIBigTLEdDGKqfwfqbR0C7x+hm5s5tzjXWoCbPGMJ8n0oBAKc6pOeTRwQBPqOa3GKw==
+	t=1795016448;
+	b=st2i/sxfCBG6l1RzpwWcbEgTReYjvH72UXAPhGzydsZKOJrWEg3waQCyV4TL/iMALCfA
+	 MzCYwhp0m2gFjtw65JFNthSCNNghCti9PTVo+9+uSTlZT8WAnjVAD2+tRTz3uctHcvoJ/
+	 Kfw9pBDitsxlJS3D4o/WNjWM+rnaiWzjQZvwfBJYDZehJckO4N9Kkv20FPbUwdlTfgCF2
+	 mqvWbSjo6Pn6o+/tDiV1PKV/ZlsKse+DRi/Y1U+A/35PLmcgWQy1w5WEPea1uUOYqeLeQ
+	 wX3QWA3wjn5VdL8D7rzDDSVZCdhW1PUTqTa2TsnfK3MZkKyZ+0bArRPKlVJgXObCRxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016274;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016448;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=uYDwVl6WgEztGK/K6YA4WjnFs33A5/iiD4AppXIep7I=;
-	b=RN3PwPWrhs8o+vqw3YSJ3tygZ+xj8J6/t2t+q4gwTLQ8bhajBcV3dTkLww08nVMaPUsF
-	 6TTd2g3GFquMbpHdkvw4yEg9TQnVs8gLCE7BLZTFw9qgSi6KKetQzYPMr5gqNltJs7ts4
-	 57kArLmDwFa3yJrZXbVxh3jIQaSfx9qTwQEi2e0Z8Jr7BvAj7XaRSuUHnFi2hkNlFOKFz
-	 T+f0r9vO4S5NtGYy8TSLgGKa9yG/45d6/0EScFQYOT2fEDJn2tAVpoovOQ4tvSexQ9NNH
-	 pq1KSezL0q9+2WFknxmaiTjUabdAKV2HXIUGChKCww8IdR+jeu1vzTIb7ryjbhRKkmg==
+	bh=VpsO41RD76eKQuHUBhcdxSN8uK9fkUxPfzIgNN4JEzg=;
+	b=sQ3crMpSyaFM6w/2LGHGoApLA0eGLhPlnoV/hx3BXTHtItd4zl4HmAyXbNDSU/1FZxcS
+	 +JeHc6pXBfDjeGDdSic6J+lLDq+BQuUWNC2O9PEIvCs0B/Oay67l2Z9q5VxyYbCIop6M9
+	 BYVWKIcUyGMI88QWucaYteFm5PQAsTEoi+4SY+QBzDPuO84iNGhKs8V/oLWGF+mA4T/jI
+	 DbjFR26IP94sh71ONySftOjiSUq5C8RERqW+SAFZ/BxiM+i/I0+AzsBPO2AYfvYa6Vlji
+	 Bjz9yay88jecDAUuyy/hRkxaYINDjB4JNIgC8hEhgJsuZLB/XE/tqzZ6TKEv3ICAeBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQL1hrLA;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jb4HoP1f;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4448F60A2625;
-	Wed, 18 Nov 2026 15:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81708606A320;
+	Wed, 18 Nov 2026 15:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQL1hrLA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B5C1F000C5;
-	Wed, 18 Nov 2026 15:37:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jb4HoP1f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1EAD1F000C4;
+	Wed, 18 Nov 2026 15:40:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016274;
-	bh=uYDwVl6WgEztGK/K6YA4WjnFs33A5/iiD4AppXIep7I=;
+	s=k20260515; t=1795016448;
+	bh=VpsO41RD76eKQuHUBhcdxSN8uK9fkUxPfzIgNN4JEzg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IQL1hrLArtFSbgncixMpZuIxsfMPUuFcRqFZieXJ5M9Z8mPlHZsuESOkieyW6iEGg
-	 GFp4qrFDN4l3tUg0k8mhtlvbwGzilTMHUq59gAo38DqeXKynK2zOwfORAHlLf/7sLt
-	 NhU6vw05YSdQe040fHejJNewnIVdj+Ac0AbJIzzaYUidsLunYmmMBr79vxWuj+qQtY
-	 83CNxsZ43tetdAN651wTVy4t7RchKWW2k9+5vuV2HlpPUTQaF+Mi7746W2npAUn6EB
-	 Lb6uwV4efTFJMNB3tSjdryhjnr/iGVasQ0xI1nDmdKQlc6eB7rd7J9d9/L5h90l3iC
-	 y1PMOeP6QYFpg==
-Message-ID: <sashiko-outbox-221349@kernel.org>
+	b=jb4HoP1f3/HC+Rvi7cx7Psbgg4UJyUoRGcUk4FKzoyJ1mgSnwKRKulhVkCC07IN6t
+	 jfChFU3b020MO17u6kuB6HCyPBfpvFL8dLnhh7cYwBpR5ValvJc39PQqoJsOJLeAwY
+	 RVNvTdD+38Aocs3ItUAyvVT+Cw2Ub1oKZQZ/+/w/KE67kSRJkQ0ZQVZrslx2AZ1de/
+	 stKssU3PkFd1HsRmTCKdb3ejQksUIKhik7CtGMLTps324tMuxdSCNMq9E7AtxSSq/1
+	 lToIWjDKzBJwwFHAIHryGlCZ7LxiN2sGjLicVeCFqaQUjBw41Q8LDt1QJcWUXbfPq7
+	 uWU24HRCNkYMw==
+Message-ID: <sashiko-outbox-221354@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 09/11] iio: adc: stm32-mdf: add external timer
- trigger support
+Subject: Re: [PATCH v2 05/11] iio: adc: stm32-mdf: add digital filter device
+ support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Olivier Moysan" <olivier.moysan@foss.st.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org
-In-Reply-To: <20261118-upstream_mdf_v2-v2-9-7939d3c3720a@foss.st.com>
+In-Reply-To: <20261118-upstream_mdf_v2-v2-5-7939d3c3720a@foss.st.com>
 References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
- <20261118-upstream_mdf_v2-v2-9-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-5-7939d3c3720a@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 15:37:53 +0000
+Date: Wed, 18 Nov 2026 15:40:47 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,128 +61,113 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] iio: adc: stm32-mdf: non-zero return in
-  stm32_mdf_adc_get_trig() rejects trig
-- [High] iio: adc: stm32-mdf: unassigned trgsrc in
-  stm32_mdf_adc_filter_set_trig()
-- [Medium] iio: adc: stm32-mdf: unpropagated trigger in
-  stm32_mdf_adc_filter_set_trig()
+- [Medium] iio: adc: stm32-mdf: unpropagated rsflt_bypass in
+  stm32_mdf_adc_parse_of()
+- [Medium] iio: adc: stm32-mdf: unbalanced kclk prepare count for
+  filters in suspend
 --
 
-commit 2310fd550deab336f6cec980952473a0c65d6371
+commit 7cf0176f9896de83d6274c225f454821ace01160
 Author: Olivier Moysan <olivier.moysan@foss.st.com>
 
-iio: adc: stm32-mdf: add external timer trigger support
+iio: adc: stm32-mdf: add digital filter device support
 
-This commit adds STM32 timer and low-power timer trigger definitions, a
-trigger validation callback, and filter trigger source and polarity
-configuration for the STM32 MDF ADC driver.
+This commit introduces the STM32 MDF digital filter platform driver, regmap
+configuration, and device tree parsing for filter parameters and BSMX serial
+interface routing.
 
 > diff --git a/drivers/iio/adc/stm32-mdf-adc.c b/drivers/iio/adc/stm32-mdf-=
 adc.c
-> index 046ca3943a397..97099b4adffc6 100644
-> --- a/drivers/iio/adc/stm32-mdf-adc.c
+> new file mode 100644
+> index 0000000000000..411af78911c91
+> --- /dev/null
 > +++ b/drivers/iio/adc/stm32-mdf-adc.c
+
 [ ... ]
-> @@ -365,9 +405,63 @@ static void stm32_mdf_adc_stop_filter(struct stm32_m=
-df_adc *adc)
->  				stm32_mdf_adc_stop_filter(adc_inter);
->  }
-> =20
-> +static int stm32_mdf_adc_get_trig(struct iio_dev *indio_dev, struct iio_=
-trigger *trig)
+
+> +static int stm32_mdf_adc_parse_of(struct platform_device *pdev, struct s=
+tm32_mdf_adc *adc)
 > +{
-> +	int i;
+
+[ ... ]
+
+> +	/*
+> +	 * In interleave mode the filters in range [1..n] share their configura=
+tion with filter 0.
+> +	 * In this case, use config from filter 0, instead of parsing DT.
+> +	 */
+> +	if (!MDF_IS_FILTER0(adc) && adc->fl_id < adc->mdf->nb_interleave) {
+> +		adc->interleaved =3D true;
+> +	} else {
+> +		ret =3D stm32_mdf_get_filters_config(dev, adc);
+> +		if (ret)
+> +			return ret;
 > +
-> +	/* lookup triggers registered by stm32 timer trigger driver */
-> +	for (i =3D 0; stm32_mdf_trigs[i].name; i++) {
-> +		/**
-> +		 * Checking both stm32 timer trigger type and trig name
-> +		 * should be safe against arbitrary trigger names.
-> +		 */
-> +		if ((is_stm32_timer_trigger(trig) ||
-> +		     is_stm32_lptim_trigger(trig)) &&
-> +		     !strcmp(stm32_mdf_trigs[i].name, trig->name)) {
-> +			dev_dbg(&indio_dev->dev, "Trigger [%d] found\n", i);
-> +			return stm32_mdf_trigs[i].trgsrc;
+> +		if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave) {
+> +			/* Filter 0 is the TRGO trigger source in interleave mode */
+> +			adc->trgo =3D true;
+> +			adc->interleaved =3D true;
+> +			buf_size =3D adc->mdf->nb_interleave;
 > +		}
 > +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int stm32_mdf_adc_filter_set_trig(struct iio_dev *indio_dev)
-> +{
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +	struct iio_trigger *trig =3D indio_dev->trig;
-> +	u32 trgsrc =3D 0;
-> +	/* set trigger polarity to rising edge by default */
-> +	u32 trgsens =3D STM32_MDF_TRGSENS_RISING_EDGE;
-> +	int ret;
-> +
-> +	if (trig) {
-> +		ret =3D stm32_mdf_adc_get_trig(indio_dev, trig);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	dev_dbg(adc->dev, "Set trigger source [%d] on filter [%d]\n", trgsrc, a=
-dc->fl_id);
-> +
-> +	return regmap_update_bits(adc->regmap, MDF_DFLTCR_REG,
-> +				  MDF_DFLTCR_TRGSRC_MASK | MDF_DFLTCR_TRGSENS,
-> +				 FIELD_PREP(MDF_DFLTCR_TRGSRC_MASK, trgsrc) |
-> +				 FIELD_PREP(MDF_DFLTCR_TRGSENS, trgsens));
-> +}
-
-[Severity: High]
-Does stm32_mdf_adc_filter_set_trig() leave trgsrc at 0 when a trigger is
-attached?  The return value of stm32_mdf_adc_get_trig() is checked in ret
-but never assigned to trgsrc, so MDF_DFLTCR_REG is always programmed with
-trigger source 0 (TRGO) instead of the selected external timer trigger.
-
-> +
-> +static void stm32_mdf_adc_filter_clear_trig(struct iio_dev *indio_dev)
-> +{
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +
-> +	regmap_update_bits(adc->regmap, MDF_DFLTCR_REG,
-> +			   MDF_DFLTCR_TRGSRC_MASK | MDF_DFLTCR_TRGSENS, 0);
-> +}
 
 [Severity: Medium]
-In interleaved mode, should stm32_mdf_adc_filter_set_trig() and
-stm32_mdf_adc_filter_clear_trig() also update the secondary interleaved
-filters in adc->mdf->filter_list, and should stm32_mdf_adc_start_conv()
-skip pulsing MDF_GCR_TRGO when indio_dev->trig is set?
+Does skipping stm32_mdf_get_filters_config() here leave adc->rsflt_bypass
+unset on interleaved filters 1..n?
 
-Unlike stm32_mdf_adc_filter_set_mode(), these helpers only write filter 0's
-MDF_DFLTCR_REG, leaving secondary interleaved filters configured for
-TRGSRC =3D 0 (TRGO).  Because adc->trgo is set at probe time for interleaved
-and synchronized master filters, stm32_mdf_adc_start_conv() still calls
-stm32_mdf_core_trigger(adc->mdf) during buffer enable, starting the
-TRGO-triggered filters immediately while filter 0 waits for the external
-timer edge.
+In commit "iio: adc: stm32-mdf: configure cic filters and sample rates",
+stm32_mdf_adc_apply_filters_config() copies datsrc, cicmode, decim_cic,
+nbdis, and hpf_cutoff from filter 0 to each interleaved filter, but never
+copies adc->rsflt_bypass.  When st,rs-filter-bypass is set on filter 0,
+interleaved filters 1..n will leave MDF_DFLTRSFR_RSFLTBYP cleared while
+filter 0 bypasses the reshape filter, resulting in mismatched decimation
+ratios and gain across the interleaved channels.
 
 [ ... ]
 
-> @@ -1377,6 +1479,7 @@ static const struct iio_info stm32_mdf_info_adc =3D=
- {
->  	.write_raw =3D stm32_mdf_adc_write_raw,
->  	.read_raw =3D stm32_mdf_adc_read_raw,
->  	.read_label =3D stm32_mdf_adc_read_label,
-> +	.validate_trigger =3D stm32_mdf_adc_get_trig,
->  };
+> +static int stm32_mdf_adc_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct stm32_mdf_adc *adc;
+> +	struct iio_dev *iio;
+> +	struct resource *res;
+> +	void __iomem *base;
+> +	int ret;
+> +
+> +	iio =3D devm_iio_device_alloc(dev, sizeof(*adc));
+> +	if (!iio) {
+> +		dev_err(dev, "Failed to allocate IIO device\n");
+> +		return -ENOMEM;
+> +	}
+> +	iio->modes =3D INDIO_DIRECT_MODE;
+> +
+> +	adc =3D iio_priv(iio);
+> +	adc->mdf =3D dev_get_drvdata(dev->parent);
+> +
+> +	platform_set_drvdata(pdev, iio);
+> +
+> +	base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(base))
+> +		return dev_err_probe(dev, PTR_ERR(base), "Failed to get resource\n");
+> +	adc->phys_addr =3D res->start;
+> +
+> +	adc->regmap =3D stm32_mdf_regmap_init(dev, adc->mdf->kclk, base, &stm32=
+_mdf_regmap_cfg);
 
-[Severity: High]
-Will wiring stm32_mdf_adc_get_trig() directly as .validate_trigger reject
-every valid trigger?  stm32_mdf_adc_get_trig() returns a positive trgsrc
-value (0x2..0xc) on match, whereas current_trigger_store() in
-drivers/iio/industrialio-trigger.c treats any non-zero return from
-validate_trigger() as an error and aborts assigning indio_dev->trig.
+[Severity: Medium]
+Does attaching adc->mdf->kclk to adc->regmap here leave kclk prepared
+across system suspend?
+
+stm32_mdf_regmap_init() calls regmap_mmio_attach_clk(), which prepares
+mdf->kclk once for each probed filter.  However, stm32_mdf_core_suspend()
+and stm32_mdf_core_resume() only unprepare and re-prepare kclk for the
+core regmap and each entry in mdf->sitf_list (and stm32_mdf_adc_suspend()
+in commit "iio: adc: stm32-mdf: add dma buffered acquisition support"
+does not unprepare it either), preventing mdf->kclk from being unprepared
+during system sleep whenever any filter is probed.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-upstream_m=
-df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D9
+df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D5
