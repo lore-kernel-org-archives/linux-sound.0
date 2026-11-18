@@ -1,83 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795015150;
-	b=pTkpbQInCxOKw4QHO4yT0RZM408hYNOEUuSQGWaZSAWuFy2BsDEcZp8kdnC9sRRBOW5n
-	 F0Nhb8VzoPoT6hDX/mhY9Sy72Wn7twP5k1H8iptFMzfnxaeOO0/pKc20TNPH5iWhAfi1r
-	 LO3hHxeMHxbD24V2+Ctxghxs+qWG5/s8iRWBYcqb2BNJpJeBJjJzV/vDU7wpdq1GcOtBb
-	 S2nJXmuZrN0fTk87Yqr60HnAJZ8xRdMrSMK5VnITbLdnigSMkg/JhPSOdgFW2b17dnH5M
-	 0GbQ7Yv3LLh9PV8qfb8kBg9R/FPC+2w6R4xmOOTpaHKmxsylsyKAkX3yS9mTts7Yi3g==
+	t=1795016086;
+	b=oOIUIbKxJxeITtv8SHEkyx+NZVAQ4MV0p9fVtBg96DnzJr/RAKTF8ghoagykvHveAYsT
+	 bDJTwaP+n/JQsk/Ij8OH5jFCXKlheQGEYjmGdJUSi/lxMr/VSsM8OdmR+oPIEqHsE6SEX
+	 LzHYK8Zqt6FL9EmOVt+WRwSyzs5yGgakXI0nfg3yhgYU9CoJPOOWcV7K28dyUM7yoPahb
+	 ron4DMMxQygLdpkOYCi2b2HMfUheUwA3IHLYscg8AthAQWTY0qKFo9eR12isZ+62wKLE3
+	 hGgcNnKqCA9vPFLtrvGwZOUJE1hZUCNr6pWBlcTnw63NzVubS1q/JGSVhNxxuPxDniw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015150;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-Reinject:X-QCInternal:
-	 X-QCInternal:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=6UprdZ7mpL9QSYrvjQV70+swtBLY7Sw0hD8c/dwLzzI=;
-	b=iG4SxPJdBFCn6Bvn9B/lNIWQecIGUmvXo4aZ5HkqPk6kL1vG+TXDZf/IurFv7aG41hmk
-	 9njd/ihE7hpOVqzs64Ul6CTLlPty+paI6gcgvVyz1/WwF9rp6fB63+IOBSPe5WD+f/fMV
-	 h/gNa6sEL6CCpCpeh8/jDqdWBUPQfSJXq2iRtv9JkyeGRyG4Bun0S+svw9DzDoakxSsLE
-	 IpRYK+jZhpOhJ5zonQq0Z6gUR+PM2tEWHKo49+pVBv8emJRR5rtFo1PWOObY7UYF8T6dA
-	 OC0TBo3y8/FWTQV9bV0oJOMi9VAvvKeMOZuQAKrmQ3ga++j6MVtaqJnS5nn4+FVSsew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016086;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=BmJD8sv6AAFxv6Re5ss54Z9dNxRedpqV4XYrwTPA7fw=;
+	b=oC5K+EeMIwYxHVsp9URZUGGXy6HorCm3gdC0hlSyxQVo7Ia4AX5RM0C1yzEm0eGrGjRC
+	 zDeiOx2Jfba8G1mUPv8gRo0c0puATq/L3NE2/DdeiIcR+KaQ+aGRIh0P8mPXg55ktSr/u
+	 DI1sA8BG0tWSzdveqhwY9kAC5Nbm/45f6PVkKvDnZrFG1Te8P04Ffep1bVzMQLjzzxACr
+	 TEJlW5z5+Bqr3O84/YiWwS07hQKsxAJh5EpAsXb3Hq4gk0houGNKGj0G5ImxO6eK9dFjI
+	 7M4LObfB2vF/x2ol41E2/QX6f9MG3Yikn05nYWTVCkjZbLIRWZGndOJG0L2VaZ3EAMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hamFYZ8a;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ij44ziCR;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2983606A332;
-	Wed, 18 Nov 2026 15:19:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2983606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339B4606A332;
+	Wed, 18 Nov 2026 15:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hamFYZ8a
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIE4lHh3648709;
-	Wed, 18 Nov 2026 15:18:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=6UprdZ7mpL9QSYrvjQV70+swtBLY7Sw0hD8
-	c/dwLzzI=; b=hamFYZ8aWJPE95E7QJds51gKMIcoerd/aOEoUPg7OuUQyz9Bygd
-	AT3ollyHmKvX98Gj+5Rma2pifvj1WId2Me8ndcLjP2w3BaXOOyGCVz/ghyAGDu7h
-	H9HRgBcrrcyjsjowlDcmGSIxxRKXtg83ART89LRLr4ORRbLn4VruDXKXHzzhfTUv
-	dAp0l5sDF9083sjtK7rgksHx9+UaxWXkgKVTC7YgamSRqd8Uf45gV8hT4LGreKpi
-	fY5Ll18eNyhlsMLPEw9AQoymyCknZnmtJqhEZ9y6JqKJ4v/E9oAo1zTTJttkpidy
-	q6l6aC6zkliYf3tUiSyFrwA8a+E7At+b77w==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1dfcrck0-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 18 Nov 2026 15:18:58 +0000 (GMT)
-Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIFIunj2705126;
-	Wed, 18 Nov 2026 15:18:56 GMT
-Received: from ap-kernel-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 6AIFIths2705119
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 18 Nov 2026 15:18:56 +0000 (GMT)
-Received: by ap-kernel-sh03-lnx.qualcomm.com (Postfix, from userid 4851478)
-	id ECEC340C7B; Wed, 18 Nov 2026 23:18:54 +0800 (CST)
-From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
-        bartosz.golaszewski@oss.qualcomm.com,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
-Subject: [PATCH v5] ASoC: qcom: audioreach: support multichannel PCM formats
-Date: Wed, 18 Nov 2026 23:18:47 +0800
-Message-ID: <20261118151847.2702711-1-zhangfei.gao@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ij44ziCR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A32441F000C5;
+	Wed, 18 Nov 2026 15:34:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795016086;
+	bh=BmJD8sv6AAFxv6Re5ss54Z9dNxRedpqV4XYrwTPA7fw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Ij44ziCRh6fRrarjJnIwYFWMGZfJrmg9eKtOxQsL+FFRCKMyPkXeex5/wR1IpGjmi
+	 W8+p19OGPqNq8drX6X+wFfMBdciSmU7q9Xb00teeVTkltN1KG+JsWkb796xY0VCOGN
+	 pn5qRBP+qEF+zgxfdYCUTDoZJVF6bbrwMvSQXD6uQ5BrrJP7425Eqg+Ivnu49OxxMA
+	 pwBV0Zf0UiEOLpdSDEIh3zOlb0VEcZq3o417PFAT7Y7RatM2fTlND/SW+C6JOmvwSL
+	 7E8OZvBCpUY6UCSShllBxfahVLElSP6W6eLz/HFohEJ4ycF/bLQNrC5Qzot1ZW8RAq
+	 S8/bkEtNL1M8A==
+Message-ID: <sashiko-outbox-221345@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 06/11] iio: adc: stm32-mdf: configure cic filters and
+ sample rates
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Olivier Moysan" <olivier.moysan@foss.st.com>
+Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org
+In-Reply-To: <20261118-upstream_mdf_v2-v2-6-7939d3c3720a@foss.st.com>
+References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-6-7939d3c3720a@foss.st.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2026 15:34:45 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -86,280 +60,258 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: 1R7ybaBrP1N-FMsMDM2QPlBPWOqBpLbH
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2MCBTYWx0ZWRfXzEUrTlMHJwJ8
- IPxdkxP16NqEwy09tOGb1dSOeHoC4a0AKC9gHvtAn24nvXMqFJycJfjLZ5uO3O1nhUosVfl1eAx
- Jg/7mGtRAywOOcVNrn26BAmnXRLd1VQ=
-X-Authority-Analysis: v=2.4 cv=CdSdd7rl c=1 sm=1 tr=0 ts=6afdc1e3 cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=Sw036wB_Sbj6ZPNlFA4A:9
-X-Proofpoint-ORIG-GUID: 1R7ybaBrP1N-FMsMDM2QPlBPWOqBpLbH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2MCBTYWx0ZWRfX9v9woAdPcZK7
- Qlto4sXfOatwLaF+3dQFoq2XwiZ0VxW+5ioFhesS+fgjBhPN0p+JsOPK/THFQd+JLX+WAADQ+Ic
- hFDGV7S3bSYtV7UQQYQ0+ehHOPkBf649qjVqv1vDCyrrT3YfCsUCNJIaLmg/fnn2156/IWaIhsh
- 62/oJAl+93CBWIy7eQtoe1B1Vzgwz4OKpA5edr67R5z96v9RrrDhH94s7LVTCrx+UaF8kBV38g/
- z+2JciKDlWfaJxM2JP/JgxL3DUnb10lgkA63T5t3EIJZoMI5CxuTGjeqLmJ3k1ZSxCzkE3y5vAb
- pQPEBm9z160KpRyKeNohjS3mfkP6l8mkMho3Glah/B4Gsw3upDjoNs2ELv09ibfYTMjnEjG5Fwr
- PATh7S1SJt+3uceJbQSAZYSjc8hTgIPbnGRaMrOkYCcHV/52UrT/ld3aQs85R5MGqQl4WhAKvKU
- d7tzpb7HnCrK0iptl7g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-18_04,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 phishscore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611180060
 
-AudioReach currently rejects PCM streams with more than four channels in
-the PCM and shared-memory media format paths.
+Thank you for your contribution! Sashiko AI review found 6 potential
+issues to consider:
+- [High] iio: adc: stm32-mdf: division by zero in
+  stm32_mdf_adc_check_clock_config()
+- [High] iio: adc: stm32-mdf: division by zero when decim_ratio is 0
+- [Medium] iio: adc: stm32-mdf: wrong DATSRC mask in
+  stm32_mdf_adc_apply_filters_config()
+- [Medium] iio: adc: stm32-mdf: wrong FastSinc scale in
+  stm32_mdf_adc_set_filters_config()
+- [Medium] iio: adc: stm32-mdf: missing rsflt_bypass copy for
+  interleaved filters
+- [Medium] iio: adc: stm32-mdf: broken ratio checks in
+  stm32_mdf_adc_check_clock_config()
+--
 
-This prevents TDM links that expose more channels, such as the 6-channel
-playback path used on SA8797P Ride, from being configured.
+commit 76232b76e094892afbfa80eaf7eda8e245546546
+Author: Olivier Moysan <olivier.moysan@foss.st.com>
 
-Reuse q6dsp_map_channels() to support multichannel PCM formats and use
-the common PCM channel limit definition.
+iio: adc: stm32-mdf: configure cic filters and sample rates
 
-Reviewed-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Tested-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-Signed-off-by: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
----
+This commit adds helper functions to compute CIC and reshape filter
+decimation ratios, data scaling, and serial clock validation from a
+requested sampling frequency.
 
-v5: Rebased onto sound.git/for-next at fcfcd6db32adbd and resolved the
-    conflict with commit 347e02073b08 ("ASoC: qcom: q6apm-lpass-dais:
-    Reset the codec DMA channel map in hw_params").
-v4: Rebased onto sound.git/for-next
-v3: reuse PCM_MAX_NUM_CHANNEL to replace AR_PCM_MAX_NUM_CHANNEL (Srinivas)
-v2: reuse q6dsp_map_channels
+> diff --git a/drivers/iio/adc/stm32-mdf-adc.c b/drivers/iio/adc/stm32-mdf-=
+adc.c
+> index 411af78911c91..eae7a4fa14851 100644
+> --- a/drivers/iio/adc/stm32-mdf-adc.c
+> +++ b/drivers/iio/adc/stm32-mdf-adc.c
 
- sound/soc/qcom/qdsp6/audioreach.c       | 36 ++++---------------------
- sound/soc/qcom/qdsp6/audioreach.h       |  5 ++--
- sound/soc/qcom/qdsp6/q6apm-dai.c        | 12 ++++++---
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 16 +++++------
- 4 files changed, 24 insertions(+), 45 deletions(-)
+[ ... ]
 
-diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
-index aa1f4e2967647..5b5289bf6d139 100644
---- a/sound/soc/qcom/qdsp6/audioreach.c
-+++ b/sound/soc/qcom/qdsp6/audioreach.c
-@@ -306,22 +306,6 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
- }
- EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
- 
--void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
--{
--	if (num_channels == 1) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--	} else if (num_channels == 2) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--		ch_map[1] =  PCM_CHANNEL_FR;
--	} else if (num_channels == 4) {
--		ch_map[0] =  PCM_CHANNEL_FL;
--		ch_map[1] =  PCM_CHANNEL_FR;
--		ch_map[2] =  PCM_CHANNEL_LS;
--		ch_map[3] =  PCM_CHANNEL_RS;
--	}
--}
--EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
--
- static void apm_populate_container_config(struct apm_container_obj *cfg,
- 					  const struct audioreach_container *cont)
- {
-@@ -760,7 +744,7 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
- 	intf_cfg->cfg.intf_index = module->hw_interface_idx;
- 	intf_cfg->cfg.active_channels_mask = 0;
- 	/* Convert the physical channel mapping into a bit field */
--	for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
-+	for (i = 0; i < PCM_MAX_NUM_CHANNEL; i++)
- 		if (cfg->channel_map[i])
- 			intf_cfg->cfg.active_channels_mask |= BIT(i);
- 
-@@ -883,7 +867,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
- 	media_format->bit_width = cfg->bit_width;
- 	media_format->num_channels = cfg->num_channels;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
- 		if (!cfg->channel_map[i])
- 			continue;
- 		media_format->channel_mapping[j++] = cfg->channel_map[i];
-@@ -1185,11 +1169,6 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	int payload_size;
- 	int i, j;
- 
--	if (num_channels > 4) {
--		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
--		return -EINVAL;
--	}
--
- 	payload_size = APM_PCM_MODULE_FMT_CMD_PSIZE(num_channels);
- 
- 	struct gpr_pkt *pkt __free(kfree) =
-@@ -1223,7 +1202,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
- 	 */
- 	media_cfg->bits_per_sample = mcfg->bit_width == 24 ? 32 : mcfg->bit_width;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
- 		media_cfg->channel_mapping[j++] = mcfg->channel_map[i];
-@@ -1280,11 +1259,6 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 	int i, j;
- 	void *p;
- 
--	if (num_channels > 4) {
--		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
--		return -EINVAL;
--	}
--
- 	payload_size = APM_SHMEM_FMT_CFG_PSIZE(num_channels) + APM_MODULE_PARAM_DATA_SIZE;
- 
- 	struct gpr_pkt *pkt __free(kfree) =
-@@ -1319,7 +1293,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
- 		cfg->endianness = PCM_LITTLE_ENDIAN;
- 		cfg->num_channels = mcfg->num_channels;
- 		/* Convert the physical mapping to a logical mapping of the channels */
--		for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
-+		for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
- 			if (!mcfg->channel_map[i])
- 				continue;
- 			cfg->channel_mapping[j++] = mcfg->channel_map[i];
-@@ -1442,7 +1416,7 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
- 
- 	cm_cfg->cfg.num_channels = num_channels * 2;
- 	/* Convert the physical mapping to a logical mapping of the channels */
--	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
-+	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
- 		if (!mcfg->channel_map[i])
- 			continue;
- 		/*
-diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
-index 587f14ce71d23..9f4166ebdc107 100644
---- a/sound/soc/qcom/qdsp6/audioreach.h
-+++ b/sound/soc/qcom/qdsp6/audioreach.h
-@@ -6,6 +6,7 @@
- #include <linux/soc/qcom/apr.h>
- #include <uapi/sound/snd_ar_tokens.h>
- #include <sound/soc.h>
-+#include "q6dsp-common.h"
- struct q6apm;
- struct q6apm_graph;
- 
-@@ -805,7 +806,6 @@ struct param_id_hw_ep_power_mode_cfg {
- #define PARAM_ID_HW_EP_DMA_DATA_ALIGN	0x08001233
- #define AR_HW_EP_DMA_DATA_ALIGN_MSB	0
- #define AR_HW_EP_DMA_DATA_ALIGN_LSB	1
--#define AR_PCM_MAX_NUM_CHANNEL		8
- 
- struct param_id_hw_ep_dma_data_align {
- 	uint32_t dma_data_align;
-@@ -998,7 +998,7 @@ struct audioreach_module_config {
- 	u16	nslots_per_frame;
- 	u16	slot_width;
- 	struct snd_codec codec;
--	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
-+	u8 channel_map[PCM_MAX_NUM_CHANNEL];
- };
- 
- /* Packet Allocation routines */
-@@ -1009,7 +1009,6 @@ static inline u16 audioreach_gpr_dest_domain(gpr_device_t *gdev)
- 
- void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode,
- 				   uint32_t token);
--void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels);
- void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
- 			       uint32_t token, uint32_t src_port,
- 			       uint32_t dest_port);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index 7ce2a50390f8e..b7a3cf826b294 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -21,6 +21,7 @@
- #include <asm/div64.h>
- #include <asm/dma.h>
- #include "q6apm.h"
-+#include "q6dsp-common.h"
- 
- #define DRV_NAME "q6apm-dai"
- #define POS_BUFFER_BYTES	4096
-@@ -344,7 +345,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
- 	cfg.num_channels = runtime->channels;
- 	cfg.bit_width = prtd->bits_per_sample;
- 	cfg.fmt = SND_AUDIOCODEC_PCM;
--	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
-+	ret = q6dsp_map_channels(cfg.channel_map, runtime->channels);
-+	if (ret)
-+		return ret;
-+
- 	if (prtd->state) {
- 		/* clear the previous setup if any  */
- 		q6apm_graph_stop(prtd->graph);
-@@ -1016,8 +1020,10 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
- 		cfg.num_channels = 2;
- 		cfg.bit_width = prtd->bits_per_sample;
- 		cfg.fmt = codec->id;
--		audioreach_set_default_channel_mapping(cfg.channel_map,
--						       cfg.num_channels);
-+		ret = q6dsp_map_channels(cfg.channel_map, cfg.num_channels);
-+		if (ret)
-+			return ret;
-+
- 		memcpy(&cfg.codec, codec, sizeof(*codec));
- 
- 		ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
-diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-index c63622629f151..d43d97d138410 100644
---- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-@@ -94,7 +94,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
- 			return -EINVAL;
- 		}
- 
--		if (tx_num > AR_PCM_MAX_NUM_CHANNEL) {
-+		if (tx_num > PCM_MAX_NUM_CHANNEL) {
- 			dev_err(dai->dev, "invalid tx num %d\n",
- 				tx_num);
- 			return -EINVAL;
-@@ -147,7 +147,9 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
- 	cfg->bit_width = params_width(params);
- 	cfg->sample_rate = params_rate(params);
- 	cfg->num_channels = channels;
--	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
-+	ret = q6dsp_map_channels(cfg->channel_map, channels);
-+	if (ret)
-+		return ret;
- 
- 	switch (dai->id) {
- 	case DISPLAY_PORT_RX_0:
-@@ -173,16 +175,14 @@ static int q6dma_hw_params(struct snd_pcm_substream *substream,
- 	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
- 	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
- 	int channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
--	int i;
-+	int ret;
- 
- 	cfg->bit_width = params_width(params);
- 	cfg->sample_rate = params_rate(params);
- 	cfg->num_channels = channels;
--	memset(cfg->channel_map, 0, sizeof(cfg->channel_map));
--	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
--	for (i = 0; i < channels && i < AR_PCM_MAX_NUM_CHANNEL; i++)
--		if (!cfg->channel_map[i])
--			cfg->channel_map[i] = i + 1;
-+	ret = q6dsp_map_channels(cfg->channel_map, channels);
-+	if (ret)
-+		return ret;
- 
- 	return 0;
- }
--- 
-2.43.0
+> @@ -271,6 +329,352 @@ static struct stm32_mdf_adc *stm32_mdf_get_filter_b=
+y_handle(struct stm32_mdf *md
+>  	return NULL;
+>  }
+> =20
+> +static int stm32_mdf_adc_compute_scale(struct device *dev, unsigned int =
+decim,
+> +				       unsigned int order, unsigned int data_size)
+> +{
+
+[ ... ]
+
+> +	/* scale =3D 20 * ((DS - 1) * log10(2) - NF * log10(D)) */
+> +	scale =3D 20 * ((data_size - 1) * stm32_mdf_log_table[0].log - order * =
+logd);
+> +
+> +	return scale;
+> +}
+> +
+> +static int stm32_mdf_adc_apply_filters_config(struct stm32_mdf_adc *adc,=
+ unsigned int scale)
+> +{
+> +	struct stm32_mdf_adc *adc_inter;
+> +	u32 msk, val;
+> +	int ret, cnt =3D 0;
+> +
+> +	/* Apply conf from filter0 to interleaved filters if any */
+> +	if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave) {
+> +		list_for_each_entry(adc_inter, &adc->mdf->filter_list, entry) {
+> +			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter)) {
+> +				adc_inter->datsrc =3D adc->datsrc;
+> +				adc_inter->cicmode =3D adc->cicmode;
+> +				adc_inter->decim_cic =3D adc->decim_cic;
+> +				adc_inter->nbdis =3D adc->nbdis;
+> +				adc_inter->hpf_cutoff =3D adc->hpf_cutoff;
+> +
+> +				stm32_mdf_adc_apply_filters_config(adc_inter, scale);
+> +				cnt++;
+> +			}
+> +		}
+
+[Severity: Medium]
+Should this loop also copy adc->rsflt_bypass to adc_inter->rsflt_bypass
+and check the return value of stm32_mdf_adc_apply_filters_config()?
+
+Secondary interleaved filters skip filter property parsing during probe,
+so adc_inter->rsflt_bypass stays false even when filter 0 bypasses the
+reshape filter, leaving MDF_DFLTRSFR_RSFLTBYP unset on the secondary
+filters and applying an unintended 4x decimation.  Any register update
+failure on the secondary filters is also ignored.
+
+[ ... ]
+
+> +	/* Configure CICR */
+> +	msk =3D MDF_SITFCR_SCKSRC_MASK | MDF_DFLTCICR_CICMOD_MASK |
+> +	      MDF_DFLTCICR_MCICD_MASK | MDF_DFLTCICR_SCALE_MASK;
+> +	val =3D FIELD_PREP(MDF_SITFCR_SCKSRC_MASK, adc->datsrc) |
+> +	      FIELD_PREP(MDF_DFLTCICR_CICMOD_MASK, adc->cicmode) |
+> +	      FIELD_PREP(MDF_DFLTCICR_MCICD_MASK, adc->decim_cic - 1) |
+> +	      FIELD_PREP(MDF_DFLTCICR_SCALE_MASK, scale);
+> +
+> +	ret =3D regmap_update_bits(adc->regmap, MDF_DFLTCICR_REG, msk, val);
+
+[Severity: Medium]
+Should this use MDF_DFLTCICR_DATSRC_MASK instead of
+MDF_SITFCR_SCKSRC_MASK when programming adc->datsrc into
+MDF_DFLTCICR_REG?
+
+MDF_SITFCR_SCKSRC_MASK is GENMASK(2, 1) whereas MDF_DFLTCICR_DATSRC_MASK
+is GENMASK(1, 0), so adc->datsrc is shifted into bits [2:1] (where bit 2
+is reserved) and bit 0 of DATSRC is left unmasked.
+
+[ ... ]
+
+> +static int stm32_mdf_adc_set_filters_config(struct iio_dev *indio_dev, u=
+nsigned int decim)
+> +{
+> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
+> +	struct device *dev =3D &indio_dev->dev;
+> +	unsigned int decim_cic, decim_rsflt =3D 1;
+> +	unsigned int data_size =3D STM32_MDF_DATA_RES, order =3D adc->cicmode;
+
+[ ... ]
+
+> +	if (is_power_of_2(decim_cic)) {
+> +		/*
+> +		 * Decimation ratio is a power of 2: D =3D 2 exp n
+> +		 * max scale =3D 20 * (DS - n * NF) * log10(2)
+> +		 */
+> +		log =3D stm32_mdf_log_table[0].log;
+> +
+> +		/* Compute max scale (dB) * 1000 */
+> +		max_scale =3D (20 * (data_size - 1 - (order * (fls(decim_cic) - 1))) *=
+ log);
+> +	} else {
+> +		/*
+> +		 * Decimation ratio is not a power of 2
+> +		 * max scale =3D 20 * ((DS - 1) * log10(2) - NF * log10(D))
+> +		 */
+> +		max_scale =3D stm32_mdf_adc_compute_scale(dev, decim_cic, order, data_=
+size);
+> +	}
+
+[Severity: Medium]
+Does the max_scale calculation handle FastSinc mode (adc->cicmode =3D=3D 0)?
+
+As noted in the dflt_max calculation below, FastSinc has a CIC gain of
+2 * D^2, but both branches here (and stm32_mdf_adc_compute_scale() above)
+multiply the decimation log term by order =3D 0.  That treats the CIC gain
+as 0 dB and always selects the maximum +72.2 dB scale (0x18), saturating
+the filter output and overflowing the 32-bit adc->dflt_max when
+decim_cic >=3D 12.
+
+[ ... ]
+
+> +	adc->decim_cic =3D decim_cic;
+
+[ ... ]
+
+> +static int stm32_mdf_adc_check_clock_config(struct stm32_mdf_adc *adc, u=
+nsigned long *sck_freq)
+> +{
+> +	unsigned long cck_expected_freq;
+> +	unsigned int ratio, cic_ratio;
+> +	int ret, error =3D 0;
+
+[ ... ]
+
+> +	/*
+> +	 * Mode SPI:    check Fproc >=3D 4 * Fsck
+> +	 * Mode LF SPI: check Fproc >=3D 2 * Fsck
+> +	 */
+> +	ratio =3D DIV_ROUND_CLOSEST(adc->mdf->fproc, *sck_freq);
+> +	if ((adc->sitf->mode =3D=3D STM32_MDF_MODE_SPI && ratio <=3D 4) ||
+> +	    (adc->sitf->mode =3D=3D STM32_MDF_MODE_LF_SPI && ratio <=3D 2)) {
+> +		dev_dbg(adc->dev, "Wrong Fproc/Fsck ratio [%d]. sitf mode [%d], RSFLT =
+[%s]\n",
+> +			ratio, adc->sitf->mode, adc->rsflt_bypass ? "off" : "on");
+> +		error |=3D STM32_MDF_ERR_MODE_RATIO;
+> +	}
+> +
+> +	/* RSFLT enabled: check Fproc > 24 * Fsck / (MCICD+1) */
+> +	cic_ratio =3D DIV_ROUND_CLOSEST(24, adc->decim_cic);
+> +	if (!adc->rsflt_bypass && ratio <=3D cic_ratio)
+> +		error |=3D STM32_MDF_ERR_DECIM_RATIO;
+
+[Severity: High]
+Can DIV_ROUND_CLOSEST(24, adc->decim_cic) divide by zero here?
+
+mdf_adc_set_samp_freq() calls stm32_mdf_adc_check_clock_config() before
+calling stm32_mdf_adc_set_filters_config(), which is the only place that
+sets adc->decim_cic.  On the first call adc->decim_cic is still 0,
+causing a division by zero, and on later sample rate changes this check
+uses the stale adc->decim_cic from the previous configuration.
+
+> +
+> +	/* If we found an error, try to restore clocks initial settings */
+> +	if (error) {
+> +		ret =3D stm32_mdf_core_restore_cck(adc->mdf);
+> +		if (ret < 0)
+> +			goto err;
+> +
+> +		*sck_freq =3D clk_get_rate(adc->sitf->sck);
+> +		if (!*sck_freq) {
+> +			ret =3D -EINVAL;
+> +			goto err;
+> +		}
+> +	}
+> +
+> +	return 0;
+
+[Severity: Medium]
+Does stm32_mdf_adc_check_clock_config() accept invalid clock ratios and
+reject valid boundary ratios?
+
+The SPI mode checks above use ratio <=3D 4 and ratio <=3D 2 instead of
+ratio < 4 and ratio < 2, rejecting the valid boundary ratios Fproc =3D 4 *
+Fsck and Fproc =3D 2 * Fsck.  In addition, when error is non-zero, this
+function calls stm32_mdf_core_restore_cck() and returns 0 without
+re-checking whether the restored clock satisfies the frequency and
+Fproc/Fsck ratio constraints.  Finally, mdf_adc_set_samp_freq() computes
+the default sample_freq from sck_freq before calling
+stm32_mdf_adc_check_clock_config(), so if *sck_freq is updated here,
+sample_freq stays based on the old rate.
+
+[ ... ]
+
+> +static int __maybe_unused mdf_adc_set_samp_freq(struct iio_dev *indio_de=
+v)
+> +{
+
+[ ... ]
+
+> +	if (!sample_freq)
+> +		sample_freq =3D sck_freq / MDF_DEFAULT_DECIM_RATIO;
+> +
+> +	ret =3D stm32_mdf_adc_check_clock_config(adc, &sck_freq);
+> +	if (ret)
+> +		goto err;
+> +
+> +	decim_ratio =3D DIV_ROUND_CLOSEST(sck_freq, sample_freq);
+> +
+> +	delta =3D abs(sck_freq - (decim_ratio * sample_freq));
+> +	delta_ppm =3D (1000000 * delta) / sck_freq;
+> +	if (delta_ppm > 1000)
+> +		dev_warn(dev, "Sample rate deviation [%lu] ppm: [%lu] vs [%lu] Hz\n",
+> +			 delta_ppm, sck_freq / decim_ratio, sample_freq);
+
+[Severity: High]
+Can sck_freq / decim_ratio divide by zero when a caller requests
+sample_freq > 2 * sck_freq?
+
+DIV_ROUND_CLOSEST(sck_freq, sample_freq) rounds decim_ratio down to 0
+before stm32_mdf_adc_set_filters_config() validates the decimation range,
+and delta_ppm then evaluates to 1000000, hitting sck_freq / decim_ratio
+in dev_warn().  Similarly, if requested_sample_freq is 0 and
+sck_freq < MDF_DEFAULT_DECIM_RATIO, sample_freq becomes 0 and
+DIV_ROUND_CLOSEST(sck_freq, sample_freq) divides by zero.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-upstream_m=
+df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D6
