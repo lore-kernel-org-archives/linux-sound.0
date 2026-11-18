@@ -1,54 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795024517;
-	b=smtmd85LbAj5+3Z4sK9yzP23uhFgEriPNJtjaE/07BvgTp6PLzmGCVghb/C8cdu/yI/6
-	 P1VEob+md/cz0UjEySf4bOt0GCx+CLR2Wy5Y1lshIYTCarfvRle2BKyAzk1bHMpkGPBL/
-	 TnD0but6cbmab5sn569sJMRaqgrdiLMvnhj8jc9V4FfYr02BS44FWuiF8N1woMA6/KVzr
-	 noE3Hk7QkLc5kdpef0/CtYGmY8voeyjiSxtWYQ7xM8DR1X/lxTuVpHfgtrlHp5aADuM0w
-	 a2qXbfJ4gyeaoKQNc+wnJziHRzU3rCwLA44wXkYpxJjVG3UzygtHxoiKnyI1TjpQTPw==
+	t=1795025357;
+	b=w38tut4I7GTrfZNGz4lBdAFRUnqzmPma92IaFtFMjX1pftSjvdxzvF9VHIKfBrVfLNuo
+	 Aj9K3piWzBYosZgSPGZyZL8NosyrsRNVwSf8AYlFOflFMUfmMjf9oIHfRDbjbckeZJd6L
+	 F6EVX/5P4C4uviBYVZcIfByn4WPofYY0zCjWbp0o2JfcYC/Ashddqdv+WIIGNPHYBOecA
+	 /BWbY7s/IxdSX/+Stnho8ycgoqpupfgMfD1I/MrJyA0FVX3y5eawTssqc1+fM/E3HXE1N
+	 BSutsFV9wNFQr0dHVqPX/ZcdjEu1ROKTBcIB3b4Vd4iny3SEOvsMsEAkI9UxIYSijqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795024517;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795025357;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=I+R69OX+YtJ1apcUeZndnlxtFbAMqW4naUJ3p3r/QEc=;
-	b=MPi97Z/hjfqSejP8xWUUG/RvoRhDqcTMFEhPTNQj9HC5NC7/X3wmirVKDJV2wZM9NCd/
-	 CCaVLPoI8LLw0+rHp+OJLcDWFMtnHxWHDThAcPjmYkkVOOQIw+1J7ctrxFv6fqmN0m8Y5
-	 T/qpVk9L3Ky3AGvts9LdhiVNSYUkBloPRa6V3FCNMot1BFKYBkQekKfzioWLBGR0rByAk
-	 l4mnMQ31ITalwO3WscfOu0O1hp1EinOplDHi9aiZWFmpeagYGZY3jYsb2eDTQeGuCDspA
-	 qb6oD8c1dIdCpuagJub7eYj2U2nISefbuFyt6bZMbXziA09V4Faw9jAHnW0xNHwQJ2w==
+	bh=RIdkJa5LenRRw6urYfdJfH94Dy+Daqb3UMbNwAcNkUI=;
+	b=N4ZMu+C9bUw2e0VjbKYuMzhZEtp9S+QR4fbLyhIkg+m1JTUtbOORxfI+5tKEaTbcPU2A
+	 FxKb/gibaj3kot2KLwxi0Fqldx4XZQoagqJLDzX3SrpeHCakrQwVXQzgpxC8Mtx0ExISc
+	 N43yos3OP1VqOTxwH6OCc9U6zShXF08fO6bNGJIgRRWGiBedw3Th7B2q3608Hiyvas36T
+	 z5G0f6smQgu5wjdzg6iYPPZ18njzUlFpUln92tlp8AfHbTdEwaj7vlplRVOO3qbhOVK78
+	 M5RH6MV2qQ3zgk3DogJgh5D2z1xvQ6BCJYONcsFIe2klHWPhhUhB0gFdcUulM45xjSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uo7tQmZu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GcikOcyy;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A30606A320;
-	Wed, 18 Nov 2026 17:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247CA606A31C;
+	Wed, 18 Nov 2026 18:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Uo7tQmZu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63D141F000C5;
-	Wed, 18 Nov 2026 17:55:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GcikOcyy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9036C1F000C5;
+	Wed, 18 Nov 2026 18:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795024517;
-	bh=I+R69OX+YtJ1apcUeZndnlxtFbAMqW4naUJ3p3r/QEc=;
+	s=k20260515; t=1795025356;
+	bh=RIdkJa5LenRRw6urYfdJfH94Dy+Daqb3UMbNwAcNkUI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Uo7tQmZu1J3LNF1xCdtwd22kwxLGELB4ljR5I106/1Vw03Kw0vCl8w5C/QpZHQeIn
-	 WnDWOllbIyxPZg5m+QHuSqz+irhcPvAgOCqYiGhfflrBaUOKxP3Z6fo4+EC8RNEZBh
-	 g0R1CvRBlb5IdIGcscPwNd9zrXNEBF4Jwxo6xBA6RE9Z7vvfcOC0jY9cw+EynRjLae
-	 cNxBnGnbUEAkYPyNJ8UZzO6Cjdc70e73TNgSR+cqhMM1JdOYY3mCAC+qhst+s0hc62
-	 QIK2vkSfy1w5qo5NCuqMTGLF8k+Hu992EeIHvT5fdaJsIhd+w4/dcIGv9xrrqF+NuS
-	 XXVdxeY8DGWRQ==
+	b=GcikOcyyZbV6ZYAYVI05NCsP4SBhjk/0zkZ9hQ0Y5QcBQUw8d76lEvq1hmmoHMi/a
+	 nVEfWYTm72i1jyOTFf09ZgN5GbqCLUqubJYCCK62FwqQlM8KtL6E9OulTZM5JYzAYt
+	 ww/pmAVnqtLhnqx6uCYy5HCdLoEKt5dMWLlBmeSilP+bzi55AgEqjMNZRInvgV2MP/
+	 6VGerKob9GVW5VaX26wpxQpvL68yq5J2yo+ExsTTbYbx3JpYO01t315/Tn6T8kgWOp
+	 8tXz1veIiKPZpT3LtDKSxY71FNibFckoybu9WxgeFwiJTafGvrtN0F9UBnkUMK8taY
+	 dCtSbYDm3DQhA==
 From: Mark Brown <broonie@kernel.org>
 To: Haowen Tu <tuhaowen@uniontech.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <4E11793720037898+20261117062253.3611273-1-tuhaowen@uniontech.com>
-References: <4E11793720037898+20261117062253.3611273-1-tuhaowen@uniontech.com>
-Subject: Re: [PATCH] ASoC: ak4375: Power off the codec on probe failure
-Message-Id: <179502451028.349622.2399521834730740812.b4-ty@b4>
-Date: Wed, 18 Nov 2026 17:55:10 +0000
+Cc: peda@lysator.liu.se, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <BF435C6BC6FC2868+20261118033156.3845276-1-tuhaowen@uniontech.com>
+References: <BF435C6BC6FC2868+20261118033156.3845276-1-tuhaowen@uniontech.com>
+Subject: Re: [PATCH] ASoC: max9860: Register the supply notifier after
+ initializing regmap
+Message-Id: <179502535165.810609.9743452411132204827.b4-ty@b4>
+Date: Wed, 18 Nov 2026 18:09:11 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,17 +62,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
- h=from:subject:message-id; bh=3TK6sjDW33zp5h40SDFba9+9yHkU3VFMvyVr6hn2cmk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+Pmv6m7J3ecXnh4lycwLiGZ7oyb1Ut8w+q9IV86f6Y
- HCZvJ1uRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACbyOISRYWI5n7B9UsbPoNuL
- lycZ3Yr0vBwe8DVY58d6/Zu+PQk+XUAV3BVh2av21epMUGF+olgRP3vLb9ujJfPDZk9//fHTeR8
- +AA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1153; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=pLuXjnWgNTYMmlcO+Udup31AdsKFGdHj6AdalwXw7G4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+vjy5zuGjzLxjmqejlvpuurnx06u4rb+9nOS+CVn/q
+ fj0ft97v45SFgYxLgZZMUWWuCzul/Ulr9fwHVzYBjOHlQlkCAMXpwBMpKaJ4a/0be68BctXWN/5
+ fqBfcNKpOm65u1cOBF/8sTvq3YlNPRGbGP6Hc+R8mnfqdMd9H6HaOVeqbzdu+XBqFpPXhhiDSdV
+ nH9pwAgA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 17 Nov 2026 14:22:53 +0800, Haowen Tu wrote:
-> ASoC: ak4375: Power off the codec on probe failure
+On Wed, 18 Nov 2026 11:31:56 +0800, Haowen Tu wrote:
+> ASoC: max9860: Register the supply notifier after initializing regmap
 
 Applied to
 
@@ -79,8 +80,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ak4375: Power off the codec on probe failure
-      https://git.kernel.org/broonie/sound/c/723fd896e486
+[1/1] ASoC: max9860: Register the supply notifier after initializing regmap
+      https://git.kernel.org/broonie/sound/c/6bceb2fc2402
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
