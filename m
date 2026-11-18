@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795017965;
-	b=oBEeUBtLGsDWcTNMT1OPASc4f1AJ+K0oUlYI6c+hVFO96arhv9ru3VwjK0mcp+o37/u/
-	 jlkFKXsqSncOJ43Dbpl0Sd6BGXW0QQDbWDi7aVLKd8fEIjPtSbXyO4vDF207OJPNubDjf
-	 XkbxkUifnfNVc4xDm9eTdI0FXATsQx2uevqnLR4/uZLY+AaSQHytH/aK6T63bHD/jmsY+
-	 pKf/xoNtz7GGBVDcRP0wTSFjMkFGs3YwIc6Hq94LFxAprVP5jO3MELWPi5T0GUiRfp5cx
-	 LH4Y+AiKAxjgkopaZQFAiaU4nMDnsYmilpg06zT21iqnUtD4wwPvXn+lFkwgpjqAHow==
+	t=1795018137;
+	b=OcYrvZQeLdDbMqEekN3CDEe5EMP51ida9daAL15bayMzbnnu4vNVngTf2uK6LzrMJV2a
+	 0t6F69UIYL/HLwfNVLwuPV+kHxEMG93jWebRILCzZvufz/J6t6YWAZfTi6xndrBlhAu9z
+	 LbHg1XB1v7pPTphwNjWiQKSVA/Ul/MnGcFuBkTG/zdam5YhQ6BdkdaxCEHu334rb4PQ1/
+	 7IcyOdgsqnYCVFCJlYSgua0o4fqDc3/Qb+WrEB47UbFS6hTpm9OSKKcVpkoC0KnG4Gkjh
+	 /rTjRd9U7AchK5dqGhBR7f7pbYTgNhfZRmUPgiEQ8cSqG11T9SrvYHS2MRhR/QIpViw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795017965;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795018137;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oKFR3bZi6v5pv8+3J77rAPs59izk8whRqH7B/hgm/+g=;
-	b=tM2tYM6AWapXnA73S88s4na4Ix/L6FPbzl4ombAbktX+bPjb9MQY97h7Ek9T5zZYBKk7
-	 +/4mK6yGotlHPH+MCnhiwBPLUHm4ri/MylaorD8Zsu5ugzVUz93Ah+lohyHySoYZJxMSC
-	 U6XEEk90215n1lJqe5xM+sUPK9BF6F5sisQEeM7ghoMsRwosCgnps2rYi9BVAn6LT+zQi
-	 yUJ9x+dQFHpJKsa0XO8ZC9rlhUZKTmt0laIx0wLXPGWy400HWP+OHp4sj9kLBL7fEnrC8
-	 7fI7Ecri1jXoEeU1x4Q0pYitF3aH2kEY0EGpocyoOh53CH/ydKrMBshIUb6T4INottg==
+	bh=Q/4w059UF8AfVKJqVmLzXM8ozDPCMJbMNmkCPBpCX28=;
+	b=XPsWYIXiWrsHkp1vZGTt5x4ivsz+YA4H3+lTy6WQZyGtTsOpyLlqDSb5nZhADBzwq3/e
+	 roRTNwAsNOmUXAwTYzQDSgB9icgX0d7kz66CZQJm+eXNFbspsQbRixwCJm4j78Z1l5cYg
+	 vlZO0Ju7YM14poet4ChyG2GXvJe6vcanxiNC2Cm+vLe7d+0lr4reY1sFSAm0dUpjXeMGJ
+	 YoaK732/lcAFYTmqflvTvfe9l0nDW4pAuHjnhJlnWxYAScUoJnVuX+nyVXWy0IQl3NUzX
+	 t/+Ix/iNC+VXGKB2lNOt8n8Yi35jlR+VX+P/lZvgq2i4+opmiRC5CuLkSeFCOq0sedg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BEsSZ/LL";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iXamzbMt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E83606A325;
-	Wed, 18 Nov 2026 16:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828BC60A260C;
+	Wed, 18 Nov 2026 16:08:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BEsSZ/LL
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D051F000C5;
-	Wed, 18 Nov 2026 16:06:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iXamzbMt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAADD1F000C4;
+	Wed, 18 Nov 2026 16:08:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795017964;
-	bh=oKFR3bZi6v5pv8+3J77rAPs59izk8whRqH7B/hgm/+g=;
+	s=k20260515; t=1795018137;
+	bh=Q/4w059UF8AfVKJqVmLzXM8ozDPCMJbMNmkCPBpCX28=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BEsSZ/LLc9TIpPGshcx6KgoMX0pl9XPhtr9ssiQDYkhcqppT9yve6scnGjYfR4p6T
-	 FOCyx55/f5kxgz0pBzKGCVysl7A9tRqxWzzT2YJsk16mcLG2fbCfPEiKN5Djvbh+1V
-	 9xWL+bACejYse/E/m2vjKyhTRLIPalwtSq14Fwde+i3fSru4GJ6pj4REMMtD7vkEcM
-	 p18Cw5TkVaKAgERpfFyhB+t+N9z1Tm8wbdUlIy0dBasD2pbGJ2PeThv/ihfOIdYNXV
-	 DzNKoCUqE08+FYzpyPj1RcIZca8s/LBRB9W+nh62obVoQ4IqzoXIqyjXYN95oypP43
-	 8bKLB7MQKmrbw==
-Message-ID: <sashiko-outbox-221421@kernel.org>
+	b=iXamzbMtZKYt1Q1yTYBkq+Tw9c1abfJ4WFUueghaBf8xVLqJgt04wtP/UKf0S6S2e
+	 LC8FLWnQ3AgtdpA/JIXGIeONA2VopIsKV8VYGJ8pXf3cfdapdP6PqonOfDsWKAjtHC
+	 J7hyHwpCE/g4JI294U8idwvjxBrkcEe9A/YpOtSaX4wbeFUhH5UDfq/EWZMqM4Dy+X
+	 LKYe8y8GvNItrALQ4BdHBrFa63rzKlsJJvM8o56I0saW9P+tWA8dGTimzknw3wgpvl
+	 /uN4V9+QwkcLWQWDQapsjYiTREfBzSa7XYzWYde8DICQTdIgEgp+h9q4rABojO4F+0
+	 4eJNa45AYF2Cw==
+Message-ID: <sashiko-outbox-221427@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 10/11] iio: adc: stm32-mdf: add dmic audio filter
- support
+Subject: Re: [PATCH v2 11/11] ASoC: stm32: add mdf dai support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Olivier Moysan" <olivier.moysan@foss.st.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org
-In-Reply-To: <20261118-upstream_mdf_v2-v2-10-7939d3c3720a@foss.st.com>
+In-Reply-To: <20261118-upstream_mdf_v2-v2-11-7939d3c3720a@foss.st.com>
 References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
- <20261118-upstream_mdf_v2-v2-10-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-11-7939d3c3720a@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 16:06:03 +0000
+Date: Wed, 18 Nov 2026 16:08:56 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,288 +60,285 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 5 potential
+Thank you for your contribution! Sashiko AI review found 7 potential
 issues to consider:
-- [High] iio: adc: stm32-mdf: race updating cb and cb_priv in
-  stm32_mdf_get_buff_cb()
-- [Medium] iio: adc: stm32-mdf: out-of-bounds or uninitialized channel
-  in stm32_mdf_audio_init()
-- [Medium] iio: adc: stm32-mdf: unlocked freq reset in
-  stm32_mdf_adc_write_raw()
-- [Medium] iio: stm32-mdf: bad mask and bypass in
-  stm32_mdf_adc_apply_filters_config()
-- [Low] iio: adc: stm32-mdf: inaccurate kernel-doc Return for
-  stm32_mdf_get_sub_channels_nb()
+- [High] ASoC: stm32: amdf: wrong S16_LE source offset on wrap in
+  stm32_afsdm_pcm_cb()
+- [High] ASoC: stm32: amdf: broken period elapsed condition in
+  stm32_afsdm_pcm_cb()
+- [High] ASoC: stm32: amdf: broken watermark and channel limits in
+  interleaved mode
+- [High] ASoC: stm32: amdf: unsynchronized DMA callback registration,
+  stop, and pos update
+- [Medium] ASoC: stm32: amdf: SNDRV_PCM_INFO_PAUSE set without pause
+  trigger handling
+- [Low] ASoC: stm32: amdf: invalid %pK format in dev_dbg() in
+  stm32_afsdm_pcm_cb()
+- [Low] ASoC: stm32: amdf: missing period_bytes_min in stm32_amdf_pcm_hw
 --
 
-commit dd4cd2a4f3dd0be22589f1468dca26c3807bd280
+commit 2a312f0d863bc42aba2f6fceb749066af9dab645
 Author: Olivier Moysan <olivier.moysan@foss.st.com>
 
-iio: adc: stm32-mdf: add dmic audio filter support
+ASoC: stm32: add mdf dai support
 
-This commit extends the STM32 MDF filter driver to support digital
-microphone audio filters and adds callback and sub-channel helpers for
-audio consumers.
+This commit adds an ASoC DAI and platform driver for PDM digital
+microphones connected to the STM32 Multi-function Digital Filter (MDF)
+IP via the IIO consumer buffer interface.
 
-> diff --git a/drivers/iio/adc/stm32-mdf-adc.c b/drivers/iio/adc/stm32-mdf-=
-adc.c
-> index 97099b4adffc6..27c47bef71a42 100644
-> --- a/drivers/iio/adc/stm32-mdf-adc.c
-> +++ b/drivers/iio/adc/stm32-mdf-adc.c
+> diff --git a/sound/soc/stm/stm32_amdf.c b/sound/soc/stm/stm32_amdf.c
+> new file mode 100644
+> index 0000000000000..a733a7a2997fa
+> --- /dev/null
+> +++ b/sound/soc/stm/stm32_amdf.c
+> @@ -0,0 +1,375 @@
+
 [ ... ]
-> @@ -1128,6 +1129,42 @@ static const struct iio_buffer_setup_ops stm32_mdf=
-_buffer_setup_ops =3D {
->  	.predisable =3D &stm32_mdf_adc_predisable,
->  };
-> =20
-> +/**
-> + * stm32_mdf_get_sub_channels_nb() - Get the number of MDF sub-channels
-> + * @indio_dev: MDF IIO device
-> + *
-> + * Return: 0 on success, or a negative error code on failure.
-> + */
+
+> +static const struct snd_pcm_hardware stm32_amdf_pcm_hw =3D {
+> +	.info =3D SNDRV_PCM_INFO_INTERLEAVED | SNDRV_PCM_INFO_BLOCK_TRANSFER |
+> +		SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_PAUSE,
+> +	.formats =3D SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S32_LE,
+> +
+> +	.channels_min =3D 1,
+> +	.channels_max =3D 1,
+> +
+> +	.periods_min =3D 2,
+> +	.periods_max =3D MDF_MAX_PERIODS,
+> +
+> +	.period_bytes_max =3D MDF_MAX_PERIOD_SIZE,
+> +	.buffer_bytes_max =3D MDF_MAX_PERIODS * MDF_MAX_PERIOD_SIZE
+> +};
 
 [Severity: Low]
-The Return description in the kernel-doc says this returns 0 on success or
-a negative error code on failure, whereas stm32_mdf_get_sub_channels_nb()
-returns an unsigned int sub-channel count (nb_interleave or 1).
+Should stm32_amdf_pcm_hw define .period_bytes_min?
 
-> +unsigned int stm32_mdf_get_sub_channels_nb(struct iio_dev *indio_dev)
-> +{
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +
-> +	if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave)
-> +		return adc->mdf->nb_interleave;
-> +
-> +	return 1;
-> +}
-> +EXPORT_SYMBOL_GPL(stm32_mdf_get_sub_channels_nb);
-
-[Severity: Medium]
-Does stm32_mdf_adc_apply_filters_config() misconfigure MDF_DFLTCICR_REG and
-drop rsflt_bypass on secondary interleaved filters?
-
-drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_adc_apply_filters_config() {
-	if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave) {
-		list_for_each_entry(adc_inter, &adc->mdf->filter_list, entry) {
-			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter)) {
-				adc_inter->datsrc =3D adc->datsrc;
-				adc_inter->cicmode =3D adc->cicmode;
-				adc_inter->decim_cic =3D adc->decim_cic;
-				adc_inter->nbdis =3D adc->nbdis;
-				adc_inter->hpf_cutoff =3D adc->hpf_cutoff;
-
-				stm32_mdf_adc_apply_filters_config(adc_inter, scale);
-				cnt++;
-			}
-		}
-    ...
-	/* Configure CICR */
-	msk =3D MDF_SITFCR_SCKSRC_MASK | MDF_DFLTCICR_CICMOD_MASK |
-	      MDF_DFLTCICR_MCICD_MASK | MDF_DFLTCICR_SCALE_MASK;
-	val =3D FIELD_PREP(MDF_SITFCR_SCKSRC_MASK, adc->datsrc) |
-	      FIELD_PREP(MDF_DFLTCICR_CICMOD_MASK, adc->cicmode) |
-	      FIELD_PREP(MDF_DFLTCICR_MCICD_MASK, adc->decim_cic - 1) |
-	      FIELD_PREP(MDF_DFLTCICR_SCALE_MASK, scale);
-
-	ret =3D regmap_update_bits(adc->regmap, MDF_DFLTCICR_REG, msk, val);
-}
-
-When programming MDF_DFLTCICR_REG, msk and val use MDF_SITFCR_SCKSRC_MASK
-(GENMASK(2, 1)) instead of MDF_DFLTCICR_DATSRC_MASK (GENMASK(1, 0)), which
-shifts adc->datsrc into bits [2:1] and leaves bit 0 untouched.  In
-addition, the interleaved filter loop does not copy adc->rsflt_bypass to
-adc_inter->rsflt_bypass, leaving the reshape filter enabled on secondary
-interleaved filters when filter 0 has st,rs-filter-bypass set.
+Without .period_bytes_min, SNDRV_PCM_HW_PARAM_PERIOD_BYTES has a minimum
+of 0.  An unconstrained hw_params request can then fail during interval
+refinement with -EINVAL, or userspace can configure a 1-frame period and
+set the IIO watermark to 1, generating a DMA interrupt on every frame.
 
 [ ... ]
 
-> @@ -1474,6 +1514,13 @@ static int stm32_mdf_adc_read_label(struct iio_dev=
- *indio_dev, const struct iio_
->  	return sysfs_emit(label, "%s\n", name);
->  }
-> =20
-> +static const struct iio_info stm32_mdf_info_audio =3D {
-> +	.hwfifo_set_watermark =3D stm32_mdf_set_watermark,
-> +	.write_raw =3D stm32_mdf_adc_write_raw,
-> +	.read_raw =3D stm32_mdf_adc_read_raw,
-> +	.read_label =3D stm32_mdf_adc_read_label,
-> +};
-
-[Severity: Medium]
-Does stm32_mdf_adc_write_raw() reset adc->requested_sample_freq outside
-the direct-mode lock on error?
-
-drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_adc_write_raw() {
-    ...
-	{
-		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-		if (IIO_DEV_ACQUIRE_FAILED(claim))
-			return -EBUSY;
-
-		/* Set requested_sample_freq right now, as used by mdf_adc_set_samp_freq(=
-) */
-		adc->requested_sample_freq =3D val;
-
-		if (adc->dev_data->type =3D=3D STM32_MDF_IIO) {
-			ret =3D stm32_mdf_core_lock_kclk_rate(adc->mdf);
-			if (!ret) {
-				ret =3D mdf_adc_set_samp_freq(indio_dev);
-
-				stm32_mdf_core_unlock_kclk_rate(adc->mdf);
-			}
-		}
-	}
-
-	if (ret)
-		adc->requested_sample_freq =3D 0;
-    ...
-}
-
-The IIO_DEV_ACQUIRE_DIRECT_MODE() guard releases direct mode at the end of
-the inner block, before adc->requested_sample_freq is cleared.  If
-stm32_mdf_core_lock_kclk_rate() or mdf_adc_set_samp_freq() fails, a
-concurrent direct-mode writer or buffer enable can observe the failed
-frequency or have its own valid update overwritten by 0.
-
-> @@ -1530,6 +1577,38 @@ static irqreturn_t stm32_mdf_irq(int irq, void *ar=
-g)
->  	return IRQ_HANDLED;
->  }
-> =20
-> +static int stm32_mdf_audio_init(struct device *dev, struct iio_dev *indi=
-o_dev)
+> +static void stm32_memcpy_32to16(void *dest, const void *src, size_t n)
 > +{
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +	struct iio_chan_spec *ch;
-> +	int ret;
+> +	unsigned int i =3D 0;
+> +	u16 *d =3D (u16 *)dest, *s =3D (u16 *)src;
 > +
-> +	ch =3D devm_kzalloc(&indio_dev->dev, sizeof(*ch), GFP_KERNEL);
-> +	if (!ch)
-> +		return -ENOMEM;
-> +
-> +	adc->channels =3D devm_kzalloc(&indio_dev->dev, sizeof(*adc->channels),=
- GFP_KERNEL);
-> +	if (!adc->channels)
-> +		return -ENOMEM;
-> +
-> +	ret =3D stm32_mdf_adc_chan_init(indio_dev, ch);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "Channels init failed\n");
-> +
-> +	indio_dev->num_channels =3D 1;
-> +	indio_dev->channels =3D ch;
-
-[Severity: Medium]
-Can stm32_mdf_adc_chan_init() write past ch and adc->channels or leave them
-uninitialized here?
-
-stm32_mdf_audio_init() allocates a single element for ch and adc->channels,
-but stm32_mdf_adc_chan_init() loops over every child node without a
-compatible property and indexes channels[chan_idx] and
-adc->channels[chan_idx] without checking the count.  If a dmic node has
-more than one channel child node, stm32_mdf_adc_chan_init_one() writes out
-of bounds on both allocations.  If there are no channel child nodes (such
-as on a secondary interleaved filter), stm32_mdf_adc_chan_init() returns 0,
-leaving indio_dev->num_channels set to 1 with ch[0] and adc->channels[0]
-uninitialized.
-
-[ ... ]
-
-> @@ -1599,11 +1678,77 @@ static const struct stm32_mdf_dev_data stm32h7_md=
-f_adc_data =3D {
->  	.init =3D stm32_mdf_adc_init,
->  };
-> =20
-> +static const struct stm32_mdf_dev_data stm32_mdf_audio_data =3D {
-> +	.type =3D STM32_MDF_AUDIO,
-> +	.init =3D stm32_mdf_audio_init,
-> +};
-> +
-> +/**
-> + * stm32_mdf_get_buff_cb() - register a callback that will be called when
-> + *                           DMA transfer period is achieved.
-> + *
-> + * @iio_dev: Handle to IIO device.
-> + * @cb: Pointer to callback function:
-> + *      - data: pointer to data buffer
-> + *      - size: size in byte of the data buffer
-> + *      - private: pointer to consumer private structure.
-> + * @private: Pointer to consumer private structure.
-> + *
-> + * Return: 0 on success, or a negative error code on failure.
-> + */
-> +int stm32_mdf_get_buff_cb(struct iio_dev *iio_dev,
-> +			  int (*cb)(const void *data, size_t size, void *private), void *priv=
-ate)
-> +{
-> +	struct stm32_mdf_adc *adc;
-> +
-> +	if (!iio_dev)
-> +		return -EINVAL;
-> +	adc =3D iio_priv(iio_dev);
-> +
-> +	if (!adc)
-> +		return -EINVAL;
-> +
-> +	adc->cb =3D cb;
-> +	adc->cb_priv =3D private;
-> +
-> +	return 0;
+> +	s++;
+> +	for (i =3D n >> 1; i > 0; i--) {
+> +		*d++ =3D *s++;
+> +		s++;
+> +	}
 > +}
-> +EXPORT_SYMBOL_GPL(stm32_mdf_get_buff_cb);
 > +
-> +/**
-> + * stm32_mdf_release_buff_cb() - Unregister the buffer callback
-> + *
-> + * @iio_dev: Handle to IIO device.
-> + *
-> + * Return: 0 on success, or a negative error code on failure.
-> + */
-> +int stm32_mdf_release_buff_cb(struct iio_dev *iio_dev)
+> +static int stm32_afsdm_pcm_cb(const void *data, size_t size, void *priva=
+te)
 > +{
-> +	struct stm32_mdf_adc *adc;
+> +	struct stm32_amdf_priv *priv =3D private;
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(priv->subs=
+tream);
+> +	u8 *pcm_buff =3D priv->pcm_buff;
+> +	u8 *src_buff =3D (u8 *)data;
+> +	unsigned int old_pos =3D priv->pos;
+> +	size_t buff_size =3D snd_pcm_lib_buffer_bytes(priv->substream);
+> +	size_t period_size =3D snd_pcm_lib_period_bytes(priv->substream);
+> +	size_t cur_size, src_size =3D size;
+> +	snd_pcm_format_t format =3D priv->substream->runtime->format;
 > +
-> +	if (!iio_dev)
-> +		return -EINVAL;
-> +	adc =3D iio_priv(iio_dev);
+> +	if (format =3D=3D SNDRV_PCM_FORMAT_S16_LE)
+> +		src_size >>=3D 1;
+> +	cur_size =3D src_size;
 > +
-> +	if (!adc)
-> +		return -EINVAL;
+> +	dev_dbg(rtd->dev, "%s: buff_add :%pK, pos =3D %d, size =3D %zu\n",
+> +		__func__, &pcm_buff[priv->pos], priv->pos, src_size);
+
+[Severity: Low]
+Does %pK work in stm32_afsdm_pcm_cb()?
+
+This callback runs from the DMA completion handler in softirq or hardirq
+context, where %pK prints "pK-error" when kptr_restrict is 1; commit
+4db4ce15706d ("ASoC: stm32: dfsdm: don't use %pK through printk")
+switched the same debug print in stm32_adfsdm.c to %p.
+
 > +
-> +	adc->cb =3D NULL;
-> +	adc->cb_priv =3D NULL;
+> +	if ((priv->pos + src_size) > buff_size) {
+> +		if (format =3D=3D SNDRV_PCM_FORMAT_S16_LE)
+> +			stm32_memcpy_32to16(&pcm_buff[priv->pos], src_buff, buff_size - priv-=
+>pos);
+> +		else
+> +			memcpy(&pcm_buff[priv->pos], src_buff, buff_size - priv->pos);
+> +		cur_size -=3D buff_size - priv->pos;
+> +		priv->pos =3D 0;
+> +	}
 > +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(stm32_mdf_release_buff_cb);
+> +	if (format =3D=3D SNDRV_PCM_FORMAT_S16_LE)
+> +		stm32_memcpy_32to16(&pcm_buff[priv->pos], &src_buff[src_size - cur_siz=
+e], cur_size);
+> +	else
+> +		memcpy(&pcm_buff[priv->pos], &src_buff[src_size - cur_size], cur_size);
 
 [Severity: High]
-Can stm32_mdf_get_buff_cb() and stm32_mdf_release_buff_cb() race with
-stm32_mdf_adc_dma_buffer_done() and cause a NULL pointer dereference?
+Does the second stm32_memcpy_32to16() call read from the wrong offset in
+src_buff when the ring buffer wraps in SNDRV_PCM_FORMAT_S16_LE mode?
 
-In the ASoC consumer driver, iio_channel_start_all_cb() is called during
-DAI prepare, which runs stm32_mdf_adc_postenable() and starts cyclic DMA
-before PCM trigger start, keeping it running across trigger stop.  As a
-result, the DMA completion callback stm32_mdf_adc_dma_buffer_done() is
-already running when stm32_mdf_get_buff_cb() and
-stm32_mdf_release_buff_cb() update adc->cb and adc->cb_priv without locking
-or ordering:
+When format is SNDRV_PCM_FORMAT_S16_LE, src_size and cur_size are halved
+to measure 16-bit destination bytes, while src_buff holds 32-bit samples
+and stm32_memcpy_32to16() consumes 2 * n source bytes to write n
+destination bytes.  After the first copy writes buff_size - priv->pos
+destination bytes, indexing &src_buff[src_size - cur_size] advances
+src_buff by only half the consumed source bytes instead of
+2 * (src_size - cur_size), re-copying earlier samples and misaligning
+the 16-bit word offset whenever an odd number of samples was copied
+before the wrap.
 
-CPU0                                  CPU1
-stm32_mdf_get_buff_cb()
-  adc->cb =3D cb;
-                                      stm32_mdf_adc_dma_buffer_done()
-                                        if (adc->cb)
-                                          adc->cb(..., adc->cb_priv);
-                                            <-- cb_priv is still NULL
-  adc->cb_priv =3D private;
+> +
+> +	priv->pos =3D (priv->pos + cur_size) % buff_size;
+> +
+> +	if (cur_size !=3D src_size || (old_pos && (old_pos % period_size < size=
+)))
+> +		snd_pcm_period_elapsed(priv->substream);
+> +
+> +	return 0;
+> +}
 
-Similarly, stm32_mdf_release_buff_cb() clears adc->cb and adc->cb_priv
-without synchronizing with stm32_mdf_adc_dma_buffer_done(), so CPU1 can
-pass a cleared adc->cb_priv or jump through a NULL adc->cb after the
-if (adc->cb) check.
+[Severity: High]
+Does this skip snd_pcm_period_elapsed() whenever old_pos is 0?
+
+At stream start (and at the start of every new buffer cycle when
+buff_size is a multiple of period_size), old_pos is 0 and cur_size
+equals src_size, so the condition evaluates to false and drops the first
+period notification of every buffer cycle.  When old_pos is non-zero,
+old_pos % period_size < size also compares the pre-copy PCM byte offset
+against the unscaled 32-bit DMA size (which is twice the PCM byte count
+in S16_LE mode) rather than checking whether advancing by src_size bytes
+crossed a period boundary.
+
+> +
+> +static int stm32_amdf_trigger(struct snd_soc_component *component,
+> +			      struct snd_pcm_substream *substream, int cmd)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+> +	struct stm32_amdf_priv *priv =3D
+> +		snd_soc_dai_get_drvdata(snd_soc_rtd_to_cpu(rtd, 0));
+> +
+> +	switch (cmd) {
+> +	case SNDRV_PCM_TRIGGER_START:
+> +	case SNDRV_PCM_TRIGGER_RESUME:
+> +		priv->pos =3D 0;
+> +		return stm32_mdf_get_buff_cb(priv->iio_ch->indio_dev, stm32_afsdm_pcm_=
+cb, priv);
+> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+> +	case SNDRV_PCM_TRIGGER_STOP:
+> +		return stm32_mdf_release_buff_cb(priv->iio_ch->indio_dev);
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+
+[Severity: Medium]
+Does stm32_amdf_trigger() fail with -EINVAL on pause requests despite
+stm32_amdf_pcm_hw advertising SNDRV_PCM_INFO_PAUSE?
+
+SNDRV_PCM_TRIGGER_PAUSE_PUSH and SNDRV_PCM_TRIGGER_PAUSE_RELEASE are not
+handled in the switch and fall through to return -EINVAL.  In addition,
+SNDRV_PCM_TRIGGER_RESUME resets priv->pos to 0 instead of preserving the
+buffer position across suspend/resume.
+
+[Severity: High]
+Can stm32_amdf_trigger() race with an active DMA completion callback in
+stm32_mdf_adc_dma_buffer_done()?
+
+stm32_amdf_dai_prepare() starts cyclic IIO DMA via
+iio_channel_start_all_cb() before trigger() is called, and DMA continues
+running until stm32_amdf_shutdown().  While DMA callbacks are firing,
+stm32_mdf_get_buff_cb() and stm32_mdf_release_buff_cb() set or clear
+adc->cb and adc->cb_priv without locking or stopping DMA:
+
+drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_adc_dma_buffer_done() {
+    ...
+		if (adc->bufi >=3D adc->buf_sz) {
+			if (adc->cb)
+				adc->cb(&adc->rx_buf[old_pos], adc->buf_sz - old_pos, adc->cb_priv);
+			adc->bufi =3D 0;
+			old_pos =3D 0;
+		}
+		if (adc->dev_data->type =3D=3D STM32_MDF_IIO)
+			iio_push_to_buffers(indio_dev, buffer);
+		available -=3D indio_dev->scan_bytes;
+	}
+	if (adc->cb)
+		adc->cb(&adc->rx_buf[old_pos], adc->bufi - old_pos, adc->cb_priv);
+}
+
+CPU0                                      CPU1 (<softirq>)
+stm32_amdf_trigger(..., STOP)
+  stm32_mdf_release_buff_cb()
+                                          stm32_mdf_adc_dma_buffer_done()
+                                            if (adc->cb)
+    adc->cb =3D NULL;
+    adc->cb_priv =3D NULL;
+                                              adc->cb(..., adc->cb_priv)
+                                                <-- NULL deref
+
+The same NULL dereference can happen on a single CPU if
+snd_pcm_period_elapsed() during the first adc->cb() call in
+stm32_mdf_adc_dma_buffer_done() triggers an XRUN stop before the second
+adc->cb() call, or on START if CPU1 observes adc->cb before adc->cb_priv
+is written.  Because STOP does not wait for in-flight callbacks to
+finish, stm32_afsdm_pcm_cb() can also keep writing to priv->pcm_buff
+after hw_free, and setting priv->pos =3D 0 mid-copy in stm32_afsdm_pcm_cb()
+exposes a transient 0 offset to concurrent lockless
+stm32_amdf_pcm_pointer() readers.
+
+[ ... ]
+
+> +static int stm32_amdf_pcm_hw_params(struct snd_soc_component *component,
+> +				    struct snd_pcm_substream *substream,
+> +				    struct snd_pcm_hw_params *params)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D snd_soc_substream_to_rtd(substream);
+> +	struct stm32_amdf_priv *priv =3D
+> +		snd_soc_dai_get_drvdata(snd_soc_rtd_to_cpu(rtd, 0));
+> +
+> +	priv->pcm_buff =3D substream->runtime->dma_area;
+> +
+> +	return iio_channel_cb_set_buffer_watermark(priv->iio_cb,
+> +						   params_period_size(params));
+> +}
+
+[ ... ]
+
+> +static int stm32_amdf_probe(struct platform_device *pdev)
+> +{
+
+[ ... ]
+
+> +	channels_max =3D stm32_mdf_get_sub_channels_nb(priv->iio_ch->indio_dev);
+> +	priv->dai_drv.capture.channels_max =3D channels_max;
+
+[Severity: High]
+Does multi-channel interleaved capture misconfigure the IIO watermark and
+channel constraints when channels_max > 1?
+
+In stm32_mdf_audio_init(), the audio IIO device always sets
+indio_dev->num_channels =3D 1 with 32-bit storage, so indio_dev->scan_bytes
+is 4 bytes (one sample) rather than a multi-channel frame:
+
+drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_set_watermark() {
+    ...
+	watermark =3D min(val, MDF_DMA_BUFFER_SIZE / (2 * scan_bytes));
+	adc->buf_sz =3D 2 * watermark * scan_bytes;
+}
+
+Passing params_period_size(params) (in frames) instead of
+params_period_size(params) * params_channels(params) sizes each DMA
+period to 1 / channels of the ALSA period.  Also, stm32_amdf_pcm_hw
+keeps .channels_max =3D 1 (overriding the DAI's channels_max in
+stm32_amdf_pcm_open()), and priv->dai_drv.capture.channels_min is left
+at 1 even though the MDF hardware always interleaves all channels_max
+filters into the DMA stream.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-upstream_m=
-df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D10
+df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D11
