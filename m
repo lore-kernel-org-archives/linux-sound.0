@@ -1,93 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795012063;
-	b=daxA+UHGzXzQExs7gVyBH5mk4q8Y/XJ0arOE5JYDRHwxhsM8Itwst7SSy/xo0vr+2idd
-	 X3T0bUSj/45bQE29kwDA9Q7j9VtvoGVi2U6WSAR59ep3Kcg5ca2sZsW2NEsLmXv/FLUbT
-	 S96dRqetNymQ8lYlSKGP2x+f4h3AQHRNN244tiL1xmCe8/xc2n7e42fj9uJ/W79JeLHNY
-	 RGjdAbkntgAveOGsOe2Pxe9DHNudaI6R3z/ksqA2Yi9/kNVyhWBfFKc0a5TCdcOPe75Ea
-	 +rpMTfXrVa+q9ohs2t3R/1jOno6Fma8bIkmmjG0N3s9+Xwd4jgKqa9hye0gE2vLz4MA==
+	t=1795012178;
+	b=yw2WscXdA4twKbJ+mJtys0yeX5NrCCB/8i3wn1EDHPyr7/R0Mu8VIzSB5pg+Et4p5flc
+	 pF4/wjj22n4R333UgHX6ryrxaKxrC2VYKvNIniuT6RmWtOJV+3nMk3burLQAdt9ZIbZwN
+	 4TAio2h086PC/D914pVtnNCHxItpBtWocehnspl13lw2GreGen8V+lCUELaWhkiuswkK+
+	 thWNImphy3r6A+gQYpQ4BBo1+zRr24svjhZaQHx690yovyXo5sg2lLVQQteFbICneFq6N
+	 h0+N9X5nP3K1FOnbk29z2hHrA5362cvRKbXuGgRvVu7TuHt3vxS4tT0+i5epHkSSoGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795012063;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=SzCtrb4I1oeIw2u+c9ts0iXdAzyI2eH808CNGZDafBc=;
-	b=5SEZCy3AhBGl2O119hXX8CbOXHtfgLYDwVTScS6stPTVazlZsFo1aCZBBZakkPd1tUiB
-	 7dNfQ6sRrjXY4A2WVBezMU3wPH3NEB9ZZuvH52gWcZejB1v8FQv74HV3RJ+EcxLlohWa7
-	 v4qHy+ScroBVM6bYfNpWP6xSmjt9/lSVEBGLacPF7nac2M3FDDupUSWfIhcwiIWdp4yik
-	 PHw4x9gbC+dSu+f0G39EzCMhvVC+8SfU8zetq+jeqRfgYZgOoszywWiSJd96AdTYMZwOk
-	 SdHfGz3CULFLjHsY/RhSoqcT7f+X8C3s2td9yR/gzDiOfBJ88Uc3auXxv9XGJEdahOg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795012178;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=cqsxmh2mlYqDMmNIzSxcBeupuedYwtc7a6qgJEnhbno=;
+	b=5nt/3Sr90IHDasYUOihxXpy5E/cYnFm7cslm0seGSepdT0xjERMzenZe6ClPVJ0n4rZR
+	 iim9Fm9qO/zpcOknOtexLa/ikZAsDYbq3Twvqh4wfLbn3Dbvw2PH8D2jELIkeNQl0vqMZ
+	 dHY3FB2pFSrJbaCN5IfHK3jhNGONRwYeKjxzJ1yYR3FaFD0moT4TgKiX7FHNnYUp+mPjF
+	 scptrEmaLY4nw0weYnuwzf0l2fKdi4Nzpi1OwNQLMo80cIZsHc4WH7oLe64Ap8rsC9xVd
+	 QaicfBLHkA3GPHbNbkxiMYeYewtjtzg8lxZO/N90diy98k85RBOPQFpmJoCw0rYIOag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=asseily.com;
-	spf=pass smtp.mailfrom=asseily.com;
-	dkim=pass header.d=asseily.com header.i=@asseily.com header.a=rsa-sha256 header.s=google header.b=C4YetAr+;
-	arc=none smtp.remote-ip=209.85.208.46
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JD12UI2Q;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451A160A2617
-	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 14:27:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 451A160A2617
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asseily.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DDC606A336
+	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 14:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=asseily.com header.i=@asseily.com header.a=rsa-sha256 header.s=google header.b=C4YetAr+
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b7ddb99db4so1488754a12.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 06:27:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asseily.com; s=google; t=1795012059; x=1795616859; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SzCtrb4I1oeIw2u+c9ts0iXdAzyI2eH808CNGZDafBc=;
-        b=C4YetAr+YHIjc2/kUvXelgtBNjt9sT0Y/7cMGhiuYIvjD9INfpG2dZNd/caXXtl0zg
-         De/7JuA+pjifP5SvGgt0gnK+XDTSsg/2bXp5Vdn3mSQzeZ3ZqlOAxcI/1mp1B6FrQq/+
-         F9dDkmjUrNo9jEw//kbBgzIsPcXnBtYLWjG0z7/OXjFbWyAjLvCuHwQ6s+5W6FuO7jc/
-         iA8nTtqh31En3/anLweP3q88d773l8bClzZKTmGuWbZq3hD098dR6sSEoO7ja0KKvLO0
-         QpOQQQYWLTYm57+OZkylLuNJ6cdEq4mTL0dl/Yz8t+VtpGZFqu/NcV6HWpQ25fo2Yj9p
-         /cYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795012059; x=1795616859;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SzCtrb4I1oeIw2u+c9ts0iXdAzyI2eH808CNGZDafBc=;
-        b=LLLuo60azowC0DfuEvRBGRvVExGCbk+6MBb6Yb+A8v16TMTY0swt05y+xoheXCgfcB
-         ET7iETf0NRRj8bejXkTg50qxDZV0f0WtbZCM9dy2DEvs0DnUZRr+9nm6Tha1hK9OoVC+
-         UNQNzeKSNWwMCISg8kULHG6LnNxYJxjE/2pvhFma/tmyDqyFi/BxmCGK3SLumYiDtIHM
-         jEh5SvjJVQtwWqG2IGexapceNYyXomwVMIIDk0zmmMqREh1o79XXISt/Yfn/AGWCXm6u
-         ccqJVGeaPlQ/HS+iMqpPNhWl9glW7nszZCG0tJYPusdf9fxt9wi4xR/aBJ3lFipMbbd4
-         G8BA==
-X-Gm-Message-State: APuU4Z8x7X8SdyXTxVe0IK5Bd9Er829VbDhrtO3qUOc2+15AkEgnVbzx
-	o7MuplF4hdNtT5WScriU170ZgS6W/iYvsglNrLau+Jwe6+moctkOLl305xu8HuJlFMln0snvX9D
-	LC79wacc/mz89
-X-Gm-Gg: AYBFou20l0gjzN/VMnC1Ztnp7xjxQ1JQfwLNsepCLnbB5NbDq73+ufjSUUQcLb3nS9H
-	UBQ5u1JPCZryu6QA3xsJBIdf7B8tDju4BvLwEdeJFMnI709BXkLADKEZgzGOBONdLjdViHHUa4b
-	WHsx1z9UHj0Ir806ZHYI37kyGmM/h0end+Oh0d0ATKxdeVoQLuusiH0RovEqM7Dg64MjwvTIGmJ
-	lYJHmh+rFFbdYsnljzUn/IOX8IuYTEXRg5d8qhsF54bte7jeVS0TViMWnMkf7wkD12sWQhQZcld
-	nPWYS4yZ8KMPkPpmAt+EBAKi98gMXCRdVg5vEV/IBs4sAbPUir1YQbMLso8/8lwvO7P2m0QXAIH
-	X8oEZaegXvWqQvDU4g1oCEiGw/+L46GQgTNOkLi0+5mlMwq/BP5qMA4+apJd52OXYDZJYjTGJ6n
-	S9bpNzlZjdY1CbThUq5/zvbQQjV2V/91dBA6TI6Y4zEA6iwma3VZVWjrquyjRNvmW3ERLXVLXCq
-	wUGqfyeMHa2a/VIJLpzQKxFZh57gogJfZIY1eKQOwUqcvk3nS7DmMIFNnKpAhFIJHOpKXnuNcdh
-	LudKcVTZFHXa9FON61zUgszr/An6I/LGnARQkXBnbC0=
-X-Received: by 2002:a17:907:6d07:b0:c42:102f:15d7 with SMTP id a640c23a62f3a-c510e275424mr242780866b.10.1795012059362;
-        Wed, 18 Nov 2026 06:27:39 -0800 (PST)
-Received: from localhost.localdomain ([178.135.21.157])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b88993e76bsm1100538a12.12.2026.11.18.06.27.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 06:27:38 -0800 (PST)
-From: Karl Asseily <karl@asseily.com>
-To: broonie@kernel.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Karl Asseily <karl@asseily.com>
-Subject: [PATCH] ASoC: es9039q2m: Enable the DAC clock at component probe
-Date: Wed, 18 Nov 2026 16:27:27 +0200
-Message-ID: <20261118142728.101180-1-karl@asseily.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JD12UI2Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B17721F000C4;
+	Wed, 18 Nov 2026 14:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795012177;
+	bh=cqsxmh2mlYqDMmNIzSxcBeupuedYwtc7a6qgJEnhbno=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=JD12UI2Q2K0Hkf4+9p8SNZrtZ6iA0S/oaIMRwcJteD5hjZZf5x5/S7EhB+uw44TkJ
+	 kujJ8xqOP8MhmMQww7BPuQij59uQL0iJ2Sv+GFWnnaHCZQPFi0RQI8LlhUpqZkA5eY
+	 Yr/E4NKq1pVEsN5Ov7/hYm5mF7IJJUnaMtyLqk+iTyfUyl74nK3WjqGPfdZVppoOqu
+	 SmdUnIWRdFrmb0GYsKJxP23R3sPCdAffx85VBa8cBFklf0qaPgQWa1InjUii5mCj/p
+	 SJIlAjNbQYxGG9MEugsEDHPol+O/cAEGU/erDEPmkX5DSuSybLlQFwrj9dkztXK2qM
+	 UetgAoZy6Yotg==
+Message-ID: <sashiko-outbox-221208@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] ALSA: pcm: Avoid hw_params/hw_refine changes during
+ PCM buffer access
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Takashi Iwai" <tiwai@suse.de>, linux-sound@vger.kernel.org
+In-Reply-To: <20261118135558.1928160-2-tiwai@suse.de>
+References: <20261118135558.1928160-1-tiwai@suse.de>
+ <20261118135558.1928160-2-tiwai@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 18 Nov 2026 14:29:37 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,75 +59,133 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-es9039q2m_suspend() gates the part's internal clock tree by clearing
-ENABLE_DAC_CLK in register 1, bypassing the cache so that
-regcache_sync() sets it again on resume. The part keeps its registers
-through a warm reset - only removing power clears them - so a reset
-while the system is suspended skips the resume and leaves the bit clear
-for the next boot.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ALSA: pcm: state check before SND_PCM_BUFFER_ACQUIRE() races
+  with hw_free
+--
 
-Nothing in the driver sets it again. The register cache has no
-defaults, so the first access to register 1 at probe reads the gated
-value from the part and caches it, and every later suspend/resume cycle
-restores that same value. A stream then runs as far as ALSA can tell,
-but the part automutes both channels and the analogue output stays
-silent until power is removed. Boards that remove the supplies in
-suspend reset the part and are not affected.
+commit 307843a70c44558cff1055cb6881e2bf43f018d0
+Author: Takashi Iwai <tiwai@suse.de>
 
-Set ENABLE_DAC_CLK at component probe, after the mute and before the
-datapath is enabled. Of the two writes the driver makes behind the
-cache, this is the one probe did not already repeat; the other is the
-mute at resume. On a part that came up from power the bit is already
-set and the write changes nothing.
+ALSA: pcm: Avoid hw_params/hw_refine changes during PCM buffer access
 
-Tested on an RK3588 board whose ES9039Q2M is clocked by a fixed
-24.576 MHz oscillator: suspend, reset while asleep, then play a 1 kHz
-tone. Without this patch register 1 reads 0x35 where 0xb5 is expected,
-both Automute Active controls read 1, and nothing is heard; setting
-ENABLE_DAC_CLK by hand mid-stream clears both at once and the tone
-comes back. With this patch the same sequence reads 0 on both controls
-and the tone is heard, and a part left gated before the fix was
-installed recovers on the next warm boot without power being removed.
+This commit acquires the PCM buffer access gate at the start of PCM read,
+write, readv, writev, and xfern ioctl paths to prevent concurrent
+hw_params or hw_free calls from changing runtime attributes mid-operation.
 
-Fixes: 004e260a5475 ("ASoC: es9039q2m: add ESS Technology ES9039Q2M codec driver")
-Signed-off-by: Karl Asseily <karl@asseily.com>
----
+> diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
+> index c54cb07304ad4..0321d4241ec5b 100644
+> --- a/sound/core/pcm_compat.c
+> +++ b/sound/core/pcm_compat.c
+> @@ -341,6 +341,9 @@ static int snd_pcm_ioctl_xfern_compat(struct snd_pcm_=
+substream *substream,
+>  	if (snd_pcm_get_state(substream) =3D=3D SNDRV_PCM_STATE_OPEN)
+>  		return -EBADFD;
+> =20
+> +	SND_PCM_BUFFER_ACQUIRE(substream->runtime, lock);
+> +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> +		return -EBUSY;
+>  	ch =3D substream->runtime->channels;
+>  	if (ch > 128)
+>  		return -EINVAL;
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> index 61bd4f4af81a4..22cf138981c30 100644
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -3417,6 +3417,9 @@ static int snd_pcm_xfern_frames_ioctl(struct snd_pc=
+m_substream *substream,
+> =20
+>  	if (snd_pcm_get_state(substream) =3D=3D SNDRV_PCM_STATE_OPEN)
+>  		return -EBADFD;
+> +	SND_PCM_BUFFER_ACQUIRE(runtime, lock);
+> +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> +		return -EBUSY;
+>  	if (runtime->channels > 128)
+>  		return -EINVAL;
+>  	if (put_user(0, &_xfern->result))
+> @@ -3656,6 +3659,9 @@ static ssize_t snd_pcm_read(struct file *file, char=
+ __user *buf, size_t count,
+>  	runtime =3D substream->runtime;
+>  	if (snd_pcm_state_open_or_disconnected(substream))
+>  		return -EBADFD;
+> +	SND_PCM_BUFFER_ACQUIRE(runtime, lock);
+> +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> +		return -EBUSY;
+>  	if (!frame_aligned(runtime, count))
+>  		return -EINVAL;
+>  	count =3D bytes_to_frames(runtime, count);
+> @@ -3680,6 +3686,9 @@ static ssize_t snd_pcm_write(struct file *file, con=
+st char __user *buf,
+>  	runtime =3D substream->runtime;
+>  	if (snd_pcm_state_open_or_disconnected(substream))
+>  		return -EBADFD;
+> +	SND_PCM_BUFFER_ACQUIRE(runtime, lock);
+> +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> +		return -EBUSY;
+>  	if (!frame_aligned(runtime, count))
+>  		return -EINVAL;
+>  	count =3D bytes_to_frames(runtime, count);
+> @@ -3708,6 +3717,9 @@ static ssize_t snd_pcm_readv(struct kiocb *iocb, st=
+ruct iov_iter *to)
+>  		return -EBADFD;
+>  	if (!user_backed_iter(to))
+>  		return -EINVAL;
+> +	SND_PCM_BUFFER_ACQUIRE(runtime, lock);
+> +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> +		return -EBUSY;
+>  	if (to->nr_segs > 1024 || to->nr_segs !=3D runtime->channels)
+>  		return -EINVAL;
+>  	if (!frame_aligned(runtime, iov->iov_len))
+> @@ -3747,6 +3759,9 @@ static ssize_t snd_pcm_writev(struct kiocb *iocb, s=
+truct iov_iter *from)
+>  		return -EBADFD;
+>  	if (!user_backed_iter(from))
+>  		return -EINVAL;
+> +	SND_PCM_BUFFER_ACQUIRE(runtime, lock);
+> +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> +		return -EBUSY;
 
-Notes:
-    Tool use (Documentation/process/generated-content.rst): the cause was
-    traced, and this patch and its changelog written, with an LLM - Claude
-    Opus 5.5, in Claude Code. The fault was found, reproduced and the fix
-    tested on my board, as described above.
+[Severity: Medium]
+Can snd_pcm_hw_free() run between the state check and
+SND_PCM_BUFFER_ACQUIRE() in these six paths?
 
- sound/soc/codecs/es9039q2m.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+CPU0                                CPU1
+snd_pcm_write()
+  snd_pcm_state_open_or_disconnected()
+    (passes in STATE_SETUP)
+                                    snd_pcm_hw_free()
+                                      snd_pcm_buffer_access_lock(runtime)
+                                      do_hw_free()
+                                        runtime->dma_area =3D NULL
+                                      runtime->state =3D SNDRV_PCM_STATE_OP=
+EN
+                                      snd_pcm_buffer_access_unlock(runtime)
+  SND_PCM_BUFFER_ACQUIRE(runtime, lock)
+  snd_pcm_lib_write()
+    __snd_pcm_lib_xfer()
+      pcm_sanity_check()            <-- hits snd_BUG_ON()
 
-diff --git a/sound/soc/codecs/es9039q2m.c b/sound/soc/codecs/es9039q2m.c
-index 2a451dfcc..e3f963909 100644
---- a/sound/soc/codecs/es9039q2m.c
-+++ b/sound/soc/codecs/es9039q2m.c
-@@ -1634,6 +1634,18 @@ static int es9039q2m_component_probe(struct snd_soc_component *component)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * Turn the DAC clock on. It is set at power-up, but suspend clears it
-+	 * and only resume sets it again, and a reset while asleep skips the
-+	 * resume without resetting this part. It then comes back gated: the
-+	 * stream runs, the part automutes, and the analogue output is silent
-+	 * until power is removed.
-+	 */
-+	ret = regmap_update_bits(priv->regmap, ES9039_SYS_MODE,
-+				 ES9039_ENABLE_DAC_CLK, ES9039_ENABLE_DAC_CLK);
-+	if (ret)
-+		return ret;
-+
- 	/*
- 	 * Enable the datapath. SYSTEM_CONFIG[1] is clear at reset, so in
- 	 * software mode nothing turns the DAC on at power-up: the analogue
--- 
-2.47.3
+Because pcm_sanity_check() evaluates snd_BUG_ON(!substream->ops->copy &&
+!runtime->dma_area) before checking whether runtime->state is
+SNDRV_PCM_STATE_OPEN:
 
+sound/core/pcm_lib.c:pcm_sanity_check() {
+	...
+	if (snd_BUG_ON(!substream->ops->copy && !runtime->dma_area))
+		return -EINVAL;
+	if (runtime->state =3D=3D SNDRV_PCM_STATE_OPEN)
+		return -EBADFD;
+	...
+}
+
+losing this race triggers a kernel warning (when CONFIG_SND_DEBUG is
+enabled) and returns -EINVAL instead of -EBADFD.  Acquiring
+SND_PCM_BUFFER_ACQUIRE() before checking the substream state, as
+snd_pcm_mmap_data() does, would prevent transitions into
+SNDRV_PCM_STATE_OPEN after the check.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118135558.1928=
+160-1-tiwai@suse.de?part=3D2
