@@ -1,101 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.3
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795015100;
-	b=1VXbdq8qKo752gM6i+AyijNvziP6bll6LJ+Ybo1e3wY7PSD+HDPxOcL4uhS9cwH9UOZ/
-	 mihZRnFW0b+S8GJaBB5zxeosgZiV+4gaiU+jw/ykmBhEpnzrsQt5Lt8e/RpdpQgKfUcW6
-	 +NnQn2koInxaN+w+nEdG8js5b1GS1PNocvfrG0tmBjatL1KKNiPXnGLj/WkF8QY13pPzw
-	 tuQiR8JBxs4c+MAvqb85TBWed4WTEY+JfNBDBn4h/j4ztstUcvA/qGAI2ymRqfy/uXfZA
-	 sv2vmhmqzKfi2Kafwc+5itThtY9ZjIzGXWot6ffcbupH8Nap0u5tPqZ9M0uNrGWOk+Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795015100;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-ID:References:In-Reply-To:To:CC:
-	 X-Mailer:X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xs5AuDgdgAppthIFP1A2EtcvvBqfNAfjw2cM9M95uZE=;
-	b=AWiJXwiVlNTv2ebFFVLHxE7dupLFaeWyLUbWe5jco48EtTDFJORLg8dHcSgGyGeTbSpG
-	 E67+60dbk/CPLehXGZPyCqGhI6Br+POBjpRW2rK3m+bKf4AV3ru+o+rsGfyNd9OARDjVL
-	 XGpKlFouWD7Ndrfhs2bsrVtzrRdDigETPCp7qUKIeV/Llmwn/PTUt1xVffTubPQT9CPA9
-	 tT8syA5nUAIjDSc3YZhdyvMTyE+NYmiuiGzDqvnDvIHL9zFDPpsfNEQq0wtBnUHfjPq3G
-	 jBVIgq8DmMDANVtKHBbURdcmAnVzE6gkJI3AceGhGQRiGDMypV8hGqAxKCUmdf7Suwg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=foss.st.com;
-	spf=pass smtp.mailfrom=foss.st.com;
-	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=Ac3LDLGs;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.3
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010003.outbound.protection.outlook.com [52.101.69.3])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795015150;
+	b=pTkpbQInCxOKw4QHO4yT0RZM408hYNOEUuSQGWaZSAWuFy2BsDEcZp8kdnC9sRRBOW5n
+	 F0Nhb8VzoPoT6hDX/mhY9Sy72Wn7twP5k1H8iptFMzfnxaeOO0/pKc20TNPH5iWhAfi1r
+	 LO3hHxeMHxbD24V2+Ctxghxs+qWG5/s8iRWBYcqb2BNJpJeBJjJzV/vDU7wpdq1GcOtBb
+	 S2nJXmuZrN0fTk87Yqr60HnAJZ8xRdMrSMK5VnITbLdnigSMkg/JhPSOdgFW2b17dnH5M
+	 0GbQ7Yv3LLh9PV8qfb8kBg9R/FPC+2w6R4xmOOTpaHKmxsylsyKAkX3yS9mTts7Yi3g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795015150;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Proofpoint-Reinject:X-QCInternal:
+	 X-QCInternal:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=6UprdZ7mpL9QSYrvjQV70+swtBLY7Sw0hD8c/dwLzzI=;
+	b=iG4SxPJdBFCn6Bvn9B/lNIWQecIGUmvXo4aZ5HkqPk6kL1vG+TXDZf/IurFv7aG41hmk
+	 9njd/ihE7hpOVqzs64Ul6CTLlPty+paI6gcgvVyz1/WwF9rp6fB63+IOBSPe5WD+f/fMV
+	 h/gNa6sEL6CCpCpeh8/jDqdWBUPQfSJXq2iRtv9JkyeGRyG4Bun0S+svw9DzDoakxSsLE
+	 IpRYK+jZhpOhJ5zonQq0Z6gUR+PM2tEWHKo49+pVBv8emJRR5rtFo1PWOObY7UYF8T6dA
+	 OC0TBo3y8/FWTQV9bV0oJOMi9VAvvKeMOZuQAKrmQ3ga++j6MVtaqJnS5nn4+FVSsew==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hamFYZ8a;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC6960A5BC7;
-	Wed, 18 Nov 2026 15:18:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FC6960A5BC7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2983606A332;
+	Wed, 18 Nov 2026 15:19:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2983606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=Ac3LDLGs
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ntwBZNoL34XfU6uG7M4kFGe6RdnGtdV8TArmDBGFOMzkuign9AWSp+2U3b7YpE7TM8jvSBwBf4nESQTSUe3qGpx9KM5kmJe9ip6My3eYUogiR4gLCPHm9EqHTpXMzuBGWWhpvhVoIKBUhTCrR9pB29StppI5rPe5asVc3EekAnVTR/rpZS7G6cZJD+/ewdOVVTBMEvnIIVB5I4kg04fzEWgLb8362fFKnAWlhOF2tMMeQ307joENwEliBKDWeihiHQDgpY2mDqHPqVVpEfYEgtH2qZ+KKbl2rGgYtS4i91Ec9cxM29PR0YtdiwkdpDUtZwn0WmpmB+eito6SAL9GxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xs5AuDgdgAppthIFP1A2EtcvvBqfNAfjw2cM9M95uZE=;
- b=S6V9Q8ZG4FD2boYMkOIb6OKbWsgF6gnhb4sSiVpTickEsP8fJAMmVjOPWeHFnM2aDQw05Mm/Vla7COL/qQRT+oMGIinHs+dxfVjoaBvPjnZKd/b9/l82CrgPv8BQdyNUbTvtiFyhPvJkzXNblA9MLx/3YEqL4Lbn3wiQx7oJ5LY7blez0Ie+zAHlP4cGimMtAXYKoSwalfbBuPWr+ijUK3Yq6KuNJbbBrAREHAb0ZwvzsXhaKxMzZA8hiHBIchYlgTgSsneBTricAp647hWGG22OzZWQ2J1/0CrtXc9a0/+3IAxQNlKkEiU/83jVHFpUyqwcD0sfdW9OOLqDWne/cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=amd.com smtp.mailfrom=foss.st.com; dmarc=fail
- (p=none sp=none pct=100) action=none header.from=foss.st.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xs5AuDgdgAppthIFP1A2EtcvvBqfNAfjw2cM9M95uZE=;
- b=Ac3LDLGsFAYBT2jdTazciBzMsxbfCzhk0EY92qYszvmG+BoKKGeUpzMwlK9qspckyEBLw1GqO5mClMvR0ye8ioy9klunlrsIO4lr6edlD7jbDigMa05FDKBoyKsX8RnllcXp+w79ComJyztADC47EH9TQUGdNZNDKLNCiRLkcA5hZmGa2aWhG1PiQMLFi7nNqJCMqQmzEFKLfqosrZw3Wo3rMnOvFhvUaYFdUbrhxRxRFhqH7Y+rAIr9f7ac4hPmEs/F0HWG5QMLFIJ9iWsz2rO6jVcFZ1YWouQx49pMMmt63YSIaRa/Ufu8fIzuWQPgqI9TpZoZOuZybXyAzV6/pQ==
-Received: from DU6P191CA0004.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:540::21)
- by AM8PR10MB4065.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1e3::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.1; Wed, 18 Nov
- 2026 15:18:13 +0000
-Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
- (2603:10a6:10:540:cafe::4c) by DU6P191CA0004.outlook.office365.com
- (2603:10a6:10:540::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.14 via Frontend Transport; Wed,
- 18 Nov 2026 15:18:13 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
- is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- DB1PEPF000509FD.mail.protection.outlook.com (10.167.242.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Wed, 18 Nov 2026 15:18:13 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Wed, 18 Nov
- 2026 16:18:50 +0100
-Received: from localhost (10.252.16.78) by STKDAG1NODE2.st.com (10.75.128.133)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Wed, 18 Nov
- 2026 16:18:05 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-Date: Wed, 18 Nov 2026 16:17:52 +0100
-Subject: [PATCH v2 07/11] iio: adc: stm32-mdf: add direct iio conversion
- support
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=hamFYZ8a
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIE4lHh3648709;
+	Wed, 18 Nov 2026 15:18:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=6UprdZ7mpL9QSYrvjQV70+swtBLY7Sw0hD8
+	c/dwLzzI=; b=hamFYZ8aWJPE95E7QJds51gKMIcoerd/aOEoUPg7OuUQyz9Bygd
+	AT3ollyHmKvX98Gj+5Rma2pifvj1WId2Me8ndcLjP2w3BaXOOyGCVz/ghyAGDu7h
+	H9HRgBcrrcyjsjowlDcmGSIxxRKXtg83ART89LRLr4ORRbLn4VruDXKXHzzhfTUv
+	dAp0l5sDF9083sjtK7rgksHx9+UaxWXkgKVTC7YgamSRqd8Uf45gV8hT4LGreKpi
+	fY5Ll18eNyhlsMLPEw9AQoymyCknZnmtJqhEZ9y6JqKJ4v/E9oAo1zTTJttkpidy
+	q6l6aC6zkliYf3tUiSyFrwA8a+E7At+b77w==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1dfcrck0-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 15:18:58 +0000 (GMT)
+Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AIFIunj2705126;
+	Wed, 18 Nov 2026 15:18:56 GMT
+Received: from ap-kernel-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 6AIFIths2705119
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 18 Nov 2026 15:18:56 +0000 (GMT)
+Received: by ap-kernel-sh03-lnx.qualcomm.com (Postfix, from userid 4851478)
+	id ECEC340C7B; Wed, 18 Nov 2026 23:18:54 +0800 (CST)
+From: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+To: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        shengchao.guo@oss.qualcomm.com, mohammad.rafi.shaik@oss.qualcomm.com,
+        bartosz.golaszewski@oss.qualcomm.com,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
+Subject: [PATCH v5] ASoC: qcom: audioreach: support multichannel PCM formats
+Date: Wed, 18 Nov 2026 23:18:47 +0800
+Message-ID: <20261118151847.2702711-1-zhangfei.gao@oss.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,716 +87,279 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20261118-upstream_mdf_v2-v2-7-7939d3c3720a@foss.st.com>
-References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
-In-Reply-To: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
-To: Jonathan Cameron <jic23@kernel.org>, David Lechner
-	<dlechner@baylibre.com>, =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, "Andy
- Shevchenko" <andy@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>,
-	"Sumit Semwal" <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>, Philipp Stanner <phasta@kernel.org>, "Arnaud
- Pouliquen" <arnaud.pouliquen@foss.st.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Fabrice Gasnier
-	<fabrice.gasnier@foss.st.com>
-CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>, <linux-sound@vger.kernel.org>, "Olivier
- Moysan" <olivier.moysan@foss.st.com>
-X-Mailer: b4 0.16.0
-X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|AM8PR10MB4065:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8b9a662-9746-4ed9-a156-08df458729f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|7416014|376014|23010399003|1800799024|18092099006|18002099003|22082099003|6133799003|921020|11063799006|56012099006|10067099003|261026140227099003|261022105027099003|261022075727099003|261026121527099003|261028144727099003|261021123027099003|261021121427099003|261009223027099003|261102123227099003;
-X-Microsoft-Antispam-Message-Info:
-	KVZzfekzzgseAbnFGdoS6uvrCNmU3AucZiigDwkLyGe3OzdjfPI5gISNaiAGUX7srXGso6dhM8e9qcnjlk3FFLYXk2IgkOPLUAOOSbv44WAbYn5Fc+J+oF3vb3/f0HnrT0m6mw4CWSkBwvU52MMWNTk0VcIKYacmOR9eKZHHA0x0F8gZEjzV33bD5KHAa/BFiO08Hk27fXpZxYTlRRE3O5N8TDCcNQJjuPEbUhSRmoOd7V6P0D2dPxS+HfL2oZlZXuUqU8ca8cVTpHszu36O2hkTU5kdmuAYFnXfrCGzkh+ic3ZdHYljr40Vb8fo3P6GzjoQn43MljBGjRmIq1iceImUlYuZ/7hGAhOW4Y1zQVxUZ7919obknb4B8QloW6FIP4FmXi2INpEn8/5PraFyahY3lRPWefLRgXPuwVYREW4PYhqCqUopcrrCXoVdvTQx91SoSiqqU9tqfJK/nGVeRaKCovW5zWz25VqcPC/co8D2rmftD7CilgujIvC7On9eAibKgcpY877wKaDTTP8D9mCKSkWfF5ftKdwb6BLgBmSF/t8QqIUJ/waO/8VQQOMZcwQOaA6mICwlwY3zEKVPBEUMJLEUmFcHx5IiM2gGf4kXLG3bRZlwK0vm0GLJMhA/EknxdtgCAoKT2Obx9b3JcSfbxe9ToDi48QsMWy1Zp6ZGfS0PKc3Ig1nKBCkqkV69aT0gksg4QuFBLkv7+0E/nPJpEKHofm1dCX9Jm2GK2805wKYTzc4wB8T97zKRhGCa
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(7416014)(376014)(23010399003)(1800799024)(18092099006)(18002099003)(22082099003)(6133799003)(921020)(11063799006)(56012099006)(10067099003)(261026140227099003)(261022105027099003)(261022075727099003)(261026121527099003)(261028144727099003)(261021123027099003)(261021121427099003)(261009223027099003)(261102123227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	DBjSDK51nqhw/P+/NyoH0sYePGvTyVl5LezIL87oRN8jswzAe9lPdsvjW5Fqj15tqEf4+saeHFSxTyFth98h2XBEbolZcUkCsMDu+/zmU57ewcA4FIjP5hYbS37UjRIyab1Gdm8NU5HrH2On1mFMqsYs/W9YAuWDLH1djTIWSr4bZlGXGGusyBPSnZMHXBoKKgRTcUYJBLWtBpQWEOwXl2T1rXUByAXDuu2uuCM20O3Z8sH98oYpX4IN/40V6yNoD8VU+9LY+gqYEPGI+4U9Cc8dUp2QQtE0ieFJMMGUXKBVGaudBQkass7JmNE7VSzDr9qAOvMG27jCx1WkiNltNW0RgRnFX6uOd+oeH1Y5niPzKPjB1JLgWYB49OCtZNNqBwqm/GFg5cDCZy4Wky9dDXK8xak0HbK3M4MGCjCBKRsPKhHoH12ZVsFmcy7yjPEt
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 15:18:13.5663
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8b9a662-9746-4ed9-a156-08df458729f5
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509FD.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR10MB4065
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: 1R7ybaBrP1N-FMsMDM2QPlBPWOqBpLbH
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE4MDA2MCBTYWx0ZWRfXzEUrTlMHJwJ8
+ IPxdkxP16NqEwy09tOGb1dSOeHoC4a0AKC9gHvtAn24nvXMqFJycJfjLZ5uO3O1nhUosVfl1eAx
+ Jg/7mGtRAywOOcVNrn26BAmnXRLd1VQ=
+X-Authority-Analysis: v=2.4 cv=CdSdd7rl c=1 sm=1 tr=0 ts=6afdc1e3 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=Sw036wB_Sbj6ZPNlFA4A:9
+X-Proofpoint-ORIG-GUID: 1R7ybaBrP1N-FMsMDM2QPlBPWOqBpLbH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE4MDA2MCBTYWx0ZWRfX9v9woAdPcZK7
+ Qlto4sXfOatwLaF+3dQFoq2XwiZ0VxW+5ioFhesS+fgjBhPN0p+JsOPK/THFQd+JLX+WAADQ+Ic
+ hFDGV7S3bSYtV7UQQYQ0+ehHOPkBf649qjVqv1vDCyrrT3YfCsUCNJIaLmg/fnn2156/IWaIhsh
+ 62/oJAl+93CBWIy7eQtoe1B1Vzgwz4OKpA5edr67R5z96v9RrrDhH94s7LVTCrx+UaF8kBV38g/
+ z+2JciKDlWfaJxM2JP/JgxL3DUnb10lgkA63T5t3EIJZoMI5CxuTGjeqLmJ3k1ZSxCzkE3y5vAb
+ pQPEBm9z160KpRyKeNohjS3mfkP6l8mkMho3Glah/B4Gsw3upDjoNs2ELv09ibfYTMjnEjG5Fwr
+ PATh7S1SJt+3uceJbQSAZYSjc8hTgIPbnGRaMrOkYCcHV/52UrT/ld3aQs85R5MGqQl4WhAKvKU
+ d7tzpb7HnCrK0iptl7g==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-18_04,2026-11-16_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 phishscore=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611180060
 
-Add single-conversion acquisition and the IIO accessors for raw samples,
-scale, offset, sampling frequency and channel labels. Obtain analog scale
-and offset information from the associated IIO backend.
+AudioReach currently rejects PCM streams with more than four channels in
+the PCM and shared-memory media format paths.
 
-Coordinate the MDF core, serial interface and digital filters when starting
-and stopping conversions.
+This prevents TDM links that expose more channels, such as the 6-channel
+playback path used on SA8797P Ride, from being configured.
 
-Initialize channel and analog IIO backends.
+Reuse q6dsp_map_channels() to support multichannel PCM formats and use
+the common PCM channel limit definition.
 
-Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Reviewed-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Tested-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Signed-off-by: Zhangfei Gao <zhangfei.gao@oss.qualcomm.com>
 ---
- drivers/iio/adc/stm32-mdf-adc.c | 585 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 583 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iio/adc/stm32-mdf-adc.c b/drivers/iio/adc/stm32-mdf-adc.c
-index eae7a4fa1485..7361ce6182be 100644
---- a/drivers/iio/adc/stm32-mdf-adc.c
-+++ b/drivers/iio/adc/stm32-mdf-adc.c
-@@ -329,6 +329,79 @@ static struct stm32_mdf_adc *stm32_mdf_get_filter_by_handle(struct stm32_mdf *md
- 	return NULL;
+v5: Rebased onto sound.git/for-next at fcfcd6db32adbd and resolved the
+    conflict with commit 347e02073b08 ("ASoC: qcom: q6apm-lpass-dais:
+    Reset the codec DMA channel map in hw_params").
+v4: Rebased onto sound.git/for-next
+v3: reuse PCM_MAX_NUM_CHANNEL to replace AR_PCM_MAX_NUM_CHANNEL (Srinivas)
+v2: reuse q6dsp_map_channels
+
+ sound/soc/qcom/qdsp6/audioreach.c       | 36 ++++---------------------
+ sound/soc/qcom/qdsp6/audioreach.h       |  5 ++--
+ sound/soc/qcom/qdsp6/q6apm-dai.c        | 12 ++++++---
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 16 +++++------
+ 4 files changed, 24 insertions(+), 45 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+index aa1f4e2967647..5b5289bf6d139 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.c
++++ b/sound/soc/qcom/qdsp6/audioreach.c
+@@ -306,22 +306,6 @@ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode, uint32_t token
  }
+ EXPORT_SYMBOL_GPL(audioreach_alloc_apm_cmd_pkt);
  
-+static int stm32_mdf_adc_start_filter(struct stm32_mdf_adc *adc)
-+{
-+	struct stm32_mdf_adc *adc_inter;
-+	struct stm32_mdf *mdf = adc->mdf;
-+	u32 val;
-+
-+	if (MDF_IS_FILTER0(adc))
-+		list_for_each_entry(adc_inter, &mdf->filter_list, entry)
-+			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter))
-+				stm32_mdf_adc_start_filter(adc_inter);
-+
-+	/* Check filter status. Bypass cache to access volatile MDF_DFLTCR_ACTIVE bit */
-+	regcache_cache_bypass(adc->regmap, true);
-+	regmap_read(adc->regmap, MDF_DFLTCR_REG, &val);
-+	regcache_cache_bypass(adc->regmap, false);
-+	if (val & MDF_DFLTCR_ACTIVE) {
-+		dev_err(adc->dev, "Filter [%d] is already running\n", adc->fl_id);
-+		return -EBUSY;
-+	}
-+
-+	return regmap_set_bits(adc->regmap, MDF_DFLTCR_REG, MDF_DFLTCR_DFLTEN);
-+}
-+
-+static void stm32_mdf_adc_stop_filter(struct stm32_mdf_adc *adc)
-+{
-+	struct stm32_mdf_adc *adc_inter;
-+	struct stm32_mdf *mdf = adc->mdf;
-+
-+	regmap_clear_bits(adc->regmap, MDF_DFLTCR_REG, MDF_DFLTCR_DFLTEN);
-+
-+	if (MDF_IS_FILTER0(adc))
-+		list_for_each_entry(adc_inter, &mdf->filter_list, entry)
-+			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter))
-+				stm32_mdf_adc_stop_filter(adc_inter);
-+}
-+
-+static int stm32_mdf_adc_filter_set_mode(struct stm32_mdf_adc *adc, bool cont)
-+{
-+	struct stm32_mdf_adc *adc_inter;
-+	u32 mode;
-+
-+	if (MDF_IS_FILTER0(adc)) {
-+		list_for_each_entry(adc_inter, &adc->mdf->filter_list, entry) {
-+			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter))
-+				stm32_mdf_adc_filter_set_mode(adc_inter, cont);
-+		}
-+	}
-+
-+	if (adc->synced || MDF_IS_INTERLEAVED_FILT(adc)) {
-+		if (cont)
-+			mode = STM32_MDF_ACQ_MODE_SYNC_CONT;
-+		else
-+			mode = STM32_MDF_ACQ_MODE_SYNC_SINGLE_SHOT;
-+	} else {
-+		if (cont)
-+			mode = STM32_MDF_ACQ_MODE_ASYNC_CONT;
-+		else
-+			/*
-+			 * The expected mode would be STM32_MDF_ACQ_MODE_ASYNC_SINGLE_SHOT here.
-+			 * However, there is an instability depending on "bus/kernel clock ratio"
-+			 * in this mode.
-+			 * Use STM32_MDF_ACQ_MODE_SYNC_SINGLE_SHOT mode along with TRGO trigger,
-+			 * as a workaround.
-+			 */
-+			mode = STM32_MDF_ACQ_MODE_SYNC_SINGLE_SHOT;
-+	}
-+
-+	dev_dbg(adc->dev, "Set mode [0x%x] on filter [%d]\n", mode, adc->fl_id);
-+
-+	return regmap_update_bits(adc->regmap, MDF_DFLTCR_REG,
-+				 MDF_DFLTCR_ACQMOD_MASK, FIELD_PREP(MDF_DFLTCR_ACQMOD_MASK, mode));
-+}
-+
- static int stm32_mdf_adc_compute_scale(struct device *dev, unsigned int decim,
- 				       unsigned int order, unsigned int data_size)
+-void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels)
+-{
+-	if (num_channels == 1) {
+-		ch_map[0] =  PCM_CHANNEL_FL;
+-	} else if (num_channels == 2) {
+-		ch_map[0] =  PCM_CHANNEL_FL;
+-		ch_map[1] =  PCM_CHANNEL_FR;
+-	} else if (num_channels == 4) {
+-		ch_map[0] =  PCM_CHANNEL_FL;
+-		ch_map[1] =  PCM_CHANNEL_FR;
+-		ch_map[2] =  PCM_CHANNEL_LS;
+-		ch_map[3] =  PCM_CHANNEL_RS;
+-	}
+-}
+-EXPORT_SYMBOL_GPL(audioreach_set_default_channel_mapping);
+-
+ static void apm_populate_container_config(struct apm_container_obj *cfg,
+ 					  const struct audioreach_container *cont)
  {
-@@ -606,7 +679,7 @@ static int stm32_mdf_adc_check_clock_config(struct stm32_mdf_adc *adc, unsigned
- 	return ret;
- }
+@@ -760,7 +744,7 @@ static int audioreach_codec_dma_set_media_format(struct q6apm_graph *graph,
+ 	intf_cfg->cfg.intf_index = module->hw_interface_idx;
+ 	intf_cfg->cfg.active_channels_mask = 0;
+ 	/* Convert the physical channel mapping into a bit field */
+-	for (i = 0; i < AR_PCM_MAX_NUM_CHANNEL; i++)
++	for (i = 0; i < PCM_MAX_NUM_CHANNEL; i++)
+ 		if (cfg->channel_map[i])
+ 			intf_cfg->cfg.active_channels_mask |= BIT(i);
  
--static int __maybe_unused mdf_adc_set_samp_freq(struct iio_dev *indio_dev)
-+static int mdf_adc_set_samp_freq(struct iio_dev *indio_dev)
- {
- 	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
- 	struct device *dev = &indio_dev->dev;
-@@ -675,6 +748,483 @@ static int __maybe_unused mdf_adc_set_samp_freq(struct iio_dev *indio_dev)
- 	return ret;
- }
+@@ -883,7 +867,7 @@ static int audioreach_mfc_set_media_format(struct q6apm_graph *graph,
+ 	media_format->bit_width = cfg->bit_width;
+ 	media_format->num_channels = cfg->num_channels;
+ 	/* Convert the physical mapping to a logical mapping of the channels */
+-	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
++	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
+ 		if (!cfg->channel_map[i])
+ 			continue;
+ 		media_format->channel_mapping[j++] = cfg->channel_map[i];
+@@ -1185,11 +1169,6 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+ 	int payload_size;
+ 	int i, j;
  
-+static int stm32_mdf_adc_start_mdf(struct iio_dev *indio_dev)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	int ret;
-+
-+	ret = clk_prepare_enable(adc->sitf->sck);
-+	if (ret < 0) {
-+		dev_err(&indio_dev->dev, "Failed to enable clock %s\n",
-+			__clk_get_name(adc->sitf->sck));
-+		return ret;
-+	}
-+
-+	ret = mdf_adc_set_samp_freq(indio_dev);
-+	if (ret < 0)
-+		goto err;
-+
-+	ret = stm32_mdf_core_start_mdf(adc->mdf);
-+	if (ret < 0)
-+		goto err;
-+
-+	return 0;
-+
-+err:
-+	clk_disable_unprepare(adc->sitf->sck);
-+
-+	return ret;
-+}
-+
-+static void stm32_mdf_adc_stop_mdf(struct iio_dev *indio_dev)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+
-+	stm32_mdf_core_stop_mdf(adc->mdf);
-+
-+	clk_disable_unprepare(adc->sitf->sck);
-+}
-+
-+static int stm32_mdf_adc_start_conv(struct iio_dev *indio_dev)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	int ret;
-+
-+	ret = stm32_mdf_sitf_start(adc->sitf);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = stm32_mdf_adc_start_filter(adc);
-+	if (ret < 0)
-+		goto stop_sitf;
-+
-+	if (adc->trgo) {
-+		ret = stm32_mdf_core_trigger(adc->mdf);
-+		if (ret < 0)
-+			goto stop_filter;
-+	}
-+
-+	return 0;
-+
-+stop_filter:
-+	stm32_mdf_adc_stop_filter(adc);
-+stop_sitf:
-+	stm32_mdf_sitf_stop(adc->sitf);
-+
-+	return ret;
-+}
-+
-+static void stm32_mdf_adc_stop_conv(struct iio_dev *indio_dev)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+
-+	stm32_mdf_adc_stop_filter(adc);
-+
-+	stm32_mdf_sitf_stop(adc->sitf);
-+}
-+
-+static int stm32_mdf_channel_parse_of(struct iio_dev *indio_dev, struct fwnode_handle *node,
-+				      struct iio_chan_spec *ch)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	struct iio_backend *backend;
-+	const char *label = fwnode_get_name(node);
-+	int ret;
-+	u32 stu = 0;
-+
-+	ret = fwnode_property_read_u32(node, "reg", &ch->channel);
-+	if (ret < 0) {
-+		dev_err(&indio_dev->dev, "Failed to read channel index: [%d]\n", ret);
-+		return ret;
-+	}
-+
-+	if (fwnode_property_present(node, "label")) {
-+		/* label is optional */
-+		ret = fwnode_property_read_string(node, "label", &label);
-+		if (ret < 0) {
-+			dev_err(&indio_dev->dev,
-+				" Error parsing 'label' for idx %d\n", ch->channel);
-+			return ret;
-+		}
-+	}
-+	adc->channels[ch->scan_index].channel_name = label;
-+
-+	/* settling-time-us is optional */
-+	if (fwnode_property_present(node, "settling-time-us")) {
-+		/*
-+		 * The settling time is relevant only for the first channel. In case of interleaved
-+		 * channels, the settling time of the first configured channel, is applied to other
-+		 * channels.
-+		 */
-+		if (!ch->scan_index) {
-+			ret = fwnode_property_read_u32(node, "settling-time-us", &stu);
-+			if (ret < 0) {
-+				dev_err(&indio_dev->dev, "Failed to read settling time: [%d]\n",
-+					ret);
-+				return ret;
-+			}
-+
-+			adc->stu = stu;
-+		}
-+	}
-+
-+	if (adc->dev_data->type == STM32_MDF_IIO) {
-+		backend = devm_iio_backend_fwnode_get(&indio_dev->dev, NULL, node);
-+		if (IS_ERR(backend))
-+			return dev_err_probe(&indio_dev->dev, PTR_ERR(backend),
-+					     "Failed to get backend\n");
-+		adc->channels[ch->scan_index].backend = backend;
-+	}
-+
-+	return ret;
-+}
-+
-+static int stm32_mdf_adc_chan_init_one(struct iio_dev *indio_dev, struct fwnode_handle *node,
-+				       struct iio_chan_spec *ch, int idx)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	int ret;
-+
-+	ch->type = IIO_VOLTAGE;
-+	ch->indexed = 1;
-+	ch->scan_index = idx;
-+
-+	ret = stm32_mdf_channel_parse_of(indio_dev, node, ch);
-+	if (ret < 0) {
-+		dev_err(&indio_dev->dev, "Failed to parse channel [%d]\n", idx);
-+		return ret;
-+	}
-+
-+	if (adc->dev_data->type == STM32_MDF_IIO) {
-+		ch->info_mask_separate = BIT(IIO_CHAN_INFO_RAW) | BIT(IIO_CHAN_INFO_SCALE) |
-+					 BIT(IIO_CHAN_INFO_OFFSET);
-+		ch->scan_type.shift = 8;
-+	}
-+
-+	ch->info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ);
-+	ch->scan_type.sign = 's';
-+	ch->scan_type.realbits = STM32_MDF_DATA_RES;
-+	ch->scan_type.storagebits = 32;
-+
-+	return 0;
-+}
-+
-+static int stm32_mdf_adc_chan_init(struct iio_dev *indio_dev, struct iio_chan_spec *channels)
-+{
-+	struct fwnode_handle *child;
-+	int chan_idx = 0, ret;
-+
-+	device_for_each_child_node(indio_dev->dev.parent, child) {
-+		/* Skip the child nodes with a compatible. (e.g. DAI node for audio) */
-+		if (fwnode_property_present(child, "compatible"))
-+			continue;
-+
-+		ret = stm32_mdf_adc_chan_init_one(indio_dev, child, &channels[chan_idx], chan_idx);
-+		if (ret < 0) {
-+			fwnode_handle_put(child);
-+			return dev_err_probe(&indio_dev->dev, ret, "Channels [%d] init failed\n",
-+					     chan_idx);
-+		}
-+
-+		chan_idx++;
-+	}
-+
-+	return chan_idx;
-+}
-+
-+static int stm32_mdf_adc_single_conv(struct iio_dev *indio_dev,
-+				     const struct iio_chan_spec *chan, int *res)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	long timeout;
-+	bool save_trgo = adc->trgo;
-+	int ret;
-+
-+	reinit_completion(&adc->completion);
-+
-+	ret = stm32_mdf_adc_start_mdf(indio_dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = regmap_set_bits(adc->regmap, MDF_DFLTIER_REG, MDF_DFLTIER_FTHIE_MASK);
-+	if (ret < 0)
-+		goto err_conv;
-+
-+	stm32_mdf_adc_filter_set_mode(adc, false);
-+
-+	/* Force trgo as a workaround for STM32_MDF_ACQ_MODE_ASYNC_SINGLE_SHOT mode */
-+	adc->trgo = true;
-+
-+	ret = stm32_mdf_adc_start_conv(indio_dev);
-+	if (ret < 0) {
-+		regmap_update_bits(adc->regmap, MDF_DFLTIER_REG, MDF_DFLTIER_FTHIE_MASK, 0);
-+		goto err_conv;
-+	}
-+
-+	timeout = wait_for_completion_interruptible_timeout(&adc->completion, STM32_MDF_TIMEOUT_MS);
-+
-+	regmap_clear_bits(adc->regmap, MDF_DFLTIER_REG, MDF_DFLTIER_FTHIE_MASK);
-+
-+	if (timeout == 0) {
-+		dev_err(&indio_dev->dev, "Timeout reached on channel [%d]", chan->channel);
-+		ret = -ETIMEDOUT;
-+		goto stop_conv;
-+	} else if (timeout < 0) {
-+		ret = timeout;
-+		goto stop_conv;
-+	} else {
-+		ret = IIO_VAL_INT;
-+	}
-+
-+	if (MDF_IS_INTERLEAVED_FILT(adc))
-+		*res = adc->buffer[chan->channel];
-+	else
-+		*res = adc->buffer[0];
-+
-+stop_conv:
-+	stm32_mdf_adc_stop_conv(indio_dev);
-+
-+err_conv:
-+	adc->trgo = save_trgo;
-+
-+	stm32_mdf_adc_stop_mdf(indio_dev);
-+
-+	return ret;
-+}
-+
-+static int stm32_mdf_adc_write_raw(struct iio_dev *indio_dev, struct iio_chan_spec const *chan,
-+				   int val, int val2, long mask)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	int ret = 0;
-+
-+	if (mask != IIO_CHAN_INFO_SAMP_FREQ || !val)
-+		return -EINVAL;
-+
-+	{
-+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+		if (IIO_DEV_ACQUIRE_FAILED(claim))
-+			return -EBUSY;
-+
-+		/* Set requested_sample_freq right now, as used by mdf_adc_set_samp_freq() */
-+		adc->requested_sample_freq = val;
-+
-+		if (adc->dev_data->type == STM32_MDF_IIO) {
-+			ret = stm32_mdf_core_lock_kclk_rate(adc->mdf);
-+			if (!ret) {
-+				ret = mdf_adc_set_samp_freq(indio_dev);
-+
-+				stm32_mdf_core_unlock_kclk_rate(adc->mdf);
-+			}
-+		}
-+	}
-+
+-	if (num_channels > 4) {
+-		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
+-		return -EINVAL;
+-	}
+-
+ 	payload_size = APM_PCM_MODULE_FMT_CMD_PSIZE(num_channels);
+ 
+ 	struct gpr_pkt *pkt __free(kfree) =
+@@ -1223,7 +1202,7 @@ static int audioreach_pcm_set_media_format(struct q6apm_graph *graph,
+ 	 */
+ 	media_cfg->bits_per_sample = mcfg->bit_width == 24 ? 32 : mcfg->bit_width;
+ 	/* Convert the physical mapping to a logical mapping of the channels */
+-	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
++	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < mcfg->num_channels; i++) {
+ 		if (!mcfg->channel_map[i])
+ 			continue;
+ 		media_cfg->channel_mapping[j++] = mcfg->channel_map[i];
+@@ -1280,11 +1259,6 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+ 	int i, j;
+ 	void *p;
+ 
+-	if (num_channels > 4) {
+-		dev_err(graph->dev, "Error: Invalid channels (%d)!\n", num_channels);
+-		return -EINVAL;
+-	}
+-
+ 	payload_size = APM_SHMEM_FMT_CFG_PSIZE(num_channels) + APM_MODULE_PARAM_DATA_SIZE;
+ 
+ 	struct gpr_pkt *pkt __free(kfree) =
+@@ -1319,7 +1293,7 @@ static int audioreach_shmem_set_media_format(struct q6apm_graph *graph,
+ 		cfg->endianness = PCM_LITTLE_ENDIAN;
+ 		cfg->num_channels = mcfg->num_channels;
+ 		/* Convert the physical mapping to a logical mapping of the channels */
+-		for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
++		for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < cfg->num_channels; i++) {
+ 			if (!mcfg->channel_map[i])
+ 				continue;
+ 			cfg->channel_mapping[j++] = mcfg->channel_map[i];
+@@ -1442,7 +1416,7 @@ static int audioreach_speaker_protection_vi(struct q6apm_graph *graph,
+ 
+ 	cm_cfg->cfg.num_channels = num_channels * 2;
+ 	/* Convert the physical mapping to a logical mapping of the channels */
+-	for (i = 0, j = 0; i < AR_PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
++	for (i = 0, j = 0; i < PCM_MAX_NUM_CHANNEL && j < num_channels; i++) {
+ 		if (!mcfg->channel_map[i])
+ 			continue;
+ 		/*
+diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+index 587f14ce71d23..9f4166ebdc107 100644
+--- a/sound/soc/qcom/qdsp6/audioreach.h
++++ b/sound/soc/qcom/qdsp6/audioreach.h
+@@ -6,6 +6,7 @@
+ #include <linux/soc/qcom/apr.h>
+ #include <uapi/sound/snd_ar_tokens.h>
+ #include <sound/soc.h>
++#include "q6dsp-common.h"
+ struct q6apm;
+ struct q6apm_graph;
+ 
+@@ -805,7 +806,6 @@ struct param_id_hw_ep_power_mode_cfg {
+ #define PARAM_ID_HW_EP_DMA_DATA_ALIGN	0x08001233
+ #define AR_HW_EP_DMA_DATA_ALIGN_MSB	0
+ #define AR_HW_EP_DMA_DATA_ALIGN_LSB	1
+-#define AR_PCM_MAX_NUM_CHANNEL		8
+ 
+ struct param_id_hw_ep_dma_data_align {
+ 	uint32_t dma_data_align;
+@@ -998,7 +998,7 @@ struct audioreach_module_config {
+ 	u16	nslots_per_frame;
+ 	u16	slot_width;
+ 	struct snd_codec codec;
+-	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
++	u8 channel_map[PCM_MAX_NUM_CHANNEL];
+ };
+ 
+ /* Packet Allocation routines */
+@@ -1009,7 +1009,6 @@ static inline u16 audioreach_gpr_dest_domain(gpr_device_t *gdev)
+ 
+ void *audioreach_alloc_apm_cmd_pkt(int pkt_size, uint32_t opcode,
+ 				   uint32_t token);
+-void audioreach_set_default_channel_mapping(u8 *ch_map, int num_channels);
+ void *audioreach_alloc_cmd_pkt(int payload_size, uint32_t opcode,
+ 			       uint32_t token, uint32_t src_port,
+ 			       uint32_t dest_port);
+diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
+index 7ce2a50390f8e..b7a3cf826b294 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-dai.c
++++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
+@@ -21,6 +21,7 @@
+ #include <asm/div64.h>
+ #include <asm/dma.h>
+ #include "q6apm.h"
++#include "q6dsp-common.h"
+ 
+ #define DRV_NAME "q6apm-dai"
+ #define POS_BUFFER_BYTES	4096
+@@ -344,7 +345,10 @@ static int q6apm_dai_prepare(struct snd_soc_component *component,
+ 	cfg.num_channels = runtime->channels;
+ 	cfg.bit_width = prtd->bits_per_sample;
+ 	cfg.fmt = SND_AUDIOCODEC_PCM;
+-	audioreach_set_default_channel_mapping(cfg.channel_map, runtime->channels);
++	ret = q6dsp_map_channels(cfg.channel_map, runtime->channels);
 +	if (ret)
-+		adc->requested_sample_freq = 0;
++		return ret;
 +
-+	return ret;
-+}
+ 	if (prtd->state) {
+ 		/* clear the previous setup if any  */
+ 		q6apm_graph_stop(prtd->graph);
+@@ -1016,8 +1020,10 @@ static int q6apm_dai_compr_set_params(struct snd_soc_component *component,
+ 		cfg.num_channels = 2;
+ 		cfg.bit_width = prtd->bits_per_sample;
+ 		cfg.fmt = codec->id;
+-		audioreach_set_default_channel_mapping(cfg.channel_map,
+-						       cfg.num_channels);
++		ret = q6dsp_map_channels(cfg.channel_map, cfg.num_channels);
++		if (ret)
++			return ret;
 +
-+static int stm32_mdf_adc_read_raw(struct iio_dev *indio_dev, struct iio_chan_spec const *chan,
-+				  int *val, int *val2, long mask)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	int idx = chan->scan_index;
-+	int max = BIT(STM32_MDF_DATA_RES - 1) - 1;
-+	int scale, offset;
+ 		memcpy(&cfg.codec, codec, sizeof(*codec));
+ 
+ 		ret = q6apm_graph_media_format_shmem(prtd->graph, &cfg);
+diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+index c63622629f151..d43d97d138410 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
++++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+@@ -94,7 +94,7 @@ static int q6dma_set_channel_map(struct snd_soc_dai *dai,
+ 			return -EINVAL;
+ 		}
+ 
+-		if (tx_num > AR_PCM_MAX_NUM_CHANNEL) {
++		if (tx_num > PCM_MAX_NUM_CHANNEL) {
+ 			dev_err(dai->dev, "invalid tx num %d\n",
+ 				tx_num);
+ 			return -EINVAL;
+@@ -147,7 +147,9 @@ static int q6hdmi_hw_params(struct snd_pcm_substream *substream,
+ 	cfg->bit_width = params_width(params);
+ 	cfg->sample_rate = params_rate(params);
+ 	cfg->num_channels = channels;
+-	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
++	ret = q6dsp_map_channels(cfg->channel_map, channels);
++	if (ret)
++		return ret;
+ 
+ 	switch (dai->id) {
+ 	case DISPLAY_PORT_RX_0:
+@@ -173,16 +175,14 @@ static int q6dma_hw_params(struct snd_pcm_substream *substream,
+ 	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
+ 	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
+ 	int channels = hw_param_interval_c(params, SNDRV_PCM_HW_PARAM_CHANNELS)->max;
+-	int i;
 +	int ret;
-+
-+	switch (mask) {
-+	case IIO_CHAN_INFO_RAW: {
-+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-+		if (IIO_DEV_ACQUIRE_FAILED(claim))
-+			return -EBUSY;
-+
-+		if (adc->channels[idx].backend) {
-+			ret = iio_backend_enable(adc->channels[idx].backend);
-+			if (ret)
-+				return ret;
-+		}
-+
-+		ret = stm32_mdf_adc_single_conv(indio_dev, chan, val);
-+
-+		if (adc->channels[idx].backend)
-+			iio_backend_disable(adc->channels[idx].backend);
-+
-+		return ret ? ret : IIO_VAL_INT;
-+	}
-+	case IIO_CHAN_INFO_SAMP_FREQ:
-+		*val = adc->sample_freq;
-+
-+		return IIO_VAL_INT;
-+
-+	case IIO_CHAN_INFO_SCALE:
-+		/*
-+		 * Vconv = (raw>>shift + offset) * scale.
-+		 * scale = Vref * k / 2^res (denominator is managed through FRACTIONAL_LOG2 type)
-+		 * k correspond to the ratio between max resolution and actual filter maximum
-+		 * k = max / dflt_max
-+		 * max = 2^(res - 1) - 1
-+		 * max_dflt = D^N * gain_lin * gain_rsflt
-+		 * scale = Vref * max / dflt_max
-+		 */
-+		if (adc->channels[idx].backend) {
-+			ret = iio_backend_read_scale(adc->channels[idx].backend, chan,
-+						     &scale, NULL);
-+			if (ret < 0)
-+				return ret;
-+
-+			*val = div_u64((u64)scale * max, adc->dflt_max);
-+
-+			*val2 = chan->scan_type.realbits;
-+			if (chan->differential)
-+				*val *= 2;
-+		} else {
-+			return -EPERM;
-+		}
-+
-+		return IIO_VAL_FRACTIONAL_LOG2;
-+
-+	case IIO_CHAN_INFO_OFFSET:
-+		if (adc->channels[idx].backend) {
-+			ret = iio_backend_read_offset(adc->channels[idx].backend, chan,
-+						      &offset, NULL);
-+			if (ret < 0)
-+				return ret;
-+
-+			*val = offset;
-+			if (!chan->differential)
-+				*val += adc->dflt_max;
-+		} else {
-+			return -EPERM;
-+		}
-+
-+		return IIO_VAL_INT;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int stm32_mdf_adc_read_label(struct iio_dev *indio_dev, const struct iio_chan_spec *chan,
-+				    char *label)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	const char *name = adc->channels[chan->scan_index].channel_name;
-+
-+	return sysfs_emit(label, "%s\n", name);
-+}
-+
-+static const struct iio_info stm32_mdf_info_adc = {
-+	.write_raw = stm32_mdf_adc_write_raw,
-+	.read_raw = stm32_mdf_adc_read_raw,
-+	.read_label = stm32_mdf_adc_read_label,
-+};
-+
-+static irqreturn_t stm32_mdf_irq(int irq, void *arg)
-+{
-+	struct iio_dev *indio_dev = arg;
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev), *adc_inter;
-+	struct regmap *regmap = adc->regmap;
-+	u32 *ptr = adc->buffer;
-+	u32 isr, ier, flags;
-+
-+	regmap_read(regmap, MDF_DFLTISR_REG, &isr);
-+	regmap_read(regmap, MDF_DFLTIER_REG, &ier);
-+
-+	flags = isr & ier;
-+	if (!flags)
-+		return IRQ_NONE;
-+
-+	if (flags & MDF_DFLTISR_FTHF_MASK) {
-+		/* Reading the data register clear the IRQ status */
-+		regmap_read(regmap, MDF_DFLTDR_REG, ptr++);
-+
-+		if (MDF_IS_FILTER0(adc))
-+			list_for_each_entry(adc_inter, &adc->mdf->filter_list, entry)
-+				if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter))
-+					regmap_read(regmap, MDF_DFLTDR_REG, ptr++);
-+
-+		complete(&adc->completion);
-+	}
-+
-+	if (flags & MDF_DFLTISR_DOVRF_MASK) {
-+		dev_warn(&indio_dev->dev, "Data overflow detected\n");
-+		regmap_set_bits(regmap, MDF_DFLTISR_REG, MDF_DFLTISR_DOVRF_MASK);
-+	}
-+
-+	if (flags & MDF_DFLTISR_RFOVRF_MASK) {
-+		dev_warn(&indio_dev->dev, "Reshape filter overrun detected\n");
-+		regmap_set_bits(regmap, MDF_DFLTISR_REG, MDF_DFLTISR_RFOVRF_MASK);
-+	}
-+
-+	if (flags & MDF_DFLTISR_SATF_MASK) {
-+		dev_warn(&indio_dev->dev, "Saturation detected\n");
-+		regmap_set_bits(regmap, MDF_DFLTISR_REG, MDF_DFLTISR_SATF_MASK);
-+
-+		/* Notify only once */
-+		regmap_clear_bits(adc->regmap, MDF_DFLTIER_REG, MDF_DFLTIER_SATIE_MASK);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int stm32_mdf_adc_init(struct device *dev, struct iio_dev *indio_dev)
-+{
-+	struct stm32_mdf_adc *adc = iio_priv(indio_dev);
-+	struct iio_chan_spec *ch = NULL;
-+	unsigned int num_ch;
-+	int ret;
-+
-+	num_ch = device_get_child_node_count(indio_dev->dev.parent);
-+	if (num_ch) {
-+		/* Filter0 may have several channels in interleaved mode */
-+		if (num_ch > 1) {
-+			if (!MDF_IS_FILTER0(adc)) {
-+				dev_err(dev, "Too many channels for filter [%d]\n", adc->fl_id);
-+				return -EINVAL;
-+			} else if (num_ch != adc->mdf->nb_interleave) {
-+				dev_err(dev, "Unexpected channels number for filter0: [%d]\n",
-+					num_ch);
-+				return -EINVAL;
-+			}
-+		}
-+
-+		ch = devm_kcalloc(&indio_dev->dev, num_ch, sizeof(*ch), GFP_KERNEL);
-+		if (!ch)
-+			return -ENOMEM;
-+
-+		adc->channels = devm_kcalloc(&indio_dev->dev, num_ch, sizeof(*adc->channels),
-+					     GFP_KERNEL);
-+		if (!adc->channels)
-+			return -ENOMEM;
-+
-+		ret = stm32_mdf_adc_chan_init(indio_dev, ch);
-+		if (ret < 0)
-+			return dev_err_probe(dev, ret, "Channels init failed\n");
-+	}
-+
-+	indio_dev->num_channels = num_ch;
-+	indio_dev->channels = ch;
-+
-+	init_completion(&adc->completion);
-+
-+	return 0;
-+}
-+
-+static const struct stm32_mdf_dev_data stm32h7_mdf_adc_data = {
-+	.type = STM32_MDF_IIO,
-+	.init = stm32_mdf_adc_init,
-+};
-+
-+static const struct of_device_id stm32_mdf_adc_match[] = {
-+	{
-+		.compatible = "st,stm32mp25-mdf-adc",
-+		.data = &stm32h7_mdf_adc_data,
-+	},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, stm32_mdf_adc_match);
-+
- static int stm32_mdf_get_sitf(struct device *dev, struct stm32_mdf_adc *adc,
- 			      struct fwnode_handle *sitf_node)
- {
-@@ -857,11 +1407,13 @@ static int stm32_mdf_adc_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct stm32_mdf_adc *adc;
-+	const struct stm32_mdf_dev_data *dev_data;
- 	struct iio_dev *iio;
- 	struct resource *res;
- 	void __iomem *base;
--	int ret;
-+	int ret, irq;
  
-+	dev_data = device_get_match_data(dev);
- 	iio = devm_iio_device_alloc(dev, sizeof(*adc));
- 	if (!iio) {
- 		dev_err(dev, "Failed to allocate IIO device\n");
-@@ -883,13 +1435,41 @@ static int stm32_mdf_adc_probe(struct platform_device *pdev)
- 	if (IS_ERR(adc->regmap))
- 		return dev_err_probe(dev, PTR_ERR(adc->regmap), "Failed to init regmap\n");
- 
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return dev_err_probe(dev, irq, "Failed to get IRQ\n");
-+
-+	ret = devm_request_irq(dev, irq, stm32_mdf_irq, 0, pdev->name, iio);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to request IRQ\n");
-+
- 	ret = stm32_mdf_adc_parse_of(pdev, adc);
- 	if (ret < 0)
- 		return ret;
- 
-+	iio->info = &stm32_mdf_info_adc;
-+	iio->name = dev_name(&pdev->dev);
-+
- 	adc->dev = dev;
-+	adc->dev_data = dev_data;
-+	ret = dev_data->init(dev, iio);
-+	if (ret < 0)
-+		goto err_clean_list;
-+
-+	if (!MDF_IS_INTERLEAVED_FILT_NOT_0(adc)) {
-+		ret = iio_device_register(iio);
-+		if (ret < 0) {
-+			dev_err_probe(dev, ret, "Failed to register IIO device: %d\n", ret);
-+			goto err_clean_list;
-+		}
-+	}
+ 	cfg->bit_width = params_width(params);
+ 	cfg->sample_rate = params_rate(params);
+ 	cfg->num_channels = channels;
+-	memset(cfg->channel_map, 0, sizeof(cfg->channel_map));
+-	audioreach_set_default_channel_mapping(cfg->channel_map, channels);
+-	for (i = 0; i < channels && i < AR_PCM_MAX_NUM_CHANNEL; i++)
+-		if (!cfg->channel_map[i])
+-			cfg->channel_map[i] = i + 1;
++	ret = q6dsp_map_channels(cfg->channel_map, channels);
++	if (ret)
++		return ret;
  
  	return 0;
-+
-+err_clean_list:
-+	list_del(&adc->entry);
-+
-+	return ret;
  }
- 
- static void stm32_mdf_adc_remove(struct platform_device *pdev)
-@@ -906,6 +1486,7 @@ static void stm32_mdf_adc_remove(struct platform_device *pdev)
- static struct platform_driver stm32_mdf_adc_driver = {
- 	.driver = {
- 		.name = "stm32-mdf-adc",
-+		.of_match_table = stm32_mdf_adc_match,
- 	},
- 	.probe = stm32_mdf_adc_probe,
- 	.remove = stm32_mdf_adc_remove,
-
 -- 
 2.43.0
-
