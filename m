@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794994734;
-	b=ZEfJqcaUc825fA4cQE51NlnwPFMPP2ZN9UbnjxfRQsM0jIz3t3wQ1jZYx7K9jqCHu2ou
-	 Ktvk5vPK8pZwJFa6CRouX3Tnxsek++dJdvSeGvy8Wa+KvwJ5dc4Au9UOfKAtPjp0UfOy/
-	 sKAx9Q/E9kf+e8r2qIKTH/N4KHfEqxnIDWp4/k2ydkkophvx5pebIJrG1jb0frboa/U4s
-	 0Vthj/HQ3aBTkUiO9uwAboADCnICDuYsMAv1vOGMcFhkgMlQbyVO7TPOHe3o4UGgJ5BRU
-	 avedx194lgkr9hARwL4ZIdoZAhzUIbE0kj5KfpyM4M2Qs6d8rf9lewzZrd1IYpHM/zg==
+	t=1794994738;
+	b=qm6tT82LbNJdNGTDe60sihpojND/mf2oyXgsMSfSwSDXMbHYR5ZjwwopwwztkQJ9XoZs
+	 lfxOceT/zpvUDyPwywnj4c0ArFmPYTNJX2iRBfryPsETfUWKe4OnqesGYqxf4ze+vsQpy
+	 ER/YA0esGNqrRWZzWupjuMRShhUK860QCTK/NPmYimQ7RH9mqymD5tjoBYG42f6983Rv2
+	 pXFgN1z5R2kOPWPq6Ws5RiG6WKfQMdmopZUX+QlWOcQ/ASX2cER+i722v7UG/efoZ0frY
+	 KX47346DYgpuSxK5V/L0hYk4/C07P5kvXiBq8vqT5qmj2A8CSZMp3k9mkIzjICqxYIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794994734;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794994738;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=kupoLmsjeVtjcKhNtw7tTbay1eTmWzrCRIMwVpP8JgM=;
-	b=ztwRFSmF5OaHvhQ8s8IKhJYV0hk8+HWGqHrMBq+OtDq3NXJBNQzZ5ANMgQYx267AZMan
-	 EeO+QPTnaXtGl1yxiGGqjljiejNcqBm+eMUZGdIyEgK2HgYebAFhYzdtYjQBDnL1y37U8
-	 q15SMc3JVzL2L2Ss0qZ+hohWA3WDbXtHrnZerMITdfpLaTM/SlKwDUgNKJP+00NwOuu5H
-	 9mpf2eq7m6tlqiuZtde1GDTpLQ9WBOTnrLjNwbsG2ieXK2AJr0wTBqgwjvpAeVmR9GkBa
-	 OVjCIgqmhJDnnA4eH97DAAZ4w/lYeQJCdQT8jHLpgJPURHCRzYxscOd/zAJBemJUThg==
+	bh=mvTmHdxE8OSRyatKP7vQR5jJ2csgl9itkqZ6bj8IuTM=;
+	b=DdLwyJRGLzgXssoFExw7Puq24FDSzkdiMMFMTqpTm3F5cCkYpx+0xqAPprg3dTC8rRru
+	 cC7FmXPXQUZv3UPDoMNJG7FKMfWPZ3tU3vOHW1EjXGNX2KdQssUSfn2pxYQG9SgaPrz4p
+	 +aUbG9j5rtpWgNKqYurrlIjnrCixWO1L+IDY+7RIlueozdzWhrbcVcATTX+ebqY6Q4y0w
+	 3RkB7T9AZ+rxvfQmEcs3oc6plztaJZpaiS7awjUpjaQspXuIbZezGppZ7aXQvMyZmjkck
+	 sRFCkaLmqZa2ItSNKE6Ft216+/iWjTnYZjnoNbI46FlGMBCsQVoyHOT3TPth7w36RaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NPSVwhhj;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0meq+bcp;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96813606A325
-	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 09:38:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96813606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AF4606A325
+	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 09:38:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0AF4606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NPSVwhhj
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-380b40312e2so2248411eec.1
-        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 01:38:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0meq+bcp
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-36dbde64409so1490624eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 01:38:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794994733; x=1795599533; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794994737; x=1795599537; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kupoLmsjeVtjcKhNtw7tTbay1eTmWzrCRIMwVpP8JgM=;
-        b=NPSVwhhj/2xT9c86Ughcz/fq8cQwTf/6bGVdBhYheFukTdXnstjpWdarcUQisTNiup
-         Ujk/l9nAsIROVq2Ib2/BuujTpbr8KdwXnsicNBlJclA28ZwJLcBuO4IXVCyGkNYofW92
-         PqPvlXykpQ5LOZARG6etWQI1b3XkbQ9k70uXk8+wotzDfM0L7qfOsNmDe0L9Bx/qJvf4
-         0bHobbKECPftOtl14GVvbxBRFWHoaCfYnH6brj5709HJQIsABCVIjPSqdIsgjkk+LrwC
-         lJcK/6iiYo1OvfVYkc21FqjqdvyNGnmi9DUjG42haOUOUktsudJzTYyPaaW/Kny5bh1s
-         1feA==
+        bh=mvTmHdxE8OSRyatKP7vQR5jJ2csgl9itkqZ6bj8IuTM=;
+        b=0meq+bcpbMUaOyJKi4v7OMIYhzh7dIzGJh7I1Ryp21c2d2Z7x7ar4ld8fh8p3XtlKQ
+         OaJuqGQ+w7hBpL/bifgJIQ49CCcIprQ/5FRtKsK0Zz3mG/YlOyt39stsglEZP/z+Tgln
+         +liPOGf2ampV77tAe9mZbq08/tPjNh0jHm0fEt1NW9edu6XHAQJwH6THhXenhItPpG4+
+         XmJX+BUpEaDbN4pzNDdNtPMUQLnaBEoq/qbzbDNdlrjEhSii29Y7o75PZWu1IFdaI6+w
+         58T5+lmm7gIefSl4T4AwEIvNFh80Ei0EJst5zg0oWcaAhjN7sxeD2W+exO34JcRoCvtE
+         966w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794994733; x=1795599533;
+        d=1e100.net; s=20260707; t=1794994737; x=1795599537;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kupoLmsjeVtjcKhNtw7tTbay1eTmWzrCRIMwVpP8JgM=;
-        b=M3j0V5ZT16/psOEXgYsPIKI4TmXfsZh8ekBDNt6mnWdeLoDrwXPAvNhqZvaTUnABh9
-         x29T9/sSyq0NQ0LWeWnuABU/Epwp/07b0Pg3vNjpKDy4QfBkf93nmuqV/ZR+qfecU5U7
-         sYYKYkIMWacvZeVA08ijcFnHLsveRZer+ofjXI4dAraYjHdPcFODG5TT03DUwb4YGucy
-         AUdM4+u4BvnlothhHse2YN4Vt9JhAo5HKaIQb3ow+8x8GU/Am1uubJM/toC0KJncwvNT
-         7QBB1jxNOkwaZFFAzZa4wLfL8n0BTU3EUttlN0RTRd2cUIVklqOD/SH4FkAGIkJ18x3A
-         hFzw==
-X-Forwarded-Encrypted: i=1; AL+hErFS6zg/TXxJGraZIWLvlI7qItZu5XPQPG5vaLFOSFj7o3zHQ1wiMXpKG09wlIDGUucIIY814sHnathSow==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8P4+gWXdsDrk36ofGx6qdM6S23cWUE8bNnPwVqWeClkOVHDYdy
-	4S3wdEw9KVk6ITLug5ZOTC4+DL/VAPZaV0Ves5cXa8YxdDKn6gy33OowYeOKo7eQzE8=
-X-Gm-Gg: AYBFou0vEpb/SHXSNw2de7pl0rYBDO4D9i9Uk07SPzn3aG8acBTX4/vdjmbNCLRwgCj
-	bcGDbFsLvM7rN2SrmKd1NbF5B4ys5mcI/G5YL/CagmyPHOXBS9c8gpwPdZJBVLscO0YoQlEbb0G
-	gJxWhTa8yBtlBli5hmCKA6715JnuiO5BfzBtz6BZnBoPOCyKaKnq39qFFn0yRHQzwmfEeuIjNin
-	LacziQuCuV9+UqrqBsJDdafZ6h82rSAE1bZv64GvhRTBisSPhzXMjC3ztHwkIueY2I5z8WyMbbh
-	FaSNo72DPTuGv12tOElNSPP9Lq3+YYnSVJUlgySZpp/nl4cnYAlL2KNI59miTWwjMQugLGv9XEr
-	sqe3PUQBC4uJdI9dfpVlSjjxCmBEN4riEz5h8DWFj1fkuAqgtfWhEvA2WTyhdFNIBzXfLUgw9pA
-	+3HCfN2w9FTcN95EzpU6samO4NYm+DeZvUaRdeepurW6Mn6LzF4opQFxSCA6O7GnxWr4xktfnS9
-	XBNFa6dqx33vDBbWnLfi8Hyw6k1n3DxwadPk92GtvRfQPfwTk5zIvjOJT+zN0BC1jtGQ/dp1D9p
-	TE+Z5fJDNQ2q45QfpVH30HMcw3TQGmAoVUurRIHX8WHWXvrgxUt44ZpGwLG0C6+54ICe8peb0sU
-	lT/I6nZ0oSTgCUc/gxvHKd6Jfk/auS+l7delChOdG
-X-Received: by 2002:a05:7022:e2a:b0:163:a197:722d with SMTP id a92af1059eb24-1b543b193camr3049076c88.4.1794994732386;
-        Wed, 18 Nov 2026 01:38:52 -0800 (PST)
+        bh=mvTmHdxE8OSRyatKP7vQR5jJ2csgl9itkqZ6bj8IuTM=;
+        b=sAU8HC6Elif0AY0diwRvcu8wJ+Zb1r8vMLoA9sXZNWzLO7bX+4tHe3ehESJ+Kl69wt
+         gs2CQh7v8dOyNbdjY8BSuRz6e/sXicXrahY/tDiQAFDy+u0VCxlUHP3ZnHCHBMmZ23EJ
+         4Ho6V2jN2p4GOsnlnBufOMjucbcyZnNBmTTjLTWRSxDxD3aSiEbBaRIpfrfFyl4j7Qpx
+         oRQMFFRXKhEwq0KBDeDretfYmWs6I0TdVyH4SU3EGv3aLFuJw0WEULiUeX+o89Xnn1bR
+         KEL+R6ugHs6bP9TDwahwJc1xKtGEjYZrK1iagylvvllX7/E1f1sgrRm+BlnDE/akZlsR
+         r+Qw==
+X-Forwarded-Encrypted: i=1; AL+hErGy05UyIT5RLez9iWdqu6CaZw8vKzpEYctNuz/wascJJ8M8xC9p2pNE4cIBdXqsg2hzSgXlevIczplk9A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+d2cRiuz/xNeNRjKpwR2l992H9l/WnAJMsGwVP9tRl8vxTcT5f
+	CuY/j5QSp4ZQ/1BNq1n6jH7a5G5JzVSeyBZFROdhh2hHyd0ApsJ0i/f9
+X-Gm-Gg: AZFdTZfjlcyf9IXTCeuf5Z7MuigLzje00bxvmGFCV8jcYNsKLxJXOT8w8028XPH8/lI
+	6/hEXVE5i/xCsAj4fNphBRtXaoBKF7xiN46CWfdCGgp5n+Yss/KbKnI+QNVVFPzRk1LjeAEiXcA
+	aiFe+UPv9AetoESpXSmZGglArAHeMdELRwSyXouxU3jOKxQRuCl5qElzG4OB4FoTQGIebQTgsvI
+	k+Qai+s2WGrAs+r3k6nQPYfuC7FRNdi6opiEv8hsqaH4HLfPTMO59hFYl9VxdHK95McklUnLsg8
+	VhZbyZOTS6HkEAXikFkArkgjKLnBrKQyNDEi3l8Z8p/SI2MpzmGsNV91wzgL2kiWY8/Q3led8mX
+	JU7k5ICcixmuOPV1houOi+Qnzr6MSdFNiLQnPcMkRnI4MIBa5VrjYRSO7BYmHSu8HHjvPDJ4uEO
+	6gJQumhGcKD8saKxQyQnsL9XKrSPJx40i7yhTz+qQ702HHo8A9iumQ/dEKqFDH09+9DVdMf1+0G
+	tPby80PguqNcX0Y6vr2DdnaENQUEUuP2gLNKersiXdN03oqnUw+agY7QAxU8WmErXjCV9rEGHl/
+	l53P/NfGoNMh+NqNNUcnRlGXaAm6/Ye1/a2RJ46vULaDIce2KtFfy2HaOowhYx8X4TSU9gzyXAb
+	FzDGr/UenSrWKulNBZIzbXqLwJFbeN/6TF6sqmy/R
+X-Received: by 2002:a05:693c:42d0:b0:381:c15:1b6f with SMTP id 5a478bee46e88-3827f98c04fmr2115427eec.6.1794994736992;
+        Wed, 18 Nov 2026 01:38:56 -0800 (PST)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a76d70fasm6365704eec.22.2026.11.18.01.38.49
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a76d70fasm6365704eec.22.2026.11.18.01.38.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 01:38:51 -0800 (PST)
+        Wed, 18 Nov 2026 01:38:56 -0800 (PST)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: Mark Brown <broonie@kernel.org>
 Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
@@ -95,9 +95,9 @@ Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH v2 1/2] ASoC: SOF: control: Report the volume range as ASoC does
-Date: Wed, 18 Nov 2026 18:38:39 +0900
-Message-ID: <20261118093840.3514408-2-sammiee5311@gmail.com>
+Subject: [PATCH v2 2/2] ASoC: SOF: control: Reject out of range volume and switch values
+Date: Wed, 18 Nov 2026 18:38:40 +0900
+Message-ID: <20261118093840.3514408-3-sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261118093840.3514408-1-sammiee5311@gmail.com>
 References: <20261118093840.3514408-1-sammiee5311@gmail.com>
@@ -112,73 +112,78 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SOF controls with more than two channels use snd_sof_volume_info()
-instead of snd_soc_info_volsw(). The snd_sof_volume_info() reports
-platform_max - min as the maximum, while snd_soc_info_volsw() reports
-max - min, limited by platform_max. With min 10, max 100 and
-platform_max 80, a control reports 70 with more than two channels and
-80 with up to two.
+The snd_sof_volume_put() and snd_sof_switch_put() pass the user values
+to the IPC put handlers without a range check. The switch handlers
+store any value and send it to the firmware, so on IPC3 writing 2 or -1
+to a switch reads back as 2 or 4294967295. The volume handlers convert
+the value to u32 and clamp it to the end of the volume table. Writing -1
+sets the maximum volume, and on 64-bit writing LONG_MIN sets the
+minimum, both without an error.
 
-To fix this, compute the maximum the way snd_soc_info_volsw() does. The
-helper is reused by the next patch to check the values written to the
-controls. It also no longer stores max in platform_max as a side
-effect.
+Return -EINVAL for values outside the range the info callbacks report,
+as snd_soc_put_volsw() does. This fixes the write_invalid failures in
+mixer-test, and the event_spurious failures caused by the events those
+writes generated.
 
-No SOF topology sets min or platform_max today, so the reported ranges
-do not change.
-
-Suggested-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Fixes: c3078f539704 ("ASoC: SOF: Add Sound Open Firmware KControl support")
 Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- sound/soc/sof/control.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ sound/soc/sof/control.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/sound/soc/sof/control.c b/sound/soc/sof/control.c
-index 74d997a4f620..136e2ce15201 100644
+index 136e2ce15201..dcf101f7e1d5 100644
 --- a/sound/soc/sof/control.c
 +++ b/sound/soc/sof/control.c
-@@ -15,6 +15,17 @@
- #include "sof-priv.h"
- #include "sof-audio.h"
+@@ -26,6 +26,24 @@ static int sof_mixer_max(const struct soc_mixer_control *sm)
+ 	return max;
+ }
  
-+/* the maximum value as snd_soc_info_volsw() reports it */
-+static int sof_mixer_max(const struct soc_mixer_control *sm)
++/* the IPC put handlers do not check the range */
++static int sof_mixer_check_values(const struct soc_mixer_control *sm,
++				  const struct snd_sof_control *scontrol,
++				  const struct snd_ctl_elem_value *ucontrol)
 +{
-+	int max = sm->max - sm->min;
++	int max = sof_mixer_max(sm);
++	unsigned int i;
 +
-+	if (sm->platform_max && sm->platform_max < max)
-+		max = sm->platform_max;
++	for (i = 0; i < scontrol->num_channels; i++) {
++		long val = ucontrol->value.integer.value[i];
 +
-+	return max;
++		if (val < 0 || val > max)
++			return -EINVAL;
++	}
++
++	return 0;
 +}
 +
  int snd_sof_volume_get(struct snd_kcontrol *kcontrol,
  		       struct snd_ctl_elem_value *ucontrol)
  {
-@@ -50,20 +61,16 @@ int snd_sof_volume_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info
- 	struct soc_mixer_control *sm = (struct soc_mixer_control *)kcontrol->private_value;
- 	struct snd_sof_control *scontrol = sm->dobj.private;
- 	unsigned int channels = scontrol->num_channels;
--	int platform_max;
--
--	if (!sm->platform_max)
--		sm->platform_max = sm->max;
--	platform_max = sm->platform_max;
-+	int max = sof_mixer_max(sm);
+@@ -49,6 +67,11 @@ int snd_sof_volume_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *scomp = scontrol->scomp;
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+ 	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
++	int ret;
++
++	ret = sof_mixer_check_values(sm, scontrol, ucontrol);
++	if (ret)
++		return ret;
  
--	if (platform_max == 1 && !strstr(kcontrol->id.name, " Volume"))
-+	if (max == 1 && !strstr(kcontrol->id.name, " Volume"))
- 		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
- 	else
- 		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
+ 	if (tplg_ops && tplg_ops->control && tplg_ops->control->volume_put)
+ 		return tplg_ops->control->volume_put(scontrol, ucontrol);
+@@ -97,6 +120,11 @@ int snd_sof_switch_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *scomp = scontrol->scomp;
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+ 	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
++	int ret;
++
++	ret = sof_mixer_check_values(sm, scontrol, ucontrol);
++	if (ret)
++		return ret;
  
- 	uinfo->count = channels;
- 	uinfo->value.integer.min = 0;
--	uinfo->value.integer.max = platform_max - sm->min;
-+	uinfo->value.integer.max = max;
- 	return 0;
- }
- 
+ 	if (tplg_ops && tplg_ops->control && tplg_ops->control->switch_put)
+ 		return tplg_ops->control->switch_put(scontrol, ucontrol);
 -- 
 2.43.0
 
