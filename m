@@ -1,54 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096405;
-	b=I47xAwJ0C/1Rt9ICL8wpXAYNjFv1Yxjwsku0iNVtC0tVmTace1F0J4WK1tF3sYa00daw
-	 FS3mDdvBaAPov+aYwGzSpkj9TzDLz9cJTllk5k/FMqNEqhQZN1eaumZPb+tIgW5UqfX+1
-	 RsNt3XMkLScum8K90A7jOzXUevYW5xPikl5kdtmfvT9pRKxv2RiXvRrbpeuhjDD7OpM7e
-	 vsYVNIMJUmcYNUY1cXQqeLsGLuXHcuWzpxPijGAvHqORKKiV7gpBtxrX3aDg0FXa3kw/2
-	 YHEyuxgNlRjQEb7/oXUFZOpmjJkpRySw/6Y1mV2A05N1LmS/Gt8cah7ts/6C4eDT90w==
+	t=1795096400;
+	b=P8dtMNSNuRgb9wwdhm7wyxd5PnAyo5gwsVA/iOlSkHU2h7J+uYaPW+YnZ003f/EIn7Dc
+	 DfAVU8gpNYaj9zbbPOLO0lfSgnuSccgqhGTnup9WDcSIwFFPJ6laDHsyyQdx85/QXJrGT
+	 Y8nDkJbJ4h8B/mL3yyrcResc4+RVtCtoKJB98gxwjomwOHxfFnlGz06U4L2pEa6Ov5Z/F
+	 Cmc/LiC/W4x1mE07+zKke9j++P4QKG5qh/6sGs9g1uGx0q3x9ZokwZ0ug0AK8NxzymjkK
+	 5uP4MLrzFDAt/d0/R/Mdhwp80zTiFhiokmpxGpCCug94REpEsKd7joEBorRizV4rbSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096405;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795096400;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=T0bn86HcpHWQXGeNcFOu7GRmmy+fpoEc98lLv3CZD7E=;
-	b=WOTxU9Pwiyeo6FkyabBwSTKE5pzm967+AhelPZiyTdE2reSPdc3EzQBdKBv0MwK10L+h
-	 7km0zlonkmmgZLBJ09u1GE5VjqlbdNTlhRo7P4J+RW8Jx8ATvBG956XTOHFVxk7fLl3e8
-	 sOVazlCalKXdrP5ZDyYziGU/S5pPyJfMgYndD9JPCQY5v5LR3LMSumoDmu9EeKmSURYIj
-	 eBJ3DUlenLNsxz35p2kcv9dzlon2MtIYFozmG/55h4gPdcvxBEO/fvWB1QKzR96WWzOWS
-	 HoDnQhZkRZt7vEqIsbw4FmlLgI03XQ69NloJte7n4YtZEXnf0gym8HuOODAyGNbrZ6A==
+	bh=yEHuIKscNBcr2ODtIvDbXvMU1VdStlgHKQaKmCUfC7M=;
+	b=xM9JBMiaIDhVtMe/k7XSfrgfz+rlTxV+onLHHymf5F1AagVwH/rj9uYxCmgDEogZrOPC
+	 JlUAoDHWNMIwVjscKKfoVippnVOGsyO9a8OwEPd1ZYVKd5nw5sgcUyAznvi2iiURt0BIR
+	 TuZSHHwnSJSmcfS5cWTSqXITikxwIhAHIic2p6Px8ZiG4dx6H9qyOJYIgfvElNJO/UjsO
+	 kajb+10NxpxLYFFuzrB1FY1Iu4Y/l7Ly0zKCnTZtQWfQDSBtZGqVT6huBZS1PktG9/Qrn
+	 Vx2Ce8y/scNKbZVy8RGaVi+pig2w40esuAT4oaWuFPsUtIQjILFCJn989ELABLujpOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=maRWzJ0R;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hkMf8ITB;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8E6606A331;
-	Thu, 19 Nov 2026 13:53:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A262E606A332;
+	Thu, 19 Nov 2026 13:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=maRWzJ0R
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16B971F000C4;
-	Thu, 19 Nov 2026 13:53:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hkMf8ITB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4CAF1F000C9;
+	Thu, 19 Nov 2026 13:53:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795096405;
-	bh=T0bn86HcpHWQXGeNcFOu7GRmmy+fpoEc98lLv3CZD7E=;
+	s=k20260515; t=1795096400;
+	bh=yEHuIKscNBcr2ODtIvDbXvMU1VdStlgHKQaKmCUfC7M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=maRWzJ0Rrd2qeeCEcu7Sivu1BL4YUU9qBUIlTTZn1HCA27h+RRDfA9UnjZqqzZ7VG
-	 sdMzuiFABkPctZILbzAN2V+ANfU9t/fCMLb6V2jb1dEYs69igUJWBbS2FpGyxIaR0v
-	 AZm4jEg/RTDRx7zbYUqnxPfEcES50toOxEnKPXpPmBbnoFABm1RtZ4TZ/9NE+kkKkB
-	 PGV4NgqGJkWtZevGIXFTJtv9CkJWGjj0GrJxLgqX0nwpLuF5veOrrFMPb7ATYeXeTK
-	 JhHTn44Dr4GJaKX2SvTkKWGtsqX9nUovJffBOpGYtbaQVvXLZ88VzRr9oiFa5VmY7n
-	 bRD9OxYlI5LaA==
+	b=hkMf8ITB0dqSeKaBr/vbFzlLk09P602us5XrF5yM6T3pYjvU7erMD4smeTfRHvFlB
+	 QVOaY2EtYgHZiWiCHU6Qe+IGpGLuzsZ5//DgDHfi+4hiJyDFta2aRL8ys6g1MH1Bb7
+	 HiB/1axhrnqqhm4r9SaRxmrMP4tgixAtGxprEhdaHgZ1A7J71vsLyUZq+nXQGZOBSt
+	 PV6QANKUmtkaU+gsBp2UAMetB2S0pWCo5XtDd+LgIoJMDed0a2tRbtvj0TAcyAbyOK
+	 swbC10WWZmKsZeLHxTM5n+jDnQD58GFVMzHCHe9wVBOIhMFALb7G4pkrRPtAXDc5jt
+	 NJcbsSQZWoFhQ==
 From: Mark Brown <broonie@kernel.org>
-To: Haowen Tu <tuhaowen@uniontech.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <4E11793720037898+20261117062253.3611273-1-tuhaowen@uniontech.com>
-References: <4E11793720037898+20261117062253.3611273-1-tuhaowen@uniontech.com>
-Subject: Re: [PATCH] ASoC: ak4375: Power off the codec on probe failure
-Message-Id: <179502558431.810609.10867481075428638630.b4-ty@b4>
-Date: Wed, 18 Nov 2026 18:13:04 +0000
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, "Ingo A. Kubbilun" <ingo.kubbilun@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261113214544.232836-1-ingo.kubbilun@gmail.com>
+References: <20261113214544.232836-1-ingo.kubbilun@gmail.com>
+Subject: Re: [PATCH] ASoC: qcom: common: report line-out plugs on the
+ Headphone Jack pin
+Message-Id: <179502567183.810609.6836739761636920522.b4-ty@b4>
+Date: Wed, 18 Nov 2026 18:14:31 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
- h=from:subject:message-id; bh=c0nS4Z/s88/pbs12HMcF/okuSoJSTJbovhEEPVf2/mQ=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/Q9aO+vU7QS7bX13a/ZsYJK+f+Aby+qlr3533fexX
- CEonWXI3lHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJSM9jZFgu1xq8z61gYn7X
- jYTyORtn7DVS2aa28tms8/N33GmbtTCe4X8du+ZV4RUnpB7wW5/grk+7rxUV8MbFuK2IdWUyyyK
- Xk2wA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=vEdsMOYSGYQgjuscyDjbKmibDWbAMiNJHEbk0zfz2jw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/fc5s5L53z5/SxdPMe6td0RVWNYUXjf5wd2659u7f
+ N8PkpMWdJSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAi+qUM/73Ni34Zzl9fmX1S
+ 9EHgxxrelY5Fn+4vnWi0T6Kybe3Zd0cY/kq+uHImj1cw0EZI6vsipj+bo5hc1iQ5cl9mm/3vysk
+ UM0YA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 17 Nov 2026 14:22:53 +0800, Haowen Tu wrote:
-> ASoC: ak4375: Power off the codec on probe failure
+On Fri, 13 Nov 2026 22:45:35 +0100, Ingo A. Kubbilun wrote:
+> ASoC: qcom: common: report line-out plugs on the Headphone Jack pin
 
 Applied to
 
@@ -79,8 +82,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ak4375: Power off the codec on probe failure
-      https://git.kernel.org/broonie/sound/c/3775f1e4d7bf
+[1/1] ASoC: qcom: common: report line-out plugs on the Headphone Jack pin
+      https://git.kernel.org/broonie/sound/c/b610f9cd00f4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
