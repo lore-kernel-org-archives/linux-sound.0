@@ -1,68 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794972789;
-	b=bppM2A/EVtePY81JimJ1w2YlfhrLzOuhKWNUxxVg8mzG4jnI0tDK/d1dIf+sdtQI6B4D
-	 874CW6T5jFeyQsBueanKhcRpUg6dUKxJ6nhjGfKo9uv0HsoWtp7NRT7tlR3YssD9vM8IO
-	 FL0FBRpGWeWlo8xpyNjxO5o5tnbQqGrmzK7iR1EmwzRF35EEO/b3LYrG0HtfxfU0I+MsA
-	 Ufk18I6VQ9ggD3FU54/IZm0AcW2XFgTkkMvDGGbutVtiQZ7N/ZsMqwrDJwLZ8Bgqzn+/N
-	 t+7I2ovAVaUaWHTYpBLTVexTzU7cO+ePc4MciNXOPY1S94El2XuusQiWknvfWE7yAzw==
+	t=1794973165;
+	b=5Ai/DzPv9gHHB9mAEAQAHMeci8UDqRQNZtLcLha5MH2TsjlaoBC0PillA7mYUvFotY4C
+	 Y+dea8JEk0RMUiZDI6Imc/rYBoEqOHavfiGyPM4A0+fRhiFueU8jVyz7lEd6qfeIXtKz0
+	 77l5pC3kHinYmDgR9fdvshx4NSzkZoNOMc8uc92GtT1Rhq9foEVaVj2HrnybqjHePjAP0
+	 O/jqyCDrGFDGWjfSYGJ+LvPqnD5o1vcZNE9sAkZCDhhruRYcfVBukW9J+Rgle2feMCntj
+	 vaSl6qZJBo8xNK4MPNQaMm+2jTfcViWjIaTDUGKIu//lm4MqFBcRp5kM8NDESd5dkTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794972789;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
-	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=kZ4Qj45/nVhw+wEM+ObjY6ynwG6t9Cb17VAEzM7ECRs=;
-	b=lMbbHMtEVpc2SbZMhAR427pVmQch+MiWIo3qEIyZlT+bWM9tMJsIGvRiFotSOdBTYm2v
-	 o3WDL4In6F70jLtlu/+/+93LuOWih6odSE1xdGOavFIf9ukqj1tX0fSFIA4anotZOyQOM
-	 m4/WWvSb/A/aZ8ociq/FCbag2SUSmUrtMeyIga0Z3oIVbCGq0AvyRp09tZTAAe8Qom+Ic
-	 OJqssplyDURG5VTEohz7gBOk41SaFghxzI1bYFRTil7ZHqYWlczsF8oJ+FxpsVSDjxLDV
-	 yezlzaPvTPEISMZESo7n+fTu2tbgY8E+9U21dosuw+0dACeLQjrXyUfIVcn2LXTZ3lg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794973165;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=G+Q0oexvA4OtmTgbI2JLfoeKpQiUk1oidhqVEvS6n+w=;
+	b=uFtrptAXSQObm4rUfI+9ImItFOABzf0AMWYxPoaJ22JI37Hjd4Sc8m85kEfAymcPFG0P
+	 etg6HxSxCeKUDFcP5rZSufMDu1f41ydI1AaJDo6ki/yBFFg7Jy2KYPDT4RQOlt5bhYbSW
+	 UPXm3FwjdKbeR1RICHN8CN5gLHLioVCT4CBZ2QE3Sr1ABn/aDeJtrEOcB/DUZhSctulH9
+	 Vabk6H+uWJSwk2cU3kcFKpgrb3QzqVDFOzA+IlH8WghBiGuEzbDhy79wreLaVyiPCdN+6
+	 bCNmnv0T6kJxdAaPzr/Ti55RvApJaCEs57yIAxPw5gFPaX5E4deSxSWOypfu4mOtMow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=uniontech.com;
-	spf=pass smtp.mailfrom=uniontech.com;
-	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=EvrG5hEB;
-	arc=none smtp.remote-ip=54.243.244.52
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3762606A31C;
-	Wed, 18 Nov 2026 03:33:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3762606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=EvrG5hEB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1794972736;
-	bh=kZ4Qj45/nVhw+wEM+ObjY6ynwG6t9Cb17VAEzM7ECRs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=EvrG5hEBm7nyHplPFHKkRNi9Is9MA1A10r7VixEaXzmvH22wvQF7UW1wilJ9El1UB
-	 NihiLqRmJ11Q//zyTXyxa6XTUlKnFQvui9RP7kyIG72zEjHWdUA011EqEIrBqkC8q3
-	 4P1z/6LTjsGOaS8DYhv/KrWSePpxxZIYsGxZfXYs=
-X-QQ-mid: esmtpgz10t1794972720t90f23719
-X-QQ-Originating-IP: qbeV1AKGN9RpP899OZoSsXcI9sL6Pb84dNgTbM8l/hs=
-Received: from PEC004119 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 18 Nov 2026 11:31:58 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 14367264520237322865
-EX-QQ-RecipientCnt: 8
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: broonie@kernel.org
-Cc: peda@lysator.liu.se,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6918B606A31C;
+	Wed, 18 Nov 2026 03:39:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6918B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a15b470ce30111f19a56ed5b684f684d-20261118
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:50100b26-705a-485a-b7e3-b5f93d340fa6,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:01b83a0e41673e744f41f965bb8f36c1,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
+	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a15b470ce30111f19a56ed5b684f684d-20261118
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 539928937; Wed, 18 Nov 2026 11:39:16 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH] ASoC: max9860: Register the supply notifier after initializing regmap
-Date: Wed, 18 Nov 2026 11:31:56 +0800
-Message-ID: <BF435C6BC6FC2868+20261118033156.3845276-1-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Shredrum <alex0plays007@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix quiet speakers on HP 250 G6
+Date: Wed, 18 Nov 2026 11:39:01 +0800
+Message-Id: <20261118033901.322505-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -73,75 +71,75 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: NIUeOSCg5F579AqUo6IpBoajuRETgnAzykTAdbg0yqVdDJGeW3Z/PVdV
-	P1j/JgA4PFAC0dW0GyygZMLBOz2gax7zG2xemXdJlRA8C+oBnlOEnqINPMFvIxm2A9oEWAn
-	WjzjclSrv2tz0iA+SHDRBpUV7difXPuy/o+rx5vcAJEUuFGHeDDiuvP97Qw4TCtxTQ9o3cS
-	0fHOtwCOThmKS/6Xy8ymAKLtBB2Sibm/UubSTTltHIzvLD1IKp53v301Ke0b6k8havwRdrk
-	yssNlVi8Xye42OkuEsj6n+8WS4SZZ+YXqP6uwpJHG6cooKglyUVz4qpAkYFHVkBYSJbq5Sx
-	obceK6Mj/Dmhkr/bfXffVQJJVuNbenVzRpEWkdCLS0Pt2I9UQUQwpO9lp685yk9GcapRYDN
-	Xv0cPoNAgROeorcOAKYGtzY0fXfdeT5i5MWnE5TbC0nSPhNP3yiXyuYFyKqHxiyPj9sGzfO
-	mbKx8t7P5fU84R7xzQvKkkoeju5AAMIlbDhoWYkcUIHssikNZeNO6x0/Ez670OAmmHTQXTO
-	EgjeQWOM6y7eejMRK2ZxLUXOm7iQQicr465ZO5NXpWmourvvHiOER1HOIe1idWoeGjBLGwO
-	fvdJy6+wLRp2w6UBUUuH2rus72Hbe5CaAM6Q81AkkbUfmC8p0RlVEdYItnELs+q6sOt/R+/
-	mPHKsqqTmtoic64o7RWH32W5r0m+q2iODFjW6KSuqBag6gladZ4/4XTaH327BGz2f7XyKvn
-	wHnI8idw9HH/J3Uabjb5/7VFzfWjOnVqrHCAL0h9Omo5oW6ydRCE1hUIsqi/k1JqknUNLLN
-	bwwvgSaP2U0DabvGk0HwP6uz9Nle3ojZ8XG++Iks3th7fXB6qOk/t6wHx1aD99uvpaW26AL
-	VlUntPe/pE1vTNA2+cehph5pnzHrXaW1Og+rJ6gvxVE5vkW5yxNIMaXtwWmTTP1IYYeMzYH
-	PQuTenQegYtMZRjCO6flS0c1GGebuHCa6sSkdkuVhE5PIg+AmYLF7ipsJ+Tvq4gWnvXflob
-	ldTPGMviKUy7V5v6Zc18b0cxRtTls=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
 
-The DVDDIO notifier accesses max9860->regmap when the supply is disabled,
-but probe registers it before initializing the regmap. If
-devm_regmap_init_i2c() fails, the error path disables DVDDIO with an error
-pointer stored in max9860->regmap. When the supply is switched off, the
-notifier passes this pointer to the regcache helpers.
+The HP 250 G6 (ALC3227, subsystem 103c:832e) has much quieter internal
+speakers than on Windows. The Windows driver writes coef 0x6d = 0x0900
+and four EQ coefficients framed by 0x22 writes, while Linux leaves the
+high nibble of 0x6d at its hardware default (0xe900) and never writes
+the EQ coefficients. Add a fixup to apply the same coefficients on init.
 
-Register the notifier only after regmap initialization has succeeded.
-This also makes devres unregister the notifier before releasing the
-regmap, so the callback cannot outlive the resource it accesses.
-
-Fixes: 3b2af7f79968 ("ASoC: max9860: new driver")
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222283
+Tested-by: Shredrum <alex0plays007@gmail.com>
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- sound/soc/codecs/max9860.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/sound/soc/codecs/max9860.c b/sound/soc/codecs/max9860.c
-index a25f6891fe2f..f05f26d477c7 100644
---- a/sound/soc/codecs/max9860.c
-+++ b/sound/soc/codecs/max9860.c
-@@ -630,13 +630,6 @@ static int max9860_probe(struct i2c_client *i2c)
- 		return dev_err_probe(dev, PTR_ERR(max9860->dvddio),
- 				     "Failed to get DVDDIO supply\n");
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 2c541c6..35090f6 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -2688,6 +2688,23 @@ static void asus_tx300_automute(struct hda_codec *codec)
+ 		spec->gen.mute_bits |= (1ULL << 0x14);
+ }
  
--	max9860->dvddio_nb.notifier_call = max9860_dvddio_event;
--
--	ret = devm_regulator_register_notifier(max9860->dvddio,
--					       &max9860->dvddio_nb);
--	if (ret)
--		dev_err(dev, "Failed to register DVDDIO notifier: %d\n", ret);
--
- 	ret = regulator_enable(max9860->dvddio);
- 	if (ret != 0) {
- 		dev_err(dev, "Failed to enable DVDDIO: %d\n", ret);
-@@ -649,6 +642,13 @@ static int max9860_probe(struct i2c_client *i2c)
- 		goto err_regulator;
- 	}
- 
-+	max9860->dvddio_nb.notifier_call = max9860_dvddio_event;
++static void alc282_fixup_hp_250g6(struct hda_codec *codec,
++				  const struct hda_fixup *fix, int action)
++{
++	if (action != HDA_FIXUP_ACT_INIT)
++		return;
 +
-+	ret = devm_regulator_register_notifier(max9860->dvddio,
-+					       &max9860->dvddio_nb);
-+	if (ret)
-+		dev_err(dev, "Failed to register DVDDIO notifier: %d\n", ret);
++	alc_write_coef_idx(codec, 0x6d, 0x0900);
 +
- 	dev_set_drvdata(dev, max9860);
- 
- 	/*
++	/* filter block: disable, load coefficients, re-enable */
++	alc_write_coef_idx(codec, 0x22, 0x400a);
++	alc_write_coef_idx(codec, 0x24, 0x1ec4);
++	alc_write_coef_idx(codec, 0x39, 0x1ea9);
++	alc_write_coef_idx(codec, 0x44, 0x1f61);
++	alc_write_coef_idx(codec, 0x4f, 0x1fb0);
++	alc_write_coef_idx(codec, 0x22, 0xe04a);
++}
++
+ static void alc282_fixup_asus_tx300(struct hda_codec *codec,
+ 				    const struct hda_fixup *fix, int action)
+ {
+@@ -4232,6 +4249,7 @@ enum {
+ 	ALC269VB_FIXUP_ORDISSIMO_EVE2,
+ 	ALC283_FIXUP_CHROME_BOOK,
+ 	ALC283_FIXUP_SENSE_COMBO_JACK,
++	ALC282_FIXUP_HP_250G6_EQ,
+ 	ALC282_FIXUP_ASUS_TX300,
+ 	ALC283_FIXUP_INT_MIC,
+ 	ALC290_FIXUP_MONO_SPEAKERS,
+@@ -5199,6 +5217,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC283_FIXUP_CHROME_BOOK,
+ 	},
++	[ALC282_FIXUP_HP_250G6_EQ] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc282_fixup_hp_250g6,
++	},
+ 	[ALC282_FIXUP_ASUS_TX300] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc282_fixup_asus_tx300,
+@@ -7723,6 +7745,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x827f, "HP x360", ALC269_FIXUP_HP_MUTE_LED_MIC3),
+ 	SND_PCI_QUIRK(0x103c, 0x82bf, "HP G3 mini", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x82c0, "HP G3 mini premium", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x103c, 0x832e, "HP 250 G6", ALC282_FIXUP_HP_250G6_EQ),
+ 	SND_PCI_QUIRK(0x103c, 0x83b9, "HP Spectre x360", ALC269_FIXUP_HP_MUTE_LED_MIC3),
+ 	SND_PCI_QUIRK(0x103c, 0x841c, "HP Pavilion 15-CK0xx", ALC269_FIXUP_HP_MUTE_LED_MIC3),
+ 	HDA_CODEC_QUIRK(0x103c, 0x8486, "HP Pavilion x360", ALC295_FIXUP_HP_PAVILION_X360),
 -- 
-2.50.1
+2.25.1
 
