@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795016086;
-	b=oOIUIbKxJxeITtv8SHEkyx+NZVAQ4MV0p9fVtBg96DnzJr/RAKTF8ghoagykvHveAYsT
-	 bDJTwaP+n/JQsk/Ij8OH5jFCXKlheQGEYjmGdJUSi/lxMr/VSsM8OdmR+oPIEqHsE6SEX
-	 LzHYK8Zqt6FL9EmOVt+WRwSyzs5yGgakXI0nfg3yhgYU9CoJPOOWcV7K28dyUM7yoPahb
-	 ron4DMMxQygLdpkOYCi2b2HMfUheUwA3IHLYscg8AthAQWTY0qKFo9eR12isZ+62wKLE3
-	 hGgcNnKqCA9vPFLtrvGwZOUJE1hZUCNr6pWBlcTnw63NzVubS1q/JGSVhNxxuPxDniw==
+	t=1795016274;
+	b=AKRqXxvtjsxhaj/3MP6J2PvPjQAxFRD5OsvCuyTIud5W6aK9nat04s7XrkqKHg1jdpeT
+	 /4MxG+TKIDpg9ZQrVn0/LLIb3Tw6jm/6TFd7SHLwjkw8BPvy5yXghDNlNVrb2KNdY2OsT
+	 AYE0O3acM4fX4mcVx6l4KBrJ710UzzezrYVJCOdXQzTxsZU89kDjhwDR3KtZJz9G1o8lB
+	 lw9m7c76u+61FcrNnVy4ZQbkkMbuIle8sQa5X/JVmMXEZy5ccYp47WnWtCkRV06QyQB78
+	 icIBigTLEdDGKqfwfqbR0C7x+hm5s5tzjXWoCbPGMJ8n0oBAKc6pOeTRwQBPqOa3GKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795016086;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795016274;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=BmJD8sv6AAFxv6Re5ss54Z9dNxRedpqV4XYrwTPA7fw=;
-	b=oC5K+EeMIwYxHVsp9URZUGGXy6HorCm3gdC0hlSyxQVo7Ia4AX5RM0C1yzEm0eGrGjRC
-	 zDeiOx2Jfba8G1mUPv8gRo0c0puATq/L3NE2/DdeiIcR+KaQ+aGRIh0P8mPXg55ktSr/u
-	 DI1sA8BG0tWSzdveqhwY9kAC5Nbm/45f6PVkKvDnZrFG1Te8P04Ffep1bVzMQLjzzxACr
-	 TEJlW5z5+Bqr3O84/YiWwS07hQKsxAJh5EpAsXb3Hq4gk0houGNKGj0G5ImxO6eK9dFjI
-	 7M4LObfB2vF/x2ol41E2/QX6f9MG3Yikn05nYWTVCkjZbLIRWZGndOJG0L2VaZ3EAMQ==
+	bh=uYDwVl6WgEztGK/K6YA4WjnFs33A5/iiD4AppXIep7I=;
+	b=RN3PwPWrhs8o+vqw3YSJ3tygZ+xj8J6/t2t+q4gwTLQ8bhajBcV3dTkLww08nVMaPUsF
+	 6TTd2g3GFquMbpHdkvw4yEg9TQnVs8gLCE7BLZTFw9qgSi6KKetQzYPMr5gqNltJs7ts4
+	 57kArLmDwFa3yJrZXbVxh3jIQaSfx9qTwQEi2e0Z8Jr7BvAj7XaRSuUHnFi2hkNlFOKFz
+	 T+f0r9vO4S5NtGYy8TSLgGKa9yG/45d6/0EScFQYOT2fEDJn2tAVpoovOQ4tvSexQ9NNH
+	 pq1KSezL0q9+2WFknxmaiTjUabdAKV2HXIUGChKCww8IdR+jeu1vzTIb7ryjbhRKkmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ij44ziCR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQL1hrLA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339B4606A332;
-	Wed, 18 Nov 2026 15:34:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4448F60A2625;
+	Wed, 18 Nov 2026 15:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ij44ziCR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A32441F000C5;
-	Wed, 18 Nov 2026 15:34:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQL1hrLA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B5C1F000C5;
+	Wed, 18 Nov 2026 15:37:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795016086;
-	bh=BmJD8sv6AAFxv6Re5ss54Z9dNxRedpqV4XYrwTPA7fw=;
+	s=k20260515; t=1795016274;
+	bh=uYDwVl6WgEztGK/K6YA4WjnFs33A5/iiD4AppXIep7I=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ij44ziCRh6fRrarjJnIwYFWMGZfJrmg9eKtOxQsL+FFRCKMyPkXeex5/wR1IpGjmi
-	 W8+p19OGPqNq8drX6X+wFfMBdciSmU7q9Xb00teeVTkltN1KG+JsWkb796xY0VCOGN
-	 pn5qRBP+qEF+zgxfdYCUTDoZJVF6bbrwMvSQXD6uQ5BrrJP7425Eqg+Ivnu49OxxMA
-	 pwBV0Zf0UiEOLpdSDEIh3zOlb0VEcZq3o417PFAT7Y7RatM2fTlND/SW+C6JOmvwSL
-	 7E8OZvBCpUY6UCSShllBxfahVLElSP6W6eLz/HFohEJ4ycF/bLQNrC5Qzot1ZW8RAq
-	 S8/bkEtNL1M8A==
-Message-ID: <sashiko-outbox-221345@kernel.org>
+	b=IQL1hrLArtFSbgncixMpZuIxsfMPUuFcRqFZieXJ5M9Z8mPlHZsuESOkieyW6iEGg
+	 GFp4qrFDN4l3tUg0k8mhtlvbwGzilTMHUq59gAo38DqeXKynK2zOwfORAHlLf/7sLt
+	 NhU6vw05YSdQe040fHejJNewnIVdj+Ac0AbJIzzaYUidsLunYmmMBr79vxWuj+qQtY
+	 83CNxsZ43tetdAN651wTVy4t7RchKWW2k9+5vuV2HlpPUTQaF+Mi7746W2npAUn6EB
+	 Lb6uwV4efTFJMNB3tSjdryhjnr/iGVasQ0xI1nDmdKQlc6eB7rd7J9d9/L5h90l3iC
+	 y1PMOeP6QYFpg==
+Message-ID: <sashiko-outbox-221349@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 06/11] iio: adc: stm32-mdf: configure cic filters and
- sample rates
+Subject: Re: [PATCH v2 09/11] iio: adc: stm32-mdf: add external timer
+ trigger support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Olivier Moysan" <olivier.moysan@foss.st.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org
-In-Reply-To: <20261118-upstream_mdf_v2-v2-6-7939d3c3720a@foss.st.com>
+In-Reply-To: <20261118-upstream_mdf_v2-v2-9-7939d3c3720a@foss.st.com>
 References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
- <20261118-upstream_mdf_v2-v2-6-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-9-7939d3c3720a@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 15:34:45 +0000
+Date: Wed, 18 Nov 2026 15:37:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,257 +61,128 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 6 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [High] iio: adc: stm32-mdf: division by zero in
-  stm32_mdf_adc_check_clock_config()
-- [High] iio: adc: stm32-mdf: division by zero when decim_ratio is 0
-- [Medium] iio: adc: stm32-mdf: wrong DATSRC mask in
-  stm32_mdf_adc_apply_filters_config()
-- [Medium] iio: adc: stm32-mdf: wrong FastSinc scale in
-  stm32_mdf_adc_set_filters_config()
-- [Medium] iio: adc: stm32-mdf: missing rsflt_bypass copy for
-  interleaved filters
-- [Medium] iio: adc: stm32-mdf: broken ratio checks in
-  stm32_mdf_adc_check_clock_config()
+- [High] iio: adc: stm32-mdf: non-zero return in
+  stm32_mdf_adc_get_trig() rejects trig
+- [High] iio: adc: stm32-mdf: unassigned trgsrc in
+  stm32_mdf_adc_filter_set_trig()
+- [Medium] iio: adc: stm32-mdf: unpropagated trigger in
+  stm32_mdf_adc_filter_set_trig()
 --
 
-commit 76232b76e094892afbfa80eaf7eda8e245546546
+commit 2310fd550deab336f6cec980952473a0c65d6371
 Author: Olivier Moysan <olivier.moysan@foss.st.com>
 
-iio: adc: stm32-mdf: configure cic filters and sample rates
+iio: adc: stm32-mdf: add external timer trigger support
 
-This commit adds helper functions to compute CIC and reshape filter
-decimation ratios, data scaling, and serial clock validation from a
-requested sampling frequency.
+This commit adds STM32 timer and low-power timer trigger definitions, a
+trigger validation callback, and filter trigger source and polarity
+configuration for the STM32 MDF ADC driver.
 
 > diff --git a/drivers/iio/adc/stm32-mdf-adc.c b/drivers/iio/adc/stm32-mdf-=
 adc.c
-> index 411af78911c91..eae7a4fa14851 100644
+> index 046ca3943a397..97099b4adffc6 100644
 > --- a/drivers/iio/adc/stm32-mdf-adc.c
 > +++ b/drivers/iio/adc/stm32-mdf-adc.c
-
 [ ... ]
-
-> @@ -271,6 +329,352 @@ static struct stm32_mdf_adc *stm32_mdf_get_filter_b=
-y_handle(struct stm32_mdf *md
->  	return NULL;
+> @@ -365,9 +405,63 @@ static void stm32_mdf_adc_stop_filter(struct stm32_m=
+df_adc *adc)
+>  				stm32_mdf_adc_stop_filter(adc_inter);
 >  }
 > =20
-> +static int stm32_mdf_adc_compute_scale(struct device *dev, unsigned int =
-decim,
-> +				       unsigned int order, unsigned int data_size)
+> +static int stm32_mdf_adc_get_trig(struct iio_dev *indio_dev, struct iio_=
+trigger *trig)
 > +{
-
-[ ... ]
-
-> +	/* scale =3D 20 * ((DS - 1) * log10(2) - NF * log10(D)) */
-> +	scale =3D 20 * ((data_size - 1) * stm32_mdf_log_table[0].log - order * =
-logd);
+> +	int i;
 > +
-> +	return scale;
+> +	/* lookup triggers registered by stm32 timer trigger driver */
+> +	for (i =3D 0; stm32_mdf_trigs[i].name; i++) {
+> +		/**
+> +		 * Checking both stm32 timer trigger type and trig name
+> +		 * should be safe against arbitrary trigger names.
+> +		 */
+> +		if ((is_stm32_timer_trigger(trig) ||
+> +		     is_stm32_lptim_trigger(trig)) &&
+> +		     !strcmp(stm32_mdf_trigs[i].name, trig->name)) {
+> +			dev_dbg(&indio_dev->dev, "Trigger [%d] found\n", i);
+> +			return stm32_mdf_trigs[i].trgsrc;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
 > +}
 > +
-> +static int stm32_mdf_adc_apply_filters_config(struct stm32_mdf_adc *adc,=
- unsigned int scale)
-> +{
-> +	struct stm32_mdf_adc *adc_inter;
-> +	u32 msk, val;
-> +	int ret, cnt =3D 0;
-> +
-> +	/* Apply conf from filter0 to interleaved filters if any */
-> +	if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave) {
-> +		list_for_each_entry(adc_inter, &adc->mdf->filter_list, entry) {
-> +			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter)) {
-> +				adc_inter->datsrc =3D adc->datsrc;
-> +				adc_inter->cicmode =3D adc->cicmode;
-> +				adc_inter->decim_cic =3D adc->decim_cic;
-> +				adc_inter->nbdis =3D adc->nbdis;
-> +				adc_inter->hpf_cutoff =3D adc->hpf_cutoff;
-> +
-> +				stm32_mdf_adc_apply_filters_config(adc_inter, scale);
-> +				cnt++;
-> +			}
-> +		}
-
-[Severity: Medium]
-Should this loop also copy adc->rsflt_bypass to adc_inter->rsflt_bypass
-and check the return value of stm32_mdf_adc_apply_filters_config()?
-
-Secondary interleaved filters skip filter property parsing during probe,
-so adc_inter->rsflt_bypass stays false even when filter 0 bypasses the
-reshape filter, leaving MDF_DFLTRSFR_RSFLTBYP unset on the secondary
-filters and applying an unintended 4x decimation.  Any register update
-failure on the secondary filters is also ignored.
-
-[ ... ]
-
-> +	/* Configure CICR */
-> +	msk =3D MDF_SITFCR_SCKSRC_MASK | MDF_DFLTCICR_CICMOD_MASK |
-> +	      MDF_DFLTCICR_MCICD_MASK | MDF_DFLTCICR_SCALE_MASK;
-> +	val =3D FIELD_PREP(MDF_SITFCR_SCKSRC_MASK, adc->datsrc) |
-> +	      FIELD_PREP(MDF_DFLTCICR_CICMOD_MASK, adc->cicmode) |
-> +	      FIELD_PREP(MDF_DFLTCICR_MCICD_MASK, adc->decim_cic - 1) |
-> +	      FIELD_PREP(MDF_DFLTCICR_SCALE_MASK, scale);
-> +
-> +	ret =3D regmap_update_bits(adc->regmap, MDF_DFLTCICR_REG, msk, val);
-
-[Severity: Medium]
-Should this use MDF_DFLTCICR_DATSRC_MASK instead of
-MDF_SITFCR_SCKSRC_MASK when programming adc->datsrc into
-MDF_DFLTCICR_REG?
-
-MDF_SITFCR_SCKSRC_MASK is GENMASK(2, 1) whereas MDF_DFLTCICR_DATSRC_MASK
-is GENMASK(1, 0), so adc->datsrc is shifted into bits [2:1] (where bit 2
-is reserved) and bit 0 of DATSRC is left unmasked.
-
-[ ... ]
-
-> +static int stm32_mdf_adc_set_filters_config(struct iio_dev *indio_dev, u=
-nsigned int decim)
+> +static int stm32_mdf_adc_filter_set_trig(struct iio_dev *indio_dev)
 > +{
 > +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +	struct device *dev =3D &indio_dev->dev;
-> +	unsigned int decim_cic, decim_rsflt =3D 1;
-> +	unsigned int data_size =3D STM32_MDF_DATA_RES, order =3D adc->cicmode;
-
-[ ... ]
-
-> +	if (is_power_of_2(decim_cic)) {
-> +		/*
-> +		 * Decimation ratio is a power of 2: D =3D 2 exp n
-> +		 * max scale =3D 20 * (DS - n * NF) * log10(2)
-> +		 */
-> +		log =3D stm32_mdf_log_table[0].log;
+> +	struct iio_trigger *trig =3D indio_dev->trig;
+> +	u32 trgsrc =3D 0;
+> +	/* set trigger polarity to rising edge by default */
+> +	u32 trgsens =3D STM32_MDF_TRGSENS_RISING_EDGE;
+> +	int ret;
 > +
-> +		/* Compute max scale (dB) * 1000 */
-> +		max_scale =3D (20 * (data_size - 1 - (order * (fls(decim_cic) - 1))) *=
- log);
-> +	} else {
-> +		/*
-> +		 * Decimation ratio is not a power of 2
-> +		 * max scale =3D 20 * ((DS - 1) * log10(2) - NF * log10(D))
-> +		 */
-> +		max_scale =3D stm32_mdf_adc_compute_scale(dev, decim_cic, order, data_=
-size);
-> +	}
-
-[Severity: Medium]
-Does the max_scale calculation handle FastSinc mode (adc->cicmode =3D=3D 0)?
-
-As noted in the dflt_max calculation below, FastSinc has a CIC gain of
-2 * D^2, but both branches here (and stm32_mdf_adc_compute_scale() above)
-multiply the decimation log term by order =3D 0.  That treats the CIC gain
-as 0 dB and always selects the maximum +72.2 dB scale (0x18), saturating
-the filter output and overflowing the 32-bit adc->dflt_max when
-decim_cic >=3D 12.
-
-[ ... ]
-
-> +	adc->decim_cic =3D decim_cic;
-
-[ ... ]
-
-> +static int stm32_mdf_adc_check_clock_config(struct stm32_mdf_adc *adc, u=
-nsigned long *sck_freq)
-> +{
-> +	unsigned long cck_expected_freq;
-> +	unsigned int ratio, cic_ratio;
-> +	int ret, error =3D 0;
-
-[ ... ]
-
-> +	/*
-> +	 * Mode SPI:    check Fproc >=3D 4 * Fsck
-> +	 * Mode LF SPI: check Fproc >=3D 2 * Fsck
-> +	 */
-> +	ratio =3D DIV_ROUND_CLOSEST(adc->mdf->fproc, *sck_freq);
-> +	if ((adc->sitf->mode =3D=3D STM32_MDF_MODE_SPI && ratio <=3D 4) ||
-> +	    (adc->sitf->mode =3D=3D STM32_MDF_MODE_LF_SPI && ratio <=3D 2)) {
-> +		dev_dbg(adc->dev, "Wrong Fproc/Fsck ratio [%d]. sitf mode [%d], RSFLT =
-[%s]\n",
-> +			ratio, adc->sitf->mode, adc->rsflt_bypass ? "off" : "on");
-> +		error |=3D STM32_MDF_ERR_MODE_RATIO;
-> +	}
-> +
-> +	/* RSFLT enabled: check Fproc > 24 * Fsck / (MCICD+1) */
-> +	cic_ratio =3D DIV_ROUND_CLOSEST(24, adc->decim_cic);
-> +	if (!adc->rsflt_bypass && ratio <=3D cic_ratio)
-> +		error |=3D STM32_MDF_ERR_DECIM_RATIO;
-
-[Severity: High]
-Can DIV_ROUND_CLOSEST(24, adc->decim_cic) divide by zero here?
-
-mdf_adc_set_samp_freq() calls stm32_mdf_adc_check_clock_config() before
-calling stm32_mdf_adc_set_filters_config(), which is the only place that
-sets adc->decim_cic.  On the first call adc->decim_cic is still 0,
-causing a division by zero, and on later sample rate changes this check
-uses the stale adc->decim_cic from the previous configuration.
-
-> +
-> +	/* If we found an error, try to restore clocks initial settings */
-> +	if (error) {
-> +		ret =3D stm32_mdf_core_restore_cck(adc->mdf);
+> +	if (trig) {
+> +		ret =3D stm32_mdf_adc_get_trig(indio_dev, trig);
 > +		if (ret < 0)
-> +			goto err;
-> +
-> +		*sck_freq =3D clk_get_rate(adc->sitf->sck);
-> +		if (!*sck_freq) {
-> +			ret =3D -EINVAL;
-> +			goto err;
-> +		}
+> +			return ret;
 > +	}
 > +
-> +	return 0;
-
-[Severity: Medium]
-Does stm32_mdf_adc_check_clock_config() accept invalid clock ratios and
-reject valid boundary ratios?
-
-The SPI mode checks above use ratio <=3D 4 and ratio <=3D 2 instead of
-ratio < 4 and ratio < 2, rejecting the valid boundary ratios Fproc =3D 4 *
-Fsck and Fproc =3D 2 * Fsck.  In addition, when error is non-zero, this
-function calls stm32_mdf_core_restore_cck() and returns 0 without
-re-checking whether the restored clock satisfies the frequency and
-Fproc/Fsck ratio constraints.  Finally, mdf_adc_set_samp_freq() computes
-the default sample_freq from sck_freq before calling
-stm32_mdf_adc_check_clock_config(), so if *sck_freq is updated here,
-sample_freq stays based on the old rate.
-
-[ ... ]
-
-> +static int __maybe_unused mdf_adc_set_samp_freq(struct iio_dev *indio_de=
-v)
-> +{
-
-[ ... ]
-
-> +	if (!sample_freq)
-> +		sample_freq =3D sck_freq / MDF_DEFAULT_DECIM_RATIO;
+> +	dev_dbg(adc->dev, "Set trigger source [%d] on filter [%d]\n", trgsrc, a=
+dc->fl_id);
 > +
-> +	ret =3D stm32_mdf_adc_check_clock_config(adc, &sck_freq);
-> +	if (ret)
-> +		goto err;
-> +
-> +	decim_ratio =3D DIV_ROUND_CLOSEST(sck_freq, sample_freq);
-> +
-> +	delta =3D abs(sck_freq - (decim_ratio * sample_freq));
-> +	delta_ppm =3D (1000000 * delta) / sck_freq;
-> +	if (delta_ppm > 1000)
-> +		dev_warn(dev, "Sample rate deviation [%lu] ppm: [%lu] vs [%lu] Hz\n",
-> +			 delta_ppm, sck_freq / decim_ratio, sample_freq);
+> +	return regmap_update_bits(adc->regmap, MDF_DFLTCR_REG,
+> +				  MDF_DFLTCR_TRGSRC_MASK | MDF_DFLTCR_TRGSENS,
+> +				 FIELD_PREP(MDF_DFLTCR_TRGSRC_MASK, trgsrc) |
+> +				 FIELD_PREP(MDF_DFLTCR_TRGSENS, trgsens));
+> +}
 
 [Severity: High]
-Can sck_freq / decim_ratio divide by zero when a caller requests
-sample_freq > 2 * sck_freq?
+Does stm32_mdf_adc_filter_set_trig() leave trgsrc at 0 when a trigger is
+attached?  The return value of stm32_mdf_adc_get_trig() is checked in ret
+but never assigned to trgsrc, so MDF_DFLTCR_REG is always programmed with
+trigger source 0 (TRGO) instead of the selected external timer trigger.
 
-DIV_ROUND_CLOSEST(sck_freq, sample_freq) rounds decim_ratio down to 0
-before stm32_mdf_adc_set_filters_config() validates the decimation range,
-and delta_ppm then evaluates to 1000000, hitting sck_freq / decim_ratio
-in dev_warn().  Similarly, if requested_sample_freq is 0 and
-sck_freq < MDF_DEFAULT_DECIM_RATIO, sample_freq becomes 0 and
-DIV_ROUND_CLOSEST(sck_freq, sample_freq) divides by zero.
+> +
+> +static void stm32_mdf_adc_filter_clear_trig(struct iio_dev *indio_dev)
+> +{
+> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
+> +
+> +	regmap_update_bits(adc->regmap, MDF_DFLTCR_REG,
+> +			   MDF_DFLTCR_TRGSRC_MASK | MDF_DFLTCR_TRGSENS, 0);
+> +}
+
+[Severity: Medium]
+In interleaved mode, should stm32_mdf_adc_filter_set_trig() and
+stm32_mdf_adc_filter_clear_trig() also update the secondary interleaved
+filters in adc->mdf->filter_list, and should stm32_mdf_adc_start_conv()
+skip pulsing MDF_GCR_TRGO when indio_dev->trig is set?
+
+Unlike stm32_mdf_adc_filter_set_mode(), these helpers only write filter 0's
+MDF_DFLTCR_REG, leaving secondary interleaved filters configured for
+TRGSRC =3D 0 (TRGO).  Because adc->trgo is set at probe time for interleaved
+and synchronized master filters, stm32_mdf_adc_start_conv() still calls
+stm32_mdf_core_trigger(adc->mdf) during buffer enable, starting the
+TRGO-triggered filters immediately while filter 0 waits for the external
+timer edge.
+
+[ ... ]
+
+> @@ -1377,6 +1479,7 @@ static const struct iio_info stm32_mdf_info_adc =3D=
+ {
+>  	.write_raw =3D stm32_mdf_adc_write_raw,
+>  	.read_raw =3D stm32_mdf_adc_read_raw,
+>  	.read_label =3D stm32_mdf_adc_read_label,
+> +	.validate_trigger =3D stm32_mdf_adc_get_trig,
+>  };
+
+[Severity: High]
+Will wiring stm32_mdf_adc_get_trig() directly as .validate_trigger reject
+every valid trigger?  stm32_mdf_adc_get_trig() returns a positive trgsrc
+value (0x2..0xc) on match, whereas current_trigger_store() in
+drivers/iio/industrialio-trigger.c treats any non-zero return from
+validate_trigger() as an error and aborts assigning indio_dev->trig.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-upstream_m=
-df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D6
+df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D9
