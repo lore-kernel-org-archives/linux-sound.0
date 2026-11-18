@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794996471;
-	b=mLbu8/UnDuNAM87zLfNqEPtIpZq+1c/rtZi0VCSG3HqWVIyqf8xZPFcNH9npcmlEnD7i
-	 v7GAOpvNOnn8szNVKVdWvH1O7WDEGBdiYas2MncamStD63WRHyIsH8T1FNkM5Q+N5W/hW
-	 0hyisaaVwURn6KIl3Y72l0DgsG9g/Jih52COomlZpVEwye1ztkc4nk1w642xANS4LNUmK
-	 t/fFEL3o1XTTP/k4frTKko4JZ0yUpDQ8aRH+BAMqwGxwknLBfxmfSwDklugI6kxGZxVuP
-	 rASRLyadkdFtX1W1NjAGZKYfrXJqp//DPluyx5GTk/2oshhUVD/qfH9QU1gLvS7doKQ==
+	t=1794996477;
+	b=Z+p1uJCHmze3x054Ah58TJDwJIhU00taePHUN9yJmmKqqTgtSxqQfwsSc14jI+Fb1u0H
+	 f5/nQfaPzj0zZXX5530mrMuAkKVq1jQ6Q3QNmzCslOO/ecbBwg1VKZ8VxEqpKi7RGnioy
+	 25vXusTZepYBYVOTYEtwq/wUpA1UzrhqxQBCZfI7KMH3Dp/P89EgB/OWneU4dw5WImq2k
+	 homG5fgXOKPyhOK7yP4VP46zBjIqDVFBtEXwh3dfELaSBSz9tzvCHhINone2xgejpWxke
+	 YQwuZSvAY09XGlFvqLUD5sLnF3LhwxOLe1D3Mm+YNy6KKuF16jFEkDEZVcIFQCKvwCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794996471;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794996477;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=T5MWPlFjQcs/AXGmMiLfNtV+jA2eKvI6Y07n7HW2V7A=;
-	b=SF9AXJCEludzKHp9gxecOsFegqaO9mpkC0Dlvf4Zw0TBDj++aWnITpDE1ycobwafAaIz
-	 Et1lz6YTH6yKDNKnEhFALiz49mfTse5EBD+fPnnrCp5TW6UPQHlZTSgVQCZkuyeoalKwR
-	 7NdKnHanEdZl2lGq0oTYorVJL06TAvLNiGPJNvfrcB7wmPeXZ6KdDdsEWIOWuZWq2/XNP
-	 c/q+qn1+wWrPRz1HXAzcFc0jCWdv8ENL8W3GEca+sMT3Zhw0ZFm7uUZAIs1F+wwrmiUHV
-	 zXbTm474VK60bnJjiPfWKETtk4huml7hbg9MzGZSbb0GJy5TZyTqfOvWJMry/5fnPhw==
+	bh=4K6+J+FWfITr/tXSH3N65sGYtsLB/T4KBT20GPIXyQM=;
+	b=E2XFmOIfo1iXrIe9ErkivqTsR2B4MFudcYNGS399YP5xba/H+TR8GTJocWF1myGN2CYN
+	 l9KC0NcN/HsTbszRtmKC+DHKO14F3BbLKRSO/2MbAQEhti4BEIEn3dRmj7DMzIhkBxgv9
+	 4B7Y/LlH4YW9qo+EH9BCUqUPAmeXFWvtIoPZ+1C04xI0gE8lljwM0DOpKrPzopHE30REG
+	 KlPmDqD8dFR1Ef5yMC836azQYLtRNDq8XXW46UxQ7gz4VDgE/OJeXhxH+O4iw2Y9LSZKv
+	 MLfkZycrh0fd/LrRhEbVcGAoQ80Qfxlnan5BmNaTiXBgBVOVTzr7tmUtCCTQsW351KQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xNjoaYdZ;
-	arc=none smtp.remote-ip=209.85.214.170
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L41oRpCm;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2026A606A32C
-	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 10:07:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2026A606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5B5606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 10:07:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A5B5606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xNjoaYdZ
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2eff722a480so4044375ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 02:07:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=L41oRpCm
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2efe0e3bdceso3576355ad.2
+        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 02:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794996470; x=1795601270; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794996476; x=1795601276; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=T5MWPlFjQcs/AXGmMiLfNtV+jA2eKvI6Y07n7HW2V7A=;
-        b=xNjoaYdZ3fp+JBZdfRLf/gsEcdz8cUOZq99paV2bM6rn9OAHbrpCaR9CQTojsBwA9U
-         HTP+rZ1Q5RHwF9wuhl4Spf611fvNSIybZGOFL3Olx2RjUhoUV5Bzrh0ZQMz+CqlNvoAw
-         ZWqsBXjmlSHKWmLfzrvd3lfIaftaZ52T6S9J/ZWf91aA53lL0nYrMm0TOcCHW2wv+7TT
-         Euc7pgpO50u+K1I6+u676NL8b6gbwlv3DdMDqZsVfaGf8wDwJux5Z8UngbPP3FQj8eAE
-         D792mTM9FAOJvTrfgsxN4v2m61YB82ghg0W/w4SwyHisZY2EfZpo6GK3s0m3DZ8XCj/z
-         Ub4A==
+        bh=4K6+J+FWfITr/tXSH3N65sGYtsLB/T4KBT20GPIXyQM=;
+        b=L41oRpCmZZauvMi/GJY4qNMiQdcAwddGvTG0iJoCxkWBwGfSDCHcUGBC2kRdsNxrdY
+         6xQZ2PsiS6yQMVMPSj0Jv+vQz5eP2aGOeXv3TzuThyR9tLQY+vWecNgyT9QGel7dz7sG
+         2KUYgphMTMZCecGkpVpgd2rOWHvudnV+Kdc+PI2d0zCVAVlC+wzgLCRQrfhgZ39pIDEp
+         0RnsaMGGFbnn9bca3VCXrWWbr4etFY6RJuzDiVkCqrgC1lP5s3VBeSxjicJxUOc/uiHt
+         ML7Rj+ZpC1IT7pXmE60iJc/By4sdrtF8/xb0JVsddwr/p1DUR4Fz8YECXBC9BlsoFDIW
+         sGMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794996470; x=1795601270;
+        d=1e100.net; s=20260707; t=1794996476; x=1795601276;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=T5MWPlFjQcs/AXGmMiLfNtV+jA2eKvI6Y07n7HW2V7A=;
-        b=YFafpZdeOyUsRO61l46yT4cvWB1mbM9M+fYFBG6SBHozLESvcJUAHxCtaZWSsqRhVU
-         se7uqQ+bnjgJNr5TWWbVLx7nUjEzX2eMechuanM7DgBbyTUIc2TNQHKYnuOV6ua6XHql
-         8Ez9SB2YimdbJ61fW3vaAthQtvhTvncuOEwiWGi5NyM09mF5d5horgNgagBueGuVXsv0
-         fmGyUljAOFQBC9zIB4Zbi+aZfKIjrWucAgldP40Ju1XYGrZFmbR5UjpcTnwkeqeQlO3A
-         J7fR4FHERuezJeyl0/cNZBaazVKoy6ZCiL/JYrqvlPkHfyVPi4GSs2z35PsunwBEEGVN
-         voyQ==
-X-Forwarded-Encrypted: i=1; AL+hErGJtturTJESCjCncPuKq76eFaT4yMZcrS24N98Vumwihk1WjX+l5ewn4jJdKfsywKtHPtMVCmknyRYQgg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z88Dwfe6KswtqJOv5gRtrhoQtT3OPQiRF5crwotdIUVaJSryGxI
-	t7NtcWEy8gffyUbrj+hFXCT2TLB6/TLGBhRt8urmtbr9/UDxYFcEWddE
-X-Gm-Gg: AZFdTZeZmX4lU19S1OtaXht/vjejaahpqN5hxAk2jZdPDb+9dsM2vynw63QBf2hN3ab
-	jV9B0mvxYhCZnl28FEk5dhO591ylwALMPn70MkAq4Sbt27ETbq/1RNTlCV5Jk3JpDdEy+zP9BjD
-	zq8d+m9fIL+wPW5OA9oZd7lBcHRdhAUD05JTrnrfsErf7clQj/4zZcIMSXfHPXDY89OqLtKw6nq
-	Erj1SVYFIDpTMig8ViCJpKUnOOy77pyAzSC7tUXIJh4+X6wKhqzj6iVrdNt3tQbPM3aSOa8Gz1H
-	sD0oSQNPvtXqcRqUUdSP5jQt6yHkM1Po+dWJZR5PKLSI9Nw+EYtglCQq7n4hudIiXMPrtzeti9i
-	9mcIrQMu5xuf83mrG1V2Dg6JQtlhWNPKVxldFhOODzZSA3XoSSntkAXoNBPeMGLRJUOcAueotGj
-	fGSxkdDDf3i2/akweZeFYOVGynrZta7kzRkEhLgDviv9RsEoxD+BJB+tPDRFaS+Kna5hN/+tShd
-	wv4Hb6yqZVTat1IExbx3z0ExWR5cxWE1S3NrBeyUgGH5eqUSBdHBHfmmR+klTp17CEdNC7V2QuC
-	18skPS9GrUo8Xa1QJhK5cE7FWUqMJAAlDoATzQpiVpfisaroP2tUpFTWt+OzQBXXLIa5FXaBcgI
-	1/8zifuIZy3qM5umLannyJkMWOn3flN7CBPhHqSfi2lMm
-X-Received: by 2002:a17:903:1a8d:b0:2dd:c053:b9cb with SMTP id d9443c01a7336-2eff753ebc6mr15920055ad.28.1794996470442;
-        Wed, 18 Nov 2026 02:07:50 -0800 (PST)
+        bh=4K6+J+FWfITr/tXSH3N65sGYtsLB/T4KBT20GPIXyQM=;
+        b=spf6rtKktFNY9zcl86Bf7n2eMdg2v3zLAOwd+5R+7lbHSN3cottUsyt7fuSR5beuNh
+         CBMutkWeaUw3Uhm+FjMJjhPUbsAuF5k+8Wqxi5//HCFbo6OfMaS7fBkzMWGy3ec6CeSf
+         MRjS4ZVxctLQERNwVaJM/9oB45AFJSjB+/j2FPSDiJ0YpuCdGyAJzwNz1lglRA1rB3rO
+         abzr4twZHHGyL1cy0dvn4VQ3cKzXeBmqvEI8V2XZ/3Nr7gAPEy3Nv09c/aVOvkJtiTUb
+         NuFvllUavdZvvzIf1R6Jh6+DHjEXBNMCSLG8AlnxghgPBxVBsQd65LLfqnn1qOIoif/A
+         hGMQ==
+X-Forwarded-Encrypted: i=1; AL+hErH9che1QAiAJCC0jkknimPREauOT2zA0qV8Q55bRFs/VI/8d6airXf8h/2ivpv6vDFVfSDrH/+vuBIYAg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/v6ttnJRna8Oh2sR4hL2CxkBNquiPcq+fzVl4PRnu2JJq11uzX
+	ikAyEeIMmRjE9tX8IRBAnR/vQvCrChy/Dn+ZUSmQ4Z2RrPtuhykYWl72
+X-Gm-Gg: AZFdTZdifkCvME09RvWA3cdg8PxSybOXmaQhNojulFUbzXw4GqG/K6ixN21fhfVs2nd
+	46KYZU2ryWjGF+wJdASo9LC/Gpjq7ZvBOFYL98HCCDDo5plNTKPkeV+4/KJlF8UZ0PatNicuK1l
+	df1V72En+pWI7kvBdevCXWK8C0ilgnQ5RMyiMkb2oiGsgmyDJhNUdOlTB4FKXjy09nEMuaOKBZE
+	blvnpdHSJ4IkvFdH8P7YWpU/1g0qIHXbogZvevsubtSK377WtyYZS56ob+KWT75iB5qMP6rojTt
+	dtUr0qp6Ks6QLfvqropUfEGN3YQcuNqWgGeJpFBdehfR/b/AiMnPNT+s+P78UQhTP0aicE2AZ62
+	K4iNWkFqXRjgdsCyqZFp9nhTNZ1Ue7I2szDxV38FdII17xY3POhqjXdoaP7SkRhl2FU8WDBFXth
+	hTkSqDRRKK6tpMP4B50YvJEifs2VHnRVdU7JJZV07BINSll1uc3ElRapG69pcrge+x+93BGfaNh
+	mAPgWTdQ9WsSVyFJ/iKxeRmPs97jkpsJ/5BIm0yuucRi58ZvXbNbns9kzu2p+Ndz+UqgPYYhFMF
+	8yXyFMuZs+ecRHFSnbdoZplic38E9o9zyLrv6n7gFUPAdDRZnYbl9H570hacezPhe1VG7QpEUKZ
+	1lvmsxKGBxzj1HdoBB9wosrW28Vz+iY9uduMIKZt52GcL
+X-Received: by 2002:a17:903:1ae4:b0:2e9:d0fd:639c with SMTP id d9443c01a7336-2eff7569fd1mr19749265ad.55.1794996476359;
+        Wed, 18 Nov 2026 02:07:56 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff6215025sm10634145ad.46.2026.11.18.02.07.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff6215025sm10634145ad.46.2026.11.18.02.07.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 02:07:50 -0800 (PST)
+        Wed, 18 Nov 2026 02:07:56 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 1/2] ASoC: fsl: lpc3xxx-i2s: Simplify error handling
-Date: Wed, 18 Nov 2026 17:06:30 +0700
-Message-ID: <20261118100631.26658-2-phucduc.bui@gmail.com>
+Subject: [PATCH 2/2] ASoC: fsl: lpc3xxx-i2s: Fix DMA depth configuration
+Date: Wed, 18 Nov 2026 17:06:31 +0700
+Message-ID: <20261118100631.26658-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261118100631.26658-1-phucduc.bui@gmail.com>
 References: <20261118100631.26658-1-phucduc.bui@gmail.com>
@@ -110,39 +110,34 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Return -EBUSY directly when the I2S channel is already in use.
+The transmit and receive paths use the wrong DMA depth macros.
+Use the macros corresponding to the DMA registers being configured.
 
-Also remove the redundant error pointer from the regmap initialization
-error message, as dev_err_probe() already reports the error.
-
+Fixes: 0959de657a10 ("ASoC: fsl: Add i2s and pcm drivers for LPC32xx CPUs")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/fsl/lpc3xxx-i2s.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/soc/fsl/lpc3xxx-i2s.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/fsl/lpc3xxx-i2s.c b/sound/soc/fsl/lpc3xxx-i2s.c
-index 757e0619d368..75bd148c1432 100644
+index 75bd148c1432..67bbc69dc2d2 100644
 --- a/sound/soc/fsl/lpc3xxx-i2s.c
 +++ b/sound/soc/fsl/lpc3xxx-i2s.c
-@@ -82,8 +82,7 @@ static int lpc3xxx_i2s_startup(struct snd_pcm_substream *substream, struct snd_s
+@@ -198,12 +198,12 @@ static int lpc3xxx_i2s_hw_params(struct snd_pcm_substream *substream,
  
- 	if (flag & i2s_info_p->streams_in_use) {
- 		dev_warn(dev, "I2S channel is busy\n");
--		ret = -EBUSY;
--		return ret;
-+		return -EBUSY;
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+ 		regmap_write(regs, LPC3XXX_REG_I2S_DMA1,
+-			     LPC3XXX_I2S_DMA1_TX_EN | LPC3XXX_I2S_DMA0_TX_DEPTH(4));
++			     LPC3XXX_I2S_DMA1_TX_EN | LPC3XXX_I2S_DMA1_TX_DEPTH(4));
+ 		regmap_write(regs, LPC3XXX_REG_I2S_TX_RATE, (clkx << 8) | clky);
+ 		regmap_write(regs, LPC3XXX_REG_I2S_DAO, tmp);
+ 	} else {
+ 		regmap_write(regs, LPC3XXX_REG_I2S_DMA0,
+-			     LPC3XXX_I2S_DMA0_RX_EN | LPC3XXX_I2S_DMA1_RX_DEPTH(4));
++			     LPC3XXX_I2S_DMA0_RX_EN | LPC3XXX_I2S_DMA0_RX_DEPTH(4));
+ 		regmap_write(regs, LPC3XXX_REG_I2S_RX_RATE, (clkx << 8) | clky);
+ 		regmap_write(regs, LPC3XXX_REG_I2S_DAI, tmp);
  	}
- 
- 	if (i2s_info_p->streams_in_use == 0) {
-@@ -320,7 +319,7 @@ static int lpc32xx_i2s_probe(struct platform_device *pdev)
- 	i2s_info_p->regs = devm_regmap_init_mmio(dev, iomem, &lpc32xx_i2s_regconfig);
- 	if (IS_ERR(i2s_info_p->regs))
- 		return dev_err_probe(dev, PTR_ERR(i2s_info_p->regs),
--				     "failed to init register map: %pe\n", i2s_info_p->regs);
-+				     "failed to init register map\n");
- 
- 	i2s_info_p->clk = devm_clk_get(dev, NULL);
- 	if (IS_ERR(i2s_info_p->clk))
 -- 
 2.43.0
 
