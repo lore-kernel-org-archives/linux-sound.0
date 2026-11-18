@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795017327;
-	b=GBNUQIPcyZA0AmLdDFdalzI4ud2N3x+PdiE89VwW+W392TKGGQaPgrLrc8ECN9JMw6xf
-	 dnvYDjpPWMl6ATVCmAVGeInf1zvE1pg9uexz33sMkt0Gojw2I0lAea+zeG4RhMsXs0axb
-	 h7tUya9PoJhGm0pJxy6J9CkEd9n3+1h+6rZ3OMrJ5u/sHQHpv/Dz6Fh5K5Udv9bzsyy8S
-	 AD9LRTMNq+Ev6qrPRTdX0O8SYZxSc8Y6FMg8rlW5yZEakIxRtlRc0d1V2fLjY46OLex3j
-	 Y5R0Iu4S7SZJj6ZN0c27eBruvShxhWJy+7qqN1umyYoLgzeswT/GDg2AclwBAAQ56FQ==
+	t=1795017965;
+	b=oBEeUBtLGsDWcTNMT1OPASc4f1AJ+K0oUlYI6c+hVFO96arhv9ru3VwjK0mcp+o37/u/
+	 jlkFKXsqSncOJ43Dbpl0Sd6BGXW0QQDbWDi7aVLKd8fEIjPtSbXyO4vDF207OJPNubDjf
+	 XkbxkUifnfNVc4xDm9eTdI0FXATsQx2uevqnLR4/uZLY+AaSQHytH/aK6T63bHD/jmsY+
+	 pKf/xoNtz7GGBVDcRP0wTSFjMkFGs3YwIc6Hq94LFxAprVP5jO3MELWPi5T0GUiRfp5cx
+	 LH4Y+AiKAxjgkopaZQFAiaU4nMDnsYmilpg06zT21iqnUtD4wwPvXn+lFkwgpjqAHow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795017327;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017965;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=JbPTscy6XZXo8W16Ivu0imnpcVsF77/edhRp63Vu/UM=;
-	b=F1+lhjIxt7DF3w1bLCEp9o/VIZim2I97Sr6TtmUlzs34dfwcyKmi/OBcUMlZdVl3bD2S
-	 9YSnfZNgSW1u3cbu9LatplLuQt5USd0apPvjUJfczotmJmSY+thm/0Ybf3wKiMvzHfHox
-	 W89VghxAGznva1VdPATPNsoOtNUBKdw7edRWNcGIhKrRDAfnOX9oaKm4n30tRfeYSUXON
-	 HsIXhxX3q9zfBEevry/w7fDx694oKm23b/p+kHc0s8lAbdtcsClI0TMGIs3paS2Sjila3
-	 /poV+EFCkuTfyTmXmpIfxQB+YL/9CHHbhUwZrUYs6SVe0EGKEpHPvN/qBIqidxM7Q/w==
+	bh=oKFR3bZi6v5pv8+3J77rAPs59izk8whRqH7B/hgm/+g=;
+	b=tM2tYM6AWapXnA73S88s4na4Ix/L6FPbzl4ombAbktX+bPjb9MQY97h7Ek9T5zZYBKk7
+	 +/4mK6yGotlHPH+MCnhiwBPLUHm4ri/MylaorD8Zsu5ugzVUz93Ah+lohyHySoYZJxMSC
+	 U6XEEk90215n1lJqe5xM+sUPK9BF6F5sisQEeM7ghoMsRwosCgnps2rYi9BVAn6LT+zQi
+	 yUJ9x+dQFHpJKsa0XO8ZC9rlhUZKTmt0laIx0wLXPGWy400HWP+OHp4sj9kLBL7fEnrC8
+	 7fI7Ecri1jXoEeU1x4Q0pYitF3aH2kEY0EGpocyoOh53CH/ydKrMBshIUb6T4INottg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GXJTGz19;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BEsSZ/LL";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B520606A336;
-	Wed, 18 Nov 2026 15:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E83606A325;
+	Wed, 18 Nov 2026 16:06:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GXJTGz19
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868401F000C4;
-	Wed, 18 Nov 2026 15:55:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BEsSZ/LL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D051F000C5;
+	Wed, 18 Nov 2026 16:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795017326;
-	bh=JbPTscy6XZXo8W16Ivu0imnpcVsF77/edhRp63Vu/UM=;
+	s=k20260515; t=1795017964;
+	bh=oKFR3bZi6v5pv8+3J77rAPs59izk8whRqH7B/hgm/+g=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GXJTGz19LAjAtSyx2MzkxN0S/bgfvKKC1uKTGd4tN2gEOxqG5nTq9OiLJcWFVft/G
-	 CXWJ7oCOP24vSSfu9xNmOOIvL1r1L1OTBNFc4E5GtyVRPSq/biwqkYKwcae739iQIt
-	 VLy7JxHJrOFyYX6a43s4oijM1paBBrm6Rkr/cNOAq2j1c4PdaMHXkJ6OWvodx36VMy
-	 D0KqcM7w2ktySpaaDaw9cvYuOMCzdTahpdI81TRVlZ8Xe5ZhlB7e7c6mL0aollVSDf
-	 QW4VWYGPKDf+/MdXaGdpJcm+6rzPoVjBJ9ZyPLpJ3i2S0YhBaBMwG39ZJY3QnLzFq6
-	 vxLAWMOlUdO7A==
-Message-ID: <sashiko-outbox-221387@kernel.org>
+	b=BEsSZ/LLc9TIpPGshcx6KgoMX0pl9XPhtr9ssiQDYkhcqppT9yve6scnGjYfR4p6T
+	 FOCyx55/f5kxgz0pBzKGCVysl7A9tRqxWzzT2YJsk16mcLG2fbCfPEiKN5Djvbh+1V
+	 9xWL+bACejYse/E/m2vjKyhTRLIPalwtSq14Fwde+i3fSru4GJ6pj4REMMtD7vkEcM
+	 p18Cw5TkVaKAgERpfFyhB+t+N9z1Tm8wbdUlIy0dBasD2pbGJ2PeThv/ihfOIdYNXV
+	 DzNKoCUqE08+FYzpyPj1RcIZca8s/LBRB9W+nh62obVoQ4IqzoXIqyjXYN95oypP43
+	 8bKLB7MQKmrbw==
+Message-ID: <sashiko-outbox-221421@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 08/11] iio: adc: stm32-mdf: add dma buffered
- acquisition support
+Subject: Re: [PATCH v2 10/11] iio: adc: stm32-mdf: add dmic audio filter
+ support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Olivier Moysan" <olivier.moysan@foss.st.com>
 Cc: devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org
-In-Reply-To: <20261118-upstream_mdf_v2-v2-8-7939d3c3720a@foss.st.com>
+In-Reply-To: <20261118-upstream_mdf_v2-v2-10-7939d3c3720a@foss.st.com>
 References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
- <20261118-upstream_mdf_v2-v2-8-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-10-7939d3c3720a@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Nov 2026 15:55:26 +0000
+Date: Wed, 18 Nov 2026 16:06:03 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,317 +61,288 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 9 potential
+Thank you for your contribution! Sashiko AI review found 5 potential
 issues to consider:
-- [High] iio: adc: stm32-mdf: no-op W1C clear in stm32_mdf_irq() causes
-  IRQ storm
-- [High] iio: adc: stm32-mdf: broken interleaved suspend and resume
-  ordering
-- [High] iio: adc: stm32-mdf: NULL thread_fn in
-  devm_iio_triggered_buffer_setup()
-- [Medium] iio: adc: stm32-mdf: wrong W1C clear in
-  stm32_mdf_adc_postenable()
-- [Medium] iio: adc: stm32-mdf: uncleaned IRQs on error in
-  stm32_mdf_adc_postenable()
-- [Medium] iio: adc: stm32-mdf: unbalanced kclk prepare in
-  stm32_mdf_adc_suspend()
-- [Medium] iio: adc: stm32-mdf: zero-size cb on wrap in
-  stm32_mdf_adc_dma_buffer_done()
-- [Medium] iio: adc: stm32-mdf: missing available_scan_masks for
-  interleaved mode
-- [Low] iio: adc: stm32-mdf: unused PM callbacks when CONFIG_PM_SLEEP is
-  disabled
+- [High] iio: adc: stm32-mdf: race updating cb and cb_priv in
+  stm32_mdf_get_buff_cb()
+- [Medium] iio: adc: stm32-mdf: out-of-bounds or uninitialized channel
+  in stm32_mdf_audio_init()
+- [Medium] iio: adc: stm32-mdf: unlocked freq reset in
+  stm32_mdf_adc_write_raw()
+- [Medium] iio: stm32-mdf: bad mask and bypass in
+  stm32_mdf_adc_apply_filters_config()
+- [Low] iio: adc: stm32-mdf: inaccurate kernel-doc Return for
+  stm32_mdf_get_sub_channels_nb()
 --
 
-commit abc251af1764611faf8f05bc9f73b60d34b2ef36
+commit dd4cd2a4f3dd0be22589f1468dca26c3807bd280
 Author: Olivier Moysan <olivier.moysan@foss.st.com>
 
-iio: adc: stm32-mdf: add dma buffered acquisition support
+iio: adc: stm32-mdf: add dmic audio filter support
 
-This commit adds cyclic DMA buffered acquisition, watermark configuration,
-and system suspend/resume support to the STM32 MDF ADC driver.
+This commit extends the STM32 MDF filter driver to support digital
+microphone audio filters and adds callback and sub-channel helpers for
+audio consumers.
 
 > diff --git a/drivers/iio/adc/stm32-mdf-adc.c b/drivers/iio/adc/stm32-mdf-=
 adc.c
-> index 7361ce6182bec..046ca3943a397 100644
+> index 97099b4adffc6..27c47bef71a42 100644
 > --- a/drivers/iio/adc/stm32-mdf-adc.c
 > +++ b/drivers/iio/adc/stm32-mdf-adc.c
-> @@ -823,6 +823,243 @@ static void stm32_mdf_adc_stop_conv(struct iio_dev =
-*indio_dev)
 [ ... ]
-> +static void stm32_mdf_adc_dma_buffer_done(void *data)
-> +{
-> +	struct iio_dev *indio_dev =3D data;
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +	int available =3D stm32_mdf_adc_dma_residue(adc);
-> +	size_t old_pos;
-> +
-> +	dev_dbg(&indio_dev->dev, "pos =3D %d, available =3D %d\n", adc->bufi, a=
-vailable);
-> +	old_pos =3D adc->bufi;
-> +
-> +	while (available >=3D indio_dev->scan_bytes) {
-> +		s32 *buffer =3D (s32 *)&adc->rx_buf[adc->bufi];
-> +
-> +		adc->bufi +=3D indio_dev->scan_bytes;
-> +		if (adc->bufi >=3D adc->buf_sz) {
-> +			if (adc->cb)
-> +				adc->cb(&adc->rx_buf[old_pos], adc->buf_sz - old_pos, adc->cb_priv);
-> +			adc->bufi =3D 0;
-> +			old_pos =3D 0;
-> +		}
-> +		if (adc->dev_data->type =3D=3D STM32_MDF_IIO)
-> +			iio_push_to_buffers(indio_dev, buffer);
-> +		available -=3D indio_dev->scan_bytes;
-> +	}
-
-[Severity: Medium]
-In multi-channel interleaved mode on Filter 0, hardware and DMA always
-transfer all num_ch 32-bit samples per scan into adc->rx_buf, but
-stm32_mdf_adc_init() never sets indio_dev->available_scan_masks.  If a
-user enables only a subset of channels in scan_elements, does stepping
-adc->bufi by the smaller indio_dev->scan_bytes without an IIO demux table
-push samples from disabled interleaved filters as if they belonged to the
-enabled channel?
-
-> +	if (adc->cb)
-> +		adc->cb(&adc->rx_buf[old_pos], adc->bufi - old_pos, adc->cb_priv);
-> +}
-
-[Severity: Medium]
-When adc->bufi wraps around to 0 at adc->buf_sz inside the loop, both
-adc->bufi and old_pos are reset to 0 after invoking adc->cb().  Does this
-trailing check then call adc->cb() a second time with a size of 0 on every
-buffer wrap-around (and whenever available < indio_dev->scan_bytes)?
-
-[ ... ]
-
-> +static int stm32_mdf_adc_postenable(struct iio_dev *indio_dev)
-> +{
-[ ... ]
-> +	stm32_mdf_adc_filter_set_mode(adc, true);
-> +
-> +	regmap_clear_bits(adc->regmap, MDF_DFLTISR_REG,
-> +			  MDF_DFLTISR_DOVRF_MASK | MDF_DFLTISR_SATF_MASK);
-
-[Severity: Medium]
-Status flags in MDF_DFLTISR_REG are write-1-to-clear (rc_w1).  Because
-MDF_DFLTISR_REG is volatile, regmap_clear_bits() reads the register and
-writes back the value with MDF_DFLTISR_DOVRF_MASK | MDF_DFLTISR_SATF_MASK
-masked to 0.  Does this leave pending DOVRF and SATF flags asserted right
-before enabling their interrupts, while inadvertently writing 1 to clear
-any other asserted status flags in MDF_DFLTISR_REG?  Clearing DOVRF and
-SATF requires regmap_write().
-
-> +
-> +	regmap_set_bits(adc->regmap, MDF_DFLTIER_REG,
-> +			MDF_DFLTIER_DOVRIE_MASK | MDF_DFLTIER_SATIE_MASK);
-
-[Severity: High]
-Enabling MDF_DFLTIER_DOVRIE_MASK and MDF_DFLTIER_SATIE_MASK here makes the
-overflow and saturation handlers in stm32_mdf_irq() reachable:
-
-drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_irq() {
-    ...
-	if (flags & MDF_DFLTISR_DOVRF_MASK) {
-		dev_warn(&indio_dev->dev, "Data overflow detected\n");
-		regmap_set_bits(regmap, MDF_DFLTISR_REG, MDF_DFLTISR_DOVRF_MASK);
-	}
-    ...
-	if (flags & MDF_DFLTISR_SATF_MASK) {
-		dev_warn(&indio_dev->dev, "Saturation detected\n");
-		regmap_set_bits(regmap, MDF_DFLTISR_REG, MDF_DFLTISR_SATF_MASK);
-    ...
-}
-
-Because MDF_DFLTISR_REG is volatile and regmap_set_bits() passes
-force =3D false, _regmap_update_bits() reads MDF_DFLTISR_REG, sees the
-status bit is already 1, and skips the bus write.  If a data overflow
-occurs during DMA acquisition, will MDF_DFLTISR_DOVRF_MASK remain set
-while MDF_DFLTIER_DOVRIE_MASK stays enabled, causing an infinite hardirq
-storm?
-
-> +
-> +	ret =3D stm32_mdf_adc_dma_start(indio_dev);
-> +	if (ret) {
-> +		dev_err(&indio_dev->dev, "Can't start DMA\n");
-> +		goto err_dma;
-> +	}
-> +
-> +	ret =3D stm32_mdf_adc_start_conv(indio_dev);
-> +	if (ret) {
-> +		dev_err(&indio_dev->dev, "Can't start conversion\n");
-> +		goto err_conv;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_conv:
-> +	stm32_mdf_adc_dma_stop(indio_dev);
-> +err_dma:
-> +	stm32_mdf_adc_stop_mdf(indio_dev);
-
-[Severity: Medium]
-If stm32_mdf_adc_dma_start() or stm32_mdf_adc_start_conv() fails (for
-example, when adc->buf_sz is 0), does the err_dma unwind path leave
-MDF_DFLTIER_DOVRIE_MASK | MDF_DFLTIER_SATIE_MASK enabled in
-MDF_DFLTIER_REG?
-
-[ ... ]
-
-> @@ -1208,6 +1467,24 @@ static int stm32_mdf_adc_init(struct device *dev, =
-struct iio_dev *indio_dev)
+> @@ -1128,6 +1129,42 @@ static const struct iio_buffer_setup_ops stm32_mdf=
+_buffer_setup_ops =3D {
+>  	.predisable =3D &stm32_mdf_adc_predisable,
+>  };
 > =20
->  	init_completion(&adc->completion);
-> =20
-> +	/* Optionally request DMA */
-> +	ret =3D stm32_mdf_dma_request(dev, indio_dev);
-> +	if (ret) {
-> +		if (ret !=3D -ENODEV)
-> +			return dev_err_probe(dev, ret, "DMA channel request failed with\n");
-> +
-> +		dev_dbg(dev, "No DMA support\n");
-> +		return 0;
-> +	}
-> +
-> +	ret =3D devm_iio_triggered_buffer_setup(dev, indio_dev,
-> +					      &iio_pollfunc_store_time, NULL,
-> +					      &stm32_mdf_buffer_setup_ops);
-
-[Severity: High]
-Can attaching an IIO trigger and enabling the buffer crash or wedge the
-kernel here?
-
-devm_iio_triggered_buffer_setup() sets INDIO_BUFFER_TRIGGERED and
-allocates indio_dev->pollfunc with h =3D iio_pollfunc_store_time,
-thread =3D NULL, and type =3D IRQF_ONESHOT.  When a trigger is attached and
-the buffer is enabled, iio_verify_update() selects INDIO_BUFFER_TRIGGERED
-over INDIO_BUFFER_SOFTWARE and iio_trigger_attach_poll_func() calls
-request_threaded_irq() with IRQF_ONESHOT and thread_fn =3D NULL, hitting
-WARN_ON_ONCE(new->flags & IRQF_ONESHOT && !new->thread_fn) in
-__setup_irq().  When the trigger fires, a nested trigger such as
-iio-trig-loop dereferences NULL action->thread_fn in handle_nested_irq(),
-while a non-nested trigger such as iio-trig-sysfs or iio-trig-hrtimer
-returns IRQ_WAKE_THREAD with no thread_fn, hitting warn_no_thread() and
-never calling iio_trigger_notify_done().
-
-The follow-up commit "iio: adc: stm32-mdf: add external timer trigger
-support" adds INDIO_HARDWARE_TRIGGERED and .validate_trigger, but keeps
-devm_iio_triggered_buffer_setup() with a NULL thread_fn, so
-INDIO_BUFFER_TRIGGERED is still selected whenever indio_dev->trig is set.
-Since samples are pushed from the DMA callback and external triggers are
-routed in hardware, should this use devm_iio_kfifo_buffer_setup() (and
-select IIO_KFIFO_BUF in Kconfig) instead of
-devm_iio_triggered_buffer_setup()?
-
-[ ... ]
-
-> @@ -1479,14 +1758,48 @@ static void stm32_mdf_adc_remove(struct platform_=
-device *pdev)
-[ ... ]
-> +static int stm32_mdf_adc_suspend(struct device *dev)
-> +{
-> +	struct iio_dev *indio_dev =3D dev_get_drvdata(dev);
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +	int ret =3D 0;
-> +
-> +	if (iio_buffer_enabled(indio_dev))
-> +		ret =3D stm32_mdf_adc_predisable(indio_dev);
-> +
-> +	regcache_cache_only(adc->regmap, true);
-> +	regcache_mark_dirty(adc->regmap);\n+
-> +	return ret;
-> +}
-
-[Severity: Medium]
-stm32_mdf_adc_probe() attaches adc->mdf->kclk to adc->regmap via
-stm32_mdf_regmap_init() -> regmap_mmio_attach_clk(), which holds a
-clk_prepare() reference on kclk.  In stm32_mdf_core_suspend(), the parent
-driver unprepares kclk only for sitf_list and the core regmap, not for
-filter regmaps.  Should stm32_mdf_adc_suspend() and stm32_mdf_adc_resume()
-also unprepare and re-prepare adc->mdf->kclk so kclk does not stay
-prepared across system suspend?
-
-> +
-> +static int stm32_mdf_adc_resume(struct device *dev)
-> +{
-> +	struct iio_dev *indio_dev =3D dev_get_drvdata(dev);
-> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
-> +	int ret;
-> +
-> +	regcache_cache_only(adc->regmap, false);
-> +	ret =3D regcache_sync(adc->regmap);
-> +
-> +	if (!ret && iio_buffer_enabled(indio_dev))
-> +		ret =3D stm32_mdf_adc_postenable(indio_dev);
-> +
-> +	return ret;
-> +}
-
-[Severity: High]
-How does suspend and resume work when interleaved (or synchronized)
-filters are active?
-
-In interleaved mode, only Filter 0 registers an IIO device, so
-iio_buffer_enabled() is only ever true on Filter 0, while Filter 0 starts
-and stops subordinate filters (Filters 1..N-1) by iterating
-mdf->filter_list.  Because child devices suspend in reverse probe order
-and resume in forward probe order:
-
-1. On suspend, Filters N-1..1 run stm32_mdf_adc_suspend() before Filter 0
-   and set regcache_cache_only(adc_inter->regmap, true).  When Filter 0
-   then calls stm32_mdf_adc_predisable() -> stm32_mdf_adc_stop_filter(),
-   clearing MDF_DFLTCR_DFLTEN on adc_inter->regmap only updates the cache
-   and does not stop Filters 1..N-1 in hardware.
-
-2. On resume, Filter 0 runs stm32_mdf_adc_resume() ->
-   stm32_mdf_adc_postenable() before Filters 1..N-1 have cleared
-   cache_only on their regmaps:
-
-drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_adc_start_filter() {
-    ...
-	if (MDF_IS_FILTER0(adc))
-		list_for_each_entry(adc_inter, &mdf->filter_list, entry)
-			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter))
-				stm32_mdf_adc_start_filter(adc_inter);
-
-	/* Check filter status. Bypass cache to access volatile MDF_DFLTCR_ACTIVE =
-bit */
-	regcache_cache_bypass(adc->regmap, true);
-	regmap_read(adc->regmap, MDF_DFLTCR_REG, &val);
-	regcache_cache_bypass(adc->regmap, false);
-    ...
-}
-
-   Calling stm32_mdf_adc_start_filter(adc_inter) while adc_inter->regmap
-   is still cache-only triggers WARN_ON(map->cache_only && enable) in
-   regcache_cache_bypass(), causes regmap_read() to fail with -EBUSY
-   leaving val uninitialized on the stack, traps filter configuration and
-   MDF_DFLTCR_DFLTEN writes in cache, and pulses MDF_GCR_TRGO before
-   subordinate interleaved (or st,sync slave) filters have resumed in
-   hardware.
-
-In addition, stm32_mdf_adc_init() requests a DMA channel, 16 KB coherent
-buffer, and triggered IIO buffer even for MDF_IS_INTERLEAVED_FILT_NOT_0()
-filters that never register an IIO device.
-
-> +
-> +static SIMPLE_DEV_PM_OPS(stm32_mdf_adc_pm_ops, stm32_mdf_adc_suspend, st=
-m32_mdf_adc_resume);
-> +
->  static struct platform_driver stm32_mdf_adc_driver =3D {
->  	.driver =3D {
->  		.name =3D "stm32-mdf-adc",
->  		.of_match_table =3D stm32_mdf_adc_match,
-> +		.pm =3D &stm32_mdf_adc_pm_ops,
->  	},
+> +/**
+> + * stm32_mdf_get_sub_channels_nb() - Get the number of MDF sub-channels
+> + * @indio_dev: MDF IIO device
+> + *
+> + * Return: 0 on success, or a negative error code on failure.
+> + */
 
 [Severity: Low]
-When CONFIG_PM_SLEEP is disabled, SIMPLE_DEV_PM_OPS() leaves
-stm32_mdf_adc_suspend() and stm32_mdf_adc_resume() unused, producing
--Wunused-function warnings.  Could this use DEFINE_SIMPLE_DEV_PM_OPS() and
-pm_sleep_ptr(&stm32_mdf_adc_pm_ops) instead?
+The Return description in the kernel-doc says this returns 0 on success or
+a negative error code on failure, whereas stm32_mdf_get_sub_channels_nb()
+returns an unsigned int sub-channel count (nb_interleave or 1).
+
+> +unsigned int stm32_mdf_get_sub_channels_nb(struct iio_dev *indio_dev)
+> +{
+> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
+> +
+> +	if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave)
+> +		return adc->mdf->nb_interleave;
+> +
+> +	return 1;
+> +}
+> +EXPORT_SYMBOL_GPL(stm32_mdf_get_sub_channels_nb);
+
+[Severity: Medium]
+Does stm32_mdf_adc_apply_filters_config() misconfigure MDF_DFLTCICR_REG and
+drop rsflt_bypass on secondary interleaved filters?
+
+drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_adc_apply_filters_config() {
+	if (MDF_IS_FILTER0(adc) && adc->mdf->nb_interleave) {
+		list_for_each_entry(adc_inter, &adc->mdf->filter_list, entry) {
+			if (MDF_IS_INTERLEAVED_FILT_NOT_0(adc_inter)) {
+				adc_inter->datsrc =3D adc->datsrc;
+				adc_inter->cicmode =3D adc->cicmode;
+				adc_inter->decim_cic =3D adc->decim_cic;
+				adc_inter->nbdis =3D adc->nbdis;
+				adc_inter->hpf_cutoff =3D adc->hpf_cutoff;
+
+				stm32_mdf_adc_apply_filters_config(adc_inter, scale);
+				cnt++;
+			}
+		}
+    ...
+	/* Configure CICR */
+	msk =3D MDF_SITFCR_SCKSRC_MASK | MDF_DFLTCICR_CICMOD_MASK |
+	      MDF_DFLTCICR_MCICD_MASK | MDF_DFLTCICR_SCALE_MASK;
+	val =3D FIELD_PREP(MDF_SITFCR_SCKSRC_MASK, adc->datsrc) |
+	      FIELD_PREP(MDF_DFLTCICR_CICMOD_MASK, adc->cicmode) |
+	      FIELD_PREP(MDF_DFLTCICR_MCICD_MASK, adc->decim_cic - 1) |
+	      FIELD_PREP(MDF_DFLTCICR_SCALE_MASK, scale);
+
+	ret =3D regmap_update_bits(adc->regmap, MDF_DFLTCICR_REG, msk, val);
+}
+
+When programming MDF_DFLTCICR_REG, msk and val use MDF_SITFCR_SCKSRC_MASK
+(GENMASK(2, 1)) instead of MDF_DFLTCICR_DATSRC_MASK (GENMASK(1, 0)), which
+shifts adc->datsrc into bits [2:1] and leaves bit 0 untouched.  In
+addition, the interleaved filter loop does not copy adc->rsflt_bypass to
+adc_inter->rsflt_bypass, leaving the reshape filter enabled on secondary
+interleaved filters when filter 0 has st,rs-filter-bypass set.
+
+[ ... ]
+
+> @@ -1474,6 +1514,13 @@ static int stm32_mdf_adc_read_label(struct iio_dev=
+ *indio_dev, const struct iio_
+>  	return sysfs_emit(label, "%s\n", name);
+>  }
+> =20
+> +static const struct iio_info stm32_mdf_info_audio =3D {
+> +	.hwfifo_set_watermark =3D stm32_mdf_set_watermark,
+> +	.write_raw =3D stm32_mdf_adc_write_raw,
+> +	.read_raw =3D stm32_mdf_adc_read_raw,
+> +	.read_label =3D stm32_mdf_adc_read_label,
+> +};
+
+[Severity: Medium]
+Does stm32_mdf_adc_write_raw() reset adc->requested_sample_freq outside
+the direct-mode lock on error?
+
+drivers/iio/adc/stm32-mdf-adc.c:stm32_mdf_adc_write_raw() {
+    ...
+	{
+		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
+		if (IIO_DEV_ACQUIRE_FAILED(claim))
+			return -EBUSY;
+
+		/* Set requested_sample_freq right now, as used by mdf_adc_set_samp_freq(=
+) */
+		adc->requested_sample_freq =3D val;
+
+		if (adc->dev_data->type =3D=3D STM32_MDF_IIO) {
+			ret =3D stm32_mdf_core_lock_kclk_rate(adc->mdf);
+			if (!ret) {
+				ret =3D mdf_adc_set_samp_freq(indio_dev);
+
+				stm32_mdf_core_unlock_kclk_rate(adc->mdf);
+			}
+		}
+	}
+
+	if (ret)
+		adc->requested_sample_freq =3D 0;
+    ...
+}
+
+The IIO_DEV_ACQUIRE_DIRECT_MODE() guard releases direct mode at the end of
+the inner block, before adc->requested_sample_freq is cleared.  If
+stm32_mdf_core_lock_kclk_rate() or mdf_adc_set_samp_freq() fails, a
+concurrent direct-mode writer or buffer enable can observe the failed
+frequency or have its own valid update overwritten by 0.
+
+> @@ -1530,6 +1577,38 @@ static irqreturn_t stm32_mdf_irq(int irq, void *ar=
+g)
+>  	return IRQ_HANDLED;
+>  }
+> =20
+> +static int stm32_mdf_audio_init(struct device *dev, struct iio_dev *indi=
+o_dev)
+> +{
+> +	struct stm32_mdf_adc *adc =3D iio_priv(indio_dev);
+> +	struct iio_chan_spec *ch;
+> +	int ret;
+> +
+> +	ch =3D devm_kzalloc(&indio_dev->dev, sizeof(*ch), GFP_KERNEL);
+> +	if (!ch)
+> +		return -ENOMEM;
+> +
+> +	adc->channels =3D devm_kzalloc(&indio_dev->dev, sizeof(*adc->channels),=
+ GFP_KERNEL);
+> +	if (!adc->channels)
+> +		return -ENOMEM;
+> +
+> +	ret =3D stm32_mdf_adc_chan_init(indio_dev, ch);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Channels init failed\n");
+> +
+> +	indio_dev->num_channels =3D 1;
+> +	indio_dev->channels =3D ch;
+
+[Severity: Medium]
+Can stm32_mdf_adc_chan_init() write past ch and adc->channels or leave them
+uninitialized here?
+
+stm32_mdf_audio_init() allocates a single element for ch and adc->channels,
+but stm32_mdf_adc_chan_init() loops over every child node without a
+compatible property and indexes channels[chan_idx] and
+adc->channels[chan_idx] without checking the count.  If a dmic node has
+more than one channel child node, stm32_mdf_adc_chan_init_one() writes out
+of bounds on both allocations.  If there are no channel child nodes (such
+as on a secondary interleaved filter), stm32_mdf_adc_chan_init() returns 0,
+leaving indio_dev->num_channels set to 1 with ch[0] and adc->channels[0]
+uninitialized.
+
+[ ... ]
+
+> @@ -1599,11 +1678,77 @@ static const struct stm32_mdf_dev_data stm32h7_md=
+f_adc_data =3D {
+>  	.init =3D stm32_mdf_adc_init,
+>  };
+> =20
+> +static const struct stm32_mdf_dev_data stm32_mdf_audio_data =3D {
+> +	.type =3D STM32_MDF_AUDIO,
+> +	.init =3D stm32_mdf_audio_init,
+> +};
+> +
+> +/**
+> + * stm32_mdf_get_buff_cb() - register a callback that will be called when
+> + *                           DMA transfer period is achieved.
+> + *
+> + * @iio_dev: Handle to IIO device.
+> + * @cb: Pointer to callback function:
+> + *      - data: pointer to data buffer
+> + *      - size: size in byte of the data buffer
+> + *      - private: pointer to consumer private structure.
+> + * @private: Pointer to consumer private structure.
+> + *
+> + * Return: 0 on success, or a negative error code on failure.
+> + */
+> +int stm32_mdf_get_buff_cb(struct iio_dev *iio_dev,
+> +			  int (*cb)(const void *data, size_t size, void *private), void *priv=
+ate)
+> +{
+> +	struct stm32_mdf_adc *adc;
+> +
+> +	if (!iio_dev)
+> +		return -EINVAL;
+> +	adc =3D iio_priv(iio_dev);
+> +
+> +	if (!adc)
+> +		return -EINVAL;
+> +
+> +	adc->cb =3D cb;
+> +	adc->cb_priv =3D private;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(stm32_mdf_get_buff_cb);
+> +
+> +/**
+> + * stm32_mdf_release_buff_cb() - Unregister the buffer callback
+> + *
+> + * @iio_dev: Handle to IIO device.
+> + *
+> + * Return: 0 on success, or a negative error code on failure.
+> + */
+> +int stm32_mdf_release_buff_cb(struct iio_dev *iio_dev)
+> +{
+> +	struct stm32_mdf_adc *adc;
+> +
+> +	if (!iio_dev)
+> +		return -EINVAL;
+> +	adc =3D iio_priv(iio_dev);
+> +
+> +	if (!adc)
+> +		return -EINVAL;
+> +
+> +	adc->cb =3D NULL;
+> +	adc->cb_priv =3D NULL;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(stm32_mdf_release_buff_cb);
+
+[Severity: High]
+Can stm32_mdf_get_buff_cb() and stm32_mdf_release_buff_cb() race with
+stm32_mdf_adc_dma_buffer_done() and cause a NULL pointer dereference?
+
+In the ASoC consumer driver, iio_channel_start_all_cb() is called during
+DAI prepare, which runs stm32_mdf_adc_postenable() and starts cyclic DMA
+before PCM trigger start, keeping it running across trigger stop.  As a
+result, the DMA completion callback stm32_mdf_adc_dma_buffer_done() is
+already running when stm32_mdf_get_buff_cb() and
+stm32_mdf_release_buff_cb() update adc->cb and adc->cb_priv without locking
+or ordering:
+
+CPU0                                  CPU1
+stm32_mdf_get_buff_cb()
+  adc->cb =3D cb;
+                                      stm32_mdf_adc_dma_buffer_done()
+                                        if (adc->cb)
+                                          adc->cb(..., adc->cb_priv);
+                                            <-- cb_priv is still NULL
+  adc->cb_priv =3D private;
+
+Similarly, stm32_mdf_release_buff_cb() clears adc->cb and adc->cb_priv
+without synchronizing with stm32_mdf_adc_dma_buffer_done(), so CPU1 can
+pass a cleared adc->cb_priv or jump through a NULL adc->cb after the
+if (adc->cb) check.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-upstream_m=
-df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D8
+df_v2-v2-0-7939d3c3720a@foss.st.com?part=3D10
