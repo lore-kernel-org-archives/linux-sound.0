@@ -1,58 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096144;
-	b=UUPHYWpPlPpniKy0hy4EHLw96PTAeVEzs75pmvaWLs0UkG4qmBowhfdXdtLvk0jRJa51
-	 WDlBUJ4lhwB5SPSE4tAFDuDOL/jYZAzKUfu27VdNis7I00TS/fHi0gXCyuLpl45kxw/dm
-	 tzEkapYvO5RRVtI92oBzs/TeAY46nMFd1/Lph0jetUNAJYACMPo25N6X5TrTn/VXYfeC4
-	 bxxiIpO+26upqojx+428sWRcUzf01QKA+8lsiiLyQHmwSnJ9WnUxan7ph6/adGeiH8aag
-	 8kux4I6ym+bGFUmzoxbtbE/c5eWqt0Dv/BzFp9Ova6ErPf6XXxZN1M1K5K0Nla7OWmA==
+	t=1795096148;
+	b=Q1k/j/N6ZZGl745c0BadOQXpSxiFr6rUfuPVrHoscxzalpV4hOZlTNy4yB8kVEz8+Ev6
+	 oYOxnDZaDPqct9/ufXhnL+8FmkJpztF8UumzlFAMgU6FdIvEHbYvGzndO/ZretqnxR3lf
+	 TsBRDKJ/0ioq1wUpZ9m9+qkLvRo/nn9IQyPO16yEtF3nv345JqdRyRr49hqStBexLJmsk
+	 ng26OGd3rP2j+dGHtqh9sEWh1RhpqLNax8vaH3xg0UuDwh0vru/iIfbX6V9bFbbiFaw/O
+	 pDA98GDa7a294DYwl982l3urmi1H1aA3H2sF1AqWtR0PASq6I972Bt9C8ckrwPjKFhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096144;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795096148;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=RHIJc1ZvM5IUGhVoXeitNJ89r1xtXyRqYi3xvQXKSls=;
-	b=yj+YW8kaK5sdjO3XoLN4uTpEwGYKaLK6rzz29JYVLWjIep+XrhV5VR26K/0BxBtrh5jB
-	 9Kv4M6/ddT45v2YgAFUvdRhiig24MxFcVAx36MN5vAYagTc3++fROb8N7WVWSZbEfG9bJ
-	 sn4RUQ1jZPT+alcifVJb4s5lg/LI8wHyF2hf+K8GW9botOXbYgauVAHtnXYF/gfMBL437
-	 l0pZ5lJ42LEyIxnV/gNeCzrKd0k8ZbURxt2AMASuyxlG5fPLNcPmoy3kOfo3Av5ljpTbO
-	 c/jsA2KT/sDdCZVMYa0IO/izWrlcGODq2p7Qlf/fOstQJ8GnViJp9P9qDr3dts8FrBA==
+	bh=r5/BRB/bFSDMueqcvDqZaadifE2mjjPVo+s9CqRnY30=;
+	b=szzHRmxOuEAm1+vKdGQyj0WyVhnUGY/YpdYftHrPzVaN197Vi143S6zBDNkO0bBkgtRZ
+	 ZXsztgusNr9gTO+G5AQB0dfZCt0tA1yqDT5V5uh72RhF+pjoCANzvY7GFpHlWSIAby7IA
+	 G9jA6SguYUa+RCAFXByFMKmwaijP+LiFQNMlmC/VPw7rchbg0FwfooZs2tgUvHpa/LlLl
+	 W65zMsTznaE0jlsFxLg/y71fxwpOPEcTnoIeswEYOe7W2Iia30YHyKoSMxqeqDgHCMUnr
+	 qsqZBmAe3v+x9V9DQq1zFFLOH2xRE9zxrZU+hsnKZ191H/3xkgqRnJcuviUSOqnOung==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CxDtlnbt;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WXrCb0/9";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094E6606A332;
-	Thu, 19 Nov 2026 13:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C2A606A320;
+	Thu, 19 Nov 2026 13:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CxDtlnbt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C2D1F000C4;
-	Thu, 19 Nov 2026 13:49:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WXrCb0/9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDCB61F000C6;
+	Thu, 19 Nov 2026 13:49:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795096143;
-	bh=RHIJc1ZvM5IUGhVoXeitNJ89r1xtXyRqYi3xvQXKSls=;
+	s=k20260515; t=1795096148;
+	bh=r5/BRB/bFSDMueqcvDqZaadifE2mjjPVo+s9CqRnY30=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CxDtlnbtdf3FiIrpS01bif1eJxVD739dNZI/DLLPKAcX2/DFt4CScsFalKfdzYq5e
-	 TyrN+ijXr2Xz19d6b8Ol2HKMu+c/dr9SM+bC7jd4h4zCiNaRa/0ZZfa6L9d/oTsw8H
-	 9ikigWXxN3/c2Vy1uIpSCMebHfmfzpNfxON0BkWWxXq+nc9TvesCJzk2tBXSJFWk5L
-	 VMe3xwrNhL7l5NuSFlHzvPwLIS8YLmx6Z/nps3YLnWLGSa18P84CYO0eNLp3DZvE07
-	 6fYD2Q2lVh5ahyN3eIP9NdObvojPD2P+r2GvMtEcglhgXM0+WSNMzyDBjzAhAo7BMu
-	 BWgYENtJ0Oaxw==
+	b=WXrCb0/9QmxbsN4dsV+ZQrplZHottKRegmpI+07GCidiKTzZXN6/4vR5WU2d0IWb5
+	 m60G+g0lgFLc1Jt7JKTqAlSQIJhEXON7BrK5PG0xicAwWV+hqQRGva/mVJsGvWm4ap
+	 Y25fbdNNymCU00ZqZpx/scTijVBbpTZp8xm+FN7ULscrRR3We0nHk3sAaDzpOf+z4e
+	 YuI3k/CYPPSrnwSRAjc0sCThDhSlCfOOj8jGKZOfEl50RtZYtt4DDKs2xMKcj3JDbu
+	 njoTl83PLU/UB/nn8kgQoHl43wmZi2T9LDCaoSTOMk1PDYgq01fVKq+LZ/7JOMknp6
+	 CO8nmW0JGDP0w==
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, jonathan.downing@nautel.com, 
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-In-Reply-To: <20261118100631.26658-1-phucduc.bui@gmail.com>
-References: <20261118100631.26658-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/2] ASoC: fsl: lpc3xxx-i2s: Fix error handling and DMA
- configuration
-Message-Id: <179501192655.349622.2821526031939514716.b4-ty@b4>
-Date: Wed, 18 Nov 2026 14:25:26 +0000
+To: Chen Ni <nichen@iscas.ac.cn>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, 
+ linux-tegra@vger.kernel.org
+In-Reply-To: <20261118043043.616702-1-nichen@iscas.ac.cn>
+References: <20261118043043.616702-1-nichen@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: tegra: AHUB: Remove unneeded semicolon
+Message-Id: <179501134161.349622.10832122035644095741.b4-ty@b4>
+Date: Wed, 18 Nov 2026 14:15:41 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,26 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1425; i=broonie@kernel.org;
- h=from:subject:message-id; bh=UtT14b3aDsCNas90DxDGlsVK8Y57ng2BypyV6PRZCHg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/fMRrl7HyBCzT+DPilnTpLq+neFTeisoHMuvoBfc5
- ef/rFa3o5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABMJkGH4p17w6/XxrQXvjNQM
- RCL3nJxXP1P76oaLX9c+mrT1OuvyA78ZGe5f3Gh26l923YKlh5q+eD3Zt1xiWm7ilaNpbH+LzoQ
- IsvABAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1101; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=52Fm494a3Khpfk9ZWrOeNlMNmRZ6PlSN4utLtSQPMD0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/Qt87er8kuf+N//vwZvubGo1Oup21EnHhO+NheSzJ
+ wcUbU+qdpSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiHQ6MDJ/nLhDeXFGzSFI7
+ WOF3vIf/2+brdjLy1+eKTA0UM45+f4PhD2dW/rHXn/9yadlb7DhWxSsmZVMt+IRXrlevV157FdN
+ 0NgA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 18 Nov 2026 17:06:29 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: fsl: lpc3xxx-i2s: Fix error handling and DMA configuration
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series simplifies error handling and fixes incorrect
-> DMA depth macro usage.
-> 
-> [...]
+On Wed, 18 Nov 2026 12:30:43 +0800, Chen Ni wrote:
+> ASoC: tegra: AHUB: Remove unneeded semicolon
 
 Applied to
 
@@ -92,10 +81,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: fsl: lpc3xxx-i2s: Simplify error handling
-      https://git.kernel.org/broonie/sound/c/f8b9931f96c0
-[2/2] ASoC: fsl: lpc3xxx-i2s: Fix DMA depth configuration
-      https://git.kernel.org/broonie/sound/c/239eb443bf6c
+[1/1] ASoC: tegra: AHUB: Remove unneeded semicolon
+      https://git.kernel.org/broonie/sound/c/d81aa3db0a43
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
