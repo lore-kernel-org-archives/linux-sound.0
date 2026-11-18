@@ -1,66 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794973165;
-	b=5Ai/DzPv9gHHB9mAEAQAHMeci8UDqRQNZtLcLha5MH2TsjlaoBC0PillA7mYUvFotY4C
-	 Y+dea8JEk0RMUiZDI6Imc/rYBoEqOHavfiGyPM4A0+fRhiFueU8jVyz7lEd6qfeIXtKz0
-	 77l5pC3kHinYmDgR9fdvshx4NSzkZoNOMc8uc92GtT1Rhq9foEVaVj2HrnybqjHePjAP0
-	 O/jqyCDrGFDGWjfSYGJ+LvPqnD5o1vcZNE9sAkZCDhhruRYcfVBukW9J+Rgle2feMCntj
-	 vaSl6qZJBo8xNK4MPNQaMm+2jTfcViWjIaTDUGKIu//lm4MqFBcRp5kM8NDESd5dkTg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794973165;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=G+Q0oexvA4OtmTgbI2JLfoeKpQiUk1oidhqVEvS6n+w=;
-	b=uFtrptAXSQObm4rUfI+9ImItFOABzf0AMWYxPoaJ22JI37Hjd4Sc8m85kEfAymcPFG0P
-	 etg6HxSxCeKUDFcP5rZSufMDu1f41ydI1AaJDo6ki/yBFFg7Jy2KYPDT4RQOlt5bhYbSW
-	 UPXm3FwjdKbeR1RICHN8CN5gLHLioVCT4CBZ2QE3Sr1ABn/aDeJtrEOcB/DUZhSctulH9
-	 Vabk6H+uWJSwk2cU3kcFKpgrb3QzqVDFOzA+IlH8WghBiGuEzbDhy79wreLaVyiPCdN+6
-	 bCNmnv0T6kJxdAaPzr/Ti55RvApJaCEs57yIAxPw5gFPaX5E4deSxSWOypfu4mOtMow==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794975102;
+	b=KqPKRQCWYgHielwei02cnoSERbYR8n2YyLhdn7kNi8uAkmgW5gLqxFPVlaqoWUoBH/3w
+	 ext4P+SKmzXlP22atNeQsXGKsNEb2UbLThImdkB3hP7Rnxa1phmNg0MSDdyfig9Ee5J7w
+	 YqHpPNRGkfZeI85SvaM9UT6odU6q3AUNZI8szajBS8T4eKW1u0Mnaece2yBfBLRveCeK7
+	 K7pPFhX3KxN0eTKapppsEJM8hvVdzoxqm33BX2af3OBgNNh6A59bYaOKAP/v6Tg4xFkJ6
+	 XYoB6qyaOI4xInMF+3yN48AH8d2N+CR6rM3SnP4ztLjuGDc43OFn1K6hDyaCXP1aPgw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794975102;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Content-Type;
+	bh=m2nozbNDRZblKhCM8xKSr0zlgP6440W/X06oo8cOr1k=;
+	b=MHS79GPtCN68GvdryAEohgHCTmfSLAIpuxHQwOmXFAQle27H83D9ry2LZ0L6Jii9Ddf8
+	 0lM2E0KZVzrtU0oPVJgsTKOv34eAo+WIyou6PCIJHU/7jQeI4w12M9fhhmpBwI6QtFDf2
+	 m7/ZGVEY7jNpi4udG9Q14RKgMY+uqvYkzLIhANr4ntawHURakaAiGbPUVzmRaktWG6y8k
+	 ObQjqbI94VsFljBxdLn2S2TF8RgI2hLdm+jpNn44bS0WMo5VRu+Bsf3NEhhS4TxZ8Jcha
+	 AouO2I9hjZaDxf6ktKW+L5Q2rEir/zJztNCLxGxUBHpFDM95bcaQKMvvSQS+InhPGCA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W9XGeHte;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.178
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6918B606A31C;
-	Wed, 18 Nov 2026 03:39:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6918B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: a15b470ce30111f19a56ed5b684f684d-20261118
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:50100b26-705a-485a-b7e3-b5f93d340fa6,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:01b83a0e41673e744f41f965bb8f36c1,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP
-	:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a15b470ce30111f19a56ed5b684f684d-20261118
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 539928937; Wed, 18 Nov 2026 11:39:16 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Shredrum <alex0plays007@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix quiet speakers on HP 250 G6
-Date: Wed, 18 Nov 2026 11:39:01 +0800
-Message-Id: <20261118033901.322505-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517A0606A31C
+	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 04:11:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 517A0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W9XGeHte
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5ee1e4e3abcso146795e0c.1
+        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 20:11:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794975101; cv=none;
+        d=google.com; s=arc-20260327;
+        b=adiG4u5ekPnhpXqbKSFXj3jBOAxtk7HXhANuLCWewFY7Uk4iFn9pMei5/TaIUXYBwO
+         A7rikDSzEG50TrLw1BfKAFLFev3bWxhIMC/IhNJYJE6S46MEQUjsPrqkMzsIbugOgeMm
+         +jHRYszR3EGluyt2kzzqeo9ahMh30iu+UNs46sC4+Em2evFVY51rceaawq24F4ftITDV
+         So9zOZoUbl46/15468L4wz2g1zJYxUXbh+8cmB3FA0TD44B9BMxda/5PQRJAkpcHV+KJ
+         TvLyfEGkCX7AqNWvktlD2j18fO8Fp4BnjNu5xQ5SEdTfC3B9UDlezalObriPiNIyyc2E
+         IjrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=m2nozbNDRZblKhCM8xKSr0zlgP6440W/X06oo8cOr1k=;
+        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
+        b=sYAjLLStU9XUXxqJODFOVidIxjnhhDF5rem3kyG5Z0QusYvNeTcVyMuMB5FgWd3vfo
+         RorW72z0gghOdTDIVxGJusQeuR62+TsAgmXEDRSXKzMPkkIywZJa9qw60dNscMkjz1ID
+         qpwtMUSD7kqXmdeMSsuMHSeNxndIPTxq/cWQ9L7ANmngAAn2R3OO7tkF79vp/k0+T02J
+         d1p18tl2qRT1utEYVjlW/DEfPjxj2R14Tw/xK46AYBh0JSrXmvCAy+BdtXgcg1YkfHAz
+         gLCYeNs12XlvjChZMHY0e4OROZO5CcXI5pEcKTzge4CVVM33mpBTtEcRbRLZIjzactcZ
+         BUjg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794975101; x=1795579901; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=m2nozbNDRZblKhCM8xKSr0zlgP6440W/X06oo8cOr1k=;
+        b=W9XGeHteB9vcS+cNoWkebuvrhRGMEYYUsDqdWlE103dGRATfz1B0SF5wCq0/w+cMu3
+         NQDQdd9pJ8X6b5ISEY4tG1juDnkvUY9A10ryT3a+g8Gz2cZgoElmMAe1QzPzDrQWeg+I
+         UjSNfzHUj0XTOLu62EGHAZfIBLHbtC2SJMangSV7mz98V00Bkx2JO/Tlcs8iY3i+qP46
+         Zac4Nf1Bj0eoXJ431gWh6wofUqcttKRa/QTFYpwTJNT/NhIetcVW3wlegzR+eaamnWd3
+         WBRu+Iw0ej/eB3lRpOHfVuuiDXOqjuaggr/b97OpoGW8hS65kAhUIa1VcHL5NenKrrUP
+         888g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794975101; x=1795579901;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=m2nozbNDRZblKhCM8xKSr0zlgP6440W/X06oo8cOr1k=;
+        b=PkyI1NCFyqQaAPe7L/J403GB9yxrKRhvYmT2RVg3wVDDOUEVNWVyvsHb9vH3jsLmLX
+         QDoaRPdnMpa5gUzZfaL6x2ljzFU2IkMKFSxndED54rnl/89jVgn8Cs442bKz5ewWJhpW
+         H6n7tfq8W75bF+VZY+ODyunJNroUFIVZuM23le3XmZnKyO3nFVgmfm8f6rT/0R6V5TZg
+         1nrCZ1X/gf6wGT2J8UeSiP21nOsow0wOfB2xV97onwZwqjs2sKG2Ql+fuyuBtGsLLcnq
+         OrA9ATZAjBT8zzhPLbPwzTEVsO05deYx4Cq6ZtUnAdtP1LvLS46oTVr9K9FkENmBXgOo
+         9p8w==
+X-Gm-Message-State: APuU4Z8mMl6rw9Z5ngNGdPrPgOFnb2BAiLKLqOsWKuvqv8YFK0FeafGR
+	2A+sxkODR/QOz6Gq4uQdVF7Iq2GUf1SFR1h6cukTZAk7Thhe5KNSVqt9QmKeDoDApRxsQnYF6XD
+	yuqTayi/9hNPZh3E6wSqqfWxtar1gJ9k8aQ==
+X-Gm-Gg: AYBFou3FNJ2U0OcWv6q+8BcbluRcI2W4nHX/1uVu8jk9kP+49zlsFMHhTl943ehgy5X
+	d6QV4UgRYzRjEATLbpvrxbHOt5DSVeJfOxMSc5OkNUqfByMr/ZD+InPfiT/7ZY53JzzEzue4Kvw
+	UcYxGr3+pbvdNdrAyXOSUWFhWwQ6nMxoTsLlIE2ALfQKVOUln+9blnSPom9e+lXiS1NYB73+f+v
+	KNVRrezgTYt1iGmJqe4CDFw18Lh6v5G5wsHNJoy9ZsUuljUdbkOTY3r0tl+c+0HiNsheXPlCOoj
+	nEyo689zQKSb3pI64i+js9htYQHCdtifCiYesZ+NDyqDaNvvMv8FD3PwFIwTwHQ1kUCVo+ssoU0
+	kXzs0Bc3x6BcLXAKV20WiieZEBshOVPzrrcvUDHbbukKIvMVcbdci6rQFZznHaHqXX2ntXg==
+X-Received: by 2002:a05:6122:8b1a:b0:5ea:91d2:32f8 with SMTP id
+ 71dfb90a1353d-5ee646ae512mr709711e0c.8.1794975100961; Tue, 17 Nov 2026
+ 20:11:40 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -70,76 +102,154 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAPDzCUsFNQPMox2GDKnkhKreByWBo59Zp9Dc3+e0NnQKtBECKg@mail.gmail.com>
+In-Reply-To: <CAPDzCUsFNQPMox2GDKnkhKreByWBo59Zp9Dc3+e0NnQKtBECKg@mail.gmail.com>
+From: Alan Rockefeller <alanrockefeller@gmail.com>
+Date: Tue, 17 Nov 2026 20:11:29 -0800
+X-Gm-Features: AclHuK-udGMmVRFVRPysTB4Gn-StwA9ZLR8_KrjS77vCRi_i_H9bSWmryYtc5W8
+Message-ID: <CAPDzCUta6FOAVR1rVJjYrsTdqNKvU-OTh=1UnjC1vn4vJu2rXA@mail.gmail.com>
+Subject: Fwd: ALSA: usb-audio: Elgato Wave:3 (0fd9:0070) control endpoint dies
+ after repeated SET_RES at probe
+To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The HP 250 G6 (ALC3227, subsystem 103c:832e) has much quieter internal
-speakers than on Windows. The Windows driver writes coef 0x6d = 0x0900
-and four EQ coefficients framed by 0x22 writes, while Linux leaves the
-high nibble of 0x6d at its hardware default (0xe900) and never writes
-the EQ coefficients. Add a fixup to apply the same coefficients on init.
+Hi Linux-Sound!
 
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222283
-Tested-by: Shredrum <alex0plays007@gmail.com>
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/realtek/alc269.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+The Elgato Wave:3 USB microphone (0fd9:0070, bcdDevice 1.02, UAC1,
+full speed) is unusable on my laptop with 7.2.15: it enumerates, but
+its control endpoint stops answering during snd-usb-audio's mixer
+probe, and every control transfer after that times out until the
+device is replugged. The same code is still in 7.4-rc3.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 2c541c6..35090f6 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -2688,6 +2688,23 @@ static void asus_tx300_automute(struct hda_codec *codec)
- 		spec->gen.mute_bits |= (1ULL << 0x14);
- }
- 
-+static void alc282_fixup_hp_250g6(struct hda_codec *codec,
-+				  const struct hda_fixup *fix, int action)
-+{
-+	if (action != HDA_FIXUP_ACT_INIT)
-+		return;
-+
-+	alc_write_coef_idx(codec, 0x6d, 0x0900);
-+
-+	/* filter block: disable, load coefficients, re-enable */
-+	alc_write_coef_idx(codec, 0x22, 0x400a);
-+	alc_write_coef_idx(codec, 0x24, 0x1ec4);
-+	alc_write_coef_idx(codec, 0x39, 0x1ea9);
-+	alc_write_coef_idx(codec, 0x44, 0x1f61);
-+	alc_write_coef_idx(codec, 0x4f, 0x1fb0);
-+	alc_write_coef_idx(codec, 0x22, 0xe04a);
-+}
-+
- static void alc282_fixup_asus_tx300(struct hda_codec *codec,
- 				    const struct hda_fixup *fix, int action)
- {
-@@ -4232,6 +4249,7 @@ enum {
- 	ALC269VB_FIXUP_ORDISSIMO_EVE2,
- 	ALC283_FIXUP_CHROME_BOOK,
- 	ALC283_FIXUP_SENSE_COMBO_JACK,
-+	ALC282_FIXUP_HP_250G6_EQ,
- 	ALC282_FIXUP_ASUS_TX300,
- 	ALC283_FIXUP_INT_MIC,
- 	ALC290_FIXUP_MONO_SPEAKERS,
-@@ -5199,6 +5217,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC283_FIXUP_CHROME_BOOK,
- 	},
-+	[ALC282_FIXUP_HP_250G6_EQ] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc282_fixup_hp_250g6,
-+	},
- 	[ALC282_FIXUP_ASUS_TX300] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc282_fixup_asus_tx300,
-@@ -7723,6 +7745,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x827f, "HP x360", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x82bf, "HP G3 mini", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x82c0, "HP G3 mini premium", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x103c, 0x832e, "HP 250 G6", ALC282_FIXUP_HP_250G6_EQ),
- 	SND_PCI_QUIRK(0x103c, 0x83b9, "HP Spectre x360", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x841c, "HP Pavilion 15-CK0xx", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	HDA_CODEC_QUIRK(0x103c, 0x8486, "HP Pavilion x360", ALC295_FIXUP_HP_PAVILION_X360),
--- 
-2.25.1
+Kernel log on plug-in (excerpt), stock driver, no quirks:
 
+usb 1-3: new full-speed USB device number 5 using xhci_hcd
+usb 1-3: New USB device found, idVendor=0fd9, idProduct=0070, bcdDevice= 1.02
+usb 1-3: Product: Elgato Wave:3
+usb 1-3: 5:0: failed to get current value for ch 0 (-110)
+usb 1-3: 6:0: failed to get current value for ch 0 (-110)
+usb 1-3: 6:0: cannot get min/max values for control 2 (id 6)
+usb 1-3: [6] FU [Mic Capture Volume] ch = 1, val = 0/1/1
+usb 1-3: 1:1: usb_set_interface failed (-110)
+
+The last line then repeats every 5 seconds for as long as userspace
+keeps trying to open the PCMs. WirePlumber sits in D state in
+usb_control_msg() while it does, so wpctl hangs as well.
+
+What usbmon shows
+-----------------
+
+Control transfers to the device, starting at SET_CONFIGURATION
+(status is the URB status; -32 = STALL, -2 = killed after timeout):
+
+t(s) took(s) request wValue wIndex len status data
+0.0000 0.0001 SET_CONFIGURATION 0x0001 0x0000 0 0
+0.0002 0.0001 SET_INTERFACE 0x0000 0x0001 0 0
+0.0003 0.0001 SET_INTERFACE 0x0000 0x0002 0 0
+0.0004 0.0001 GET_CUR 0x0100 0x0500 1 0 00
+0.0005 0.0001 GET_MAX 0x0200 0x0500 2 0 00 00
+0.0006 0.0001 GET_MIN 0x0200 0x0500 2 0 00 c4
+0.0007 0.0001 GET_RES 0x0200 0x0500 2 0 80 00
+0.0007 0.0002 SET_RES 0x0200 0x0500 2 -32 40 00
+0.0009 0.0001 SET_RES 0x0200 0x0500 2 -32 40 00
+0.0011 0.0002 SET_RES 0x0200 0x0500 2 -32 40 00
+0.0012 5.3463 SET_RES 0x0200 0x0500 2 -2 40 00
+5.3475 5.1209 GET_RES 0x0200 0x0500 2 -2
+10.4684 5.1190 GET_CUR 0x0200 0x0500 2 -2
+15.5875 5.1200 GET_CUR 0x0200 0x0500 2 -2
+20.7075 5.1210 SET_CUR 0x0200 0x0500 2 -2 00 c4
+25.8285 5.1190 GET_CUR 0x0100 0x0600 1 -2
+30.9474 5.1210 SET_CUR 0x0100 0x0600 1 -2 01
+36.0685 5.1190 GET_MAX 0x0200 0x0600 2 -2
+41.1882 5.1193 GET_DESCRIPTOR 0x0305 0x0409 255 -2
+46.3075 5.1201 GET_DESCRIPTOR 0x0305 0x0409 2 -2
+
+(This trace was taken with quirk_flags=0fd9:0070:skip_iface_setup,
+which is why the probe-time alt 1 / sample rate setup is missing. The
+kernel log is the same with and without that quirk.)
+
+So for the first volume control (feature unit 5, PCM Playback Volume):
+GET_RES returns 0x0080, the UAC1 resolution probing in
+get_min_max_with_quirks() asks for 0x0040 with SET_RES, and the device
+STALLs it. snd_usb_mixer_set_ctl_value() retries (its loop of 10 only
+stops early on -ETIMEDOUT), the device STALLs twice more, and the
+fourth SET_RES is never completed. From that point ep0 is dead for
+everything, including standard GET_DESCRIPTOR requests, although the
+firmware is otherwise alive (the LEDs still respond to the dial).
+Only a power cycle brings it back, and the next probe kills it again.
+
+The three STALLed GET_DESCRIPTOR(DEVICE_QUALIFIER) requests during
+enumeration do no harm, so it seems to be specifically a STALLed
+control-OUT with a data stage that the firmware cannot take
+repeatedly.
+
+What I tried
+------------
+
+- quirk_flags=0fd9:0070:get_sample_rate|ctl_msg_delay|ignore_ctl_error:
+same failure with the same timing in the log (no usbmon trace of
+that run), so spacing the messages 20 ms apart does not seem to help.
+- quirk_flags=0fd9:0070:skip_iface_setup: no change (trace above).
+- Two different USB-C ports. Both are root ports of the same xHCI
+controller; the mic is connected directly, no hub.
+- Not sending SET_RES to this device: fixes it. With the change below
+on top of v7.2.15 the device probes with no failed control transfer
+other than the device qualifier STALLs, the mixer ranges are read
+correctly (Mic Capture Volume 0..10240, PCM Playback Volume
+-15360..0), and capture works.
+
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1361,7 +1361,8 @@
+(cval->control << 8) | minchn,
+&cval->res) < 0) {
+cval->res = 1;
+- } else if (cval->head.mixer->protocol == UAC_VERSION_1) {
++ } else if (cval->head.mixer->protocol == UAC_VERSION_1 &&
++ cval->head.mixer->chip->usb_id != USB_ID(0x0fd9, 0x0070)) {
+int last_valid_res = cval->res;
+
+while (cval->res > 1) {
+
+That is only what I tested, not a proposal for the final form. I do
+not know whether you would prefer a quirk flag that skips the SET_RES
+probing for this device, or to stop retrying a SET request that was
+answered with a STALL (-EPIPE) in snd_usb_mixer_set_ctl_value() in
+general, since here the retries are what kills the device.
+
+Other notes
+-----------
+
+- An alsa-info from someone else's Wave:3 with the same bcdDevice on
+5.13 shows sane mixer ranges with the resolution still at 128, so
+SET_RES was presumably rejected there too without killing ep0:
+https://www.google.com/url?q=https://answers.launchpad.net/ubuntu/%2Bsource/alsa-driver/%2Bquestion/700762&source=gmail&ust=1795056035295000&sa=E
+That mic was behind two hubs and mine is directly on a root port. I
+cannot tell whether that is the difference.
+- The Elgato Wave XLR (0fd9:007d) is reported to show the same log
+signature. I do not have that device:
+https://www.google.com/url?q=https://github.com/gleem-gg/crossfade/issues/29&source=gmail&ust=1795056035295000&sa=E
+
+Setup
+-----
+
+Kernel: 7.2.15 (Arch-based distro build, 7.2.15-1-omarchy). The
+patched module was built from vanilla v7.2.15 sound/usb.
+Host: Dell XPS 17 9700, xHCI 8086:06ed (Intel 400 Series PCH)
+Device: Elgato Wave:3, 0fd9:0070, bcdDevice 1.02, bcdADC 1.00
+FU 5: playback mute + volume (master)
+FU 6: mic mute + volume (master)
+iface 1 alt 1: playback, S24_3LE, 2 ch, 48000/96000
+iface 2 alt 1: capture, S24_3LE, 1 ch, 48000/96000
+Session: PipeWire 1.6.9, WirePlumber 0.5.18
+
+I am happy to test patches, and can send the full usbmon captures
+(with and without the change) and lsusb -v output.
+
+The debugging was done with the help of an AI coding assistant
+(Claude Code w/ Fable 5.2 xhigh).   Opus 5.5 / high gave up and said
+it was unfixable. The logs, traces and test results are from my
+machine.
+
+Thanks,
+Alan Rockefeller
