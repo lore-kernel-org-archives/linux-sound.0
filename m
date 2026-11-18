@@ -1,89 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.243.244.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794970998;
-	b=GflOBUhphL9S+PAx+e5OsxZn7jB+gfX3thwsy05HkQ86x9aB3j9sdk8ZRY+6elU37lsE
-	 imaBYlBDPRbYY+KVzVguW5nBFUvgg5qZeeU25tSY7ZlPQJGoH4YMvGORPhQ3yO9yNRw6X
-	 A6ImcfTC4LjuO0U15gSvrSPG4UvTPhdMGwSq1631aR8JaheYzeEEGDS/YfB0h2jM4ZsbE
-	 zX7FrSjC8cgEIp8ARJfwp66yXxqLWSHH/AcjDZHJQv47591xE9m+kT1sq20Hk6LWvNsYR
-	 CHuxPgR0r4q0cvP0Q+Iakb9qtMj2oKICZuqrI2O0ePG9fZYX+MMHZa6bqZCYD4Vj4cA==
+	t=1794972789;
+	b=bppM2A/EVtePY81JimJ1w2YlfhrLzOuhKWNUxxVg8mzG4jnI0tDK/d1dIf+sdtQI6B4D
+	 874CW6T5jFeyQsBueanKhcRpUg6dUKxJ6nhjGfKo9uv0HsoWtp7NRT7tlR3YssD9vM8IO
+	 FL0FBRpGWeWlo8xpyNjxO5o5tnbQqGrmzK7iR1EmwzRF35EEO/b3LYrG0HtfxfU0I+MsA
+	 Ufk18I6VQ9ggD3FU54/IZm0AcW2XFgTkkMvDGGbutVtiQZ7N/ZsMqwrDJwLZ8Bgqzn+/N
+	 t+7I2ovAVaUaWHTYpBLTVexTzU7cO+ePc4MciNXOPY1S94El2XuusQiWknvfWE7yAzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794970998;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=fBCrL9CwR/iV865OiqbDISOqkewhbQFiFErZ1jt+IXE=;
-	b=zuc0NAfCrDi99i+0DxF+SkZufRtPHKAJBd7Yo7FS4PS0H/XK9evTf4YDQIj8VzrIVzZf
-	 K/Uamhdg1+elkX1ze6BB9/8Hkw+BaA1eXACF0rwXkxtugapPzKYgEveRY0VLWcUFPk0OA
-	 Q+mCtAZpkVpn3A6INzF67e2mz7QWsfZuRcC4ymVg9gYJJOqO9yWFwBlYgB0sJEC/fo1Ij
-	 LS6Hpf41XcGuAJEW0FFfOcD22Xn3ZHkYaXFYG5qYYRqh61FQkRU0jv4FGmyRR7oaYmhMV
-	 8FXX7cqrtY723X4w6xcEa/eIB9lE8jQEfdV41zgyAUKQPXG016dIny+bd2RPEpmQn2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794972789;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
+	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=kZ4Qj45/nVhw+wEM+ObjY6ynwG6t9Cb17VAEzM7ECRs=;
+	b=lMbbHMtEVpc2SbZMhAR427pVmQch+MiWIo3qEIyZlT+bWM9tMJsIGvRiFotSOdBTYm2v
+	 o3WDL4In6F70jLtlu/+/+93LuOWih6odSE1xdGOavFIf9ukqj1tX0fSFIA4anotZOyQOM
+	 m4/WWvSb/A/aZ8ociq/FCbag2SUSmUrtMeyIga0Z3oIVbCGq0AvyRp09tZTAAe8Qom+Ic
+	 OJqssplyDURG5VTEohz7gBOk41SaFghxzI1bYFRTil7ZHqYWlczsF8oJ+FxpsVSDjxLDV
+	 yezlzaPvTPEISMZESo7n+fTu2tbgY8E+9U21dosuw+0dACeLQjrXyUfIVcn2LXTZ3lg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qXnecXy0;
-	arc=none smtp.remote-ip=209.85.161.51
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=uniontech.com;
+	spf=pass smtp.mailfrom=uniontech.com;
+	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=EvrG5hEB;
+	arc=none smtp.remote-ip=54.243.244.52
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC16606A31C
-	for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 03:03:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0DC16606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3762606A31C;
+	Wed, 18 Nov 2026 03:33:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3762606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qXnecXy0
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-71ad5f20016so434128eaf.1
-        for <linux-sound@vger.kernel.org>; Tue, 17 Nov 2026 19:03:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794970997; x=1795575797; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fBCrL9CwR/iV865OiqbDISOqkewhbQFiFErZ1jt+IXE=;
-        b=qXnecXy0Ip+hPDxnaVuAUCJXtwGSaaE+SIaNciSAm6Wo6Q6JfYZbEFkAZYdi8s//zP
-         G+sJWpN9TbnSyak/1ZZTomfA7BJLlGbP9T3A38ESuf8rYZ+Fd/VUR2e7oDM1hRPhu1r6
-         DKY6u0Ea+AeKixSm3jAtGsfqxn86lgbUPak76ZPxfbzs+XNA/ROZTHO6HW3r9xQN5kdV
-         //sK4ETL5i0jH4a0AAg72FB+xoIT6ebDuMWumUPbqq5igDsHmwXwfiKzGbGLxR48gCeS
-         sN+um7RPYFwCHsaVMU4ar0FxmkCQBCe5stGhUTeqbvY1hj1gMUtzTCD2IUbQyYuWIZsi
-         da9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794970997; x=1795575797;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fBCrL9CwR/iV865OiqbDISOqkewhbQFiFErZ1jt+IXE=;
-        b=b9VdPkfHHNjwaanHigF0A/q9TwHwC+t7j0qsj4jwHVGDaCkY6jDE1HFzlKaxv8Okv3
-         KNLnGcHAcUQuSetJ1rrooKCDvxsB20VDkBCIltz6Ow9p1omO6QxoAqjGgoKfl+BjvwHZ
-         mowwaiQSB37fPkeOliNur1fY3UWCZzMKXfjfafim1SDuvJ2RYn0TZe/E/TTlSxoqJkkf
-         7A3U5rl0W2sXrZsmRsOF5MYW/C0OIKy+2rcbw9pQv+6I4B/xExLT3QfeIZD2Oq8TyUM2
-         1bsB3QnpcKsvBt282Wl15Ov6Uf8dB6ZGhF8nJWVouFkONb08bDkRZB/R1R2gME7LNfu3
-         6FIA==
-X-Gm-Message-State: APuU4Z/KCslf4HB9UmFssTHur7K0Y0npTrfGxBFiDy9DEZYw5qs8ZqGg
-	MDsZG27q4EbycRAT++pRa7D+Mp/5f9bfGIRrIydQW1ooX2Jr71E+/HpYEovExIWncxc=
-X-Gm-Gg: AYBFou1XmROnkJELdwxZUu3NOqxrIByRbWIR+gGUJ3OOJfHbezxNwKTG/RknhXIxKhR
-	JxefM82TVEpfVxUbLO15IdhPi4jqJNEPUBwQqUia0tmvMRTqCB4lcezWffD4K0ysgcBFoq9EU57
-	9Z6lXqvYoghdp0Kd3IKljEOKfsy+2VP7BlUTdZrj3PNcr/9Au59ZKs24tj3kgfec8aXxCkx9fI3
-	S/gRGG4GJaa9dGLNCtD+sl4y4klZsG8ne6bEEvhQchU0yeVr/fXisEyjIOVZExpmiGl5OyUSaqh
-	Z3A+K6AUXQHhk2qZT16H234X45ntbL27Y5sJ4TPESLAwjVYuMJ8+LTonyeJyCZpu1+QKpA4tMmL
-	Ry3+X2dPv6tHNn4W2cbeD6C3Cauh1ZH2vXcemE9ME68duob2kriCtx9xJRS/6wEWlsVD8pzIb0U
-	E76tGjMbaiT/MLlMc+YDWbNEl+hES/VHs5MMUcKp4aG9hkhdsnfMpmTZglsGYvpU+HiJ4ZnbQxJ
-	xpNePTqib9uzMX4YtrfooSyw2qq+HbGI0IwySkoZFHDYVmlJxJjX3A2Fr2xcneo4IspVz2ofrAZ
-	gE1gSHfFWf0WbQetQrR4S/cp5cfjWpABqQ==
-X-Received: by 2002:a05:6820:7086:20b0:71a:f259:6359 with SMTP id 006d021491bc7-71b1886e678mr734618eaf.90.1794970996915;
-        Tue, 17 Nov 2026 19:03:16 -0800 (PST)
-Received: from Mirai ([2605:59c0:ab5a:b514:93f7:7281:8837:e771])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71b18fbb9a8sm933520eaf.0.2026.11.17.19.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 19:03:16 -0800 (PST)
-From: Dustin Tacy <tacydustin@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: perex@perex.cz,
+	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=EvrG5hEB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1794972736;
+	bh=kZ4Qj45/nVhw+wEM+ObjY6ynwG6t9Cb17VAEzM7ECRs=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=EvrG5hEBm7nyHplPFHKkRNi9Is9MA1A10r7VixEaXzmvH22wvQF7UW1wilJ9El1UB
+	 NihiLqRmJ11Q//zyTXyxa6XTUlKnFQvui9RP7kyIG72zEjHWdUA011EqEIrBqkC8q3
+	 4P1z/6LTjsGOaS8DYhv/KrWSePpxxZIYsGxZfXYs=
+X-QQ-mid: esmtpgz10t1794972720t90f23719
+X-QQ-Originating-IP: qbeV1AKGN9RpP899OZoSsXcI9sL6Pb84dNgTbM8l/hs=
+Received: from PEC004119 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 18 Nov 2026 11:31:58 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 14367264520237322865
+EX-QQ-RecipientCnt: 8
+From: Haowen Tu <tuhaowen@uniontech.com>
+To: broonie@kernel.org
+Cc: peda@lysator.liu.se,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
 	tiwai@suse.com,
-	Dustin Tacy <tacydustin@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP OMEN 15t-ek000
-Date: Tue, 17 Nov 2026 21:02:54 -0600
-Message-ID: <20261118030254.29314-1-tacydustin@gmail.com>
-X-Mailer: git-send-email 2.56.1
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haowen Tu <tuhaowen@uniontech.com>
+Subject: [PATCH] ASoC: max9860: Register the supply notifier after initializing regmap
+Date: Wed, 18 Nov 2026 11:31:56 +0800
+Message-ID: <BF435C6BC6FC2868+20261118033156.3845276-1-tuhaowen@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,31 +73,75 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: NIUeOSCg5F579AqUo6IpBoajuRETgnAzykTAdbg0yqVdDJGeW3Z/PVdV
+	P1j/JgA4PFAC0dW0GyygZMLBOz2gax7zG2xemXdJlRA8C+oBnlOEnqINPMFvIxm2A9oEWAn
+	WjzjclSrv2tz0iA+SHDRBpUV7difXPuy/o+rx5vcAJEUuFGHeDDiuvP97Qw4TCtxTQ9o3cS
+	0fHOtwCOThmKS/6Xy8ymAKLtBB2Sibm/UubSTTltHIzvLD1IKp53v301Ke0b6k8havwRdrk
+	yssNlVi8Xye42OkuEsj6n+8WS4SZZ+YXqP6uwpJHG6cooKglyUVz4qpAkYFHVkBYSJbq5Sx
+	obceK6Mj/Dmhkr/bfXffVQJJVuNbenVzRpEWkdCLS0Pt2I9UQUQwpO9lp685yk9GcapRYDN
+	Xv0cPoNAgROeorcOAKYGtzY0fXfdeT5i5MWnE5TbC0nSPhNP3yiXyuYFyKqHxiyPj9sGzfO
+	mbKx8t7P5fU84R7xzQvKkkoeju5AAMIlbDhoWYkcUIHssikNZeNO6x0/Ez670OAmmHTQXTO
+	EgjeQWOM6y7eejMRK2ZxLUXOm7iQQicr465ZO5NXpWmourvvHiOER1HOIe1idWoeGjBLGwO
+	fvdJy6+wLRp2w6UBUUuH2rus72Hbe5CaAM6Q81AkkbUfmC8p0RlVEdYItnELs+q6sOt/R+/
+	mPHKsqqTmtoic64o7RWH32W5r0m+q2iODFjW6KSuqBag6gladZ4/4XTaH327BGz2f7XyKvn
+	wHnI8idw9HH/J3Uabjb5/7VFzfWjOnVqrHCAL0h9Omo5oW6ydRCE1hUIsqi/k1JqknUNLLN
+	bwwvgSaP2U0DabvGk0HwP6uz9Nle3ojZ8XG++Iks3th7fXB6qOk/t6wHx1aD99uvpaW26AL
+	VlUntPe/pE1vTNA2+cehph5pnzHrXaW1Og+rJ6gvxVE5vkW5yxNIMaXtwWmTTP1IYYeMzYH
+	PQuTenQegYtMZRjCO6flS0c1GGebuHCa6sSkdkuVhE5PIg+AmYLF7ipsJ+Tvq4gWnvXflob
+	ldTPGMviKUy7V5v6Zc18b0cxRtTls=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-HP OMEN 15t-ek000 with PCI subsystem ID 103c:878a uses an ALC245 codec.
-The mute LED requires a quirk to work.
-Enabling ALC245_FIXUP_HP_MUTE_LED_COEFBIT on this SSID.
-Verified on my HP Omen 15t-ek000.
+The DVDDIO notifier accesses max9860->regmap when the supply is disabled,
+but probe registers it before initializing the regmap. If
+devm_regmap_init_i2c() fails, the error path disables DVDDIO with an error
+pointer stored in max9860->regmap. When the supply is switched off, the
+notifier passes this pointer to the regcache helpers.
 
-Signed-off-by: Dustin Tacy <tacydustin@gmail.com>
+Register the notifier only after regmap initialization has succeeded.
+This also makes devres unregister the notifier before releasing the
+regmap, so the callback cannot outlive the resource it accesses.
+
+Fixes: 3b2af7f79968 ("ASoC: max9860: new driver")
+Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/codecs/max9860.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 96fa8c2782bb..d5e91a35a61c 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7779,6 +7779,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8786, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8787, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8788, "HP OMEN 15", ALC285_FIXUP_HP_MUTE_LED),
-+	SND_PCI_QUIRK(0x103c, 0x878a, "HP OMEN 15t-ek000", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
- 	SND_PCI_QUIRK(0x103c, 0x87b2, "HP Pavilion Gaming Laptop 15-ec1xxx", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x87b7, "HP Laptop 14-fq0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x87c8, "HP", ALC287_FIXUP_HP_GPIO_LED),
-
-base-commit: 63fdb511c27afcebce797e3db580b3534ddfa639
+diff --git a/sound/soc/codecs/max9860.c b/sound/soc/codecs/max9860.c
+index a25f6891fe2f..f05f26d477c7 100644
+--- a/sound/soc/codecs/max9860.c
++++ b/sound/soc/codecs/max9860.c
+@@ -630,13 +630,6 @@ static int max9860_probe(struct i2c_client *i2c)
+ 		return dev_err_probe(dev, PTR_ERR(max9860->dvddio),
+ 				     "Failed to get DVDDIO supply\n");
+ 
+-	max9860->dvddio_nb.notifier_call = max9860_dvddio_event;
+-
+-	ret = devm_regulator_register_notifier(max9860->dvddio,
+-					       &max9860->dvddio_nb);
+-	if (ret)
+-		dev_err(dev, "Failed to register DVDDIO notifier: %d\n", ret);
+-
+ 	ret = regulator_enable(max9860->dvddio);
+ 	if (ret != 0) {
+ 		dev_err(dev, "Failed to enable DVDDIO: %d\n", ret);
+@@ -649,6 +642,13 @@ static int max9860_probe(struct i2c_client *i2c)
+ 		goto err_regulator;
+ 	}
+ 
++	max9860->dvddio_nb.notifier_call = max9860_dvddio_event;
++
++	ret = devm_regulator_register_notifier(max9860->dvddio,
++					       &max9860->dvddio_nb);
++	if (ret)
++		dev_err(dev, "Failed to register DVDDIO notifier: %d\n", ret);
++
+ 	dev_set_drvdata(dev, max9860);
+ 
+ 	/*
 -- 
-2.56.1
+2.50.1
 
