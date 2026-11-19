@@ -1,56 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.252.153.129
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795103189;
-	b=WZe5BlX8KBL4X/tfLaVbHSW/i84EryTZOa4ejjOWssLephrAuZ3VZMS91Y2WCmRMs9DY
-	 K51yEH+9T2K6zevIRYHavl+GRgr4pM5XvaWlP9AXfaQ4Cy1Kt14Twc5PnZaNmUpbOyrWW
-	 T7fHAQNXy0VWKbT2HttUrZaZg8LoWmeq+ZzJAbfmHyw/73y3kywfWE5r3roIzrQn0n01M
-	 NUvftuK0LCDFyZkXrJQoenU5hdK0SpBuIi0AanMs9rlFnsrUGy5K4vEhlBdDVv8gUi4SX
-	 QdHIy5rkWvZvaiNpJJLq1GywGN/xYsfafLI36gRL6ePnBYIIMeTK9AgQhAxk4Q0CiDQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795103189;
-	h=DMARC-Filter:DKIM-Signature:Received:X-Riseup-User-ID:Received:
-	 Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type;
-	bh=OXTwuVZlVHedrGwWOFwrRezFcp/6SMEzqMKu+mA01F4=;
-	b=RaEXgf9t2IzOEWCswi7H55Lq2bZF68ZOP3F2O6R355Qo4nFEnWiQai1BZXUnPxMdg2AA
-	 uvEwjZoF0Pr2San+L7rG3DrrRGnIku3QLrCelykqmMhZOh9ucTQKl+8xd1NyqMzaEcIRM
-	 vT+zXNWnWgxoTFuQEaS6mq3PGE7AInfD0E8mgI8SB3NeIF/1b1TM+S2ZNcjTrAx2EMego
-	 pUSKIZQYIEfzwpOr+sKs6pZYMpfMvEprEXG2210abVu9pVWCCWda76mGjuwtrRis0bpiT
-	 /JB1AHpxrPpGtB/syN92vfSQ0gQ8sGqJ1PCEozfWPTIsxVu2mwFIpP0CYc7FtNkBI5g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=riseup.net;
-	spf=pass smtp.mailfrom=riseup.net;
-	dkim=pass header.d=riseup.net header.i=@riseup.net header.a=rsa-sha256 header.s=squak header.b=KEEnD8IH;
-	arc=none smtp.remote-ip=198.252.153.129
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795104516;
+	b=N0XycVntjyfuNhsdb76nxKCPVLz3+t+rNJP+qDpYzAoiYCRJg3uP1wCLVABSoakZ7XaD
+	 tPEC2/EcRq9E4uWtXP1J9LidayhM1FcyCUxgdOkAoXLipSbVemz52ysRlV/muCtK5lmxU
+	 0TfH7SROaInepSEPairF+Qt6wHKbULOtu7/xWbaMcSOvZgqBV3TsCgYOWwDmyphhd+WVs
+	 efUW9hpipiAkyXxa00oc/GQWPtd2lT6aZ0s/a1UxOVV2ycCxH9574go8FVE8mUoWl1oHh
+	 j4e0Gn2ienGahjwyB5ssJJrvqFC9kk50iYaaTWu/2trg3Ss9CYF5FBmLR7g7PfAo6XQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795104516;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=Fd+8j+GErHf0o/bktf+/AUxw3NVz+5Tg+yc2CRLrlKs=;
+	b=r3bMqh8Q9BggiVeSsmNrZD5u01uv1QSn3lb7XW9R7NT0Q3uE5UHyZQJgAjPgI5/UpvCu
+	 z8qXkr7i6is5uvmcZI1MoS9Z3Bo83HqjoiUiKeMcj1pk5gTj0McvexkQuzLW+POqnnb6b
+	 /odKuMR9bjzRgbVwyF0mLrHz7BUnqyy0HmDkyDGOgcOmPG31/29uerIS7ERwd29oNDPll
+	 b3oI0mGgxdxzKN8JS/RHTppzGq6Ox3HX/YB4+ztykrmbt82FxmI+FOnaWcYMvuQmub3EE
+	 qcql06axtTZBLBj/5hk6IrcTT5drZgk6nciS5LOUljf3pVzQuRKsOtSmbmzLlyK8NMw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=afNzsNR8;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BA7606A32C
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 16:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=afNzsNR8
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795104516;
+	b=MbwncTskhFvqSOgVCkNU7gtkHWpXBC9+r9RTPze34QzBgcgBY/bMH/7u5O+ysC3DMyft
+	 YXeah/jcd7PAbP53mWz/P/FA0HSHPkuVIyG8/mqUuwPmlrjDEYtG7EnGD5O1LuKqv0nGq
+	 LYgCZqGV7pVtzGvSh1bhB8IEAEA3eeDWJVHrtF9u1SNkJTqC9+wS8Rqy0aHa5JfvM/0Ll
+	 Q79SS1NP5S9bVuLql5MS4ZkNy1Imc0qzvKsg056gLBUJ/OvBQfA0wOp/u9VitdvIuBy1I
+	 fp4E4S3Z+4NOrTVDCEM8wT4qPE1RvfKqe3PhRRy6I1aOZr4LqDxZHIz+e1GdQFIRTog==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795104516;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=Fd+8j+GErHf0o/bktf+/AUxw3NVz+5Tg+yc2CRLrlKs=;
+	b=dTVliJ+LuZQG843c2DxOkmjnCExuhmMOjBfRNGX5vcsvG0ArzaIwttGBTAhM/ClvvoGP
+	 NVJaygGqge6qQlyAZbJMAnXqJIW0MPeypy860nRXxRUEe5H+T42ppqUfAHvqL63h/Gdy6
+	 6IkPxF0ukjC9KW30bkH+nscZloWCteAzsY2da0BHNTVRfqa+Rv+JOUeFnQrKwelMNLnMq
+	 9CCJdGRaV9bCOYLA1D6vhtK5+FSWVYPTyZtYMCC5RUOHwnCnKeaJszr0/bbfjpk14wDxi
+	 INGB6sZUE5wr7AGS9Y8nED0L0Aq/eaIPgBppKHqa6FwA1/7E1iiT3QUCZXoN47udKag==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BE2606A320
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 15:46:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28BE2606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=riseup.net header.i=@riseup.net header.a=rsa-sha256 header.s=squak header.b=KEEnD8IH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
-	t=1795103188; bh=OXTwuVZlVHedrGwWOFwrRezFcp/6SMEzqMKu+mA01F4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KEEnD8IH4nOirW4mtJboEWmU4BeQJU4nDDGct2kKAa5342+P1gmeBzNPbaL+fZ/Wu
-	 Cu+ctAumOf4kkJDSnk56KUIin88CIEd0hWcVok1uOdyRB94JICAaYTBQAuUPuGA2x+
-	 oWmOgje08+H72Q8Osbbp6e/qs/WUyZGGiRbe7iXQ=
-Received: from fews03-sea.riseup.net (fews03-sea-pn.riseup.net [10.0.1.153])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx1.riseup.net (Postfix) with ESMTPS id 4jVjW83MqpzDqJp;
-	Thu, 19 Nov 2026 15:46:28 +0000 (UTC)
-X-Riseup-User-ID: 0134883AA8A5186901CBB2A9160B5686AA8998DA49C25BEC5E254E4DAB949AEB
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews03-sea.riseup.net (Postfix) with ESMTPSA id 4jVjW64s2nz1xxB;
-	Thu, 19 Nov 2026 15:46:26 +0000 (UTC)
-Message-ID: <22d8075e-c737-4e29-8f63-f42c3393ce99@riseup.net>
-Date: Thu, 19 Nov 2026 15:46:24 +0000
+	by smtp.kernel.org (Postfix) with ESMTPS id AD01E1F000C5;
+	Thu, 19 Nov 2026 16:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795104516;
+	bh=Fd+8j+GErHf0o/bktf+/AUxw3NVz+5Tg+yc2CRLrlKs=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=afNzsNR8vF4cj6mhmEouUXSbWHYFrJsqVKEsXBcQdZCdTmgpyYr/Kbj1TmeO/w/Yv
+	 BttBpqJeITT+P1EXpRkjzqN22SSkVkEHMCrysPH0st0BcKnRMbuh+K/6j5WsiUbVYU
+	 FD1SB9RtnEuIw17ZVgjHIj4ij7QfJNcP+4bBS2u16baMF0f9B/9YmK3Jd2uQtU90QT
+	 dG7dqtkU/f/W8vRiI73fpJC3acCOteU/JubyUGGVZGU8Pa1eFfTerMRLmaVH6K0TwO
+	 Y+G08vLm7FKs56dBqYDyENN1Tba81tQyLbuhviFDD82t0wrJqUcvPed+o5pkQ4F4Rd
+	 k7pGGA2Y+i4Bg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 0B5EB4B32A;
+	Thu, 19 Nov 2026 16:08:35 +0000 (UTC)
+From: Brian Harring via B4 Relay <devnull+ferringb.gmail.com@kernel.org>
+Subject: [PATCH v2 0/2] ALSA: usb-audio: Mixer quirks for ASRock X870E
+ Taichi
+Date: Thu, 19 Nov 2026 17:08:17 +0100
+Message-Id: <20261119-alc4082-taichi-v2-0-03ad1352f807@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,124 +84,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Subject: Re: [PATCH] ASoC: wm8731: power the converters together, activate the
- interface last
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org
-References: <98d2b656-a944-47c6-af47-126b46c5a953@riseup.net>
- <16044ae8-679a-4e4b-83e4-1e2bc2c0554b@sirena.org.uk>
-Content-Language: en-US
-From: Rafael Diniz <rafael@riseup.net>
-Autocrypt: addr=rafael@riseup.net; keydata=
- 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
-In-Reply-To: <16044ae8-679a-4e4b-83e4-1e2bc2c0554b@sirena.org.uk>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------rvyBFfchzmqY7r7zfYD0gQz7"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNyw7CIBBFf6WZtRhAaKkr/8N0gThtx/RhABtN0
+ 38X6trlSc49d4WAnjDAuVjB40KB5imBPBTgejt1yOieGCSXpRDcMDs4xY1k0ZLridlWVaZudVW
+ eENLo6bGl9x68Nj8Or9sDXcyVbPQU4uw/++Misvc3vgjGWa2k1oYbI3R16UZLw9HNIzTbtn0Bv
+ R2Byr4AAAA=
+X-Change-ID: 20261108-alc4082-taichi-af4789f5763e
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, Brian Harring <ferringb@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2863; i=ferringb@gmail.com;
+ h=from:subject:message-id;
+ bh=z6tUUulU6XunTD/d4f4XsZ4mbFtZJgNSWiAiriTFi6Y=;
+ b=owGbwMvMwCW26vPpzMb96zwZT6slMWT9l2fyv8A9kz3q05tXXvm3RJcyOl7dOJu7esqMgBf/8
+ iu47RK2d3xkYRDjYpgppsjy4EvOG4X4W99cjS65wMxhZQIZIi3SwAAELAx8uYl5pUY6Rnqm2oZ6
+ hkCGjlE8RE6PQSOzuLg0tUg3raDIIS+/JLEkMz+vWC+/IDWvIL1ALy0zrSQjI7+oOBVohF5eaom
+ rgZuJmbOrs5GBqZuLo5uZiamxkYuRiYmjo5uxs5OZpYWhk5ujq4klAxenAMw1gb6MDBOtn4RsdN
+ u7YblZ6vG4H89leysVruz6nVn0xGr1i+bXLrsZGTrilx9xY1howyO267jhpuwgwZbLznyL76Y/E
+ 3EV3bBtEz8A
+X-Developer-Key: i=ferringb@gmail.com; a=openpgp;
+ fpr=E9C121C8F3E4519A7E8E7E39C5068414B0C044B7
+X-Endpoint-Received: by B4 Relay for ferringb@gmail.com/default with
+ auth_id=1454
+X-Original-From: Brian Harring <ferringb@gmail.com>
+Reply-To: ferringb@gmail.com
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------rvyBFfchzmqY7r7zfYD0gQz7
-Content-Type: multipart/mixed; boundary="------------63B8jBhX02V280UBesExDznZ";
- protected-headers="v1"
-From: Rafael Diniz <rafael@riseup.net>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com,
- linux-sound@vger.kernel.org
-Message-ID: <22d8075e-c737-4e29-8f63-f42c3393ce99@riseup.net>
-Subject: Re: [PATCH] ASoC: wm8731: power the converters together, activate the
- interface last
-References: <98d2b656-a944-47c6-af47-126b46c5a953@riseup.net>
- <16044ae8-679a-4e4b-83e4-1e2bc2c0554b@sirena.org.uk>
-In-Reply-To: <16044ae8-679a-4e4b-83e4-1e2bc2c0554b@sirena.org.uk>
+The ASRock X870E Taichi / Taichi Lite onboard audio (26ce:0a0b, Realtek
+ALC4082) has its headphone volume control misassigned to the rear
+output, resulting in the rear output being full volume and only
+mutable, and the headphones falling back to software control.
 
---------------63B8jBhX02V280UBesExDznZ
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Patch 1 uses the existing ALC4080 map to correct the assignment. This is
+a fix: the headphones get their actual hardware control, and the rear
+output falls back to software.
 
-U29ycnkgYWJvdXQgdGhpcywgSSdsbCBzZW5kIGl0IGFnYWluIGluIGEgcHJvcGVyIHdheS4g
-QnR3LCB0aGlzIGlzIGZvciANCnRoZSBzQml0eCBIRiByYWRpbyB0cmFuc2NlaXZlciwgd2hp
-Y2ggSSBzdGFydGVkIHRvIHNlZSAib25jZSBpbiBhIHdoaWxlIiANCmJvb3RzIHdoZXJlIHRo
-ZSBpbnB1dCB3YXMgdG90YWwgc2lsZW5jZS4NCg0KQmVzdCByZWdhcmRzLA0KUmFmYWVsIERp
-bml6DQoNCk9uIDExLzE5LzI2IDM6MzQgUE0sIE1hcmsgQnJvd24gd3JvdGU6DQo+IE9uIFRo
-dSwgTm92IDE5LCAyMDI2IGF0IDAzOjA1OjE4UE0gKzAwMDAsIFJhZmFlbCBEaW5peiB3cm90
-ZToNCj4+IFRoZSBkYXRhc2hlZXQncyBwb3dlci11cCBzZXF1ZW5jZSBwb3dlcnMgdGhlIGNv
-bnZlcnRlcnMsIHNldHMgdGhlIG90aGVyDQo+PiByZWdpc3RlcnMgYW5kIGFjdGl2YXRlcyB0
-aGUgZGlnaXRhbCBhdWRpbyBpbnRlcmZhY2UgbGFzdC4gIFRoZSBkcml2ZXINCj4+IGhhcyBB
-Q1RJVkUgYXMgYSBzdXBwbHkgd2lkZ2V0LCB3aGljaCBEQVBNIHBvd2VycyBhaGVhZCBvZiB0
-aGUgQURDLCBEQUMNCj4+IGFuZCBsaW5lIGlucHV0LCBhbmQgZ2l2ZXMgZWFjaCBjb252ZXJ0
-ZXIgYSB3aWRnZXQgb2YgaXRzIG93biwgc28gYQ0KPj4gY2FwdHVyZSBzdGFydGluZyBuZXh0
-IHRvIGEgcnVubmluZyBwbGF5YmFjayBwb3dlcnMgdGhlIEFEQyB1cCB1bmRlciBhbg0KPj4g
-YWN0aXZlIGludGVyZmFjZS4NCj4gDQo+IFlvdSd2ZSBub3QgcHJvdmlkZWQgYSBTaWduZWQt
-b2ZmLWJ5IGZvciB0aGlzIHNvIEkgY2FuJ3QgZG8gYW55dGhpbmcgd2l0aA0KPiBpdCwgcGxl
-YXNlIHNlZSBEb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0dGluZy1wYXRjaGVzLnJzdCBm
-b3IgZGV0YWlscw0KPiBvbiB3aGF0IHRoaXMgaXMgYW5kIHdoeSBpdCdzIGltcG9ydGFudC4N
-Cj4gDQo+IEkgdGhpbmsgdGhlIHBhdGNoIGlzIG1hbmdsZWQgYXMgd2VsbC4NCg0K
+Patch 2 adds a hardware volume control for the rear output through the
+ESS ES9219 DAC behind it.
 
---------------63B8jBhX02V280UBesExDznZ--
+Validation was against alsa-ucm-conf 1.2.16 and a 7.3.3 kernel. The
+resultant changes to the PipeWire sinks are below:
 
---------------rvyBFfchzmqY7r7zfYD0gQz7
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+7.3.3:
+  SPDIF       HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
+  Speaker     HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
+  Headphones  HARDWARE DECIBEL_VOLUME LATENCY
 
------BEGIN PGP SIGNATURE-----
+with remap:
+  SPDIF       HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
+  Speaker     HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
+  Headphones  HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
 
-wsF5BAABCAAjFiEEhwy1rTUmyiCmsezSosoy7GG8TlwFAmr/GdEFAwAAAAAACgkQosoy7GG8TlwR
-BxAAqmfVGWw+hkcgmJXRu41sJMACUhsV1QcIKxt1/7xEW9T8n8GzRtz60li2dzWHEpvWUmUzmQJ9
-+zTYtCQG1xROyXy8EqI1/ZEXhq9mLe/RaKRdX/WlUnIoVll7WFy5Gbwv9bqKc5/8nORd91UmJCLr
-NswToilBT0ehXJGBLkxWb934UMWv1IIjppc/2txzZlDd87U0D3h6Ond7hjPrpQArPUiM5p7McQsN
-B1+owgxcQqKwnzxg5zIEGNQQtcggFx/aNABZZ4CUqm5/80tPOL8L8uA3xSOFjtbHQmUB0stay4zL
-srvEMudUExFh6ilp4idbe2d2DensT6tQSIrv/TzBWs6NQgX9AopYeZeb8UWUQmjDdk8gVrUXnBPx
-Q3yiVJ539tgeo/dKn1pllLcH9S2g9LTQVNRNDmwPuEeOFuGOXriBLrXzXNtxQuyVdcl4sWqM2Rg9
-q7tSGj/t9kzoK7uLj06FOvPuGuNfVmjpvenY3kwQSVq7KbJhbnBoVHLL2Cc7u1pVsw0ObqEkCa0/
-7Xn7RGkiPu+WV6UslOsNzHAXjc7w4b/ndvIYppT1P8ofaER9ETN2NhFacNbg1ZFh9Vf6Ucv/fTkc
-pndegi0RuNN8uoPADyGTqTgt2Voc8Iq0qakU5BB46ros6QxanSbSD4+I2Ck7PWoUW2JCH3CBgSWf
-ccc=
-=HqKh
------END PGP SIGNATURE-----
+with remap + ES9219:
+  SPDIF       HARDWARE HW_MUTE_CTRL DECIBEL_VOLUME LATENCY
+  Speaker     HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
+  Headphones  HARDWARE HW_MUTE_CTRL HW_VOLUME_CTRL DECIBEL_VOLUME LATENCY
 
---------------rvyBFfchzmqY7r7zfYD0gQz7--
+---
+Changes in v2:
+
+The sashiko issues reported in [1] should be fully addressed, enumerated
+below.
+- patch 1: sashiko: correct the comment stating the wrong feature unit.
+- patch 2: sashiko: update the cache only upon success, and now do it per
+  channel.  Channels are now named left/right for clarity.
+- patch 2: use FIELD_* functions for the cache.
+- Link to v1: https://patch.msgid.link/20261108-alc4082-taichi-v1-0-942558088157@gmail.com
+
+For the usage of FIELD_* functions, I realize that may seem like overkill-
+I did this for clarity, and since in probing the driver a bit further,
+there is some logic in there related to microphone boosts.  That probably
+has relevance to bugs like [2], despite that being ALC4080 specific.
+
+[1] https://lore.kernel.org/linux-sound/sashiko-outbox-203925@kernel.org/
+[2] https://bugzilla.kernel.org/show_bug.cgi?id=218913
+
+To: Jaroslav Kysela <perex@perex.cz>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+Signed-off-by: Brian Harring <ferringb@gmail.com>
+
+---
+Brian Harring (2):
+      ALSA: usb-audio: Use ALC4080 mixer map for ASRock X870E Taichi
+      ALSA: usb-audio: Add ES9219 speaker volume for ASRock X870E Taichi
+
+ sound/usb/mixer_maps.c   |  14 ++--
+ sound/usb/mixer_quirks.c | 177 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 186 insertions(+), 5 deletions(-)
+---
+base-commit: 94dd534d2eb96ceea4e36f3d3f0651a1abaa9b99
+change-id: 20261108-alc4082-taichi-af4789f5763e
+
+Best regards,
+--  
+Brian Harring <ferringb@gmail.com>
+
+
