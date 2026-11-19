@@ -1,75 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795106014;
-	b=bdYuWBLGwkzqq72EEjtXrqiT7YUE0N8SE98J0l/09M+NwHUrzOFZx8RSwZW0VkIlrypp
-	 11uJa/3VRFW29+eG9HxinvFD2BC4r5xzP/ZproBTAap6y83TkjIY4f4Hc+34eQB3Io4w9
-	 IKJVzFnPhFyZRjEdQxcGtH9Y4V0oQsl2D3Jnov1IFJU3uwqj2HGoV80iUQvJXhuid9CeO
-	 mbdnJB+QSw21nOklRQYvxQbo2Ivh7YV6GBFIR8FFUup/pGtrksoMaPH4ySvGcNBcy2sJ/
-	 f3cGOXhINuvoNIhGI5y4wqrQvDRE0+GaaVEPOmZLItOkcXog1nVZQnk1GG4EAawkK6A==
+	t=1795106458;
+	b=oels1EXfVcJWfyz44oLgC8ztLVYKTFz76dpNvDFuPHjwY/maceyoBYyMiEUIROhvg7E8
+	 pAg6cj/ojUse2HWhHAK1lu6vybj9hyBCFrjgfq+vQDizhq9d7YFaXDzFrGsnxS8SKz0EE
+	 I0IBSI24iRbXmQlq0Ru4Evf9AR6F380ihg3YcdjmUrPWWjHpZHU8tpdWrdghJFu+ndlej
+	 DemdMSLAQIr+1L3pZF7szwjrvEfe3M0cxKbGv19FEokOfp3jmUjCxcm3zOXqFhpB6zwi+
+	 JKTxkuSIh+rWcKIPPT49dwHC6YrRnRk0TojjXktio0FvTm40rmQu+/CPubyPlJtVExA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795106014;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=MnqdMlsMyoHo/aeHf2HFxQk8pjQB8y9HqpPfMquVksw=;
-	b=pjQnbBspKCDRHM7Jt3eV7xObwW2edfztMUd6uANabIRT42kHFwfZZxUK3ZHocIgz7odp
-	 NvLyxnskTaHtUZNuoCAMfGCb+gAWLrgtxL1NjFRpqf8+jf9QTaniEl4yvVGZT4EpRzjCP
-	 1x7pno2h8yXE4JmB0ZxAhw6ukCI8237zKAxAm+nhsZuvSiNAziKfrjB6NHCcocy0OGR13
-	 snegHSG9vaaGWquDaunognAFcHzwo6GugkjWMz+9gkfvsYgj1LpkidUXtT0uQ1MUd0HC8
-	 YYwB9gFn32WZBx0xNycnLUajWistwcyF/qU6JJDwRHrmG4Cm9Vbwl5LQZ9/uXcNj3pg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106458;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=AZySMT1uU7wlY3CYeO28UhSAh5rHHrQpOqvsCMUAbds=;
+	b=ALJGDlS0YFTizqVLdtQavmVkZFS5QP8xKG6goEL0zpsM19CKHLfn+Z3g6n5M2NJgePV+
+	 6OCUn9GYVSIJ1daqUHqqWKa1OOBI9k+AHjwgCubqK2iErZ0rmS5M3jLZqoJDTa8sWcqA2
+	 dmPBvOg8C34xjS5i7uWxOE4jovEj5HCPQkdI7LeEroi118TUg19c6/qEcUBSfUdvzbEIb
+	 pSTQio09HGfzwuM5D2DG7X5v2/6mYfnfinwZM4PdVgaErxznmPpUb2taj13pDAG79SwEy
+	 RI1csc14XndknWMVJGfggXIOTqiubhEH/AyH6/XZpdf6NMmIJKZf6fzyuBzaQ6G7mXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QeRe5Iaq;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fMdV5UjX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A25606A325
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 16:33:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83A25606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12314606A320;
+	Thu, 19 Nov 2026 16:40:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QeRe5Iaq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795106013; x=1826642013;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=SvZcvblxlqvNXaDNrdgGKTrIiqru0qCO/BoBUiT9+PY=;
-  b=QeRe5IaqiNfrb0sE1GE1JCIevX0HHhia/4RG88h2x9L6KpBuDCYL9Twt
-   ruyyjarkvr1MwXaHbWap+HMEv6NQsWUmS/bGe8XnCJu4mVty700TuSO6+
-   UHZ4Dp3aAyv184ngWOLjr82Vs2qtZyu8UOCWMd1YM053bmT35k9Qu20b0
-   pxNb/RbXrRZCGk9SxoLjhKLMd9bE1Va/X2F/ja6PWvOjpwzWUm5b0Jn2Q
-   UyrkQfFM1H8OmYvVu04ct+F7SCOJYAhroaL9ct4cuP+TpHWzogageHyFC
-   FnG/R0mIoxGrVtc9qy2E7m7brFyZ82WgRx8ZXvL6jUgYgfSUyYHL/a+FT
-   A==;
-X-CSE-ConnectionGUID: v84ohSINRMCqyIkxde+oIA==
-X-CSE-MsgGUID: 8QSbiNOxSv2wTdQ9AlwKUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3998444"
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3998444"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:33:33 -0800
-X-CSE-ConnectionGUID: nhot5MnpQuO5eN7iUI0T1A==
-X-CSE-MsgGUID: E4U10gDSSL27aeVIRu+oyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10505638"
-Received: from dev-417.igk.intel.com (HELO dev-417) ([10.91.214.181])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:33:31 -0800
-Date: Thu, 19 Nov 2026 17:32:54 +0100
-From: =?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@linux.intel.com>
-To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.com, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Michal Grzelak <michal.grzelak@intel.com>
-Subject: Re: [PATCH] ALSA: hda: intel: Release i915 component when delayed
- probe fails
-Message-ID: <7e2ix26eed3ocen42w6txv5pzz557xjhwixsqjhtsrmcs4omki@7ld7wxz6c7nm>
-References: <20261119162253.1779252-1-kai.vehmanen@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fMdV5UjX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DABE1F000C5;
+	Thu, 19 Nov 2026 16:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795106457;
+	bh=AZySMT1uU7wlY3CYeO28UhSAh5rHHrQpOqvsCMUAbds=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fMdV5UjXdX/M8UzIX6qLsUyhd0zlCkn90kXBrTvBEcKGMjKb8Xc+juHj6UT0mwNd+
+	 1hWoOCjuV7XxkYJg9/WAsZFMaHH5Q5CuCMYz9s3L4ZcjPYf28/A7c+YeDnHBVCVSde
+	 pmWyfghpTUVEcXxXBzHCl/H6UhZ7B2O7OjlOTnHn+gsiazjXxzLKzVjXACnbl3jl1F
+	 OyrsD7bzUieZZFeULh0uhjg+gQ7/3ns1nrVGCqJHlxWt1BlzhCFV8TGIQFIuvmeu7V
+	 JRwhuhVDObgXXrWYglGs2rmA305KOuAa5aHAQ+xoZCTbqiSf780T38UJCiDHp7LjIG
+	 6JnVr9j6wSrvg==
+Date: Thu, 19 Nov 2026 16:40:53 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marco Giunta <marco_giunta@outlook.it>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] ASoC: aw88261: fix sign bit check in
+ aw88261_dev_get_vcalk()
+Message-ID: <dabf17f4-f878-4412-a0d4-f9dfe5c4d66d@sirena.org.uk>
+References: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -79,75 +59,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9xUOkPRIi3otwYtj"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261119162253.1779252-1-kai.vehmanen@linux.intel.com>
+In-Reply-To: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
+X-Cookie: I'm into SOFTWARE!
 
-On Thu, Nov 19, 2026 at 06:22:53PM GMT, Kai Vehmanen wrote:
-> Commit fbaccb1b19c7 ("ALSA: hda: intel: Don't free card in the probe
-> work") stopped freeing the card from azx_probe_work() when the delayed
-> probe fails, and only disconnects it, leaving the free to azx_remove().
-> This avoids the double free, but the resources that were released by
-> the card free via azx_free() are now kept until the PCI device is
-> unbound. In particular the display power reference and the audio
-> component binding to the graphics driver stay held for a controller
-> that will never become operational. This blocks unloading of the i915
-> driver, which breaks display driver reload.
-> 
-> Release the display power and the i915 audio component in the probe
-> work error path. Both snd_hdac_display_power() and snd_hdac_acomp_exit()
-> are safe to repeat, so the later azx_free() call from azx_remove() is
-> not affected. azx_free() can't be called directly here as it would
-> run before the codec instances are released by the card free.
-> 
-> Fixes: fbaccb1b19c7 ("ALSA: hda: intel: Don't free card in the probe work")
-> Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/work_items/17751
-> Reported-by: Michal Grzelak <michal.grzelak@intel.com>
-> Tested-by-by: Michal Grzelak <michal.grzelak@intel.com>
 
-nitpick: s/Tested-by-by:/Tested-by:/
+--9xUOkPRIi3otwYtj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-:)
+On Thu, Nov 19, 2026 at 05:30:12PM +0100, Marco Giunta wrote:
 
-BR,
-Michał
-
-> Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 > ---
->  sound/hda/controllers/intel.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-> index 0a62723b3454..73ff42faccb7 100644
-> --- a/sound/hda/controllers/intel.c
-> +++ b/sound/hda/controllers/intel.c
-> @@ -1740,9 +1740,21 @@ static void azx_probe_work(struct work_struct *work)
->  	struct hda_intel *hda = container_of(work, struct hda_intel, probe_work.work);
->  
->  	if (azx_probe_continue(&hda->chip, false) < 0) {
-> +		struct azx *chip = &hda->chip;
-> +
->  		hda->init_failed = 1;
->  		complete_all(&hda->probe_wait);
-> -		snd_card_disconnect(hda->chip.card);
-> +		snd_card_disconnect(chip->card);
-> +
-> +		/*
-> +		 * The card itself is left to azx_remove() to free, but the
-> +		 * graphics driver must not be kept bound to a controller that
-> +		 * will never become operational; this would e.g. block
-> +		 * unloading i915. Both calls are safe to repeat from azx_free().
-> +		 */
-> +		display_power(chip, false);
-> +		if (chip->driver_caps & AZX_DCAPS_I915_COMPONENT)
-> +			snd_hdac_i915_exit(azx_bus(chip));
->  	}
->  }
->  
-> 
-> base-commit: ec925d3740159f4b4bd3b7640be5d0d2b4664106
-> -- 
-> 2.43.0
-> 
-> 
+> Hi everyone,
+> I'm currently working on an aw88399 patch series targeting some QOL fixes.
+>=20
+> While working on this, I spotted some things needing fixes that I'm
+> sending separately now, as they are all relatively straightforward.
+>=20
+> I checked whether the same bugs were present in other awinic drivers
+> and found a couple of matches, that are included in this series as
+> well.
+>=20
+> Overall:
+>=20
+> * patches 1 & 2 fix a missing bitmask inversion in aw88261 and aw88399;
+> * patches 3 & 4 fix an OR that should be an AND in aw88166 and aw88399;
+> * patch 5 fixes a forgotten rename from AW883XX to AW88399 in aw88399.
+
+As covered in submitting-patches.rst this stuff should be in a cover
+letter, patch 0 for the series.  No need to resend for just this.
+
+--9xUOkPRIi3otwYtj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr/JpUACgkQJNaLcl1U
+h9BZMAf/UnWn/DazoQR5q2evNfNl3nkKkInR1wCI+PFFGKVGTYlNaaeqxbJK6y1s
+UpMjMfbY/Lucjsn1XpXKLyL0Vfk4IFqz0R5PkwTllrj1iBzrV0M1oUCYe0JTQs19
+mC36ST0qLaAhXnWlfu/E4cS5x5/7m9H2KHMYQ5I0D/vKbZyECyLXZMmzMsxv/Dlc
+9SEt2rChJ+ugTJ0Qh1EQNwXhZ6gKm9Pqud7iK5rhqw5jOMG+iYsHbteLNb/o9hHr
+l+I62Jl6dGlwSqcd5XvG2jx5Al/ltqD5phPa1RIqN75yS5DIkPKXQu56gO+r0mk7
+wavtpw7jsiUclFK6xqOYReNQtVgz7g==
+=Uk0R
+-----END PGP SIGNATURE-----
+
+--9xUOkPRIi3otwYtj--
