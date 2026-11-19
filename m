@@ -1,56 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795116590;
-	b=Nhw9AhFoTfx85iGWT1LnYIiLrlQHH/54XEnYjKnfgahKZ3qYuVmgIgOTN6LmkgnUmjY8
-	 gf0YvTBu2FytRt+dHKYPz5ilwB6dKBHWl71srhQe0FpjxwcbefDxtLpnN3zUrcI9Afi0P
-	 wnr3lyX+q0RUDyldY7DgJZ1rOOjw7xb9rwZnLvpBWBpVpME4o0RLBB70DUCTx6JE7a9d7
-	 AmmEFtcb0SsHg/SyFTFt2vIvFyVerJWb4rjFMpUB+bUdyIQBTiBTUpg+1pengfv8Lr2R4
-	 7m8s5zU3LYiFSG1lqI0mhZyXPX4loHlKgOOcTO7DbKtRymVzpJBFDQE41OnO3WS8CYg==
+	t=1795117488;
+	b=Kym1MpA01IgvGMIQePK6jjs07UMRomS2UAcfi3QLcCb7N0i2rZEB8x64nDtzd11Vb7lm
+	 JGYzcbTd5zmRyEXG8FtlvDG4tA205Kvss4NDpyo/Xz06BXl9pHnP2IxCEL1xpDxVOENqT
+	 xFy0KTtBiHVazv+QJVuY6NT33LX5hOqexJ+/vcpdw5HWBq3UKSWj8njBryv6FrKl3up8V
+	 FQGFgryiJqhOpNPnCTwrZuJQilYpV8+8AEd7o+OHNOeR8dHUYLW3UCMT0nC+SC9ALX9Oo
+	 1MXH9V5XWXjg4nydRV7SKHkghtp/0ZJ7aJroWh4M4gj7rdXTgYOAeAMqd4Rkz8p6grA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795116590;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795117488;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=6rDuPvMNMonUi4Jk3oCiITM0hmxt7+saHsno2Ls24CY=;
-	b=txN0UPwfX1m+bv/gBP37NFX1/oMUboYy5N+d/vN2XOg4jQSiqVm6/5vGCVVIdhwI3HT8
-	 rb6MTpBzIXQBonzpR6ScB/JJs9WQ9Ao2cRM9cJiPtV+H1Sl/sX5Zv9fPysY/8gdRxOCrM
-	 bNly6YalT9f3TKZq0sRyqI0NqEJYF1bXqXWMEJqX8+ssdKxOKEVIBrwBPbDoGqkdB5FZb
-	 iQ1JHUmfnQ2ihTg78qgO0Ay8AgvuiBrPg1FcK+N/fgzDJh/MEBYdlTvcxXnZ+8IGkbESx
-	 M0wrcAek7G4axl/4ucqmagSXo7aRR9+rMUP/qDXl9nJQTZfdIUt5sj2s/Lz8sIrHU+Q==
+	bh=3WTdTnF0JVYbxqSowMBqWcsMAu+J2ITBZyyZou4yRaw=;
+	b=nf+dWtYmEoaTdmXg57et24ZCUv8PT0ZeCOazOgbEb1wiAI465fWoedHSHOTrdb3f3Tjr
+	 xw8/GVvjfjFElA6VKqFaylcJkQr4RX/jjEWkU+grdWZDibVrN48ck5oWerygT34Tq3flI
+	 fQy09dPuK6D5s8mVz0tz0jPW9sBQRVA/Z8EOJPwT1tmodel/DU9gRbdifO0KKF7UpMOXM
+	 +dpZsPxjPQE0/gIYGPrbLx9Eav83Hexy49yn0JJIlv8jqgYmt84OjuQqUtTt13S8P44No
+	 IAl7RGp/tUIalhZlS3OKIKMoiat+i9vJeJ0DoiU4jfpB8Eb2tp6eQUSZldPeSP+615g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X5fNTviH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CrmFyb47;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914B960A6F62;
-	Thu, 19 Nov 2026 19:29:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69612606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 19:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X5fNTviH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D2041F000C8;
-	Thu, 19 Nov 2026 19:29:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CrmFyb47
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2A081F000C7;
+	Thu, 19 Nov 2026 19:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795116590;
-	bh=6rDuPvMNMonUi4Jk3oCiITM0hmxt7+saHsno2Ls24CY=;
+	s=k20260515; t=1795117488;
+	bh=3WTdTnF0JVYbxqSowMBqWcsMAu+J2ITBZyyZou4yRaw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=X5fNTviH53Q8V/0scmmvgQODjeE3pITD3OsrHFQJETF+4LvLnMGhCz33MYaHB/6pu
-	 gdxdlnsDPxMulv1WUOooa/aqGIY001Gbm4cXL+V2kVXA138swhCFczq3Ml9yhra66O
-	 smVXeTEPoFoVkXwXNMgedOzvA2aWxa1DoNwAtdDLpDfMbHs3KZoaE29Sz0HaW6qKMh
-	 XV+CoHXm1jE7/DobTyAOUjLDXLmcF02z4im5EKBLV482RunRvJNqpO9bQsAbt3xIZd
-	 oFGeww7T14lkjIUXk1T87FK5rMndZ9C1ZL3TOkdAOc69DvH9tMBtXl5cUrpIyw9Tjn
-	 QTK+t/ie4EseQ==
-Message-ID: <sashiko-outbox-223917@kernel.org>
+	b=CrmFyb47H7JsIUFEODPV5vyGtSzN/GIaY6EwMt3/VJBOM3QBBX0pIHz0xUBKJsgct
+	 55N0noK1/RasuL8NR4sXFc7NvAdqzIoNaNTnXUufsk11x1Hx5nHjxZwwmsWVrCZye1
+	 mhQcwzFK3BOp9xI6SQYUMAy53z9J5ckKZMdukhY1Cak15u9zxty8b45ZRAOffkzKoB
+	 MBlDFH8mj72DUGvMfw60z03qR4eVb3NGw5Zx26gIlxPhbHxQ0OhzxQ4LkN6uGZTc4m
+	 m/O14zHBL8v+LDWdiPwts6ZfrcQ+T3lYEgcpTL8IrM0Yb8RTFTs0kzsd5wDQysApq6
+	 r+ExVnV8kMAiw==
+Message-ID: <sashiko-outbox-223965@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 31/31] USB: Authorize devices through device trust
+Subject: Re: [PATCH] ASoC: soc-pcm: Track BE pause per FE-BE link
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Leon Romanovsky" <leon@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dmitry.torokhov@gmail.com
-In-Reply-To: <20261118-device-trust-core-v3-31-d655875c4bfb@nvidia.com>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-31-d655875c4bfb@nvidia.com>
+To: "Suyuan Wang" <shyckless@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261119-asoc-dpcm-pause-link-v1-1-5b97347b5771@gmail.com>
+References: <20261119-asoc-dpcm-pause-link-v1-1-5b97347b5771@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 19:29:49 +0000
+Date: Thu, 19 Nov 2026 19:44:47 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,146 +61,171 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [High] usb: core: missing usb_notify_remove_device() when
-  disconnecting unbound device
-- [Low] usb: stale config_error in usb_authorize_device() when no config
-  is chosen
-- [Low] usb: core: missing device_trust_init() before
-  trace_usb_alloc_dev()
+- [Medium] ASoC: soc-pcm: duplicate PAUSE_PUSH sent on STOP in
+  dpcm_be_dai_trigger()
+- [Medium] ASoC: soc-pcm: stale pause count after prepare/hw_free in
+  dpcm_be_dai_trigger()
+- [Medium] ASoC: soc-pcm: BE left in PAUSED state on close in
+  dpcm_be_dai_stop()
 --
 
-commit 6534edcb6b352edce6df3458c65d3d073e695248
-Author: Leon Romanovsky <leon@kernel.org>
+commit 30a052e7da7505ef9d19e12059b179dfd9931fe2
+Author: Suyuan Wang <stevewong@hust.edu.cn>
 
-USB: Authorize devices through device trust
+ASoC: soc-pcm: Track BE pause per FE-BE link
 
-This commit integrates USB device authorization with the generic device
-trust policy framework, deferring driver binding and configuration for
-unauthorized devices until their trust policy is updated and keeping
-authorization and configuration result tracking under the device lock.
+This commit replaces the per-FE fe_pause boolean with a per-link paused
+flag in struct snd_soc_dpcm so that BE pause refcounting and trigger rollba=
+cks
+are tracked per FE-BE link.
 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 199d3f535a891..62eedae9d0077 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
+> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
+> index ef8ccf52798eb..cb8d23756b1e0 100644
+> --- a/sound/soc/soc-pcm.c
+> +++ b/sound/soc/soc-pcm.c
+> @@ -1685,6 +1685,17 @@ void dpcm_be_dai_stop(struct snd_soc_pcm_runtime *=
+fe, int stream,
+>  		if (!snd_soc_dpcm_can_be_update(fe, be, stream))
+>  			continue;
+> =20
+> +		/*
+> +		 * A pause may survive until close, e.g. after system suspend.
+> +		 * Drop the pause this link still holds.
+> +		 */
+> +		if (dpcm->paused) {
+> +			snd_pcm_stream_lock_irq(be_substream);
+> +			dpcm->paused =3D false;
+> +			be->dpcm[stream].be_pause--;
+> +			snd_pcm_stream_unlock_irq(be_substream);
+> +		}
+> +
+>  		if (be->dpcm[stream].users =3D=3D 0) {
+>  			dev_err(be->dev, "ASoC: no users %s at close - state %s\n",
+>  				snd_pcm_direction_name(stream),
+
+[Severity: Medium]
+Can this leave the BE stuck in SND_SOC_DPCM_STATE_PAUSED when another idle =
+FE
+still has the shared BE open?
+
+If FE1 is paused on a shared BE across system suspend and then closed while
+FE2 is still open (be->dpcm[stream].users > 1), dpcm_be_dai_stop() drops
+be->dpcm[stream].be_pause to 0 and returns early after decrementing users.
+That leaves be->dpcm[stream].state at SND_SOC_DPCM_STATE_PAUSED with
+be_start =3D=3D 0 and be_pause =3D=3D 0, causing later dpcm_be_dai_hw_param=
+s() calls
+for FE2 to skip the BE because its state is not OPEN, HW_PARAMS, or HW_FREE.
+
+> @@ -2220,7 +2231,7 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runtime =
+*fe, int stream,
+>  			       int cmd)
+>  {
+>  	struct snd_soc_pcm_runtime *be;
+> -	bool pause_stop_transition;
+> +	bool was_paused;
+>  	struct snd_soc_dpcm *dpcm;
+>  	unsigned long flags;
+>  	int ret =3D 0;
+> @@ -2248,6 +2259,16 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runtime=
+ *fe, int stream,
+>  			    (be->dpcm[stream].state !=3D SND_SOC_DPCM_STATE_PAUSED))
+>  				goto next;
+> =20
+> +			/*
+> +			 * A stream suspended while paused and prepared again
+> +			 * starts without a PAUSE_RELEASE: drop its pause here.
+> +			 */
+> +			was_paused =3D dpcm->paused;
+> +			if (was_paused) {
+> +				dpcm->paused =3D false;
+> +				be->dpcm[stream].be_pause--;
+> +			}
+> +
+>  			be->dpcm[stream].be_start++;
+>  			if (be->dpcm[stream].be_start !=3D 1)
+>  				goto next;
+> @@ -2260,6 +2281,10 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runtime=
+ *fe, int stream,
+>  						      SNDRV_PCM_TRIGGER_START);
+>  			if (ret) {
+>  				be->dpcm[stream].be_start--;
+> +				if (was_paused) {
+> +					dpcm->paused =3D true;
+> +					be->dpcm[stream].be_pause++;
+> +				}
+>  				goto next;
+>  			}
+
+[Severity: Medium]
+Does deferring pause cleanup until SNDRV_PCM_TRIGGER_START leave a stale
+be->dpcm[stream].be_pause count after a suspended stream is prepared or
+hw_freed?
+
+When a paused FE is suspended and then recovered with snd_pcm_prepare() or
+snd_pcm_drop() + snd_pcm_hw_free(), the FE transitions to PREPARE or HW_FREE
+without sending PAUSE_RELEASE or STOP.  Until that FE either starts or clos=
+es,
+dpcm->paused remains true and be->dpcm[stream].be_pause stays elevated (and=
+ is
+restored if SNDRV_PCM_TRIGGER_START fails).  If another FE sharing the BE
+starts and stops in the meantime, its STOP sees be_pause !=3D 0 and sends
+SNDRV_PCM_TRIGGER_PAUSE_PUSH instead of SNDRV_PCM_TRIGGER_STOP, leaving the=
+ BE
+in SND_SOC_DPCM_STATE_PAUSED when no stream is paused.
 
 [ ... ]
 
-> @@ -2784,17 +2785,41 @@ int usb_deauthorize_device(struct usb_device *usb=
-_dev)
+> @@ -2307,30 +2338,32 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runtim=
+e *fe, int stream,
+>  			    (be->dpcm[stream].state !=3D SND_SOC_DPCM_STATE_PAUSED))
+>  				goto next;
 > =20
->  int usb_authorize_device(struct usb_device *usb_dev)
->  {
-> +	bool attach;
->  	int result =3D 0, c;
+> -			if (be->dpcm[stream].state =3D=3D SND_SOC_DPCM_STATE_START)
+> +			/*
+> +			 * A paused FE left be_start when it paused and only
+> +			 * holds a pause on this BE.
+> +			 */
+> +			was_paused =3D dpcm->paused;
+> +			if (was_paused) {
+> +				dpcm->paused =3D false;
+> +				be->dpcm[stream].be_pause--;
+> +			} else if (be->dpcm[stream].state =3D=3D SND_SOC_DPCM_STATE_START) {
+>  				be->dpcm[stream].be_start--;
+> +			}
 > =20
->  	usb_lock_device(usb_dev);
-> -	if (usb_dev->authorized =3D=3D 1)
-> -		goto out_authorized;
-> +	if (device_policy_is_blocked(&usb_dev->dev)) {
-> +		result =3D device_trust_set_policy_locked(&usb_dev->dev,
-> +							DEVICE_TRUST_POLICY_UNRESTRICTED);
-> +		if (result)
-> +			goto out_unlock;
-> +	}
-> +
-> +	attach =3D device_trust_enabled() && !usb_dev->dev.driver;
-> +	if (!attach && usb_dev->authorized =3D=3D 1 &&
-> +	    (!device_trust_enabled() || !usb_dev->config_error ||
-> +	     usb_dev->actconfig))
-> +		goto out_unlock;
+>  			if (be->dpcm[stream].be_start !=3D 0)
+>  				goto next;
 > =20
->  	result =3D usb_autoresume_device(usb_dev);
->  	if (result < 0) {
->  		dev_err(&usb_dev->dev,
->  			"can't autoresume for authorization: %d\n", result);
-> -		goto error_autoresume;
-> +		goto out_unlock;
-> +	}
-> +
-> +	if (attach) {
-> +		usb_dev->authorized =3D 1;
-> +		usb_dev->config_error =3D 0;
-> +		result =3D device_attach_locked(&usb_dev->dev);
-> +		if (result <=3D 0) {
-> +			if (result >=3D 0)
-> +				result =3D -ENODEV;
-> +		} else {
-> +			result =3D usb_dev->config_error;
-> +		}
-> +		goto out_autosuspend;
-> +	}
-> =20
->  	usb_dev->authorized =3D 1;
->  	/* Choose and set the configuration.  This registers the interfaces
->  	 * with the driver core and lets interface drivers bind to them.
->  	 */
->  	c =3D usb_choose_configuration(usb_dev);
->  	if (c >=3D 0) {
->  		result =3D usb_set_configuration(usb_dev, c);
+> -			pause_stop_transition =3D false;
+> -			if (fe->dpcm[stream].fe_pause) {
+> -				pause_stop_transition =3D true;
+> -				fe->dpcm[stream].fe_pause =3D false;
+> -				be->dpcm[stream].be_pause--;
+> -			}
+> -
+>  			if (be->dpcm[stream].be_pause !=3D 0)
+>  				ret =3D soc_pcm_trigger(be_substream, SNDRV_PCM_TRIGGER_PAUSE_PUSH);
+>  			else
+>  				ret =3D soc_pcm_trigger(be_substream, SNDRV_PCM_TRIGGER_STOP);
 
-[Severity: Low]
-Should the non-attach path also clear usb_dev->config_error =3D 0 before
-calling usb_choose_configuration()?
+[Severity: Medium]
+Can SNDRV_PCM_TRIGGER_STOP send a duplicate SNDRV_PCM_TRIGGER_PAUSE_PUSH to=
+ a
+BE that is already in SND_SOC_DPCM_STATE_PAUSED?
 
-If a prior configuration attempt failed (leaving usb_dev->config_error
-non-zero and usb_dev->actconfig NULL) and usb_choose_configuration()
-returns -1, usb_set_configuration() is not called and config_error stays
-non-zero.  Subsequent calls to usb_authorize_device() on the already
-authorized device will then bypass the early return and repeatedly
-autoresume the device and re-run configuration selection.
-
-> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> index 2559a180fdeec..ed71f1155e2ed 100644
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -748,6 +748,11 @@ struct usb_device *usb_alloc_dev(struct usb_device *=
-parent,
->  #endif
-> =20
->  	dev->authorized =3D usb_dev_authorized(dev, usb_hcd);
-> +	if (device_trust_enabled()) {
-> +		if (!dev->authorized)
-> +			dev->dev.trust_policy =3D DEVICE_TRUST_POLICY_BLOCKED;
-> +		dev->authorized =3D 1;
-> +	}
->  	trace_usb_alloc_dev(dev);
->  	return dev;
->  }
-
-[Severity: High]
-Does leaving a trust-blocked USB device unbound skip
-usb_notify_remove_device() if the device is disconnected before being
-authorized?
-
-With DEVICE_TRUST_POLICY_BLOCKED, device_add() in usb_new_device()
-creates the /dev/bus/usb/BBB/DDD node, but device_trust_prepare()
-rejects binding usb_generic_driver, leaving udev->dev.driver NULL.
-Userspace can still open the usbfs node via usbdev_open(), which adds a
-struct usb_dev_state entry to udev->filelist.  If the device is then
-unplugged before authorization, device_del() in usb_disconnect() does
-not run usb_generic_driver_disconnect(), which is the only caller of
-usb_notify_remove_device():
-
-drivers/usb/core/generic.c:usb_generic_driver_disconnect() {
-	usb_notify_remove_device(udev);
-	usb_release_bos_descriptor(udev);
-}
-
-As a result, usbdev_remove() never runs, udev->filelist is not drained,
-disconnect signals are not delivered, and tasks waiting in poll(),
-USBDEVFS_REAPURB, or USBDEVFS_WAIT_FOR_RESUME hang indefinitely.
-
-[Severity: Low]
-Does trace_usb_alloc_dev() record usb_device_authorized() before
-device_trust_init() has applied any boot trust rules?
-
-device_trust_init(&udev->dev) is not called until device_add() in
-usb_new_device(), so trace_usb_alloc_dev() and the early
-trace_usb_set_device_state() events during enumeration evaluate
-dev->dev.trust_policy before device_trust.default=3D or device_trust=3D boot
-policies take effect.
+When be->dpcm[stream].state is already SND_SOC_DPCM_STATE_PAUSED,
+be->dpcm[stream].be_start is 0.  If two paused FEs share the BE (be_pause =
+=3D=3D 2)
+and one of them is stopped, be_pause drops to 1 and execution falls through=
+ to
+soc_pcm_trigger(be_substream, SNDRV_PCM_TRIGGER_PAUSE_PUSH) on the
+already-paused BE.  The same duplicate PAUSE_PUSH happens if STOP runs for =
+an
+unpaused FE (was_paused =3D=3D false) while another FE holds the BE in
+SND_SOC_DPCM_STATE_PAUSED, such as when snd_pcm_undo_start() sends STOP aft=
+er a
+failed start.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261118-device-tru=
-st-core-v3-0-d655875c4bfb@nvidia.com?part=3D31
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119-asoc-dpcm-=
+pause-link-v1-1-5b97347b5771@gmail.com?part=3D1
