@@ -1,99 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795117859;
-	b=DlVAT6poOLK5rfSmMDoKOS3nPwjIdzfzaIT9JLnjDO9bltH6m/stxE0jWywTgv4V/c5D
-	 BPNilyks2m8Umkanz3sSyq0Q8OsgPAL+SxLDIZfBeBSjl8gyPxQ0Xx/lrAwhczil/Ax1Q
-	 qL6xd/3YAYw3apO6ynb10vtsQPGPCrJw624Fz2uIzQnYWYfypNgp5NEC5BU2tHQw1s1de
-	 eJsiZoSJ2zApETDtbSC4KgqTN1n5mUD3sSckbeBVxabsO5GrlPvR19RmM48DnDJCOJ2EN
-	 rF2h8dYPAP9QP8kRAiAva5773cYtIXag4dHI2cc7Abt5REemUCOcTZ7DndIPF7ko5Ww==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795117859;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=aANZhc3kQYwnQcRF9OF2NeREH20t7ae5EPygqFTyG3s=;
-	b=qYnHe2mzs+/vWGt7xIZFVx2jlcOP2XQrwxZufljA4/S580bta+pY+sKrlQ0SbMAcjKTz
-	 /aVk/QHZ5aSZ9yLN7uyCZgbXjlewGe9EusHxMdC0bzumGMsEIj+ySe6yatTu1a8QYFOLY
-	 KPd7sb+AmOGO4uO3CHuLO865WMZz62DTD+5PfNuuq51Syj9rGvybttK+ZCHt43bnmY83N
-	 NZtzR2NBHA9kPEE04LDc3UQTPiEpYwg0Q1VlU1DX8Ci4ORkCbXAdQ7qf+rK4UF/T3QBSP
-	 AT6wOD5QUP2qQmNj5NUwQ5uSDO0QJ9F8zZo+lXLCOGbypg0dYLADxTzFZVIi5V7xcqA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MKNwQT5V;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795120253;
+	b=jt0auE/MHKeqoQ899P1EwMb8boEM9U6HvQhYNpQqftgnMCboZXFbTppTGoIvHfhFE7U5
+	 sm90wYh7FFMKeNCFLHw2dO9ekuPU+FnlF6gt4dATnRnSJBG/Eixzi0W54lsOLYBnC8/8T
+	 FIg9rYnxdhwzMp8nOYXz18sdL/8zcgVjH1vHjr54KIdaMR3qTmjju9onNtrVurOsOMhHt
+	 P9DWwLLJooBVyFCLLwWbDatgPuA87ZSyR+iwRXJbta8XD04OjEf6pjp+EaTw8qF2GVkBU
+	 2KUmZiW4AFJ9HheoHH5cIqFHO3GmQeHPiFUBcQ7baQ5rnXJyCgdLYCfrH3V7HjYrOlw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795120253;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 Organization;
+	bh=tytvhk3JrVSHsXOPa2vj4/q7ALh5xJT51+mQ59xmCMM=;
+	b=1TdR1MuuPJ0Kg5fuaBC+k+Lf+RvEBhWNugFARpopxxZB47A3e+u5sPo1dQinF7ktyQB0
+	 oydKFZSaBqf30CdHejPc7aUSaUOwMgGg624ifgVF5mLRvfd5qWLAuIhWhjRCkenz2gNiZ
+	 fzYqVJIRrq/iyZloKKTyfGwHoMxX2EcXfAif0gmYozQ/hGRUigpIgB4lIk0SqvxrwHMDg
+	 5LgPIOg77COfbkQc/JHkcn28Y+KYwk8Ka35xR+grK2r4W+pk40lkHCqqwjjKUfmo/J9ej
+	 BE2jqMrLcsEZzPdKPkuMvW4akv4BemBUkDYLyyO7PUifgxRCPnX2Ah6hdnplTeIE+9g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JzDDyvtZ;
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C85606A325
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 19:50:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93C85606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD8B606A32C
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 20:30:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CD8B606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MKNwQT5V
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso645145e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 11:50:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795117857; cv=none;
-        d=google.com; s=arc-20260327;
-        b=pOEBVnOCEPIrt8ZimWKMzW0cynopPB2FD3o9dOg8YSiztY5G+q8IDgJa6wu6iCRaEc
-         edDVW7FTdQ+sNQahwrO0hdJ16I0ZKvrBoy1Tk5rl4p7hzWxIUsRE+Cn8ijvl5rl0vwLV
-         fYSpk75wyUDAvGhtF8NMoB9onJptvyeS+QgUGO53oiHpizcn8q/WpT+yclX2SplW+zAc
-         LgRIP10RrOyPgZUXm7PvRRxvEpOqySH8zN3Q/ab4lpNWJv6eAK8A5gIzCjC1TUE0vVN6
-         kBvnIhf2M7kiApyVr+H4bUHLp8f5bhKofR2JojcOPJkpjW/a3AnQTYWBJbSKeXatbre1
-         4+Rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aANZhc3kQYwnQcRF9OF2NeREH20t7ae5EPygqFTyG3s=;
-        fh=j7qE0RlvzNR5Qm6xA4ehUDBqPqcz09gsE3Wa6zaxdUU=;
-        b=AKpWY1/OPCOWgGxq7fQHKC5h02hF2qGZB3Hj3C8ShheQlKrbbMDYZkDmvdo6t8BRTS
-         Zyt395nkReQhEdbDKgBPUM/Fx5TQjSczt5VUcp+gTmXqmHP71fYx/r83AQ4bEM66GaMB
-         XVnitPvuhxENLoRtrTOJ2kqgTMwIqUd58gUAAMwg5XueOU9VKnQ75tWUGSCbCpcPgb1Y
-         D1Pz/dCzQ1sRITCMCYDhXH2m3ff6MDSuEZffvMOYanaLVMsv53UrGnm0GNMPBQa4imP6
-         at8hfK0LvAROrxRXsV0Fgcis8k2fOlRXWS9f7FOJ4mJYJljRlqYWo9lprQyi14HttAK6
-         9B7Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795117857; x=1795722657; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aANZhc3kQYwnQcRF9OF2NeREH20t7ae5EPygqFTyG3s=;
-        b=MKNwQT5V/LxuAO84GElHtQQeA/xm10phDvut4IwY5UpeO2AvbzBvWeaK4HGIqg7Vyg
-         07/4ICROkkI5HfHGvrkwem3Ld9Gj34iKH67xUWUoQAc2NZhBrHSywlckzHBecBxzRNCi
-         jBFtfonHQ/OjJGbPConYRDZC3rH4Uoa5bJ2VEU4e1qEabyHNgb1klBRAzqyHdv+CMbxn
-         9M21UZU14EUtXd8m5YPC7a3zm6X4Yc8XXTg+a53JGPhPUKc4e1OmK6RMmBhh2BJUpjLl
-         3mt0DNXOyN8IzpBCb6Fg3cDAKh2OnxOdp/axPx0DptXnwV+zBCnzQRHxfr4GZRGg3JOw
-         HUTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795117857; x=1795722657;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aANZhc3kQYwnQcRF9OF2NeREH20t7ae5EPygqFTyG3s=;
-        b=rGy4jZQWwSdzAq4MrtikXdC+fbxBkmQvCALNmSX/ix+q5p7aT/Mzh0NIU4Ba5rDpxO
-         Ddr1dgIvwFOjsbgK2g4uXDgI1hX1N0aizp0csMN50lwIlFgpWjtqmzjhalhAW1pypSdL
-         uwgHosh4i+bp5BnrIlK8wChTqUiZ6My6amjR+kDltq5Wv3Jh88EpzLp00RgDptAEEl9T
-         Xkey6fWy2wU9OK3vVJ3/+woCwP5kuwiCmmSaEj5IYnKzJ12cNe6g7TKEXTlyLqFjA5VO
-         pLtK9FekOsEXbYZAyQnqGO8sAu1Ba0utmacqDoA2Wjv3nqSA8Ynh8fpITZG5GbUU7kFH
-         oRTw==
-X-Gm-Message-State: APuU4Z/bFViS5Cmikq1yn2PgJfsM+ovoWvxCb57raB9+WxxxnA67cyp9
-	ngOL56QOnUvgHwtr4sLWY1DTxEXcyU1DmQKWPhX/3gm9q4NVrGzo5YH9sybDnVjX1xfwJqKPNCS
-	Zv/PGuAUHlG/DEVYInMiWykHZa7W60/0=
-X-Gm-Gg: AYBFou0sf42N4HRrUkNKpvbsIKDFeHlvbwyKJCdkw4MPjQCVPvILENp577S0yjxLKig
-	glGOt017gqfoZxcSKC4emsjAXG4Z5CKLJn1c84slG32nRRovjK6/mAeVwE8+tDIQSfLx3on/uHb
-	aJnTYu8yVY19voaoIY4lDNNNOeTv8rqucVexKEPBdT+M9nQF7cD8USZjX2uCmnM+9SOGd4t8Rhr
-	bMAmn5pAx0ivaYGUZkGdNB+Bky0ol/+gb/C8pZ+NrugVYgGcmWqlK03iwAykx3kzeC4tCFI0qZ6
-	+vjcgs1+br6rFKZ6rgdT1yQ8NLfM2m4HmFXrOFTFUeCidUPZl4vguMg0y5+6qOUwxSWYcZyv6FA
-	X5M0skuxrh3ykGy5Zpt6OrfQkOqoj8JNHdyw=
-X-Received: by 2002:a05:600c:a087:b0:4bb:5c92:ce22 with SMTP id
- 5b1f17b1804b1-4bb887fe887mr14870135e9.8.1795117856614; Thu, 19 Nov 2026
- 11:50:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=JzDDyvtZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795120253; x=1826656253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=7S1RuKZKjFiciBHtIpfDPfnceGxBPatJxPFsTbrfcd4=;
+  b=JzDDyvtZ6IDxoN9VPFaVSRw8oW58hqscyS6zII8QMLzqd8OlTSPlDy2/
+   69XNGPhrWODOuFNnUJn0DOxogR3/EqspY7o1Tjg3i8IbwrPsg+U42BzsP
+   NbSdcGL+CZijx9YPofIS9rVsbxQd3Wq+jwBykX0M4MDoV9qaxtehyUlyU
+   6+d5YDaSUKbi6wKPvRSzKwGky4up4LLrOr3bw2EE217ygDeSqd7TIDW2f
+   yI6O3gsOj5X930SSVDKFHk9R22RYWeI7fJuBaNAv3uzhsuewRPWH/B0I5
+   iTqvIiBAWcVqon+qlmEO/e4Jjn9KeqKz0LsMWiHgAs0U8kA91RfKyS956
+   A==;
+X-CSE-ConnectionGUID: Bt9clazdQXK6ryT5mY/Caw==
+X-CSE-MsgGUID: x3j3mUBNS9+i3piRTsAGLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3982250"
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="3982250"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 12:30:52 -0800
+X-CSE-ConnectionGUID: gKSvUEcGTfyH7sSrxh70EQ==
+X-CSE-MsgGUID: gn6DCL6xQgK2aVUP4tq2hw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="10521474"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.61])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 12:30:50 -0800
+Date: Thu, 19 Nov 2026 22:30:47 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Ted Vera <tedvera@gmail.com>, linux-sound@vger.kernel.org,
+	regressions@lists.linux.dev, oder_chiou@realtek.com,
+	lgirdwood@gmail.com, broonie@kernel.org
+Subject: Re: ASoC: rt5677: Do not apply Yoga Book ACPI GPIO mappings to Samus
+Message-ID: <av9cdww9a7NV2DHz@ashevche-desk.local>
+References: <CAFd_G9guhtVwE1aaFOXE3Ab43BAcwP3RBT=R_SdZ2KDfXB=LeQ@mail.gmail.com>
+ <d0219acc-0e2d-4bcd-b303-e7edaa236eec@linux.dev>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,240 +81,51 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261119-asoc-dpcm-pause-link-v1-1-5b97347b5771@gmail.com> <sashiko-outbox-223965@kernel.org>
-In-Reply-To: <sashiko-outbox-223965@kernel.org>
-From: Wong Steve <shyckless@gmail.com>
-Date: Fri, 20 Nov 2026 03:50:42 +0800
-X-Gm-Features: Aa3M54qkdolW-IiAqhCcXyuYn1Y0lonH8m22R8ej5KdRu3qZXoYvZ5AR4I8p5Qc
-Message-ID: <CA+X8SdgOMQM-h1GTBNPDUHrjVfqjY9P3k7FgpzxZYCxG-V=5dA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: soc-pcm: Track BE pause per FE-BE link
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d0219acc-0e2d-4bcd-b303-e7edaa236eec@linux.dev>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
+On Tue, Nov 17, 2026 at 09:11:13AM +0100, Pierre-Louis Bossart wrote:
+> On 11/16/26 22:24, Ted Vera wrote:
+> > Summary:
+> > On a Google Pixel 2 LS Chromebook (Samus, EVT2) running Fedora 45
+> > kernel 7.3.3-300.fc45.x86_64, the RT5677 codec repeatedly fails probe
+> > with Failed to request POW_LDO2: -517 (-EPROBE_DEFER). The codec
+> > appears in devices_deferred, no RT5677 ALSA card is registered, and
+> > only HDMI audio is available.
+> > 
+> > The driver’s ACPI GPIO mapping added by commit 0cc00de3dd5b maps GPIO
+> > resource indexes 0 and 1 to reset and pow-ldo2 for every ACPI RT5677
+> > device. Samus’s DSDT uses those resources for codec GPIOs (jack detect
+> > and mic-present), not Yoga Book-style external reset and power GPIOs.
+> > The driver requests the mapped GPIOs before registering the codec’s
+> > GPIO chip, which appears to cause the deferred-probe loop.
+> > 
+> > Test and result:
+> > I built a temporary module against the matching Fedora kernel source
+> > that skips devm_acpi_dev_add_driver_gpios() on DMI board Samus. With
+> > that module, the RT5677 device bound successfully, the bdw-rt5677 ALSA
+> > card appeared, and laptop-speaker audio worked. Secure Boot remained
+> > enabled. This strongly supports the ACPI GPIO mapping as the cause.
+> > 
+> > Suggested fix: Restrict the mapping to devices whose ACPI GPIO
+> > resource layout matches the Yoga Book, rather than applying it to
+> > every RT5677 ACPI device.
+> 
+> Humm, it's a 2015 device that I used in the past without issues. It was
+> one of the early SOF devices... See commit bcb43fd.
+> Is this a commercial version or an early prototype? I don't recall what
+> EVT2 stands for in Chromebooks.
+> Also adding Andy in Cc:, he was the one who suggested the GPIO fixes.
 
-> - [Medium] ASoC: soc-pcm: duplicate PAUSE_PUSH sent on STOP in
->   dpcm_be_dai_trigger()
-> - [Medium] ASoC: soc-pcm: stale pause count after prepare/hw_free in
->   dpcm_be_dai_trigger()
-> - [Medium] ASoC: soc-pcm: BE left in PAUSED state on close in
->   dpcm_be_dai_stop()
+I have Google Pixelbook 2015 (still one left), I may try to install F45 on it.
+Note, F43 worked on this device so well!
 
-I went through the three cases with the code before this patch, and it
-behaves the same way in each of them:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-1. Closing a FE that was paused across a system suspend while another
-   FE keeps the shared BE open: before the patch the BE also stays
-   PAUSED (with be_pause still at 1), so the other FE's hw_params skips
-   it in the same way. The patch only drops the stale count.
 
-2. A FE that was paused across a system suspend and then prepared but
-   not started: before the patch be_pause also stays at 1 until that FE
-   stops, so a STOP from another FE sharing the BE sends PAUSE_PUSH in
-   the same way.
-
-3. STOP sending PAUSE_PUSH to a BE that is already PAUSED: the old code
-   does the same whenever be_pause is still non-zero after the stop.
-
-So I don't think these are regressions from this patch, but they are
-gaps in the same bookkeeping. If that's useful, I can send follow-up
-patches to drop the link's pause when the FE is prepared, and to skip
-the trigger in STOP when the BE is already PAUSED and still paused by
-another FE. The close case would need the BE to be stopped from the
-close path, which I'd rather discuss first.
-
-Thanks,
-Suyuan
-
-<sashiko-bot@kernel.org> =E4=BA=8E2026=E5=B9=B411=E6=9C=8820=E6=97=A5=E5=91=
-=A8=E4=BA=94 03:44=E5=86=99=E9=81=93=EF=BC=9A
->
-> Thank you for your contribution! Sashiko AI review found 3 potential
-> issues to consider:
-> - [Medium] ASoC: soc-pcm: duplicate PAUSE_PUSH sent on STOP in
->   dpcm_be_dai_trigger()
-> - [Medium] ASoC: soc-pcm: stale pause count after prepare/hw_free in
->   dpcm_be_dai_trigger()
-> - [Medium] ASoC: soc-pcm: BE left in PAUSED state on close in
->   dpcm_be_dai_stop()
-> --
->
-> commit 30a052e7da7505ef9d19e12059b179dfd9931fe2
-> Author: Suyuan Wang <stevewong@hust.edu.cn>
->
-> ASoC: soc-pcm: Track BE pause per FE-BE link
->
-> This commit replaces the per-FE fe_pause boolean with a per-link paused
-> flag in struct snd_soc_dpcm so that BE pause refcounting and trigger roll=
-backs
-> are tracked per FE-BE link.
->
-> > diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-> > index ef8ccf52798eb..cb8d23756b1e0 100644
-> > --- a/sound/soc/soc-pcm.c
-> > +++ b/sound/soc/soc-pcm.c
-> > @@ -1685,6 +1685,17 @@ void dpcm_be_dai_stop(struct snd_soc_pcm_runtime=
- *fe, int stream,
-> >               if (!snd_soc_dpcm_can_be_update(fe, be, stream))
-> >                       continue;
-> >
-> > +             /*
-> > +              * A pause may survive until close, e.g. after system sus=
-pend.
-> > +              * Drop the pause this link still holds.
-> > +              */
-> > +             if (dpcm->paused) {
-> > +                     snd_pcm_stream_lock_irq(be_substream);
-> > +                     dpcm->paused =3D false;
-> > +                     be->dpcm[stream].be_pause--;
-> > +                     snd_pcm_stream_unlock_irq(be_substream);
-> > +             }
-> > +
-> >               if (be->dpcm[stream].users =3D=3D 0) {
-> >                       dev_err(be->dev, "ASoC: no users %s at close - st=
-ate %s\n",
-> >                               snd_pcm_direction_name(stream),
->
-> [Severity: Medium]
-> Can this leave the BE stuck in SND_SOC_DPCM_STATE_PAUSED when another idl=
-e FE
-> still has the shared BE open?
->
-> If FE1 is paused on a shared BE across system suspend and then closed whi=
-le
-> FE2 is still open (be->dpcm[stream].users > 1), dpcm_be_dai_stop() drops
-> be->dpcm[stream].be_pause to 0 and returns early after decrementing users=
-.
-> That leaves be->dpcm[stream].state at SND_SOC_DPCM_STATE_PAUSED with
-> be_start =3D=3D 0 and be_pause =3D=3D 0, causing later dpcm_be_dai_hw_par=
-ams() calls
-> for FE2 to skip the BE because its state is not OPEN, HW_PARAMS, or HW_FR=
-EE.
->
-> > @@ -2220,7 +2231,7 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runtim=
-e *fe, int stream,
-> >                              int cmd)
-> >  {
-> >       struct snd_soc_pcm_runtime *be;
-> > -     bool pause_stop_transition;
-> > +     bool was_paused;
-> >       struct snd_soc_dpcm *dpcm;
-> >       unsigned long flags;
-> >       int ret =3D 0;
-> > @@ -2248,6 +2259,16 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runti=
-me *fe, int stream,
-> >                           (be->dpcm[stream].state !=3D SND_SOC_DPCM_STA=
-TE_PAUSED))
-> >                               goto next;
-> >
-> > +                     /*
-> > +                      * A stream suspended while paused and prepared a=
-gain
-> > +                      * starts without a PAUSE_RELEASE: drop its pause=
- here.
-> > +                      */
-> > +                     was_paused =3D dpcm->paused;
-> > +                     if (was_paused) {
-> > +                             dpcm->paused =3D false;
-> > +                             be->dpcm[stream].be_pause--;
-> > +                     }
-> > +
-> >                       be->dpcm[stream].be_start++;
-> >                       if (be->dpcm[stream].be_start !=3D 1)
-> >                               goto next;
-> > @@ -2260,6 +2281,10 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runti=
-me *fe, int stream,
-> >                                                     SNDRV_PCM_TRIGGER_S=
-TART);
-> >                       if (ret) {
-> >                               be->dpcm[stream].be_start--;
-> > +                             if (was_paused) {
-> > +                                     dpcm->paused =3D true;
-> > +                                     be->dpcm[stream].be_pause++;
-> > +                             }
-> >                               goto next;
-> >                       }
->
-> [Severity: Medium]
-> Does deferring pause cleanup until SNDRV_PCM_TRIGGER_START leave a stale
-> be->dpcm[stream].be_pause count after a suspended stream is prepared or
-> hw_freed?
->
-> When a paused FE is suspended and then recovered with snd_pcm_prepare() o=
-r
-> snd_pcm_drop() + snd_pcm_hw_free(), the FE transitions to PREPARE or HW_F=
-REE
-> without sending PAUSE_RELEASE or STOP.  Until that FE either starts or cl=
-oses,
-> dpcm->paused remains true and be->dpcm[stream].be_pause stays elevated (a=
-nd is
-> restored if SNDRV_PCM_TRIGGER_START fails).  If another FE sharing the BE
-> starts and stops in the meantime, its STOP sees be_pause !=3D 0 and sends
-> SNDRV_PCM_TRIGGER_PAUSE_PUSH instead of SNDRV_PCM_TRIGGER_STOP, leaving t=
-he BE
-> in SND_SOC_DPCM_STATE_PAUSED when no stream is paused.
->
-> [ ... ]
->
-> > @@ -2307,30 +2338,32 @@ int dpcm_be_dai_trigger(struct snd_soc_pcm_runt=
-ime *fe, int stream,
-> >                           (be->dpcm[stream].state !=3D SND_SOC_DPCM_STA=
-TE_PAUSED))
-> >                               goto next;
-> >
-> > -                     if (be->dpcm[stream].state =3D=3D SND_SOC_DPCM_ST=
-ATE_START)
-> > +                     /*
-> > +                      * A paused FE left be_start when it paused and o=
-nly
-> > +                      * holds a pause on this BE.
-> > +                      */
-> > +                     was_paused =3D dpcm->paused;
-> > +                     if (was_paused) {
-> > +                             dpcm->paused =3D false;
-> > +                             be->dpcm[stream].be_pause--;
-> > +                     } else if (be->dpcm[stream].state =3D=3D SND_SOC_=
-DPCM_STATE_START) {
-> >                               be->dpcm[stream].be_start--;
-> > +                     }
-> >
-> >                       if (be->dpcm[stream].be_start !=3D 0)
-> >                               goto next;
-> >
-> > -                     pause_stop_transition =3D false;
-> > -                     if (fe->dpcm[stream].fe_pause) {
-> > -                             pause_stop_transition =3D true;
-> > -                             fe->dpcm[stream].fe_pause =3D false;
-> > -                             be->dpcm[stream].be_pause--;
-> > -                     }
-> > -
-> >                       if (be->dpcm[stream].be_pause !=3D 0)
-> >                               ret =3D soc_pcm_trigger(be_substream, SND=
-RV_PCM_TRIGGER_PAUSE_PUSH);
-> >                       else
-> >                               ret =3D soc_pcm_trigger(be_substream, SND=
-RV_PCM_TRIGGER_STOP);
->
-> [Severity: Medium]
-> Can SNDRV_PCM_TRIGGER_STOP send a duplicate SNDRV_PCM_TRIGGER_PAUSE_PUSH =
-to a
-> BE that is already in SND_SOC_DPCM_STATE_PAUSED?
->
-> When be->dpcm[stream].state is already SND_SOC_DPCM_STATE_PAUSED,
-> be->dpcm[stream].be_start is 0.  If two paused FEs share the BE (be_pause=
- =3D=3D 2)
-> and one of them is stopped, be_pause drops to 1 and execution falls throu=
-gh to
-> soc_pcm_trigger(be_substream, SNDRV_PCM_TRIGGER_PAUSE_PUSH) on the
-> already-paused BE.  The same duplicate PAUSE_PUSH happens if STOP runs fo=
-r an
-> unpaused FE (was_paused =3D=3D false) while another FE holds the BE in
-> SND_SOC_DPCM_STATE_PAUSED, such as when snd_pcm_undo_start() sends STOP a=
-fter a
-> failed start.
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119-asoc-dpc=
-m-pause-link-v1-1-5b97347b5771@gmail.com?part=3D1
