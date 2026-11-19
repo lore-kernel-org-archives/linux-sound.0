@@ -1,72 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795113474;
-	b=M4dQDv4Tse33I1iKfbHAO1uKDtMiBH1YFLhaDo2H+FHuT4dMRMN1nlXF3N0oiLSGDhZ5
-	 7Nci9BMO2ftaUpU0Z0XK9LOUnB1cq4LTfDqF7kCr4qZirGCXy3dRy96mnagX+7x51fcKZ
-	 KGuDoxB2GTFi8TXc1xMd67YAdgIMtH37HWIfEYRlgNPIO7TbJuBhUi+pVseCzphtUCoWv
-	 4GEx0UL6xCR9u/pESkqyBTnsv/95G3SQ9Lk+xNgxHy8wJPSaJDUoAY5Q3zCj3bfY4KLog
-	 8EkaqHLpzSHV9R+peWpF/f4a/p4La7cD989pp4LnNktjRT7IKt/xTUTHJtfFxcja+Ww==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795113474;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=gLO/oqmV4DgN6TSlCCTIto3brNJsLk1Z5wCWirBFpeQ=;
-	b=K6MQDMS5gtgbqXcfbhZAVK7IySg+4V5koYaBQLlJAagiKj9oC1y+wsmhvHoXSOZ8GWpp
-	 jnQ3tJh6JoQvo4DhZtroRbwdVcCalJUaEH2fb9ClhIyL/FHMm7DCc4p39QtzCViqrVOnp
-	 WAY14cOHLFr3xKqg88+UA+f8KL4QAG7bHPjOBLIzDiqYr/Sdi571VCavZ2jjmNaUHDrw4
-	 y4FdJUB07j9tLSYFvYtSX9thDLJLRJm4GmXYHBs82gSG9YWczJ5NDFpe+oMO94hmomwu1
-	 gtZzquofD8hbV8OG9m+7pXZ4mdtG+JeNydph3fShXWwA3JyTxH/bYUE2+yn4ZaU4BlA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="V9/QmJnN";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795114527;
+	b=fcBW/PChv1sgMB3ep6jn39ShcryqNPHHYO0pB4LeCIeQIX9P10AgwZuCMK+K/IOF4bH8
+	 F/cuaWAqjlPSuwfZdyim8lLbggeanWtKCFW8KTr0+JBu9dYqdiUo/EfKU/RfTVuxf6oqJ
+	 GOfFeHQuyQ7OPc5A6Li8G1pv4XLAieQNbSjgEpSAjxoHUZE5qaAYRr9x++JewKA3BjgoU
+	 4Ck3Ouy9GYODipheL9z6ofrWwaaHwc+LWY57fS63kJhLNz4SdaxppEqB1NX/OUYbahnwX
+	 Y+jfj7S23qLh8/JCocX9JYzNm32f7O45nZMcg59CNfcMypTqIM2uD4lyYvg4Jb48HDw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795114527;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=18dkL9gZCGN5BAKYIieEBPQoeZonkjM1+SkmcFZ5FxE=;
+	b=myYbOYUV//PlFyI5gLPuNKpgMTVnQBoc5Og0zsgFZMpzwWjF4mlxp9Rep3Nma9j3WLFA
+	 Aw57sUmZCQFZ7v38hDxv5t/KWjUiJY2EVVuFpp/Z/tqNLs/msQZq6sM1sHcxLRWUtLVdF
+	 Bc/pSRlHWCD6FvYDu8t842Vxk179/NJwHFX2R7TLhLkbFuGgaFkNw8TWuXMpw6ao2MI/s
+	 yakHMi8iYHBvoEh9Bu2j9d1GC+XOxGTumhCfmueMzE8ITktDVIIV8Qe54RRE9ehxuV3gA
+	 /qH3UDIVe2uDAycei9YOD+ezuqh52r+F0LlFC5P9vyocidOBCYYzoOsIZzwfHf91MYg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dIWg8E5V;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49487606A33C;
-	Thu, 19 Nov 2026 18:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F96C606A334
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 18:55:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F96C606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V9/QmJnN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA1761F000C7;
-	Thu, 19 Nov 2026 18:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795113474;
-	bh=gLO/oqmV4DgN6TSlCCTIto3brNJsLk1Z5wCWirBFpeQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V9/QmJnN2JlChDE1K/HsoFTxGK8BUntAFRsQKrrwAQ13j2/3wadDh4OnJkqW+pux6
-	 bZ3lbbHiovC3hstNVVKyFWze8GZYT6RS6h4CezG1VghnqLkdj8odVKmNP1o56t+WVK
-	 qRJ8ASFD14PTrrW9HutLbcH9djJujhcYKKkW9zrIFErzeCfdRUUcwLmFmofeNNMW8O
-	 N9Wm1QM96dx1beV6qK9srRD5Q3l0Lj+nOsKF5U4xSBFq2U3jgj5UxlM96qNfNbH/eG
-	 sbsmHAuwwvMwzwlv54x+i9tF537LfR4fFDFJhhW4tAatXHjVk/SL256cJmhKMDrJHY
-	 LAu/xtTf2NXiQ==
-Date: Thu, 19 Nov 2026 18:37:46 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] iio: adc: stm32: add mdf support for stm32mp2
-Message-ID: <20261119-stick-armored-64cd8e1cea62@spud>
-References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dIWg8E5V
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b894d9a075so62314a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:55:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795114525; cv=none;
+        d=google.com; s=arc-20260327;
+        b=j1hGaBzyAKvSiJs6bCdyJ3s63NT85fZ3k5Mv9bJqznorlj18hjbeO9EbZ0j0cYrGyq
+         f1aeU7ofIrf80MNjt6gEezSwWiE0+S4IbI+YT7KjM9XMXsZlBeNMW9naMCeyzCzzVusl
+         qayHs4UDp+XdB0s3gMbN217gbw9e4MR+j4lQfVnzS1FwJ9vdvWE3QjHA8y2P/0w5VgNf
+         7TrKfixgugb3M4ptozqXepmE3aA33cEYEmMRXjgwVPfQKCHXxHob18Ve2m1DQnlG6DeE
+         O/kbi+8F25QWVSVrnDlMdQJF0pCCaFc8GZKZ8tpCujqyeoNEIziwYDKSbbtQvMZX2dQE
+         0RLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=18dkL9gZCGN5BAKYIieEBPQoeZonkjM1+SkmcFZ5FxE=;
+        fh=sbpBceD6Tcm5G0dweR//ZhDk/O30R47QgxHg2l51zBQ=;
+        b=Td2++cu4Q7yJpGTv7lGqyJnkhcfv+V5dkCWePAUScWsw7uL56FdKgrYBf52dQGOHy9
+         UZcBunGWV51OV+efsj/WGBhsGPb4D0E96aKOaZrMPDRnTqK3HSi0TsKjsf1q58MiYr0G
+         oOUTOoYztYHhZgIQXqCNDkSW05w88yfS/0yUezp/nKU4aC/xZ1MqG3lk166LeQrF7tCW
+         kQwQmUU2MBcLCF2SZLZp6JJOVAiXWMWfmhiz/IXHJlMGqFD41VLzbjGQXwCq4NyTM1bx
+         TkjGzmk+gkgAGIi/0tX4455gOWGSC5YodUlI8SdQJANpbQ26+NwPlpiHTjxZwx2OdR+6
+         Tq4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795114525; x=1795719325; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=18dkL9gZCGN5BAKYIieEBPQoeZonkjM1+SkmcFZ5FxE=;
+        b=dIWg8E5VXIIhtE7RXXYzc73NNiZgGlMOlcpy3MTkPmuUVKcuFsYIWW9xGFCfS2XJ0F
+         RIWBufPIAZPMUwO9Rg31DEyZOLKhNPjkDaGPuCbFSlpoNYGIm9fA4FaWImPvkuU0+k9x
+         zlH/DbhyxCNuUHpKoOJYYyirbEiMuy4AbaX+zilSOJYT2ElS9AY3oU1I68iQgFh/60LZ
+         zXKef4JGo+g7P/TUVSOnC5cDxrOerz/rkniY/yDaU2sYsPwXUb6s68VDqfq1XCRzPHl0
+         xjdEwiQYAjMmYF6IMpS+6NW9i5KNU93IpJhBDcTyyf7zzt84pcvqAYzP2Z3YqW0Rey8G
+         eWiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795114525; x=1795719325;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=18dkL9gZCGN5BAKYIieEBPQoeZonkjM1+SkmcFZ5FxE=;
+        b=ww2rTE/kWCG6M3XDHRb2Ur6T3yprQSts446kdMFTep7501vTuyTTNWoJymDGpTYKBZ
+         c/D43GaVbhSfH+kXRhH9AvWN2fhmDFtSQq3tkMcP5Gwdv5udppEfpsn9EoYI+vrT6sPM
+         QMZyaCfoJ6p0Xuau1OgcUWV3Cjrnj6s2lpuILoTCjbS+rTsrLR6IWAFWDdtWLW/4GQFT
+         nMAZIQppc0RLGQp8hiLL+e+Cmi/LnTFxzO4td/wwKHcLDhTONgvp8TqdX83rvOBwt2xk
+         eRVx0A6MEdYaEielRKWqdWsC0F1u4B61zZFsLEqbLzaW8egiUmEZBND7HmHpgzMOAN2i
+         6wmg==
+X-Gm-Message-State: APuU4Z84HcP9hgGMaiiJUuw4W1hnBlAxB98FbJ4BsuZXlLBKGPdUTzoi
+	ZwqvMZl2HoCHFzs5ijOvXMlFMaupaCeqSBjrltwAvv1X0Z5eKCTwVRxHnh2/s3VnzOCLlopb/Rt
+	8L8gL2JsOCHAsuSyaXSqECDfczHPKOlHJx2pLQXI=
+X-Gm-Gg: AYBFou3HvA1gbuefQ4jER8K58YJwpfNV3j0LJpWyagu1nMa8nEfV7TC533tZNKrR1kb
+	1IANONnCs5u9eXG08ylkuGpxUe8xBMYH6x37pIRu0KD0I551FKRHIqMYACCGwq3FpbpMp9KPlZR
+	kI+dxvXcybp9Mm4OCH1IJn/rbp7Lobd8Y+VtyrSBlFw6dCmglaIcpnvlRT8nfE0pazQgFwbEJcC
+	NxMMsVqkEStxjsUT04GD8IOTgbWLSSZ4eqJIn29Tegk+/+1vJhuqTVd+grvNtyUOi50J//RuTdT
+	e6+kolaA2+0z9Vh3T79pWx0GPY//yOsyiJzSO4TrLN5uOLQIVTlukaWX2m0+EfVdI6nr/+W4tDw
+	urU4VuIW0k/ID7UqYXoFPaPB7MZJ4sVwZQ903hqFsct6zIYRYqaqjwHaDwpG7Rjecd5OFMDaPf0
+	S248QWfqIX7Iy/9Gt1tN2ycDGYsOG5/fmrfhKI4mHs0m+RZLtwFt20+0rgIf0nEUMMRo+4g/ogv
+	x7KxA==
+X-Received: by 2002:a05:6402:1e90:b0:6b6:8ed8:765a with SMTP id
+ 4fb4d7f45d1cf-6ba37eb79cdmr295437a12.38.1795114525326; Thu, 19 Nov 2026
+ 10:55:25 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -76,247 +101,71 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LpL/rArroYRlxrrz"
-Content-Disposition: inline
-In-Reply-To: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
+From: Asim Moideen <asimmoideenkm7@gmail.com>
+Date: Fri, 20 Nov 2026 00:25:11 +0530
+X-Gm-Features: Aa3M54qfGE2EUcVP3Zwg3DnFoXf94jiHm25V0PSfWdO9k38sKtrLY-ie95dnGN0
+Message-ID: <CACqwDj7EckvxvOEXgmPap0+h5W-muRwa-j=wS3FOFZTuqX=bOw@mail.gmail.com>
+Subject: Subject: [HDAudio][ALC295] No internal speaker output on Acer
+ TravelMate P614-51-G2 (SSID 1025:141e)
+To: linux-sound@vger.kernel.org
+Cc: "Cc: Kailang Yang" <kailang@realtek.com>, Takashi Iwai <tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 
---LpL/rArroYRlxrrz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Wed, Nov 18, 2026 at 04:17:45PM +0100, Olivier Moysan wrote:
-> This series adds support for the STM32 Multi-function Digital Filter
-> (MDF) found on STM32MP2 SoCs. MDF converts bitstreams from external
-> sigma-delta modulators and PDM microphones into samples for IIO and
-> ASoC consumers.
->=20
-> The drivers support direct IIO conversions, cyclic DMA acquisition,
-> CIC configuration and scaling, synchronized and interleaved filters,
-> and external timer triggers. An ASoC DAI provides PDM microphone capture.
->=20
-> This revision addresses the v1 review comments listed below and splits
-> the driver patch into smaller functional patches for readability.
-> It retains the existing IIO backend interface for external sigma-delta
-> modulators, pending agreement on the preferred abstraction.
->=20
-> These changes do not resolve all v1 review comments. In particular, the
-> frontend/backend architecture, DT child-node model and complete clock
-> topology remain open discussion points.
->=20
-> * Open questions: MDF topology (backend/frontend)
->=20
-> In Analog Devices use of the IIO backend framework, the AXI ADC is a
-> hardware backend, while the AD9467 is a hardware frontend. The external
-> sigma-delta modulator is actually a hardware frontend in the MDF signal
-> chain. The difference from the AD9467 use case is which driver owns the
-> aggregate IIO device.
+The internal speakers on an Acer TravelMate P614-51-G2 produce no sound
+under Linux. They work in Windows on the same machine (dual boot), so the
+hardware is fine. I have not yet tested wired headphones or HDMI audio.
 
-My red line here, that I probably made pretty clear on v1, is that what
-is done needs to make sense when the ADC is feeding the MDF, it cannot
-only work for the data coming in from sd modulators or w/e you connect
-to the SITFx inputs.
+Hardware
+  Laptop:      Acer TravelMate P614-51-G2, BIOS V1.23
+  Controller:  Intel Comet Lake PCH-LP cAVS [8086:02c8], subsystem 1025:141e
+  Codec:       Realtek ALC295, vendor 0x10ec0295, subsystem 0x1025141e
+  Kernel:      7.0.0-43-generic (Ubuntu), snd_hda_intel (snd_intel_dspcfg
+               dsp_driver=1)
+  alsa-info:   attached
 
-> Option 1:
-> One option would be to generalize the existing backend abstraction to
-> represent components contributing to an aggregate IIO device,
-> independently of their position in the signal chain.
->=20
-> The existing framework appears to provide the required mechanisms. None
-> of these mechanisms inherently requires the provider to be a hardware bac=
-kend.
-> A generic component/provider model would support both topologies without
-> duplicating interfaces or requiring reciprocal dependencies. The key
-> point here is to preserve the compatibility of APIs and DT bindings.
->=20
-> Option 2:
-> Alternatively, if the backend abstraction should retain its hardware
-> meaning, we could introduce an explicit frontend-provider abstraction
-> sharing the existing infrastructure. Frontend operations would cover
-> analog-side control and conversion parameters.
->=20
-> Would generalizing the existing abstraction be acceptable, or would a
-> separate frontend interface built on shared infrastructure be preferred?
+BIOS pin configuration
+  0x17 = 0x90170110  internal speaker (pin has no EAPD capability)
+  0x21 = 0x04211020  headphone
+  0x14, 0x16, 0x1b, 0x1e = 0x411111f0  not connected
 
-For either of these options, do you envisage the data being retrieved
-=66rom the mdf sysfs files rather than from the modulator?
+What I have tried (all silent on the speakers)
+  - The default configuration. dmesg shows "ALC295: picked fixup  for
+    PCI SSID 1025:0000", and this kernel's ALC269 quirk table has no
+    entry for 1025:141e. The Speaker control is unmuted at 0 dB, the
+    Headphone Jack control reads "off", and Auto-Mute Mode is Disabled.
+  - Retasking pins through user_pin_configs and reconfig, with
+    power_save=0, PipeWire stopped and playback to plughw:0,0. One layout
+    at a time: 0x14 alone; 0x14 + 0x17; 0x14 + 0x16 + 0x1b (with 0x17
+    disabled and with 0x17 left as the BIOS speaker); 0x16 alone; 0x1b
+    alone; 0x1e alone. For each layout I also set EAPD on 0x14 and 0x1b
+    and drove GPIO0-2 high with hda-verb.
+  - The model= fixups below, applied with modelname and reconfig:
+    alc295-disable-dac3, alc255-acer, alc255-acer-headphone-and-mic,
+    aspire-e1-coef, predator-spk, lenovo-eapd, alc233-eapd, noshutup,
+    alc285-hp-amp-init, alc245-hp-x360-amp, alc295-hp-x360,
+    alc295-hp-omen, alc287-ideapad-bass-spk-amp, alc285-speaker2-to-dac1,
+    alc298-samsung-amp (and the -v2-2-amps / -v2-4-amps variants),
+    hp-gpio4, alc225-dell1, and about 20 others.
+  - A full cold boot with Windows Fast Startup disabled.
 
->=20
-> Option 3:
-> An aggregate IIO device based on the component framework, as discussed
-> in previous threads, could also be considered. I currently regard this
-> as a fallback solution:
-> https://lore.kernel.org/all/ec411432-4b77-4410-b0aa-b29f73b82c84@foss.st.=
-com/
+Windows driver details
+  - The Acer Realtek driver (HDXSSTACERNB.inf) binds to
+    INTELAUDIO\FUNC_01&VEN_10EC&DEV_0295&SUBSYS_1025141E. I found no
+    pin or verb settings in the INF itself. The package also ships
+    RTAIODAT.DAT, which I cannot read.
+  - MaximExtension.inf (a Maxim speaker-processing APO) also binds to
+    SUBSYS_1025141E. No Maxim amplifier (MX98*) appears in the ACPI
+    device list under Linux.
 
-You option 2 in the earlier thread had:
-| 2 - DFSDM managed as a "hardware accelerator"
-|=20
-|=20
-|    +-------------+
-|    | Sysfs       |
-|    | - Scale     | +---------------+
-|    | - Raw data  | | IIO char dev  |
-|    +-------------+ +---------------+
-|             ^             /\
-|             |             ||
-|             |             ||                         Userland
-|   -----------------------------------------------------------
-|             |             ||                         IIO fw
-|             |             ||
-|             |             ||
-|   -----------------------------------------------------------
-|             |             ||
-|          +--|-------------||--+     +----------------+
-|          |  |             ||  |     |                | Drivers
-|          |  |             =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D    |
-|          |  |                 |     |           ||   |
-|          |  +-----------------+-----+--+        ||   |
-|          |          +---------+-----+--+        ||   |
-|          +----------|---------+     +-----------||---+
-|                     |                           ||
-|   -----------------------------------------------------------
-|                     |                           ||
-|          +----------|---------+     +-----------||---+
-|          |                    |     |           ||   | Hardware
-|          |    sd modulator    |     |  DFSDM    ||   |
-|      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   |
-|          |                    |     |                |
-|          +----------+---------+     +----------------+
-|                     |
-|                     |
-|                    Vref
-|=20
-| The DFSDM is a consumer of the SD modulator.
-|=20
-| In addition to its complexity, the main drawback of this approach is=20
-| that it is unsuitable for interleaved mode.
+It looks like the speaker path needs a vendor-specific COEF or
+initialisation sequence that Linux does not apply. A similar report for
+the P614-51T-G2 from 2020 was closed without a fix being posted
+(https://github.com/thesofproject/sof/issues/3058).
 
-Two mails prior I had theorised a way to deal with the interleaved mode
-https://lore.kernel.org/all/20261015-attentive-conflict-1a1f538de77d@spud/
-but I never saw a response from you as to why something like that cannot
-work. That's twice in that thread you said it was unsuitable without
-providing the actual explanation for why?
+I am happy to test patches or hda-verb sequences, and to run RtHDDump
+on Windows if you can point me to it.
 
-Cheers,
-Conor.
-
->=20
-> * Driver implementation
->=20
-> Serial interfaces (SITF) are shared resources managed directly by the
-> MDF core and no longer have separate platform devices. This revision
-> retains their DT nodes to describe configuration and clock connections,
-> and to allow filters to reference their input bitstreams without
-> duplicating shared settings.
->=20
-> This revision also retains a platform device for each MDF filter, as
-> each filter manages its own registers, interrupt, DMA channel and IIO
-> acquisition state, with a separate suspend/resume lifecycle.
->=20
-> * Clock management
->=20
-> Several clock-management review comments are addressed in this revision:
-> - The provider-side clock-frequency property has been removed. Consumers
->   request CCK rates through assigned-clocks and assigned-clock-rates.
-> - The clock-names property has been removed. The core acquires its single
->   input clock by index, and CCK gating uses regmap-based clock operations.
-> - Remove the unused clock-ranges property, as the core now explicitly
->   shares the kernel clock with the serial interfaces and filters instead
->   of relying on parent clock lookup.
->=20
-> Clock topology point remains open, awaiting clarification of the MDF topo=
-logy.
->=20
-> Changes since v1:
-> - Split the large IIO driver patch into smaller functional patches.
-> - Replace provider-side clock-frequency with consumer-assigned CCK rates
->   through the common clock framework.
-> - Remove the platform devices for serial interfaces.
-> - Replace the interleave phandle list with a filter count, covering
->   consecutive filters starting at filter 0.
-> - Simplify clock-output-names, remove clock-names, reset-names and
->   filter-level clock properties, and move mdf-dai into an explicit
->   property outside the conditional schema.
-> - Rename the binding to match the STM32MP25 compatible, sort compatible
->   entries, and simplify the binding patch subject.
-> - Use unsigned long for match data, improve probe error reporting and
->   wrapping, remove a probe-success debug message, and add kernel-doc for
->   exported core functions.
-> - Use scoped spinlock guards.
-> - Remove empty serial-interface runtime-PM callbacks.
-> - Remove the redundant ASoC platform module alias.
->=20
-> Additional fixes since v1 (following Sashiko review):
-> - Compute the settling-time discard count with 64-bit arithmetic.
-> - Size cyclic DMA periods in complete scans and validate buffer and
->   period alignment before starting DMA.
-> - Fix backend-enable rollback so backend zero is disabled as well.
-> - Use managed allocation for the conversion buffer and managed IIO
->   triggered-buffer setup.
-> - Release temporary synchronization and serial-interface firmware-node
->   references. Replacing interleave phandles also removes the associated
->   stored node references.
-> - Avoid unregistering secondary interleaved filters that were never
->   registered as IIO devices.
-> - Use managed acquisition of the optional serial clock.
-> - Replace the GCD-based CCK divider selection with a search for the
->   largest valid divisor, allowing non-power-of-two divider values.
-> - Remove the selection of the undefined COMMON_CLK_REGMAP symbol.
->=20
-> Previous discussion:
-> https://lore.kernel.org/all/20261001145702.2628429-1-olivier.moysan@foss.=
-st.com/
->=20
-> Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
-> ---
-> Olivier Moysan (11):
->       dt-bindings: iio: adc: add stm32mp2 mdf filter
->       iio: adc: stm32-mdf: add core registration
->       iio: adc: stm32-mdf: add cck clocks provider
->       iio: adc: stm32-mdf: add serial interfaces support
->       iio: adc: stm32-mdf: add digital filter device support
->       iio: adc: stm32-mdf: configure cic filters and sample rates
->       iio: adc: stm32-mdf: add direct iio conversion support
->       iio: adc: stm32-mdf: add dma buffered acquisition support
->       iio: adc: stm32-mdf: add external timer trigger support
->       iio: adc: stm32-mdf: add dmic audio filter support
->       ASoC: stm32: add mdf dai support
->=20
->  .../bindings/iio/adc/st,stm32mp25-mdf.yaml         |  341 ++++
->  drivers/iio/adc/Kconfig                            |   29 +
->  drivers/iio/adc/Makefile                           |    3 +
->  drivers/iio/adc/stm32-mdf-adc.c                    | 2080 ++++++++++++++=
-++++++
->  drivers/iio/adc/stm32-mdf-core.c                   |  899 +++++++++
->  drivers/iio/adc/stm32-mdf-serial.c                 |  223 +++
->  drivers/iio/adc/stm32-mdf.h                        |  275 +++
->  include/linux/iio/adc/stm32-mdf-adc.h              |   19 +
->  sound/soc/stm/Kconfig                              |   15 +
->  sound/soc/stm/Makefile                             |    3 +
->  sound/soc/stm/stm32_amdf.c                         |  375 ++++
->  11 files changed, 4262 insertions(+)
-> ---
-> base-commit: d922ed738439e1d5b4701df7f4cdd49a09925624
-> change-id: 20261112-upstream_mdf_v2-76040d99138e
->=20
-> Best regards,
-> -- =20
-> Olivier Moysan <olivier.moysan@foss.st.com>
->=20
-
---LpL/rArroYRlxrrz
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCav9B+gAKCRB4tDGHoIJi
-0nrLAP0dW7n5X9s3iyUz2lxPDPplj9Was9TElWS7BopK6xw12AD9FHCRYp+BpumB
-phGv0h7oTawzrzkeZT7WJK6s4SXVGQM=
-=/5Gs
------END PGP SIGNATURE-----
-
---LpL/rArroYRlxrrz--
+Thanks,
+Asim
