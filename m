@@ -1,110 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795093073;
-	b=Wl5Akwueq9PgLeKooPQG6A2vIyt2sLEpyiabfJjveqoEIOJUJKXMMPehifMr/uNDpk3p
-	 6CB+Uiu8T80bauyRv32vz3oaV8DhgNZM1e1790Q7SNnw+qF3yogKvAOAwbAv7IoNN2yjk
-	 nFZQi2NlyEACr4ZfjAT1yKtBmou2DuA4uIzgl31qq3tdmG8DnCIMNB7+09zLwAmItAicy
-	 gNI+jiZN+oqocFUnWTklGTy8YYcqscrJ5FHMlh37GW7bMP8/qaBl0pw2Bg2WGaWdIBI6i
-	 KZWxLmL2e0t1z8nlVsUdB6RyGhMZ9bAdiRtLR0sjgcUcpDwXgd4xg6HDI70BZh7a/pg==
+	t=1795093443;
+	b=eu/6eLJucYWZCUw7ghLa98er5rvv2KgwJlREXHLKWSqgClha0QyfgjNsP6yvZGTbWlwR
+	 5uojS4qoMdgO4UATxjm/Lqo3LUicSsTQ6Bjk1w97gTA/lNlxgXuhG41ELrjTdKe+IdysL
+	 +HlOY9ruP1QC50vIew6H1v8rYOu6L6W5SogMJDIKeLvNIv/jDWEz1HKBAkojWjQvlTP2p
+	 h0gFKl+PaXzaBvybQDUNie44lGOoj8SIRVvssa98d1dDBLSxpZBWaOUCUKEZ2lUejdp7f
+	 dnX1dVn9BqP+08kvWhCgLbocIngz462gh8zsPCyg5RtF+nmeyevJn8wwVSpjpbOdMZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795093073;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=mo5oq+QW7HH5b93hVH61wMtRjnuHSB1wKq4BNvhl0m8=;
-	b=g5XFM8Z8UrtZ5vFwjATRXvAowlbAEkAugWPQwtW6e5iuJG+fj+fj73p8IbWfROs7d5ex
-	 fjN0awzQW472Uq7rpyu7gXF0nZH+z6tEKK8REeAnSOY3eaPC7+0KIW7JnKcF865NJmKuW
-	 xXRP3IpQo4OWDYXNyuxgEQBUhtrkWmQHqkmTs8Ju8S0NcYzpqjLSjv/XYimTFnBUvv089
-	 X2d/EBFJlagPTavPtyXTei/0W6FEvBC/ZY+L6XDgyeefFobrwtdsattoRkUGc4sE8f5TD
-	 p6Mb2eQOEDAogoVL0K6UxaZtB46yW4UGB07L86p3S03cFsqTskJWxeRTHazw5nUvHEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795093443;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=NNLIPe6CMR9S1yJHo8H9LuDUKqcNXmWob3sAk1EUcoI=;
+	b=ucZ9tP5ge6KG9FCxHjxKCMYL6eXiAoli0Ie0RlpYCZEVyZmL1yf7WO6QM/q+SwJ4aLGw
+	 EQeJ0vuS/F32N49Sy+U56DqRHGMq98DJR0KHk0PBd5QS2toEtKFSeH2xtziVO2sAk/zLo
+	 Dw0Dei0UpU/ko6FlhJXKJGnImNIRNcDDnpPTdPRanB0TIPNedy36ZWDmAlwMQP9Z02bj4
+	 5/NR7b94FimLpnr9hyjhbC6uZCtUR9YLTwTQBCiMk/sVaIoNSQTLkbM4dl6fV2mOw8YEF
+	 zScUyu/nNpk2HmkHL/nB3CsbpY+f4Qd9IU4iR95sDlFpJzUOgtBp3w2yESa9NuW1AFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RxJ4iKJL;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tg5l1WN4;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RxJ4iKJL;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tg5l1WN4;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JjK3oGQY;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A274B606A320;
-	Thu, 19 Nov 2026 12:57:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A274B606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C3060A2606
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 13:04:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RxJ4iKJL;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tg5l1WN4;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RxJ4iKJL;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tg5l1WN4
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A2AA322329;
-	Thu, 19 Nov 2026 12:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795093070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mo5oq+QW7HH5b93hVH61wMtRjnuHSB1wKq4BNvhl0m8=;
-	b=RxJ4iKJL8SovSI8VD/zLjYn5oezP982TvMWEN/zmiTuof/8rAuom0sfFHi9ikX+m65pLG8
-	3xBaVCfCTb6plqYzcRmE7zi0MN6dONsitqXQ6tinQJJA7JsVOp23PhP5CwCUv5yFjT/6ZD
-	39qkntgoO1oFAPEByISUgk9AYxCwJLk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795093070;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mo5oq+QW7HH5b93hVH61wMtRjnuHSB1wKq4BNvhl0m8=;
-	b=tg5l1WN48RoGY/jNIDaCUYnTm9RVGNZmllAKBaPf1fzHOcC+UsMriwuYSymjZXpxK75tyA
-	U6Ew8pzVOq7FGuAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RxJ4iKJL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tg5l1WN4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795093070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mo5oq+QW7HH5b93hVH61wMtRjnuHSB1wKq4BNvhl0m8=;
-	b=RxJ4iKJL8SovSI8VD/zLjYn5oezP982TvMWEN/zmiTuof/8rAuom0sfFHi9ikX+m65pLG8
-	3xBaVCfCTb6plqYzcRmE7zi0MN6dONsitqXQ6tinQJJA7JsVOp23PhP5CwCUv5yFjT/6ZD
-	39qkntgoO1oFAPEByISUgk9AYxCwJLk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795093070;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mo5oq+QW7HH5b93hVH61wMtRjnuHSB1wKq4BNvhl0m8=;
-	b=tg5l1WN48RoGY/jNIDaCUYnTm9RVGNZmllAKBaPf1fzHOcC+UsMriwuYSymjZXpxK75tyA
-	U6Ew8pzVOq7FGuAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B1FC1342D;
-	Thu, 19 Nov 2026 12:57:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hrJDDU7y/mpMKgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 19 Nov 2026 12:57:50 +0000
-Date: Thu, 19 Nov 2026 13:57:49 +0100
-Message-ID: <87qzghugfm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz
-Subject: Re: [PATCH v2] ALSA: compress: Fix task resource leak on copy_to_user() failure
-In-Reply-To: <20261117160151.2624-1-sreekuttan2156239@gmail.com>
-References: <87qzgjxzh7.wl-tiwai@suse.de>
-	<20261117160151.2624-1-sreekuttan2156239@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JjK3oGQY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF35F1F000C4;
+	Thu, 19 Nov 2026 13:04:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795093443;
+	bh=NNLIPe6CMR9S1yJHo8H9LuDUKqcNXmWob3sAk1EUcoI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=JjK3oGQYNhtlNIPiZ+dTfpeERw8Sbs4bbUa33KrM68edcKjjiL53fCSYyuhCSmFBO
+	 RBIHhvKXWshI+WvmoHKAeQS82wINfdrZRSvXvW5brdtxURkCULAoJ8+Ztx5Ra1+ebG
+	 iLnSfya1AX0+HcvE3gEiM0c1irXY4DLqfrC/kcnUx1gho6UBWL4guHLs8X1bgsPWp6
+	 df9lZ8fGEGADxX8v5dJ8qx0UNWymhV9gOMwMdgANFzFtYda91y/yylJdvvaavS5Dw8
+	 I0q3CYuqnd0GVf4QjuGMq+SVkj7lKQCGV4f4guAU3NOHns8ltd9SAyay/+m+YawW6i
+	 mTIb/5gyPgU7Q==
+Message-ID: <sashiko-outbox-223133@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH -next 1/2] ASoC: SOF: ipc4-control: Fix out-of-bounds
+ backup restore in bytes ext put
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ye Weihua" <yeweihua4@huawei.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261119121446.124833-1-yeweihua4@huawei.com>
+References: <20261119121446.124833-1-yeweihua4@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Nov 2026 13:04:02 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -113,73 +59,182 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: A2AA322329
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Spam-Score: -12.51
 
-On Tue, 17 Nov 2026 17:01:51 +0100,
-Sreeraj S Kurup wrote:
-> 
-> Hi Takashi,
-> 
-> Thanks for reviewing.
-> 
-> Regarding dma_buf_put(), get_dma_buf() takes an extra reference 
-> for each DMA-BUF. This reference is intended to be transferred 
-> to the file descriptor through fd_install(). If copy_to_user() 
-> fails before fd_install(), these extra references must be 
-> released separately.
-> 
-> snd_compr_task_free_one() releases the task's original DMA-BUF 
-> references through snd_compr_task_free(). So both the explicit 
-> dma_buf_put() calls and snd_compr_task_free_one() are needed.
-> 
-> Regarding the file descriptor ordering, I moved fd_install() 
-> after copy_to_user() so that the file descriptors are installed 
-> only after the task information is successfully copied to userspace.
-> 
-> There is a small time gap between copying the descriptor numbers and 
-> installing the file descriptors. Userspace should use these descriptors 
-> only after the ioctl completes.
-> 
-> Please let me know if you have any further concerns.
-> 
-> Best regards,
-> Sreeraj
+Thank you for your contribution! Sashiko AI review found 4 potential
+issues to consider:
+- [Medium] ASoC: SOF: restored scontrol->size overwritten in
+  sof_ipc4_bytes_ext_put()
+- [Medium] ASoC: SOF: scontrol->size not restored on EFAULT in
+  sof_ipc4_bytes_ext_put()
+- [Medium] ASoC: SOF: ipc4-control: incomplete backup restore when
+  priv_size is 0
+- [Medium] ASoC: SOF: ipc4-control: incomplete msg restore in
+  sof_ipc4_set_get_kcontrol_data()
+--
 
-OK, now I applied to for-next branch.  Thanks.
+commit 3d54ef5fbf4ff729417838f0907d7062db9c4154
+Author: Ye Weihua <yeweihua4@huawei.com>
 
+ASoC: SOF: ipc4-control: Fix out-of-bounds backup restore in bytes ext put
 
-Takashi
+This commit records the backup size in old_ipc_control_data_size to avoid an
+out-of-bounds read when restoring bytes control data, restores msg->data_si=
+ze
+when replaying the backup, and moves the scontrol->size update in
+sof_ipc4_bytes_ext_put() until after sof_ipc4_set_get_bytes_data() returns.
+
+> diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
+> index e29c8d89284af..f8b4842f39365 100644
+> --- a/sound/soc/sof/ipc4-control.c
+> +++ b/sound/soc/sof/ipc4-control.c
+> @@ -58,6 +58,8 @@ static int sof_ipc4_set_get_kcontrol_data(struct snd_so=
+f_control *scontrol,
+> =20
+>  	/* It is a set-data operation, and we have a valid backup that we can r=
+estore */
+>  	if (ret < 0) {
+> +		struct sof_ipc4_control_data *cdata =3D scontrol->ipc_control_data;
+> +
+>  		if (!scontrol->old_ipc_control_data)
+>  			goto unlock;
+>  		/*
+> @@ -65,9 +67,18 @@ static int sof_ipc4_set_get_kcontrol_data(struct snd_s=
+of_control *scontrol,
+>  		 * configuration
+>  		 */
+>  		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
+> -		       scontrol->size);
+> +		       scontrol->old_ipc_control_data_size);
+> +		scontrol->size =3D scontrol->old_ipc_control_data_size;
+>  		kfree(scontrol->old_ipc_control_data);
+>  		scontrol->old_ipc_control_data =3D NULL;
+> +		scontrol->old_ipc_control_data_size =3D 0;
+> +		/*
+> +		 * If the message payload points into the restored buffer, its size
+> +		 * must be restored as well, otherwise the last known good
+> +		 * configuration would be sent with the size of the rejected data.
+> +		 */
+> +		if (msg->data_ptr =3D=3D cdata->data->data)
+> +			msg->data_size =3D cdata->data->size;
+>  		/* Send the last known good configuration to firmware */
+>  		ret =3D iops->set_get_data(sdev, msg, msg->data_size, set);
+>  		if (ret < 0)
+
+[Severity: Medium]
+Does checking msg->data_ptr =3D=3D cdata->data->data miss generic bytes con=
+trols
+(SOF_IPC4_BYTES_CONTROL_PARAM_ID) and leave msg->extension un-restored?
+
+When data->type =3D=3D SOF_IPC4_BYTES_CONTROL_PARAM_ID,
+sof_ipc4_set_get_bytes_data() calls sof_ipc4_set_bytes_control_data(), which
+copies the new payload into a separate msg_data buffer and sets
+msg.data_ptr =3D msg_data:
+
+sound/soc/sof/ipc4-control.c:sof_ipc4_set_bytes_control_data() {
+	...
+	msg_data->id =3D cdata->index;
+	msg_data->num_elems =3D data->size;
+	memcpy(msg_data->data, data->data, data->size);
+
+	memcpy(&msg, &cdata->msg, sizeof(msg));
+	msg.extension =3D SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
+
+	msg.data_ptr =3D msg_data;
+	msg.data_size =3D data_size;
+
+	ret =3D sof_ipc4_set_get_kcontrol_data(scontrol, &msg, true, lock);
+	...
+}
+
+Because msg->data_ptr points to msg_data rather than cdata->data->data, the
+replay call re-sends the rejected msg_data buffer and size instead of the
+restored backup.  Even when msg->data_ptr =3D=3D cdata->data->data,
+sof_ipc4_bytes_ext_put() overwrites data->type from user space before
+sof_ipc4_set_get_bytes_data() sets msg.extension, so msg->extension is not
+restored from the backed-up cdata->data->type either.
+
+> @@ -630,6 +641,7 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_cont=
+rol *scontrol,
+>  	struct sof_abi_hdr *data =3D cdata->data;
+>  	struct sof_abi_hdr abi_hdr;
+>  	struct snd_ctl_tlv header;
+> +	int ret;
+> =20
+>  	/*
+>  	 * The beginning of bytes data contains a header from where
+> @@ -686,21 +698,25 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_co=
+ntrol *scontrol,
+>  							 scontrol->size, GFP_KERNEL);
+>  		if (!scontrol->old_ipc_control_data)
+>  			return -ENOMEM;
+> +		scontrol->old_ipc_control_data_size =3D scontrol->size;
+>  	}
+
+[Severity: Medium]
+Can backing up and restoring scontrol->size bytes leave cdata->data
+un-restored when a bytes control has no initial topology payload?
+
+In sof_ipc4_control_load_bytes(), scontrol->size is initialized to
+sizeof(*control_data) + scontrol->priv_size.  When scontrol->priv_size is 0,
+scontrol->size is only sizeof(*cdata), which stops before the flexible array
+member cdata->data (struct sof_abi_hdr).  kmemdup() then backs up 0 bytes of
+cdata->data, and on failure of copy_from_user() or iops->set_get_data(),
+memcpy(..., scontrol->old_ipc_control_data_size) restores only sizeof(*cdat=
+a)
+bytes, leaving the rejected ABI header and payload in cdata->data and
+replaying the rejected cdata->data->size and payload to the firmware.
+
+>  	/* Copy the whole binary data which includes the ABI header and the pay=
+load */
+>  	if (copy_from_user(data, tlvd->tlv, header.length)) {
+>  		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
+> -		       scontrol->size);
+> +		       scontrol->old_ipc_control_data_size);
+>  		kfree(scontrol->old_ipc_control_data);
+>  		scontrol->old_ipc_control_data =3D NULL;
+> +		scontrol->old_ipc_control_data_size =3D 0;
+>  		return -EFAULT;
+>  	}
+
+[Severity: Medium]
+Should this error path also restore
+scontrol->size =3D scontrol->old_ipc_control_data_size, like
+sof_ipc4_set_get_kcontrol_data() does?
+
+Because scontrol->old_ipc_control_data is kept across successful updates
+while later updates change scontrol->size, a copy_from_user() failure on a
+subsequent call restores the older backup into scontrol->ipc_control_data
+without resetting scontrol->size, causing the next sof_ipc4_bytes_ext_put()
+to kmemdup() the wrong size.
+
+> -	/* Update the cdata size */
+> -	scontrol->size =3D sizeof(*cdata) + header.length;
+> +	ret =3D sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
+> +	if (!ret)
+> +		/* Update the cdata size */
+> +		scontrol->size =3D sizeof(*cdata) + header.length;
+> =20
+> -	return sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
+> +	return ret;
+>  }
+
+[Severity: Medium]
+Does this overwrite the restored scontrol->size with the rejected payload
+size whenever the backup replay succeeds?
+
+When the firmware rejects the new payload in
+sof_ipc4_set_get_kcontrol_data(), the recovery path restores
+scontrol->size =3D scontrol->old_ipc_control_data_size, frees
+scontrol->old_ipc_control_data, and calls:
+
+	ret =3D iops->set_get_data(sdev, msg, msg->data_size, set);
+
+When replaying the backup configuration succeeds, ret becomes 0 and
+sof_ipc4_set_get_bytes_data() returns 0.  Then if (!ret) here overwrites the
+restored scontrol->size with sizeof(*cdata) + header.length from the reject=
+ed
+request, so the next sof_ipc4_bytes_ext_put() backs up the wrong size.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119121446.1248=
+33-1-yeweihua4@huawei.com?part=3D1
