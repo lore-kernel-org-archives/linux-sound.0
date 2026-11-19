@@ -1,97 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.34
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795105955;
-	b=Q6zsOa6KhG9gPq+SFlL186tkugklSPyrqEWLCFiB+hqJANZ5ZvbMzp3KHD7AZiYWClFm
-	 Pz65YWEb97Q8Mj4KrGWTKHHfuCjU2n6CRrbwj/p/m3ZrxzwLgvPonhgh/qPnV0SRC+cjd
-	 hcltUcLovrKr7A6M1ftdjJcslpBG8bJA0ykkRH9gRo1vbpDvlP8kAg8SMto04+Hw+VVAO
-	 m0kwzSBXFzT+m3VPD3KrKXZxljF1ysvh5YJUnfEWHu4PCAa+SnmmuTyEWLIKM/Lkvgv8Z
-	 fEUgiFKy6XIQgB0r/eUWHk7Vl7c3tUiT++LTZ4IxWLsdSrk/Q93j/dxFALYRIuFsKqw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795105955;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
-	 X-Microsoft-Original-Message-ID:MIME-Version:
-	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SLBlob-MailProps:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xT049A9yRYyAwSs31MAZM2XZ6VrkTDP/hxt9JK9/ikU=;
-	b=DRys1PvRcDaNgEWo7T4+X9RfL9I/Ff3Jht0Y3e0or+/XqK8NhYOX8rl3BQIT/0qB6BFz
-	 qwPgNDxzN03Nx0l762K9U+xNx14SrRy1svYj/Ms4oNhW7hgJoiQ1lg4grCS3R3467CwLM
-	 mrkCeVwmxlN7Ptv/cxKRIwRGfWbmcLzkvgd14pH0U7aA2hv9Fz67LrMOdK9K+5f/vtqfX
-	 12BT4Yl1G6RGPWWPZ87hcKDYSq9mN8gU/Yz9MTcxnNd6SRNU1jMMfct+BLL1C60k41pOT
-	 2V5u3tYJLYejdmTceb11gGqims/B0T/9HS7TSO1TTB72gyosKYCONBnwzmbOOBkP1WQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.it;
-	spf=pass smtp.mailfrom=outlook.it;
-	dkim=pass header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=MIp65C7c;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.12.34
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azolkn19011034.outbound.protection.outlook.com [52.103.12.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795106014;
+	b=bdYuWBLGwkzqq72EEjtXrqiT7YUE0N8SE98J0l/09M+NwHUrzOFZx8RSwZW0VkIlrypp
+	 11uJa/3VRFW29+eG9HxinvFD2BC4r5xzP/ZproBTAap6y83TkjIY4f4Hc+34eQB3Io4w9
+	 IKJVzFnPhFyZRjEdQxcGtH9Y4V0oQsl2D3Jnov1IFJU3uwqj2HGoV80iUQvJXhuid9CeO
+	 mbdnJB+QSw21nOklRQYvxQbo2Ivh7YV6GBFIR8FFUup/pGtrksoMaPH4ySvGcNBcy2sJ/
+	 f3cGOXhINuvoNIhGI5y4wqrQvDRE0+GaaVEPOmZLItOkcXog1nVZQnk1GG4EAawkK6A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106014;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=MnqdMlsMyoHo/aeHf2HFxQk8pjQB8y9HqpPfMquVksw=;
+	b=pjQnbBspKCDRHM7Jt3eV7xObwW2edfztMUd6uANabIRT42kHFwfZZxUK3ZHocIgz7odp
+	 NvLyxnskTaHtUZNuoCAMfGCb+gAWLrgtxL1NjFRpqf8+jf9QTaniEl4yvVGZT4EpRzjCP
+	 1x7pno2h8yXE4JmB0ZxAhw6ukCI8237zKAxAm+nhsZuvSiNAziKfrjB6NHCcocy0OGR13
+	 snegHSG9vaaGWquDaunognAFcHzwo6GugkjWMz+9gkfvsYgj1LpkidUXtT0uQ1MUd0HC8
+	 YYwB9gFn32WZBx0xNycnLUajWistwcyF/qU6JJDwRHrmG4Cm9Vbwl5LQZ9/uXcNj3pg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QeRe5Iaq;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41497606A320;
-	Thu, 19 Nov 2026 16:32:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41497606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A25606A325
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 16:33:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83A25606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=MIp65C7c
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C5YPgu89+lB1xQ7JVhbDaUYiEUZYT+37XzvJYlVOWX8K6iIoxlvqcX/e2s+BNVOOJVHMR89Svbqth+fg0FLKs43kCip0QIf8JBLv+kmXocRPjNL5piOFeJHrSJ3iS4Z2dfMGuvzdRgqm6mRxF3sm2qRJDamYWqTNyTGMeMK7sATzz1HKhP9eStpOBmaf6axKf6FXPey3Y4wEB/DzRJbTTo9Qr2MyG/spLY1l02iEu2mkIUVsOwef/EdSLX1xa+CJbMmf6EkSnUSfQ7Fj5rgUl25MXvANy68FJn1+tzSHrLs7RRF8vlQXxylyYQpH08ABR4nE4cxpLGMF4yNLJ+J2pA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xT049A9yRYyAwSs31MAZM2XZ6VrkTDP/hxt9JK9/ikU=;
- b=X955B/yxMzl2CTZFMi3+nldwfwZU2u7oE/69CnJbyKgfJteJ8iAhvKraqCDpNstWroCyHYW2rncs3LK5dZSVT53c50QRXT05cBFFC3/mTVfLyra+VnDhxC/HvQbD57mgoz8aSp0ok+QYIbN8zNTrmVI/UvU3vn0NgtHTvRGCWVsdqQRFr40gfDQonFckA3wRz5dXoYqmdDsAIEaUV9kI5Yq/6/DfvxrDRlCn6ISpGRd3/DHPX+1PT8FKVNhST/18CjwrfYbyTdoBTiDtSI4xU4uJ8YRpAwfKm/DfJRbbAkiNcR02taDxQVV5VO+eP9IV8ENRe4jFPJOL61K4MzhfeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xT049A9yRYyAwSs31MAZM2XZ6VrkTDP/hxt9JK9/ikU=;
- b=MIp65C7cni6mvCxGRfcEGdOmuH8e+v0lyacuqorX35x5NFciO0+r4miY1w6sspQPyjFzYU6vQV6JIGDkc4DhzQ0iKVvsmvRM2KGQBpOx/tbzQZySUg1KZIZ1MIIQtbBGb1Soyk6VtUl6z7Pp31DhSBGwohKedANJLPjThfb3CsnaYbXOY2LJyD9Xn9xGi1oXpBFNlijhhdHpeiAqT6j8iNQA+7ftZHKF8iXwrIHEpd/FsNI9VgUz8QgVJFozMlMuwdZcIXY1aNbHIYV++7Jclba0mutGijIrwmklWAXGynd2TKzTY0p6oxS/1OXzvU41kr0nMfgZEoOGsw8c7S6FtA==
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com (2603:10b6:805:56::19)
- by CY8PR19MB7036.namprd19.prod.outlook.com (2603:10b6:930:58::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
- 2026 16:30:32 +0000
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a]) by SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a%4]) with mapi id 15.21.0615.013; Thu, 19 Nov 2026
- 16:30:32 +0000
-From: Marco Giunta <marco_giunta@outlook.it>
-To: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marco Giunta <marco_giunta@outlook.it>
-Subject: [PATCH 2/5] ASoC: aw88399: fix sign bit check in aw88399_dev_get_vcalk()
-Date: Thu, 19 Nov 2026 17:30:13 +0100
-Message-ID:
- <SN6PR19MB23035CADF2988E49E618ADE4FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
-References: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI3PEPF00004E9D.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:298:1::454) To SN6PR19MB2303.namprd19.prod.outlook.com
- (2603:10b6:805:56::19)
-X-Microsoft-Original-Message-ID:
- <20261119163016.30414-2-marco_giunta@outlook.it>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QeRe5Iaq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795106013; x=1826642013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=SvZcvblxlqvNXaDNrdgGKTrIiqru0qCO/BoBUiT9+PY=;
+  b=QeRe5IaqiNfrb0sE1GE1JCIevX0HHhia/4RG88h2x9L6KpBuDCYL9Twt
+   ruyyjarkvr1MwXaHbWap+HMEv6NQsWUmS/bGe8XnCJu4mVty700TuSO6+
+   UHZ4Dp3aAyv184ngWOLjr82Vs2qtZyu8UOCWMd1YM053bmT35k9Qu20b0
+   pxNb/RbXrRZCGk9SxoLjhKLMd9bE1Va/X2F/ja6PWvOjpwzWUm5b0Jn2Q
+   UyrkQfFM1H8OmYvVu04ct+F7SCOJYAhroaL9ct4cuP+TpHWzogageHyFC
+   FnG/R0mIoxGrVtc9qy2E7m7brFyZ82WgRx8ZXvL6jUgYgfSUyYHL/a+FT
+   A==;
+X-CSE-ConnectionGUID: v84ohSINRMCqyIkxde+oIA==
+X-CSE-MsgGUID: 8QSbiNOxSv2wTdQ9AlwKUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3998444"
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="3998444"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:33:33 -0800
+X-CSE-ConnectionGUID: nhot5MnpQuO5eN7iUI0T1A==
+X-CSE-MsgGUID: E4U10gDSSL27aeVIRu+oyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="10505638"
+Received: from dev-417.igk.intel.com (HELO dev-417) ([10.91.214.181])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:33:31 -0800
+Date: Thu, 19 Nov 2026 17:32:54 +0100
+From: =?utf-8?Q?Micha=C5=82?= Grzelak <michal.grzelak@linux.intel.com>
+To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, tiwai@suse.com, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Michal Grzelak <michal.grzelak@intel.com>
+Subject: Re: [PATCH] ALSA: hda: intel: Release i915 component when delayed
+ probe fails
+Message-ID: <7e2ix26eed3ocen42w6txv5pzz557xjhwixsqjhtsrmcs4omki@7ld7wxz6c7nm>
+References: <20261119162253.1779252-1-kai.vehmanen@linux.intel.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,106 +79,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR19MB2303:EE_|CY8PR19MB7036:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a272ee6-5a67-4cad-58b5-08df465a6e6d
-X-MS-Exchange-SLBlob-MailProps:
-	laRBL560oLSPhlJ95/U7v6W/AahuugGaUFyZuoDEdFOJ2LorLNmBniZ5UxAO/jP61ziCNgcA4ZdizWnU4ZgPWJNdtIWKvgfTdCKDXQQgqEgce96Zh15dhyaUQI46XFTCrUgynavS8or35O9DDsch2o387Rz/uERr5AyimPq6BPQUr+GNSTaxXmm3raNBfKxhKPF24S/Mh6WrPTlelpnVAJwMcKH+bbpn2bB0Ro4V2VD2kpGisqsnf4YIz3LTxwiuhUydyABEUe7LR1sT1JmGX+Wv6zFQktdjSzEKNvLOjLpPBR4+X0Yp7/MpUqDdoEHPLQGXjayEUQHUFtLISunqQLvaBM5rLFsuiUHlxYoSqjRZgw9C72d7DCHA4cHZo0qbjwBpdYPm32g0N69bBOxdFZ3+B1H+oIHK8kmUDYNTBCSoNAtHKfTNSWn1eM1Vr+5DjkILq7S9zPYKWIDNSwHyudDNH+IA5gK055nsr/DLmjTNldb2TGcGtmm1eepf3E6Zfr723BT6YH03/XgLve8yoeulROi0J0aKJVBRXFFxhsI2Ycl/sqmtW/X9FZ69UHyEcnJymRxClKTWgWK3Mlu76MLSG08jhbzqIPypzhE2JKgAmOJCcXlFzZI/OZVAxhJIPIur8TZnU28w5H+Rd6DA6y5DdBqZatO5D11Ky4jDFDALD0TBABmusDUdrJEBCwlZFAGHsy7wnYlYQixI4qp6JLZMzIme0vpx42xvYQJ1Lia9Os3cQM5dQ4BptD2UMraT8H0+z0aySArtjYhv4c89LAUaqkqJqI57
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|5072599009|260925184616899003|25010399006|55001999006|8060799015|23021999003|51005399006|15080799012|24021099003|19110799012|40105399003|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?PGEEI6jNGCW6M12gXv9+xeDS4mJ4kQa62U5PLMxtTWcgfZMqf9BrNF/VR5N8?=
- =?us-ascii?Q?lSAnvV9ROrgb0FwZyb8/N3plaKz1lbS8UBB6EARxPqHyp65VFBMhyNKiFMHD?=
- =?us-ascii?Q?DdkOjc+dX0XZkUkqxRHtlTZXuaemPmy2ZmIVjymVySAv7i4rM1k5jglGiMmp?=
- =?us-ascii?Q?SpyF4X0N5GDmg/JCkdbP/lAgDJ+aj6cDi9nKC9XGGGv1bTFNw0Si5TAwtwcm?=
- =?us-ascii?Q?mgxSI0zvZ7Lcadah9AJQ2T48GZRBN+BJZ5NNS1uQp1wh1e9Sz8boPBJIBDVu?=
- =?us-ascii?Q?oM6jeN4DriFd51k+UIiJ11dqAGkEFeowqy+BslHSVbhhMmmQNa0aLlh8lzGY?=
- =?us-ascii?Q?f/vW5g9Vio39zmq2zKkJUIuTvzFZD28KtywLJMg3D+hR3hGckiJp8Sa1IQUk?=
- =?us-ascii?Q?eay0XzkkLqzSAYXP4Pp/s1KtQ0MaOlpHzAFosqGTVJ4uoCR45JDu/ik1BuAQ?=
- =?us-ascii?Q?fsscU0jmgDTK7I61rjvKl8BBJJBTy9JVkQUAvD7zbsEfK5zjTQcfojVS5HXK?=
- =?us-ascii?Q?CLpKw709I9gTpXRhzQNqVSJWF53nIz0vjmMoNWtmvn7RVPDJiIFhvpj4vv0S?=
- =?us-ascii?Q?7qknp3SJlpGZaytQZtClhq5kskl0hPvNH0jz3CYaEv4Zb/Zbpt2TUXdR3j+c?=
- =?us-ascii?Q?RU/2FpHA4tPxL0eg5BG17UzcogAV3Ea61cQdJ4IF5zA/mzEBeSAFSMQvjILg?=
- =?us-ascii?Q?glZig8oZuBxThbJdB5u9+erGVLiFjn7Rqc9JnxV65TdYmGsKkwcfaSsftBG2?=
- =?us-ascii?Q?QE8DNjIGalQFy7YqJ04/wyR46IGqVfI1MhvCYgpkz0Nn4G9lpk5kJDqIMHFV?=
- =?us-ascii?Q?VdmrnNcHhGOcQyclu9qFyXEEIid/X1EH3eVH6bIBm1SX9rMvp0Gve+OF4lJa?=
- =?us-ascii?Q?XNqPDlZnuaml96IpUyKkxV4BfeQ/ViGgPWcIRHMBM1zetreg6LDZxyLNrN2G?=
- =?us-ascii?Q?9tE5sEtv36ExgQQN6Vjugb1duXJaUBWpoWAKAXv9Z23WNzUYqC/K1nPK6bmN?=
- =?us-ascii?Q?a4Ph?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KT8qIWcXUM/xUMysKvkQmucfkJVQblUxUUpH8PaMiit5kEjC5X4qgzalNSxs?=
- =?us-ascii?Q?3ezKq08gtulqDV8Nfxd3cn1NlaJ4JA6qg6enlLzc7TjkuG6LV9BWoevdKdEw?=
- =?us-ascii?Q?qo+y92KO4v3v4fM8KYobPzCZjEEa4ng83Q22H2M5S/gmOtE9Hbyrxl5t2Z8V?=
- =?us-ascii?Q?FgmN+A6gta5xnX+iS7NUjbuUA5s68+jjNeWtg7IX6Gis0ype+PiFPtKzWOUA?=
- =?us-ascii?Q?NJA8zaKZ2tWIzFOH2kdf/tk+UZd4/6uHTIHAfZhVYMFttia7WEsymH+lbzYP?=
- =?us-ascii?Q?bvEAHimzSmi9s7jInG1mlzPWZAo4OF44k/uMj+x/+6pbk6PwKCYAMYZwL3uS?=
- =?us-ascii?Q?afbUPiV00n/cyJiGD6lmr8aW00dK4FuyuFSnMqJMjN+8A1ev6kcTixN+K0FR?=
- =?us-ascii?Q?q4oB29mSZ+QD2CB5FeQ4ct5N4LTZyvoFNP0Dpdwww9yy2r9nk8wSpy2eXz8W?=
- =?us-ascii?Q?L2SliNwfrqh+xAqD+aRPPZWIM1xrQY/kN7skrIUENDbn3T0Ib3CfEAeORWaf?=
- =?us-ascii?Q?E8ddaJlqhtabVdxh0ByTQuyMP9xOCJKiyq5hE2lAfzxthwfJWQEpxxWd0tGE?=
- =?us-ascii?Q?rbN2sf1CukMvQNfqfM88sJRlQWbt+be/UWjQxAr+8VjgXkenuIWYJLqXazlY?=
- =?us-ascii?Q?eHeUf0qeyPe/SoCLpKwVXxKU+ioGZ3Ke7UjCBri0Yxm21qx52kdROwVk6Qqe?=
- =?us-ascii?Q?8ZgVdH6iM2KMlHL6k4cRRkEa/uOXIFidqw8Cw+iG6hCVsvrHzKCP9CFmMDTz?=
- =?us-ascii?Q?FWiDNou5MNkqs1nUM7VB8EQukizo8mb1JEVoYTQyGpir5wqXKngMZY/zZc0d?=
- =?us-ascii?Q?uuwOgfmzic/o4JLF7g6XHYlCoXAywAflGeETDblM1a04K6sZEMxbh7+pD6Kj?=
- =?us-ascii?Q?hUi+19ugXlHReu9t3oRuHOSvztJS/vUDCZZ4x1ls8RDIUqbq0cfR3rdRuxVq?=
- =?us-ascii?Q?CJYWJEVMu4c3hQOeSgJctmPWfBO321BfVWdykwLhu/dUl4pPyVmEopwK7vOH?=
- =?us-ascii?Q?UlGpJJ3+TbyUq6DvMM2dh3zcvH6vEcnaDrItBdkWcc1C4YD/QYQDtJYoxX52?=
- =?us-ascii?Q?+qgZPYlSf/QPALlbRXeTSUJ6IrsXf6c1dnLBG+5ihdxMFNGPAyS3F9x4JAD8?=
- =?us-ascii?Q?Y1Kcj+LGJuz1oMtIz/qfVVoLiPCFPbT6EvhNBg78W2vV1hh4e7v3lZOegRLm?=
- =?us-ascii?Q?vX521WfxKRxVVZpwdY8fjWbB/dBGLeL7jRPgdbYGnx2RbzJixMRVdjPxzjor?=
- =?us-ascii?Q?r619lPneT0nejmolCBL8sNnIDd1v102NzZkzjqo0LgxcY55PT4a7b0TXVHiS?=
- =?us-ascii?Q?4asDQBTkMlg+GstTNvpwo7DQhbb85Zu4KouuWYzXQNq0iGQWnT9o+E8YxlQf?=
- =?us-ascii?Q?XF3nT9WxLv0v9wV9TF5ZtW374gbd?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a272ee6-5a67-4cad-58b5-08df465a6e6d
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR19MB2303.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 16:30:32.6151
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR19MB7036
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261119162253.1779252-1-kai.vehmanen@linux.intel.com>
 
-AW88399_EF_ISN_GESLP_SIGN_MASK and AW88399_EF_VSN_GESLP_SIGN_MASK are
-defined with the usual Awinic inverted-mask convention, i.e. they both
-equal ~BIT(9); therefore, their negations have to be used to test the
-sign bit.
+On Thu, Nov 19, 2026 at 06:22:53PM GMT, Kai Vehmanen wrote:
+> Commit fbaccb1b19c7 ("ALSA: hda: intel: Don't free card in the probe
+> work") stopped freeing the card from azx_probe_work() when the delayed
+> probe fails, and only disconnects it, leaving the free to azx_remove().
+> This avoids the double free, but the resources that were released by
+> the card free via azx_free() are now kept until the PCI device is
+> unbound. In particular the display power reference and the audio
+> component binding to the graphics driver stay held for a controller
+> that will never become operational. This blocks unloading of the i915
+> driver, which breaks display driver reload.
+> 
+> Release the display power and the i915 audio component in the probe
+> work error path. Both snd_hdac_display_power() and snd_hdac_acomp_exit()
+> are safe to repeat, so the later azx_free() call from azx_remove() is
+> not affected. azx_free() can't be called directly here as it would
+> run before the codec instances are released by the card free.
+> 
+> Fixes: fbaccb1b19c7 ("ALSA: hda: intel: Don't free card in the probe work")
+> Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/work_items/17751
+> Reported-by: Michal Grzelak <michal.grzelak@intel.com>
+> Tested-by-by: Michal Grzelak <michal.grzelak@intel.com>
 
-aw88399_dev_get_icalk() does this correctly:
-	if (icalk_val & (~AW88399_EF_ISN_GESLP_SIGN_MASK))
+nitpick: s/Tested-by-by:/Tested-by:/
 
-while aw88399_dev_get_vcalk() does not:
-	if (vcalk_val & AW88399_EF_VSN_GESLP_SIGN_MASK)
+:)
 
-Add the missing negation to fix this. This ensures that the aw88399 driver
-behaves like the vendor Android driver it was ported from (aw883xx), and
-that it's consistent with the other upstream Awinic drivers that have
-analogous functions, i.e. aw88166, aw88261, and aw88395.
+BR,
+Michał
 
-Fixes: 8ade6cc7e261 ("ASoC: codecs: Add aw88399 amplifier driver")
-Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
----
- sound/soc/codecs/aw88399-lib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/aw88399-lib.c b/sound/soc/codecs/aw88399-lib.c
-index f2e2c88f5ec0..39a752171aa1 100644
---- a/sound/soc/codecs/aw88399-lib.c
-+++ b/sound/soc/codecs/aw88399-lib.c
-@@ -296,7 +296,7 @@ static int aw88399_dev_get_vcalk(struct aw88399 *aw88399, int16_t *vcalk)
- 	else
- 		vcalk_val = vcalkh_val | vcalkl_val;
- 
--	if (vcalk_val & AW88399_EF_VSN_GESLP_SIGN_MASK)
-+	if (vcalk_val & (~AW88399_EF_VSN_GESLP_SIGN_MASK))
- 		vcalk_val = vcalk_val | AW88399_EF_VSN_GESLP_SIGN_NEG;
- 	*vcalk = (int16_t)vcalk_val;
- 
--- 
-2.56.1
-
+> Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> ---
+>  sound/hda/controllers/intel.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+> index 0a62723b3454..73ff42faccb7 100644
+> --- a/sound/hda/controllers/intel.c
+> +++ b/sound/hda/controllers/intel.c
+> @@ -1740,9 +1740,21 @@ static void azx_probe_work(struct work_struct *work)
+>  	struct hda_intel *hda = container_of(work, struct hda_intel, probe_work.work);
+>  
+>  	if (azx_probe_continue(&hda->chip, false) < 0) {
+> +		struct azx *chip = &hda->chip;
+> +
+>  		hda->init_failed = 1;
+>  		complete_all(&hda->probe_wait);
+> -		snd_card_disconnect(hda->chip.card);
+> +		snd_card_disconnect(chip->card);
+> +
+> +		/*
+> +		 * The card itself is left to azx_remove() to free, but the
+> +		 * graphics driver must not be kept bound to a controller that
+> +		 * will never become operational; this would e.g. block
+> +		 * unloading i915. Both calls are safe to repeat from azx_free().
+> +		 */
+> +		display_power(chip, false);
+> +		if (chip->driver_caps & AZX_DCAPS_I915_COMPONENT)
+> +			snd_hdac_i915_exit(azx_bus(chip));
+>  	}
+>  }
+>  
+> 
+> base-commit: ec925d3740159f4b4bd3b7640be5d0d2b4664106
+> -- 
+> 2.43.0
+> 
+> 
