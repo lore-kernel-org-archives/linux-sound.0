@@ -1,60 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.97
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.69
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795107861;
-	b=OCw8Od8x5m7RCxqUASchglzAl9F8Y5GbW6Lob8jCalxPIytfo7+W3JnFQC/vHOS46ePM
-	 LWSh/yAxJWNCyTQUWKk7DpE5hEdY+pqXJPJGKnOxRtuQ+tWN3Y7aY+HqMNJ7u5M5ztCcm
-	 1KFMTc65024tmorPqlsGZ8LeDhPh0JN0K6bsNuvsPOwd2FZlc4kLrj6fb5znjRiOIoeTT
-	 6RXTjf7LZPZijBoLig6P2nQtXr4zBY21oEUtHE/ycVuRh/qfXNPKzGgNJPRmw4yCfxrd1
-	 +7AjSuHLyDF5D7RVkZQdCQgrLrrMD5XejyDKFCgbQTCJpZzgy8HNLCsWUl/sAhmmorw==
+	t=1795108085;
+	b=cEoioTlaJ/m3JXJG0oTeoIGo/7JSQ/yX6M0BPaCoaqKtx7qPF7PMjPkb0z8HnrLnYGGK
+	 KXPLGLrAQiT/grvM9ko9WGfbUuQ/CFZDmBkl56uVyGspYHZMNz3/cd6DtQf5Xr1D1NiFb
+	 BnIwymJPYaqDxeD4XWB0YDM8c566ndkXOVMucqgnB4c9l1A4fbUar1RdYNtxPsbFj9Op7
+	 5pvA7p93ZQObZeThGfGBL6FNQsdj5ADvG9N2h1uHVedpGikb4aXsk9rc+JABWxcdGNerD
+	 eolQlBjslVf20zSn8GQtRMFmZBlAgGpQeOY5ElZmyOz5Bp7/sSD/4CAP8jW8U0X8JMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795107861;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Vki9EMmfCD/z216lmntBVKXZU3V0TfjyIEOj4i919I8=;
-	b=jDNBGvxWH2/jGsgAwrVB4mQw/nhIW1Uwto8vR6wnKGOHYQ89boBvRRLOwcYRE5u4K5xg
-	 FsDi0/X80J7bBS4LydbfScjtix5b69+H+sB3hitwo8pvKBaH6ugg5tCIN0I0UTdT5vhg7
-	 DvXEi9rfmAwxmN+F5McGwfLKAcKuxZy3QzOlP0G/3u0CQsIYa7zC/pp37lBbCBw94RbE7
-	 w5JaNokjDFJEu/hd52rQU8MXFuEkVumlt0T/Zy1Frr7oOtUZ9iINp30JYuQspBabNMp41
-	 b2cifYAO9PE45+xcDUFBL107V60AdmRPSEVp5de/7cfVUxEhlp5xKYUoUji/brsBTww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108085;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=/yO05ZhWslsHUsLICn50QCqN0v7/0NGOtpyXnFxA9Yg=;
+	b=VC2GEL853a3791WK/QCL5k3JSs/qIOtWbEZINMEblQfhyPwlSx945Lh7P5AYGQfM4jtZ
+	 GE5nJYD9hXrBn2RghtezrSPy9bqYU+I7QYquZ2COqNFDuuSA3UN2amC2lCY5CA3rOnSWR
+	 Sqcu2zL4W+Ck7vNNCxevPPKl+aDuxyirRH47ZjJel+2TuJiA+z+d8jj2EiZZEttyGq7Hs
+	 DgdDmza1FjtEE//5uFDseDJwKMSH/wf2oJK7xNjFHPGFKDhJuOZKJDv/Sj7uZWemA2xJD
+	 6H56VoxFpIBYVMAos/hVrlFBs0U8/spHGxZZS+2yVMygW9yffFs58lnAweP1AMPGBwg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=ppnlzd7iwzdythoguh7bzb54si.protonmail2 header.b=gbG+ulpt;
-	arc=none smtp.remote-ip=79.135.106.97
-Received: from mail-10697.protonmail.ch (mail-10697.protonmail.ch [79.135.106.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LxGOfYTI;
+	arc=none smtp.remote-ip=74.125.82.69
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322C960A2611
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 17:04:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 322C960A2611
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D080606A32C
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 17:08:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D080606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=ppnlzd7iwzdythoguh7bzb54si.protonmail2 header.b=gbG+ulpt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=ppnlzd7iwzdythoguh7bzb54si.protonmail2; t=1795107857;
-	x=1795367057; bh=Vki9EMmfCD/z216lmntBVKXZU3V0TfjyIEOj4i919I8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=gbG+ulptvKAv2UeMm652vTwFjU6ggzx0NHGB5hZehcl55FcZT/7+0pXyyRE0POt89
-	 /LMfX03nCFhCr9qQbx1fmt5mO6Fbl8lO7tyyMhp0DrZlQaQL0PhP1yYwTBRwwu9w47
-	 Dm3teuCwMDFvlG++rZTfalsTNB57DP+T6/zmSceRg4PMQfA3UwC+rMOm/ncAOGDzN8
-	 cstQa+UQp45aZBuwBwNsWHrcAvG3BzhSc68mEM0Mw98TP34AoTRNCC+M4FqxH9Me1L
-	 9tXi/hTpY6wwKdgOufml6KrELR4HASsnK7GnXW9hZpC1DbbeTKkocK7NpQMmWLzHdD
-	 4qOgWoMsrtShw==
-Date: Thu, 19 Nov 2026 17:04:12 +0000
-To: Takashi Iwai <tiwai@suse.de>
-From: Nordschamane <nordschamane1@proton.me>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH RFC v4] ALSA: pci: add analog support for ESI MAYA44e
-Message-ID: <y8SPdsADwNjGP-1-DP6RnFyI_U3U9rOPwfZbNAsW1_Ve2MmpN9eKNFgfct44XkalJGJnI030YTHCYSKMQ3UW7wfciSbsqeK2_IS8VYD_Q0c=@proton.me>
-In-Reply-To: <877bicyedd.wl-tiwai@suse.de>
-References: <20261116-codex-alsa-maya44e-v4-1-381358afc43a@proton.me> <877bicyedd.wl-tiwai@suse.de>
-Feedback-ID: 234176850:user:proton
-X-Pm-Message-ID: 91993f084a6185c6b01f2e6b7252b5754c39e49c
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LxGOfYTI
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-16bc6f3fdb1so1573109c88.0
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 09:08:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795108084; x=1795712884; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/yO05ZhWslsHUsLICn50QCqN0v7/0NGOtpyXnFxA9Yg=;
+        b=LxGOfYTIQUdp4BvstsQzdRlDDDBEeN7//lrx+SIeNyZozXK5Z2dXYiejZYGuw1gKfE
+         W94z6v2dDqiJWdyFH8Ug38FwPUmCqgWPb4FJBLNqo2yOnzGrnlwkKtk5vKsU3QhcTi5/
+         fzZiQt2imtcRqKFqiwNTJ6qwYnIkdTvFp5xr0T6VvYFd8l59VmYkfBRJQw2PTLllorLR
+         liJi7C42MCIzYBHbqKjVSr3iu2OZDGmumZtyatjMrIUEnYaMz42nUT7UJHrkmb8ozBYc
+         wNRbc/FBGWl2fp16kuo55OCsaahfOPc4+r8BAz+qH8SiOjc8Anc/bAH07t7o1XFqQpOU
+         taxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795108084; x=1795712884;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/yO05ZhWslsHUsLICn50QCqN0v7/0NGOtpyXnFxA9Yg=;
+        b=h9J0IneW3YLClAc5uFbAb89S1lR2oHJ9cbZLKXx8D+2r1e3/KjJUfR8ediLM+dAqWr
+         NktIZByYpOOPaMIf+nUA8MuoKG1b56nQEGoP6wdniRfEeRv105do63oRUTvlfjoh2ZOr
+         QVwfLQTYDxGxEcXNDSWLHqlXoKikpaFB8wM5J0CweBWQ1m0X0BQYbn3/GdumsAgr+7sX
+         AOhiDB6u/k4YUPMZuGeD+NvVgIsw1x+zJyZC57sMITjL0cxCHsitbvAP64Of+kMCk0hE
+         xJDhQLhvIfdJPMhvrrlgzp/xKvy2LrDt8reAxxvSndPgt+MLqyoIFITd2YP6SC12ChqG
+         djbA==
+X-Gm-Message-State: APuU4Z/jUi3i1EbPEo4+qjhmXWzorZxYfPYLRxrZ89151MnJIhpGtXnf
+	nRt0xc7cYP+iQOVlJYQCbg7raNpYQCe4PYHzY8OXPT30VHhEpRdGcfceKGKou68tenYXgmgyPoC
+	Ry2Wl5L/ItQ==
+X-Received: from dlar19-n1.prod.google.com ([2002:a05:701b:21d3:10b0:1b2:48db:23f6])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:701b:2215:b0:1b2:42db:8a54
+ with SMTP id a92af1059eb24-1b5568b3154mr212363c88.23.1795108083489; Thu, 19
+ Nov 2026 09:08:03 -0800 (PST)
+Date: Thu, 19 Nov 2026 09:07:57 -0800
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,60 +74,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
+Message-ID: <cover.1795106962.git.irogers@google.com>
+Subject: [PATCH 0/2] ASoC: qcom: Two fixes from Clang warning audit
+From: Ian Rogers <irogers@google.com>
+To: Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Elkin Cruz <elkin@google.com>, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Takashi,
+Two fixes in Qualcomm ASoC drivers found while auditing Clang
+warnings (-Wconditional-uninitialized and -Wassign-enum) on an
+x86_64 allyesconfig build:
 
-Thanks for reviewing the driver.
+1. Return early for non-HPH interpolators in rx_macro_hd2_control().
+2. Return IRQ_NONE instead of -EINVAL on an invalid DAI ID in
+   lpass_dma_interrupt_handler().
 
-> First, off, as Signed-off-by is a legal requirement, could you try to
-> fill a real name here?  At best align the From address together, too.
+Build-tested with LLVM=1 W=1 (-Werror); not runtime-tested on
+Qualcomm audio hardware.
 
-Nordschamane is my long-standing public nickname. I use it consistently
-for this project and prefer to keep my legal name private. The same name
-and contact address are in the patch author field and Signed-off-by
-trailer, and I can be reached at that address.
+Ian Rogers (2):
+  ASoC: codecs: lpass-rx-macro: Return early for non-HPH interpolators
+    in HD2 control
+  ASoC: qcom: lpass-platform: Return IRQ_NONE on invalid DAI ID in DMA
+    ISR
 
-The kernel submission guide asks for a "known identity". Linus changed
-the previous wording and explained in the commit message that the kernel
-has accepted nicknames:
+ sound/soc/codecs/lpass-rx-macro.c | 2 ++
+ sound/soc/qcom/lpass-platform.c   | 5 +++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-https://github.com/torvalds/linux/commit/d4563201f33a022fc0353033d9dfeb1606=
-a88330
-https://docs.kernel.org/process/submitting-patches.html#sign-your-work-the-=
-developer-s-certificate-of-origin
-
-> Try to use guard() & co instead of the open mutex or spin lock
-> calls.
-
-v5 uses guard() and scoped_guard() for the codec mutex and register
-spinlock.
-
-> Most of such stop synchronization should have been done in
-> sync_stop callback, instead.
-
-Each direction now owns its fault work. The trigger stops DMA for that
-direction, and sync_stop waits for the shared IRQ and that direction's
-queued work. The close callback clears the substream pointer.
-
-> Do we really need a manual expansion and the format conversion in a
-> loop there at all?
-
-I removed the ack callback and its sample conversion. The driver
-exposes the native S32_LE format (24 significant bits) and maps both
-stereo DMA rings directly via MMAP_COMPLEX. The RW_INTERLEAVED fallback
-still rearranges stereo frames to match the two hardware rings. It
-copies the sample words as-is, outside the stream lock.
-
-I tested the final v5 on a MAYA44e. Both output pairs and four-channel
-capture ran in both access modes at 48 and 96 kHz. Duplex ran at 96 kHz,
-and all 40 linked PREPARE/RESET cycles passed. The inputs were undriven.
-
-v5: https://lore.kernel.org/r/20261120-codex-alsa-maya44e-v5-1-49f3682dfc81=
-@proton.me
-
-Thanks,
-Nordschamane
+-- 
+2.56.1.708.g77570a6a1d-goog
 
