@@ -1,64 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795075041;
-	b=N+P4WJ9RGxM3KFxqnRgOrRkWVPHm+ut4Hl7zTxjo2rmSX075rz+OHfMV5CCbLhzjJOfM
-	 hYJwDPV6XAFe+m0fb9PnLwkoOUQgeOyusjeYtwuV9Dkag9ofWP79UY3N4VYI5JjCtjUKv
-	 XCNPEFitJ7h3fLyMDaa/TiCQJrW99ptNWWnzzyGvKoST0cf2GJQz8smAONfkfcU/lPSwO
-	 3b+2ZH4YkimjU3tMQajUwYllvApUlQCk6IFzkQeKXeUr5v+Fm1X1P7jYg1QCv3tD6W+8I
-	 OBTsIPoZ9UkKVbhuoJiQRRAzOPfiXVHV2Pr4OT0KEz4eEbO/DhRBSrkU2F8v4kcg3zQ==
+	t=1795075052;
+	b=LKEaX8zStYXbN44QkPtD72uZE8b2SlIwdnsL+mFLDNxKCZ9lqXCwDTSAzrC01LATNlzg
+	 XU7SQAvR/Pyw1yx+ScoH/nealwlIJp1al9fwHvut9XmeIgK7U0OwzZm9t9/0Y5iPfNNsa
+	 f/76Po306UNTy1XPJEnWr7VXv71JzRyohYCchQ7b8utdUq4uI8VHJHNoo0vGycUhDWgj0
+	 Kwi67l/jC/nIIcSaPDsPzHzc05gRkMWTwsWO6eyD1U+WrIhXm73Hue1LcEmw/DAY9K2Q5
+	 jtxv8imw+lMpBGAmAVRPDgtpvUtpCs7UtowQXFKtdqE+7Yos4Amog7My/UUhx7MIUVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795075041;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795075052;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=hK6zvu0bdO+0ibY+7kdYs/GbG9wKYxwtHY1Cb2t5Sfw=;
-	b=sxmSdY8toK0o5zHtTwrHiKWJBbQaspVb7ux7R4/zN2jYBC2QTTNwpkYuxZqvxMe2HAEp
-	 F54XDuetMkWhfFNTqXix7PteqsidYPOkE9C1naUsKO/SXPyrbF3fx5mnq96iMEHuAobJG
-	 6i1/BlTuxMG/55PK/QwyhawQvUS/cvoxC6zQm3qiG2zqYVw4CvwqJMrs4nC+Gm2J7vxgM
-	 Pg+DA7kGRIx8RyhFRiGwV9BVqh/5D25BIqOFSuOheYwtDwDgFbbu25yMdQxbaxDd3oPEO
-	 hUuTNJKVIbjAVlPwEN7Jk3rS3+GzEF6MxEU9k1gJE+Z0ctyxPtNl0gFZWQt3o8rqonA==
+	bh=tbMakxCkFZffkJNmfBCPnLRJiEf3Y3bhXNkOroKZq4I=;
+	b=LPPl5Zql/sRWopJknNOz8CGIhw6Sym3wpNL/X9owRlwG7bVd5F92j87E5k4MAhgSc8B5
+	 IEWmIy4E15t3R5E5mzZenNdJqHva9EN45+aXhsr8vEUNHSKVbR2ELOHFx5CKoRloEhgLR
+	 WQIa8MgWqImfAHWXsq9cXHoW6rm+7YPBQXb6mbdZ3fzgeiUEzgMazUb0E3XQccHsNhXWg
+	 iuDHEoZBGvAxsOYmldQ1TpufagWJ3g3iBmoeaU3dji0yuuvcBh8z9I9rubBiX8941d8cy
+	 v4ebCbxLIwKIECb/PpHkCjGnQx/LOiAidFgoI9J11uutTolV5TwwrGCrni1xt9EF70w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=lGuCI7oX;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=cGIjslHu;
 	arc=none smtp.remote-ip=111.22.67.137
 Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76E5C606A320;
-	Thu, 19 Nov 2026 07:57:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76E5C606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB5F9606A324;
+	Thu, 19 Nov 2026 07:57:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB5F9606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=lGuCI7oX
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=cGIjslHu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=lGuCI7oXJa5ZzkaIhuBN+Z5EjTzHbss1F9COZ684ya1GRC5CMFIDC/U7umtxLB7fLhNtF8DW/ldas
-	 22v95xnsZwnwjDLs5L/nOHPOREG54WXhkbCO9nfo5WakMU3GusGWBWeN9+Etm7BcNP1zGOEuTL3S3K
-	 U/F5JosA6CuQ7rWc=
+	b=cGIjslHu/GN8S+E39GfnRY5WSXdmL4xdGEW7L6lJU9uPxo9Sz6FvzZEA/ogHgl9IDZ5iaN6QNCwQR
+	 UdH7w1I6UWN9vjkPU8Zc9mJSQAoy/hiWjU5xTCAfTJx9/II8QGMbfMrYXMtojtKTC26AUNsGDIljwk
+	 +G4/a7bOh96hy14o=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46afeabdd3a3-bb8be;
-	Thu, 19 Nov 2026 15:57:17 +0800 (CST)
-X-RM-TRANSID:2ee46afeabdd3a3-bb8be
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86afeabe93a3-bba5d;
+	Thu, 19 Nov 2026 15:57:29 +0800 (CST)
+X-RM-TRANSID:2ee86afeabe93a3-bba5d
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from devin-VMware-Virtual-Platform (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee46afeabdbdf4-f5958;
-	Thu, 19 Nov 2026 15:57:17 +0800 (CST)
-X-RM-TRANSID:2ee46afeabdbdf4-f5958
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86afeabe7645-5de6a;
+	Thu, 19 Nov 2026 15:57:29 +0800 (CST)
+X-RM-TRANSID:2ee86afeabe7645-5de6a
 From: Zhu Jun <zhujun2@cmss.chinamobile.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com,
+	mr.swami.reddy@ti.com,
+	vishwas.a.deshpande@ti.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhu Jun <zhujun2@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: ak4535: Fix AUX input DAPM routes
-Date: Thu, 19 Nov 2026 15:57:16 +0800
-Message-ID: <20261119075716.50110-1-zhujun2@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: lm49453: Use DMIC2R Switch for the HPR DMIC2 Right route
+Date: Thu, 19 Nov 2026 15:57:28 +0800
+Message-ID: <20261119075728.50125-1-zhujun2@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -71,37 +73,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The AUX input PGA is named "AUX In", but the route from the AUX pin
-and the Aux Capture Switch route refer to "Aux In". DAPM matches
-widget names case sensitively, so it cannot add either route.
+The HPR mixer connects both DMIC2 inputs to DMIC2L Switch. The
+control for the right input is DMIC2R Switch and uses its own register
+bit. As a result, toggling DMIC2R Switch does not update the right
+input's DAPM path.
 
-Use the existing widget name in both routes to connect the AUX input
-to the capture mixer and complete the path to the bypass mixer.
+Associate DMIC2 Right with DMIC2R Switch, as in the other mixers.
 
-Fixes: 796d2ca84859 ("ALSA: ASoC: Add AK4535 driver")
+Fixes: dbf7a733f5fb ("ASoC: Support TI LM49453 Audio driver")
 Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- sound/soc/codecs/ak4535.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/lm49453.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/ak4535.c b/sound/soc/codecs/ak4535.c
-index 66ca753e7651..ce877d995690 100644
---- a/sound/soc/codecs/ak4535.c
-+++ b/sound/soc/codecs/ak4535.c
-@@ -237,12 +237,12 @@ static const struct snd_soc_dapm_route ak4535_audio_map[] = {
- 	{"Mono 2 Enable", "Switch", "Stereo Mixer"},
+diff --git a/sound/soc/codecs/lm49453.c b/sound/soc/codecs/lm49453.c
+index 8c36298aa6eb..dad72e2eaf9a 100644
+--- a/sound/soc/codecs/lm49453.c
++++ b/sound/soc/codecs/lm49453.c
+@@ -813,7 +813,7 @@ static const struct snd_soc_dapm_route lm49453_audio_map[] = {
+ 	{ "HPR Mixer", "DMIC1L Switch", "DMIC1 Left" },
+ 	{ "HPR Mixer", "DMIC1R Switch", "DMIC1 Right" },
+ 	{ "HPR Mixer", "DMIC2L Switch", "DMIC2 Left" },
+-	{ "HPR Mixer", "DMIC2L Switch", "DMIC2 Right" },
++	{ "HPR Mixer", "DMIC2R Switch", "DMIC2 Right" },
+ 	{ "HPR Mixer", "Sidetone Switch", "Sidetone" },
  
- 	/* Aux In */
--	{"Aux In", NULL, "AUX"},
-+	{"AUX In", NULL, "AUX"},
- 
- 	/* ADC */
- 	{"ADC", NULL, "Input Mixer"},
- 	{"Input Mixer", "Mic Capture Switch", "Mic"},
--	{"Input Mixer", "Aux Capture Switch", "Aux In"},
-+	{"Input Mixer", "Aux Capture Switch", "AUX In"},
- };
- 
- static int ak4535_set_dai_sysclk(struct snd_soc_dai *codec_dai,
+ 	{ "HPR DAC", NULL, "HPR Mixer" },
 
 
