@@ -1,60 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175536;
-	b=bNXczntyiS5hcqYqb9Y/H0rRCHAnDtBgtJQnXmdlicnWl6Zob7wImLj9neo1X2gRnD0i
-	 Zlm0ZfTKFazR7gASjqEqUdgacR+qKqpedyNLNf1rF2afwnT6IwXX15gNcgt8Wd10WKOkL
-	 M3aeNdsKxEmGu9H+9eo5RSzxlqKiVVGzszeuHXNeeVtfEJZ6xfHXlLkFBeNmPW/Rvh7WB
-	 X5ikji1DX9vSmBTOLvXunPN4k5BRDViLrnAZKFktr8xkJ/nEDNovX4SR7jQwSawEqowpB
-	 ++UR/iTHIDc/SR2/i8GgoCThj4kaZLvD3GWmIwzqe4+zv+1YKlG+R6DJ2LQImb66QnA==
+	t=1795175967;
+	b=5TS6ghw0CtGtfADjc7aYeeSgzoWgnCC842Sl6mFoprksSHLa9aqHwdMqJSk/shs8+l4x
+	 uXsqJ7aybht0fJO2SjjAOsDFSrZSMMmuJy1Ze+ve//M/muHht8OBf9VpYq/vZrgvaHVGv
+	 OqmCeIVaqA+CVs6gLUON4uwmuB6KBxPDsc2qYU5kjhsaAD7WGKIG51JCXI8p0GloGKnbg
+	 m1CazNnm3GBTPTaAzj/qC9oqsbmHW+kS61HRIim/ZwxTnAyZG0onxGlXcYPidRIAdIvVt
+	 u2fRKSs0aQgXl5Z3g8HZnwQlU1x6oa9Z9u4lthHJw0dOc9WHy3RNXCBU58c65DkPD+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175536;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=6U0x6zb/eLO8pb0TQcyPNt8KKffqPmorv4cwNM3Ztlk=;
-	b=epRiu5+zwYH+ZUajIQXowZf12Z8wDWsxQ2W234dlSu0qlsLva6DMZm8SYey5IJscaVNh
-	 6zLy/tSB7/rhZd0qL4D2hv10vbq217Gm7+a+MWdritnQM0ecLq7IDDlRI2qQ7n+esAWM3
-	 SPPgs+wMAUPNqRZj2dgxPdQDq7DsLOypDvUVmvLp+bO0VwzF3pEYRWNgoDQjw3Tq5q7ia
-	 Imn7Yd1dehBJVrCeddEnL05BTYcj19vUBuOuF07YvKhGKDYPTgBimHI2SYsNYH7fx/arh
-	 Nd6VqxgnabHK15S0P92PWOcoUHyFVIsOw4l1UWNk58MLoN9d3TGzEEHvxQ3ATJO2dJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175967;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=Zl7t7lboEbloIJd8RC5C7tK+W7frU5FjFtsG+nus5oQ=;
+	b=EKM2fkySbXxgOYH0PxAp/DNWuLXZXiI+7Lyt/sNRaXnarybLHTnFrzCtV5KpxJxcqGVL
+	 DgaoeQmJOLRXR3WbQtH3ltXgAuJr3jGqUXh1pDseaDLR5FMxhCANJIsR+yN+8r5/vv5SD
+	 Z6IBpl1SGxrgjcpcnv410VPrgqoMRJM5MJdV8Q7DSXajn1rZDCNiOWmGx+HAb05IuGIlm
+	 RvzxcZ7xlKdAd+ohCId+W2Rj6FW6PRg6jRIXEqPF4rtEMNwL1PVl56BiEVjBdvtt+DxDi
+	 OYQpx0cJXsWexM0zNXNfcf4hLGJRc+pk0ATNWwtHq6Is3AMuKclN+P0gx+nwC/ws07A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l1T2+ruU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UxVlEIuu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1809606A326
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:52:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4B1606A320;
+	Fri, 20 Nov 2026 11:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l1T2+ruU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7ED881F000C0;
-	Fri, 20 Nov 2026 11:52:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UxVlEIuu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BFE1F000CA;
+	Fri, 20 Nov 2026 11:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795175535;
-	bh=6U0x6zb/eLO8pb0TQcyPNt8KKffqPmorv4cwNM3Ztlk=;
-	h=From:To:Cc:Subject:Date;
-	b=l1T2+ruUsM+wgEXKYfWv9jHEyp0gNZGcXblbR5tQaCnbdst9awZctVyxkupwjbK5J
-	 N0zWasdDdsJ/Dra+jvnA43o/T0IQntLbJGCEV2WgK3VnPQAHhOTfCS2pX8OUWCVXS7
-	 l9OEjXdNKpD1RX1uwod66DnT2Q79fu9LvT9ywC5d/K6eCwfbwLFo/XKkcaBjSTujaz
-	 A3QNFIKD6BZPb/eOCg47RtNomGS7FADedTz/dhzrdvaA/0TnwYd5A4S5Y77e2gO/DO
-	 nkm0AIsdbfNwy+1hgZF8Ac/mY5xEH+3i8AUp6qx1GT+QeRgYF5VUnJNjV2vhkwy96U
-	 lIdm8+j1m43MQ==
-From: Thorsten Blum <blum@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Norbert Szetei <norbert@doyensec.com>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Kees Cook <kees+treewide@kernel.org>,
-	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
-	Maoyi Xie <maoyixie.tju@gmail.com>
-Cc: Thorsten Blum <blum@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: timer: Simplify snd_timer_user_tselect()
-Date: Fri, 20 Nov 2026 12:52:06 +0100
-Message-ID: <20261120115207.810114-2-blum@kernel.org>
-X-Mailer: git-send-email 2.56.1
+	s=k20260515; t=1795175966;
+	bh=Zl7t7lboEbloIJd8RC5C7tK+W7frU5FjFtsG+nus5oQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=UxVlEIuuoAJcnkkJUJPDVcOFwrOWksIH8ocQBmhEnGyOrvgW/9Iuxj/uZ8FN+xoRq
+	 0l7xiSt4FzfKbBXc6jvSkiOQpan4OIMIA+ylosWOxFjnU5FnAMfD0CbYgYnQY+LK/b
+	 WlnBOWZxghmzfxnL/Ee0bHaE7oFICt5jeyyV0Im8z1sKSz/CZdtvyJc+Y5RDPaAHPF
+	 LZxaT7VfNZtlwEwJacLsYF6ePLfUsLgkPVIhcBtBUYRgNaFjvDZWf1LxVm7MJhFFXt
+	 VNkj9ziU/PDu40egH0I3rWKdR4h4voz52OjFu9uZU6kou/GXZ4k9D7XQ8tH1x3gU8o
+	 BsabpuYI5WrzQ==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Myeonghun Pak <mhun512@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Ijae Kim <ae878000@gmail.com>
+In-Reply-To: <179428456134.51374.1588994696516825613.mt2701-v2@gmail.com>
+References: <179428456134.51374.1588994696516825613.mt2701-v2@gmail.com>
+Subject: Re: [PATCH v2] ASoC: mediatek: mt2701: initialize IRQ dependencies
+ before requesting it
+Message-Id: <179509485455.116416.13262712760345484261.b4-ty@b4>
+Date: Thu, 19 Nov 2026 13:27:34 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,66 +63,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1779; i=blum@kernel.org; h=from:subject; bh=hJ3JTm/+GePJ+rcVv4Rux3SUTqeaKRSRPt8aZtqbSrg=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDNkMJunJy3WddBWnLS0v8dq4OKL01T6THSuXHEjXCmedu CDkw6qnHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCRxgMM/2w2Lnv41chf7EVv /ouHntOL7uXlbc9wuBSyJLdR9Wuqbx7Df5e5T/ofxUnJx02O52q+uchnkvLy/W3bzew9zzs+256 1lAkA
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=+XN/1qvarpNKiz7da+Lam/9r+iuEq9PEpy/kgh2Ro/k=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzKQ2Jvo+UzRZ+ClSZK+7BZ+uhGCR2m7xypvWftELx
+ VweZrl0lLIwiHExyIopssRlcb+sL3m9hu/gwjaYOaxMIEMYuDgFYCLJ1xj+mSu8zxDtd9p5jM1U
+ kiXp1dFp5Txv1xhfusfB0/1Cad6PGob/sTb7bqSwZUT9NPf6z+p49khoc4Lgjbsr/FWrbG/yHNZ
+ kBwA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Return errors directly and remove the now-redundant goto statements and
-the __err label. Also drop the unnecessary err = 0 initialization.
+On Mon, 09 Nov 2026 23:23:21 -0500, Myeonghun Pak wrote:
+> ASoC: mediatek: mt2701: initialize IRQ dependencies before requesting it
 
-While the current unbounded sprintf() works correctly, replace it with
-scnprintf() to bound the formatted string to the str buffer.
+Applied to
 
-No functional change.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
- sound/core/timer.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+Thanks!
 
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 905176bf6948..f977eea64f31 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -1802,7 +1802,7 @@ static int snd_timer_user_tselect(struct file *file,
- 	struct snd_timer_user *tu;
- 	struct snd_timer_select tselect;
- 	char str[32];
--	int err = 0;
-+	int err;
- 
- 	tu = file->private_data;
- 	if (tu->timeri) {
-@@ -1810,18 +1810,15 @@ static int snd_timer_user_tselect(struct file *file,
- 		snd_timer_instance_free(tu->timeri);
- 		tu->timeri = NULL;
- 	}
--	if (copy_from_user(&tselect, _tselect, sizeof(tselect))) {
--		err = -EFAULT;
--		goto __err;
--	}
--	sprintf(str, "application %i", current->pid);
-+	if (copy_from_user(&tselect, _tselect, sizeof(tselect)))
-+		return -EFAULT;
-+
-+	scnprintf(str, sizeof(str), "application %i", current->pid);
- 	if (tselect.id.dev_class != SNDRV_TIMER_CLASS_SLAVE)
- 		tselect.id.dev_sclass = SNDRV_TIMER_SCLASS_APPLICATION;
- 	tu->timeri = snd_timer_instance_new(str);
--	if (!tu->timeri) {
--		err = -ENOMEM;
--		goto __err;
--	}
-+	if (!tu->timeri)
-+		return -ENOMEM;
- 
- 	tu->timeri->flags |= SNDRV_TIMER_IFLG_FAST;
- 	tu->timeri->callback = tu->tread
-@@ -1836,7 +1833,6 @@ static int snd_timer_user_tselect(struct file *file,
- 		tu->timeri = NULL;
- 	}
- 
--      __err:
- 	return err;
- }
- 
+[1/1] ASoC: mediatek: mt2701: initialize IRQ dependencies before requesting it
+      https://git.kernel.org/broonie/sound/c/5649b1d4835f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
