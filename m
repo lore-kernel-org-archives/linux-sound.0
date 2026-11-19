@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795177142;
-	b=SjcF0tdETu9MnXDq6kcLmZ3VskCMFOFS0tFPyFYZ+7FPZOC0K1ptenDY4sFFeQ3JZfWv
-	 IKN+2c4zcsh8QbZAzN43yy8ORGBIdZxt1ohlIOfxsF4kvblU8+NK4c5u07fjQdj3UcYnU
-	 5shjtAVuvLnHPz79vLKL+FhYdhUL8veUqt1lBr5hUUDk5EOuJbrdO4KUNzladWJvr8V8c
-	 XURUFqwE2AM6eY6tLCc67CT4poDNnrIbIYN+hlPcebBfgGVA+w60ekQQDvWNki1i/iQ8l
-	 scifQVPTxVfavxWIbF1in9SvEQlVxokTIVWxUlTS8AypyBxIRaBGmw9o04/GI14sM6w==
+	t=1795177147;
+	b=abHGpcBDQ0xN+Erqw/6jDjQlh2Id/BuAIWOytu/HtELFbeJakzHVjldVHbrHcVZKZkE6
+	 xeZfSAAJUWzVhnjrzk/t98226UGq7FLVeQcSV9Vh6bWrqHaD9yDGpqYrpR3q/wuRFVPkm
+	 exqQqnmQcL1f9DOBibZECmkkZ1yQakTPxIh5czgiF8sbVi4t7KD+kuMrR6N84S7QENpSh
+	 TYb/BMmdR5HlVZ/sIEtUuDKdAQt607bxjxGsit0+PTvxCkMWHUdrVpKpsyRePoqaZIj2I
+	 dLq08jPH4choMFRwnVVcKpFThZbr/sNtQXA17XNRtZvpLLO/jyagfU/Wom0MplYAAlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795177142;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795177147;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=pfIaaogQQ3/aizXTxNoLej+Z34965WnxG3DwE7wiv9w=;
-	b=NTOkDjQGQ3wm+1wwzPc/O34RF+Oa7aqNvMmV38lpMRWqVJzEUwPkrPedY7uUceqqTFZN
-	 5HASoLaTg1PSi071XZF96hxRKsv6QUChyNpJg+cWHZxodbt/4ruyQXypwXb0IS/5bSTiu
-	 pIarz2gB5MMH8ZS1QXYEUX4PDCt20YrPmifMJoSuHjCCDXQoS+RK1VFTVBAPEPQvRajyp
-	 b63K8wQSGxbGGBfYSflQFxHB2q6o1T/uibFCuApBA/Ts8STc8F2duV1faiW876E9Ihtgd
-	 W98n+usx2puJSVHNzk0BvGDEopp6Wuyxy1IQmy1WHj2vkuChzk7h1SITp2eoBXiHZ1A==
+	bh=0kz6yzz7Q+evsBBzjVzgSzgxNxIGaxMZkVkvqz3Lm9w=;
+	b=2rbch5eLfwEzNIdZymEqPDB0ND3Qnw0Y4x2PhuQ3N1FTbYSG2096s6Dl3Q+71JaVqjs7
+	 GFH+j3cGQ9IzOtFU6ycOLMvRbSLH78hFIQF/JKYpKXStDkO/Q2X/HjdHWKP38UjLVLh7v
+	 Nv+s0+RWKNdMJTuBBomztsyZxILBGxYLii3/I6fzjbfLJ9XMqSH5CnJzKgd5KwDDHgVxx
+	 AEbukolwf/hmZ9zl+MvVERSzIuYfP7ql6s/QmLnxL4F4YYPOH2M7DAnyLN5HYHgkMaTZa
+	 aXPhkN/d2ViIq6SepWla9wD+h9L9TmDG2+XLMMei1zplFkyTleylKULIZCjjsgFUpxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="H+GlX//N";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="O+HT/a+f";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE61606A326;
-	Fri, 20 Nov 2026 12:19:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB126606A325;
+	Fri, 20 Nov 2026 12:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H+GlX//N
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BB01F000C6;
-	Fri, 20 Nov 2026 12:19:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O+HT/a+f
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582EF1F000C0;
+	Fri, 20 Nov 2026 12:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795177142;
-	bh=pfIaaogQQ3/aizXTxNoLej+Z34965WnxG3DwE7wiv9w=;
+	s=k20260515; t=1795177147;
+	bh=0kz6yzz7Q+evsBBzjVzgSzgxNxIGaxMZkVkvqz3Lm9w=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=H+GlX//Nt1Dc5Lvi/1Wlza+n0CaorwJRQuHMX+5f8dPbgN+nuoN9sp+1ENqWydN0y
-	 MbLsYqnriL/BL0Ut/4UySPbUdwgGOHWnInA5JAbDxSi9tiuhhqBeLXR6PwW/3FTIQU
-	 nw4ep8/TRMtMlJn01J21ZUxTvbXR9x8//EHiLSMVYe5kLSFEDLJD/vUXRw0x1YAVzp
-	 1B5Ay/itHQBjR1USXy0HDGcH0SpRAf93fZ5egn27xvvgnnXJtEnzemquDrfcfZa1S4
-	 R2oLINIGFwXEah773+i4mZy94DSxNg+1IPljI4WX+qSPfRzdlnDMC5Zv3Hd7StKyd9
-	 NSGeM+R/LZweQ==
+	b=O+HT/a+fxfzWX7PGLdTayPfk769BEStu+KsxXEHvzTyDrqsZ1jpCyFqOQtMQYvFoJ
+	 Xbk1NOaMociBPBXOYizYguYgx1w/4gSpkWvX8AH82kZohq4IwH14JPqodKTC2r7zap
+	 3WdIzaFVbJly6idZCRSeTMVQt5LSdWYhwOOyCeydYIKxfyJ/jX1ShSF5k7k9MvgTqP
+	 6eJoI/mCIzjYZtp812xBP7fBb04nCNJkkt6PWbbIsPiYFG/+dkmijEHQpFcVEPaJNm
+	 CoZiVUVu+3EzVKhPaID2aabXhBpbESZOBIMngMBIEAfD7kKznW9Ux6v503B+nM+41c
+	 ERFPO2kKZmAng==
 From: Mark Brown <broonie@kernel.org>
-To: David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- Colin Ian King <colin.i.king@gmail.com>
-Cc: kernel-janitors@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20261118214431.2752768-1-colin.i.king@gmail.com>
-References: <20261118214431.2752768-1-colin.i.king@gmail.com>
-Subject: Re: [PATCH][next] ASoC: cs35l45: Fix spelling mistake "indductor"
- -> "inductor"
-Message-Id: <179511156592.116416.3383551508026976274.b4-ty@b4>
-Date: Thu, 19 Nov 2026 18:06:05 +0000
+To: Fabio Estevam <festevam@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ Fabio Estevam <festevam@nabladev.com>
+In-Reply-To: <20261118211800.63292-1-festevam@gmail.com>
+References: <20261118211800.63292-1-festevam@gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: pcm512x: Add mute-gpios
+ property
+Message-Id: <179511178450.116416.13845415185969519115.b4-ty@b4>
+Date: Thu, 19 Nov 2026 18:09:44 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1142; i=broonie@kernel.org;
- h=from:subject:message-id; bh=8sz/QUa1towPvGfQzU49JPVgPA29L+cbk5+8bOLutA0=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZrDbzP8xXXDV9fVWgmP9lEXbeCX8sy29MmMS5V3FRw
- KkbDSIfO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCR3U8YGRYeWnU472bZ3bXs
- f7TfSbq7r94rzVp7Kk67Kzi7uqw1P5iRYUuLHJvInhTLFaJGuw7tlloV9Ex+u0bkzF5n/T3mCec
- F2AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1229; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=v6PmUz0CgMtStpGjlDqR5attTXFl0Wi34F9KEWXfFIA=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZrLZ/viWll/Sg0b67RIRjt8uh/LaZl7yLrP4179EvV
+ uOVtMjrKGVhEONikBVTZInL4n5ZX/J6Dd/BhW0wc1iZQIYwcHEKwEQ6yhn+6bC3XSv4rrf+Haev
+ Ju/O2QHvfWewbn908/3EZXWTa1+WPGRkOH9rfvIfu/jCjTG2Us7bkxdejt/yekpBzblrklsqT4k
+ IsAAA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 18 Nov 2026 21:44:31 +0000, Colin Ian King wrote:
-> ASoC: cs35l45: Fix spelling mistake "indductor" -> "inductor"
+On Wed, 18 Nov 2026 18:17:59 -0300, Fabio Estevam wrote:
+> ASoC: dt-bindings: pcm512x: Add mute-gpios property
 
 Applied to
 
@@ -83,8 +82,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: cs35l45: Fix spelling mistake "indductor" -> "inductor"
-      https://git.kernel.org/broonie/sound/c/0aa294970888
+[1/2] ASoC: dt-bindings: pcm512x: Add mute-gpios property
+      https://git.kernel.org/broonie/sound/c/a6ff2055fdbb
+[2/2] ASoC: pcm512x: Support external mute GPIO
+      https://git.kernel.org/broonie/sound/c/35aa7b7f8501
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
