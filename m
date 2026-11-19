@@ -1,103 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795084491;
-	b=t++FHjmFw2bbJTYGTNkhOUrpuO97uODaeYBxKG0LsT8mNTnB6HCaH5moeLrxO3nIgCIJ
-	 e8BsJrkgAIa4GqbTV5Lw+dcl6EbDliTlReIKfjEX2xnvoo6zBN/VTd8F6iQExiHqulC9/
-	 cj7XgElcEjYfHwtkEgNXEWMv3ldqmGFkuUpC/49MqA3j+TiZIC81YSb738nyEnEEPx5M4
-	 XexbPzcF+BlvOvPOS84MoxRWnuenuG53kfAKZXLaRtvgQH2XOsyVoVHFDbA5PQNGGV+1V
-	 +vOcVlp+eQV6GvqzxTe8eiG+jU3heHtQWsEzVEyrfzJI5Xfo/vPH964kfl776XQu9fw==
+	t=1795084880;
+	b=SLIf6ET5qqWtwnkUGfyGqPoFPTgJ/T5w63fsqS3+htQD2nwsHDWjYSG/axh2fF0pgylj
+	 /3n53fyCzYh9kgVMFwMEx1ew2CGYEZ62UDrHuqJbQuqMHXj/7e2+UfqA6bfgohK3LTMol
+	 IMyIsbllWaC9hEWx/U48cxXgJO8M2+KStTftBW8KB5yXL+bLoWDtMd7kCZg1RmD+Y+7mw
+	 owGgH4cZNUAk8sSA9kUsXuEZPVe1L7hzKbYqjIZt1mtDM3h54FSosJrg47wWI0MstYxFV
+	 d39bJFClpGRGfFRBWK23OIF7kh/XiPd5IF5g7yBRbPCekHRWKe6hr+s/jQ38MfGnKQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795084491;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=/a4yTiu8jgj78aGQImmGD3g9KOfP61dhUZVTXL8q2gw=;
-	b=LhP4bShz+EQ2QzCBmtAYGLSxqlb+++NtB4cL4LSm/mYnuIWtV0sO5+ax08buyM7a8iZa
-	 JV58sFPbjBC68pQN2vz+wzmtGLRpBuddDA7YS3VNAX5cD8wcKBBKbxCkWwbOpUWI3TZNx
-	 AjXE3XfaMQI/Hhdv5L0+U38CP/Ik1QwlneuQcLo5CQ4cN77BLMeNx35A33fOUuw3ICpVg
-	 6GgD76nRe3SyGUDJxhUkuWDZRPswOhExMH+udSmj2ZgaiveI0+T2YX3419ZM5BMSrQZ1M
-	 82tImpongFvO82NE5HLBym5LhGjAAFZTKmk8kYVPftVXdwIHsd+Dp6DfdFbbKgluWGA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795084880;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=SqewZBuM8W9dFnIHmwbhkjA1res2Yb2Puzim9ot0z7Q=;
+	b=bHpK2OC6/34go9gz4af03oAP/2A/MYMvcDvhTMf6m8Doqhmn3Cd5nQ0yDoHD2vq2Ztba
+	 w8kUsPbhtp5kacoErZ0FcsiLiq1x9i13Qi7uWbUJG+0O+ipH23oyZPdsEd3enF570ZmOG
+	 XY/7rJUzoGbtZS6lReb3qDSGr1NI5FTAZRujACGTrfXGIqnVp2FdzLzBm4qz6kBbzP4v3
+	 t4T5UAb5MJvefIAM8ORNdvkxco6tXnsvLLsw9xLwL/9VL5Di9sqwANDh0aMO7iuGIGo3d
+	 6WmSP6OsSNsOx0fXSD43IOckM615HPJMCGoIUlwS9YLvmbZVSNEKLYwXHQ0+rQU5slQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ezDGbPt3;
-	arc=none smtp.remote-ip=209.85.214.172
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BXvKnVwq;
+	arc=none smtp.remote-ip=91.218.175.137
+Received: from mta0.migadu.com (out-137.mta0.migadu.com [91.218.175.137])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7C760A2612
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:34:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A7C760A2612
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4322B606A324
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:41:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4322B606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ezDGbPt3
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2e9d7791b00so21382985ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 02:34:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795084491; x=1795689291; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/a4yTiu8jgj78aGQImmGD3g9KOfP61dhUZVTXL8q2gw=;
-        b=ezDGbPt3F48Jsq88Y15FalGyVLHURywDMhaWjvm5dL/FmLMEYEugoJ14q79//3U8nF
-         2iMCvZRuGDQXzGVdwUHsJ6AcA8ZSxFBqvBgRh2r4UmcQOek/sKEA8elnxjfLRASETnA4
-         u+cu3sR0URwi2jKqXk6nPACRyhgHQ772TEwIatOe4N9tpWZkaLAiT8T43gvGn3z518WP
-         pfYO8E2hnsZprvumR6I3D242vtmYQu67bhtCTXU+0wqBF2CkbGhiO6Ri3qTkAx4mbHih
-         aADZnWqRfAqlJHEFSs4bs4I3QhHDoz5ClXWIIQHOu8CB6M/7ZuBjM3BN0Wee8jkpBMl4
-         Oe7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795084491; x=1795689291;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/a4yTiu8jgj78aGQImmGD3g9KOfP61dhUZVTXL8q2gw=;
-        b=Vq3nHltaHwZKrYYJHPr3/AcKBW3wF+TpHtdoRGkU0kagnAtUKBqF7gTzrOZ0HxwOte
-         nBF/EleF5LpeXHhlPh17Ib1tS4jjWibRps32cqK3c+eIK9iCXEyxCyMifsu/3vmvFh5O
-         czIM9E2wjSIW1LpP4PH96TU/dTVjRJaPM0GjvPw4SOa639FPF8HZDp59eTy4BAw43hPx
-         1LtsadINYfzvnnb4vrYLalEV6hzk1kIL46jYpBlSWWSXEvjqk+mkOij50IWhCGJjDLqb
-         IJIxJqr/KMzhleGcrN1t4ZK934NxdUBzUrAzVVF0PZAtKGczjYG22hoizcZhhuiXixrn
-         lzcw==
-X-Forwarded-Encrypted: i=1; AL+hErHsazyxtbIB6mVHy44iLoGMKGaJf9KvzqqzwqXNNKgMthodnPY13X5dAA3Z9fTcBDtXa/IRKJt+nWIbgg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+4B8UiLk+0bifDODXM3R/IcLJxcj8itV6gnW/hIJMJAAV80Net
-	OfhA+rhyhDXiLf8WO/fVhK2RtPG19/rhCb/6uAuLfaYdPkQrvW4KnlVi
-X-Gm-Gg: AZFdTZfdvpC0zCGkxNc0XMWjB91IimmHOeHH+qesgrmnUKM2PUlvrp65GfUetTGmjAh
-	g1jv4RJoYdUch5WO6SjyASfqOMUbmA/CesqRAdz6fTfbWmSgLsUo5KWTGIZnfbZD4M8hWkjVkk0
-	udAmG5YHo8Fa05ccsdxhQcdWj5etdXlSG4kTScA0JYDEUXRQtBkLIiQQ+PLbEDjZqMSawCA23+w
-	HyR3EiqH1fGlH1OUJGVfSktiXzTAx7Nvv8FyA08qadLUe8Q8gky0W8Wp7racUJnGhXitixJboch
-	o683aXvqw258F0avFtuKYTzljNWJpM00742Uhijfrl5wwb8Xro9pIl35WUObNSPTMKdEcVj1SJJ
-	flv61xMP3ty07b9KlC3Z31vAuC5Jyzzz0Rm6FspJZWE0hlg+stZL0yWw8SgqGbV7vLGq5GV8Vo4
-	StrxEZH4N6456TOIfnwDuz8sJD08RJW/Tp/meGjyRt6/uvmLwrCQkqW2kzK74LQvjjBswYHJJOj
-	43X5FfYfaikRn9Qt6Znl8SoGkMeCo4CptO+VqO1Hdr1oB4JgIFIkyN3+kJKSkSoU1S5K1XV7TJJ
-	US/fRMAAnDdBx1ggORA2y4OkXFJn4CtslJwz8x2yCa6avcm6rC1E1I0WaQhoaw7EuFpWcj/KORg
-	1S+n3nf0o3+4eKn9r6mIPsIig0qP6W1zW/yckz69afK67
-X-Received: by 2002:a17:903:3d0f:b0:2ed:379:1592 with SMTP id d9443c01a7336-2eff740b594mr54610445ad.26.1795084490872;
-        Thu, 19 Nov 2026 02:34:50 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff6116323sm28617325ad.23.2026.11.19.02.34.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 02:34:50 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Andrei Simion <andrei.simion@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 4/4] ASoC: atmel: mchp-spdifrx: Propagate runtime PM errors in ulock get
-Date: Thu, 19 Nov 2026 17:34:13 +0700
-Message-ID: <20261119103413.31729-5-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261119103413.31729-1-phucduc.bui@gmail.com>
-References: <20261119103413.31729-1-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BXvKnVwq
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=hHV4wmzRo7/QebuMoNM7638o7gz26MY6+dWlsZX3ePM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795084877; v=1; x=1795689677;
+ b=BXvKnVwqbBXBF/S2cqOFQ6NvWmItsmp+bSF/X4MnyqKqrAnfGJPTYxwJ9VBOjX1hBeot7mSI
+ Kq3e8H+mtmOBFbuhDhXciM0EvtOdd4YBFsuz9hM4R/QjIX6lNQVISu7UGRoun9rikn4ynC4/Yze
+ vhqw4jcbqHLQadVdyV/lWEg8=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d7dbceaa39de39d7;
+	Thu, 19 Nov 2026 10:41:17 +0000
+X-Mizu-Trace-ID: d7dbceaa39de39d7
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <13462768-b7c2-4049-8e0e-44bd1e0fd659@linux.dev>
+Date: Thu, 19 Nov 2026 11:35:57 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -107,42 +58,91 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] PCI: Override Intel Apollo Lake audio class on Gauteng
+ W3S laptops [8086:5a98]
+To: Steven 'Steve' Kendall <skend@chromium.org>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <20261119-gauteng-audio-class-set-v1-1-e81d6fd620ad@chromium.org>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20261119-gauteng-audio-class-set-v1-1-e81d6fd620ad@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On 11/19/26 01:52, Steven 'Steve' Kendall wrote:
+> Gauteng Education Dept MODEL-W3S laptops advertise PCI class 0x040300
+> to use the legacy HDA driver rather than the Audio DSP on the Intel
+> Apollo Lake audio controller ([8086:5a98]). However, this board uses an
+> I2S ES8336 codec with no analog HDA codec, and its firmware otherwise
+> sets up the hardware to enable the DSP.
+> 
+> Add a PCI header fixup for [8086:5a98] on Gauteng W3S systems to
+> override class 0x040300 to 0x040100 so the SOF driver can claim the
+> device. Notably this fixes the internal speakers and headphones but
+> not jack detection.
+> 
+> This patch and its initial changelog were generated by Gemini during
+> an interactive debugging session given dmesg, lspci and similar
+> dumps from Gauteng W3S and MODEL-W3S laptops. The resulting quirk
+> was reviewed and tested on physical MODEL-W3S hardware and on a W3S
+> with slightly different hardware.
+> 
+> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
+> ---
+>  drivers/pci/quirks.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
 
-Return the result of pm_runtime_resume_and_get() instead of
-comparing the old and current ulock values.
+Humm, this sort of quirks is usually in sound/hda/core/intel-dsp-config.c.
 
-This ensures runtime PM errors are propagated to the caller.
+I don't think we've ever touched drivers/pci/quirks.c for DSP-related
+changes, did we?
 
-Fixes: c7db2a594389 ("ASoC: mchp-spdifrx: add runtime pm support")
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/atmel/mchp-spdifrx.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+And last you could do this driver selection with the kernel parameter
+snd_intel_dspcfg.dsp_driver=2.
 
-diff --git a/sound/soc/atmel/mchp-spdifrx.c b/sound/soc/atmel/mchp-spdifrx.c
-index 41c65e835765..632da8d7bc81 100644
---- a/sound/soc/atmel/mchp-spdifrx.c
-+++ b/sound/soc/atmel/mchp-spdifrx.c
-@@ -709,7 +709,6 @@ static int mchp_spdifrx_ulock_get(struct snd_kcontrol *kcontrol,
- 	struct mchp_spdifrx_mixer_control *ctrl = &dev->control;
- 	u32 val;
- 	int ret;
--	bool ulock_old = ctrl->ulock;
- 
- 	mutex_lock(&dev->mlock);
- 
-@@ -735,7 +734,7 @@ static int mchp_spdifrx_ulock_get(struct snd_kcontrol *kcontrol,
- unlock:
- 	mutex_unlock(&dev->mlock);
- 
--	return ulock_old != ctrl->ulock;
-+	return ret;
- }
- 
- static int mchp_spdifrx_badf_get(struct snd_kcontrol *kcontrol,
--- 
-2.43.0
+> index 7f1f47ea2ee4..908d038fa29a 100644
+> --- a/drivers/pci/quirks.c
+> +++ b/drivers/pci/quirks.c
+> @@ -754,6 +754,40 @@ DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_VENDOR_ID_SYNOPSYS, PCI_ANY_ID,
+>  			       PCI_CLASS_SERIAL_USB_XHCI, 0,
+>  			       quirk_synopsys_haps);
+>  
+> +/*
+> + * Gauteng Education Dept MODEL-W3S laptops report PCI class 0x040300
+> + * (PCI_CLASS_MULTIMEDIA_HD_AUDIO) on the Apollo Lake audio controller
+> + * ([8086:5a98]) even though the Audio DSP (BAR 4), NHLT ACPI table, and I2S
+> + * ESSX8336 codec are enabled and no analog HDA codec is present.
+> + *
+> + * Override the class to 0x040100 (PCI_CLASS_MULTIMEDIA_AUDIO << 8) so SOF can
+> + * claim the device.
+> + */
+> +static const struct dmi_system_id gauteng_w3s_dmi_table[] = {
+> +	{
+> +		.ident = "Gauteng Education Dept W3S",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "Gauteng Education Dept"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "W3S"),
+> +		}
+> +	},
+> +	{}
+> +};
+> +
+> +static void quirk_gauteng_w3s_audio_class(struct pci_dev *pdev)
+> +{
+> +	u32 class = pdev->class;
+> +
+> +	if (dmi_check_system(gauteng_w3s_dmi_table)) {
+> +		pdev->class = PCI_CLASS_MULTIMEDIA_AUDIO << 8;
+> +		pci_info(pdev, FW_BUG "PCI class overridden (%#08x -> %#08x) so SOF driver can claim this instead of snd_hda_intel\n",
+> +			 class, pdev->class);
+> +	}
+
+also is SOF really used for an ApolloLake product? I thought all
+SOF-based Chromebooks started with GeminiLake?
+
 
