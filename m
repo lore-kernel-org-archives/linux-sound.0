@@ -1,70 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795075163;
-	b=mpz0rtp8iNdkn67lInd2EWNsxi0qOaomsrHlkSv/B3JdjxJbFbbm5l5/Z5iEPuuhNuAV
-	 1nzn+5YCQUJdw8Xe8q/FNl6HmZe2HjrsL8AiN2siTfNpmahMK0UWlyLs/sOXq+HKjkOXv
-	 Ibe0BUVqESEnclND7fuFhJLYqhNUzdXZuYYL6qvh99iPboYsmUrBK+cy2Y0OxD8yQx8ud
-	 +P+tfHcQeNthjdjqUcdHJmyscyvK/ag9LqOO1USCjfhWFqC06usWeoVI5QbALg1JxkhS5
-	 kuFx+Ciz5aFrQqT7lm49H/sBrdJC2FLn2KUaQqcvkGCeYtKAQ7xPKyDOJ/EFXyWHxwg==
+	t=1795075731;
+	b=REkrZOESL/saPoFlXVQeAxIgc7iJ60VbY3txqp9YeOt+67mWLsMbbXVcuqCiHNNhCoG6
+	 OHEv5W/VnuunMwpYUaXFR+zQ5IMdjEHXCxIrF0be0ATPLVWxCJ/MzzGWMwaHRk9da4fuU
+	 XZ5yC528V7vdMXwJjb6x1gi6Qe9vP6YKHPnx9zhMAAIijcf/9DGNSJzIvvKfF7USUN1Gc
+	 Rxc07U4PzBX9VudmLmdUh4n7/JdXsvnSpEPOIMI+07GmyzBB9133rrKxPrf2Fsry0AeWP
+	 z2KCbe7P3/S7EdFQnUIDD2OUt2HdiplsS0q0GH1gDtCBI/wPGXT2AJnsUfUU78IX42Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795075163;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=UdjPNcmatNIX+1KGlhz64cm24KVbVuKMospPTTHbxLU=;
-	b=UgCtmEOJohkk5PgNJbmcySfjfnWSCKlS9QiWu/PblkUfeQTCmRQxlPeeMHpF7iJ0prsr
-	 +/uT2SzZ6mD1Pok+xVcpAvaUcPkkrEikqq/fkU3XzR5F3nn+iSeAe8kCmwKMFr20RYExz
-	 t5mfUZlL24Wq3VglpsKXjYP33jD3o68ZVBivO0vVngcGfNrN7n1s+EyLYDrEEms63hNDc
-	 y0dgqoDfq3MLzR+dwqwIylQO2od2cy8BaixcGDnDkzqg0eArHUMtIjDcgtct4jlp/qOCq
-	 qwYZBwp2ieIM7BsD+LZAhrZCGMjrJBrwwPdpV6qplLV+dmpqu6EDBEXxyRjJEq7qThw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795075731;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=CXyZM4JZTnA8hBtpmwmtPC2g0XSFszCEPREBmv4xrPg=;
+	b=IM8/DQEIxLrbO8tvVNoqCtjR+y4LdW7VN0Y3jkMGNZpIe7VwekSIj/xY1VHZykr1PXdy
+	 bHDOHjIjabNkxbUkKwbceLh9AxfssIDBF4n/LDA8XhckYR2QOJ1INNIpS/2K1kEWiv00h
+	 vgw39s8st0P+piGmePrRgqaRtbUoMGsqKZVBuDwkyPPDa2+Sbea18A67M4Ah6V+BtHBQu
+	 VudMJ9x6SRiXkMM8l4PysbWBGhSW4f3ctAxJOVd0g4nmx24KAlzygcHDZGyt6KiinH9+t
+	 4DpDCVpYjzhn97VSG0E5+6JGulCq+eRZx9vZA4zoY2EMmeah+KQvrAIbRceugww2BfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=oREPfXNb;
-	arc=none smtp.remote-ip=111.22.67.137
-Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E699D606A325;
-	Thu, 19 Nov 2026 07:59:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E699D606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UC+vCtYZ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1EE606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 08:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=oREPfXNb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=oREPfXNbq9pUlOmdRIhWWrPWgkyv47/NeDgwJYlNg+HMQ+EUOsaHYr9I6qcidSMdFhj+ihUluVV4w
-	 71l+uoqdEvdr15c2Dh7keE7qv9k63PSqCbL/2eECezh1LdnyR7F2VPeSgabN1s95mbbTC9chxpBtDZ
-	 BQfSvlW+abQdynWk=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee46afeac563f7-bb912;
-	Thu, 19 Nov 2026 15:59:19 +0800 (CST)
-X-RM-TRANSID:2ee46afeac563f7-bb912
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from devin-VMware-Virtual-Platform (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66afeac55dda-f590c;
-	Thu, 19 Nov 2026 15:59:19 +0800 (CST)
-X-RM-TRANSID:2ee66afeac55dda-f590c
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	kaichieh.chuang@mediatek.com,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhu Jun <zhujun2@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: mediatek: mt6797: Fix runtime PM handling in probe
-Date: Thu, 19 Nov 2026 15:59:17 +0800
-Message-ID: <20261119075917.50241-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UC+vCtYZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02ACE1F000C4;
+	Thu, 19 Nov 2026 08:08:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795075731;
+	bh=CXyZM4JZTnA8hBtpmwmtPC2g0XSFszCEPREBmv4xrPg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=UC+vCtYZ5r1U25f+g7TtXiK0uwQN0FAihKhQhG1fDdgF3e8wTUmaJG5dLdbZ6ga9A
+	 XUc0gIVxNv6w0QVf08bZjkiQrwkht1e5BOCMuH30hN2j82EghBe5Gq4JeRTsa6mqVF
+	 vMBOILj2ib6+L8+LFgmXFDRWgxT2AT5Og/O3isXgV3neZvusMY+UvXgI02z4/vNDM3
+	 bVl8gJYSGtB1qj3j4GeJoERsgKfljGG/LtBIhmKOVGeYykv7SCTWSGaD2MvxsiP1uQ
+	 6qX6dfZPBQLUXpFHV0M9upEFCPyRwvjBRxUnzVLdwZ38oz1jgsrKNWDl1mITBZNgOG
+	 n4dl4Wn0K2TGA==
+Message-ID: <sashiko-outbox-222644@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: audio-graph-card2: Release multi-link ports
+ references
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Zhu Jun" <zhujun2@cmss.chinamobile.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261119075815.50155-1-zhujun2@cmss.chinamobile.com>
+References: <20261119075815.50155-1-zhujun2@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Nov 2026 08:08:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -73,68 +59,80 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The MT6797 AFE probe registers its components even when the runtime
-resume fails to enable the clocks. If component registration fails
-after a successful resume, the probe disables runtime PM while still
-holding its usage reference. The runtime PM disabled path also
-returns the previous successful result without registering components.
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [Critical] ASoC: audio-graph-card2: double of_node_put() in
+  graph_link_init() [1]
+--
 
-Use pm_runtime_resume_and_get() and stop on a resume error. Drop the
-reference and suspend the AFE on either registration failure before
-disabling runtime PM. Return an error when runtime PM is unavailable.
+commit bb6eb5c362dba929e29a53d648672a0c04801536
+Author: Zhu Jun <zhujun2@cmss.chinamobile.com>
 
-Fixes: 3901b9fc0f0d ("ASoC: mt6797: add mt6797 platform driver")
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
----
- sound/soc/mediatek/mt6797/mt6797-afe-pcm.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ASoC: audio-graph-card2: Release multi-link ports references
 
-diff --git a/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c b/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c
-index 2069c340ca39..406a86035785 100644
---- a/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c
-+++ b/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c
-@@ -828,16 +828,21 @@ static int mt6797_afe_pcm_dev_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, afe);
- 
- 	pm_runtime_enable(dev);
--	if (!pm_runtime_enabled(dev))
-+	if (!pm_runtime_enabled(dev)) {
-+		ret = -EOPNOTSUPP;
-+		goto err_pm_disable;
-+	}
-+
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret)
- 		goto err_pm_disable;
--	pm_runtime_get_sync(&pdev->dev);
- 
- 	/* register component */
- 	ret = devm_snd_soc_register_component(dev, &mtk_afe_pcm_platform,
- 					      NULL, 0);
- 	if (ret) {
- 		dev_warn(dev, "err_platform\n");
--		goto err_pm_disable;
-+		goto err_pm_put;
- 	}
- 
- 	ret = devm_snd_soc_register_component(afe->dev,
-@@ -846,11 +851,13 @@ static int mt6797_afe_pcm_dev_probe(struct platform_device *pdev)
- 				     afe->num_dai_drivers);
- 	if (ret) {
- 		dev_warn(dev, "err_dai_component\n");
--		goto err_pm_disable;
-+		goto err_pm_put;
- 	}
- 
- 	return 0;
- 
-+err_pm_put:
-+	pm_runtime_put_sync_suspend(dev);
- err_pm_disable:
- 	pm_runtime_disable(dev);
- 
+This commit uses __free(device_node) to release temporary device_node
+references returned by port_to_ports() in graph_parse_node_multi_nm() and
+graph_counter().
 
+> diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/au=
+dio-graph-card2.c
+> index d2f32a3a5b28d..245a822c33586 100644
+> --- a/sound/soc/generic/audio-graph-card2.c
+> +++ b/sound/soc/generic/audio-graph-card2.c
+> @@ -559,9 +559,10 @@ static int graph_parse_node_multi_nm(struct simple_u=
+til_priv *priv,
+> =20
+>  		struct device_node *mcodec_ep_n __free(device_node) =3D of_graph_get_r=
+emote_endpoint(mcpu_ep_n);
+>  		struct device_node *mcodec_port __free(device_node) =3D ep_to_port(mco=
+dec_ep_n);
+> +		struct device_node *ports __free(device_node) =3D port_to_ports(mcodec=
+_port);
+> =20
+>  		ret =3D -EINVAL;
+> -		if (mcodec_ports !=3D port_to_ports(mcodec_port))
+> +		if (mcodec_ports !=3D ports)
+>  			break;
+> =20
+>  		for_each_of_graph_port(mcodec_ports, mcodec_port_i) {
 
+[Severity: Critical]
+This problem wasn't introduced by this patch, but in the multi-link node
+handling in graph_link_init(), doesn't passing multi_cpu_port and
+multi_codec_port to graph_get_next_multi_ep() cause a double of_node_put()
+on port_cpu and port_codec [1]?
+
+sound/soc/generic/audio-graph-card2.c:graph_link_init() {
+	struct device_node *port_cpu =3D ep_to_port(ep_cpu);
+	struct device_node *port_codec =3D ep_to_port(ep_codec);
+	...
+	if (graph_lnk_is_multi(port_cpu)) {
+		multi_cpu_port =3D port_cpu;
+		ep_cpu =3D graph_get_next_multi_ep(&multi_cpu_port, multi_cpu_port_idx++);
+		of_node_put(port_cpu);
+		port_cpu =3D ep_to_port(ep_cpu);
+	}
+	...
+	if (graph_lnk_is_multi(port_codec)) {
+		multi_codec_port =3D port_codec;
+		ep_codec =3D graph_get_next_multi_ep(&multi_codec_port, multi_codec_port_=
+idx++);
+		of_node_put(port_codec);
+		port_codec =3D ep_to_port(ep_codec);
+	}
+}
+
+graph_get_next_multi_ep() calls of_node_put(*port) before replacing *port
+with of_graph_get_port_by_id(ports, idx).  Because port_cpu and port_codec
+still hold the initial node pointers acquired by ep_to_port(), the
+subsequent of_node_put(port_cpu) and of_node_put(port_codec) calls in
+graph_link_init() drop those same references a second time, underflowing
+the device_node reference counts and leading to use-after-free.
+
+[1] https://sashiko.dev/#/bug/linux-cfb81a5c-4dcd-4040-99a5-4886fa74927e
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119075815.5015=
+5-1-zhujun2@cmss.chinamobile.com?part=3D1
