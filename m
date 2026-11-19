@@ -1,108 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795091049;
-	b=ecZvP6b7sFTWQZZR6c8AMFMH+VqQsbXfFMX39/N+PlQEuzsDYIidCkxlphFZWkpVdNgU
-	 jF88M8RWeVoSxh7E7W7cZE8A5+qRtw6ZCQfZauh9Ia09aJIZy0LJmf8mx9T4hZtR7sigZ
-	 64m3dfhEblgNio310mbzkAsvt3+TKrxSRooXDUxT891s2fDSFnVxT0uaj2i3/fbR3GBka
-	 2jtU38GPa9CjKLTgd22p5aVCR57HHGZh30+Qb6ohytauB1OY6tYOkdLDv9zzJOEaX73VO
-	 7OJXZ3jMclEzabjtmR2iSjxgSXQI9863TIpp+pUQZe4a0jJ+vw/75gJ/cOo0CV4XcTw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091049;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=RA/JUkkG6FRTlJ+spOqNtnTyJ43KCafcpak15PjXfsM=;
-	b=O1+2ETEs6VnCPc+PvvBcmqciQJGOefz4d9YuIEiI94PR14xzrKdlJ/RhAREB0Rgs/1im
-	 Fx6AIFmonWIYS/WS7Zu99b5f9SQO1HbyM/h6KyWg6v5quvaDdtfZzdsigBAMSrEK7ee4W
-	 UinLr+U4A67dO8I5WYISk8Gm3Ju+hlM+vWx4wKdKF5Bl13w/UJtVDrdUHzJsiqgAPRHOs
-	 Lbd+edcGu7Rhrp9mSPT8cnfK+b0mgv3OWX6/l67u1NU6m4mNknRMB5Vz/MW0Agnj1Tjwq
-	 Tk3ATSpm9lfqB+2MbgXAK8fXTBhceC9whWIwSPIgRKqT0cCaDmvMLjjLDawDTzj7htw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VX6UFIT+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=82vZsoAe;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VX6UFIT+;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=82vZsoAe;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.29
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795091191;
+	b=g6OQ9iTejBFhqyIrtNwTniW6BU2PyUBMwkLHIqPLMta6t9+MSV4KQG7d775u30pgp3fC
+	 gI2ncvK7Omx22FwKTU0Ua6M6KJC3654hjewJF5DfoNM1mm1Ez7LzmhFCR1is5/yxP44rp
+	 LkbXOEFHAw/I6IHErWAJ6XtcxMjwcJ9s/uQbTh76aK/YO4AuRL82z89Q0NjpaBAbuszcT
+	 1IYqPO64y5Mxe+FMZ5M+X3pp2ieLgKTlm7g8wf9Pzt8l0g+GIS4XnNvf1yUmNqiK9xViu
+	 GLk1CTAplzhTr1OCrQl+WUmL8qGQrqX8Qf8jf59VpHwdBVDZbN6G6ZF2yOiK9Nl9B8w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091191;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-NV-OnPremToCloud:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=4D55MCKWsw9qDFfs9GN7nl+ThDhpENVTTNnbDqbZuKs=;
+	b=lOoZ3vqelELu4VqPXic3ZncjsBIX92GhGpv98/S3LWPrCauHdeoHmMHTXJndMqTztCLt
+	 wSkkogqKzBef2fsSTO8m+F/sXvxIclH8DgPCKTZEQ+X7tvoBtRAZYowoAJWFX4dLs7kPZ
+	 Mzr6ca5aLNWdexbPJjkkqRO+bsTs598B5t/rTw+zuNbSYnmnBYJMiep0Q9NUy6rwgl1Vy
+	 5SowegcHIY5EJDB6LonuRYWwcRjObX9Mux1H4hhOi0/imtXyjVQfiInA6OuxKOnlN6HoZ
+	 jlexlxZ+D0xLLXFG/ax1V7oLuqSKWyjem8tWiiTUaJdTZWaArYR1B84aVLILQ9G4qkQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Z9qZWe3o;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.29
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011029.outbound.protection.outlook.com [52.101.57.29])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979B3606A325
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 12:24:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 979B3606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404FA606A320;
+	Thu, 19 Nov 2026 12:26:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 404FA606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VX6UFIT+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=82vZsoAe;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VX6UFIT+;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=82vZsoAe
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6ACF5219DD;
-	Thu, 19 Nov 2026 12:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795091046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RA/JUkkG6FRTlJ+spOqNtnTyJ43KCafcpak15PjXfsM=;
-	b=VX6UFIT+eLI/sVEIChsExoJLgkKZeU87fvAbDJ7h3OK92T/F9p1dVj7RfM1kpOD+5z3sG1
-	Wg0aR6TV0i5UzjQHEK1AnOLVLz2iyhxcDF5td8BhbDs1rjhYLckCv4ZMcbGAjNBr0n1TXc
-	7wXkraFVjL/QiEq3/rktgsqUChH4qo0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795091046;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RA/JUkkG6FRTlJ+spOqNtnTyJ43KCafcpak15PjXfsM=;
-	b=82vZsoAeY94XSUDqbj28FGbAJWK0i6sEOWrqKU5HfGPQ1bxubzDRV5xrN0xFyUDIfJy+uo
-	vtwHmAkwnQwZ+pBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795091046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RA/JUkkG6FRTlJ+spOqNtnTyJ43KCafcpak15PjXfsM=;
-	b=VX6UFIT+eLI/sVEIChsExoJLgkKZeU87fvAbDJ7h3OK92T/F9p1dVj7RfM1kpOD+5z3sG1
-	Wg0aR6TV0i5UzjQHEK1AnOLVLz2iyhxcDF5td8BhbDs1rjhYLckCv4ZMcbGAjNBr0n1TXc
-	7wXkraFVjL/QiEq3/rktgsqUChH4qo0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795091046;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RA/JUkkG6FRTlJ+spOqNtnTyJ43KCafcpak15PjXfsM=;
-	b=82vZsoAeY94XSUDqbj28FGbAJWK0i6sEOWrqKU5HfGPQ1bxubzDRV5xrN0xFyUDIfJy+uo
-	vtwHmAkwnQwZ+pBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1773B134F6;
-	Thu, 19 Nov 2026 12:24:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ENprLGXq/mqWBwAAD6G6ig:T2
-	(envelope-from <tiwai@suse.de>); Thu, 19 Nov 2026 12:24:06 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH v2 1/3] ALSA: pcm: Fix potential ABBA deadlock at snd_pcm_action_nonatomic()
-Date: Thu, 19 Nov 2026 13:23:52 +0100
-Message-ID: <20261119122356.2134523-2-tiwai@suse.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261119122356.2134523-1-tiwai@suse.de>
-References: <20261119122356.2134523-1-tiwai@suse.de>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=Z9qZWe3o
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WFZ66UnTr4MIXQwEEpDP+NcdE8ZJe1fdHAoss4FZVT/5zcHNDJ/73DJPpKzo6nz5VHJzLW3q22eMO/rAMT97aJyXmLXCmEJpm8BzA/FEzOswhe3erv83TsukgdHk1R/wwP1lndIYTerSroAhrLJUS9hVYW+Qu9fSwQYqMjpC7+ZdgcNXZevccWeJha2d1ijKXRERuLARSIB6i+VjelJBqqPX5x8nfeiKsFFin/I/ABvdrn8IaWY7Rw+hML6nFGF4eHyRwDl53nKKLjwBLXG92v43CoUMVwriQbEScOqoI5xfxJ3/TjPMbcmBhztMEVQst3QfFJNtoJEENeXHiRHErA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4D55MCKWsw9qDFfs9GN7nl+ThDhpENVTTNnbDqbZuKs=;
+ b=dio+uAoaa+nhJeH7FX4ECOFELj5lPKOJD62/H1sjWEzLb0j8GIbUdIBANJHw+nVCrhDiJXjGjfSKUn5cGY34wTLVRDyNzlOHGljgYSSHs4eqoF2qALxpSb1ADVToTHHgoNNnEokU4FBkq7P0YuOkqaZU8lAVes/myD9F5+eSXrUzQ6pKHSThJNqeFDerPkiJjJVEIlx6JDTNSE7oftwHn+kcR2IeRkxvSxChoJK6Ot81aos1+Jn3sE0W2XaprSX3vShsTCzk1mz25Mt9Pb0gA0XRpQVWDvgDMPeyjwMSoVZxuzwebxQjok1pYGoXrJ9IJxvb1odBp2q1SojmPnMACA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4D55MCKWsw9qDFfs9GN7nl+ThDhpENVTTNnbDqbZuKs=;
+ b=Z9qZWe3o6Qtipy0HJj0mi4SJb07wiHl2+JCKe4U+7dG5pZSUzW8b5ndu2NDF9dV/jm05bnfwLbh/OkuaoyvyMUgZm2LSoE0LGNCUdJ0f3fndQu/VbPfFM013HvUlHvwGyZiGnqVX4mtXoLuGSGokPtRDFPwuG/ZGXsLVHLHDZh3HGD+WWzhkwFgr5nLuEf0mHDGtNVjimroz8C+QxssUCOvB5gmifongJmv0JAOKlbFyhzjdenat58zbXBhAxEfiqq13Uy81ZrWkgXAOJU2n3q6c/Kz3qhbjbtYSbVMOvv+ZuH6GSA7IbXGy0w4G+y2aMqqACUYMzKt9aIF81ovXyw==
+Received: from CH0PR07CA0025.namprd07.prod.outlook.com (2603:10b6:610:32::30)
+ by MN0PR12MB5977.namprd12.prod.outlook.com (2603:10b6:208:37c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
+ 2026 12:26:25 +0000
+Received: from CH2PEPF00016D4E.namprd02.prod.outlook.com
+ (2603:10b6:610:32:cafe::6) by CH0PR07CA0025.outlook.office365.com
+ (2603:10b6:610:32::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.10 via Frontend Transport; Thu,
+ 19 Nov 2026 12:26:25 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 216.228.118.232) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CH2PEPF00016D4E.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.639.5 via Frontend Transport; Thu, 19 Nov 2026 12:26:24 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Thu, 19 Nov
+ 2026 04:26:12 -0800
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.57; Thu, 19 Nov 2026 04:26:11 -0800
+Received: from build-sheetal-noble-20261014.internal (10.127.8.14) by
+ mail.nvidia.com (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.57
+ via Frontend Transport; Thu, 19 Nov 2026 04:26:11 -0800
+From: Sheetal <sheetal@nvidia.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>
+CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Thierry
+ Reding" <thierry.reding@kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
+	"Mohan Kumar" <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
+	"Anupama Kunkulagunta" <akunkulagunt@nvidia.com>, Sheetal
+	<sheetal@nvidia.com>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 1/2] ASoC: dt-bindings: tegra: Add Tegra268 ADMAIF support
+Date: Thu, 19 Nov 2026 12:25:10 +0000
+Message-ID: <20261119122511.1324643-2-sheetal@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261119122511.1324643-1-sheetal@nvidia.com>
+References: <20261119122511.1324643-1-sheetal@nvidia.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -113,204 +122,89 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -11.80
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00016D4E:EE_|MN0PR12MB5977:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcc9912d-81d8-41d5-1a45-08df463853f0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|36860700016|376014|82310400026|7416014|10067099003|11063799006|56012099006|261026140227099003|261028144727099003|261021121427099003|261022105027099003|261026121527099003|261102123227099003|261009223027099003|22082099003|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	NZvdBNIwCy/NDl6F433B+nSSioCEV0Cg2peJU58wZ2dGlpPd/0mhBPbbWlJKcmPbfImmCNZqhSn9TCA+6N7Raa8UaCdLpqs7qmD0sLkTPayO29eRczRn4RwcFVNUckFnwVKa458eulS+iRcKzJM62m56itTwC5YAcZT+gxexeeMJNqEUAU9g4V0xRjt5gsz0db8VeDfMrh2qFvZRX4e7gIJUConHwvXRcKYtr/tatkZt3zWSWCXzB+q8sqjkkkqPyMGVIgeuWJMo3y36q/p1shPUyZjiHbP1bkgpVJTNfbgqoRfGo58ZQeIApms2LJKA+6TSIIbtdBNo8x3EjwStYSlfdizTwYFnZbb47B7Uc162WKQV0QE4JUJeRaz1hizq99i0yzonOQoZfpZW3b+NwG6AmokvM/Sob3nhAiDws9hgacZfmUE3B39D10IFOnwAF45t0lLxQENUuqnQrsb7oF1tVj69MVFk/Sc4TFIxnrBqqWzmhAd5UNUHuDk/ocNSc2ajyal5oFQta+3d8cysSef5UHm9gaHrPr3flX19tUbY7VHx5KwE0mKBdBncZJ+imno+aYhd19o7lPNAn6hcLAFpjQ9y1UEjsv/7xiwDnEwkXlcBAJQ9y1MjtPC49wwJQRIXuaq57zgYZ4wUW2VJcdbFOpN/cQp1ISq5aS3KN8FBRTYagu0/S67mrxNOrfTeKnK4XnXqoGJ1BwUDRSiBrg==
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(36860700016)(376014)(82310400026)(7416014)(10067099003)(11063799006)(56012099006)(261026140227099003)(261028144727099003)(261021121427099003)(261022105027099003)(261026121527099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	rd7DzLGCECpQ0zpg0yEQ7CH27W6580fB/u2O4E82mZFoQxypo5an9XZPwzUXrfMZKsTuRYGMermQuEwvj7x3EEvz9FXQKBtcvX19+bhmeiqECSVvu9zQ+ntbHel0LP479kByzujpKUju+uRIYoL82qECvdMKrYFmbplIqpUJGhdc1JR/gwrsREFkKWxqy6hMPaDydTV+09JglRGKJGjtDbk+IEoc+OoYwMem14VjgECVrSUyb/errCPsZcLFw8T/RDdrh8NwcP5dH2CLb2breKbqtAnmBrmVMl8Kpdr/93scPgRjiczNjUsuQxWAL/CBqT67zDaDbK6iRReuvL/VD6PLppuiuxGH0H7P6J3S+n1RAOpGpsuo0LGFOpeIcaKz/XBj3odBpeyCEQDVuhAqnXtCGlB3J6qvjLsmP6ECBk6dFFgf758f6voU6r607Mr0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 12:26:24.8813
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcc9912d-81d8-41d5-1a45-08df463853f0
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF00016D4E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5977
 
-snd_pcm_action_nonatomic() is called for PCM PREPARE and other
-operations, and the function takes snd_pcm_buffer_access_lock() of the
-given substream (that takes runtime->buffer_mutex internally) at
-first, followed by the call of snd_pcm_action_group() that takes
-buffer_mutex of other substreams in the same link group again.
-Recently Sashiko suggested it may lead to an ABBA deadlock when two
-different substreams in the same PCM link call it concurrently:
+From: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
 
-  CPU0                                   CPU1
-  ----                                   ----
-  lock(&A->runtime->buffer_mutex)
-                                         lock(&B->runtime->buffer_mutex)
-  lock(&B->runtime->buffer_mutex)
-                                         lock(&A->runtime->buffer_mutex)
+Add the Tegra268 ADMAIF compatible. Tegra268 ADMAIF supports five
+RX and five TX channels.
 
-This patch tries to address the potential deadlock.  Instead of taking
-the buffer_mutex of the target substream at first and processing the
-rest in the loop, take the whole buffer_mutex for each in the loop.
-This assures the order of the nested mutexes -- the linked list itself
-is kept intact by the read_rwsem() around snd_pcm_action_nonatomic().
-
-Also, this changes the action in the snd_pcm_action_group() loop from
-the direct call of mutex_lock(buffer_mutex) to
-snd_pcm_buffer_access_lock().  This prevents the unexpected state
-transition or the buffer access during the action, too.
-
-Since the target substream is no longer locked before the loop, the
-lockdep subclass for buffer_mutex in the loop now starts from 0, so
-that a link group of N substreams uses the subclasses 0..N-1 as
-before.  The subclass for the stream lock case still starts from 1,
-as the caller holds the target stream lock at subclass 0.
-
-Note that this change might have a slight side-effect, though: when
-some concurrent operations happen during the PREPARE or RESET, now it
-may return -EBUSY.  But this can be seen rather as an expected
-behavior that was overlooked before the fix.
-
-Fixes: 3c3201f8c7bb ("ALSA: pcm: Fix races among concurrent prepare and hw_params/hw_free calls")
-Reported-by: sashiko-bot@kernel.org
-Closes: https://lore.kernel.org/sashiko-outbox-221145@kernel.org
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
+Signed-off-by: Sheetal <sheetal@nvidia.com>
 ---
-v2: new patch in the series
+Changes in v2:
+- Use the ASoC DT-binding subject prefix; no schema changes.
 
- sound/core/pcm_native.c | 63 +++++++++++++++++++++++++++--------------
- 1 file changed, 41 insertions(+), 22 deletions(-)
+ .../sound/nvidia,tegra210-admaif.yaml         | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index da2b789962c2..c6c2a7053923 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -718,14 +718,20 @@ static int snd_pcm_hw_params_choose(struct snd_pcm_substream *pcm,
- /* acquire buffer_mutex; if it's in r/w operation, return -EBUSY, otherwise
-  * block the further r/w operations
-  */
--static int snd_pcm_buffer_access_lock(struct snd_pcm_runtime *runtime)
-+static int __snd_pcm_buffer_access_lock(struct snd_pcm_runtime *runtime,
-+					int depth)
- {
- 	if (!atomic_dec_unless_positive(&runtime->buffer_accessing))
- 		return -EBUSY;
--	mutex_lock(&runtime->buffer_mutex);
-+	mutex_lock_nested(&runtime->buffer_mutex, depth);
- 	return 0; /* keep buffer_mutex, unlocked by below */
- }
+diff --git a/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml b/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
+index 2ce4049f94ac..054bacf60234 100644
+--- a/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
++++ b/Documentation/devicetree/bindings/sound/nvidia,tegra210-admaif.yaml
+@@ -27,6 +27,7 @@ properties:
+           - nvidia,tegra210-admaif
+           - nvidia,tegra186-admaif
+           - nvidia,tegra264-admaif
++          - nvidia,tegra268-admaif
+       - items:
+           - enum:
+               - nvidia,tegra234-admaif
+@@ -134,6 +135,27 @@ allOf:
+           minItems: 1
+           maxItems: 64
  
-+static int snd_pcm_buffer_access_lock(struct snd_pcm_runtime *runtime)
-+{
-+	return __snd_pcm_buffer_access_lock(runtime, 0);
-+}
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: nvidia,tegra268-admaif
++    then:
++      properties:
++        dmas:
++          description:
++            DMA channel specifiers, equally divided for Tx and Rx.
++          minItems: 1
++          maxItems: 10
++        dma-names:
++          items:
++            pattern: "^[rt]x[1-5]$"
++          description:
++            Should be "rx1", "rx2" ... "rx5" for DMA Rx channel
++            Should be "tx1", "tx2" ... "tx5" for DMA Tx channel
++          minItems: 1
++          maxItems: 10
 +
- /* release buffer_mutex and clear r/w access flag */
- static void snd_pcm_buffer_access_unlock(struct snd_pcm_runtime *runtime)
- {
-@@ -1317,26 +1323,38 @@ struct action_ops {
-  *  this functions is core for handling of linked stream
-  *  Note: the stream state might be changed also on failure
-  *  Note2: call with calling stream lock + link lock
-+ *
-+ * Locking:
-+ *  When @stream_lock is false, it takes buffer-access lock for all substreams.
-+ *  OTOH, when @stream_lock is true, takes substream lock except for the
-+ *  target substream (that should have taken its lock before calling this).
-  */
- static int snd_pcm_action_group(const struct action_ops *ops,
- 				struct snd_pcm_substream *substream,
- 				snd_pcm_state_t state,
- 				bool stream_lock)
- {
--	struct snd_pcm_substream *s = NULL;
--	struct snd_pcm_substream *s1;
--	int res = 0, depth = 1;
-+	struct snd_pcm_substream *s, *s1, *last;
-+	int res = 0, depth;
- 
-+	/* the caller already holds the target stream lock at depth 0 */
-+	depth = stream_lock ? 1 : 0;
-+
-+	last = NULL;
- 	snd_pcm_group_for_each_entry(s, substream) {
--		if (s != substream) {
--			if (!stream_lock)
--				mutex_lock_nested(&s->runtime->buffer_mutex, depth);
--			else if (s->pcm->nonatomic)
-+		if (!stream_lock) {
-+			res = __snd_pcm_buffer_access_lock(s->runtime, depth);
-+			if (res < 0)
-+				goto _unlock;
-+			depth++;
-+		} else if (s != substream) {
-+			if (s->pcm->nonatomic)
- 				mutex_lock_nested(&s->self_group.mutex, depth);
- 			else
- 				spin_lock_nested(&s->self_group.lock, depth);
- 			depth++;
- 		}
-+		last = s;
- 		res = ops->pre_action(s, state);
- 		if (res < 0)
- 			goto _unlock;
-@@ -1351,7 +1369,6 @@ static int snd_pcm_action_group(const struct action_ops *ops,
- 					ops->undo_action(s1, state);
- 				}
- 			}
--			s = NULL; /* unlock all */
- 			goto _unlock;
- 		}
- 	}
-@@ -1359,17 +1376,19 @@ static int snd_pcm_action_group(const struct action_ops *ops,
- 		ops->post_action(s, state);
- 	}
-  _unlock:
-+	if (!last)
-+		return res;
- 	/* unlock streams */
--	snd_pcm_group_for_each_entry(s1, substream) {
--		if (s1 != substream) {
--			if (!stream_lock)
--				mutex_unlock(&s1->runtime->buffer_mutex);
--			else if (s1->pcm->nonatomic)
--				mutex_unlock(&s1->self_group.mutex);
-+	snd_pcm_group_for_each_entry(s, substream) {
-+		if (!stream_lock) {
-+			snd_pcm_buffer_access_unlock(s->runtime);
-+		} else if (s != substream) {
-+			if (s->pcm->nonatomic)
-+				mutex_unlock(&s->self_group.mutex);
- 			else
--				spin_unlock(&s1->self_group.lock);
-+				spin_unlock(&s->self_group.lock);
- 		}
--		if (s1 == s)	/* end */
-+		if (s == last)	/* end */
- 			break;
- 	}
- 	return res;
-@@ -1496,13 +1515,13 @@ static int snd_pcm_action_nonatomic(const struct action_ops *ops,
- 
- 	/* Guarantee the group members won't change during non-atomic action */
- 	guard(rwsem_read)(&snd_pcm_link_rwsem);
-+	if (snd_pcm_stream_linked(substream))
-+		return snd_pcm_action_group(ops, substream, state, false);
-+
- 	res = snd_pcm_buffer_access_lock(substream->runtime);
- 	if (res < 0)
- 		return res;
--	if (snd_pcm_stream_linked(substream))
--		res = snd_pcm_action_group(ops, substream, state, false);
--	else
--		res = snd_pcm_action_single(ops, substream, state);
-+	res = snd_pcm_action_single(ops, substream, state);
- 	snd_pcm_buffer_access_unlock(substream->runtime);
- 	return res;
- }
+ required:
+   - compatible
+   - reg
 -- 
-2.53.0
+2.43.0
 
