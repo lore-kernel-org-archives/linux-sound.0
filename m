@@ -1,55 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=61.135.153.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795087625;
-	b=pS9TxoQouZDE+75/uElp9LmqgCO5993FDYsWkBSD6OMSPbVfL6UiYxSym8bgA2MqHFYf
-	 gwJsNjespjRdQRZyMUSKuJtwW7By0c7e1RQlum3zxPpc4fEMeZYtbbakcRl1cYY9gGfD5
-	 vQ+idXgebA3m/860s+1lMlDSxPF6FjZijUcSd51M2ts+sxh7vPAWBmPllHhW1thI6t9fW
-	 o0//TR6DP76SJb91ZwQZ6C6ZsuRXl72I0xTMqZyQ49Rrb2bsBn+giGvI9JO+CnnF5Jq3M
-	 qMuQjXty88da0q8t/Hv7vKiKUc4RPdXZi8PI/UWdofXUzFLmHMILGe7QreT+T4l8fAQ==
+	t=1795091048;
+	b=J08Pj7gjcUbBOtrz2yq0o+peYWoL5EwH2sqEiaXQ6wgLtlIRlC0P5nJVMhu6xHOREH4o
+	 166KJrw9vFkEfvmo/bPpharU/puk1HYSuZ3zLdNvVHAXpUh6/U6YfoaD0ardUQVrbbJ/3
+	 A3oe5DNZfUZI+RLNKo26kv7qWwa9QfZEmcSJHk+J71K7+iawilxYeWOtA1gWgedT8GifT
+	 1cuAtd1aFZ/loKkH6WS46ACdXdj0MJ6idIgfFgY2fa8FVoRG+jXsX/VooWLmeti+mr/kT
+	 jPKaORhpcyjSiBRIExDKjHbdzwOjLT3R5oBOQ/f9Pv0wEgPtu5dzWS0jwtGvCh42ZRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795087625;
-	h=DMARC-Filter:Received:X-Sender:X-Auth-ID:X-SMAIL-MID:X-SMAIL-UIID:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References;
-	bh=maz8sM94VwUk8NT7Y1JGoxnrq7u6rtihB08K96h4Vwk=;
-	b=EySkgSHHxUDD/aarHkvu8efKl9sGlxGUQhmd6CT/vsfXwz17anu+qKcgqlnyg1dRc1N0
-	 EwfTJfxADZmj3syikgY83RA95wk4Rd1HuENd/NqSBqfGywFn0kZM8xVjiwx1bFQD0mzgf
-	 oBz6/J1KfahMydAnVQbFlA8NlIJD734Nr9c1wCxX39jn8tzglCq5iSwsCA/H32lCYr02p
-	 gCtf2v6kqhEqO8RX3M3mhxfVxY8k6WXkSAaxcYFy3mokLf5lffLqmhyqGxnOkPFRuSF0A
-	 g9DTjGikevEctCO60ostIpnBTjS4pLL858iB5dmhLURWdS8F++brdBp2O10tlJmACew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091048;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=wd2UA6qgOcs7aQYLlQST2OtjQ8yew/a9INiOBRetp/0=;
+	b=E12IBAhbZXDKQtFRBiEB0gKFzVxHI5XyBFouoVWCas/H64Y3gM7tKDqFHb9sUw9sCDcs
+	 PeP+Y9EwliHsUun6A0zioE8GLsn8uetxBCZyJvDmwaXA7/sWNrVFi+tNFIglJyVJNESI5
+	 JEKA4I8OA0YfQnv10lwQYvRgftpYttLXzQZAkhP8EauCdm0t+xikReTjrYQqLVsPqljPg
+	 AXLAfscrQNI5uZjUp2VOEZztNCQcmtpE4LNRJC1woJJBbnIEb/jwCXo0lr07XC/DuQeYX
+	 RJy1LqXR0l2mOvwKEg5oUGV8c+WCgYNrodh8HAspnbqqT1zSRSIjDbI/noEWOeSHl1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=everest-semi.com;
-	spf=pass smtp.mailfrom=everest-semi.com;
-	arc=none smtp.remote-ip=61.135.153.182
-Received: from smtp153-182.sina.com.cn (smtp153-182.sina.com.cn [61.135.153.182])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vqwXLpsj;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LRWfbKPP;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vqwXLpsj;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LRWfbKPP;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDCD606A326
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 11:27:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FDCD606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([112.64.39.13])
-	by sina.net (10.54.253.38) with ESMTP
-	id 6AFEDCF800002D23; Thu, 19 Nov 2026 19:26:50 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: D167776BFC7648599E691F13530D98F6
-X-SMAIL-UIID: D167776BFC7648599E691F13530D98F6-20261119-192650
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: linux-sound@vger.kernel.org,
-	broonie@kernel.org
-Cc: tiwai@suse.com,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [PATCH 1/4] ASoC: codecs: ES8326: Modify Clock Configuration
-Date: Thu, 19 Nov 2026 19:26:44 +0800
-Message-Id: <20261119112647.6728-2-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20261119112647.6728-1-zhangyi@everest-semi.com>
-References: <20261119112647.6728-1-zhangyi@everest-semi.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A0A606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 12:24:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07A0A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vqwXLpsj;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LRWfbKPP;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vqwXLpsj;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=LRWfbKPP
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2FC3221B9C;
+	Thu, 19 Nov 2026 12:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795091046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wd2UA6qgOcs7aQYLlQST2OtjQ8yew/a9INiOBRetp/0=;
+	b=vqwXLpsjXC9Xcyt5wEQ95Ese/3ILdYEFBPuNlfYFd/sfFXxdD5NbGMlDDhL+hvp0QLgEPw
+	pdNN5brAkxu+I7OSASI3jiN8Bvkr/ZtwfXWdslA+/GX7E5J79jj8vixBbZMDLDZbw9klG/
+	bb0zsMKJsUFCuqsHJBOMAraDZ7rG3dY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795091046;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wd2UA6qgOcs7aQYLlQST2OtjQ8yew/a9INiOBRetp/0=;
+	b=LRWfbKPPBmnUjPEagKWrdZE7c75F2q1B1Y7MLtYxAbcq7lHL+4KMTo3nlnb+Jr9vv6bAoA
+	Im2qb/qxJwqBAxAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795091046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wd2UA6qgOcs7aQYLlQST2OtjQ8yew/a9INiOBRetp/0=;
+	b=vqwXLpsjXC9Xcyt5wEQ95Ese/3ILdYEFBPuNlfYFd/sfFXxdD5NbGMlDDhL+hvp0QLgEPw
+	pdNN5brAkxu+I7OSASI3jiN8Bvkr/ZtwfXWdslA+/GX7E5J79jj8vixBbZMDLDZbw9klG/
+	bb0zsMKJsUFCuqsHJBOMAraDZ7rG3dY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795091046;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wd2UA6qgOcs7aQYLlQST2OtjQ8yew/a9INiOBRetp/0=;
+	b=LRWfbKPPBmnUjPEagKWrdZE7c75F2q1B1Y7MLtYxAbcq7lHL+4KMTo3nlnb+Jr9vv6bAoA
+	Im2qb/qxJwqBAxAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB9151342D;
+	Thu, 19 Nov 2026 12:24:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ENprLGXq/mqWBwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 19 Nov 2026 12:24:05 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH v2 0/3] ALSA: PCM race and locking fixes
+Date: Thu, 19 Nov 2026 13:23:51 +0100
+Message-ID: <20261119122356.2134523-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,27 +100,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Update the clock configuration for MCLK = 12,288,000 and LRCK = 48,000
+Hi,
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
- sound/soc/codecs/es8326.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+this is a revised patch set for fixing some issues in ALSA PCM linked
+stream handling.  Now addressed a potential deadlock and a slight race
+Sashiko suggested in the previous series:
+  https://lore.kernel.org/20261118135558.1928160-1-tiwai@suse.de
 
-diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
-index 6c2a536dabc9..86d73281070d 100644
---- a/sound/soc/codecs/es8326.c
-+++ b/sound/soc/codecs/es8326.c
-@@ -542,7 +542,7 @@ static const struct _coeff_div coeff_div_v3[] = {
- 	{256, 8000, 2048000, 0x60, 0x00, 0x31, 0x35, 0x08, 0x19, 0x1F, 0x7F},
- 	{256, 16000, 4096000, 0x20, 0x00, 0x01, 0x35, 0x08, 0x19, 0x1F, 0x3F},
- 	{256, 44100, 11289600, 0xE0, 0x01, 0x01, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
--	{256, 48000, 12288000, 0xE0, 0x01, 0x01, 0x2D, 0x48, 0x08, 0x1F, 0x1F},
-+	{256, 48000, 12288000, 0x01, 0x00, 0x10, 0x2D, 0x2A, 0x2A, 0x1F, 0x1F},
- 	{288, 8000, 2304000, 0x20, 0x00, 0x01, 0x35, 0x8A, 0x1B, 0x23, 0x47},
- 	{384, 8000, 3072000, 0x60, 0x02, 0x05, 0x75, 0x8A, 0x1B, 0x1F, 0x7F},
- 	{384, 16000, 6144000, 0x20, 0x02, 0x03, 0x35, 0x8A, 0x1B, 0x1F, 0x3F},
+
+Takashi
+
+===
+
+Takashi Iwai (3):
+  ALSA: pcm: Fix potential ABBA deadlock at snd_pcm_action_nonatomic()
+  ALSA: pcm: Simplify PCM buffer access gate with auto-cleanup helpers
+  ALSA: pcm: Avoid hw_params/hw_refine changes during PCM buffer access
+
+ sound/core/pcm_compat.c |   3 +
+ sound/core/pcm_lib.c    |   7 +--
+ sound/core/pcm_local.h  |  26 +++++++++
+ sound/core/pcm_native.c | 125 ++++++++++++++++++++++++----------------
+ 4 files changed, 106 insertions(+), 55 deletions(-)
+
 -- 
-2.17.1
+2.53.0
 
