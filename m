@@ -1,95 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795100897;
-	b=ZbGPpRPVBt5/ht5oYGXxxO15rWov4PlBNM4UtBJ1XlIsj3LaMTJA4ZUCoxoApkDQumxf
-	 HN1YXDsseN1UZJpIG9dAwGCeWYQs17HFSFzAJz5a1kWRWw1m511w9K55GkzjZxNfvFCuK
-	 +stFI+UdMsYBqsXLFhqVbSo2UA5euDbSrwlu+BZX/ssOG/x+keLJGZxdu1YX/p9Hh1FoQ
-	 FTVQOFCCYJpkcrBJSf00CiTYLah2HVfVwC4lPxMsxGvAwRgpLzStecAKpVwUda8cB9jxJ
-	 2cZPRwTcecMSGOXpeiQeLLVQFKuXg4R+PebNA7h5mqZoEACSsJvUUs6LgwxlvETbtfQ==
+	t=1795102013;
+	b=GV44VlPzk7KMv+mydEr25C60LMUx7HuZfqzjVbC5vE486svmWjht0CmGmeHDl6Y99B8J
+	 ulo7B1EHmWRapZaInmCouDY55G7WIdVe7b87qpGdH7H7mRhxR+Sp/cX+xcraKu9ZqtN8y
+	 Z0x1wpfSRPFyVijYb2MalakbSGnzkEUJMRhhpl/kA++l4V2lZ4gxMKHdHI+NtgeRJQ/vA
+	 B0tnnMy7XXLBHxm0Ch0OlKlo3qplAMybLo0ORbOSyzUVmhTzVhciI96Ra4BmTY95SaYQ6
+	 dDZGotzK9p/2/RtZ1gf/jDrh+CTXf580SLm5T3Uiq/ZQwMhEn+H3e+fvuVm1O/Lby6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795100897;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-	b=E1bLtb9wHueLfnqkvvYwJfJe8X3CenOVhANQzEmFvbpNjbYVxyjFqdOjeP2E4wCqSugJ
-	 VsapOKOUzMNW2AuSj7arlbzUTmmvxHZHTEps4UoIvt+gnXN65uAc89VHIP/lQd0pclGMg
-	 bB61tHIoRwGjmUOovfrqa1kE7yN2FdgLvAMukJdULdXFzABZQC2I/6UOah9wdHfZVX0Tu
-	 Dqrzfr+bbmOBiXi5Sh5awQD3nNaXRE+CfI5AVB33XTLfJXPnTWgTH7tY9uZuY3ob1Q8RZ
-	 Wq6p1PR02tM2lVNf5XDqYPjGRZ9i7ixxhboEpNRUchG0L+KIPoe4PxeGnK0x0uiWPEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795102013;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=1DhxKPag4QnJI8h018mWy2cQ1T0+TGTYvGJUvXmgtiw=;
+	b=3oYTf2PiGVO+zMBoNM/nUnRfocsCOkTpGaZDb4khfPBOEzyMrA8FdEWKGY+F6tK1GaSi
+	 /p2F4kP7OQjnIPtHKAWfZCiD1+M06E4q3O4BkSu7IRh0+WZpiXfYpc3WOgCkwjH6CIMyP
+	 +r3qrrrLxlXtZXPSpzkkpKpV3B8R8nQNMWFVFFcaBPZTjO0hO442d72cv4SqnW8KoIimR
+	 GBSuARcMuCzqDvLWrqZ4kt8M06X5qEPNWFlyexehibl8p3I+WUCqpBkigOebOTtu3jR/c
+	 vIzP05cdCj+GHq6XTOz08rMZJc3uct6m1yTriSX00IzXJv9nF7S8Ess9u2U1Ez5KoBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MJCoBasc;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Dbx0/FmK";
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785E8606A339
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 15:08:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 785E8606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A67606A324;
+	Thu, 19 Nov 2026 15:26:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09A67606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MJCoBasc
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-33fb4680717so5366782eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 07:08:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795100896; x=1795705696; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=MJCoBascf/JD6aYl009fafAxphMqfJEuwkk3KVhy+8xCRIxSNk7uvnlkI9V2Ykvubv
-         J41RAVlhjAQe4phLfqrrMNqrQsAYSkM2YJKWgRHoviKwXN6NFRaed7qHOTsEVrOUg9F3
-         gAXouEMBXI2GB6LGS53qbah0tjrrCbuDGMVlhqBt+VXuZYgcvldE0wOvvvvi9cuhNrjL
-         So6btNB++z0Y421mkgaHeSkDMiO4O/Fj/KMlUK4tB36B6oxYquD0quw+Y7OkDIvHwoBl
-         5kUE3RYYM/lLSwc8Wi42Yor7nXXC3j2bPJbj2p2o2ivO/CdO4+jYu6In0T0I2Y1iXITE
-         M7VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795100896; x=1795705696;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=1WN06WxjYxREYf4sQUlb07Gbs8YK+R6JCZivgvFcN3T1rFXRf+Tw73b6Bj/Gz/pLvR
-         H8PCiVW4kTJfCa8O9UyYCrGR9pcSpHiBzQdSMVTaV5QXhxBmezFe0Iw0/o3LWHO3R9vU
-         6PC925GHhtw+Y/UMWfNv6qGzeB8EAzk7wcklAEAwbgjlYjP6nZ/buvthmhPUax9SMugm
-         dHqekSmiaheHrD5OfFrEMLMQHZUHwgZYVikFk6LHmixdrjiR3JiNdgY9whMvbSJA/oSV
-         ql9UCp/JyVBeVZW+gC3py+To/B2A1zvNIS5TRz5/gTKCCf3n6aiyjBPzfC3oPXDPe65N
-         nAAA==
-X-Forwarded-Encrypted: i=1; AL+hErGGBRtxQIq8FRey9k2tmIvTqleDraQfmVANHR9JzjGcii4mUtCv2uvrAJw9p0hAXFtpo+Wm+I61ZTqwSA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+eh48vZhKY8D6CmgtJRR3z3+TozCRPjJzo7KwhR9PNqmzHRtjf
-	3OnkuF2UC84rnKZDiZ+7dgNQgecOK5nVD76XfywNKi1vgZPXJTE6siZN
-X-Gm-Gg: AZFdTZf9HnnyzggnqPpDmNbBJL6d4oW4OE04xSPjKWOxMhNIifSEK1glTaVTyfuhzKa
-	4LRJrGvB01KbXcjcKKsjj6yVUdHX6naGGJfxb5vHJHo90yQIexuFX4L3d2ppUYSVwPutOAACJ0q
-	wcgpMR7Ud9jxideloRH1GMHPBdTJv+zjAOZX37xHeyBHkTGL4UMQdCqkU/HsBh2SvRbwRHq4Sad
-	ihtc2sSADpuMc9P9plapEqpXPWG3KS8B8UDmCQmVaHZ/F5ObMhXFQd92z/rt6hyw317x0PphaPU
-	7rWe+RGru3olzMMOvi5AymnkeRNKCGoyGDWuSu87RGXU7CXVIcoaib/nPBdTDEqOQYF+ZFdgJd2
-	iHH2i73MktLwjhJQ6hoxrUQ8EE20iJnCD9XKLbpY4pCio90QC6dPuK7m1+cRYheavV/nezSJHV2
-	yRL8lEr11XNtMSumqSTnoeUKg2bewEM+hzWPwSFxQqRtMNLtObRyOln037kpUm4THA6H7e9Ym0B
-	6ek05CbE1sRmIqvze2vznqWnflANa6dc0qakSGMrL4zTnmhq3t8KigS+DVrY8um+1IsOnoN5wbe
-	VaL4To0jJkSFjrugf20448i5/jnkRmW6Q9/bileY7JqUWBuJlur4
-X-Received: by 2002:a05:7301:6794:b0:384:ce59:5e1a with SMTP id 5a478bee46e88-384ce59897amr1818428eec.16.1795100896568;
-        Thu, 19 Nov 2026 07:08:16 -0800 (PST)
-Received: from localhost.localdomain ([103.149.158.188])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a45274aesm19845018eec.2.2026.11.19.07.08.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 07:08:16 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	sreekuttan2156239@gmail.com
-Subject: Re: [PATCH v2] ALSA: compress: Fix task resource leak on copy_to_user() failure
-Date: Thu, 19 Nov 2026 15:07:45 +0000
-Message-ID: <20261119150745.3450-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87qzghugfm.wl-tiwai@suse.de>
-References: <87qzghugfm.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dbx0/FmK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795102014; x=1826638014;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WY6VoEXvMcL6w5qrhNPPqWVL4OjNmLGwj52oUp7WWCE=;
+  b=Dbx0/FmKyMYNGYA/2gD9fgQFEQ3Troi5tzLo6Cj9Heumj19sNlhmlFMW
+   5YWlr+1K+rcakMXg6hvTCVz8Vk8ngvHbNFa1uHgZHGhVx6TBSjHM3jcpO
+   sz4bn9clHXbPExAYhjPHUH5bkpVr+Jew7eONj4lnSN7Qhec3LhO5sC/8H
+   AR3dOiRqJvD9OLsl3cXzRu/Ch8ChtFQnd8zyJBLf6ArDLJDyXKc5dBsrm
+   i/RUtaRhnFcfPFcGx7O2iVInsG1XV6fVhN6BMAfVcPnYdPc3j0Z/oPNwE
+   8QwBntPsuPgH2QHRErcBEbOOy5qW4SYNLxZHWXOMXxhw9DRenTmjMFZzQ
+   w==;
+X-CSE-ConnectionGUID: Nz9sNUzcSHq9BjOgzIlB1w==
+X-CSE-MsgGUID: UFq2sUDARK+ovGlc5v93ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3800163"
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="3800163"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 07:26:53 -0800
+X-CSE-ConnectionGUID: 8zH6sFHFR1y7uZIeUyNLZQ==
+X-CSE-MsgGUID: z8JgdylwRtusIJXVBOleqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="10823970"
+Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.137]) ([10.245.245.137])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 07:26:50 -0800
+Message-ID: <026c4fd4-cae7-41e6-88e7-be8387031eb7@linux.intel.com>
+Date: Thu, 19 Nov 2026 17:26:47 +0200
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,11 +72,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/4] Add larger page size support for USB audio offload
+ path
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
+ <a38e874c-4685-4892-81b4-a6aeeaaeddb4@oss.qualcomm.com>
+ <54beec96-2221-4109-ab7a-74502969b369@linux.intel.com>
+ <82a57df7-a3c5-4986-a724-44f00b22a532@oss.qualcomm.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <82a57df7-a3c5-4986-a724-44f00b22a532@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi,
+On 11/19/26 00:30, Wesley Cheng wrote:
+> 
+> 
+> On 11/17/2026 1:59 AM, Mathias Nyman wrote:
+>> Hi
+>>
+>>>>
+>>>
+>>> Hi Mathias,
+>>>
+>>> Was wondering if this design looked a bit more acceptable?  Was able to figure out a way to achieve what you had suggested earlier mitigating the dma free problem I mentioned in my previous email.  If there are any issues w/ this please let me know.
+>>>
+>>> Thanks
+>>> Wesley Cheng
+>>
+>> Big picture looks good
+>> I got stuck on the "no_pool_rings[EP_CTX_PER_DEV]" solution in [PATCH v6 2/4].
+>>
+>> It reveals and reminds me of how poorly designed existing xhci_free_dev() is.
+>>
+>> I tried to quickly fix that fist by 'unlinking' vdev from xhci->devs[]
+>> inside the lock, preventing it from being dereferenced based on slot_id
+>> somewhere else, and then free it without the lock.
+>>
+>> I ended up with a huge mess that rewrites vdev free/allocation,
+>> slot enable/disable, xhci_discover_or_reset_device() and xhci_resume().
+>>
+>> Seems like best solution for now is to add "no_pool_rings[]" to support the
+>> larger page size, and then later rework the vdev allocation/free and
+>> slot enabling/disabling. I'll take a look at the details of the series.
+>>
+>> I also have another sideband change attempting to fix the use-after-free
+>> stale vdev pointer in sideband. It basically swaps vdev to udev.
+>> I'll post it on the list. Let me know your thoughts on it.
+>>
+> Sure, I assume you're talking about:
+> https://lore.kernel.org/all/20261118125109.1429538-1-mathias.nyman@linux.intel.com/
+> 
+> If so, let me look it over, pull it into my branch and test it out if it looks good.  I wasn't able to reliably reproduce the issue that Lianqin initially reported, so I'll see if I can figure out a way to exercise that call path.
+> 
 
-Thanks for applying the patch!
+Yes, but sashiko found one missing sideband_to_vdev(sb) check that would be good to fix.
+Rest of warnings were expected.
 
-Best regards,
-Sreeraj
+I'll fix it, and clean up some other minor things, and send a v2
+
+Thanks
+Mathias
+
