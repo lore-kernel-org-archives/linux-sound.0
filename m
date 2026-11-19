@@ -1,56 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795075731;
-	b=REkrZOESL/saPoFlXVQeAxIgc7iJ60VbY3txqp9YeOt+67mWLsMbbXVcuqCiHNNhCoG6
-	 OHEv5W/VnuunMwpYUaXFR+zQ5IMdjEHXCxIrF0be0ATPLVWxCJ/MzzGWMwaHRk9da4fuU
-	 XZ5yC528V7vdMXwJjb6x1gi6Qe9vP6YKHPnx9zhMAAIijcf/9DGNSJzIvvKfF7USUN1Gc
-	 Rxc07U4PzBX9VudmLmdUh4n7/JdXsvnSpEPOIMI+07GmyzBB9133rrKxPrf2Fsry0AeWP
-	 z2KCbe7P3/S7EdFQnUIDD2OUt2HdiplsS0q0GH1gDtCBI/wPGXT2AJnsUfUU78IX42Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795075731;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CXyZM4JZTnA8hBtpmwmtPC2g0XSFszCEPREBmv4xrPg=;
-	b=IM8/DQEIxLrbO8tvVNoqCtjR+y4LdW7VN0Y3jkMGNZpIe7VwekSIj/xY1VHZykr1PXdy
-	 bHDOHjIjabNkxbUkKwbceLh9AxfssIDBF4n/LDA8XhckYR2QOJ1INNIpS/2K1kEWiv00h
-	 vgw39s8st0P+piGmePrRgqaRtbUoMGsqKZVBuDwkyPPDa2+Sbea18A67M4Ah6V+BtHBQu
-	 VudMJ9x6SRiXkMM8l4PysbWBGhSW4f3ctAxJOVd0g4nmx24KAlzygcHDZGyt6KiinH9+t
-	 4DpDCVpYjzhn97VSG0E5+6JGulCq+eRZx9vZA4zoY2EMmeah+KQvrAIbRceugww2BfQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UC+vCtYZ;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795077107;
+	b=OaDC1en6jc8Hgck/KqrQpS7f1x5dCoDGXeCIcRsigFw2x2FPPUgfewjGNcBlPltFu+OZ
+	 MRIHi9HqnsoWetdwgXet6KARsxk7sNpYAp+tYa/UjyN6ab6BWolBq/jByMmT0/LfgUpiM
+	 3OeaFNlwx2hQctu9i8r24ZPaQTIapKxdHjEWRfXs3Ef1ztcA7Gvm5om7m/+i7wGkjZMG0
+	 f1pn9f0/iGYNL/IsliU9mEl5vmHSpcxF4A8tSU0Y2uCx6oP5Prwp5DP0lUxypisKcd51R
+	 ApGQiAahvhn39w2j09qVF+JcK2cGKaJw26ZOCDYI+KtsNPcieoiZbCerjzCx4zI/nmQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795077107;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=2102FXx31z13J3x9MSIpkKRt8qyZgUBcTWdizNv0+Ek=;
+	b=aAG9C/IDols8ZqqRPZUMAjkJh3pTTulQrbhNwZ8/L+AmLwxD2dUGusKrYRoTtzrnOw/z
+	 Nf1zOczvguNx4JsH6tOeHMQ3f5RgyqURyTgl7dUn5qrhVrMKzVjx3c1ogWpNaPmYFYvph
+	 9/ExL15fkUbZuaEtH/RW+JyRv9U/IRJHmFDrE7OtZCiu57pjLq6dsoT8ol6fbeec3fYhr
+	 RgN2yPiNLNvNtsi2C+/5R4a1MFMzwHWApp6H/bOdXv6PA+XW4oH0xC4+SqFu/Bv0O5/Ja
+	 vHQTuExFBrSCQkdRdgLGPdiFqbnJf3/OZvQEEgp5KkpsGk20B+7/eFOO6FgE2u7IrTA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iXq7fu2o;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1EE606A320
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 08:08:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6F2606A338;
+	Thu, 19 Nov 2026 08:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UC+vCtYZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02ACE1F000C4;
-	Thu, 19 Nov 2026 08:08:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iXq7fu2o
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795077107;
+	b=0QxguDqzb5dct5/Ubh5juP87XYdJpdSRQF2c6rlN9YqyMRpmz+dxjDlqSOa/qEHqen2e
+	 kD7CNwALbeSwA/lxP+MzKPGMp1AR0E5KuwYErtviqON3GxHTUs/WewN9ffrTQhT/aL06V
+	 h50xetnXw2lip1WIBbyLCBkynbZ1ztjGdoS5zTI55TjA5k6+VGjMFm+sin8OYsG488ONi
+	 7JICBwvJsHsgxcPGyRWEZNOKxe8hg0VAargdFiAc1G4bavhZyiLVrl1QkCX4b7xIfRh2i
+	 +Og+fFvTD+i/wpaB07dlxw1ssv2gLLENG2V/XeLcQ8+f0BqKfBkqkbdK99vdoPczD6w==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795077107;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=2102FXx31z13J3x9MSIpkKRt8qyZgUBcTWdizNv0+Ek=;
+	b=REX1cjtWX3CrBlJTy/ZkUSXZRalueiGAMPjTfm5TKwbO6neuHouxL9KQVOUmXAAQCZeb
+	 6fOgMSYtOHV+2F1/TQy5POAi2SQtgM5g27wmWW2kuUzDfK26t5O8LFfC9gbVu0eonh94W
+	 Zfr/NAS1Zh2J4vI7IIz6d3b4pOgilYAauJ3wnQqPG6LiwbWbF6N9hwwujMwKlGrt/6cKR
+	 zjlFVf8V2yZWGqFmr2YyWRl1Fl+Duad+ri145fIUlfeFIa6fluPc63AeM3Jv3yJ1AL4Om
+	 2cimXI06hAtK7nSQSaGr1eB7tvWEY/jT6MqbFklEgLXlD4Sgpfq6vTQvn9fDBBSGd7Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 1B74A1F000CB;
+	Thu, 19 Nov 2026 08:31:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795075731;
-	bh=CXyZM4JZTnA8hBtpmwmtPC2g0XSFszCEPREBmv4xrPg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UC+vCtYZ5r1U25f+g7TtXiK0uwQN0FAihKhQhG1fDdgF3e8wTUmaJG5dLdbZ6ga9A
-	 XUc0gIVxNv6w0QVf08bZjkiQrwkht1e5BOCMuH30hN2j82EghBe5Gq4JeRTsa6mqVF
-	 vMBOILj2ib6+L8+LFgmXFDRWgxT2AT5Og/O3isXgV3neZvusMY+UvXgI02z4/vNDM3
-	 bVl8gJYSGtB1qj3j4GeJoERsgKfljGG/LtBIhmKOVGeYykv7SCTWSGaD2MvxsiP1uQ
-	 6qX6dfZPBQLUXpFHV0M9upEFCPyRwvjBRxUnzVLdwZ38oz1jgsrKNWDl1mITBZNgOG
-	 n4dl4Wn0K2TGA==
-Message-ID: <sashiko-outbox-222644@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: audio-graph-card2: Release multi-link ports
- references
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Zhu Jun" <zhujun2@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261119075815.50155-1-zhujun2@cmss.chinamobile.com>
-References: <20261119075815.50155-1-zhujun2@cmss.chinamobile.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 08:08:50 +0000
+	s=k20260515; t=1795077107;
+	bh=2102FXx31z13J3x9MSIpkKRt8qyZgUBcTWdizNv0+Ek=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=iXq7fu2o9CzEXWsqYmce2gJ0u0gP9KZOE31GyHC7Sa6/INwG2NAUFp/WkAXJtbB/3
+	 uncod1LV55t03LPUZ8klLmq+AiGyP5dxW/+Sd+BFM9SYBErnMVfmt9nsrK7ZhWzoo+
+	 HKNsTy7/70Bb8iK3ZhFL+ZbDIDqF0b8RU/USUinBg5slG6LYyBiN9w/pye9zzWlO75
+	 E0rlIwf9GETBfHEGFyHCyP1RONtfaHTLYlh5wwhbXjaO8Ylom+6QIdh3+cAtFRYrif
+	 otSq1Gwickv9hfQ26PGCRHUd10SF0zaLwEE/o1laR60X9xu7Rtcacx+QgC7M5Rkl6V
+	 TUOezuQYXSKew==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 725C44B19A;
+	Thu, 19 Nov 2026 08:31:46 +0000 (UTC)
+From: Venkat Yadlapati via B4 Relay <devnull+venkat.yadlapati.yahoo.com@kernel.org>
+Subject: [PATCH v3 0/2] ASoC: Add the NXP TFA9865 amplifier
+Date: Thu, 19 Nov 2026 14:01:45 +0530
+Message-Id: <20261119-vantage-tfa9865-v3-0-5257fa45df57@yahoo.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,80 +82,89 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNwQ7CIBAFf6XhLAYopeDJ/zAekC4WE4sBJDZN/
+ 12oFy/G42zezC4oQnAQ0aFZUIDsovNTgXbXIDPq6QrYDYURI0xQSgXOekq6nJPVSooOSyk7oig
+ ozltUrEcA615b8XT+cHxebmBSzdTF6GLyYd5eZlp3v+uZYoJBSksGYwxn/XHWo/d74++o1jP74
+ 7Pia9Va1QujeK++/XVd39F2l2IAAQAA
+X-Change-ID: 20261116-vantage-tfa9865-8885091e9443
+To: Venkat Yadlapati <venkat.yadlapati@yahoo.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, phone-devel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795077105; l=2734;
+ i=venkat.yadlapati@yahoo.com; s=20261023; h=from:subject:message-id;
+ bh=SAuP7YfgYJXDpKBvo+qN5QpyZqR/SPWVmvxD2Fy4rBQ=;
+ b=3tgadcKcihpP0BgIT0cM6R8z5zLMi7y9KTgJDIP5dqlXMjyzOhOnmhMLpbDes+SMRzEHN7YPI
+ 74ZS4CNb3W1AnpcS2tMfsato6b+dd2yBql4uNzs9Xo9QP5QurMpAzRb
+X-Developer-Key: i=venkat.yadlapati@yahoo.com; a=ed25519;
+ pk=e8KStCtEMvUP1Se/riB/KVnDAQFEVR2Dw2PcuA8/eME=
+X-Endpoint-Received: by B4 Relay for venkat.yadlapati@yahoo.com/20261023
+ with auth_id=1303
+X-Original-From: Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+Reply-To: venkat.yadlapati@yahoo.com
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] ASoC: audio-graph-card2: double of_node_put() in
-  graph_link_init() [1]
---
+The Motorola Signature has two NXP (now Goodix) TFA9865 mono class-D
+speaker amplifiers. This series adds the devicetree binding and a driver.
 
-commit bb6eb5c362dba929e29a53d648672a0c04801536
-Author: Zhu Jun <zhujun2@cmss.chinamobile.com>
+The chip has no DSP and a different register map than the TFA989x parts
+of tfa989x.c. The driver applies the initialization sequence for the
+device revision, selects the I2S slot feeding the amplifier and powers
+the amplifier and its boost converter up and down. The register settings
+come from the NXP tfa98xx driver. Only the B0 revision and the 32-bit I2S
+slots configured at reset are supported for now.
 
-ASoC: audio-graph-card2: Release multi-link ports references
+Tested on a Motorola Signature: with the matching sound card the speaker
+and the earpiece play audio. The register cache, rebinding both amplifiers
+and switching an amplifier on and off during playback were tested too.
 
-This commit uses __free(device_node) to release temporary device_node
-references returned by port_to_ports() in graph_parse_node_multi_nm() and
-graph_counter().
+I used an LLM (Claude) to help write these patches and their commit
+messages. I reviewed all of them and tested the result on the device.
 
-> diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/au=
-dio-graph-card2.c
-> index d2f32a3a5b28d..245a822c33586 100644
-> --- a/sound/soc/generic/audio-graph-card2.c
-> +++ b/sound/soc/generic/audio-graph-card2.c
-> @@ -559,9 +559,10 @@ static int graph_parse_node_multi_nm(struct simple_u=
-til_priv *priv,
-> =20
->  		struct device_node *mcodec_ep_n __free(device_node) =3D of_graph_get_r=
-emote_endpoint(mcpu_ep_n);
->  		struct device_node *mcodec_port __free(device_node) =3D ep_to_port(mco=
-dec_ep_n);
-> +		struct device_node *ports __free(device_node) =3D port_to_ports(mcodec=
-_port);
-> =20
->  		ret =3D -EINVAL;
-> -		if (mcodec_ports !=3D port_to_ports(mcodec_port))
-> +		if (mcodec_ports !=3D ports)
->  			break;
-> =20
->  		for_each_of_graph_port(mcodec_ports, mcodec_port_i) {
+---
+Changes in v3:
+- Driver: cache the registers (REGCACHE_MAPLE) as suggested by Mark Brown,
+  thanks for the review.
+  Only the registers the chip changes by itself (SYS_CTRL0 with the
+  self-clearing I2CR, the status and interrupt flags, the unlock keys)
+  stay volatile. The cache is dropped after the I2CR reset in the
+  initialization, so a rebind does not use stale values.
+- Link to v2: https://patch.msgid.link/20261116-vantage-tfa9865-v2-0-a93f976c9479@yahoo.com
 
-[Severity: Critical]
-This problem wasn't introduced by this patch, but in the multi-link node
-handling in graph_link_init(), doesn't passing multi_cpu_port and
-multi_codec_port to graph_get_next_multi_ep() cause a double of_node_put()
-on port_cpu and port_codec [1]?
+Changes in v2:
+- Binding: drop the redundant sound-name-prefix entry (comes from
+  dai-common.yaml).
+- Driver: no longer mute/unmute from the trigger callback, the register
+  access sleeps. The amplifier is now enabled from mute_stream and a DAPM
+  event on the AMPE widget, only while the path is powered and the stream
+  is unmuted, so toggling "Amp Switch" during playback keeps it in sync.
+- Driver: reset the registers (I2CR) at the start of the initialization,
+  so a rebind without a reset GPIO does not find MANSCONF still set.
+- Link to v1: https://patch.msgid.link/20261116-vantage-tfa9865-v1-0-e88f0dccc427@yahoo.com
 
-sound/soc/generic/audio-graph-card2.c:graph_link_init() {
-	struct device_node *port_cpu =3D ep_to_port(ep_cpu);
-	struct device_node *port_codec =3D ep_to_port(ep_codec);
-	...
-	if (graph_lnk_is_multi(port_cpu)) {
-		multi_cpu_port =3D port_cpu;
-		ep_cpu =3D graph_get_next_multi_ep(&multi_cpu_port, multi_cpu_port_idx++);
-		of_node_put(port_cpu);
-		port_cpu =3D ep_to_port(ep_cpu);
-	}
-	...
-	if (graph_lnk_is_multi(port_codec)) {
-		multi_codec_port =3D port_codec;
-		ep_codec =3D graph_get_next_multi_ep(&multi_codec_port, multi_codec_port_=
-idx++);
-		of_node_put(port_codec);
-		port_codec =3D ep_to_port(ep_codec);
-	}
-}
+---
+Venkat Yadlapati (2):
+      ASoC: dt-bindings: Add NXP TFA9865 amplifier
+      ASoC: codecs: Add NXP TFA9865 amplifier driver
 
-graph_get_next_multi_ep() calls of_node_put(*port) before replacing *port
-with of_graph_get_port_by_id(ports, idx).  Because port_cpu and port_codec
-still hold the initial node pointers acquired by ep_to_port(), the
-subsequent of_node_put(port_cpu) and of_node_put(port_codec) calls in
-graph_link_init() drop those same references a second time, underflowing
-the device_node reference counts and leading to use-after-free.
+ .../devicetree/bindings/sound/nxp,tfa9865.yaml     |  63 ++++
+ MAINTAINERS                                        |   7 +
+ sound/soc/codecs/Kconfig                           |  14 +
+ sound/soc/codecs/Makefile                          |   2 +
+ sound/soc/codecs/tfa9865.c                         | 400 +++++++++++++++++++++
+ 5 files changed, 486 insertions(+)
+---
+base-commit: 4e019254b80b70f6fb90d17a50f211de1daf7ffe
+change-id: 20261116-vantage-tfa9865-8885091e9443
 
-[1] https://sashiko.dev/#/bug/linux-cfb81a5c-4dcd-4040-99a5-4886fa74927e
+Best regards,
+--  
+Venkat Yadlapati <venkat.yadlapati@yahoo.com>
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119075815.5015=
-5-1-zhujun2@cmss.chinamobile.com?part=3D1
+
