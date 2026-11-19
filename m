@@ -1,53 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175971;
-	b=DsbFdW+r4MKOKffIg/X8o0Re5xhcJSfVVFMnnbd2oNj74/nIINKKvP5PHTnnAcmS/lab
-	 yDe5ncRTVT8Jvstgs+LoBnhDvfBmpE+yIAysDWMrK4D9L1pmhXtE6/ESanLZ/OaM+ZN5u
-	 4/LWqc0glUu5SQwUgyOgZFEDyEYsogbD7SelZJB6ebv52iGoI6BHIPQaFi7Bri9rF1BJ+
-	 /DnXYdOjS36e8XbA+XK0648pxvCLejNUCQM9aSq+UwTfcE4ua0LXuFsi0RWJjc8BLCRdc
-	 VRAV2ShnWn8cbmX+Mmu6CyTduyDgWVXFOzzZ9ZcYI9XalIIr6epg6BLjVtc554FAs0g==
+	t=1795175976;
+	b=3C16bvIjKJA8TGXjwBI4hQcr8Hon7XJGMMI5VHuVVNjVfysFVtuQgGIOzo2SYsPz6VsV
+	 opT5N7gZbbn5XHaH00qJR6gAQVoSult5ScRKbG7L2pwqPCx69cZZGX8DPjYiS7AQ97yVi
+	 s5DN1lAV9MfY7KBGNWrRodyL6TJAAhRNRWhsGjuEF9wesxUcjcSoEiTaUMPvltdbHAs35
+	 Zwt0QFHzIBNT2ko0+yeoYjXOZgK26ARCI06IYdFiOQBYJ3mHmc1NgoSUmJwMb6DAi5XC+
+	 J5iKQoRuqlXikQnIEgtnvX8R3ksu6obpfPiibKbaUwU1e0UZlHSiz8YnwS2tc1QfYQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175971;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175976;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=PbYxkfpt8wcMk+D2MC+1poauRr02eP/j797NX0ypwdg=;
-	b=rr8YHaC5OCGVizU1xKOCDk87ETgmktni85aSHpgCDB6Z7UJvzm09iRRjouREMTQ9ubdv
-	 iSaRcnhtWABB/rG6wMGeAD6Oid5D6Cr/jRIqSlUn7zTfy1Bf1ofLvcZHC5InEIgkhs2WT
-	 gj6WUZ4gfpjiEVlY55aHL7Fb6PLTYLApdFJFGdKVAl48UStKO03oxrA1FfwVum0JwdPTB
-	 2srF7xhSrglaiuUwXqJk01UctXupQ/DI7t4RkyE6p+wSFRpWS3qSbP7QC7petaL8iziDI
-	 8OJntYu/S9miB+rBGCfoEnG5u7UYS6piCMo+my0+L2y3DB2i+W0nBqA7Dy1g2cOu0wA==
+	bh=xGxazQdGcUKBZXkNT3EgqWjvCMXu7XolU++fRMgk5y0=;
+	b=M3vKImimbtfQ4ilUHeA+RFlBke980Fp7ZTBSz6miqNQNHRAI4XJ7b4ooTC8yKNcppQjO
+	 j0+ZBWsfll9u1R6xE6uurZNEbLOfsU5KC1vfe5tlciRt1BEYX3MwaFgU4q+VppSf7eym+
+	 ZN3NfsLfLoHoBje2pEOCco0F2malRWWtshf5J+/SP7BwedVcCf5mPa14uoaOVh3DeICKi
+	 c34FEQrur1S8AVc6gFcQZCdnzMyVP4EDjXqLajU6nOK/xV946ITBVE/wqMwKqPr0vSqwl
+	 P2MXrX366rg3yVtjtOL4ZktpsG2U1p8YwZd+JWmJEEJ5H+U2O2c4TnankRvbnpBmrrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kph884j2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="awtN/n7E";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7EB606A320
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79E8606A320;
+	Fri, 20 Nov 2026 11:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kph884j2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F351F000ED;
-	Fri, 20 Nov 2026 11:59:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=awtN/n7E
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0298E1F000C0;
+	Fri, 20 Nov 2026 11:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795175970;
-	bh=PbYxkfpt8wcMk+D2MC+1poauRr02eP/j797NX0ypwdg=;
+	s=k20260515; t=1795175976;
+	bh=xGxazQdGcUKBZXkNT3EgqWjvCMXu7XolU++fRMgk5y0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Kph884j2/8FLBSlEBhE5xCYwhhgy3/qFFakdvhIj4STMCWotf6aoBKym8m8a16BAQ
-	 mN0tl5fa8ckIcI0CrxYynDAV4etgcInZ3ncb3e5TnQAiFN6y6YK6i7nAZJeWFuN2e3
-	 OvBzKWXa0GXBxyn4td4CEvibodKCrJ8jKEDvcQgICJQGfSh8M54p6UPfMpncgrnD1V
-	 8MMVbGLJMmhc+fmwLUkV6BSaiVpDhw4I5Fw43kZM7vn0im19JB5biZs1GqwfZBe+ZA
-	 4qSQ4gBex96KX2K+KrkKDiG0yTywHJtC/AFOHjbt6hhnFUCEzNKdgcGgSsIKaW3Hte
-	 mGUc9eU9RWbTQ==
+	b=awtN/n7EFRKtcaMFVRTe755O03sEMUEz9QS0FUgwtoGQ4hjvwu8GEwa1eWWxODuhz
+	 TVjV2k05IZiC4SzHcoqhdD7emzpbhNkGiMSkVKy+LOdfwonBISRWTeplhdySWAmCms
+	 r20GekNPcQyX2bI0VX/rq1DsWfvaMA/DyOp1rIGA7DWK4Itp4EX6Jx5/WaMmdJ5zok
+	 J4TxEnlPtWMC9/HYLOhGPDR1T7tZPlOIL9b7aY05hne3wPKZx/hA1eSFQZ/EVZMjMF
+	 0o5VFj+CLztVrzpekjEM5G/1pt82mgw4lwo+bMWbtki3tuHKeq8jPAbL2xRDs2eOpt
+	 75SMNIqmprT6w==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87h5hmzizi.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h5hmzizi.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/3] ASoC: use snd_soc_register_component()
-Message-Id: <179509462828.116416.4022703883300507841.b4-ty@b4>
-Date: Thu, 19 Nov 2026 13:23:48 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Venkat Yadlapati <venkat.yadlapati@yahoo.com>
+Cc: linux-sound@vger.kernel.org, phone-devel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261119-vantage-tfa9865-v3-0-5257fa45df57@yahoo.com>
+References: <20261119-vantage-tfa9865-v3-0-5257fa45df57@yahoo.com>
+Subject: Re: [PATCH v3 0/2] ASoC: Add the NXP TFA9865 amplifier
+Message-Id: <179511065502.116416.9667231227994890644.b4-ty@b4>
+Date: Thu, 19 Nov 2026 17:50:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,24 +65,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1613; i=broonie@kernel.org;
- h=from:subject:message-id; bh=hEi08EQiqtRu7sugXtIXIqjKozr4zrcyOhWH+2HGcvE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzBR273+nJr10fd9534OudYbiX6PW3ph2+tT13YqTv
- 36V/DY9vKOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQAT+bmF4Z/ZmorfIjlXd5c0
- ZokllHH7cP84ab7z/tL/aazJzDzcEu8Y/vCdaH8alDFjqdRiEdGX3NuPLTXkdnxmMHfyN+Ed1tp
- GB/gB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1810; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/0PVE2m1OploXZpaI7B48bfggYZo0YPomATOhhLoCqc=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzFTOlzaUXWZcJxCk+757QwejupWMVPghy0Pcz6X1p
+ /AKXfvbUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgIlIczP8D0vamONyQsjYzleq
+ zdX5ubtBnIrinHWnxGQftR+bMeuiAMM/C9t75b1qs+LYb+yUKlDRCrgjLWZs95rdfs1Uo6v3RNx
+ 4AA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 12 Nov 2026 06:01:05 +0000, Kuninori Morimoto wrote:
-> ASoC: use snd_soc_register_component()
+On Thu, 19 Nov 2026 14:01:45 +0530, Venkat Yadlapati wrote:
+> ASoC: Add the NXP TFA9865 amplifier
 > 
-> Hi Mark
+> The Motorola Signature has two NXP (now Goodix) TFA9865 mono class-D
+> speaker amplifiers. This series adds the devicetree binding and a driver.
 > 
-> I now posting v2 of "ASoC: add new Component functions"   [1]
-> and Sashiko reviewed it [2] and pointed that some driver is using
-> devm_ version register(), but is calling unregister() which can be
-> issue.
+> The chip has no DSP and a different register map than the TFA989x parts
+> of tfa989x.c. The driver applies the initialization sequence for the
+> device revision, selects the I2S slot feeding the amplifier and powers
+> the amplifier and its boost converter up and down. The register settings
+> come from the NXP tfa98xx driver. Only the B0 revision and the 32-bit I2S
+> slots configured at reset are supported for now.
 > 
 > [...]
 
@@ -87,12 +95,10 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: mediatek: mt8173-afe-pcm: use snd_soc_register_component()
-      https://git.kernel.org/broonie/sound/c/a5c99a470e4c
-[2/3] ASoC: stm: stm32_adfsdm: use snd_soc_register_component()
-      https://git.kernel.org/broonie/sound/c/72f71a56b5c9
-[3/3] ASoC: tas2783-sdw: use snd_soc_register_component()
-      https://git.kernel.org/broonie/sound/c/64ef28a65e25
+[1/2] ASoC: dt-bindings: Add NXP TFA9865 amplifier
+      https://git.kernel.org/broonie/sound/c/3bb77766ce46
+[2/2] ASoC: codecs: Add NXP TFA9865 amplifier driver
+      https://git.kernel.org/broonie/sound/c/ba47599b523e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
