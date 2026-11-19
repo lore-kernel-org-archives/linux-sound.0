@@ -1,94 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795072696;
-	b=MFcRk3HbZttDSb9YFb9/l1rxWJbe/sd8zESubT5W82Orsf3FxyZdlBDc7oW7obo6B5az
-	 BD15cu7VrgioLTq77HNvyPF77gjypGLYEgDvoDwK3rGR4x5zFsRrT6ToQ/fK2MwunrReO
-	 Myl0XvdnmlqjggXkai0cuiSedUy4ywP1oREWgrp2UDePs3ivbnVP1ieuXTkf3bBTYnAt5
-	 S4QvJQIlM+oM4vzfy0QFre5O1didaO+rGImRRSqcAJRAFkf8I+YMab5cqM5idzWGPkwAl
-	 OOIEcR4Q0GzqIMPDesiLHdeVIyOLC+Y2hmlT1Q4e4KdlZbOYHpa9NW1Scc+RJgA2zQw==
+	t=1795073844;
+	b=YXvOIWdDlCIsmBmpZjPGn1cV+kb3woQEu1fmoGMcijnj55fdXp296zmEvH3hOjRJ2gt2
+	 FjlGLMcw4SmhIhhloXKwqHmsvXhLel3Ciqfkp5txpUXM7dmJCVe6T8l2muP3aRzCpqZ2N
+	 7iVyxy/FG6QdcfacUlPxcStV8GZ/1/yEHyaBq+SLvgDtesU/SWrRfRHTmxrmfSiLn7HXv
+	 diLQriIXWg93lLep0UYQuF7L4YkQDi0IQHJ1XVhfpTnzpt+Rag96D2VcH3bSJje88DcRl
+	 ICBz5xiz4xqmsVv45RaGBN2z+4JkSF/2F9IHaYXfLi/n5omrTNyBqwmWsUt4jmIEzjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795072696;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=APuvn7f/7sMW86yp8ozwMRqfBj0JO9PvrdgmAwgAkXc=;
-	b=VyR3HPweDGlkcRHEhgyHO0XM0aQuXf21yjbO1ZZxC5fUz+36oN3nGALUqxwNz2SQ39Q+
-	 4/Nt55b7ek55S6ew3gdfbIt4YLp2h7dFr9PDCpKdkggPaByl+qc3porw++3jmoIaBU8e0
-	 Jy3Oqm1s6ZT8O1mP6TA34cupTPhwvRfi6bDHNYZHqc6e72WTufRi9/kK3QL6O7LHDi9dH
-	 j2Ci7KwkHaUQZ+/tidgdgrcFOK7nggGmapmxbSFHKxQO0xuRtpFaoYzFcbKDYAVxcje3x
-	 1F7cqEtzyVqiYy1Trf6fYInmUdzEoV7amAdWygLEqA1p0ihUodEtYEyqt/ZTYL1K8Dw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795073844;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=SREqdNPk3JQsCTcSiofLF5qVyqSl8hjBAsQ727rgaKI=;
+	b=cz45DhxatndJHuIQjvDNb3+osqajfLbhqJ88FywhTE1ES/FS7mkspLhoXnDwb4hpFgK2
+	 HAiDYq5RfE6KODSFB61IU5AzE3eZIDFThh+g7VISeoH9++il0j7y2FAcv96h+jZ7OSTxq
+	 KYKNaCIjWQzZBEhIZVN/Wo4XOkPxCX5dtDkpheD83YVF6WQOXUUyZAiUij4GyofHQEJpF
+	 Wx51s+swcFifpxCJ8LfxfE+AcTBmAdEGBDCMr8HX+lpOZ67q8diGplne+GJzVEETrdIEb
+	 3wCcjrronJ9Ec3BW+RXXJa6ZfIJiFKsBi56eZPR61OL0zADft4ZPlCYOa+9ZeWjxH7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nuLJV8fV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=asJKNSmf;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6D5606A324;
-	Thu, 19 Nov 2026 07:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA87A606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 07:37:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA87A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nuLJV8fV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ADF91F000C4;
-	Thu, 19 Nov 2026 07:18:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795072696;
-	bh=APuvn7f/7sMW86yp8ozwMRqfBj0JO9PvrdgmAwgAkXc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nuLJV8fVc2D0MrbPEKZ35IXVmf8L6ICWqA805Tk7LAAIPJx7UCKjmZxc59fyigx2g
-	 lXSSphsOzAQfsebmstu0+O4eMgGF3exHrvIfhuxGoLmOWey18JBKmVK1Xw/VyHaPsZ
-	 hfSjl8WYYm65pvvel75Be0ysgbB4Ky87xuvAoyV/SvuqTIEdmRvPaiJ7T4S3a+bVQR
-	 nIn2nQUotBnrGo9Xzn8ESPCAU8Vj6UhKaMIFf33OD9RSf1ChY6r0xVN3/BxnU55Hlh
-	 R9hY6EZN2X9huqMJHvsXgm3b3LVgn9x4FSZvgXfvSUj2AY4v6IcCAS4emNvE/VqD+b
-	 R2bmr+esy2LCA==
-Date: Thu, 19 Nov 2026 09:18:11 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Cornelia Huck <cornelia.huck@de.ibm.com>,
-	Andrew Morton <akpm@osdl.org>, Jeff Garzik <jeff@garzik.org>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, linux-coco@lists.linux.dev,
-	Alexey Kardashevskiy <aik@amd.com>,
-	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
-	Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v3 18/31] net: phy: Use the compatibility driver
- attachment API
-Message-ID: <20261119071811.GG162713@unreal>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-18-d655875c4bfb@nvidia.com>
- <71c1b931-c553-46e3-b49a-51167f168ac4@lunn.ch>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=asJKNSmf
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-381d542bc29so3568445eec.1
+        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 23:37:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795073843; x=1795678643; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SREqdNPk3JQsCTcSiofLF5qVyqSl8hjBAsQ727rgaKI=;
+        b=asJKNSmfC/rYASbeVtVcrb9AOR6+tw96/vwikRFL8m9+s/0CWE9k/1sgC9/nTB8P/3
+         D7q/IQrHMOp30NSEWkPaYIEs4nYYLv0bnGT4hwhMIvLx9afMTb6MPBWoWQNr09nG6Bjg
+         REHIJv9TA3Q0yYaC/HEa303Hdyq3HODXQx58/j8h8LshxwbZfchVnbw4psExPrAA9AXc
+         2lW1f4oGPpJdRBoUuhJAf8n2JQjKq9pGMb9IIZD3yYjQPwyujKINSH/CvY5XxVM/37IY
+         5DXEWht6jPlqSxGHPEDiXXqANKIw0vx+nyZIsc7yaa++67mhZdZDd6gN7JHlZcvPrZfh
+         JiLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795073843; x=1795678643;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SREqdNPk3JQsCTcSiofLF5qVyqSl8hjBAsQ727rgaKI=;
+        b=iLMhXa2FldYkFGMN1LJGnN3DZLYD1j1/6HTc/WquZPhMmRhVrJNZodGz8jhPPxWDCO
+         BbH5sCAith2ozhN26docCOSoNG5XkvyozfKnINGWud+9whfpZPnqP4mVfvtgQap8Wik8
+         vF6w+JEMrS4+JptmGJjyJImkaU1Q+Iwgp7WM0HomFoBZlKvtciO8As9pNK4w3fhWdyeA
+         MGWcNpiPJOBE/lc3LyWOVWZ/QreVUYAeUfVO4Nzv5sSHELrvxkS4LWSjz6lX9rOEsm/i
+         YW4MY7wbCL33rrZPUv71netfk/U1p9w8vljFr7Lgk+PNYYRs0AZealIWD+W2khhbaRc1
+         ON+Q==
+X-Forwarded-Encrypted: i=1; AL+hErHBYmJ0Jq7q33inIws0lVkJoaUxQ1AwHAUppyG51u867NyjoRy5v+nvNZZUJhyPBsVThXdZt0W+zN9f9Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+PoNKxwrJAgHJyfz5AWz98duvnlF3i8u+hQjsZCqJ9plrCfzZ7
+	jNclbETYGbgT+zaHSw6p8fQ86rtecn6gaV5lXMd+JqA1JuFRi5frV4Jt
+X-Gm-Gg: AZFdTZfZeUFiErBDPYbm7IPQsQN5xii9T1R+h216/Aauo8nC8ZCFh4chxv4F2/FhrsR
+	UUW7uuCIHof8v0yl7Gorp7qbgnRw1v+Hmb4FeKGa9Z1n2Zyy3W6rjXJDhBiYwRAKh+K/065UbnL
+	EcmtaNhvdili9e9jkUvPTVGM7Fl3hX3VyPtSzkTWnAUDzCDB0wmEsiapbzvSG+fvETM1UcOZSxG
+	jIEVqxW315Jc2rMFa3ujqR2juPnnFjRXn/Fq9fJGbxYZshFhnmSrlqZyakM3GWmXOqH/fDYBnzU
+	LM3rnBonOCoA+gHjKOR5GQtZnawNRV+Zb/Ju9SKwfW52xrZunSS+hOycRAjZYmyXDJcp+B4dp7L
+	MDP9LbWJRzSyHGjgjy2IALmaj4a/8qkDjYjS6lHnOE3OwLbKNCj72G9Sa0R3QGOX8Mg4/AqWu5r
+	zGJFN1R/sAmpVRMWOV7twgd0vWIRwFtA+5cI68tWmPyqFSXzve+9VBnEjO0aFZCxT6bvcBLCyJ1
+	X9dTV5RO+fzww7Lx3OKs7ECEMD9d2T16HKcsUjtWuxd77Z4PdD2xC5KqHtPyq+h9/K3D1ErtoTd
+	hsgrDFVHy/NiiZIUmoKU9mYdklWTmJSirmr66wcH4kIaU/kLl2/+0g==
+X-Received: by 2002:a05:693c:83dc:10b0:384:a0cb:a6b3 with SMTP id 5a478bee46e88-384a0cbaa15mr467087eec.13.1795073842990;
+        Wed, 18 Nov 2026 23:37:22 -0800 (PST)
+Received: from localhost.localdomain ([103.149.158.188])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3848dc19705sm2663207eec.23.2026.11.18.23.37.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 23:37:22 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: sreekuttan2156239@gmail.com,
+	lars@metafoo.de,
+	perex@perex.cz,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2] ALSA: dmaengine: Check DMA submission errors
+Date: Thu, 19 Nov 2026 07:36:53 +0000
+Message-ID: <20261119073653.2632-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261119071043.2943-1-sreekuttan2156239@gmail.com>
+References: <20261119071043.2943-1-sreekuttan2156239@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -98,40 +100,56 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <71c1b931-c553-46e3-b49a-51167f168ac4@lunn.ch>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 18, 2026 at 09:21:45PM +0100, Andrew Lunn wrote:
-> > @@ -3813,6 +3809,8 @@ static int phy_probe(struct device *dev)
-> >  	int err = 0;
-> >  
-> >  	phydev->drv = phydrv;
-> > +	phydev->is_genphy_driven = phydrv == &genphy_driver ||
-> > +				 phydrv == &genphy_c45_driver;
-> >  
-> 
-> Why do this here?
+The dmaengine_pcm_prepare_and_submit() function does not check
+the return value of dmaengine_submit().
 
-This flag marks that driver is already probed, which is reliably
-happening in phy_probe() under right locks. It was the easiest
-way to battle AI reviews which don't agree with how PHY subsystem
-performs driver bound.
+dmaengine_submit() can return a negative DMA cookie if the
+submission fails. However, the function currently returns
+success unconditionally.
 
-> 
-> It also makes the code asymmetric. If you set it in phy_probe, you
-> should unset it in phy_remove. At the moment, it is symmetric,
-> phy_attach_direct sets it, phy_detach clears it.
+This makes the PCM trigger path believe that DMA has been
+successfully submitted, even when the submission has failed.
 
-is_genphy_driven management was moved from attach/detach to
-probe/remove, so it is not set in attach anymore. It aligns now
-with how phydev->drv is handled, which was set to NULL phy_remove(),
-see commit 00db8189d984 ("This patch adds a PHY Abstraction ...").
+Use dma_submit_error() to check the returned DMA cookie and
+propagate the error to the caller.
 
-So I would say that now it is more aligned with what PHY does and more
-symmetric than before.
+This ensures that DMA submission failures are properly
+reported instead of allowing the PCM stream to continue
+as if the DMA transfer had started successfully.
 
-Thanks
+Fixes: e7f73a161356 ("ASoC: Add dmaengine PCM helper functions")
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v2:
+ - Add Fixes trailer.
 
-> 
-> 	Andrew
+ sound/core/pcm_dmaengine.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/sound/core/pcm_dmaengine.c b/sound/core/pcm_dmaengine.c
+index 1306b04be171..5b9fdad4d9a4 100644
+--- a/sound/core/pcm_dmaengine.c
++++ b/sound/core/pcm_dmaengine.c
+@@ -154,6 +154,7 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
+ 	struct dma_async_tx_descriptor *desc;
+ 	enum dma_transfer_direction direction;
+ 	unsigned long flags = DMA_CTRL_ACK;
++	int ret;
+ 
+ 	direction = snd_pcm_substream_to_dma_direction(substream);
+ 
+@@ -172,6 +173,9 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
+ 	desc->callback = dmaengine_pcm_dma_complete;
+ 	desc->callback_param = substream;
+ 	prtd->cookie = dmaengine_submit(desc);
++	ret = dma_submit_error(prtd->cookie);
++	if (ret)
++		return ret;
+ 
+ 	return 0;
+ }
+-- 
+2.55.0
+
