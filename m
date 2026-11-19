@@ -1,71 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108270;
-	b=TqRFBIFeS0LyXFXuiT1fgde2VkQ3vlvLvCbQ4rdcNRhWOgNNiyj+KiQxJ6YBWLWdIwrE
-	 ZfAe2JnTlHtAHD+fIbZ81FxUnk0fEGntxq2v8AvfxQn8UfY8Doj5oRsWsQRUfwjYdUzji
-	 VD1U80MUHbKZgo/8TpmsYQKp0Z2tJCNxMq7D0SEdfXd/cbhLjYlHaVUljJZe1s+dG7Biu
-	 sRA9Fa/+2QswJUEnbcnyqCggEMuPPL0WXT19ygzdfM9ZdNcF/C+jrALceNyUOu4lUqBSC
-	 6VmgdRRqjbX6ktCzVwmwb3xFk8o3FSv+ccR94nxbtwLdB5lQOXRCbaWePwfzq9TNwUA==
+	t=1795108283;
+	b=MnGOAmAps58dWaCSbkLnMcXEEyOQOdt7R6TkKqT6Zz6CSOVG5OIkNv/Rl2riltC+JbfE
+	 l4ConeUvUkvL5QvPeeh6ofzGRrBoFThwubqz3LKl34RPo7x/7USJLwfArpqlgdkKl+rg0
+	 leNsZVd75b6HLIUJLQNyhuxD3JT4sp/hpFtHLCQ4okUZGcjMdCxaZP0IIyFB0Dm1YUxLc
+	 19gvaOoxW5dQ4nmhdE7Dhq4OVqtQS7/1WLPzxp7kgMzvk2YAxTqZLif2y4tZkTAHRStTV
+	 EQSXLKNR3KLnNKLQndu6/jXS3MQv48fzEqNKIExfFPw87RL8FY9E1nEhGd8vRNjOcQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108270;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108283;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
 	 Subject:From:To:Cc:Content-Type;
-	bh=4VFgIkgO0QW6Uz1EsOOcOGBTY682MO/rz1J67OmLejE=;
-	b=ZK7IjBq0+UxT75wJtRtXu78mnizU5PLWwrySoRVSbFQTXfRO1zCT0wZJ2I/UD/gdRPnC
-	 ru3xMRsY82iQFY33n1jq+bBNN7roRR/XVVi66Uo7OCS70FNsMxNYx7iKoeARby4tLgetT
-	 X4GMZWhdvrtvFHwE6ftvk3S78j8pqIrUFZsvL6qoHEE4w8JlBqSL7woMo99B0nZgWvxQe
-	 0F+ayu6F6zLXMPo5/+XEjDMkEKofXeibX7Zn0XC9ABKelLpNZ68EkNMppwFGj+ctAry+G
-	 23TmJYmpYnSbsGobqaSGyAKZrFT/g68GGh0CObtYiaJAGUCmVvqHOo8+vTLAgTAb+Yg==
+	bh=Ko+MjmiHNLM691UwBxmQgih73Czi8IVII6J5M6Yn1mM=;
+	b=Z3QBJhXwty3hfwx7iff5OsvySzhXbKpJsCDmVg8zrAud699Z9PapICoO2+YmTZYbIgHK
+	 4Zn+hLkIfi2rJ17O4k92vUM2ui4cTOork04YmALXiSnlulBlQZNg2PCeoGWqE5XDavexd
+	 ++0oQx/QG5BnqBIbPkkfu3MVT86ov93QKolveHsd3fUxfvbUtDq4IjSjtwdT/1hjwTAQw
+	 2hCIpgKVbTDvzsRjqQooejU3XfzjimOTXOlIbcvfs5gMebvGF6gBRiAzzAbm2PzgH0VwC
+	 XtQPq9RaEUfB/xgmgWzBLhbzIRggC1dGHeSy0q4wMJ/pSIZKfGOMl5pDqsvjFe3gyZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="lowx/aVS";
-	arc=none smtp.remote-ip=74.125.82.199
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lyMZaRmj;
+	arc=none smtp.remote-ip=74.125.82.198
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A8F606B416
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 17:11:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4A8F606B416
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D017A606A325
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 17:11:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D017A606A325
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lowx/aVS
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso3047800eec.1
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 09:11:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=lyMZaRmj
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-370230d93efso2054718eec.1
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 09:11:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795108269; x=1795713069; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1795108282; x=1795713082; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:mime-version:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4VFgIkgO0QW6Uz1EsOOcOGBTY682MO/rz1J67OmLejE=;
-        b=lowx/aVSQykwMLqnjGNj/79iso4pkAP7rg6f/3wWOIiz4v73UtR1RevRcayxqm43fk
-         g+EpKB5gYdfYPhU8kCjR5q3eRGuv5YMT9f70uiF6qsQE866nsBSmZA6smrA4YKgjQ6NR
-         pIZZq5pgToJmHSYAk/MzjJVM1kEA3QFK8WgLvGqwRqn/7e8aCvdHZFa55x+ap5j1iqJ5
-         PzqLhIAR+3/u2dmF+qN8lvs8aXvngtNQ+LvNDh0ymN7VqRJfC8m3M2mcwi+ePrutWcwQ
-         MlX31SDhoM/jNUIzcO1am/lknm0WRcMJEEs6225bVWsKFR1fMRd4g/GOhU4k7zf9+KCv
-         djJg==
+        bh=Ko+MjmiHNLM691UwBxmQgih73Czi8IVII6J5M6Yn1mM=;
+        b=lyMZaRmjhCGX7+rYzWUansfk4MP9s1YP6E7qzUWUW1XDebDWzgNRMaURTDhjrmflD7
+         u2RZz+K05GoJOBtAVT7c81qfDQX6wQJeTM0A6ND1fURG5ZmF4EqNYYJ8R1zGtbe+a+C5
+         u0DlcKb0K8dQ/4kupfGPOwf3WRmdEg+mSOp8OSXjaDeKtHA0XIYoCJti27GDms7z0Oc9
+         AfD9FyLOxhQ9+GoPhasheX0FZIoQNqrk3bM9m26bzMhkaKlX0vvP1mAdD7p1TPJf+QNy
+         9bBVgu1C+FACzcRLAv0m/4Wzagc+/MIm9KcncfF8OxSbRqv/wCEYQXPzazuVa5Gi/RxD
+         OKPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795108269; x=1795713069;
+        d=1e100.net; s=20260707; t=1795108282; x=1795713082;
         h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=4VFgIkgO0QW6Uz1EsOOcOGBTY682MO/rz1J67OmLejE=;
-        b=bPp4aKCJrDuhAxiGWKMqLzYcqWOEyh3ZnlZXd0luLRyyU4ftqO4OWDwL/s+vYoZN6O
-         co15MlyDnmsjG8I78T7pkom/taFgAmJ7+2fGiQnQ3fn/eGY4EEzi3x7PRBy5UkAUbZfw
-         hjM0ujHT8GRW3JCumyGTZz6L0H9dG/NLdiRpVkxejVbHCtJ1JCd6x6m8vq1H1VU/IxKx
-         HTRqWWwtMC7pIQineBgz7Ld0nO+wyB19qKGV5P4dFh/yPb5qIQJxUOs5343g7kbh96Vt
-         u5aBkEH3JudQUB6i6WqsP9FHMXbdQa2RpnC5XwRVZtl6Je9Yr0x/jHbZK/uVmGIWrBdt
-         axig==
-X-Gm-Message-State: APuU4Z+TkSEBZ2vsDD8WIvfITj53O24pKyzZwlCD0P4OWI/rxOZpyVIH
-	uaSAptLUxVOKGgPReEZqTBC9dmSn8MfZQiKp7Dz4mIWZg0vd7Fg1c7ZQYYA7T2/omnYTsjbtjgs
-	2celXzBIj6w==
-X-Received: from dyru27.prod.google.com ([2002:a05:7300:4f9b:b0:36a:120e:b9a])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:fc19:b0:384:b2cb:5f76
- with SMTP id 5a478bee46e88-384b2cb60ddmr1689970eec.23.1795108268800; Thu, 19
- Nov 2026 09:11:08 -0800 (PST)
-Date: Thu, 19 Nov 2026 09:11:05 -0800
+        bh=Ko+MjmiHNLM691UwBxmQgih73Czi8IVII6J5M6Yn1mM=;
+        b=fO6x4rEwrO2NUZrgCtT+LNhg+eu2efLrDgZrsVMcpabV4c6WXsjMPhXljcOjs+bWJt
+         ugPG6GScoR9E0MTNhiE2RCsLGjkNwW3Ms8dpGIXcadrI0nQDsIzxM9UvReckaAVe2qpF
+         xZ16Q7nlJW5w6uTr7KSbN/HnzMRa4xTX998DsD554G2l7FVoRCRjSgYgahhO7pbMva4g
+         HZYCjGibk4R1F52IXqY07nUbHi0tqUK/IfFhjWP4pywdCYbeQPzg0b1SNaEoOfKQUe+f
+         t4wt3Z7DrJazgmDiAQ/g/Nz80xv4B14o97FefwvNaymga6V+GRKjEV67zCbUxQ1y5s9V
+         LS6Q==
+X-Gm-Message-State: APuU4Z9UtrHY0chOnhONNDk5kU8RUPaKV0rf+NnGRsl7RADbuRlpOUDO
+	h2935Hea6DvJs+TZAnoNDYinOk+R9NlkYpqc7rZv1F6MVFEqYYBKF297ny98IjOOWVskQOQyMeh
+	SbOQ1avRN1Q==
+X-Received: from dlbsn4.prod.google.com ([2002:a05:7022:b904:b0:1b3:b6c4:6fd4])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:701b:4308:b0:1b5:1a6e:1bec
+ with SMTP id a92af1059eb24-1b5568779e3mr259172c88.10.1795108281678; Thu, 19
+ Nov 2026 09:11:21 -0800 (PST)
+Date: Thu, 19 Nov 2026 09:11:11 -0800
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -76,49 +76,47 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
-Message-ID: <20261119171105.1538194-1-irogers@google.com>
-Subject: [PATCH] ASoC: tas2781: Initialize subblk_offset in tasdevice_process_block()
+Message-ID: <20261119171111.1538575-1-irogers@google.com>
+Subject: [PATCH] ASoC: sti: Return irqreturn_t instead of -EPERM in uni_player_irq_handler()
 From: Ian Rogers <irogers@google.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When tasdevice_load_block_kernel() processes a per-channel firmware
-block (dev_idx != 0) for an amplifier channel whose is_loading flag is
-false, tasdevice_process_block() skips the channel via continue and
-returns an uninitialized stack variable subblk_offset, which the
-caller checks for negative error and adds to the firmware buffer
-offset.
+When UNIPERIF_ITM_UNDERFLOW_REC_DONE_MASK fires while
+player->underflow_enabled is false, uni_player_irq_handler() sets
+ret = -EPERM and returns it as irqreturn_t. Returning a negative errno
+from a hardirq handler triggers report_bad_irq() in note_interrupt()
+and bypasses unhandled-IRQ storm accounting (while also clobbering
+IRQ_HANDLED if an earlier status bit was handled in the same call).
 
-Initialize subblk_offset to 0.
+Leave ret unchanged (IRQ_NONE by default, or IRQ_HANDLED if an earlier
+error bit was handled) instead of overwriting it with -EPERM.
 
-Found via Clang -Wconditional-uninitialized on an x86_64 allyesconfig
-build. Verified by building sound/soc/codecs/tas2781-fmwlib.o with
-LLVM=1 W=1 (-Werror) and -Wconditional-uninitialized; not
-runtime-tested on TAS2781 hardware.
+Found via Clang -Wassign-enum on an x86_64 allyesconfig build.
+Verified by building sound/soc/sti/uniperif_player.o with LLVM=1 W=1
+(-Werror) and -Wassign-enum; not runtime-tested on STi hardware.
 
-Fixes: 915f5eadebd2 ("ASoC: tas2781: firmware lib")
+Fixes: 76c2145ded6b ("ASoC: sti: Add CPU DAI driver for playback")
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- sound/soc/codecs/tas2781-fmwlib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/sti/uniperif_player.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
-index e6429b4c8dc5..a5e6734723ab 100644
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -897,7 +897,7 @@ static int tasdevice_process_block(void *context, unsigned char *data,
- 	unsigned char dev_idx, int sublocksize)
- {
- 	struct tasdevice_priv *tas_priv = (struct tasdevice_priv *)context;
--	int subblk_offset, chn, chnend, rc;
-+	int subblk_offset = 0, chn, chnend, rc;
- 	unsigned char subblk_typ = data[1];
- 	int blktyp = dev_idx & 0xC0;
- 	int idx = dev_idx & 0x3F;
+diff --git a/sound/soc/sti/uniperif_player.c b/sound/soc/sti/uniperif_player.c
+index 844ddcfc421a..63dfe2b4d304 100644
+--- a/sound/soc/sti/uniperif_player.c
++++ b/sound/soc/sti/uniperif_player.c
+@@ -117,7 +117,6 @@ static irqreturn_t uni_player_irq_handler(int irq, void *dev_id)
+ 		if (!player->underflow_enabled) {
+ 			dev_err(player->dev,
+ 				"unexpected Underflow recovering\n");
+-			ret = -EPERM;
+ 			snd_pcm_stream_unlock(player->substream);
+ 			return ret;
+ 		}
 -- 
 2.56.1.708.g77570a6a1d-goog
 
