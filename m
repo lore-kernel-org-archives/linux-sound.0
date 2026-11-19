@@ -1,143 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.188.120
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795066550;
-	b=cn0W1Vgx1WEDC/P/3JiXGdsBrWz16qRJe/BuzanUn+IrQJM7965ceDTxvWS2ytRJjkdd
-	 cJincr9Nkh+uFG6yM7ZXusrKeCBHd6EmooDZIliOjHMPCQ/rtRKYIiuSem06Qqfc+oY8L
-	 SZVR95liUwjSwPZmpazuK7GrDUifovujNvi+4u6+ulpwQMFB90M3TbX1bgnqOnh4p9Nz9
-	 vtbOqib3F4yWdxdV62Gx90rauv7I2QFEkr3+2gLIyaf2xlJNuSC/pTOL1c2zyCPWldkVc
-	 hg2bg/MzwJrh6dVbalaoTfQA125aMNMBfrtMHct9HNInJnoGub46WRU7KMx9lJW4A4w==
+	t=1795068400;
+	b=fZd8CLMCGsd29Fk53sbVxWtwv+jssDDsJMS2+BQPmsYLramPD+q/gR0fdQurc5H8AwOG
+	 ea7LoXzKxw0p2Hize9O8ki+4KFk3Erd2PE/uwAjM2ax0AGqoVtlTgYWlPhVClSDssQMou
+	 QR7jZKrGqDvT81ytqM+5SkijEAO2IDTUr2vzVUJ8yiq1KIR5NCY7Il59NfH9DixubBkKY
+	 ZLKQEB7XppJJb7AtNO6j+W2hXfrg8q16y/+rESzno/MFiBegtIDak6d/OTjCGJYlufuMz
+	 Xl4IZ0UNl4AzM8hkqJL9YwG9mMNBqIA7enROHAEXA2d6MBxL9B2K/D3gOlczQC6sDPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795066550;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=iUfRRM/uSWL5Pu2WYkuG9ZMjaMjQfW5Ts9TmnI1Vtsg=;
-	b=KnqcR6+2WKEpOABO2y5Ha9ImyUGpDPbdoNJdIRH+3BaoCQUx4c+tpAL/AHtkTWOD061H
-	 6emTTcvdgaeEkg7Ilp7Qx52P5SflEDVnHoQ8lAb7Db+Eo0YxSIhcuD4J8u26uUkzkVnGh
-	 CcbBWw4g2G6BlOABRP+ZkbmWhkR62GWS3Y3xuJxRgTFDbelpid1CTjDR4FqF9LSBbQjXq
-	 rKBDTaNs/4q/toiRhhiWYUNKgW7yXUCfqkTQ6I7xOgid7L6neunlmVhIQepieVXDaHozT
-	 l0g3d8s+QlEWvE/bRfN+2mRALXSYVTg7o/ZBG1cxTNE4PLZnIXq+5Ht7Ys5fFmAA4zw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795068400;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=Uf7K5zrslglubPN6D1YV7ahClAMFdOKaoTZaYtz/J5w=;
+	b=UF4gE2n8OlRGv9ey7lUecYwEO6mQKritdP7zQaJ3q6nA8cIjrtAvrA1hTRkK5DuI5Af8
+	 4TU9qsPOAxgpzyp1LvOLbMsJeQag6Pce4o+Z/ZeVwdhTqEybyA6hxBHgbSlYuH4K6l702
+	 ud1EfV2nGUUUX32DtbTKmxqmkgvgFc8Ckb21rfIgFLgCSabAIi0pBOQh3GvnlA3ExqhIh
+	 S23lrNlK3Ok17Gj87sk3I3hEakAZn0VMeHAArq+iSqliABkFtSIXEdy7WV82CV63IkMq2
+	 oIrb6evDtykt9R8PfwUzS7bxS3C24vgBrzSGuZ1AZ4yZDIu/oQrs6CTaeA5xui1unxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DGrnyfoW;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=canonical.com;
+	spf=pass smtp.mailfrom=canonical.com;
+	dkim=pass header.d=canonical.com header.i=@canonical.com header.a=rsa-sha256 header.s=20251003 header.b=JOxvhZ4P;
+	arc=none smtp.remote-ip=185.125.188.120
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AC5606A326;
-	Thu, 19 Nov 2026 05:35:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7AC5606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC33606A320;
+	Thu, 19 Nov 2026 06:06:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FC33606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=DGrnyfoW
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=iUfRRM/uSWL5Pu2WYkuG9ZMjaMjQfW5Ts9TmnI1Vtsg=; b=DGrnyfoWAgDY4gTArjK85mpfLP
-	YUa39SWVXYFn/eK72WXlCXA9uuRyagIyIF1woWS4EdttvevIcGfjAAhDfNPyAIOfoJJ+XfJxm4mGT
-	bVkFVA7u20Klegz+Ue9YMX8fmqu38qLzw2l6Mvo1BQyhyJJNtM+c9MxognTzcG7V8vEGldl3RnhKr
-	KabGWOjeEC+yc7jJcccxprvCsyDQXoRtyIJIBftIP+C4EOe7n7gE7b/kw0/j0BAuO6DMIZSJhfRCO
-	H9dGPqwbToDijcg/PKpXyVcYExVa/obX176QmbjEtCpmdJ0iCHZ5xvENNH0DXE2DbvWCAV55csStZ
-	hDSDSL3g==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xTuoG-0000000Aufu-2x6D;
-	Thu, 19 Nov 2026 05:35:48 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-mm@kvack.org,
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.a=rsa-sha256 header.s=20251003 header.b=JOxvhZ4P
+Received: from localhost.localdomain (unknown [10.101.197.103])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 03A4B41505;
+	Thu, 19 Nov 2026 06:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1795068397;
+	bh=Uf7K5zrslglubPN6D1YV7ahClAMFdOKaoTZaYtz/J5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+	b=JOxvhZ4PfbNJ26U1IW5iYqU7IC3iOeFguA0LxVK58oyBpcMm0AdfYDcWHI1UAToz+
+	 Y1cLQ9IwIe41AZogNjoChh6HvR5N8D301EsMeztpbaUB4biawy+CsuqMsrEMmJD74P
+	 Xjp24Xlw2tmw1rLG5gxt5Kz+9FU42otXylosehAUvPbrPuIkfw1i7ZVua0LHMsiO5e
+	 6TDHUp8opDGPOfHFZgn0tc1eG5lyNuqVGVGNG4Sr75NDt28RD1iGUkalP6B60sJrFp
+	 R6Zi5tHoZiM+RhAqn7aByBKwszgKNWs16ycCSx2JL+Gd9j8vSLJ9GmKoe1QweQPQCX
+	 r7JT9xKZ+9fuQz+PZ5fpq3hKhsEmkWNEYHkBqTvBBdHX2rgVIoZzIvxWYNbLft/cuI
+	 oNOGKewCUbmFtIyZTL8PCNqVYpgfglI+q4xDJOR+L7ExKm4y60jZ+BN/j9ON8MLS7D
+	 BRlwquXxCFQ4FEmYDh/UtuAx/WDK7cvWBvbnt/rVa97wXI7HPjDE2rS0v2wVFfQtIJ
+	 jmFMZ2+1K/c4wGhDpVxmPHckSFXt28lkdUkLCCCaxjxda189IhzvTPWY/YZzUvHHDE
+	 nJyWG+XUkjES/1reVtAH3PGPshvrZmU6QQslx2Keb8wFu6ZwQZXosTB0VT3mZPuFy7
+	 7rsJa6grB1RrGWDZLLNGV4J8=
+From: Dirk Su <dirk.su@canonical.com>
+To: 
+Cc: dirk.su@canonical.com,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Damien Dagorn <damien.dagorn29@gmail.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Eric Naim <dnaim@cachyos.org>,
+	Matej Sochan <matej.sochan@gmail.com>,
+	Denis Yakovlev <mfthesun@vivaldi.net>,
 	linux-sound@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev,
-	Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org,
-	Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org,
-	Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	kvm@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org,
-	Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH v2 11/12] docs: ioctl-number: update platform entries
-Date: Wed, 18 Nov 2026 21:35:12 -0800
-Message-ID: <20261119053514.255348-12-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261119053514.255348-1-rdunlap@infradead.org>
-References: <20261119053514.255348-1-rdunlap@infradead.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Add LED fixup for HP ZBook Ultra G1a Laptops
+Date: Thu, 19 Nov 2026 14:05:49 +0800
+Message-ID: <20261119060604.31205-1-dirk.su@canonical.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -149,44 +81,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update the list of platform/ files where ioctls are defined and update
-the ranges of function numbers that are used.
+The HP ZBook Ultra G1a laptops requires specific LED control method
+ALC285_FIXUP_HP_GPIO_LED to work
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Dirk Su <dirk.su@canonical.com>
 ---
-v2: no change
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[Since having multiple maintainers trying to merge these would
-cause some conflicts, it would be more manageable for Jon to
-take all of these through the docs-next tree.]
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index a43bfcf9705b..d38be4d500b2 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8167,6 +8167,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1024, "ASUS Zephyrus G14 2025", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1032, "ASUS VivoBook X513EA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1034, "ASUS GU605C", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
++	SND_PCI_QUIRK(0x103c, 0x900c, "HP ZBook Ultra G1a 14", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
+ 	SND_PCI_QUIRK(0x1043, 0x1044, "ASUS GA403UM", ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+-- 
+2.43.0
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-Cc: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Benson Leung <bleung@chromium.org>
-
- Documentation/userspace-api/ioctl/ioctl-number.rst |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
---- linux-next-20261116.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ linux-next-20261116/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -434,6 +434,7 @@ Code  Seq#    Include File
- 0xBA  00-0F  uapi/linux/liveupdate.h                                   Pasha Tatashin
-                                                                        <mailto:pasha.tatashin@soleen.com>
- 0xC0  00-0F  linux/usb/iowarrior.h
-+0xC4  00-1F  platform/raspberrypi/vchiq-interface/vchiq_ioctl.h
- 0xCA  00-0F  uapi/misc/cxl.h                                           Dead since 6.15
- 0xCA  10-2F  uapi/misc/ocxl.h
- 0xCA  80-BF  uapi/scsi/cxlflash_ioctl.h                                Dead since 6.15
-@@ -446,7 +447,7 @@ Code  Seq#    Include File
- 0xDD  00-3F                                                            ZFCP device driver see drivers/s390/scsi/
-                                                                        <mailto:aherrman@de.ibm.com>
- 0xE5  00-3F  linux/fuse.h
--0xEC  00-01  linux/platform_data/cros_ec_chardev.h                     ChromeOS EC driver
-+0xEC  00-02  linux/platform_data/cros_ec_chardev.h                     ChromeOS EC driver
- 0xEE  00-09  uapi/linux/pfrut.h                                        Platform Firmware Runtime Update and Telemetry
- 0xEF  00-0F  uapi/linux/ntfs.h                                         NTFS
- 0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                       sisfb
