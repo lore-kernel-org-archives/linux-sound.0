@@ -1,115 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795080913;
-	b=XCvD9CQeNaHfcZi2g/AIQI2G5wMksEH9BP+qnmS0yWz0Ql2S7ZwwyDqW/D+std1tzKPx
-	 klA2ALKLAQWrHgvpAbytLEm/wsOisOnFlacAXcCC4dTzs6rPvkc4ZCesg8Beix+UT6fB3
-	 lUwfPgpogKomUy7V3heDbBX4euYXhWhag1rX2iXuwjbZuME7znZeCDxJt45aHKbRwiQDw
-	 GXbTqf0BW0InG4iGkoutQ1UbPPCw4PPpG6ZxpiqrEegQO/m9xjsDdE/mXjFK4wOIQjUtI
-	 B2aK6iPSz5VTDn186yVIRfGmc+cIT8tFBBi3OTiJuZzIuVfQYFNNF9M8xW0wze3l0yg==
+	t=1795081498;
+	b=IivDoN442gtusItjaQdblWwkZo83PGIL2IlAwRzLf4GdgIa7cvx16soRsdJIaFy4iOc7
+	 lmQ7U9tPhbxEV2mklp19gDx5Io/ucutPivw8Ewd1qWXLILcfkY4mrkcEz7vW2m3p2pa9i
+	 SrhGn2c5hNzGwGiQ2xXUB9PVWBhbt2mONtazncOAe3KhjXPSZbM02f1V4rPvOXg02EUNi
+	 oqeB4WX6w0lGT35cWi1VOI9gwdAYLDg1+Sbf+/3ORDezXBg7EBm2xGTpBIWuM5OAfGhKY
+	 NyTskUqvKGL9OyOA9Ol8IzhPzZHhVoBEYbOqWsDrhei/bK44Z1z150q7q7jMuTCjZaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795080913;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Date:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Last-TLS-Session-Version;
-	bh=CQyK9hhzQUtdCIaKwh8qFL6kiw3hBK7e02jXrxk3Q5M=;
-	b=LhTWe23zs6I7odY3AiALeSklqWjMJTgqIXC7Hsz1GXVxPp/rbJAW5QJrfL40q3rdbVBC
-	 3ZCYphNfkqCR5nQZszX1ONX1DXVWzoCf/oud/OuEs8/GipJXNmBDaAk264tOpy9ssbkJj
-	 0RRrkOisjX8soxKHCifOwG0oJHEYJPDEjtbDaOW9f4igF9ECSplTio+ROFC5HlNVsDFJ0
-	 LQivhiMU5cGC0K0P/dtPmE9j4LU/8JpFEjQKdfanAexDryWOhZeX4NroHjMv1p0OqJK1i
-	 hX6vSg7SXtToAHOvLpUUsPpj3F44LPBEHYtdcZXWOoHLNAHagpTIZLJAEd1GpALqDwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795081498;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=YqeiPLfNjKXmPyvzUWMnk9Cqa9JDVTCN0McxrwDNA9g=;
+	b=pKqvxdHtzME9HrsrlvQ2KrZvnni4+/l8nQvF/ivVqqU/5PvHoo/BlGC5R6OcqgL8O37E
+	 sWigKgiBvC9lUp0KVZWuKEahDyTIoGTY/6Ugp9DjUHLs21gI0tzzFq3JEmUiELMZtLmYg
+	 eKi4sNqc5Od/EcnQ/2QPs/e7eIew/T/uaz2S3YUILOuVx1kEKEW8bR3oZenNFe7bpRxpv
+	 b1f1r8QCVgDFWaClnBTJ/5UGqF5rNUG+BQAZr+2VPoSAoT3/5Z+ozj1JMeMgQ+z/5SXit
+	 VVxnIA89XV4DM5A/TDFHhOzVpSLYGwt5PZkgMsstZN9o8SJTWuEG2woGNwlxnE4IEnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=trPf9+9S;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dZBqQmoP;
+	arc=none smtp.remote-ip=192.198.163.12
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7677960A2606;
-	Thu, 19 Nov 2026 09:35:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7677960A2606
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9C0606A320;
+	Thu, 19 Nov 2026 09:44:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B9C0606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=trPf9+9S
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 895141A170D;
-	Thu, 19 Nov 2026 09:35:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3D3E660237;
-	Thu, 19 Nov 2026 09:35:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 145C311BC315F;
-	Thu, 19 Nov 2026 10:34:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795080902; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=CQyK9hhzQUtdCIaKwh8qFL6kiw3hBK7e02jXrxk3Q5M=;
-	b=trPf9+9SmvXq7f3i06Ocu8PXp2wkKO6ORNKTA4/AjOKcQKVFePqcO/1BhMn+K4JKXgVetW
-	9Yr+85a0u4rw/+pGQPZDRSMsRMDGawEXfnQ9jCtNv2zr3C8ZQd4iUe048cU50ECPRyFurf
-	rsmMLyDo3rueQxG7RuwY+EBebjyTZuhqh1PyoyvCDfGRSYoPSTyfx/hwy85QgTWFsAil0Q
-	X6TU5TJA2EpRSA3/3QyU7eQBfCRlHqNmOlSA+ByZVazhopQuZSLgxPNhpRVe5QgDh43L/T
-	HBMPjxwGs9avJmS68J25IgXRGZqvRkZ+RC3EyDq//xlN7GCwXICCDykv7Bhitw==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org,  Jonathan Corbet <corbet@lwn.net>,  Shuah
- Khan <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org,  David
- Hildenbrand <david@kernel.org>,  Andrew Morton
- <akpm@linux-foundation.org>,  Jason Gunthorpe <jgg@nvidia.com>,  Leon
- Romanovsky <leonro@nvidia.com>,  linux-mm@kvack.org,  Jaroslav Kysela
- <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,
-  linux-sound@vger.kernel.org,  Jens Axboe <axboe@kernel.dk>,
-  linux-block@vger.kernel.org,  Marcel Holtmann <marcel@holtmann.org>,
-  Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-  linux-bluetooth@vger.kernel.org,  Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>,  Jason Wang <jasowangio@gmail.com>,
-  David Heidelberg <david@ixit.cz>,  oe-linux-nfc@lists.linux.dev,  Chas
- Williams <3chas3@gmail.com>,  "David S. Miller" <davem@davemloft.net>,
-  Eric Dumazet <edumazet@kernel.org>,  Jakub Kicinski <kuba@kernel.org>,
-  Paolo Abeni <pabeni@redhat.com>,  netdev@vger.kernel.org,  Helge Deller
- <deller@gmx.de>,  linux-fbdev@vger.kernel.org,
-  dri-devel@lists.freedesktop.org,  MPT-FusionLinux.pdl@broadcom.com,
-  "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,  "Martin
- K. Petersen" <mkp@kernel.org>,  linux-scsi@vger.kernel.org,  Richard
- Weinberger <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,
-  Zhihao Cheng <chengzhihao1@huawei.com>,  linux-mtd@lists.infradead.org,
-  Neill Kapron <nkapron@google.com>,  Andrey Konovalov
- <andreyknvl@gmail.com>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  linux-usb@vger.kernel.org,  Juergen Gross <jgross@suse.com>,  Stefano
- Stabellini <sstabellini@kernel.org>,  xen-devel@lists.xenproject.org,
-  Hans de Goede <hansg@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,
-  "Michael S. Tsirkin" <mst@redhat.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
- <eperezma@redhat.com>,  Sean Christopherson <seanjc@google.com>,  Paolo
- Bonzini <pbonzini@redhat.com>,  kvm@vger.kernel.org,
-  virtualization@lists.linux.dev,  Jan Kara <jack@suse.cz>,
-  linux-fsdevel@vger.kernel.org,  "Theodore Ts'o" <tytso@mit.edu>,
-  linux-ext4@vger.kernel.org,  Mike Marshall <hubcap@omnibond.com>,
-  devel@lists.orangefs.org,  Paulo Alcantara <pc@manguebit.org>,  Namjae
- Jeon <linkinjeon@kernel.org>,  linux-cifs@vger.kernel.org,  Jaegeuk Kim
- <jaegeuk@kernel.org>,  Chao Yu <chao@kernel.org>,
-  linux-f2fs-devel@lists.sourceforge.net,  Florian Fainelli
- <florian.fainelli@broadcom.com>,  Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,  Tzung-Bi Shih
- <tzungbi@kernel.org>,  Benson Leung <bleung@chromium.org>,  David Airlie
- <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>,  Alex Deucher
- <alexander.deucher@amd.com>,  Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
-  amd-gfx@lists.freedesktop.org,  Jani Nikula
- <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi <rodrigo.vivi@intel.com>,
-  Tvrtko Ursulin <tursulin@ursulin.net>,  intel-gfx@lists.freedesktop.org,
-  Matthew Brost <matthew.brost@intel.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6?=
- =?utf-8?Q?m?=
- <thomas.hellstrom@linux.intel.com>,  intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2 07/12] docs: ioctl-number: update MTD entries
-In-Reply-To: <20261119053514.255348-8-rdunlap@infradead.org> (Randy Dunlap's
-	message of "Wed, 18 Nov 2026 21:35:08 -0800")
-References: <20261119053514.255348-1-rdunlap@infradead.org>
-	<20261119053514.255348-8-rdunlap@infradead.org>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Thu, 19 Nov 2026 10:34:37 +0100
-Message-ID: <87bj7lf9le.fsf@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dZBqQmoP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795081496; x=1826617496;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GrxUehPYuAdZ9/RKMpHXF+LGSfBV45QK6OO7c7G2neU=;
+  b=dZBqQmoPX32TQKYS5VESwyGGqAmIIgcBF8yg1cKQFA7ZexWky8NYtBjw
+   cFU0LnOVlxTSCAlnQe7Mokd6KTYhkPVwKzz/R+52pMdpRHn4bX+Uxg5lX
+   OMzVfxaR7mp3ulZRW/S+cV4s7353Gtk9bxTWaMdmA48Wd4IEpDATQ5PyY
+   PBigPQ7+jBfv/E0FxblNtpVhj2q9ScTlIje2MgFUev91ollQ/W6hZ0SIp
+   Gzgw3e5Je/xOUz95yOg0d11j6B/t6zWPpMgc+vVGZ+Ck34qnhAjRa6IpC
+   rfEx3MjmgnIeoETDrMleB9iiNH1QMrkTBFdHL0dHCO3Lgjac9GW/bs6o0
+   Q==;
+X-CSE-ConnectionGUID: tPn9xoR3QNOq68JPEy/vEQ==
+X-CSE-MsgGUID: 4Qn5kw30R/a5HKH73ymddQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3815558"
+X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
+   d="scan'208";a="3815558"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 01:44:54 -0800
+X-CSE-ConnectionGUID: KydEFDI0RQGTZj/DOyvsjA==
+X-CSE-MsgGUID: Sh455h9HQyyJ4OnK67pEcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,220,1787036400"; 
+   d="scan'208";a="10196106"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.61])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 01:44:47 -0800
+Date: Thu, 19 Nov 2026 11:44:45 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] iio: adc: stm32-mdf: add core registration
+Message-ID: <av7FDVDUH9EvNJmQ@ashevche-desk.local>
+References: <20261118-upstream_mdf_v2-v2-0-7939d3c3720a@foss.st.com>
+ <20261118-upstream_mdf_v2-v2-2-7939d3c3720a@foss.st.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -119,26 +99,485 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118-upstream_mdf_v2-v2-2-7939d3c3720a@foss.st.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Randy,
+On Wed, Nov 18, 2026 at 04:17:47PM +0100, Olivier Moysan wrote:
+> The STM32 multifunction digital filter (MDF) shares its register bank,
+> kernel clock and power resources between serial interfaces and digital
+> filters. Add a core driver to manage these common resources on STM32MP2.
+> 
+> Check the number of filter actually supported from identification
+> registers.
 
-On 18/11/2026 at 21:35:08 -08, Randy Dunlap <rdunlap@infradead.org> wrote:
+...
 
-> Update the list of files where MTD ioctls are defined and update
-> the ranges of function numbers that are used.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> +config STM32_MDF_CORE
+> +	tristate "STMicroelectronics STM32 MDF core"
+> +	depends on (ARCH_STM32 && OF) || COMPILE_TEST
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Why OF?
 
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
+> +	depends on COMMON_CLK
 
-Agreed.
+> +	select REGMAP
 
-Thanks,
-Miqu=C3=A8l
+Redundant.
+
+> +	select REGMAP_MMIO
+> +	help
+> +	  Select this option to enable the driver for STMicroelectronics
+> +	  STM32 Multi-function Digital Filter for sigma delta converter.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +		  will be called stm32-mdf.
+
+Broken indentation in the last line.
+
+...
+
+> +/*
+> + * This file is part of STM32 MDF driver
+
+Better to be more explicit. "This is the core part of ..."
+
+> + * Copyright (C) 2023-2026, STMicroelectronics - All Rights Reserved
+> + * Author: Olivier Moysan <olivier.moysan@foss.st.com>.
+> + */
+
+...
+
+> +#include <linux/cleanup.h>
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/list.h>
+> +#include <linux/module.h>
+
+> +#include <linux/of_address.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_platform.h>
+
+Oh, really all of them are required?
+
+> +#include <linux/pinctrl/consumer.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regmap.h>
+> +#include <linux/reset.h>
+
+Missing types.h at least. Please follow IWYU principle.
+
+> +#include "stm32-mdf.h"
+
+...
+
+> +static bool stm32_mdf_core_volatile_reg(struct device *dev, unsigned int reg)
+> +{
+> +	/*
+> +	 * In MDF_CKGCR_REG register only CKGACTIVE bit is volatile. MDF_CKGCR_REG is not marked
+> +	 * as volatible to ease the suspend/resume case, and benefit from the regcache API.
+> +	 * Access to CKGACTIVE bit is managed specifically instead.
+> +	 */
+
+Why file is using 80 limit and comments 100? Be consistent!
+
+> +	return false;
+> +}
+
+...
+
+> +static const struct regmap_config stm32_mdf_regmap_cfg = {
+> +	.reg_bits = 32,
+> +	.val_bits = 32,
+> +	.reg_stride = sizeof(u32),
+> +	.max_register = MDF_SIDR_REG,
+> +	.readable_reg = stm32_mdf_core_readable_reg,
+> +	.volatile_reg = stm32_mdf_core_volatile_reg,
+> +	.writeable_reg = stm32_mdf_core_writeable_reg,
+> +	.num_reg_defaults_raw = MDF_SIDR_REG / sizeof(u32) + 1,
+
+ARRAY_SIZE()?
+
+> +	.fast_io = true,
+> +	.cache_type = REGCACHE_FLAT,
+> +};
+
+...
+
+> +struct stm32_mdf_priv {
+> +	struct stm32_mdf mdf;
+
+> +	struct platform_device *pdev;
+
+Why?!
+
+> +	struct regmap *regmap;
+
+> +	struct clk *kclk;
+> +	void __iomem *base;
+> +	phys_addr_t phys_base;
+> +	atomic_t n_active_ch;
+> +	spinlock_t lock; /* Manage common resources race conditions */
+> +	unsigned long kclk_rate;
+
+Units? _Hz? Why not group it with kclk above?
+
+> +	bool exclusive_flg;
+> +};
+
+...
+
+> +static inline struct stm32_mdf_priv *to_stm32_mdf_priv(struct stm32_mdf *mdf)
+> +{
+> +	return container_of(mdf, struct stm32_mdf_priv, mdf);
+
++ container_of.h
+
+> +}
+
+...
+
+> +int stm32_mdf_core_start_mdf(struct stm32_mdf *mdf)
+> +{
+> +	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
+> +	struct device *dev = &priv->pdev->dev;
+> +	int ret;
+
+> +	u32 val;
+
+regmap uses unsigned int.
+
+> +
+> +	if (atomic_inc_return(&priv->n_active_ch) == 1) {
+> +		ret = pm_runtime_resume_and_get(dev);
+> +		if (ret < 0)
+> +			goto err;
+> +
+> +		/* Enable PROCDIV and CCKDIV clock dividers */
+> +		ret = regmap_set_bits(priv->regmap, MDF_CKGCR_REG, MDF_CKG_CKGDEN);
+> +		if (ret < 0)
+> +			goto pm_put;
+> +
+> +		/* Check clock status. Bypass cache to access volatile CKGACTIVE active bit */
+> +		regcache_cache_bypass(priv->regmap, true);
+> +		regmap_read(priv->regmap, MDF_CKGCR_REG, &val);
+> +		regcache_cache_bypass(priv->regmap, false);
+> +		if (!(val & MDF_CKG_ACTIVE)) {
+> +			ret = -EINVAL;
+> +			dev_err(dev, "MDF clock not active\n");
+> +			goto pm_put;
+> +		}
+> +
+> +		if (!priv->exclusive_flg) {
+> +			clk_rate_exclusive_get(priv->kclk);
+> +			priv->exclusive_flg = true;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +pm_put:
+> +	pm_runtime_put_sync(dev);
+> +err:
+> +	atomic_dec(&priv->n_active_ch);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(stm32_mdf_core_start_mdf);
+
+No namespace?
+
+...
+
+> +int stm32_mdf_core_trigger(struct stm32_mdf *mdf)
+> +{
+> +	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
+> +	int ret;
+> +	u32 val;
+
+As per above.
+
+> +	guard(spinlock)(&priv->lock);
+> +
+> +	/* Bypass cache to access TRGO volatile bit */
+> +	regcache_cache_bypass(priv->regmap, true);
+> +
+> +	ret = regmap_read(priv->regmap, MDF_GCR_REG, &val);
+> +	if (ret < 0)
+
+Why ' < 0' ?
+
+> +		goto err;
+> +
+> +	if (val & MDF_GCR_TRGO) {
+> +		ret = -EBUSY;
+> +		goto err;
+> +	}
+> +
+> +	ret = regmap_set_bits(priv->regmap, MDF_GCR_REG, MDF_GCR_TRGO);
+> +
+> +err:
+> +	regcache_cache_bypass(priv->regmap, false);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +int stm32_mdf_core_stop_mdf(struct stm32_mdf *mdf)
+> +{
+> +	struct stm32_mdf_priv *priv = to_stm32_mdf_priv(mdf);
+
+> +	int ret = 0;
+
+Top assignments like this one is harder to maintain. And they might
+lead to subtle errors.
+
+> +	if (atomic_dec_and_test(&priv->n_active_ch)) {
+> +		if (priv->exclusive_flg) {
+> +			clk_rate_exclusive_put(priv->kclk);
+> +			priv->exclusive_flg = false;
+> +		}
+> +
+> +		ret = regmap_clear_bits(priv->regmap, MDF_CKGCR_REG, MDF_CKG_CKGDEN);
+> +
+> +		pm_runtime_put_sync(&priv->pdev->dev);
+
+		return ret;
+
+> +	}
+> +
+> +	return ret;
+
+	return 0;
+
+> +}
+
+...
+
+> +static int stm32_mdf_core_parse_of(struct platform_device *pdev, struct stm32_mdf_priv *priv)
+
+Oh my... In the name _of_ is present, in the code device property API is used,
+the inclusion block includes set of rarely required of_*.h! Please, fix this
+mess.
+
+> +{
+> +	struct device_node *node = pdev->dev.of_node;
+
+Why?!
+
+> +	struct reset_control *rst;
+> +	struct device *dev = &pdev->dev;
+> +	u32 count;
+> +	int ret;
+
+> +	if (!node)
+> +		return -EINVAL;
+
+Do we really need this (or at least why here?)?
+
+> +	rst = devm_reset_control_get_optional_exclusive(&pdev->dev, NULL);
+> +	if (IS_ERR(rst))
+> +		return dev_err_probe(dev, PTR_ERR(rst), "Failed to get reset controller\n");
+> +
+> +	ret = reset_control_reset(rst);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to reset MDF\n");
+> +
+> +	ret = stm32_mdf_core_parse_clocks(pdev, priv);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (device_property_present(&pdev->dev, "st,interleave")) {
+> +		ret = device_property_read_u32(dev, "st,interleave", &count);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to read interleaved filter count\n");
+> +
+> +		if (count < 2 || count > 8 || count > priv->mdf.nbf)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					     "Invalid interleaved filter count [%u]\n", count);
+> +
+> +		priv->mdf.nb_interleave = count;
+> +
+> +		/* Configure GCR */
+> +		ret = regmap_update_bits(priv->regmap, MDF_GCR_REG,
+> +					 MDF_GCR_ILVNB_MASK,
+> +					 FIELD_PREP(MDF_GCR_ILVNB_MASK, count - 1));
+> +	}
+
+> +	return ret;
+
+This is unusual. Just make return early and return 0 on success.
+
+> +}
+
+...
+
+> +static const struct of_device_id stm32_mdf_of_match[] = {
+> +	{ .compatible = "st,stm32mp23-mdf", .data = (void *)STM32_MDF_MP23_FILTER_NB },
+> +	{ .compatible = "st,stm32mp25-mdf" },
+
+Make both provide chip_info and not some constant.
+
+> +	{}
+
+Follow the common style (space inside).
+
+> +};
+
+...
+
+> +static int stm32_mdf_core_identification(struct platform_device *pdev, struct stm32_mdf_priv *priv)
+> +{
+> +	struct stm32_mdf *mdf = &priv->mdf;
+> +	u32 val;
+> +	int ret;
+> +
+> +	/* If filter number is explicitly defined, don't check identification registers */
+> +	mdf->nbf = ((unsigned long)device_get_match_data(&pdev->dev));
+
+Outer parentheses make no sense at all.
+
+> +	if (mdf->nbf)
+> +		return 0;
+
+No, return -ENODATA and make sure you provide chip_info for all of
+the components.
+
+> +	ret = regmap_read(priv->regmap, MDF_IPIDR_REG, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val == STM32MP25_MDF_IPIDR_NUMBER) {
+> +		ret = regmap_read(priv->regmap, MDF_HWCFGR_REG, &val);
+> +		if (ret)
+> +			return ret;
+> +
+> +		mdf->nbf = FIELD_GET(MDF_HWCFGR_NBF_MASK, val);
+> +
+> +		ret = regmap_read(priv->regmap, MDF_VERR_REG, &val);
+
+This ret is not used?
+
+> +		dev_dbg(&pdev->dev, "MDF version: %lu.%lu\n", FIELD_GET(MDF_VERR_MAJREV_MASK, val),
+> +			FIELD_GET(MDF_VERR_MINREV_MASK, val));
+> +	} else {
+> +		dev_err(&pdev->dev, "Unexpected ID number: 0x%x\n", val);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int stm32_mdf_core_probe(struct platform_device *pdev)
+> +{
+
+	struct device *dev = &pdev->dev;
+
+> +	struct stm32_mdf_priv *priv;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +	priv->pdev = pdev;
+> +	spin_lock_init(&priv->lock);
+> +
+> +	priv->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+> +	if (IS_ERR(priv->base))
+> +		return PTR_ERR(priv->base);
+> +	priv->phys_base = res->start;
+> +
+> +	priv->kclk = devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->kclk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(priv->kclk),
+> +				     "Failed to get kernel clock\n");
+> +	priv->mdf.kclk = priv->kclk;
+> +
+> +	priv->regmap = stm32_mdf_regmap_init(&pdev->dev, priv->kclk, priv->base,
+> +					     &stm32_mdf_regmap_cfg);
+> +	if (IS_ERR(priv->regmap))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(priv->regmap),
+> +				     "Regmap init error\n");
+> +
+> +	ret = stm32_mdf_core_identification(pdev, priv);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = stm32_mdf_core_parse_of(pdev, priv);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	INIT_LIST_HEAD(&priv->mdf.filter_list);
+> +
+> +	platform_set_drvdata(pdev, priv);
+> +
+> +	pm_runtime_get_noresume(&pdev->dev);
+> +	pm_runtime_set_active(&pdev->dev);
+> +	pm_runtime_enable(&pdev->dev);
+
+> +	ret = of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
+
+dev_of_node(dev)
+
+> +	if (ret)
+> +		goto pm_put;
+
+Yeah, if needed, this is the only thing that needs of.h and of_platform.h IIUC.
+
+> +	pm_runtime_put(&pdev->dev);
+> +
+> +	return 0;
+> +
+> +pm_put:
+> +	pm_runtime_disable(&pdev->dev);
+> +	pm_runtime_set_suspended(&pdev->dev);
+> +	pm_runtime_put_noidle(&pdev->dev);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +static const struct dev_pm_ops stm32_mdf_core_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(stm32_mdf_core_suspend, stm32_mdf_core_resume)
+> +	SET_RUNTIME_PM_OPS(stm32_mdf_core_runtime_suspend, stm32_mdf_core_runtime_resume, NULL)
+> +};
+
+Use modern way of representing PM callbacks.
+
+...
+
+> +static struct platform_driver stm32_mdf_driver = {
+> +	.probe = stm32_mdf_core_probe,
+> +	.remove = stm32_mdf_core_remove,
+> +	.driver = {
+> +		.name = "stm32-mdf",
+> +		.of_match_table = stm32_mdf_of_match,
+> +		.pm = &stm32_mdf_core_pm_ops,
+> +	},
+> +};
+
+> +
+
+Drop this blank line.
+
+> +module_platform_driver(stm32_mdf_driver);
+
+...
+
+I stopped here, this series need much more work, please study existing drivers
+in IIO for the modern style and APIs they are using. Also make code be consistent.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
