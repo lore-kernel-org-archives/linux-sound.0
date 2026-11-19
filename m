@@ -1,59 +1,53 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795175967;
-	b=5TS6ghw0CtGtfADjc7aYeeSgzoWgnCC842Sl6mFoprksSHLa9aqHwdMqJSk/shs8+l4x
-	 uXsqJ7aybht0fJO2SjjAOsDFSrZSMMmuJy1Ze+ve//M/muHht8OBf9VpYq/vZrgvaHVGv
-	 OqmCeIVaqA+CVs6gLUON4uwmuB6KBxPDsc2qYU5kjhsaAD7WGKIG51JCXI8p0GloGKnbg
-	 m1CazNnm3GBTPTaAzj/qC9oqsbmHW+kS61HRIim/ZwxTnAyZG0onxGlXcYPidRIAdIvVt
-	 u2fRKSs0aQgXl5Z3g8HZnwQlU1x6oa9Z9u4lthHJw0dOc9WHy3RNXCBU58c65DkPD+g==
+	t=1795175971;
+	b=DsbFdW+r4MKOKffIg/X8o0Re5xhcJSfVVFMnnbd2oNj74/nIINKKvP5PHTnnAcmS/lab
+	 yDe5ncRTVT8Jvstgs+LoBnhDvfBmpE+yIAysDWMrK4D9L1pmhXtE6/ESanLZ/OaM+ZN5u
+	 4/LWqc0glUu5SQwUgyOgZFEDyEYsogbD7SelZJB6ebv52iGoI6BHIPQaFi7Bri9rF1BJ+
+	 /DnXYdOjS36e8XbA+XK0648pxvCLejNUCQM9aSq+UwTfcE4ua0LXuFsi0RWJjc8BLCRdc
+	 VRAV2ShnWn8cbmX+Mmu6CyTduyDgWVXFOzzZ9ZcYI9XalIIr6epg6BLjVtc554FAs0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795175967;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795175971;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Zl7t7lboEbloIJd8RC5C7tK+W7frU5FjFtsG+nus5oQ=;
-	b=EKM2fkySbXxgOYH0PxAp/DNWuLXZXiI+7Lyt/sNRaXnarybLHTnFrzCtV5KpxJxcqGVL
-	 DgaoeQmJOLRXR3WbQtH3ltXgAuJr3jGqUXh1pDseaDLR5FMxhCANJIsR+yN+8r5/vv5SD
-	 Z6IBpl1SGxrgjcpcnv410VPrgqoMRJM5MJdV8Q7DSXajn1rZDCNiOWmGx+HAb05IuGIlm
-	 RvzxcZ7xlKdAd+ohCId+W2Rj6FW6PRg6jRIXEqPF4rtEMNwL1PVl56BiEVjBdvtt+DxDi
-	 OYQpx0cJXsWexM0zNXNfcf4hLGJRc+pk0ATNWwtHq6Is3AMuKclN+P0gx+nwC/ws07A==
+	bh=PbYxkfpt8wcMk+D2MC+1poauRr02eP/j797NX0ypwdg=;
+	b=rr8YHaC5OCGVizU1xKOCDk87ETgmktni85aSHpgCDB6Z7UJvzm09iRRjouREMTQ9ubdv
+	 iSaRcnhtWABB/rG6wMGeAD6Oid5D6Cr/jRIqSlUn7zTfy1Bf1ofLvcZHC5InEIgkhs2WT
+	 gj6WUZ4gfpjiEVlY55aHL7Fb6PLTYLApdFJFGdKVAl48UStKO03oxrA1FfwVum0JwdPTB
+	 2srF7xhSrglaiuUwXqJk01UctXupQ/DI7t4RkyE6p+wSFRpWS3qSbP7QC7petaL8iziDI
+	 8OJntYu/S9miB+rBGCfoEnG5u7UYS6piCMo+my0+L2y3DB2i+W0nBqA7Dy1g2cOu0wA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UxVlEIuu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kph884j2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4B1606A320;
-	Fri, 20 Nov 2026 11:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7EB606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:59:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UxVlEIuu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96BFE1F000CA;
-	Fri, 20 Nov 2026 11:59:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Kph884j2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31F351F000ED;
+	Fri, 20 Nov 2026 11:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795175966;
-	bh=Zl7t7lboEbloIJd8RC5C7tK+W7frU5FjFtsG+nus5oQ=;
+	s=k20260515; t=1795175970;
+	bh=PbYxkfpt8wcMk+D2MC+1poauRr02eP/j797NX0ypwdg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=UxVlEIuuoAJcnkkJUJPDVcOFwrOWksIH8ocQBmhEnGyOrvgW/9Iuxj/uZ8FN+xoRq
-	 0l7xiSt4FzfKbBXc6jvSkiOQpan4OIMIA+ylosWOxFjnU5FnAMfD0CbYgYnQY+LK/b
-	 WlnBOWZxghmzfxnL/Ee0bHaE7oFICt5jeyyV0Im8z1sKSz/CZdtvyJc+Y5RDPaAHPF
-	 LZxaT7VfNZtlwEwJacLsYF6ePLfUsLgkPVIhcBtBUYRgNaFjvDZWf1LxVm7MJhFFXt
-	 VNkj9ziU/PDu40egH0I3rWKdR4h4voz52OjFu9uZU6kou/GXZ4k9D7XQ8tH1x3gU8o
-	 BsabpuYI5WrzQ==
+	b=Kph884j2/8FLBSlEBhE5xCYwhhgy3/qFFakdvhIj4STMCWotf6aoBKym8m8a16BAQ
+	 mN0tl5fa8ckIcI0CrxYynDAV4etgcInZ3ncb3e5TnQAiFN6y6YK6i7nAZJeWFuN2e3
+	 OvBzKWXa0GXBxyn4td4CEvibodKCrJ8jKEDvcQgICJQGfSh8M54p6UPfMpncgrnD1V
+	 8MMVbGLJMmhc+fmwLUkV6BSaiVpDhw4I5Fw43kZM7vn0im19JB5biZs1GqwfZBe+ZA
+	 4qSQ4gBex96KX2K+KrkKDiG0yTywHJtC/AFOHjbt6hhnFUCEzNKdgcGgSsIKaW3Hte
+	 mGUc9eU9RWbTQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Myeonghun Pak <mhun512@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- Ijae Kim <ae878000@gmail.com>
-In-Reply-To: <179428456134.51374.1588994696516825613.mt2701-v2@gmail.com>
-References: <179428456134.51374.1588994696516825613.mt2701-v2@gmail.com>
-Subject: Re: [PATCH v2] ASoC: mediatek: mt2701: initialize IRQ dependencies
- before requesting it
-Message-Id: <179509485455.116416.13262712760345484261.b4-ty@b4>
-Date: Thu, 19 Nov 2026 13:27:34 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87h5hmzizi.wl-kuninori.morimoto.gx@renesas.com>
+References: <87h5hmzizi.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: use snd_soc_register_component()
+Message-Id: <179509462828.116416.4022703883300507841.b4-ty@b4>
+Date: Thu, 19 Nov 2026 13:23:48 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,17 +60,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
- h=from:subject:message-id; bh=+XN/1qvarpNKiz7da+Lam/9r+iuEq9PEpy/kgh2Ro/k=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzKQ2Jvo+UzRZ+ClSZK+7BZ+uhGCR2m7xypvWftELx
- VweZrl0lLIwiHExyIopssRlcb+sL3m9hu/gwjaYOaxMIEMYuDgFYCLJ1xj+mSu8zxDtd9p5jM1U
- kiXp1dFp5Txv1xhfusfB0/1Cad6PGob/sTb7bqSwZUT9NPf6z+p49khoc4Lgjbsr/FWrbG/yHNZ
- kBwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1613; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=hEi08EQiqtRu7sugXtIXIqjKozr4zrcyOhWH+2HGcvE=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZzBR273+nJr10fd9534OudYbiX6PW3ph2+tT13YqTv
+ 36V/DY9vKOUhUGMi0FWTJElLov7ZX3J6zV8Bxe2wcxhZQIZwsDFKQAT+bmF4Z/ZmorfIjlXd5c0
+ ZokllHH7cP84ab7z/tL/aazJzDzcEu8Y/vCdaH8alDFjqdRiEdGX3NuPLTXkdnxmMHfyN+Ed1tp
+ GB/gB
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 09 Nov 2026 23:23:21 -0500, Myeonghun Pak wrote:
-> ASoC: mediatek: mt2701: initialize IRQ dependencies before requesting it
+On Thu, 12 Nov 2026 06:01:05 +0000, Kuninori Morimoto wrote:
+> ASoC: use snd_soc_register_component()
+> 
+> Hi Mark
+> 
+> I now posting v2 of "ASoC: add new Component functions"   [1]
+> and Sashiko reviewed it [2] and pointed that some driver is using
+> devm_ version register(), but is calling unregister() which can be
+> issue.
+> 
+> [...]
 
 Applied to
 
@@ -84,8 +87,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: mediatek: mt2701: initialize IRQ dependencies before requesting it
-      https://git.kernel.org/broonie/sound/c/5649b1d4835f
+[1/3] ASoC: mediatek: mt8173-afe-pcm: use snd_soc_register_component()
+      https://git.kernel.org/broonie/sound/c/a5c99a470e4c
+[2/3] ASoC: stm: stm32_adfsdm: use snd_soc_register_component()
+      https://git.kernel.org/broonie/sound/c/72f71a56b5c9
+[3/3] ASoC: tas2783-sdw: use snd_soc_register_component()
+      https://git.kernel.org/broonie/sound/c/64ef28a65e25
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
