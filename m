@@ -1,57 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096400;
-	b=P8dtMNSNuRgb9wwdhm7wyxd5PnAyo5gwsVA/iOlSkHU2h7J+uYaPW+YnZ003f/EIn7Dc
-	 DfAVU8gpNYaj9zbbPOLO0lfSgnuSccgqhGTnup9WDcSIwFFPJ6laDHsyyQdx85/QXJrGT
-	 Y8nDkJbJ4h8B/mL3yyrcResc4+RVtCtoKJB98gxwjomwOHxfFnlGz06U4L2pEa6Ov5Z/F
-	 Cmc/LiC/W4x1mE07+zKke9j++P4QKG5qh/6sGs9g1uGx0q3x9ZokwZ0ug0AK8NxzymjkK
-	 5uP4MLrzFDAt/d0/R/Mdhwp80zTiFhiokmpxGpCCug94REpEsKd7joEBorRizV4rbSg==
+	t=1795097252;
+	b=0ErYpsMkSiiAwe5X8VIFjM+6WbHDLeCphNlyeyjS3T4GhC5xMKlzcP26QI2abuLP+qjz
+	 zuQ5ipo0JaAh0LPOGF1/VOYTtyGfNP3zSifedm8r7Qha8SJhbFbz8h1OZQodyrFXHUzhI
+	 GDHw8a81dvw/weWg2xnVfTYde95WurNDPYTJDIgpyxU76LwSCO1FQ83isYID12sbXxZTG
+	 4DfROrrkM1WDHV91zAdz0cjMjaDfMQ6gmFqsRhFRs/x5LhGWLPU0X+sxEGAS/JFXSlnGy
+	 eK4bH2gLyTsIp7S4Jgwaqf8dAEP5H5BAx0GDs6Ni7MfA54Hh6H8X/VgYYRIvWeG3Yrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096400;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=yEHuIKscNBcr2ODtIvDbXvMU1VdStlgHKQaKmCUfC7M=;
-	b=xM9JBMiaIDhVtMe/k7XSfrgfz+rlTxV+onLHHymf5F1AagVwH/rj9uYxCmgDEogZrOPC
-	 JlUAoDHWNMIwVjscKKfoVippnVOGsyO9a8OwEPd1ZYVKd5nw5sgcUyAznvi2iiURt0BIR
-	 TuZSHHwnSJSmcfS5cWTSqXITikxwIhAHIic2p6Px8ZiG4dx6H9qyOJYIgfvElNJO/UjsO
-	 kajb+10NxpxLYFFuzrB1FY1Iu4Y/l7Ly0zKCnTZtQWfQDSBtZGqVT6huBZS1PktG9/Qrn
-	 Vx2Ce8y/scNKbZVy8RGaVi+pig2w40esuAT4oaWuFPsUtIQjILFCJn989ELABLujpOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795097252;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=CrmcpCex4fbHUrfhAFeTHYutNYioKuausMFQcYEbaLU=;
+	b=Yx7oqoKPRwVc0cSs0xj0Sd59pSR4lD73ZBK+X2iC+WSxBUQY8Zpevt5pE/Xlutxyo+BJ
+	 QSQatGQs1R/jPOJdSJQZ7jlwuD26zCaw1lV1CtfDVv005CzOx2cvqea2uxkSrr2JTmaQI
+	 WHbkOOLMHxcQFssNuSRAGMuK9q80utNYxsZm9APT69mN8grBMDA/791kCIh4MbP+lxwXV
+	 1qBBqHp+MRCFR4i68Xigenz8na7AEvA/dpH30WV/Lh745EMGMyAwtmQfY0vlZ4oWVQ+KQ
+	 IGB4w0oYnlHMl6eO1dKPiqkL3y4OMCrGZY8hbev2OEnwQw9fPcd7gmwZ6iAw97Tpgxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hkMf8ITB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K6r0XnPi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A262E606A332;
-	Thu, 19 Nov 2026 13:53:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B74606A333;
+	Thu, 19 Nov 2026 14:07:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hkMf8ITB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4CAF1F000C9;
-	Thu, 19 Nov 2026 13:53:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K6r0XnPi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C98081F000C5;
+	Thu, 19 Nov 2026 14:07:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795096400;
-	bh=yEHuIKscNBcr2ODtIvDbXvMU1VdStlgHKQaKmCUfC7M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=hkMf8ITB0dqSeKaBr/vbFzlLk09P602us5XrF5yM6T3pYjvU7erMD4smeTfRHvFlB
-	 QVOaY2EtYgHZiWiCHU6Qe+IGpGLuzsZ5//DgDHfi+4hiJyDFta2aRL8ys6g1MH1Bb7
-	 HiB/1axhrnqqhm4r9SaRxmrMP4tgixAtGxprEhdaHgZ1A7J71vsLyUZq+nXQGZOBSt
-	 PV6QANKUmtkaU+gsBp2UAMetB2S0pWCo5XtDd+LgIoJMDed0a2tRbtvj0TAcyAbyOK
-	 swbC10WWZmKsZeLHxTM5n+jDnQD58GFVMzHCHe9wVBOIhMFALb7G4pkrRPtAXDc5jt
-	 NJcbsSQZWoFhQ==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, "Ingo A. Kubbilun" <ingo.kubbilun@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261113214544.232836-1-ingo.kubbilun@gmail.com>
-References: <20261113214544.232836-1-ingo.kubbilun@gmail.com>
-Subject: Re: [PATCH] ASoC: qcom: common: report line-out plugs on the
- Headphone Jack pin
-Message-Id: <179502567183.810609.6836739761636920522.b4-ty@b4>
-Date: Wed, 18 Nov 2026 18:14:31 +0000
+	s=k20260515; t=1795097251;
+	bh=CrmcpCex4fbHUrfhAFeTHYutNYioKuausMFQcYEbaLU=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=K6r0XnPiowhgFn2627B3i4MyZRiDxO47ZDdRhfCzqHJNBCq7yjbapdhGipDr0IihN
+	 YKKnxE8cRj/wabv0XC1sN+gHpkC7a6t85DiirTdVH6rNS2VYLKhd6qLz2o1i1aURD7
+	 7m3OtKmK4cqsM2VxkbWpCP2mrb4dRtOuLj4ejADaRSAwisKf34AX1ryXAVwmvke2zD
+	 vjjXxCzn87xmJMiD359g8P6prYbTV0qsSSGX7DjmhGbmEQg6r8Tw/n7/gGbecVYsug
+	 XaafrS/WRx2ajc1I4O5KpUo66LDyHFPLs6Oe8msUOFHVpEoEDg2qNh1avAnR9nNgMP
+	 oN79F5D5N8ycA==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,44 +51,45 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] ASoC: codecs: wcd934x: drop the MCLK on every disable
+From: Mark Brown <broonie@kernel.org>
+To: Ivan Verbovoy <ivanverbovoy@gmail.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261110-wcd934x-mclk-v1-1-c62956792a3f@gmail.com>
+References: <20261110-wcd934x-mclk-v1-1-c62956792a3f@gmail.com>
+Date: Thu, 19 Nov 2026 14:07:26 +0000
+Message-Id: <179509724666.116416.15851195764740977182.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1156; i=broonie@kernel.org;
- h=from:subject:message-id; bh=vEdsMOYSGYQgjuscyDjbKmibDWbAMiNJHEbk0zfz2jw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+/fc5s5L53z5/SxdPMe6td0RVWNYUXjf5wd2659u7f
- N8PkpMWdJSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAi+qUM/73Ni34Zzl9fmX1S
- 9EHgxxrelY5Fn+4vnWi0T6Kybe3Zd0cY/kq+uHImj1cw0EZI6vsipj+bo5hc1iQ5cl9mm/3vysk
- UM0YA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=930; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=OPTfJIFUXKisHBNvjvMBZZnAD+Q6NVj/03XvBIsbR68=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+M823vKf2r1EoxSFUSn6dctGKu7asR2/fdLqjOZlVP
+ TGjUWVbRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACayRJWR4RjjC+bpCcF/Uvm1
+ K9s+13/6YlnyWP/K39vPY+MyhS6sDWJkWJtyIeC86TrxrQ33osSC5q290st5xPiz8EK/YzeCf4o
+ v5wAA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 13 Nov 2026 22:45:35 +0100, Ingo A. Kubbilun wrote:
-> ASoC: qcom: common: report line-out plugs on the Headphone Jack pin
+> __wcd934x_cdc_mclk_enable() takes a reference on every enable: it
+> prepares and enables the external clock and counts a user of the
+> analog bias and system clock (sysclk_users). On disable it returns
+> early while the SoundWire controller's clock is enabled, so neither is
+> dropped. Each DAPM MCLK power-down or MBHC micbias release during
+> SoundWire activity therefore leaks one reference, and the MCLK stays on
+> for good.
 
-Applied to
+> The early return is not needed: wcd934x_swrm_clock() takes its own
+> reference before it enables the SoundWire clock and clears that clock
+> before it drops the reference, and sysclk_users keeps the bias and the
+> system clock on while any user remains. Drop the check.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+Are you absolutely sure there are no other paths that could do this, for
+example take a look at wcd_mbhc_adc_detect_plug_type() and the rest of
+the jack detection code?
 
-Thanks!
-
-[1/1] ASoC: qcom: common: report line-out plugs on the Headphone Jack pin
-      https://git.kernel.org/broonie/sound/c/b610f9cd00f4
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Mark Brown <broonie@kernel.org>
