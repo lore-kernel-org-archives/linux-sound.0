@@ -1,71 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795108426;
-	b=OgSzsNgHp8vpOQR+25BPBDM19lz1C+PrRFGg0jh4Po7Rteb+FtgRHyhoQGKy0yb+PkQG
-	 4DNdR2MrT+aRQxdYTG3lJyNjhYuwiqywbUAzP8/sjCqQoYrNJLoAEptCRrOCB81SICR8P
-	 2XYEZLw68Ih3f0SvHyTXdeYtU8gqDteVMxZRXBNErDX+Ycg6MK9AynJsxfsuu45LoAv2g
-	 z5J7QfVlp4wRjcSpQHMbRQNjr3DKRSz3k18RaVscLSau9RiNI8bLi9zeQnVIvdacNvP8M
-	 AGUGydj+PfgDMvJ0r9K8LeMhVxbNAVTzgnbJXWnoSM8SSd3sEx6jRDNubUrwupRHjPA==
+	t=1795108981;
+	b=coEVxpsX2lT7Ov7CzSXj7QpUjWGSYawq4lKwVPnNydwa+ebzx2glW5YEWRXl+OWRgwd1
+	 UePgskekhzW8fIel/+iU0eZQl20xrtnR3C1Vax7R3kevRlIIsPMiJc5qcaw7EG2ctLQrr
+	 NChk33vzUHifgze2lBJSf4YOJ+9w98d7FPmQkYcp2ULe74AAdZqqSQBCIY4LjQJ5UAZH8
+	 A0NBX3Lftzu0kUv6NPDeqDdOqDOWQYui9D+5JTpIgsS7WhdYxzebz0jmefCQ/wtdX8/XL
+	 7GeoPgOoeFETp2JP74WDIDv0SxZicbbbut3KYT4iktW0dsG2mDe+EwxQeG9v0Yc8fXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795108426;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=6QyjNsTJ8Pk5IbHY7V8NIIncLAiaHTchnKhUzfM71SE=;
-	b=5ptH1J38BbycrHBxh27E2V2CTTj20Q8eHzfAJdiAvSr3fsPDbV9fT9+u22TNqAuImZrU
-	 9PtNn9OZC5F9m+juwICGXTZgLduUDMu+cFH9Ndb13LwxAXnDSCdyfpTETrmk7pY9ajha1
-	 DWhFI4/1Q8C9f4tH1J3xOBXzZHFqhS1sOOjDAIgxw9x7BjH15LftCPpJd1ZuYEOQFEKzw
-	 SyA90XclqYcq/HSvAXwuyOcD7as5yAWekk+NmYHhK5+cbwk/aKNmRWWhU9TtJqd3waxYY
-	 ilJ3eG026ZgS6G/sn90ZVIJRQmJt+SHSmPhzWtO/EinfvX76Hc5C8UnKS2Yh+7i/+eQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795108981;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ApxVElpChe6exJ3vsEjvTGCXztRbtPqu8cS4XRCfdBA=;
+	b=Fz6SwajsOpAkkuFvdZRMHsKcEgq3OYIRVRrBuT10n7gXwtSyCuMVlqunxpEMY2JAwFLu
+	 puLzAIuhEmBNti7YGGRKJK1GSfEiZp6RwF22I0FgxMWQP/0QH3tIrabpKZw5ZO4m64zIy
+	 vduxlUuWAkA3Gs1UcHIitEKHgzVMCLNBkkQiEAwmUqcqqx/qW4LorTSlmT78hEnQyxEm7
+	 p88qJa0b2TCOgnBSqK4dKaqjyCgczgVWlU4JMIE3QhYMPkq8Epr3GLn+mldT4jUuxsS7m
+	 n7NjZe2c04/rlzbi+SK5cGf/ectCZTQ+EB9enmtNxUnUdOh8QSDsIq9cqxnZ0Q9OrYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aBA2aq7E;
-	arc=none smtp.remote-ip=209.85.161.72
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fn1MVOht;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA677606A332
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 17:13:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA677606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730C8606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 17:23:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=aBA2aq7E
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-71aca016fdcso2490347eaf.0
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 09:13:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1795108425; x=1795713225; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6QyjNsTJ8Pk5IbHY7V8NIIncLAiaHTchnKhUzfM71SE=;
-        b=aBA2aq7EnEA6yHGj/0ZUiq0xOwLlmcon9EQykkxd3ZRunYXC9X2/87mCoLtG3ugMqp
-         d8ZeibN4bEIKokFmnpNaMJ+R2111YpmWe9riMAzNWU9h2vMTKH2k6eT6Sr+ZsD+wCdkR
-         1iN6TMiIghKC+8tHsAsXfLLZercKERSJzDA9GdZ8T21lpfUVLJLUbY2c7Fg0b9rKEwC2
-         dgfEsrflpeQtJ6DHdmVToH6wy5f/c9qGLWeJteffzB8cWCm02Qm0KDG3bTS3iifoDBYY
-         9ZxcSkc4K46uSdpm/o0e/quHdGQ+2kO0VCVxwJOXxGUVLcDTHO2G56gHzrsZxx/t3aTv
-         fCRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795108425; x=1795713225;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6QyjNsTJ8Pk5IbHY7V8NIIncLAiaHTchnKhUzfM71SE=;
-        b=CoqISdGbswXjNYK6VTOpbdueD7Tguff5Vax6Ed89F+budxURsV+0GKSPAuz1nW1adI
-         vfAUzQMZRlhHKM9XnRq/+PRS5xj68p3jqm0EuqUnPW4pVfGVO2DQe/W8ppgzCBC1RzCl
-         1wFGYquqm3S1PTf/vDutjJKaqllgZO6jw1CcjgoZZtZi6oRkv8VD4IOUeXSyxTX99Fv7
-         LmS23gXCOkcRHc1IFBVlwX65ptrW7Lui3zusKdfyaVK3F5YpSgyxq6G3/O4lCYGp2cVq
-         BsBQ4wq2F9dtnDMj+FRDYhlPP0RouNUhQ27lk2ce4vFIDym8Lkc0Pfil9GCNuTvBwrgL
-         T1LA==
-X-Gm-Message-State: APuU4Z/zRkqHY4uwHuMr1GbQ/aGXE8bSHJ1QMb5q4QHKfbvDj4FzORLd
-	r6WzvMnKI5BHOQ3Y/rb2OGallIMhKEyHiWI8FGId+dGHeILaV9tdlrNfp+jOgFbYV4pt4/8hipr
-	26G4z1u1QDw==
-X-Received: from oakd17.prod.google.com ([2002:a05:6870:3231:b0:495:bb4d:1619])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6870:9d98:b0:442:175:cea7
- with SMTP id 586e51a60fabf-4bc7beb0334mr203879fac.1.1795108022773; Thu, 19
- Nov 2026 09:07:02 -0800 (PST)
-Date: Thu, 19 Nov 2026 09:06:56 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fn1MVOht
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D021F000C4;
+	Thu, 19 Nov 2026 17:23:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795108981;
+	bh=ApxVElpChe6exJ3vsEjvTGCXztRbtPqu8cS4XRCfdBA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=fn1MVOhtDyt2SdA/rPU/RygUI9DVWekO/06DdfSjYAkQFBFSNXVhvq96tiwb6Vv9D
+	 8IHLHmYsTvofFMG3oXkLKv/6vYvVmqA1Ye93ALiFx3ucK8/kZSVXts2D6ryq/rzpuC
+	 6OpEzbWRCOwExHYK3Cg304T9r3gcWCEfsaiERBqnUB3a2hRchi1nvE6eA70OOaBSsY
+	 c5Aet6nEiHiXoTMl5UFpRyI2SWoV0Kdo7IOhZaafpEpcbcXxTE1XsGr5JQbN3STy4o
+	 ZNkscqf54qW//cEvnRvvkL/AeccB1d2hO7ARU1COJAYw9dETLHw05AdMbxngn5Txza
+	 rNZwwWNhX+5IQ==
+Message-ID: <sashiko-outbox-223688@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: rt1320-sdw: Reject unknown dev_id in FU Capture
+ Volume handlers
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ian Rogers" <irogers@google.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261119170656.1522183-1-irogers@google.com>
+References: <20261119170656.1522183-1-irogers@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 19 Nov 2026 17:23:00 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,72 +59,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.1.708.g77570a6a1d-goog
-Message-ID: <20261119170656.1522183-1-irogers@google.com>
-Subject: [PATCH] ASoC: rt1320-sdw: Reject unknown dev_id in FU Capture Volume handlers
-From: Ian Rogers <irogers@google.com>
-To: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>, Ian Rogers <irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
 
-rt1320_sdw_init() registers the ASoC component and its "FU Capture Volume"
-control before SoundWire peripheral enumeration populates rt1320->dev_id
-(which starts at 0). Unlike rt1320_set_fu_capture_ctl(), the
-switch (rt1320->dev_id) blocks in rt1320_set_gain_get() and
-rt1320_set_gain_put() omit a default case. Reading "FU Capture Volume"
-before enumeration completes (or with an unrecognized dev_id) leaves
-'regvalue' uninitialized on the stack and returns a value derived from it
-directly to userspace; writing the control similarly reads uninitialized
-'regvalue', 'err', and 'reg_base'.
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [High] ASoC: codecs: unsigned cast bypasses bounds check in
+  set_gain_put() [1]
+--
 
-Return -EINVAL in the default branch of all three switch statements,
-matching rt1320_set_fu_capture_ctl().
+commit 6b4eb08972e9d693f4ba90820d49635baaaa320b
+Author: Ian Rogers <irogers@google.com>
 
-Found via an x86_64 LLVM=1 (Clang 21.1.8) allyesconfig audit with
--Wconditional-uninitialized enabled; fix and changelog drafted with an AI
-coding assistant. Build-tested under LLVM=1 W=1 (-Werror) and
--Wconditional-uninitialized; not tested on Realtek RT1320/RT1321 hardware.
+ASoC: rt1320-sdw: Reject unknown dev_id in FU Capture Volume handlers
 
-Fixes: 7bf9e646af9a ("ASoC: rt1321: Add RT1321 amplifier support")
-Signed-off-by: Ian Rogers <irogers@google.com>
----
- sound/soc/codecs/rt1320-sdw.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+This commit adds default branches returning -EINVAL to the dev_id switch
+statements in rt1320_set_gain_put() and rt1320_set_gain_get() to avoid
+using uninitialized stack variables when the device ID is not yet
+populated or unrecognized.
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 20288ea7a2ff..19f7aafc6f2d 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -2672,6 +2672,8 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
- 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
- 			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
- 			break;
-+		default:
-+			return -EINVAL;
- 		}
- 
- 		gain_val[i] = ucontrol->value.integer.value[i];
-@@ -2702,6 +2704,8 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
- 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
- 			err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
- 			break;
-+		default:
-+			return -EINVAL;
- 		}
- 
- 		if (err < 0)
-@@ -2760,6 +2764,8 @@ static int rt1320_set_gain_get(struct snd_kcontrol *kcontrol,
- 			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
- 			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
- 			break;
-+		default:
-+			return -EINVAL;
- 		}
- 
- 		ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
--- 
-2.56.1.708.g77570a6a1d-goog
+> diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+> index 19079212ba6c0..6724012d5c09d 100644
+> --- a/sound/soc/codecs/rt1320-sdw.c
+> +++ b/sound/soc/codecs/rt1320-sdw.c
+> @@ -2829,6 +2829,8 @@ static int rt1320_set_gain_put(struct snd_kcontrol =
+*kcontrol,
+>  			reg_base =3D SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320=
+_SDCA_CTL_FU_VOLUME, CH_01);
+>  			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
+>  			break;
+> +		default:
+> +			return -EINVAL;
+>  		}
+> =20
+>  		gain_val[i] =3D ucontrol->value.integer.value[i];
 
+[Severity: High]
+This problem wasn't introduced by this patch, but can a negative
+ucontrol->value.integer.value[i] wrap when assigned to the unsigned
+gain_val[i] [1]?  A negative value from userspace converts to a
+large unsigned integer and gets clamped to p->max by the following
+gain_val[i] > p->max check, setting the gain to maximum instead of
+rejecting or clamping it to the minimum.
+
+[1] https://sashiko.dev/#/bug/linux-4e6d0e9a-edf1-4f06-b366-c7939979db0e
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119170656.1522=
+183-1-irogers@google.com?part=3D1
