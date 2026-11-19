@@ -1,59 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795177128;
-	b=5As03SkliAcCPx+O+Aqn1v4DHj5aDmYOkTZTjU3BbJrnJljuHUGrSaxQj12oo/6c6pc2
-	 5J96yU+MKh5HhwqV8c5A11+Z3eva9n3n4Txc8flZ1JCwL6TI91plQlqAY8WjwizpcL+LZ
-	 B46KFFprDxP3/AavPfbWV/xoZMw957Ft07E7LFwWcbwY8hHUmkS9FjUEerwkZV7u7q4ZW
-	 1HX1nf/ayLuvJVMHm3ec/2efiOpgYgLLUGNf+X5Rv+4aPkpea7xn3wgDSitfa3Rh7yTRB
-	 JBZB7xRsTi0IIeI7guIqN6Sio4zQ7KxE76tTy3fJvWZI2DulLfUWwWHvMq7AomnswiA==
+	t=1795177132;
+	b=GmG6KXTmUdQ9M2Gt0crG9tME9/lvdqJWysimrvakjZ/4Lx2fqZulG5UJT4jPdjGEzWEQ
+	 cqRyh+CPVho4ABL0FLrycqVZrod3wWfi7/J5CDwAkSLguoex2PS1V+eMNiJXUPVt+4paR
+	 1aXgBC8aOCftBoThaeGVxGLm/1mGTMU0bZkMg+zHcY8O52twQaUVf47C57s2B3SVizslR
+	 555zvOyqCeAEICLl3SeyOUtbmdIXas41gkuTHzeRwYZ6Mca9vs5hXSrYGPNu98yKDQIJv
+	 IAwaBGNBiS9wOlKJcHvgY6UxL/VMpbUpNMq3hdRc00LiQk4J6OiSqkQWwhq3rdcXuCQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795177128;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795177132;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=cA8saSYay4O62VLhItjcTnPnaKWV/uIH+1+8IXsCJuU=;
-	b=bYs1ZsEuuGQW7hkJnNVLiDoUKmcKsoI7wxZ4xNreCUAlBn2KcV5MmG4ZYLL89BOy3Xpq
-	 r2aCZpZ3FNZJiRt7fMweydaiZA7Z0wLmuBl7DhECnMznmWpiprRVw4/HTUdd+9DVnDnO1
-	 FbTGnkYGdEoexMktD7wl1NHeN8DBILWF7otmplUfsxyNvIEAOwNq2Bcakr5ABOsEXG8Vs
-	 2xhLx4ZEffi16mE/1NgLY1CCccQ8WKnzxj+vEag805iv+TqRRO+Vf4mihbYpDxFWiuFgw
-	 lIW+ESoThpNVpMBbB3ycdQJLhmkgkQ9JnwOqtvISwvtGLadKoiLKONSBH5lxHV4RrbA==
+	bh=JkbYYtAjZb5zY+g6GhM+mlPnUmHrUM9km8i4WRe2QvU=;
+	b=QlDgaszR1zLGQrCLu9AfQ6GqqBngUrDnwThQN+dawXf39AZQkmBhY7d5s20Bf25AiHs+
+	 XJX81h+65hUnwo9w5M5Fr/9ik/58aVg+iUdztLmhMP2JZ7/WOeJRreicQol96PARCG9xn
+	 nbucEQibBKlxodol2dUCd4MLGkAD1hHfRclrc/HHAwZC4S90n2iDLmHrBuuIo/0x1crLg
+	 QtlPv18qZzBHARpLS/XdyaZj61hLz1Oh1Kwq1zUow/HKA3A9RFw9c5TrKWoyx5g4citwh
+	 zrq9ZCzHcacCfSyiqfP3C6xpWoF6lN8UAgNsMMP7GIHg73g9JfDuG9pM9el+6EvPXAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XeCTTP4F;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XpW+Cabk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9418606A32A;
-	Fri, 20 Nov 2026 12:18:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A36606A320;
+	Fri, 20 Nov 2026 12:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XeCTTP4F
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E05C1F000E6;
-	Fri, 20 Nov 2026 12:18:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XpW+Cabk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AFAF1F000F2;
+	Fri, 20 Nov 2026 12:18:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795177127;
-	bh=cA8saSYay4O62VLhItjcTnPnaKWV/uIH+1+8IXsCJuU=;
+	s=k20260515; t=1795177131;
+	bh=JkbYYtAjZb5zY+g6GhM+mlPnUmHrUM9km8i4WRe2QvU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=XeCTTP4FWXT3t0Kn7Pi1xq8HViAEJ5FWX0qXxFkvFgUlnVx1c3bdsdeXh4YImotyG
-	 j7MMWThHSQAyn7YO0K6vL4bPpz7HD6ErAKrBJScnrgAPoBoRjjgT27W6znzPMPJUzz
-	 0wfCedgnAS+/xcLQge5ZP2Uv0OCtVqe5oC72LzVRyGELrFFB6jgFRMX+6Ymuu8qw61
-	 a6gl05msN62ARQvUAdkMp6OS+MjWcXgmXmdCgOb8ZKehsFczHbsCSbXGFzq/wVdxBE
-	 0Fa+EccjRxXjt4CrahoEdJNbdMKSXnQ8HemjUiWK3J3HUKlEEt5VJJjLx0KzYGqPfC
-	 qmXntngfxQqMQ==
+	b=XpW+CabkxYnM/IlXEE/vQkfOJyhfDwFLHYUPFpYYmuGY8kOQJxxk1EJjDCdCm3bLP
+	 vyPNqUqAr8IZeU7UAoAY2HOLaKeKVrdhFvnfTMMBPoDBPOJyYO0NF32lCq2zjY0f9g
+	 0pSoTZNNV7W3gw7USoKTKJ9m/RUEDdUJSp8vWvKwZIO34o0g2/uBNgSDYdI27wkiqC
+	 q2+wg2tkLfz4JQKsIlt7J0VpHyELrOos217nC8z6Rn8xH4b2Joxr/s9pb0qCX90HnT
+	 qAaXkcgO2FOukzqUJ/4RbCM8h40rkNNlTeHmK7rjW5um1thwObLMw6Q85e78rPwv9A
+	 uF0kQ8C15Mxjw==
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, 
- Shengjiu Wang <shengjiu.wang@nxp.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261113050727.14053-1-phucduc.bui@gmail.com>
-References: <20261113050727.14053-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v2 0/6] ASoC: fsl_asrc: Fix probe and resource
- management issues
-Message-Id: <179511198046.116416.8935610392478261011.b4-ty@b4>
-Date: Thu, 19 Nov 2026 18:13:00 +0000
+To: linux-sound@vger.kernel.org, 
+ Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261113113840.3067489-1-cezary.rojewski@intel.com>
+References: <20261113113840.3067489-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH 00/11] ASoC: Intel: avs: Renames and debug prints
+Message-Id: <179511128965.116416.8638900591299479694.b4-ty@b4>
+Date: Thu, 19 Nov 2026 18:01:29 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,26 +62,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2064; i=broonie@kernel.org;
- h=from:subject:message-id; bh=m5L1WGT7TXUgQ6jeBh7IUm7S6AegHVPNO7DGGKjH3yk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZrBbfu3hl2pmnj7oDYw8s41Jd/e68OP/2o8vWrag/s
- zW36aXCno5SFgYxLgZZMUWWuCzul/Ulr9fwHVzYBjOHlQlkCAMXpwBM5GULwz/tc8r55tHVDpdb
- vy7jtzMRq1nOP3Xz3lX9cW5vV3E+yHjAyLCZ/y/PzXUVa9NK5/6I/ahYIXZ6feb/teGn3PPX7vh
- rJc0MAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2853; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=nIprSwe42caVVObuY1TUyME1HPC+dnhvdXTr/o+o7Rw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZrFY0H1AS3CJ66eDE65ziCbFr3G9dPNd/Pv6JVGqv4
+ kHZbN6vHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjI6haGX8wP0u7lcr7fFGoj
+ 9nXrreMem/4Vfy+b/VjgTeK7wsS8wxKMDJMaJU/tUtm2MO9c+v8itX3Gm3wnGh2YuHfNX9c17Wp
+ iT/gA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 13 Nov 2026 12:07:21 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: fsl_asrc: Fix probe and resource management issues
+On Fri, 13 Nov 2026 12:38:29 +0100, Cezary Rojewski wrote:
+> ASoC: Intel: avs: Renames and debug prints
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
+> The patches consists almost solely of renames and addition/enrichment
+> of debug prints. Plus few removals to redunce duplication among these
+> debug prints.
 > 
-> Hi all,
-> 
-> This series improves error handling and resource management in
-> the fsl_asrc probe function. It fixes deferred clock handling and
-> runtime PM usage count, ensures the IRQ is requested after device
-> initialization, and moves runtime PM cleanup to devm.
+> The 2/11 patch is the exception - as its follow up updates the messages
+> around, the mentioned patch is here to fix the problem of skipped
+> results coming from avs_path_pause() in trigger() operations. With that
+> done, the dev-prints are touched.
 > 
 > [...]
 
@@ -95,18 +91,28 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: fsl_asrc: Improve probe error handling
-      https://git.kernel.org/broonie/sound/c/c41412f46219
-[2/6] ASoC: fsl_asrc: Fix handling of deferred spba clock
-      https://git.kernel.org/broonie/sound/c/a16853bece06
-[3/6] ASoC: fsl_asrc: Fix runtime PM usage count on init failure
-      https://git.kernel.org/broonie/sound/c/dcb503f01380
-[4/6] ASoC: fsl_asrc: Request the IRQ after the device is initialized
-      https://git.kernel.org/broonie/sound/c/ab7cfd1b36a2
-[5/6] ASoC: fsl_asrc: Use devm for runtime PM cleanup
-      https://git.kernel.org/broonie/sound/c/b4b22bdc2572
-[6/6] ASoC: fsl_asrc: Use devm for m2m cleanup
-      https://git.kernel.org/broonie/sound/c/0f8ea2391e29
+[01/11] ASoC: Intel: avs: Do not skip error reporting when an IPC timeouts
+        https://git.kernel.org/broonie/sound/c/29b76b28adb3
+[02/11] ASoC: Intel: avs: Do not skip errors from avs_path_pause()
+        https://git.kernel.org/broonie/sound/c/e3f298602f10
+[03/11] ASoC: Intel: avs: Have one location for dumping path-errors
+        https://git.kernel.org/broonie/sound/c/1bd4d27d1fac
+[04/11] ASoC: Intel: avs: Small registers cleanup
+        https://git.kernel.org/broonie/sound/c/1bdeb816a818
+[05/11] ASoC: Intel: avs: Enrich missing-format and token-parsing messages
+        https://git.kernel.org/broonie/sound/c/2a8f64f96e45
+[06/11] ASoC: Intel: avs: Unify code style for platform_device_id arrays
+        https://git.kernel.org/broonie/sound/c/357b3ab122cc
+[07/11] ASoC: Intel: avs: Streamline topology parser names
+        https://git.kernel.org/broonie/sound/c/516742b4e979
+[08/11] ASoC: Intel: avs: Streamline wording used for board configs
+        https://git.kernel.org/broonie/sound/c/4c59d3302e76
+[09/11] ASoC: Intel: avs: Streamline naming of hw_params variables
+        https://git.kernel.org/broonie/sound/c/13a4b93fd23b
+[10/11] ASoC: Intel: avs: Streamline spacing used in the avs_ids table
+        https://git.kernel.org/broonie/sound/c/2596a16ad41b
+[11/11] ASoC: Intel: avs: Remove soc-acpi-intel-match include
+        https://git.kernel.org/broonie/sound/c/a8b8834d2a1d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
