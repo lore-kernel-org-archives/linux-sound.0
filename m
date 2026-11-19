@@ -1,81 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795121292;
-	b=QubS9voexI25ybm0/x0ONiIJE65x5C5RieA+p5ekzXEcU9eBwRDksiSpAWKEcsdDjwBo
-	 HLyY8l0ssGn6cs7VMUD2c8um9uDIEtZ+y7+rp4qEjIKb1jvxNpm/hc8yewUVaubQHx0pX
-	 jVNs98Eyr413IkKuk6GlnHH678KiNfPsWkuAN66Cjdf49TAbKgF2ptv/Y1QnnLcEyDppl
-	 vDA8xX6/X5IkDnNRe759m58YI8lOERLaBe8m1HXPskJjf5bWhgUZppnUUD84RXGxyQv2p
-	 V4NVqx94zgiVOeEEyQWNcFW+pigNo5sHBwxgkduApKsGsfu7mJkcJ6pE8WtSqhIrA0A==
+	t=1795121838;
+	b=SXqAiJUIuO5R3AFVg1VFf4+7+FFV6VWGQ1LvHCPDAW2A/yR6a5+KHpDDHznQ6CfdpaSC
+	 FSy36dmCBkCtJOiXLsiWRCd4AZPKMANwqNj+nx71njbM0PiqaRJsTe5cehYTKbOErrM6n
+	 PsompAky24jHAHNiBUStmUSa+ZNUEyGzMfR6O6HvbHLzpsBoUvTjBtwJyKYNjHvulZ5Vj
+	 FTCk36hLVKW63Zp478pd9sThR1H/9a+ZL0A7J9oLqjv2jSUK2SnjR51kqon4TljGKzic1
+	 M5YcBILVFYUredkuZ4qBGFNVJywqM6QnjXuDQc3zE7q4kpkBK3zxjzoj2MH/pWDzp4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795121292;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=vUVGYXfSBMcZ9ImHmmeVeiFksKPd1GhXxTWc4hmFxAk=;
-	b=FZUiVvz7yDwedsjV7fK6X13xnr9ldsIiHwJBJuMPVmMzcfVdL5Swzf74PC7/n8uY50H6
-	 Bh1La2BA5aFbjKjiZcB2Q9SFvPvuHBEx3HjLGh+2cNj0a18R+zzLIHUJ6stnN6pg4Smxq
-	 U1TmaoApjAFARi8691mk2bnKf6EDhx779h6YAoUxtz1QPY8L46m3sK9EWJzOPKXWcaW0i
-	 Fxe+DT1/L1ZqlvhLcHW+HrfFipxbsq3CsB7nigOwSgzyfFKTshDLFRo9SvB8PipPJwQki
-	 JgMLTq5NCdx3lPvPxzE41yuScRCdx6ImDrd9YiqGY6rZz6qMT9pBcvxU77mbMvmpiPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795121838;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=no505zZL+Nq4dlmNvcflHS6PVdF0s1tyi8sZQ6F8q+E=;
+	b=cIWA8lHPDB23jiqiT2vDrZTn6O+qE6ijnxEclI1OwUWXfawJnno29Of7OjktwZkRd4SP
+	 XQfu4J02H+e6ccVFYRdTTjMsrdM2ULzwZGjMWZFUpee9o9qqLz7rzNDwGbyPRtQOnxiNe
+	 KSIfR1NeyJ2/2K9NN2ImtEcjOuC63xC0icbdoyGx3USushQorlQ9oc3fmYaf7XmCr85dQ
+	 L6XDApCCzMVclmroFj2MHUbg82ylj3sRLI8Lnb6JFeI8wNgKD0BpmWlU7xaoLtxNgNimb
+	 aLSmYUe7laLLBIU3G+itPEZ5ZBRwX1hBAVmrr/vfqwNLxN41wjvH2Qu2EiQ4YstBTcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GG8mCz4M;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HSx0gXqt;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49DE606CC6A
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 20:48:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C49DE606CC6A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2A2606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 20:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=GG8mCz4M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795121292; x=1826657292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Ta7bLLR3GCIuukKIwdgqYEPhilOjBShzgLRaNePvnrc=;
-  b=GG8mCz4MlnRe6Rtx7+CzFWCLnMcMqezxb/lZAgYunoqCC1+yeW82Jt5k
-   Fe4k0koF7/Ml6yAZx0nuLU/p5DnJmRZEOJksX8zpKTPN+y2R2UYU9aMpY
-   SVX3Qm4I0PysW/ngADHkQjxVGXuMwuNTYb72dcBNmPEHgPNAAYEdwvWGm
-   RF8I0mDoEdzeZWCU2NYu6G8RKBf2G0gG7PvirMQA+UtmnsgdvfOrtXl5B
-   DNaByreVrLxFol8cGKyLu52o9J8Kmj0sNjxE6EgaCFixsFCvtGBD4h9W9
-   9GXs6BL3bb1fUU+Emw9xvJkf8QKoaAlp1vGYB4a471nqFjTDz4d4JPqeF
-   A==;
-X-CSE-ConnectionGUID: XOvQ9MQHTsmzC6Nhf4LnXQ==
-X-CSE-MsgGUID: NAAe5h8cTNabHze4eskKUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="4021624"
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="4021624"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 12:48:11 -0800
-X-CSE-ConnectionGUID: gOyj60AzQOSBkc720uMPyQ==
-X-CSE-MsgGUID: OWJsTmOlRiigvjai4ffZfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10551135"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.61])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 12:48:08 -0800
-Date: Thu, 19 Nov 2026 22:48:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Yauhen Kharuzhy <jekhor@gmail.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	johannes.goede@oss.qualcomm.com, Ted Vera <tedvera@gmail.com>,
-	linux-sound@vger.kernel.org, regressions@lists.linux.dev,
-	oder_chiou@realtek.com, lgirdwood@gmail.com, broonie@kernel.org,
-	Maurizio Casciano <mauriziocasciano7@gmail.com>
-Subject: Re: ASoC: rt5677: Do not apply Yoga Book ACPI GPIO mappings to Samus
-Message-ID: <av9ghv5KIcXoc_l9@ashevche-desk.local>
-References: <CAFd_G9guhtVwE1aaFOXE3Ab43BAcwP3RBT=R_SdZ2KDfXB=LeQ@mail.gmail.com>
- <d5ece1f3-b70b-4c70-aa52-cd0d00253ea5@oss.qualcomm.com>
- <c0da379f-e10a-464d-b01a-d65e0e07e5e6@linux.dev>
- <CAKWEGV5XEncchpzBJWjjYh+cXE4ZSSiBvEDUdN-3nLw8tA4W5w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HSx0gXqt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B90C21F000C4;
+	Thu, 19 Nov 2026 20:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795121838;
+	bh=no505zZL+Nq4dlmNvcflHS6PVdF0s1tyi8sZQ6F8q+E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=HSx0gXqtkt0j2tVkjfa0KFeIIa+WVEFtM4cAGFnQzGoui6p6XlHZozWvqcnUpsIP7
+	 y+LnhS26IxcEo2sDBgGzpjMlfNEGrHuJvtlY9eiO5PmYQsNdOC0lk2kVLpvyH04Tmr
+	 2Sokhimhgmi3NuGXHOKu3xIpVyPL4TH9cxO13cl359FoD0V7rZRzOvmZm8tNqhySo9
+	 GUU+giNdEGYMfHUadybFPTl+g9r6tV8r0iVmrH8tzqZa0QxzR2GXCIhX+7e714v/dZ
+	 ptjRWa1SpSzxVl4hu8ucQUq3Rq3RBUrJPBpDUjQmtVD7SpOImdVPLnZGkOK+dcFrXx
+	 4K5Qnj26rJAzg==
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, linux-sound@vger.kernel.org
+In-Reply-To: <20261119131045.2152868-1-tiwai@suse.de>
+References: <20261119131045.2152868-1-tiwai@suse.de>
+Subject: Re: [PATCH] ASoC: tas2781: Avoid possible zero-division
+Message-Id: <179510975368.116416.1562263176125244274.b4-ty@b4>
+Date: Thu, 19 Nov 2026 17:35:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,99 +57,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKWEGV5XEncchpzBJWjjYh+cXE4ZSSiBvEDUdN-3nLw8tA4W5w@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1104; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=mg66tJuBqMbMQI+I4wag5JUaYUOZUcuGjrHoPBOiRJ4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+J602mLXe3PNZzWKvQ1MD62rmPb/71bdYQCG0VFKSI
+ 9Hy1J+qjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExkfz8jQ8dRp6elh0W8A205
+ uNjY5x5jCTdWeeDZJ35s7axOJbuixwx/BU+uqeKqvyZy4/ZE5pw3Hc7tr7YoPXgjPvFj30IZxVu
+ 6zAA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, Nov 17, 2026 at 10:08:32PM +0200, Yauhen Kharuzhy wrote:
-> вт, 17 нояб. 2026 г. в 19:34, Pierre-Louis Bossart
-> <pierre-louis.bossart@linux.dev>:
-> > On 11/17/26 11:54, johannes.goede@oss.qualcomm.com wrote:
-> > >
-> > > Note adding Yauhen the author of the troublesome commit to the To: list
-> > > (why was this not done in the first place ?).
-> > >
-> > > On 16-Nov-26 22:24, Ted Vera wrote:
-> > >> Summary:
-> > >> On a Google Pixel 2 LS Chromebook (Samus, EVT2) running Fedora 45
-> > >> kernel 7.3.3-300.fc45.x86_64, the RT5677 codec repeatedly fails probe
-> > >> with Failed to request POW_LDO2: -517 (-EPROBE_DEFER). The codec
-> > >> appears in devices_deferred, no RT5677 ALSA card is registered, and
-> > >> only HDMI audio is available.
-> > >>
-> > >> The driver’s ACPI GPIO mapping added by commit 0cc00de3dd5b maps GPIO
-> > >> resource indexes 0 and 1 to reset and pow-ldo2 for every ACPI RT5677
-> > >> device. Samus’s DSDT uses those resources for codec GPIOs (jack detect
-> > >> and mic-present), not Yoga Book-style external reset and power GPIOs.
-> > >> The driver requests the mapped GPIOs before registering the codec’s
-> > >> GPIO chip, which appears to cause the deferred-probe loop.
-> > >>
-> > >> Test and result:
-> > >> I built a temporary module against the matching Fedora kernel source
-> > >> that skips devm_acpi_dev_add_driver_gpios() on DMI board Samus. With
-> > >> that module, the RT5677 device bound successfully, the bdw-rt5677 ALSA
-> > >> card appeared, and laptop-speaker audio worked. Secure Boot remained
-> > >> enabled. This strongly supports the ACPI GPIO mapping as the cause.
-> > >>
-> > >> Suggested fix: Restrict the mapping to devices whose ACPI GPIO
-> > >> resource layout matches the Yoga Book, rather than applying it to
-> > >> every RT5677 ACPI device.
+On Thu, 19 Nov 2026 14:10:44 +0100, Takashi Iwai wrote:
+> ASoC: tas2781: Avoid possible zero-division
 
-Yes, the ACPI GPIO mappings should be on per-board basis as the PCB design
-appoints the GPIO function (semantics).
+Applied to
 
-> > > Only adding the GPIO mappings (devm_acpi_dev_add_driver_gpios()) on
-> > > a DMI match of the yogabook sounds good to me.
-> > >
-> > > DMI strings can be taken from:
-> > >
-> > > drivers/platform/x86/x86-android-tablets/dmi.c
-> > >
-> > > Note there are both a X90F/L models which ship with Android and
-> > > use a different BIOS, as well as X91F/L models which ship with
-> > > Windows (same hw, different BIOS).
-> > >
-> > > Yauhen, I guess the ACPI mappings where for the Windows X91 model,
-> > > since on Android I expect the GPIO's to be hardcoded in the driver?
-> 
-> For Android tablet (X90) I used x86-android-tablets module to create a
-> ACPI-independent mapping via GPIO properties, see
-> https://github.com/jekhor/yogabook-linux-kernel/commit/4e3c2f5f7c74305d4825bd1c031fdb3bd16edefa
-> ,
-> was submitted as
-> https://lore.kernel.org/platform-driver-x86/20260611-x86-tablets-yogabook-v3-0-de407672e4df@gmail.com/
-> 
-> 
-> If GPIO mapping in the ACPI entry for RT5677 is not generic actually, then we
-> can use the similar approach for Yoga Book X91 also and don't use ACPI
-> mapping et al.
-> 
-> > But the open is whether those GPIO mappings belong in the codec driver?
-> > Back in 2017 (!) Andy moved the Samus mappings to the machine driver
-> > bdw-rt5677, why not add those YogaBook mappings to the cht_rt5677
-> > machine driver?
-> 
-> I actually cannot remember why. Intel's SoC subsystem has so many similar things
-> made in different ways... AFAIR, I didn't find any mention about other real
-> devices with ACPI and RT5677 so tried to apply these mappings as generic
-> and belonging to the rt5677 driver instead of tricky management in the
-> machine driver.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-GPIO mappings via swnode appeared not so long time ago. ACPI GPIO mappings
-were the solution way before that (but only for ACPI based systems).
+Thanks!
 
-Technically we may convert all ACPI GPIO mappings to be generic GPIO swnode
-ones.
+[1/1] ASoC: tas2781: Avoid possible zero-division
+      https://git.kernel.org/broonie/sound/c/f66297be665c
 
-> > Looks like the addition of those mappings for the YogaBook didn't follow
-> > the Samus precedent, now we have two different ways of doing the same
-> > thing even though the codec is the same...
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
--- 
-With Best Regards,
-Andy Shevchenko
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
