@@ -1,117 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795091194;
-	b=WnHO8A3Opymz9NVc20CaihHuR3f60KkmRjRW0XEWW//QE5rQtTG9FQwxaSU47UsFxzP/
-	 neypdFVd8EvsTbMtiJTCmyo0R3iPzMNYQnXhtoZ9xZhgc9Li6A0yxxS3d29EqvPNtlvKQ
-	 FZKhaRJ+Qj9heJfWfXtP3Uw5UQBJi6wf76BPq4loIKK87d+Z4ou8b3Azqr6j0FU6hmNxB
-	 Ao7C4aWUWoJhfK/7dppMreqXedQADzzK1PsebPxzeohBycbYiCwknWu2VGtufepEJTNFZ
-	 vg1cISVHZoPwYyTZpKk62QnpxPfL1nHshwC3NdjErNjVNUkbAEGHikWp6NgfrFKxikQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091194;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type:X-NV-OnPremToCloud:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=VRPGkDGFtnk0wXJRfT7kS8pwWbyTvKbbnv1594oFmZg=;
-	b=oD4bXkmxLPQo6VmSIzHsr5d/MI/Vj3dhpiWR/Lg9lGj87PUTmlZ9kcvXF4MVmnT640hE
-	 Xd7aq4LI/R/Z+uXtMDqnVUqLWsSKgvD/fLIvN3+ewPXpkckDaLnSWFSvVi+52Wa7OeiI9
-	 vIIbqSE5IW09QIYLK7lEsEQWPDI6KsOibx3hkZjMIdDkVhPcIvpiWlp/ygy8nBLlI4cpd
-	 rMx6YWYaRSdt3e795u6c0sjNswSypf+dzHW/w1/veZMU1itj55ifJbViXQAxJ1MQ5DDf/
-	 ZKgx6nHyTqHaGSNBHbpGuKwAY2e/nztRtkrNkVrIL/51EerHgqWadeVfoCL4ctuD6Ig==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=eHdpdi9Q;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.57.52
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011052.outbound.protection.outlook.com [52.101.57.52])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795091260;
+	b=1fFdhWKglN6oX3cTOOGL+TGjGQ/PJpfVEoaFw9G5tn4/thzz5CDGabMJTqy+rBCpr/N2
+	 vS0TmgbK9/d9leZKaGcs09T9M+XCmlNn/cfXlU+h7q4tKnyjkvooSr3o0npJapS28RXaQ
+	 ORfvBqKe03bhfhcEMe1KrAdSBzPoZ3mcYKZSU8L6/VAWPK38kJNF1CGLGsVxEgPS7GkjU
+	 yt5pO11GagY25r7ZrfaEHRDS1XdubCmls1Pw7Y3BNDXzcxkfH2S0Uw4FwIOjiCpfqjnte
+	 r0p2cDVtp0wAJKqLsBUdp6KUu/DTUEFnrBLiP1gGqQ98Ah+BSBF3LHUt+0QKxtKMToQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795091260;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=X1VvEG6+uRk98MiJJgVck2wIv5kxCMv9LX1FbTkKKvY=;
+	b=lS/N1np3v7S+JZO8z8PJDiYAF8iWNQzBAyDVn6klQpJryU4L8TBlENAKdVKlH8AhIkqK
+	 s+B6qzwGrnpJYbs1mqLHVVTH2q1fePDmBQ/LW5Pkj3pu+cW/rDF/rArmrIhKkkGzpzLAn
+	 0Dekp+CD1vY98Lwu8fVBXAVriJPYuGM039EuSjIRJOzx1YFvskq9DPcs9iuvzVnOrr92W
+	 2oH+zXQn2U/tXRgnEnr/7G9pT9G8nN2K4l8bx6iP6vlZejam7M5nkPL5oPC8KjnGVjpiY
+	 ShOAvAynqatRYBk4BAyyxS+/Och1nmSybQ78BZ0v/zj+bKo+pcnljfrexcC3+hAEr0g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bXZWbAUY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SzNh+M64;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=i81iJusv;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BuAoOAYm;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2079606A332;
-	Thu, 19 Nov 2026 12:26:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2079606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064D8606A33E;
+	Thu, 19 Nov 2026 12:27:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 064D8606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=eHdpdi9Q
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yedgS9LHH+bEsd5lsX+SYQHOU5jcjiGwRQyZanQUCJz7Eppqu85bB5o49Ftw4DbbCCpF0AjVkKhy0mZRnNcPyr6RFtxfwxou+3FRKm500ZlREvjQeY/arv7LWyhF7k0f6EtEks5gcdigGColLKE8mOfKUTftAjiDhpFpysuRau5vQsxrqA+ccsATLofyMKpK8AcJVSUyytpffHzrwQNSvuiiTKY/t8i7YER+RwEoafjC8yOAnQ+kIK09vgvY9tgp+tIGnKCHHlJ40Op5kLQqU8NpX5IqKEP3viv5HZAY3BEqWBEenvLT+WHS5aBqn12QSIK4j+wwhQqsPsU69MKtrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VRPGkDGFtnk0wXJRfT7kS8pwWbyTvKbbnv1594oFmZg=;
- b=RD0Zd9IcNBJ0l7yTf6xDj+p8MZBF7hRCyiN+OYyeTJrReMMKIihVA8WmVQxTn32tngr6vMTzhj0mscvL8feiuU3peWzmBp2jK3QX3EM6MPbtHRvSfPlugLHZymlYP5LPLpu9YW+cltiOvakFCUrzAl/avUlphT6W/ZaSNcf/kdfE0xNkyaJOtONdQUR3yb7kHDfSswKrM9FApLYPzgNu3zdNZCCaj6QMI8uX8FX+OIO4vohEBJvphU4nti5TpfwV5ciGaWWd6bA4EmUIcTEjGoAWMGnqZXB5CqBgkbdkyNOmKlMGB4BtaDmLmFrDr6d7rdmqMA7P5G8GIWpOdjuilw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VRPGkDGFtnk0wXJRfT7kS8pwWbyTvKbbnv1594oFmZg=;
- b=eHdpdi9QNx3jBJ1LbelpPP9AkQ62iGIbbirS8lYMKASilppVSHHr4RkXDp4i6Yr7zqIuXwNEgPguqTg0RxO+UME12y0jSzQosrK7vbx3u4PkxWoABbifep/Vev3jJ6E9qMHWWiVqvWw41cFZYNEOFsbxIudEVMRxnFWqC1BnjQLaEJTFyUo+NJnPjlB9K2/mvG5O9QAktO9qjBVmdkDS8pMpJttT3Ndh/XTX37oGEg7tSfq/UD/Gys97xcal49rTDaEAEKUfArh+w5+5wCiXDEtWJI8Y2rvSxQARi471R2SlTdR0xT0jAmG+J/eUUGMhahnulq3POgqFQFnBAO2MkQ==
-Received: from BN9PR03CA0540.namprd03.prod.outlook.com (2603:10b6:408:131::35)
- by PH5PR12MB207799.namprd12.prod.outlook.com (2603:10b6:510:501::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
- 2026 12:26:29 +0000
-Received: from BN1PEPF00018070.namprd04.prod.outlook.com
- (2603:10b6:408:131:cafe::24) by BN9PR03CA0540.outlook.office365.com
- (2603:10b6:408:131::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.9 via Frontend Transport; Thu, 19
- Nov 2026 12:26:29 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 216.228.118.233) smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- BN1PEPF00018070.mail.protection.outlook.com (10.167.245.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.639.5 via Frontend Transport; Thu, 19 Nov 2026 12:26:28 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Thu, 19 Nov
- 2026 04:26:13 -0800
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.57; Thu, 19 Nov 2026 04:26:12 -0800
-Received: from build-sheetal-noble-20261014.internal (10.127.8.14) by
- mail.nvidia.com (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.57
- via Frontend Transport; Thu, 19 Nov 2026 04:26:12 -0800
-From: Sheetal <sheetal@nvidia.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
- Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>
-CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Thierry
- Reding" <thierry.reding@kernel.org>, Jon Hunter <jonathanh@nvidia.com>,
-	"Mohan Kumar" <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>,
-	"Anupama Kunkulagunta" <akunkulagunt@nvidia.com>, Sheetal
-	<sheetal@nvidia.com>, <linux-sound@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 2/2] ASoC: tegra: ADMAIF: Add Tegra268 support
-Date: Thu, 19 Nov 2026 12:25:11 +0000
-Message-ID: <20261119122511.1324643-3-sheetal@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261119122511.1324643-1-sheetal@nvidia.com>
-References: <20261119122511.1324643-1-sheetal@nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bXZWbAUY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=SzNh+M64;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=i81iJusv;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=BuAoOAYm
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E7DD01F794;
+	Thu, 19 Nov 2026 12:27:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795091258; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X1VvEG6+uRk98MiJJgVck2wIv5kxCMv9LX1FbTkKKvY=;
+	b=bXZWbAUYv0+UPnJIbuvOSAy4l4TK4tGo3jFe+JBFfs4AA0QyjJTN3+1K+03uKkzuzgSsg+
+	eHhBuxeyD8itew19hDyyAmAG69FjkZpQwdkaJK+9fCL0h4KLhMG00fpodUIjhbVWNZUsik
+	fB+e7m5s3q5acWKK7LUF2VKrOjyzths=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795091258;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X1VvEG6+uRk98MiJJgVck2wIv5kxCMv9LX1FbTkKKvY=;
+	b=SzNh+M64hK0169RRrl3CdVyeCQQgAbD4lcVzFw3VlaajUoWrDMpju0a/ON0OoF5mk4Y9z3
+	npG5WSkEFmNQjrAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=i81iJusv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BuAoOAYm
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795091256; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X1VvEG6+uRk98MiJJgVck2wIv5kxCMv9LX1FbTkKKvY=;
+	b=i81iJusvkDzYemDMWEOsrdPmDj8jWNQTFK9BqX5xLsxP57a9mudYTD8AoFE47qyXL+Bzk3
+	GCPDHwZ3k8IzCbgY3CgkqJ8Pt6ZtOG7QtB1hBEa5gtPAxQGLHihmhpwcA8dl5VFIgTSjNN
+	Vv2TpP2CAuGk2ekNNpCRicw5ROXhh48=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795091256;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X1VvEG6+uRk98MiJJgVck2wIv5kxCMv9LX1FbTkKKvY=;
+	b=BuAoOAYmn2unXkyKavOQ1l2qaXLfBrbxU4pBO96h+OVokMu1tbyuEJ8FkTBwy3hOjVRuK8
+	ZBI4Gx2oFlff0PDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7A4AB1342D;
+	Thu, 19 Nov 2026 12:27:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fVsJFDjr/moOCwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 19 Nov 2026 12:27:36 +0000
+Date: Thu, 19 Nov 2026 13:27:36 +0100
+Message-ID: <87wlq9uhtz.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dirk Su <dirk.su@canonical.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Damien Dagorn <damien.dagorn29@gmail.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Eric Naim <dnaim@cachyos.org>,
+	Matej Sochan <matej.sochan@gmail.com>,
+	Denis Yakovlev <mfthesun@vivaldi.net>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add LED fixup for HP ZBook Ultra G1a Laptops
+In-Reply-To: <20261119060604.31205-1-dirk.su@canonical.com>
+References: <20261119060604.31205-1-dirk.su@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -120,209 +118,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00018070:EE_|PH5PR12MB207799:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf10e3f7-cf3c-45b7-6023-08df46385650
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|7416014|376014|1800799024|82310400026|36860700016|261022075727099003|10067099003|56012099006|11063799006|261026140227099003|261028144727099003|261021121427099003|261022105027099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	7OwZ6CLKbCNemjNYRk8U5xzbXXW8bMoMx1by64cOXaBekpdrpKovKvlx+HjPQ87V7tuDq8egW1Zuy9t62Vp4k/YR44bK9z3o0rt586mz3BKcZeqUq9uGCzU9OLu4OCXGIFM4ksQY4A5HbhUCEIRY2cmLmKSh7lY77s29Y9q/2w1YNODl+BVjqYbadhirlWXFLyyF/LVRokx+75OQNkC8bhfnYLR9QpIzphCa82HWkVwRV/Sw2XyxRJjW1/2kYOmP++ofKj4ZtY0ikpZLIkQWPudrFW/HntlfVlF7atwBussVCjeEgL2Is7pmdK0urmgWKq0i9d5eFNnV9hqEPTjoVnjbuhW4sGkQyzUW5W4xty5UJgxJKk/A0sGo2MTByj1jShn+40Yom9E5BuqFWOjw4juYBF0df+dy6MvMKmJNISMZJQWETulDymA562wcMZdfAckc/StQYtWwdXOxcXUbO9Nrvo5TXfrbmz0+4XFPpKfm4qKZYPumStAHSTtRiG+IwcVVJWjJ8AtWvMCp1Q08hOXtNlFTULI5DDuiZX5IWxGyaO50LgivpNPK6gKPadWgexfoaJQFe8LkYeV5LWjBQGGK53pFo9o8bftDhWmzIhalB3/rCmx37br1FPGp9FaTrU0dj9BCxugFw51Jxf4olmTfOJe7YJ4IF+DSYhBB9u1RPpGl/p518FlDBpgq/UQx
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(1800799024)(82310400026)(36860700016)(261022075727099003)(10067099003)(56012099006)(11063799006)(261026140227099003)(261028144727099003)(261021121427099003)(261022105027099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	oqPzlTSOToyU0ErP5OgNLbTJXZi7c5I+BKtaZ94SOT4hFgjQUpV578BEsnkkjw28q74Ja7nKY1bKiA8s6LhIA9ekvoGMskw4ktuuoYJN47ifgIf+uPufNB2f/KpVKOQTjrJf2BEbQs2VTIsDrPbYDXl5EsxrH6PWxrlL0UTT9xm+Ck8VwW6Cf4vFjJDRD3ABafOJ1sHf7VYqS5p9EKs3MIbco15cg4zgpGXD+v+GxNjggdk92DTP9oRGdx7iTacKdv90p3OtMu+I4EmdXJPEhz28oFKECdo4M7x0HSh8UYXf5HG1PhCQxsLOOrYfBSzb2xQFlXv4YA702hXnumhFSS6PHP2qqy3xK9F+tK7oy/WInAoE7FYUKRXDOf5P7uevQm4p68J4mauvVA6rBjP16P2Uj4Tzg1KX4Fw5zrcvYYOvWMJAdWgFVYbcbVfPf7lp
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 12:26:28.8377
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf10e3f7-cf3c-45b7-6023-08df46385650
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00018070.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH5PR12MB207799
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: E7DD01F794
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-11.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kylinos.cn,gmail.com,realtek.com,cachyos.org,vivaldi.net,vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,canonical.com:email]
+X-Spam-Score: -11.01
 
-From: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
+On Thu, 19 Nov 2026 07:05:49 +0100,
+Dirk Su wrote:
+> 
+> The HP ZBook Ultra G1a laptops requires specific LED control method
+> ALC285_FIXUP_HP_GPIO_LED to work
+> 
+> Signed-off-by: Dirk Su <dirk.su@canonical.com>
 
-Tegra268 reuses the Tegra264 ADMAIF register layout but provides only
-five RX and five TX interfaces. Add the compatible and SoC data for
-this configuration.
+Applied now.  Thanks.
 
-Add register defaults and five-entry DAI and control tables. Retain
-the Tegra264 32-channel per-stream limit and use Tegra268 FIFO defaults.
 
-Signed-off-by: Anupama Kunkulagunta <akunkulagunt@nvidia.com>
-Signed-off-by: Sheetal <sheetal@nvidia.com>
----
-Changes in v2:
-- Reuse the Tegra264 register limit (0x205f), as Tegra268 has the same
-  register layout, and remove the separate Tegra268 limit.
-
- sound/soc/tegra/tegra210_admaif.c | 66 +++++++++++++++++++++++++++++++
- sound/soc/tegra/tegra210_admaif.h | 18 +++++++++
- 2 files changed, 84 insertions(+)
-
-diff --git a/sound/soc/tegra/tegra210_admaif.c b/sound/soc/tegra/tegra210_admaif.c
-index 87e898cc35e4..7ffbc059934e 100644
---- a/sound/soc/tegra/tegra210_admaif.c
-+++ b/sound/soc/tegra/tegra210_admaif.c
-@@ -184,6 +184,20 @@ static const struct reg_default tegra264_admaif_reg_defaults[] = {
- 	{(TEGRA_ADMAIF_GLOBAL_CG_0 + TEGRA264_ADMAIF_GLOBAL_BASE), 0x00000003}
- };
- 
-+static const struct reg_default tegra268_admaif_reg_defaults[] = {
-+	ADMAIF_RX_REG_DEFAULTS(1, TEGRA268),
-+	ADMAIF_RX_REG_DEFAULTS(2, TEGRA268),
-+	ADMAIF_RX_REG_DEFAULTS(3, TEGRA268),
-+	ADMAIF_RX_REG_DEFAULTS(4, TEGRA268),
-+	ADMAIF_RX_REG_DEFAULTS(5, TEGRA268),
-+	ADMAIF_TX_REG_DEFAULTS(1, TEGRA268),
-+	ADMAIF_TX_REG_DEFAULTS(2, TEGRA268),
-+	ADMAIF_TX_REG_DEFAULTS(3, TEGRA268),
-+	ADMAIF_TX_REG_DEFAULTS(4, TEGRA268),
-+	ADMAIF_TX_REG_DEFAULTS(5, TEGRA268),
-+	{(TEGRA_ADMAIF_GLOBAL_CG_0 + TEGRA268_ADMAIF_GLOBAL_BASE), 0x00000003}
-+};
-+
- static bool tegra_admaif_wr_reg(struct device *dev, unsigned int reg)
- {
- 	struct tegra_admaif *admaif = dev_get_drvdata(dev);
-@@ -342,6 +356,20 @@ static const struct regmap_config tegra264_admaif_regmap_config = {
- 	.cache_type		= REGCACHE_FLAT,
- };
- 
-+static const struct regmap_config tegra268_admaif_regmap_config = {
-+	.reg_bits		= 32,
-+	.reg_stride		= 4,
-+	.val_bits		= 32,
-+	.max_register		= TEGRA264_ADMAIF_LAST_REG,
-+	.writeable_reg		= tegra_admaif_wr_reg,
-+	.readable_reg		= tegra_admaif_rd_reg,
-+	.volatile_reg		= tegra_admaif_volatile_reg,
-+	.reg_defaults		= tegra268_admaif_reg_defaults,
-+	.num_reg_defaults	= TEGRA268_ADMAIF_CHANNEL_COUNT * 6 + 1,
-+	.reg_default_cb		= regmap_default_zero_cb,
-+	.cache_type		= REGCACHE_FLAT,
-+};
-+
- static int tegra_admaif_runtime_suspend(struct device *dev)
- {
- 	struct tegra_admaif *admaif = dev_get_drvdata(dev);
-@@ -796,6 +824,14 @@ static struct snd_soc_dai_driver tegra264_admaif_cmpnt_dais[] = {
- 	DAI("ADMAIF32", TEGRA264_ADMAIF_MAX_CHANNEL),
- };
- 
-+static struct snd_soc_dai_driver tegra268_admaif_cmpnt_dais[] = {
-+	DAI("ADMAIF1", TEGRA268_ADMAIF_MAX_CHANNEL),
-+	DAI("ADMAIF2", TEGRA268_ADMAIF_MAX_CHANNEL),
-+	DAI("ADMAIF3", TEGRA268_ADMAIF_MAX_CHANNEL),
-+	DAI("ADMAIF4", TEGRA268_ADMAIF_MAX_CHANNEL),
-+	DAI("ADMAIF5", TEGRA268_ADMAIF_MAX_CHANNEL),
-+};
-+
- static const char * const tegra_admaif_stereo_conv_text[] = {
- 	"CH0", "CH1", "AVG",
- };
-@@ -908,6 +944,14 @@ static struct snd_kcontrol_new tegra264_admaif_controls[] = {
- 	TEGRA_ADMAIF_CIF_CTRL(32),
- };
- 
-+static struct snd_kcontrol_new tegra268_admaif_controls[] = {
-+	TEGRA_ADMAIF_CIF_CTRL(1),
-+	TEGRA_ADMAIF_CIF_CTRL(2),
-+	TEGRA_ADMAIF_CIF_CTRL(3),
-+	TEGRA_ADMAIF_CIF_CTRL(4),
-+	TEGRA_ADMAIF_CIF_CTRL(5),
-+};
-+
- static const struct snd_soc_component_driver tegra210_admaif_cmpnt = {
- 	.controls		= tegra210_admaif_controls,
- 	.num_controls		= ARRAY_SIZE(tegra210_admaif_controls),
-@@ -938,6 +982,16 @@ static const struct snd_soc_component_driver tegra264_admaif_cmpnt = {
- 	.pointer		= tegra_pcm_pointer,
- };
- 
-+static const struct snd_soc_component_driver tegra268_admaif_cmpnt = {
-+	.controls		= tegra268_admaif_controls,
-+	.num_controls		= ARRAY_SIZE(tegra268_admaif_controls),
-+	.pcm_new		= tegra_pcm_new,
-+	.open			= tegra_pcm_open,
-+	.close			= tegra_pcm_close,
-+	.hw_params		= tegra_pcm_hw_params,
-+	.pointer		= tegra_pcm_pointer,
-+};
-+
- static const struct tegra_admaif_soc_data soc_data_tegra210 = {
- 	.num_ch		= TEGRA210_ADMAIF_CHANNEL_COUNT,
- 	.max_stream_ch	= TEGRA210_ADMAIF_MAX_CHANNEL,
-@@ -971,10 +1025,22 @@ static const struct tegra_admaif_soc_data soc_data_tegra264 = {
- 	.rx_base	= TEGRA264_ADMAIF_RX_BASE,
- };
- 
-+static const struct tegra_admaif_soc_data soc_data_tegra268 = {
-+	.num_ch		= TEGRA268_ADMAIF_CHANNEL_COUNT,
-+	.max_stream_ch	= TEGRA268_ADMAIF_MAX_CHANNEL,
-+	.cmpnt		= &tegra268_admaif_cmpnt,
-+	.dais		= tegra268_admaif_cmpnt_dais,
-+	.regmap_conf	= &tegra268_admaif_regmap_config,
-+	.global_base	= TEGRA268_ADMAIF_GLOBAL_BASE,
-+	.tx_base	= TEGRA268_ADMAIF_TX_BASE,
-+	.rx_base	= TEGRA268_ADMAIF_RX_BASE,
-+};
-+
- static const struct of_device_id tegra_admaif_of_match[] = {
- 	{ .compatible = "nvidia,tegra210-admaif", .data = &soc_data_tegra210 },
- 	{ .compatible = "nvidia,tegra186-admaif", .data = &soc_data_tegra186 },
- 	{ .compatible = "nvidia,tegra264-admaif", .data = &soc_data_tegra264 },
-+	{ .compatible = "nvidia,tegra268-admaif", .data = &soc_data_tegra268 },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, tegra_admaif_of_match);
-diff --git a/sound/soc/tegra/tegra210_admaif.h b/sound/soc/tegra/tegra210_admaif.h
-index fd9877aa95d3..4290f7a049fb 100644
---- a/sound/soc/tegra/tegra210_admaif.h
-+++ b/sound/soc/tegra/tegra210_admaif.h
-@@ -31,6 +31,12 @@
- #define TEGRA264_ADMAIF_TX_BASE				0x1000
- #define TEGRA264_ADMAIF_GLOBAL_BASE			0x2000
- #define TEGRA264_ADMAIF_MAX_CHANNEL			32
-+/* Tegra268 specific */
-+#define TEGRA268_ADMAIF_CHANNEL_COUNT			5
-+#define TEGRA268_ADMAIF_RX_BASE				TEGRA264_ADMAIF_RX_BASE
-+#define TEGRA268_ADMAIF_TX_BASE				TEGRA264_ADMAIF_TX_BASE
-+#define TEGRA268_ADMAIF_GLOBAL_BASE			TEGRA264_ADMAIF_GLOBAL_BASE
-+#define TEGRA268_ADMAIF_MAX_CHANNEL			TEGRA264_ADMAIF_MAX_CHANNEL
- /* Global registers */
- #define TEGRA_ADMAIF_GLOBAL_ENABLE			0x0
- #define TEGRA_ADMAIF_GLOBAL_CG_0			0x8
-@@ -204,6 +210,18 @@
- #define TEGRA264_ADMAIF_TX30_FIFO_CTRL_REG_DEFAULT	0x01800257
- #define TEGRA264_ADMAIF_TX31_FIFO_CTRL_REG_DEFAULT	0x0180025a
- #define TEGRA264_ADMAIF_TX32_FIFO_CTRL_REG_DEFAULT	0x0180025d
-+/* Default values - Tegra268 */
-+#define TEGRA268_ADMAIF_CIF_REG_DEFAULT			0x00003f00
-+#define TEGRA268_ADMAIF_RX1_FIFO_CTRL_REG_DEFAULT	0x00000500
-+#define TEGRA268_ADMAIF_RX2_FIFO_CTRL_REG_DEFAULT	0x00000507
-+#define TEGRA268_ADMAIF_RX3_FIFO_CTRL_REG_DEFAULT	0x0000050e
-+#define TEGRA268_ADMAIF_RX4_FIFO_CTRL_REG_DEFAULT	0x00000514
-+#define TEGRA268_ADMAIF_RX5_FIFO_CTRL_REG_DEFAULT	0x0000051a
-+#define TEGRA268_ADMAIF_TX1_FIFO_CTRL_REG_DEFAULT	0x03000500
-+#define TEGRA268_ADMAIF_TX2_FIFO_CTRL_REG_DEFAULT	0x03000507
-+#define TEGRA268_ADMAIF_TX3_FIFO_CTRL_REG_DEFAULT	0x0300050e
-+#define TEGRA268_ADMAIF_TX4_FIFO_CTRL_REG_DEFAULT	0x03000514
-+#define TEGRA268_ADMAIF_TX5_FIFO_CTRL_REG_DEFAULT	0x0300051a
- 
- enum {
- 	DATA_8BIT,
--- 
-2.43.0
-
+Takashi
