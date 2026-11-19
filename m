@@ -1,110 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.221
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795091659;
-	b=TFL4AUkTl0weA5DtoFSDG7h/+4Lfc2O2JSPpYoxMJNN07MOeTM4xMXF0QPIiwlKGhCq+
-	 YfQB0ph1CsZQmp0PoHD4WMDZGBH4iZ5GYdr2S0dey+jgFfxwAnB9+ss1BnZm/TfxjMhuf
-	 xw22Z5yIsHV4CtY95jg0aitQFm2av2uAT3S6UYtOjisL/xWNijD/s+s2EcYqBKi45YK2+
-	 enY5Fiz3Ligz24/EyvtEWBwLJ7M6WfCBhWqxs1HOgPYcS7cSToQNvjD5Z04KRsrnBgTkt
-	 GDDLgfBWCc2Gq2vS/4azmgU2Cgnt92cb3sm9osnEhl9agBeE7UV7JUrEq31DVxsT3Jw==
+	t=1795092265;
+	b=J5sBLDb302/rIUJII+sMO3hF5E8bKe8KB7l85TGB43lYJuoOj3/S8T9tXvXCZ4z5Hwub
+	 DMZGoGgXFL5XxoBtVoCDTZmbbN6NvT7SJ5beAJZ4us8IevWHWSlD9P8djI67fdg2GVYy4
+	 sTjA4XDiDgL/HGLRny6PvKYmU7v9gCruOhNBAng3mFMeJn/zOqP2auOk7mZO6DJt+2R3p
+	 rjMIormxJqnTDeia7uiIip8SMQu189ikew/9Hw6+1bygjJhWynGBd/CY5DypEwQHgdu8q
+	 VR5RMy7ew/PrCqxmkTMOQHmm8VqgOcucROJczzHIztUt/3dms/ecW+FtqDNMTYNKw4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795091659;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=M1PIP2IRYlcbZMl3AAAXpIoMqxFIHAFUkh+SV5lQ3LE=;
-	b=rigfGSQOtoRgu1kyITuh4EFfPrkT7jNJQe4xPPuTYAcZQWVd3ekoSZQVIStzk1Yu7tl4
-	 gFIW5Qm8SrFlsZEsBAtOg8caQnibEN40QVXlV98Nc7AIn7+IcNIxo747Sq2+D4wmcSEXI
-	 ydxp7Fxs1caiblcIUSihZBoOo7mRjniRgom7EL/4gzppBbO6xN4FBaM+jad/p96MpNliu
-	 n/rapJw0ipB+Gyiy850ZibbsiFQyjpOcu//3xMeNWh4O1Koc3ia9yzFiX+BnEf/ka5Eda
-	 H11h+/JSzu6JewTWz4jIojup+RXo6JrS5a8yfdtWQJnOHk6bGFwDFExHMkYgN6qxhIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795092265;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=gEUF5j3SdmghZnwmnMhcNly6K4nfdpDAoolOXRPv4r4=;
+	b=aLcNonFggjpude7o62vRSW+A3asB0D1380P12Jb/p9MR58OYwaLH3SU6L6dqkFdi5F9l
+	 jApD/tsU5DwzxJgPjSlReaiaPaSVcGhiGdqYfuFtusTYjg550B3S13s2fVa9XaY/ZipzJ
+	 XVCk3GnZ+l8NYOfH0Poo/aAyVQFiUG4DnYO4i99qN8cs3quJxolNplNUZZ0KM0A+da+R/
+	 qy95I36Q3PrNVL3KJgd7iEYrK8bc+zIDMrkYBoa78YYDVIWZBs1tIu/co5ma7tEkhYESp
+	 N1lbZtnR7bjlTWIIGFa5yt1G/pkra7LcWk0J1/j9pW0k1hcVtDFASzBpX/V+L5NbiVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JcA9lJO9;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=de1NI2Oq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JcA9lJO9;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=de1NI2Oq;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=UoPrbboG;
+	arc=none smtp.remote-ip=113.46.200.221
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A687606A320;
-	Thu, 19 Nov 2026 12:34:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A687606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFDB60A3812;
+	Thu, 19 Nov 2026 12:44:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DFDB60A3812
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JcA9lJO9;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=de1NI2Oq;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=JcA9lJO9;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=de1NI2Oq
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 35C57221A7;
-	Thu, 19 Nov 2026 12:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795091657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M1PIP2IRYlcbZMl3AAAXpIoMqxFIHAFUkh+SV5lQ3LE=;
-	b=JcA9lJO9UkeXftfIFnolWWERNnKrW7AXDRNDjct+BEYxkPzRuWQs5tQanVdRBrLPWPuIVL
-	GUIX6urTNKafp4nGFvUGa1d6UIJ5aLn3mTcC8xWpePnDfaiQcZaXUZkFCpY99qg7hst2v8
-	8ARLNzZrb7bNwTYXs9w0AMTXsbTMLYs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795091657;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M1PIP2IRYlcbZMl3AAAXpIoMqxFIHAFUkh+SV5lQ3LE=;
-	b=de1NI2OqHzac5+qz02Kmj+ZSjwd14TM+1Pj3+CsYuP4GAaeH8d5/MLIpLSFYlZEXRlnXE1
-	UnJ0A3Rjn1CaCjDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=JcA9lJO9;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=de1NI2Oq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795091657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M1PIP2IRYlcbZMl3AAAXpIoMqxFIHAFUkh+SV5lQ3LE=;
-	b=JcA9lJO9UkeXftfIFnolWWERNnKrW7AXDRNDjct+BEYxkPzRuWQs5tQanVdRBrLPWPuIVL
-	GUIX6urTNKafp4nGFvUGa1d6UIJ5aLn3mTcC8xWpePnDfaiQcZaXUZkFCpY99qg7hst2v8
-	8ARLNzZrb7bNwTYXs9w0AMTXsbTMLYs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795091657;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M1PIP2IRYlcbZMl3AAAXpIoMqxFIHAFUkh+SV5lQ3LE=;
-	b=de1NI2OqHzac5+qz02Kmj+ZSjwd14TM+1Pj3+CsYuP4GAaeH8d5/MLIpLSFYlZEXRlnXE1
-	UnJ0A3Rjn1CaCjDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE3D51342D;
-	Thu, 19 Nov 2026 12:34:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pxITLMjs/moPEgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 19 Nov 2026 12:34:16 +0000
-Date: Thu, 19 Nov 2026 13:34:16 +0100
-Message-ID: <87tslduhiv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: memalloc: Fix DMA allocation retry cleanup
-In-Reply-To: <20261119104859.2807-1-sreekuttan2156239@gmail.com>
-References: <20261119100928.2740-1-sreekuttan2156239@gmail.com>
-	<20261119104859.2807-1-sreekuttan2156239@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=UoPrbboG
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=gEUF5j3SdmghZnwmnMhcNly6K4nfdpDAoolOXRPv4r4=;
+	b=UoPrbboGhx2qW0Kg7zd2CG0dtQDrGZGHFOQp1Bqe9Ybfnd/6d+43Y4GKoWw53lyDM6gHWgE34
+	TKlckZ7drSVXqmHCbWS+2BFCytHUrbx6yNwS+7CyoYkpf1SJo2Vz64cIkPIoRm0cXDPeiUrACN4
+	43BlHpWvUdCe+vDBJ1KBkz0=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4jVdSb3wySzRhQS;
+	Thu, 19 Nov 2026 20:43:59 +0800 (CST)
+Received: from whupemo500017.china.huawei.com (unknown [7.152.184.243])
+	by mail.maildlp.com (Postfix) with ESMTPS id BF9E14057D;
+	Thu, 19 Nov 2026 20:44:14 +0800 (CST)
+Received: from huawei.com (10.67.174.49) by whupemo500017.china.huawei.com
+ (7.152.184.243) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 19 Nov
+ 2026 20:44:13 +0800
+From: Ye Weihua <yeweihua4@huawei.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, Kai
+ Vehmanen <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Vijendar Mukunda
+	<Vijendar.Mukunda@amd.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+CC: <sound-open-firmware@alsa-project.org>, <linux-sound@vger.kernel.org>,
+	<stable@vger.kernel.org>, Ye Weihua <yeweihua4@huawei.com>
+Subject: [PATCH -next 2/2] ASoC: SOF: topology: Free bytes control backup on unload
+Date: Thu, 19 Nov 2026 12:14:46 +0000
+Message-ID: <20261119121446.124833-2-yeweihua4@huawei.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261119121446.124833-1-yeweihua4@huawei.com>
+References: <20261119121446.124833-1-yeweihua4@huawei.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -113,63 +75,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 35C57221A7
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ whupemo500017.china.huawei.com (7.152.184.243)
 
-On Thu, 19 Nov 2026 11:48:59 +0100,
-Sreeraj S Kurup wrote:
-> 
-> do_alloc_pages() retries allocation with lower DMA zones when the
-> allocated address exceeds the device's coherent DMA mask.
-> 
-> However, the previous allocation is not freed before retrying,
-> leaking the allocated pages.
-> 
-> Also, if no suitable DMA zone is available, the function can return
-> an allocation outside the device's DMA mask.
-> 
-> Avoid retrying GFP_DMA32 after GFP_DMA has been selected, and skip
-> the DMA mask check when the coherent DMA mask is unset.
-> 
-> Free the allocated pages before retrying and return NULL when no
-> suitable allocation can be obtained.
-> 
-> Fixes: dd164fbfdc20 ("ALSA: memalloc: Drop special handling of GFP for CONTINUOUS allocation")
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+sof_ipc4_bytes_ext_put() and sof_ipc3_bytes_ext_put() keep a backup of the
+last known good bytes control data in scontrol->old_ipc_control_data.
+This backup is only released when it is restored, so it is leaked when
+the control is freed while the backup is still present.
 
-Applied now.  Thanks.
+Free old_ipc_control_data in sof_control_unload() and
+sof_widget_unload(), which are the two paths that release the control
+data, along with the rest of the control data.
 
+Fixes: 299f6c752f8f ("ASoC: sof: Improve sof_ipc3_bytes_ext_put function")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ye Weihua <yeweihua4@huawei.com>
+---
+ sound/soc/sof/topology.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Takashi
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 4dcacafb9cdb..c21a0199db9c 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -1069,10 +1069,11 @@ static int sof_control_unload(struct snd_soc_component *scomp,
+ 			dev_err(scomp->dev, "failed to free control: %s\n", scontrol->name);
+ 	}
+ 
+ 	/* free all data before returning in case of error too */
+ 	kfree(scontrol->ipc_control_data);
++	kfree(scontrol->old_ipc_control_data);
+ 	kfree(scontrol->priv);
+ 	kfree(scontrol->name);
+ 	list_del(&scontrol->list);
+ 	kfree(scontrol);
+ 
+@@ -1717,10 +1718,11 @@ static int sof_widget_unload(struct snd_soc_component *scomp,
+ 		default:
+ 			dev_warn(scomp->dev, "unsupported kcontrol_type\n");
+ 			goto out;
+ 		}
+ 		kfree(scontrol->ipc_control_data);
++		kfree(scontrol->old_ipc_control_data);
+ 		list_del(&scontrol->list);
+ 		kfree(scontrol->name);
+ 		kfree(scontrol);
+ 	}
+ 
+-- 
+2.34.1
+
