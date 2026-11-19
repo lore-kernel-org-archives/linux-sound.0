@@ -1,54 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795084880;
-	b=SLIf6ET5qqWtwnkUGfyGqPoFPTgJ/T5w63fsqS3+htQD2nwsHDWjYSG/axh2fF0pgylj
-	 /3n53fyCzYh9kgVMFwMEx1ew2CGYEZ62UDrHuqJbQuqMHXj/7e2+UfqA6bfgohK3LTMol
-	 IMyIsbllWaC9hEWx/U48cxXgJO8M2+KStTftBW8KB5yXL+bLoWDtMd7kCZg1RmD+Y+7mw
-	 owGgH4cZNUAk8sSA9kUsXuEZPVe1L7hzKbYqjIZt1mtDM3h54FSosJrg47wWI0MstYxFV
-	 d39bJFClpGRGfFRBWK23OIF7kh/XiPd5IF5g7yBRbPCekHRWKe6hr+s/jQ38MfGnKQQ==
+	t=1795085372;
+	b=CZQt2ZMaVD53giZu2Wu1hqpBjBeCGuoODN/b3NEU0KvhSE7J8mMfgQLv0M6k1maFs32M
+	 gskjQ2ah1TQzeekJjOT+ijCOuKpKqBXjyN/0xdFpYUCY2pwhaGLC++VRcIn5hhErYq+J+
+	 PJjEi1Vm0grTo1s51N2qXNLQBN+B5w+WIXeWN3w8q+MrmgoyIUrMVfPTWdomu7j6oRl6n
+	 RklmFL8V9jU2P8uBZpckT935pudHcW9GRW/GG6YCgwj0SOv2lXbL57WIVsUosgYarb8o6
+	 Gl/NZpn9g1tq/j/k5QvKGQcuSdsp0sUz1HXwPylHc9SlPqqnDSyfelU7B2/HNQRB9ig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795084880;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=SqewZBuM8W9dFnIHmwbhkjA1res2Yb2Puzim9ot0z7Q=;
-	b=bHpK2OC6/34go9gz4af03oAP/2A/MYMvcDvhTMf6m8Doqhmn3Cd5nQ0yDoHD2vq2Ztba
-	 w8kUsPbhtp5kacoErZ0FcsiLiq1x9i13Qi7uWbUJG+0O+ipH23oyZPdsEd3enF570ZmOG
-	 XY/7rJUzoGbtZS6lReb3qDSGr1NI5FTAZRujACGTrfXGIqnVp2FdzLzBm4qz6kBbzP4v3
-	 t4T5UAb5MJvefIAM8ORNdvkxco6tXnsvLLsw9xLwL/9VL5Di9sqwANDh0aMO7iuGIGo3d
-	 6WmSP6OsSNsOx0fXSD43IOckM615HPJMCGoIUlwS9YLvmbZVSNEKLYwXHQ0+rQU5slQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795085372;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=24Y0W+1MZQdnlIcGizra0bUgfZU6rBAE53rV3xCkuHg=;
+	b=MjWWLwcTQ0yAXb9CCUWa5VgzB07Mn9M/KL0AdQrHYH6ZnE1kVlDa3bDhLIuPqOzK+yBO
+	 hgwg3SPfkTsGWCY9iQn5DUrTh016/0Y11m4CrnA61ffdlFQ+xe4LdlDN8xpx9p+oh8nQ+
+	 UFK/bQOfOLgUtx+aZxbh+iFtj3hubXOofkXO0zlqzxWH5hPjpxm5iROr6qQf1Imdi/LWS
+	 5COvLH8T5cSxyxq79pLetUC4otIajqgctNfHAAmgtchsBRLgeEQSb2fn3BU/uoWEmyNhP
+	 B7RLhqfl1vTi1cv5LBJf3X8SfAGY9L8S/3m22nwTPYRNh3BzZwqvDn4u39CYTNs8E+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BXvKnVwq;
-	arc=none smtp.remote-ip=91.218.175.137
-Received: from mta0.migadu.com (out-137.mta0.migadu.com [91.218.175.137])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9FZsBaM;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4322B606A324
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:41:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4322B606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02856606A324
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:49:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02856606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=BXvKnVwq
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=hHV4wmzRo7/QebuMoNM7638o7gz26MY6+dWlsZX3ePM=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795084877; v=1; x=1795689677;
- b=BXvKnVwqbBXBF/S2cqOFQ6NvWmItsmp+bSF/X4MnyqKqrAnfGJPTYxwJ9VBOjX1hBeot7mSI
- Kq3e8H+mtmOBFbuhDhXciM0EvtOdd4YBFsuz9hM4R/QjIX6lNQVISu7UGRoun9rikn4ynC4/Yze
- vhqw4jcbqHLQadVdyV/lWEg8=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d7dbceaa39de39d7;
-	Thu, 19 Nov 2026 10:41:17 +0000
-X-Mizu-Trace-ID: d7dbceaa39de39d7
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <13462768-b7c2-4049-8e0e-44bd1e0fd659@linux.dev>
-Date: Thu, 19 Nov 2026 11:35:57 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9FZsBaM
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso4761662eec.0
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 02:49:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795085371; x=1795690171; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=24Y0W+1MZQdnlIcGizra0bUgfZU6rBAE53rV3xCkuHg=;
+        b=t9FZsBaMc5Sd6Y08wP824jpFmypi7QSvbierNeyCVfUa/13gPEHLF+qWkDIJV7gr+x
+         LlHYwA3GNJ5CZWBFU5huqPxyrDkqgG7WWSwy/lH9cPgH1Q2OstsZd9n6ryCXGpULERl7
+         5FpwzHMTiiCwhpj/BG4EirPuXkluh/yuIYb9ti2GkeCyTCu44OVRHBa3d6xPyqeAjpmJ
+         Ga3BKN80tzbCpWiQ+j8DYhiBAQCM0aF5lVTVNmK/ssb7xJIHt5Jffonq+K4IXNE/G5PL
+         loShQWlk3bShjV8oBtEfK2+rU5RNDACspALFsBuagHI2795MwmFeWT1VFWsZJGWamJl9
+         mPhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795085371; x=1795690171;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=24Y0W+1MZQdnlIcGizra0bUgfZU6rBAE53rV3xCkuHg=;
+        b=HUj2Sn1k2A+s905pmo5mPwaDaRh597ZfuktfMw/yipd764QVFDcopam7u5XJvnR//z
+         52YsfUyvFD54Z94mFa8UhM1pzv7RZq+9gmeBwhVgIbY+gRHTs7EX+ij8MYZYLlibHxzJ
+         fqFnPU7bHsQG7WUQc0VU53ldZfIt4OA70Ock+ghx1DItGyAE1WKmr93XEsWK6h/XQo13
+         1BhTpOzuGqK4kBL6+aFzGMZN0QeSlp0dF0UXx3yn6GjubB+kIgAjIussUeAGHHJxx0vO
+         PM3yGZiO4ilh35mwcy5HE5sd+jtEnGYP4fEBKjvdvVHA6BRmS1BP41X2Ne3YovUNsBfq
+         CZZQ==
+X-Forwarded-Encrypted: i=1; AL+hErH10+e25Fsz+SD6BWfAahUSAucJUD0NglZSQmu4HlRZ8vZLV7jdhYH0gCteoNnBQ2wwoUCh3pMsoCVXmg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+PgjVdluypgIf05I013y/zHxh5EfCeVHLXBPuK+D2el2FDtY7h
+	zXkfw9cnpBNNrPYZASHiaobhwkFMlqTukjoOOlOAqEywbP7+0IYTWtSv
+X-Gm-Gg: AZFdTZf4Jq3Drz+XP9uYq+x2iR9VdIIPBa9AD24ZObprmVmVck590I8zM/ay1o66nsj
+	Ctuq/Z6Ffa5e3zKrlEgsZRFoOKcIJ/4LgIy5sn0rOVK29QiFQ3SUnlL0EkfAZxHt7wRmkIoSBv8
+	LxfUK6XlBMCmggtUabd54aJly4f8YpEu0/QTb5XebgUwhw4HteHHWHxxTu/xDueC7VoIdzf7LH/
+	ki4h0EXXKIwBU5CfMSezO4BaMzhwVFt+SONTn7loEpgSSyq+4J9CLxdAw4rTYIu/b399Y0Ne094
+	1RnFAKL5j/Z2MoCrgsrhn19iX1QXz3ildycjXv1IiCgRKrI4I8NBg2pm6Adp5qvFuB/JyO+4uIK
+	EQZ6kuz5SN2cJAxp3VETo8KdVBUiTqOD7HdmDDYll8xuXngTdgCmqRhMJEo+Jo2qVbVLd/QcOmY
+	3HqDUe2QMoozoTlfl4L/1fFAoo7ALSnBMNMEyu/nJ0YGh7ubdlUdvOGu/ElkaCRz7d/cl3BMqHW
+	KE48sA415Fe4A3MY6tgSMHYq+8pewM+8rt2oSJd6G6fbW5O2Fn2mKriosHt5bt3C29XSKYi1GU/
+	qkk3TUrv91945jRiVpVvhtsyQHTXvBYdDeGWdVjDMw2oiRo0xTYr
+X-Received: by 2002:a05:7300:ccb0:b0:360:5f7e:2eb9 with SMTP id 5a478bee46e88-3828140905dmr5025675eec.32.1795085370697;
+        Thu, 19 Nov 2026 02:49:30 -0800 (PST)
+Received: from localhost.localdomain ([103.149.158.188])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-382a6df02adsm17242712eec.14.2026.11.19.02.49.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 02:49:30 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: sreekuttan2156239@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2] ALSA: memalloc: Fix DMA allocation retry cleanup
+Date: Thu, 19 Nov 2026 10:48:59 +0000
+Message-ID: <20261119104859.2807-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261119100928.2740-1-sreekuttan2156239@gmail.com>
+References: <20261119100928.2740-1-sreekuttan2156239@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,91 +99,62 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] PCI: Override Intel Apollo Lake audio class on Gauteng
- W3S laptops [8086:5a98]
-To: Steven 'Steve' Kendall <skend@chromium.org>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-References: <20261119-gauteng-audio-class-set-v1-1-e81d6fd620ad@chromium.org>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261119-gauteng-audio-class-set-v1-1-e81d6fd620ad@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/19/26 01:52, Steven 'Steve' Kendall wrote:
-> Gauteng Education Dept MODEL-W3S laptops advertise PCI class 0x040300
-> to use the legacy HDA driver rather than the Audio DSP on the Intel
-> Apollo Lake audio controller ([8086:5a98]). However, this board uses an
-> I2S ES8336 codec with no analog HDA codec, and its firmware otherwise
-> sets up the hardware to enable the DSP.
-> 
-> Add a PCI header fixup for [8086:5a98] on Gauteng W3S systems to
-> override class 0x040300 to 0x040100 so the SOF driver can claim the
-> device. Notably this fixes the internal speakers and headphones but
-> not jack detection.
-> 
-> This patch and its initial changelog were generated by Gemini during
-> an interactive debugging session given dmesg, lspci and similar
-> dumps from Gauteng W3S and MODEL-W3S laptops. The resulting quirk
-> was reviewed and tested on physical MODEL-W3S hardware and on a W3S
-> with slightly different hardware.
-> 
-> Signed-off-by: Steven 'Steve' Kendall <skend@chromium.org>
-> ---
->  drivers/pci/quirks.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+do_alloc_pages() retries allocation with lower DMA zones when the
+allocated address exceeds the device's coherent DMA mask.
 
-Humm, this sort of quirks is usually in sound/hda/core/intel-dsp-config.c.
+However, the previous allocation is not freed before retrying,
+leaking the allocated pages.
 
-I don't think we've ever touched drivers/pci/quirks.c for DSP-related
-changes, did we?
+Also, if no suitable DMA zone is available, the function can return
+an allocation outside the device's DMA mask.
 
-And last you could do this driver selection with the kernel parameter
-snd_intel_dspcfg.dsp_driver=2.
+Avoid retrying GFP_DMA32 after GFP_DMA has been selected, and skip
+the DMA mask check when the coherent DMA mask is unset.
 
-> index 7f1f47ea2ee4..908d038fa29a 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -754,6 +754,40 @@ DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_VENDOR_ID_SYNOPSYS, PCI_ANY_ID,
->  			       PCI_CLASS_SERIAL_USB_XHCI, 0,
->  			       quirk_synopsys_haps);
->  
-> +/*
-> + * Gauteng Education Dept MODEL-W3S laptops report PCI class 0x040300
-> + * (PCI_CLASS_MULTIMEDIA_HD_AUDIO) on the Apollo Lake audio controller
-> + * ([8086:5a98]) even though the Audio DSP (BAR 4), NHLT ACPI table, and I2S
-> + * ESSX8336 codec are enabled and no analog HDA codec is present.
-> + *
-> + * Override the class to 0x040100 (PCI_CLASS_MULTIMEDIA_AUDIO << 8) so SOF can
-> + * claim the device.
-> + */
-> +static const struct dmi_system_id gauteng_w3s_dmi_table[] = {
-> +	{
-> +		.ident = "Gauteng Education Dept W3S",
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Gauteng Education Dept"),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "W3S"),
-> +		}
-> +	},
-> +	{}
-> +};
-> +
-> +static void quirk_gauteng_w3s_audio_class(struct pci_dev *pdev)
-> +{
-> +	u32 class = pdev->class;
-> +
-> +	if (dmi_check_system(gauteng_w3s_dmi_table)) {
-> +		pdev->class = PCI_CLASS_MULTIMEDIA_AUDIO << 8;
-> +		pci_info(pdev, FW_BUG "PCI class overridden (%#08x -> %#08x) so SOF driver can claim this instead of snd_hda_intel\n",
-> +			 class, pdev->class);
-> +	}
+Free the allocated pages before retrying and return NULL when no
+suitable allocation can be obtained.
 
-also is SOF really used for an ApolloLake product? I thought all
-SOF-based Chromebooks started with GeminiLake?
+Fixes: dd164fbfdc20 ("ALSA: memalloc: Drop special handling of GFP for CONTINUOUS allocation")
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v2:
+ - Avoid retrying with GFP_DMA32 after GFP_DMA has been selected.
+ - Skip DMA mask validation when coherent_dma_mask is unset.
+ - Add Fixes trailer.
 
+ sound/core/memalloc.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/sound/core/memalloc.c b/sound/core/memalloc.c
+index 5986e9b84ac0..8fec4a8fd219 100644
+--- a/sound/core/memalloc.c
++++ b/sound/core/memalloc.c
+@@ -294,17 +294,21 @@ static void *do_alloc_pages(struct device *dev, size_t size, dma_addr_t *addr,
+ 	if (!p)
+ 		return NULL;
+ 	*addr = page_to_phys(virt_to_page(p));
+-	if (!dev)
++	if (!dev || !dev->coherent_dma_mask)
+ 		return p;
+ 	if ((*addr + size - 1) & ~dev->coherent_dma_mask) {
+-		if (IS_ENABLED(CONFIG_ZONE_DMA32) && !(gfp & GFP_DMA32)) {
++		if (IS_ENABLED(CONFIG_ZONE_DMA32) && !(gfp & (GFP_DMA32 | GFP_DMA))) {
++			free_pages_exact(p, size);
+ 			gfp |= GFP_DMA32;
+ 			goto again;
+ 		}
+ 		if (IS_ENABLED(CONFIG_ZONE_DMA) && !(gfp & GFP_DMA)) {
++			free_pages_exact(p, size);
+ 			gfp = (gfp & ~GFP_DMA32) | GFP_DMA;
+ 			goto again;
+ 		}
++		free_pages_exact(p, size);
++		return NULL;
+ 	}
+ #ifdef CONFIG_X86
+ 	if (wc)
+-- 
+2.55.0
 
