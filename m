@@ -1,65 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795075151;
-	b=jUGxwZ8WGXK2MOcjBstMHpunT1WRaIbUNUPrfSv4tLWnGkTHWPPCMlF7FqIgFOLg85Vr
-	 qJyWvvNiahEpIcPfI5iVzl9Q+c/DvwrdHCLPzxgHEK4OkgY9wTA6obl2cuquKpeHgUH3D
-	 xwy6REepNis7aotO+J1YtdyirphmThfXdmnhLRiuC74bo403sZ/NEOZWiQAk1XZnoRTHl
-	 BEvJnYHBsXrsR04Ug/TzgYi3El0CRkZfioZWbBLS4y6nDLlE3010oXh3HpgJddYoui/sm
-	 fRHsWEnN0iHibvKVPO4x4Oxg57N1/AZoTPHJs6NvveaeouqYZbmYYqOcP0143gGFJzA==
+	t=1795075156;
+	b=Eel1FC1yh63F1zEkQGQlOOuyZpYh+ohPb3vCodXePo18rVHK+N/xakzzdpONliOqk9HL
+	 XPeHabjzLQX4VeQ81RmoRpuGgrQlbDuzmW9/kv6dBW3OgkM+Fm05k6BBBKB4fg7cooKw8
+	 F0QLeiPEyGhMkWcd6HBPueyGk/ESwgaWdq+4M4iQuHkXBbmTWUiYlqeAB9NUz557ECHaY
+	 yNP7U8vyzLg/boF5oVK0UGPks809h3TgY3JQs2AAOW02XXfe4/9IT7gjQ2KWAJySHp+1H
+	 DmrUbBN6smronemwDT0GjUYqFXfiwAyZfdI9TYzdqHzwbY0KDbAKjm8ug02UYC1Lm/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795075151;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795075156;
 	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
 	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
 	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=i+TSTRKNm+cn7P81lHSoAK4bd1LwYiQ07noc/rvQFT0=;
-	b=eruN2wi86fMDbFpoUBm8iFIiitVoBGMulWJFhR2cGdT4G6aygdy4GAjFyz/0UE8pVGeQ
-	 6WzwIsNYt64fCvFDwVoV1WeT9Y5BWLGla2fnJavb1CqTAInWJdSxa4UtN+GOJvMrDAFfD
-	 IuNQpYMVkKGftn9+gl1tmSZi/Bb/nwAXTOSWOMr45B+P4vBVe5t8rg+IdtBsNFnZnpsbJ
-	 N6BRhft30JOVYlIDx/cMkqn8lRJPys2e57t3D0X133LYY0jLlK6lyEwNT14jfl1TqfYLt
-	 +qmhYV5oyMVMRhyYE2qB6vJ5xiQ37psjzfsUObdpPQeEY8+5MzkNv0qJObXHQLx/Gyg==
+	bh=J8sp33TxN8sYSdWCIznAAYJLCH3d5/s4q2B6VwSxRt4=;
+	b=M3R+BboizajvgpD0L3tTo4LCfmnbG7r6vhZcvOoTSNEAaYthAA8IMyDMll5ONmpVX9AN
+	 lcu3Ka0uxTPIPzi5z+sn8xE8dTYwq2sIn+XxAb0LmeBVfbpGWTbaXy91YSeYFq5kpDzIU
+	 UK9JkgAH/R9LnhTuLxwaSvgr+I12qg6XxedElSPZW0Ld0obI2HUkHZK0LKG7fClM4XkrU
+	 3kEtkN1+EsD6CDccvaTIpFUzRXeTQcXM8Xutwwfslq5cKCv6wHJxUnglJpD8ewXbONeh/
+	 gT7IBzG0E9aoj8jFVAEYG5h3oxUESfP1GhFmq2CRTqcq7VZBp2s70nKmhIT5gBUdtjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cmss.chinamobile.com;
 	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=Uf8xcxzx;
-	arc=none smtp.remote-ip=111.22.67.151
-Received: from cmccmta8.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5AE0606A320;
-	Thu, 19 Nov 2026 07:59:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5AE0606A320
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=QkMK89va;
+	arc=none smtp.remote-ip=111.22.67.137
+Received: from cmccmta4.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F221606A32A;
+	Thu, 19 Nov 2026 07:59:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F221606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=Uf8xcxzx
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=QkMK89va
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=cmss.chinamobile.com; s=default; l=0;
 	h=from:subject:message-id:to:cc:mime-version;
 	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=Uf8xcxzx94iKtWuiAD3W31c1Wh7R4j/FV0MKlqGF1YKjfTJzjJ0CRRr9eR9baZnyypjLvZS424Y6u
-	 ghVjLhMhyRqHyjZLkX1bjzx/61AOFHyLO22f/xAg3HlvV5u3Qm0Qi4i8QdvyfhFhE1hnB1FM4isbnE
-	 9HxH4JXr9/zwnqK4=
+	b=QkMK89vaVhe1E4uSnihKIjUo8MtZQioFfrhu4HslvMqka7dOe23pvWSSMtD6U1SdNpizOwmUiPIrb
+	 gWbz+1WqvYtuzjdcMKQszNPBOhK2/9FjEWPQcZbzjThQ8JGCm5Sx8bkw6+Db0ukhO+HQ+QXChUfP96
+	 ZQ+A003lNVqw3ytg=
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee66afeac4b111-e83c7;
-	Thu, 19 Nov 2026 15:59:08 +0800 (CST)
-X-RM-TRANSID:2ee66afeac4b111-e83c7
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86afeac503d3-bba8d;
+	Thu, 19 Nov 2026 15:59:13 +0800 (CST)
+X-RM-TRANSID:2ee86afeac503d3-bba8d
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from devin-VMware-Virtual-Platform (unknown[223.108.79.97])
-	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee46afeac4beb7-f5a1b;
-	Thu, 19 Nov 2026 15:59:07 +0800 (CST)
-X-RM-TRANSID:2ee46afeac4beb7-f5a1b
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86afeac506fa-5df20;
+	Thu, 19 Nov 2026 15:59:13 +0800 (CST)
+X-RM-TRANSID:2ee86afeac506fa-5df20
 From: Zhu Jun <zhujun2@cmss.chinamobile.com>
 To: broonie@kernel.org
 Cc: lgirdwood@gmail.com,
-	zhangyi@everest-semi.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhu Jun <zhujun2@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: es9356: Handle register cache sync failures on resume
-Date: Thu, 19 Nov 2026 15:59:06 +0800
-Message-ID: <20261119075906.50214-1-zhujun2@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: max98520: Handle reset and register restore errors on resume
+Date: Thu, 19 Nov 2026 15:59:12 +0800
+Message-ID: <20261119075912.50227-1-zhujun2@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,35 +71,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The SoundWire resume callback reports success even if regcache_sync()
-fails, leaving the codec with a partially restored register state.
+max98520_resume() ignores errors from both the software reset and
+the register cache sync. A failed I2C transfer can therefore leave
+the amplifier incorrectly configured while resume reports success.
 
-Restore cache-only mode on a sync error and return the error to the
-PM core.
+Restore the register cache only after the reset write succeeds. On
+either error, restore cache-only mode and return the error.
 
-Fixes: 5d9cb740cd38 ("ASoC: es9356-sdca: Add ES9356 SDCA driver")
+Fixes: f88ee76b8645 ("ASoC: max98520: add max98520 audio amplifier driver")
 Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- sound/soc/codecs/es9356.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ sound/soc/codecs/max98520.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/es9356.c b/sound/soc/codecs/es9356.c
-index f2f658d8bc53..325744711943 100644
---- a/sound/soc/codecs/es9356.c
-+++ b/sound/soc/codecs/es9356.c
-@@ -1199,8 +1199,11 @@ static int es9356_sdca_dev_resume(struct device *dev)
- 	}
+diff --git a/sound/soc/codecs/max98520.c b/sound/soc/codecs/max98520.c
+index 56e559db88de..a1996568dda4 100644
+--- a/sound/soc/codecs/max98520.c
++++ b/sound/soc/codecs/max98520.c
+@@ -643,11 +643,16 @@ static int max98520_suspend(struct device *dev)
+ static int max98520_resume(struct device *dev)
+ {
+ 	struct max98520_priv *max98520 = dev_get_drvdata(dev);
++	int ret;
  
- 	regcache_cache_only(es9356->regmap, false);
--	regcache_sync(es9356->regmap);
+ 	regcache_cache_only(max98520->regmap, false);
+-	regmap_write(max98520->regmap, MAX98520_R2000_SW_RESET, 1);
+-	regcache_sync(max98520->regmap);
 -	return 0;
-+	ret = regcache_sync(es9356->regmap);
++	ret = regmap_write(max98520->regmap, MAX98520_R2000_SW_RESET, 1);
++	if (!ret)
++		ret = regcache_sync(max98520->regmap);
 +	if (ret)
-+		regcache_cache_only(es9356->regmap, true);
++		regcache_cache_only(max98520->regmap, true);
 +
 +	return ret;
  }
  
- static const struct dev_pm_ops es9356_sdca_pm = {
+ static const struct dev_pm_ops max98520_pm = {
 
 
