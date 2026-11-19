@@ -1,57 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795104539;
-	b=SXvm3S98pJWIW8FScf0nL+H9/BYhcImSSzD1RFfca6dY+04wLE7+oVwgYfU+MpGpdX8l
-	 cXBAvsdcvImgi2YE//3f25B9EhyZeOOGt5K8oW0zKslNX2I2WvtnXyOC9m+BTev0/f3O4
-	 JFAqW3N7m4nIRWlJ/podJFRJdqrA29lMjio5zmNkC04lUjx+leXtDaLNrGwiBSNKsL3OS
-	 y4zwQJNCB/xhz+ZAN7p5wONvxLZBz7Y+rtgtCIVEoGzc7NgYvDEQdMRhZ6y+zVCNk6WeQ
-	 gh2EvbKnydhy55vHkt5DUuOofnvIvcUWe3faKEbRU9PeEbFInA2i4UgKn11PbDypQdw==
+	t=1795105390;
+	b=1QpNiRI87DoG9Eq5vo/9HrcWC07UdLWzcFYcAEYduAEXr4r27xYWEsY8Eo72bojIDYu/
+	 o5I8pejNDiYXFLUEZCHh7OPs5Xm+xj8ySGAPBnlQvQzlgJB/UGFwR2P31jpIFZzKix4XS
+	 T082EIWCR8HUVZjYU+r9zfOPFnL/ZVcwfNeOocF4tkELHIaNCpUa6RQ1fcSRgNyFLdTz/
+	 R0EOs76ORPCYBAzh4+fl149tAA+fZF9uvJXdeMB4Vevfvhge1MwVu2FYKDNSXv2Fv2I/C
+	 F23OzSytKX+EP7O7UK1LBQ1uWkzBXzCN4VZPlX1us7hQp/VQIvvHH6R7RSi5iP/I4Rg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795104539;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=b1bZUSt2AcEgnnFIoI5rdzuQK8wRR8BoHG9JOY3iNcE=;
-	b=iKr1MXbK41WKKYqAh4fgfCEEacbFCXifJaVf06hx14Y/f9n8F4UywZMdyRc8pViDz4yl
-	 UWnHcL5wTUuMmzN19phh8Iii96kWz4ZEyPf+KbkkcPLJkb0r45udS0SHM7vlLRF+msvtA
-	 TLqOS6FHfcYm2mwNP/1WyJlyvCr+xepyN/YidTToWWsBKujiObWAd5gFGgKQNuTKgDzJC
-	 rG5Tb/4WrDgPXw1J2lgp0SXJM6NY/2GHKde6GdzrAXcPHtozvyDbim6eLfgQl0T+WZWZQ
-	 K1vWPZ3/xYxD9MWL8fWnnVCvpSqAu/7TNc/kmf3sD6mgZxL0heqiv4lNXs37zeqMZVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795105390;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=1YaK3ViuV2sJB3NB3hiYhK7dZmsOxgmGMfZhzPFJ6/g=;
+	b=AmDnpLx8wXYb5mPl0MofnZcXZjCm9goqZmswYUe8u2nELpalAYY1NDj/kPE6tVQs8BM1
+	 fkbdnV87x6dlPw+jRUZ8jMFb71P7pikjPi/FxIvZs4s7olcLBOz6G6l+ohqYBMZWZMmCa
+	 1Xe2tf/7eBfuv8rTYwkR2DN6ZmrIfZlT4Lo5mFsOoSB2O1xRs+NuKjitNo8UVUa74J2YU
+	 WflUuj2ARro/WYX0vmsfvMlrgVVST6IixEtv1ismxPLQ9cFzmVSuNfSHnPK2fhyhoGIls
+	 5w97I/SNv+EfitSmRGkkxYd4brLyflzR+nDmKUuIMoAjOqP4OC/aBh80uVD7pdtU/2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yil5f3Pe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="NTM6Yle/";
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D34606A333;
-	Thu, 19 Nov 2026 16:08:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D1E606A331
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 16:23:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4D1E606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yil5f3Pe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A3D1F000C8;
-	Thu, 19 Nov 2026 16:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795104539;
-	bh=b1bZUSt2AcEgnnFIoI5rdzuQK8wRR8BoHG9JOY3iNcE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Yil5f3PevPiHRyf8sBRrCZZ4a2JYJws28PsJpFmFZbQDeJZHRUpkc25rcKVec8Oo2
-	 p+SfpA097u/vKQhDGlAK6obf+TMJPvJg0JRAjVHtxE3LYhFsDN2xf22ZUTUZV3CsFy
-	 uUiLLWVxSpTMPunoUEBtFk60jd5ZRn+VDoBdCnI+Odia+MJdVhANQoER+7QKlGHerj
-	 PhNLwsqNp2O4bcwHOr1RtRSwfD7vH4Q6RmaQD6MW3voOZMGCbFx4Dnfhl9zluwH+dn
-	 IC7AvBqmQCUd0Ti1IwWO+kXLQ4JzOws4T7vT4fRu/mRxL4K5Ube6uaKK8kvuhex7PJ
-	 T/9QO2+77xYsA==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	linux-sound@vger.kernel.org,
-	Sergey Lebedev <lsa.uz@pm.me>
-Subject: Re: [STABLE REQUEST] soundwire: dmi-quirks: drop the ghost RT1320 on the Surface Pro 11 (Intel)
-Date: Thu, 19 Nov 2026 11:08:26 -0500
-Message-ID: <2026-11-19-1-daily-reply-0024@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261119064745.65211-1-lsa.uz@pm.me>
-References: <20261119064745.65211-1-lsa.uz@pm.me>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=NTM6Yle/
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795105389; x=1826641389;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=W5j656+uB7sb1duxfp8eIjtEgbKhItxlItyNO5v2TRM=;
+  b=NTM6Yle/U9DaQSEFr++Jzzqf+KU9H8L12H7ecxHtGhAMp1CQQw/SSMv4
+   gIpAmvHMvP5xOFiyC8mbNuinufKJAUmzAFVq2xdM3Pmdp8mFdsNECOtiH
+   cQeXYPlVCdjEF4JQ1aOTIXvP9/ermVD6EIcLHErvd/yI8H++pXi8QcUiQ
+   QbnfDFegcliHMIcSggqLDf7VN9JfG+sdZwxclhml5ZrjR3cIUwVw12ReW
+   dfVKdZeaLCCXba+uaznv9p+Zu6Ufabg+iGbKnwMgEgGAis3llRZODg4Vy
+   2sPA33oIqOVy2TDDkMafesc2rQjsrJl+PHjFibLglCUPALb3oZAY98q9O
+   A==;
+X-CSE-ConnectionGUID: H6Kitm4vSCWDDiKeeBUgOg==
+X-CSE-MsgGUID: jGm6MyeVTxGoKmJO2N9JqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3878193"
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="3878193"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:23:06 -0800
+X-CSE-ConnectionGUID: BNo13wbcSaSWDJYFAQLkAA==
+X-CSE-MsgGUID: G/QHwvJNSqShGNBcxE2Cew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
+   d="scan'208";a="10457625"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO kvehmane-desk1.ger.corp.intel.com) ([10.245.245.109])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 08:23:02 -0800
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: kai.vehmanen@linux.intel.com,
+	Michal Grzelak <michal.grzelak@intel.com>
+Subject: [PATCH] ALSA: hda: intel: Release i915 component when delayed probe fails
+Date: Thu, 19 Nov 2026 18:22:53 +0200
+Message-ID: <20261119162253.1779252-1-kai.vehmanen@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,13 +81,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> Please consider for 7.3.y and 6.18.y:
->
->   d32e04c05234 ("soundwire: dmi-quirks: drop the ghost RT1320 on the Surface Pro 11 (Intel)")
+Commit fbaccb1b19c7 ("ALSA: hda: intel: Don't free card in the probe
+work") stopped freeing the card from azx_probe_work() when the delayed
+probe fails, and only disconnects it, leaving the free to azx_remove().
+This avoids the double free, but the resources that were released by
+the card free via azx_free() are now kept until the PCI device is
+unbound. In particular the display power reference and the audio
+component binding to the graphics driver stay held for a controller
+that will never become operational. This blocks unloading of the i915
+driver, which breaks display driver reload.
 
-Queued for 7.3 and 6.18, thanks. It needed the two Lenovo quirk entries before
-it in the table, so those went in with it.
+Release the display power and the i915 audio component in the probe
+work error path. Both snd_hdac_display_power() and snd_hdac_acomp_exit()
+are safe to repeat, so the later azx_free() call from azx_remove() is
+not affected. azx_free() can't be called directly here as it would
+run before the codec instances are released by the card free.
 
+Fixes: fbaccb1b19c7 ("ALSA: hda: intel: Don't free card in the probe work")
+Link: https://gitlab.freedesktop.org/drm/i915/kernel/-/work_items/17751
+Reported-by: Michal Grzelak <michal.grzelak@intel.com>
+Tested-by-by: Michal Grzelak <michal.grzelak@intel.com>
+Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+---
+ sound/hda/controllers/intel.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
+index 0a62723b3454..73ff42faccb7 100644
+--- a/sound/hda/controllers/intel.c
++++ b/sound/hda/controllers/intel.c
+@@ -1740,9 +1740,21 @@ static void azx_probe_work(struct work_struct *work)
+ 	struct hda_intel *hda = container_of(work, struct hda_intel, probe_work.work);
+ 
+ 	if (azx_probe_continue(&hda->chip, false) < 0) {
++		struct azx *chip = &hda->chip;
++
+ 		hda->init_failed = 1;
+ 		complete_all(&hda->probe_wait);
+-		snd_card_disconnect(hda->chip.card);
++		snd_card_disconnect(chip->card);
++
++		/*
++		 * The card itself is left to azx_remove() to free, but the
++		 * graphics driver must not be kept bound to a controller that
++		 * will never become operational; this would e.g. block
++		 * unloading i915. Both calls are safe to repeat from azx_free().
++		 */
++		display_power(chip, false);
++		if (chip->driver_caps & AZX_DCAPS_I915_COMPONENT)
++			snd_hdac_i915_exit(azx_bus(chip));
+ 	}
+ }
+ 
+
+base-commit: ec925d3740159f4b4bd3b7640be5d0d2b4664106
 -- 
-Thanks,
-Sasha
+2.43.0
+
