@@ -1,95 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795100568;
-	b=4R0uT1nvrxCf4EP8myKgvGqHcDZk60V35Lxo9Yd1LRudMw/7esJbnPHNFJ67uLlfTfOI
-	 072dSDUaheYTusuNsvE4wCCYbk1AeeFY8p+2J/d+HXnzX5/+JZj/ULDzgSjGT/V/N+luE
-	 oDM8NgvhWF864YnHlnTYcyUp2eqAHZENsjK3RTEXtmlsacGhwycK3xVX+kcF+9otqy1/L
-	 UtlfauVzs9Hh9PNAZ0XZZh7bV3FRIfnBr0l+IheeA6GDhIb+viuPfXHxMatBVs31tHUIt
-	 FS8Dak2krfMom9HcKLz5w3tELjzjMnWz5L1C7iOWANtNHFEnbkBUbIJbWwkIBc6HW4Q==
+	t=1795100710;
+	b=SdQuAphpMXhOAF+pmG1J9kwrQWz2ZWHKt0HEo0191F6SE0YeABAYk4iUTaJt4Bonid19
+	 Yp1brEZKhuFvPvzXZYWVbj2GIjz/4THSjkzS9k8sxIEHNNEjk8+E63ixgIxFEZfDbSFFG
+	 +9jSdeHCkQjFzwV1GG3scVBstEfZ3mRAqn12od1vA3bV9lZZbiGJLhSawWEMg+jdyqon2
+	 3csAHEhwwFrI3TvxCR57gUCLsWfJeSIBNeWeVOqIDrqON+/brIufiVLjA0ORwRXD/ftfz
+	 9WkKXt30Ey/5eiRilO20Fc33GJDhnwK4yLTuAJ0zSESYbUhACOVPWiclyy6oZrbRdZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795100568;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795100710;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
 	bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-	b=p02Otrp6xlm6/0wUEIFGu5woLlJFkV+idyuuEsNUBGkcIP358Q8sXTl3Y3GTKG/7yjlw
-	 cycGvRVpTfAN/wPrvIwwgrgo3tOJisRkt2LpjmJ096Xn+EyaDWn4GuF9fsSO0fXLyWk6S
-	 UogOllYe6fjjaZXoH1HWOsyienMVjOhtoLqUMfDHVGi+HUzN0J1lrvwW+lIoCKpWZIQqg
-	 NcqIsOaf+xzyf9iewOAbuKpXTmL+BH+mMMoyfJxHqZ8L0s9T2vnDutJnEkoHvKbe0ddhH
-	 bUsp7RDXnn9lwRYRxoUJ/ijQfB0jePuxHnK5iDCRId4Gs1TdGpRs26RCYO1cgMjPMHg==
+	b=k8Gd3f1MwjX3PaP6A0sILYsnnLQj620DjMYAfCG38Ue+tdqI5d9Kt7MdQZpOAgP5cLZf
+	 axq1Q/hy7148+vvVtWRjn1stuxnfhtVGdZ1iIBGNNGsBVUlBNvUPhhOOP+QGWF5xrXDi9
+	 6sqxMJ4LiGJbfwSY0Fjw1Neqr3x96oKLwylg6nyfMSo+lDkNG64BjnYNaym76NLsgrPY2
+	 NknUw4w/EY2G49U77Fb7m9qc5ax+IJaCdV7KZyoqFKJRHpSmozdgy3aH66amnB0eFrW4k
+	 Ma1leEJQZDX5Fw1RianRtFZ0T4ZceIFtjCvL3fiLzN+mWqYgre6ZswBAj17tD+C3xvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Oz2nPTHk;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T26g570z;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982C9606A320
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 15:02:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 982C9606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8D2606A320
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 15:05:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA8D2606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Oz2nPTHk
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1b244fb7fffso2362161c88.1
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 07:02:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=T26g570z
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b3e85baf7cso1104692a91.0
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 07:05:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795100567; x=1795705367; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795100709; x=1795705509; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=Oz2nPTHktLmcnwc9QD2deglhss/KTTh6sqOt3i2IxfVDH2uZsLDxqArn+5JT2shlwN
-         PnnB1juWrf0rQ5RuxUhCYGuTzVH6pCEPT6r1hHpDa8nmYQaXH9l1GlT86Ot3/Lch+RhI
-         P6Q0ZsZcA9G9kg9f1vkwokCYZIMSvnfEy6IJNowmsgGZOXbHmNWPu9o6b5oV8JGh2ePw
-         xfKYPmKqvORFqIhWEUynLV0QDp1UR2zW7cMidypqiHYXa7ETzUaWYv1JV40nOyBxeXh6
-         shAA+RtTnx461Ib6+e+ydoOf32YAMGYqOx84DcAC48LNcbwGEKLy3LFLWoLDdvWzGKKr
-         lDVA==
+        b=T26g570zTinVZ32+RY0hZuPnc9DFGHMCCsp8slET78BAeohDFBGqYkf3hvE8Eo9h8V
+         Usaw6nVtlrk+d3oamQ1jcFyA9giN32jRODjY9X7eS1NTAaTcBnxZcVHt+tN5fbYjzIHy
+         r5OR8hY1powy/U9qlyyyf71OiqKVgM2a3+nDmQ556ZX17KyAbPEmf1MMZb8E2M9gFH18
+         Iw4/7t2RvjzlBpnZ9vo7qGesWW7Je8Fj83C1Bm/t40JB7ytkGvE09pU/J4L/L9y5UVcg
+         9blWa5mRNyrChqzdd5jlEXBpEvyMwmnkI9DXrXhFq83fID1Qq+hDuVkiI5QWvSIGG6Ty
+         e8wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795100567; x=1795705367;
+        d=1e100.net; s=20260707; t=1795100709; x=1795705509;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
         bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=QMYMX0FFf/FHi0pl/UkaI/AKXP1W5+BWg2kD1jRoob65YBGpMgXhXNOY2TbF4SKlg0
-         NmksdwvC954hPnBjDQtvgJPxTNij3VzF+/gJtkXU58urRHFYsADMnHSx7jOek/jeTqek
-         1p6bDuD3/pbv7ja9eko40+tcDaY53JlGNgP7WwfwCLVsbMRsDfXT44sOMRjenowZdF8R
-         04BuhhtXeJgFlMhzajty8ZtgT7cUswVybeO07c/BS+nh78iTXddpC9whYTtBR4W4Tdtc
-         iXXlR4QHTwSQCCO63d8yTDqUbLjan0ja9BsEM/oYQZn799hwlqnWC7uiEGzyL1OqKXVx
-         FoJw==
-X-Forwarded-Encrypted: i=1; AL+hErEJonUBbX476OSOveOPquzvaRpU+00kd5vjDTtcqO3D0xYItHkTEqQg5U/2PJPtP1jqPO6D86EF+42QZQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8uezIlBRPcg2hN2YuZp1pckgcyVyR+Un/ye8CaXEPFPmMkQk45
-	pHkP41sXOGn8UnZn2yjLbrnwwuU0/h9VnAsqiAAnGAf+d/KjCsTuR7qb
-X-Gm-Gg: AYBFou13Tr6LZibvBFAbFG72O1O/xNIc3TOmGgVmBeSEplvNWZn5z5rzGDCnM7NLI2N
-	EhRKMNgXgHA3e/jud+boT1PQmIlS5/E3dKDAqH4sFHuwqvp0IMUz1BVEjYbdM4MXjrWbLXnt2lH
-	LEZiTO7WIQbOv7RBwTXnohROV+1yhweIFNhrbh+FsNaxQFxOynl2RN3U0VCsNHhtkALY+/wLtmW
-	dcowKyj+kJA/Z9xECvWKwRAA2O29VFZB9UP8C7HFage44GMOV9qMhIc81n7MQoqZRgEvG9gmP81
-	MO2NobVCZpraUbP4PB8+I8NnF0JApHsh16XAdng3eD+y3d6aU5L562c8LgNMF30qX364ydGxIcC
-	wM1WFT7kyKrtxUh2igUx9cS7WVXTqHZLtOGNWSsPA5PdTdTlqUehaPQpsKDZXarARsoPZc5JPar
-	ClCODvZmm68HiGskUfq6TQm7foXiVequeo+rHYJWR8ZBpjrByZWENlnjp9/7tG78hJkr5A6lURS
-	pzFm6ow3IvvtvnonHbRo7a28me83SMnicaSeTQEJSChTRftZWqOmieT2VZhH7hbhSWrHc1e27KT
-	CxEYEfy3MFR4WDYUcldhcNB+FOEYU11l8h0gHu719biOphEi2ubB
-X-Received: by 2002:a05:701b:2051:10b0:15a:4155:3d9d with SMTP id a92af1059eb24-1b543cf29c7mr5755024c88.31.1795100566769;
-        Thu, 19 Nov 2026 07:02:46 -0800 (PST)
+        b=2GAwILuXbCEEQME049/sQF59hNvQ6rsMLkVREkDrwgRN/FwwVxyo8i0AvofSz7HuBM
+         9fVW7dsG7Ug1HwiC7FmpUzqmZ0DI9lW90dIxRr8HKf/pBbSYOv4CPblgUk5uzztD6Zai
+         K0v1g1rvbOwY1bSNt+mtlJJE7AJ4e+8TvECT9yFNdyKlwWAyzyShkswRSKRfBagTxEzG
+         8SHRhSh63cLn2s7PqGkOLVQaNE9DjVFSWr1g+pWHGBQ8vo3pVRyadaVcdXV9lIQlnQea
+         uIwCCe51biuQcJoolH7NEaldkYJpVIjFZT7zvPtZgDl3/0mO0pzs95ha/lmypod2tWUt
+         ZhQg==
+X-Forwarded-Encrypted: i=1; AL+hErHyCro7xi0BrzGCCESRVM7tuGXWrEYYSee6cRxfbactdWHnQRbN1WkP/Yr2ilSwcMZc2In+YY5TVRmoPw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z85ZJD+UxlnunotBcrIjXIrNLEc7qDEBRck8jjgrq5JqfrVAiSA
+	+CSZkoOYqOjESkiga1DP5GlLwSHtHHH3ZcjXdWYSKkd7lAQileUrlDJX
+X-Gm-Gg: AZFdTZeduSzJy9YHHvrBym3edKdIHOLEA0hP+TaHO/faskQrhrf49Z7OOzEQ4jQhwtp
+	YoY3NjPC+mWsies+GZiBJun870glax7WI4U7zVzXCSbTbANFgtGG9UpDO4S9fn4sr7LpgBVnQF4
+	NbTlNQhDOywWGUrNsVYuatrGrJYLyqBVAt8bjGvG+5IoNE6gBorVQk/nqY6sl0GanPY9Y7EEwdS
+	YoKC3/qSNluhVto3Np33BzgCaJ2H7w1TNjC5NHvpYGKefMzVLTOwPz0eZo/hRSJHy+CtTft/hqJ
+	FenrpwlKp4zBRwLEfxSRU5FXnduU0F/rd5EB5X0DdRAT6JsNP5wNSVBOu3O8n685Vd91G7KhBFH
+	e5eOUB7xUPKzHhioaCUU2Nb4p5ekKKViybegaBHwEIdXAekNpSgMdGKLK9b72Yc00GYvhPYUn3Z
+	ZkIJpbRcG9SAjN3TflKb/7W2CYaQT+5iM7f4KBpZ2KEVJIwDGq4KEM5enhIwEn8Gy55hSoHKP/4
+	Gqu3Pj8NnXHxJlsIZvUPuXYoYYE88k7L6eIcEFktKfdkMZtdpVg6p9zetJhufhsM+3KjaP1qXlX
+	eHrRNm2+UWF30joPq5BF7uzn5iJalTjEBcOi7HJZsbfyH3PhlTWTtQ==
+X-Received: by 2002:a17:90b:5407:b0:3b3:b0f4:1bf6 with SMTP id 98e67ed59e1d1-3b3d074d82bmr5995161a91.22.1795100709124;
+        Thu, 19 Nov 2026 07:05:09 -0800 (PST)
 Received: from localhost.localdomain ([103.149.158.188])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b549e398e4sm10457288c88.15.2026.11.19.07.02.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b4028310c5sm1827475a91.3.2026.11.19.07.05.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 07:02:46 -0800 (PST)
+        Thu, 19 Nov 2026 07:05:08 -0800 (PST)
 From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 To: tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
+Cc: lars@metafoo.de,
+	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	perex@perex.cz,
 	sreekuttan2156239@gmail.com
-Subject: Re: [PATCH v2] ALSA: memalloc: Fix DMA allocation retry cleanup
-Date: Thu, 19 Nov 2026 15:02:20 +0000
-Message-ID: <20261119150220.3320-1-sreekuttan2156239@gmail.com>
+Subject: Re: [PATCH v2] ALSA: dmaengine: Check DMA submission errors
+Date: Thu, 19 Nov 2026 15:04:37 +0000
+Message-ID: <20261119150437.3380-1-sreekuttan2156239@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87tslduhiv.wl-tiwai@suse.de>
-References: <87tslduhiv.wl-tiwai@suse.de>
+In-Reply-To: <87se0xugic.wl-tiwai@suse.de>
+References: <87se0xugic.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
