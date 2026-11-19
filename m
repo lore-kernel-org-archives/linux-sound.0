@@ -1,54 +1,68 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795129580;
-	b=X9q+NxRlkcCEJ6Hnpl4yZZ8lCKq/J8v5iOLVMpW1zStSU+riYlcpogSpn4EuX7acD9M0
-	 eCDnwExvuFBdysWQkIWAbpyuavv75HMM4U/xhHpkYUT1aopAzRo9FOqu+aOOUB8+WUQO8
-	 98VVxh3fBm6o5ecroecXqJKF3wf8wpswCIqJMVLPx9QrRIhuySjn3hXmxsp4CaYDkjUCH
-	 fz2+jjmH2DOUs0BQWdqUN1CLHivsNb1sfWQFmXUcv44aTY3Zt/x2RrrmsPYTbqMGLmYf5
-	 h+oNKsyOxOtPUlnVcHtazyAuALeOwkYENuw6XL0KmDdavfP9rbZOu6EVVGo9MwA1wfA==
+	t=1795129731;
+	b=onYu42PXAe98kWkgmmkPl0cj9Nv8+mUFgLBwNyetq73MkgNuzG5vNE14/Am7r/QDCX5b
+	 omgan7SDSsRB7SK7wWsvnDHCS07H2Gp1N8vJrE82uoCXuI/7aXlb6gjdAFzPo+n8wAoVO
+	 d07Gs8BoD9ml4/c+XceS9JVXRx+ZlrG215kBewwwnwQNnJD5i/Bdg2Oxbq/Th4PoNqN4U
+	 iwaH4Z/xLEVtEiD4lYJ+9L491O+gYqcSHmYLks1Fr7M6FJdNlJmXHcbTqbUX5meLUP9XU
+	 YLZ5cwv6l+ga5JcZsd65yTty1fVT24BetJgOA0K16ZTknYSu7xZOjtsU2Ex/1h5PArA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795129580;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=YZfqBlRO1zaRmf0WxInELtJ7dtRVSVlyfnc3joty7bs=;
-	b=xEAdMWL4floe6mGmMdu8EU7K4qzWWPEiNRiivOE06t4VyxFTs78BslockAeDTxJUEpr1
-	 QnPC2sU7Zyy8biYdiZyVjfKroPizxX92R/Y4PDrnpg9muMwB4V11u2VME83IFrK1uf6ZW
-	 9FvH57HTnFnsnqBe97MYkzff4Jq/zaObrBDruEeXztxp+NdOwlgPxOlyflY2FmTI+Sv6n
-	 Uk9Po5VDPOGwfe3IL5y5a+Al8vZsnqiSE3SiC+aEQEjjq6wopZq6Lq0QpjJQqYHfkHwsQ
-	 wFyorHxra3gPch3+dC/oG0QHJ+KkzQ3nh39DDtJ27vKC5exYUj29N7HQLi51sJCYLzg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795129731;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=wEZkBab7UqRfMrX7O5m1ZmNVlSf+C6CU+1tcpFcU1rY=;
+	b=m3pW0lm7xZ15XjoU9TJl3b9x3h2mjngh9dDanyj8q28/VZ9yhQUjrKEfV4ChyfyyNmgq
+	 zrCbN41QW8gX0WQTmD93p3TL1YGFHUkBPCrMbjp2Ne80j3eU203uYT0s+j7nnFWgLXC4k
+	 n9A/D0moj19JMFQBAHufeEV5tGGYEaq3Jqmv2f4klZ2QlLiQ0obPd/Bes1WLeOeemrisc
+	 W1r5Ku+j7w+04M9Xry/bqrBNLY5kQJtWLGd9O8sMZGBVz/QLSJxbYzIPVh5H6aUQxPCjo
+	 IenEM9aXUQ6XGb8cC6KJqzuqLgU1Fg/Oy0DNN6kQAfBux0R891VsgtCLHjfq0VnLtdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=katGgyNI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Aog1mzOk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A103606A336
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 23:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A198606A326;
+	Thu, 19 Nov 2026 23:08:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=katGgyNI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B93A1F000D1;
-	Thu, 19 Nov 2026 23:06:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Aog1mzOk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2B1C1F000C4;
+	Thu, 19 Nov 2026 23:08:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795129579;
-	bh=YZfqBlRO1zaRmf0WxInELtJ7dtRVSVlyfnc3joty7bs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=katGgyNInW9r/gh+BBZ/oajdC5SBCJAaR0cp4RBJEtKTfMmbMT78mPGoyd3Vh+/0J
-	 IKdEU+MhJ1N5QrEQFrTeDW/rNwkyL/smoe2U4uEe/ifiPbdmcWdIvIbjE88fbhTdw3
-	 mhjnqwX8pKktO+ehoPK2QmUEdXmvdP2230csZ1GgWO7B7JFSy2WP18clsXoClNaDTO
-	 5GkdRXJIAiT2oDNhvNrJ+K0f89EUP7I92+TQYLYxpaNoLApW1RabdXKD7ItGIKNJ19
-	 Alvcfw3+MA+wGqz7RguyFXxikNf08dAQ9ZAHBAVqN3Izi+jIWDdp+KLP+FmvSifIua
-	 ulob7BmQrKXBw==
+	s=k20260515; t=1795129731;
+	bh=wEZkBab7UqRfMrX7O5m1ZmNVlSf+C6CU+1tcpFcU1rY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Aog1mzOkqQ7jjJze7fklA8q3RYQyFc/V/VGL2lGoDxtnIEvuRiN1jtsoDOe3JR1TF
+	 rVMlxWqL7l+83figGswkTV59u9kYatrwfuKm1GshDpR5KWrRUfVg2EEV3Wz60NTYwl
+	 jcOHCbXM3YXCXQF/8HW0iZqbmVSHlYdW95XbbDwyzpGJPZpusVjHJ4Fw5EoPN3aJNb
+	 Rny2BGnqhQtv3sTwoXa3whMioqYCykBKgAYtakYLsf3tJPDsCOnPhVx3pCjlz6jsr1
+	 N8faTCTvcs++TO2e0wEnJRgfmftOoIsqgybQ/iL+p7ig+h9GHz3qDJbE4VEUY+zPYo
+	 PsDcQYtr5IwIA==
+Date: Thu, 19 Nov 2026 23:08:44 +0000
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Zhang Yi <zhangyi@everest-semi.com>
-Cc: tiwai@suse.com
-In-Reply-To: <20261119112647.6728-1-zhangyi@everest-semi.com>
-References: <20261119112647.6728-1-zhangyi@everest-semi.com>
-Subject: Re: [PATCH 0/4] ASoC: codecs: ES8326: issue about pop and
- Configuration
-Message-Id: <179511021913.116416.5542166973790534976.b4-ty@b4>
-Date: Thu, 19 Nov 2026 17:43:39 +0000
+To: Mohit Sharma <mohit.sharma@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Abel Vesa <abelvesa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: sound: qcom,q6apm-dai: allow Shikra
+ compatible
+Message-ID: <edf0e84b-9512-4fcb-8ca9-ada287d2a00d@sirena.org.uk>
+References: <20261119164705.1594066-1-mohit.sharma@oss.qualcomm.com>
+ <20261119164705.1594066-2-mohit.sharma@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,63 +72,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1919; i=broonie@kernel.org;
- h=from:subject:message-id; bh=K9wP53BzBQTS0h2k/ifl4fvrHyC2FY/tWMwpLj5UKak=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLL+N7ycViybuXKJzcrogOL1C33vWdlrqaX+KFyh6L4nI
- S+5bW17RykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACZi2cDI0KL0J/qnb4Ki3P2q
- nkblzxO6PbhKQpIe/7g4+aZjp//kcIb/+bnx/jO/Vsz6IZf6k7N7U4x39l32CP57MuVRn7pfqR5
- mBwA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IUg61mMA2sBAk5Yq"
+Content-Disposition: inline
+In-Reply-To: <20261119164705.1594066-2-mohit.sharma@oss.qualcomm.com>
+X-Cookie: I'm into SOFTWARE!
 
-On Thu, 19 Nov 2026 19:26:43 +0800, Zhang Yi wrote:
-> ASoC: codecs: ES8326: issue about pop and Configuration
-> 
-> To resolve the pop noise, several delay settings were modified.
-> To improve the codec's performance, the initialization and clock configurations were adjusted.
-> 
-> Zhang Yi (4):
->   ASoC: codecs: ES8326: Modify Clock Configuration
->   ASoC: codecs: ES8326: issue about capture pop
->   ASoC: codecs: ES8326: Modify the Initialization Configuration
->   ASoC: codecs: ES8326: Adjust the delay during calibration
-> 
-> [...]
 
-Applied to
+--IUg61mMA2sBAk5Yq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+On Thu, Nov 19, 2026 at 10:17:02PM +0530, Mohit Sharma wrote:
+> Shikra's q6apm DAI needs a SoC-specific compatible so that the Qualcomm
+> SMMU implementation can select the identity domain required by its
+> firmware ABI.  The ASoC driver continues to bind using the generic
+> fallback compatible.
 
-Thanks!
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-[1/4] ASoC: codecs: ES8326: Modify Clock Configuration
-      https://git.kernel.org/broonie/sound/c/89eba6af02ac
-[2/4] ASoC: codecs: ES8326: issue about capture pop
-      https://git.kernel.org/broonie/sound/c/5541b1384d4c
-[3/4] ASoC: codecs: ES8326: Modify the Initialization Configuration
-      https://git.kernel.org/broonie/sound/c/9b59871080d8
-[4/4] ASoC: codecs: ES8326: Adjust the delay during calibration
-      https://git.kernel.org/broonie/sound/c/fd1cdd8a0699
+--IUg61mMA2sBAk5Yq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr/gXsACgkQJNaLcl1U
+h9DLegf8Dmpq6RqPrhHE1XLwNIHftQu0DFDGB1QevWyLOXMc+yCPYPFwtNjtCP41
+/iRlczHbACudNwezzaxEiZ/NFXHV4PUWctEzx5LROtVcpDAgOJMIRtYgWTNixBKP
+6ZwVa76xyyDTmVRKgzGxTn4tJdwSHi2KFVTHT/FRktaQHUUpbbVDcqHZ84eMKskG
+HamZ5V8UEypMC2xZXpGh82IobL2yhOjkTG3gQQlJT5xodnWg075N+II3lGIv1a1a
+QZGP1LbjEy75eyXuXqkxphAqZyagRGXCvS26O9++t3D2gK6nqaJ0QRtaUb+MvYZB
+B99IzWATW9svq8SLEUNiiMpbOKZPsA==
+=0Oos
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--IUg61mMA2sBAk5Yq--
