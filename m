@@ -1,57 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.22
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795094227;
-	b=eLIUHd83XiAUDUktS5+96v8WHSygtgGenguu31l60RF7jq5Hqvah562P7I+V8FN7t44o
-	 f7yAhlYpQ0aeB75e4+v84AaMrOWa0VWA4MzoAo2Jpcozr6yZng6msoiyX8g5Ni338ghWh
-	 +4rsMfZrRzDh1F3VZimNdW2neSHeM1ago10Gz+iyFF4EZZO5lja8nQyBOqo10GPfxxjLJ
-	 oh0fKMHOHZWMVdPWQyBoI3Rt/hcLkaxWm6aeD7siTRZU4aYwJLfl2pBhidlq39Xu45pji
-	 4BrZTc/TF2jBat2s5DGx7NUot9X4UDQmPlejDeLDncM02vSa3bfe6+uI2NC9iC2DDVw==
+	t=1795094481;
+	b=KzdySohzyxBKD53ntcgtPcqrzoeeH8mEOPTcska8emzYVmuGxc71gBxZywnKeEz//Wm7
+	 0QscPBBZsU+bHGS5S/hDIPTgbSHowh24+fVL/YMWu86Bz5MK9SHI/Qiq9E1xR+PD01X0G
+	 tad+SJOBqkHXi3Od3sHWIueWZFGQX35mcQkDjL2ORhLkgNuEZWRi45unBNDYWKB3pwdpt
+	 MbCmqSfcHIRCAJqAGBxkw/RvY+ydpkPK07tOc7RWUHaO5YeTEmvciFZ6KORqnWRPetf/i
+	 5VVke1Mm5z7nV2xn6Hk7ThFfWAda0Nfc5jcaWNul8nWLlH3zptOMFt71IKQwQqdT1ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795094227;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Z/BBYeZCWdKo+dgO1M33Sr5kKilo/vdZ258+n1RCkQc=;
-	b=ln9O4h70xPmIVPFAnv8AryCk59ES+Lwme0HuWrdVY6FsmubEBwM13hqTUOBqnWINZgy8
-	 ElETIMO2iT1+PheeAiYYmY2jAYuKTMIIMNMF1VMHYX6s1BRi9JjQTwsxdfVqC7H7IhFsL
-	 O10jtnQgTtC5c1aU36iCfLRmPEwAIEReYaY9xGud6JRtJmvEbc+UgIjyw9BlDUnSqcbk7
-	 6ZvfVHZl8spfk7QK+JK1Ec/pMhHZJqmjDhEokRb8RmIgcd8CmdSFW2jkSVaxHUfPDmEL6
-	 CgH+mzmw4/D2BY6Ma9IM9vIALmuGxMbO9aiEYNsWUS93y7t7B0fhUnUy/3LENltwOIw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795094481;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=X71F9aomz2oT0n/uWeHa0NTM47OLySlW4wr9THFT3MI=;
+	b=qtHmOtfTggnplTO4ox/DJq2JIIHPjI3TDaavTAvs0Hz2MatRhREXImS/k+8LY25z2DQW
+	 NheeRjAB58/2TEhTBGrtGXnYybVWcaRSVF36iYmvvohG/05wZ2aNW8t1OR+Ij7qbkTCtW
+	 X+Ksjq/hoGX47JCVthBWEP3j7x9hyAidHbQgZkZSwSTq+n0QkunsAxhfIRHoGiJCZN5uQ
+	 9BR0n/x6auJ3NFtaUxLQRMvjMPHGHb1Du+1AG9Gm+pmhioAeaCzJCohW/GvjI7l5ynpO6
+	 uPFsEcD3j5xjBZhabZkmNE7qUWQu39HiTa4JnaRX50HsTWTxsFB/l5eJyMEaZm6VteA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=becholey.ch;
-	spf=pass smtp.mailfrom=becholey.ch;
-	dkim=pass header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=JVCF27qN;
-	arc=none smtp.remote-ip=109.224.244.22
-Received: from mail-24422.protonmail.ch (mail-24422.protonmail.ch [109.224.244.22])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=a92EM0VH;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IJfrpMQR;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=a92EM0VH;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IJfrpMQR;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE14606A32A
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 13:17:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFE14606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=becholey.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=becholey.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3E9606A324
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 13:21:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD3E9606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=becholey.ch header.i=@becholey.ch header.a=rsa-sha256 header.s=protonmail header.b=JVCF27qN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=becholey.ch;
-	s=protonmail; t=1795094223; x=1795353423;
-	bh=Z/BBYeZCWdKo+dgO1M33Sr5kKilo/vdZ258+n1RCkQc=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=JVCF27qNHGc9orjv57hVowIGxT133qRuEmRqvYc642rBTKMQsasOl9LHj9EoCSlAQ
-	 9xd6LnDpowhH9f4mqOUObsHyGT7HHHe3dB4rFos8GFBz5KiYLCPtkOtSNkRAPrSUHi
-	 OPhwxqhEuND+Bwq3Rt98mAOHPPngpyIkyViY/9sUisb77prJZ8VG7swJIGA7GKPXF3
-	 hJ3yOulRfCgb1ffX3lFgEvGnj1oD02D9i/rbdygVxLGldtjDpr0xIddP6JEZxtc1WX
-	 TZOp+Z1M8rGEsmd2VPLVNSL+wtins3iCBVGaVg+JRU0Nw4JN3E7XHoJxAH8fZUrdAP
-	 YtqiTVnRINKvw==
-Date: Thu, 19 Nov 2026 13:16:55 +0000
-To: Daniel Mack <zonque@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Karsten Wiese <fzu@wemgehoertderstaat.de>
-From: Alexandre Becholey <alex@becholey.ch>
-Cc: Alexandre Becholey <alex@becholey.ch>, stable@vger.kernel.org, Daniel Mack <daniel@caiaq.org>, Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@suse.cz>, linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: caiaq: stop the iso packet parsers before a partial block
-Message-ID: <20261119131632.650637-1-alex@becholey.ch>
-Feedback-ID: 60743817:user:proton
-X-Pm-Message-ID: 58f06915aadd49c187784c5b7e7b4d3f65daae4f
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=a92EM0VH;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IJfrpMQR;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=a92EM0VH;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IJfrpMQR
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D72391F88B
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 13:21:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795094478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X71F9aomz2oT0n/uWeHa0NTM47OLySlW4wr9THFT3MI=;
+	b=a92EM0VHNp/EbLegaJx2wc4jlB3tvSVYsj3HC/Eji7ISb1pO973HLWRis6DQ7SwUrHDt90
+	ayFCKjLqaupk6w3sVcN20Om2KnZFz6ZhX3sXVsBWJfItSpCdXT85ummajois9Xb19q3NnW
+	dEVArtaKVOFLzstvLUMIxYFAsxWc6Zk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795094478;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X71F9aomz2oT0n/uWeHa0NTM47OLySlW4wr9THFT3MI=;
+	b=IJfrpMQRT92ZKk3tmlhrXd5LoRoOy78Gf/uhi+PSGyDHKB+6n+xancqU7gVumvxMdXeWNL
+	8UpS9K6acXVyrQAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=a92EM0VH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=IJfrpMQR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795094478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X71F9aomz2oT0n/uWeHa0NTM47OLySlW4wr9THFT3MI=;
+	b=a92EM0VHNp/EbLegaJx2wc4jlB3tvSVYsj3HC/Eji7ISb1pO973HLWRis6DQ7SwUrHDt90
+	ayFCKjLqaupk6w3sVcN20Om2KnZFz6ZhX3sXVsBWJfItSpCdXT85ummajois9Xb19q3NnW
+	dEVArtaKVOFLzstvLUMIxYFAsxWc6Zk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795094478;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X71F9aomz2oT0n/uWeHa0NTM47OLySlW4wr9THFT3MI=;
+	b=IJfrpMQRT92ZKk3tmlhrXd5LoRoOy78Gf/uhi+PSGyDHKB+6n+xancqU7gVumvxMdXeWNL
+	8UpS9K6acXVyrQAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A30111334C
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 13:21:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bWBYIM73/mr/QQAAD6G6ig
+	(envelope-from <tiwai@suse.de>)
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 13:21:18 +0000
+Date: Thu, 19 Nov 2026 14:21:18 +0100
+Message-ID: <87mrr5ufch.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] ALSA: pcm: Avoid hw_params/hw_refine changes during PCM buffer access
+In-Reply-To: <sashiko-outbox-223115@kernel.org>
+References: <20261119122356.2134523-1-tiwai@suse.de>
+	<20261119122356.2134523-4-tiwai@suse.de>
+	<sashiko-outbox-223115@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,156 +111,108 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_ONE(0.00)[1];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[linux-sound@vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D72391F88B
 
-The iso packet parsers in audio.c walk a packet in blocks of one sample
-per stream, but only compare the start of each block with the packet
-length. The block size follows from the channel counts the device
-reports, so it need not divide the packet length, and the last block of
-a packet runs past its end. A device reporting e.g. 62 channels can make
-the driver read and write up to 232 bytes past the capture and playback
-URB buffers in URB completion context.
+On Thu, 19 Nov 2026 13:46:04 +0100,
+sashiko-bot@kernel.org wrote:
+> 
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] ALSA: pcm: missing buffer access gate in xferi frame ioctl
+>   handlers
+> --
+> 
+> commit 1d0a5a9306bc1367f12d8e1ee79c3cdcad53aa1b
+> Author: Takashi Iwai <tiwai@suse.de>
+> 
+> ALSA: pcm: Avoid hw_params/hw_refine changes during PCM buffer access
+> 
+> This commit acquires the PCM buffer access gate at the entry of the
+> non-interleaved frame transfer ioctls and PCM read/write file operations
+> to prevent concurrent hw_params or hw_free updates while accessing
+> runtime state.
+> 
+> > diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> > index 7d5e662b219bd..d028f03369e74 100644
+> > --- a/sound/core/pcm_native.c
+> > +++ b/sound/core/pcm_native.c
+> > @@ -3434,6 +3434,9 @@ static int snd_pcm_xfern_frames_ioctl(struct snd_pcm_substream *substream,
+> >  	void *bufs __free(kfree) = NULL;
+> >  	snd_pcm_sframes_t result;
+> >  
+> > +	SND_PCM_BUFFER_ACQUIRE(runtime, lock);
+> > +	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
+> > +		return -EBUSY;
+> >  	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
+> >  		return -EBADFD;
+> >  	if (runtime->channels > 128)
+> 
+> [Severity: Medium]
+> Should snd_pcm_xferi_frames_ioctl() and snd_pcm_ioctl_xferi_compat() also
+> acquire the buffer access gate with SND_PCM_BUFFER_ACQUIRE()?
+> 
+> __snd_pcm_lib_xfer() only calls snd_pcm_buffer_access_get() inside its
+> inner transfer loop around writer().  Until then, a concurrent
+> snd_pcm_hw_free() or snd_pcm_hw_params() can free runtime->dma_area
+> before transitioning runtime->state to SNDRV_PCM_STATE_OPEN, causing
+> pcm_sanity_check() to hit snd_BUG_ON(!substream->ops->copy &&
+> !runtime->dma_area), or modify runtime->access, runtime->channels and
+> other runtime parameters while __snd_pcm_lib_xfer() validates them or
+> sleeps in wait_for_avail():
+> 
+> CPU0                                  CPU1
+> snd_pcm_xferi_frames_ioctl()
+>   snd_pcm_get_state() != OPEN
+>                                       snd_pcm_hw_free()
+>                                         snd_pcm_buffer_access_lock()
+>                                         substream->ops->hw_free()
+>                                           runtime->dma_area = NULL
+>   snd_pcm_lib_write()
+>     __snd_pcm_lib_xfer()
+>       pcm_sanity_check()
+>         snd_BUG_ON(!substream->ops->copy &&
+>                    !runtime->dma_area)  <-- WARN / race
+>                                         runtime->state = SNDRV_PCM_STATE_OPEN
+> 
 
-Make each parser round the packet length down to a multiple of its own
-block size, which depends only on n_streams and not on
-spec.data_alignment (the device can change that at any time), and zero
-the unused tail of a playback packet.
-
-The bug was found, and the reproducer and this fix were written, by AI
-agents (Claude Mythos and Claude Opus models). The analysis and the
-patch were reviewed by a human.
-
-Fixes: 523f1dce3743 ("[ALSA] Add Native Instrument usb audio device support=
-")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexandre Becholey <alex@becholey.ch>
----
-An emulated caiaq device on QEMU xHCI reporting 62 channels and sending
-512-byte iso packets triggers KASAN slab-out-of-bounds in
-read_completed() on v7.3.1 and master 9d66f26fefac, as do 3- and
-12-stream variants in modes 0, 2 and 3, also with the device switching
-data_alignment mid-stream. With the fix: no report in 85 boots (20 on
-master); a well-behaved 4-stream device streams as before in modes 0, 2
-and 3. Not tested on real hardware. Reproducer available on request.
-
- sound/usb/caiaq/audio.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/sound/usb/caiaq/audio.c b/sound/usb/caiaq/audio.c
-index bb6280aa3533..c7d47f0833da 100644
---- a/sound/usb/caiaq/audio.c
-+++ b/sound/usb/caiaq/audio.c
-@@ -332,13 +332,14 @@ static void read_in_urb_mode0(struct snd_usb_caiaqdev=
- *cdev,
- =09=09=09      const struct usb_iso_packet_descriptor *iso)
- {
- =09unsigned char *usb_buf =3D urb->transfer_buffer + iso->offset;
-+=09unsigned int len =3D rounddown(iso->actual_length, cdev->n_streams);
- =09struct snd_pcm_substream *sub;
- =09int stream, i;
-=20
- =09if (all_substreams_zero(cdev->sub_capture))
- =09=09return;
-=20
--=09for (i =3D 0; i < iso->actual_length;) {
-+=09for (i =3D 0; i < len;) {
- =09=09for (stream =3D 0; stream < cdev->n_streams; stream++, i++) {
- =09=09=09sub =3D cdev->sub_capture[stream];
- =09=09=09if (sub) {
-@@ -360,11 +361,13 @@ static void read_in_urb_mode2(struct snd_usb_caiaqdev=
- *cdev,
- =09=09=09      const struct usb_iso_packet_descriptor *iso)
- {
- =09unsigned char *usb_buf =3D urb->transfer_buffer + iso->offset;
-+=09unsigned int len =3D rounddown(iso->actual_length,
-+=09=09=09=09     cdev->n_streams * BYTES_PER_SAMPLE_USB);
- =09unsigned char check_byte;
- =09struct snd_pcm_substream *sub;
- =09int stream, i;
-=20
--=09for (i =3D 0; i < iso->actual_length;) {
-+=09for (i =3D 0; i < len;) {
- =09=09if (i % (cdev->n_streams * BYTES_PER_SAMPLE_USB) =3D=3D 0) {
- =09=09=09for (stream =3D 0;
- =09=09=09     stream < cdev->n_streams;
-@@ -407,6 +410,8 @@ static void read_in_urb_mode3(struct snd_usb_caiaqdev *=
-cdev,
- =09=09=09      const struct usb_iso_packet_descriptor *iso)
- {
- =09unsigned char *usb_buf =3D urb->transfer_buffer + iso->offset;
-+=09unsigned int len =3D rounddown(iso->actual_length, cdev->n_streams *
-+=09=09=09=09     BYTES_PER_SAMPLE_USB * CHANNELS_PER_STREAM);
- =09struct device *dev =3D caiaqdev_to_dev(cdev);
- =09int stream, i;
-=20
-@@ -414,7 +419,7 @@ static void read_in_urb_mode3(struct snd_usb_caiaqdev *=
-cdev,
- =09if (iso->actual_length % (BYTES_PER_SAMPLE_USB * CHANNELS_PER_STREAM))
- =09=09return;
-=20
--=09for (i =3D 0; i < iso->actual_length;) {
-+=09for (i =3D 0; i < len;) {
- =09=09for (stream =3D 0; stream < cdev->n_streams; stream++) {
- =09=09=09struct snd_pcm_substream *sub =3D cdev->sub_capture[stream];
- =09=09=09char *audio_buf =3D NULL;
-@@ -495,10 +500,11 @@ static void fill_out_urb_mode_0(struct snd_usb_caiaqd=
-ev *cdev,
- =09=09=09=09const struct usb_iso_packet_descriptor *iso)
- {
- =09unsigned char *usb_buf =3D urb->transfer_buffer + iso->offset;
-+=09unsigned int len =3D rounddown(iso->length, cdev->n_streams);
- =09struct snd_pcm_substream *sub;
- =09int stream, i;
-=20
--=09for (i =3D 0; i < iso->length;) {
-+=09for (i =3D 0; i < len;) {
- =09=09for (stream =3D 0; stream < cdev->n_streams; stream++, i++) {
- =09=09=09sub =3D cdev->sub_playback[stream];
- =09=09=09if (sub) {
-@@ -516,12 +522,14 @@ static void fill_out_urb_mode_0(struct snd_usb_caiaqd=
-ev *cdev,
- =09=09}
-=20
- =09=09/* fill in the check bytes */
--=09=09if (cdev->spec.data_alignment =3D=3D 2 &&
-+=09=09if (cdev->spec.data_alignment =3D=3D 2 && i < len &&
- =09=09    i % (cdev->n_streams * BYTES_PER_SAMPLE_USB) =3D=3D
- =09=09        (cdev->n_streams * CHANNELS_PER_STREAM))
- =09=09=09for (stream =3D 0; stream < cdev->n_streams; stream++, i++)
- =09=09=09=09usb_buf[i] =3D MAKE_CHECKBYTE(cdev, stream, i);
- =09}
-+
-+=09memset(usb_buf + len, 0, iso->length - len);
- }
-=20
- static void fill_out_urb_mode_3(struct snd_usb_caiaqdev *cdev,
-@@ -529,9 +537,11 @@ static void fill_out_urb_mode_3(struct snd_usb_caiaqde=
-v *cdev,
- =09=09=09=09const struct usb_iso_packet_descriptor *iso)
- {
- =09unsigned char *usb_buf =3D urb->transfer_buffer + iso->offset;
-+=09unsigned int len =3D rounddown(iso->length, cdev->n_streams *
-+=09=09=09=09     BYTES_PER_SAMPLE_USB * CHANNELS_PER_STREAM);
- =09int stream, i;
-=20
--=09for (i =3D 0; i < iso->length;) {
-+=09for (i =3D 0; i < len;) {
- =09=09for (stream =3D 0; stream < cdev->n_streams; stream++) {
- =09=09=09struct snd_pcm_substream *sub =3D cdev->sub_playback[stream];
- =09=09=09char *audio_buf =3D NULL;
-@@ -565,6 +575,8 @@ static void fill_out_urb_mode_3(struct snd_usb_caiaqdev=
- *cdev,
- =09=09=09}
- =09=09}
- =09}
-+
-+=09memset(usb_buf + len, 0, iso->length - len);
- }
-=20
- static inline void fill_out_urb(struct snd_usb_caiaqdev *cdev,
---=20
-2.53.0
+FWIW, the bug targeted by this patch is rather the runtime parameter
+evaluation in snd_pcm__xfern_frames_ioctl and its compat version, and
+others are just for a bit more safety.  The suggested issue is rather
+a pre-existing thing and maybe handled better in another patch to
+restructure the state change check in the read/write operations.
 
 
+Takashi
