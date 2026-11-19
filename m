@@ -1,92 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795174633;
-	b=nyA0lmS13Lo3EUsJS8FHcfq8ZVcuKZmfHPoH3HlbYEQ8dE17YhTefae7RemR1oV+wIYp
-	 8K9SopClnvh5WKWNDxM5pkoxSBwTEGNUSFypLFOrxde4D+VwP3fSFf9FqrKbVYaj+yo54
-	 L3XjaeSu/+v8QS7ZUPHB2vGCyfxhz8zybWOgzEa37hHn8GgRSJF1k2z/xEsSMKDRkM5lB
-	 RBl5mkLXlHyGmZ2CWnpcoZhGJxT8iGzHiD4wXrJq+wLEDRd2OjcwhjTaVxf6XUNDbDJD+
-	 7H/o02wocqLuMbFr/cOu7FVgl53TKmYgsMS8zYUGxZbqFpWWpIM/e/8o2jnWhaNibpg==
+	t=1795174762;
+	b=VKzZAMB6sosaZx5xrnTf+dOsRhX41GJQ0RM6ia0QHXHED9QlmYo54qZPYy3W3+8UBMIN
+	 z8onXySZ3YN7FlZr5qSZoRxPwFRgmVcCvzC9Uamf3RV56/u/jN6oPyUgS/F58EumLiuF+
+	 mG22eZgWAqbNRd7uoTSDtWz9cb7cyG76/bP0PQ04I1QGmiIxc7EGK1c8DZT6n7yRkriTj
+	 6SQKN5TsIgCMsPQpUhHXKJmEbmu4aewcJ5Cv6LZIPPLmDbboN7YW2cxHVuxPut5Cecivc
+	 e11cOUROc57oFDBnWRE0chr26FfOgW7QNZ+7akgXtj5RUCRxUxf2yej5VNdrMY4yBoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795174633;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=T+MRoJIYchkQ3oCmVwFfC1vPxUbNjMmgS5BbaHmzrQE=;
-	b=EKkYHEWCRmHjGmrLqFfmo8hqE6yLODY6GBmqgssVW/3Cfn79IDNM1iTHBFHv0ZIX8Oey
-	 DXttxhx90TZNnbgjF10V1hHGJpStiumaCeHgav2gE1K5uFozyLdguEZ3LcCeSAdMVxxOL
-	 RDsZCAdS8XrM5l+n5PhekVSj1DmTm4NXbSBeURiUIEWkktUUI1xnHPASZXYR5h0Ik8Ig2
-	 iJfxid7t4ovvLSsl0rEzBBxr+lpvyXch2SdpO/Il9XMV2h+X+t1NJ5qE4B34DZl4U82TL
-	 Yj9eIUI2SGlaeeLv1jKFWKIORUM8PgSrBZqFDtttbpXLYmhVN96zZ4Azm1C3bdd3IXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795174762;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=OtQivQqnmSInxEcGZbExtZbogiR/PjcJgBziw5rS62g=;
+	b=abxHETfuxxPE1helm5SJCh9+9sQt0lU4ICEfZOVGUqAmau1/q1Ev8beTKya4K66wwMn4
+	 Vo5TgEdII6fw8MQf0V1hlYz7KdvxssoQLngzKk+1HryoCoaI3LnCADG0wyiTkhp0s0Bc6
+	 siVfopKXrzKMWHg1/QdzOSsCffK8h5jU4L0dpDYAn+OzF+DlgZqTqeaNtdnCFPuQr7RSB
+	 QJkSe4yTeBe4Ne3xHtzJv6fa/RS0x8b+zESDXOr2Us5kWEMXTiZ0e3Pot74Nf1w5/B+iI
+	 Ub4URvpBoiUV64l0qsbfioff4zDM1f1PkpcMr0Itl36r8USicBoX2WJp54BCZWHNm5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nFDuMamj;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="kVHsc0o/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83963606A320
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:37:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83963606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF85606A325;
+	Fri, 20 Nov 2026 11:39:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nFDuMamj
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1a3c08d6928so1109034c88.0
-        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 03:37:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795174633; x=1795779433; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=T+MRoJIYchkQ3oCmVwFfC1vPxUbNjMmgS5BbaHmzrQE=;
-        b=nFDuMamjSMWL/CDdCbD4zTi4BreXTa1+8T7UGi5XYDqmX7AAK7tm65AW/3zsybEMvC
-         6Q4bIwYkAALd3v44sOQGMt9rwjn7N1IPBbRmk14jJut6Fy8d1hAETlmSRia+9nVJSO6K
-         yPomTLd97CC0a50ov3QgnUsmJ+GIhRhoq6cjxcZ7PRFCiei+8v2I6aAVOO186sS5S4AJ
-         CrrWqFSErA5XkBd3HWt0ScFdusOXF+a/9kieovwYH7dZrnnwHN6Y4AbIWdZzEn94tQus
-         TeUsEWfTm8rGQ93v4Hz1gMlk2PwYRz/frgLR2hefDYIW7p9xG/POYsjVBULy+T8Md1QG
-         T0iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795174633; x=1795779433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=T+MRoJIYchkQ3oCmVwFfC1vPxUbNjMmgS5BbaHmzrQE=;
-        b=QO2MSFQVZe5GRIYUqWxfwRWa8Oe9mNHs810QEUNYLTqTGQulhLe3rqGlm0lD0JQ37C
-         tm6RDqMkop77csq6l2QWBkxh+z5yhLUGlsswR8DADiKIGEpmGsnlU7p6PkbqsZWxwv+j
-         eXiHQn7m6RCnZHJ0fVPtJI8jB1utWZCnLJaugLf7FY/ZRE6gQemnnNtCXDO9k3J+WtzM
-         KXVKJz42L7FouRLekx7aBcVNdYX4RU0CnvqMkHYscUTL7MS7+xi/MVu+6it68cwvJXBp
-         FgprNX33SsHdFepxo2OErID31wuOUtvmTqq0ffqshblWawWoZl1Hm1BVG7bJJx3DFJP5
-         btMg==
-X-Forwarded-Encrypted: i=1; AL+hErGACGBNMIz2BC1ldOhMb8HJccLa6+E2Z+4of9ceqeYLkAoLu17dZTmiwHIk1OW8y21HQlHG28HEDITKpg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/eL6yxSUZ6lHLTOMwDMYVAQY7LDL5gP3WuA9ASo0ksQlC8IUpG
-	pyk2k2F3vkvmC0rvGZrYp45KGLGh5aY09Ca+xVw57c4yu1PhKg1r4u0+
-X-Gm-Gg: AYBFou3XG7rg6+9iY38a0EHfeUWZcjg5MGrzUencoCAAGUbZ1n3l6n2bvEGlX0puttL
-	768UN3Dj4MIcz20gWuNXf5rXdAn7mJqYMEwAvly52WM38PZm5caex4BzCSAIUGLp1fFps0UKFd+
-	F7EfjMxdGcHSsMsWloHpVmjjjDlobjNzCpoBrw1TxszxztMmS6oB0D9bcV7GAfKqX2gMKWZcKwo
-	aML0EpkCKSKLgqz3aV/zi89WC5+BJUzjKkLpwapzegajNi+D9C4VPjGPb92IL5GQEqveTUdAXmS
-	WE7N/pYS90mVmdUtHtza+ThqBlvoBa9OX9yYofX+ctTizQ4aFvrx2LJcZdwigry/9TajO45upPg
-	GICktkmU/ETjErBKgsoFsbIIwVf/Unc1mTnHGa8BWxKfbBiS9M8oiA1zDVqNagaUf6HGP+5r+0f
-	2Au8lVRG76F7UZJJBfaR3tPH5VV7aaNLHmxQ7oFUHyWhthxabuf953hlZcaQqFfgq5ngIbmwTYK
-	S/bxpIeuSi2pwMo5Ev6IxJMIIMjRKlMf2H1xR5imy7J2j6qRYc1Bz3JQPvd8Ky1RaBVRPrExPok
-	sxazR6w+KWwx0Y40o5ywI3Bsuut67uq58WXBrtRCZUMGUK6IeK4=
-X-Received: by 2002:a05:701b:455b:10b0:1b3:b833:6565 with SMTP id a92af1059eb24-1b5568a1550mr2404004c88.20.1795174632489;
-        Fri, 20 Nov 2026 03:37:12 -0800 (PST)
-Received: from localhost.localdomain ([103.179.231.88])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556829d31sm11664119c88.9.2026.11.20.03.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 03:37:12 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] ALSA: pcm: Fix incorrect numerator selection in snd_interval_ratden()
-Date: Fri, 20 Nov 2026 11:36:32 +0000
-Message-ID: <20261120113632.2761-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kVHsc0o/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142521F000D1;
+	Fri, 20 Nov 2026 11:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795174761;
+	bh=OtQivQqnmSInxEcGZbExtZbogiR/PjcJgBziw5rS62g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=kVHsc0o/8MU4cGPxr7LNnTCfEesIpG9/YERDDuEpcXd8PTdQ5xOM+7jbog5YLIlB7
+	 IMWw9S9W918COPICSAefbqr96bId/h+Rvze5udwO2n+vQDmBMWfpDPTO3CopoeCVUY
+	 vJ8b7q4mrzW13oU0jfCMM3Kx4+R41SMZ8T1MomhnIF/U6lIELqCaNTGZpB4cBO+d4p
+	 JpoqpJLFG/V1MaP3smkSKcvV7XLtkVt33O84QiS/QHfUXxITtXg+qaKWd5T5Fz9HYI
+	 YMScuR2VdqgJZtU2oZ/PKqudxhdQTtdKsBscz1nEtH/CwW2HRhObkm4GBLIH3Z6Dxr
+	 7ORZAiuIAr2mw==
+From: Mark Brown <broonie@kernel.org>
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>
+Cc: lgirdwood@gmail.com, david.rhodes@cirrus.com, rf@opensource.cirrus.com, 
+ patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261119075733.50138-1-zhujun2@cmss.chinamobile.com>
+References: <20261119075733.50138-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: cs48l32: Release the runtime PM reference on IRQ
+ read errors
+Message-Id: <179510449468.116416.15496390683158627317.b4-ty@b4>
+Date: Thu, 19 Nov 2026 16:08:14 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,37 +60,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1145; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ZpDnaUnyAxxrM5tThINjs1DjzxQ5EJLUjkdmVCZEaRA=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZDNOqeuN7HyR4PZvAt01uwaL9qV4Gi3ZM8RGMrubn6
+ AjjEnndUcrCIMbFICumyBKXxf2yvuT1Gr6DC9tg5rAygQxh4OIUgIl8jWNk2JKy4uP33V6+qXMT
+ OffX//BfO+dMs7s1g/rDoFVHvq5wWMrIMF/Aunrr/s4gl3tfVFmPMqxnF3hWWDWXXzp1VlCvwrT
+ 5nAA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-When the calculated numerator is smaller than num_min, the
-function incorrectly sets it to num_max instead of num_min.
+On Thu, 19 Nov 2026 15:57:33 +0800, Zhu Jun wrote:
+> ASoC: cs48l32: Release the runtime PM reference on IRQ read errors
 
-This can produce an invalid interval by making the calculated
-minimum numerator larger than the maximum numerator, even when
-a valid range exists.
+Applied to
 
-Set the numerator to num_min when it falls below the minimum
-allowed value. This allows the function to calculate the correct
-lower bound and prevents valid intervals from being rejected.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- sound/core/pcm_lib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index bb16738bb591..65c7472ef22e 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -966,7 +966,7 @@ static int snd_interval_ratden(struct snd_interval *i,
- 		if (num > rats[k].num_max)
- 			continue;
- 		if (num < rats[k].num_min)
--			num = rats[k].num_max;
-+			num = rats[k].num_min;
- 		else {
- 			unsigned int r;
- 			r = (num - rats[k].num_min) % rats[k].num_step;
--- 
-2.55.0
+[1/1] ASoC: cs48l32: Release the runtime PM reference on IRQ read errors
+      https://git.kernel.org/broonie/sound/c/afd48791d4f1
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
