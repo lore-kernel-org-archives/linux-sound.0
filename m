@@ -1,55 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795083950;
-	b=QVs1d7u5TLnAIBsm4eJR9qLGJzCmGOcBvByn9PaoP5wAsXXaP2eZlewKEtFk3Kdc7Fht
-	 460jEBlcajgv8KZs3ClLaIFdGQvqTzxyQpbH59t/Gv4m0RQdra+yHdknhpT+BbtQY96s6
-	 ethXAPowjm0WHxY/XyXC2AEcpCdAr7HNCn1CcC8OQQlKL0l4gQaKNNvY/KovfFHnyAt5n
-	 hEW6i5dSGYZ2thoPFTOPMK8yFQEJxFL5Z8nq3AbeLKXgN96MRHcmS6J+5E4qYMx3KSALU
-	 TLbixDe7Eiwrqb+vGQlSXE/X2tPPAqRzWu8rHlPkxiBbGD0Tg5VmMr4QsIMBX6eUi8g==
+	t=1795084470;
+	b=ozJHLdIiof2hgDGMztbB8kbZpQu3nX6PQQLZ/R7h2UFGjEaMY2g46Zp7xH4pYoqUQSqp
+	 LF8UOqnzTHo/BFkNYiBmQgGGk9UqFMBQTuZbI3kpZD/bC+/+0ZPSXyOn/CzzH0r5GOn/L
+	 LVBz0oFw4a7Gffi4zbiWSfZf0FKImCvKmXObXCVHULMsWYn0kt/tIDn+qflveh7Wv5IDQ
+	 uBvHtOyoli/YTub/TzOT/voS0Sh6cHJ3Wu5LKVbPG2n3fUTVGhRmWkLDN7yzUgbZ2gGfN
+	 yT8M4b2JlaXAzkb+HJQ1vjUhh36FxY33dAssi6HYWhdN4Lt1yHsbru6bR2WNiYAk4Iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795083950;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=5XNwYLVboUVjISAwlLmGI6rMHe1RpE55vZQlev8APpg=;
-	b=GLYH3NhRNObVpgaE5LDvmX/xyDw0i4eB2hDVIE45w+1DGgZVrd5A6Hrjh/PZeir2J+Y7
-	 c67DPplBDxPMoRZnfrKZEEk1T7l4GMyfAK/Y/pdGNXwnHPV+IgLxQOPRttBfjYlNcS20i
-	 MVKLzyn+FQjsXvAcJA1rvZ6uCbgVvBsaLPuEuhlVZpfPQVj1JFBveasAqgK7HOUzKw9XR
-	 Ag2SIeWU9VNekoLp5a2OWG0uu8twZEgIZYC/vP/EX7AXEaLWcVazjamXE2k+yIQ5eP7RE
-	 mdb9hJoQsSDRworuF5lrJ1MILoJky50m1PYlj2+pEsnMrbkhTUdGbU0bkp5Uv5CRcvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795084470;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=2BJlLviIlo2L+CB1E1yEnGBnM12+e15DyXb6ICfwQJk=;
+	b=J4PBEiGqAAKZgxsU1GHSsGQxLvZHvZMrpKkbkEMlbgn+R/Fkphkp9+dFZzs0q9oFIovG
+	 nVXbJSKuuQl8xVuAd/7/YhgEs3gdC7DcwbMC4O/sK5fguC5ATZLygyvsXGp4G5G/26MxT
+	 P9TFlDzx2GJ63Stmry2OlCQKaCrQ0QGAqMw5+IC+v2qY1m2SdCvjeD+YgDhE5h2UFtvyF
+	 lWDYRuCbDcZ4UG4lzH54FJrdC/bHJmKKPYwZREPOlO852UbKo4ZpxeBml1G0gPoR6citI
+	 nwHuR+ewbxVdauTye4ukIEXwu2j4ySzomfCBs8ltKksKRv6uoAvwkSF0CXk0eXJo4aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hNrCknjd;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rZcjhKUI;
+	arc=none smtp.remote-ip=209.85.214.174
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03710606A333
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9598B606A324
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 10:34:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9598B606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hNrCknjd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FD311F000C5;
-	Thu, 19 Nov 2026 10:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795083949;
-	bh=5XNwYLVboUVjISAwlLmGI6rMHe1RpE55vZQlev8APpg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hNrCknjdjdI2Qcv6tANK3IODV/X1HJWsLmlkiaywtfpc5OiSXNeSi2CrqbMPRYy2y
-	 dOuTG7AuDnogq7A16SFMZEGIO/ZGwFT0cnOHp8Z+J90/bgNpbapLJ+l+IbRe+Ba1YH
-	 fzsPcYXJ31yzmCqejJYOkHV4wMM7vya60L/bznkeBEuGrvcMSITagVdbj6Mo+U7f1U
-	 bilJsPwNYWqhPz5DVJD96n2Jgg9xYomI60/AGOM8BG1BCIzKRZrz2alWrSV00lGhpm
-	 Wa4g70yDEc5ia+9KQ4rrAb6AjMPbBdpoA/3UmabDHUAeQydS+o084kGdUnkvUAvjM6
-	 pY7Y2QE4kAyqg==
-Message-ID: <sashiko-outbox-222951@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ALSA: memalloc: Fix DMA allocation retry cleanup
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261119100928.2740-1-sreekuttan2156239@gmail.com>
-References: <20261119100928.2740-1-sreekuttan2156239@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 10:25:49 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rZcjhKUI
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2e9eb579c0eso13367245ad.3
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 02:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795084470; x=1795689270; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2BJlLviIlo2L+CB1E1yEnGBnM12+e15DyXb6ICfwQJk=;
+        b=rZcjhKUIcB3TXU/ZSZ55NQDIE9TSRT9sQZK3kU6exPm4VpmJmqOIlK6Cu+L7UUFzjr
+         KHcfL1yO83C59KufrG0pPongUA6/Nme58qp12JECpS2bQ5CGRJfHTza85DKuO0NNLhr/
+         qt1LLYqx22TcUIXW+ao0PLxRs/ZQ+TNsjjdenlDQuRfMo2q5a6FjTuaPrVtsvoo6kTtb
+         7fnvaRv9yfJnPJS6NLRhZfkMHQG+kgt0hEcBd/CKyUvjjoZ4IHWEtmCc1nhRY3ZonMfT
+         Zet8Dd5rrf5zEG168Z5SO0GCm6BoiJ6VvGlkC5x36YEUPyeW+pUzsC9yaKhsqygq/WTj
+         Ui0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795084470; x=1795689270;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2BJlLviIlo2L+CB1E1yEnGBnM12+e15DyXb6ICfwQJk=;
+        b=Rx0ezB8UlsYYUbA/aWGCvevPXOeBRtYcFvKTO0utkD9X6BfdOkN8/L9iLxAowrnrDr
+         CPXHAQN59zhEEaBvEepwVtAvWTctQ4YtWt0hwJs59EHkhIvMer9/p7PR4ahCt3Z/AxRK
+         k2+qlYSwGReMNbLtC1dH6i/GDpa2kOAcV2FiLELMWK7hbXsHQ9F1eC30XljziovcBP82
+         OTJEJdhS2fVti98KFUBSAhfgGU8bW4a+CUW295BlDSmRF2sUGVlqdMtBTB74eOtYRfdD
+         9DBElVk7kTuUR2GCPo7LKek65N8jCupxLYkX8CNMwPjmVcsImY9sdfQnHljHIk5kzDWg
+         JHHw==
+X-Forwarded-Encrypted: i=1; AL+hErEkTEFZ+j8vUz7RUXnZuz/vtKz3NFdhWkC8l+izfYs9EsvO9U1m2H8uECCBZNXpFda+PlDSWb8is1UrWw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8dqpe3YaCOA0VmWTeNF6fuwo+sjWokRbAGYkf0uWYJd+nMq1ml
+	6/qEC9jIjtqXajgjTeGlwrZmjLtnICmd5Z5Un79aBr0+L+yTyxME3N1l
+X-Gm-Gg: AZFdTZcWMAsbdBvqKIdz3rPIB0HjxTqg3jctPJtKh8SBjNpGEZD7cHO1xIHC6JwB1fm
+	0un8X8B4O4Ht2Y9jImri1pI62X0j1vMPSOWk2lFJpCzec3Z7PaYghgtB9yEswQnzw1XbOrsl5sV
+	0SAxYXjoC+1ZvcpXnd2ljy7RO+9z8lvWljmGFTrXY7TuTavTJxMzaQ0XeQQZQPum4/9Uk+BW3yE
+	vy0SWQLYyV9yLE0Y5PEhTRUFuZMzlDkq/o+OXszQJpKleSbR3qD8DqU+Ew8k+n/T51DiGHfh50Z
+	0ZO5h6UTTE6jkCNNqUUHPPM86/MVg6ICjUdYgmPlp2OpVJRK7MZ/crmiAXuhrKa4w/wlPlJwliF
+	opVy0ZHb7kUD33nJGG2LRBAuH3Rxf3JdrT0FBZWcluoBINDLhQ0sp4X0Iu/bA0rlrxRah+2QSSF
+	RkfwDa7X7iI8aZqcq0VbC5/5JCkZPBPP6omh/MThdDZKzPwXkLScNlCYiXq2otooHNPnnPWiKv1
+	wMGE4kxkiJ5TZrTpXEC8rf5/QuAHZkMMYZHxsf2YxX+1P3ZPHeFP+mgatsSloaSnZK9h3759hpo
+	f7IDWhMGfC40eYfDsdSy9UKqONK1oQGC6M6HYBJU4aTpMRkXiOrPJ6DwagDSmuicV4tbD8+QG8g
+	D+yMVJQCEyfjJHW2aFwbrf14Wk9KDLi3oVbWaLuFkIM3o
+X-Received: by 2002:a17:902:e94c:b0:2ed:fd0:e736 with SMTP id d9443c01a7336-2eff70fdc62mr50594715ad.6.1795084469832;
+        Thu, 19 Nov 2026 02:34:29 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2eff6116323sm28617325ad.23.2026.11.19.02.34.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 02:34:29 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Andrei Simion <andrei.simion@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/4]  ASoC: atmel: mchp-spdifrx: Improve driver cleanup and error handling
+Date: Thu, 19 Nov 2026 17:34:09 +0700
+Message-ID: <20261119103413.31729-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,104 +103,31 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] ALSA: memalloc: GFP_DMA32 re-entry in do_alloc_pages() triggers
-  VM_BUG_ON
-- [High] ALSA: memalloc: do_alloc_pages() fails when
-  dev->coherent_dma_mask is 0
-- [Low] ALSA: memalloc: missing Fixes trailer in commit message
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] ALSA: memalloc: page leak and bad GFP retry in do_alloc_pages()
-  [1]
---
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-commit 8facdcf2ba9ef9e2a164a42b37b12089edb8eb1a
-Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Hi all,
 
-> ALSA: memalloc: Fix DMA allocation retry cleanup
->=20
-> do_alloc_pages() retries allocation with lower DMA zones when the
-> allocated address exceeds the device's coherent DMA mask.
->=20
-> However, the previous allocation is not freed before retrying,
-> leaking the allocated pages.
->=20
-> Also, if no suitable DMA zone is available, the function can return
-> an allocation outside the device's DMA mask.
->=20
-> Free the allocated pages before retrying and return NULL when no
-> suitable allocation can be obtained.
->=20
-> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+This series improves probe error handling and runtime PM cleanup, 
+adjusts IRQ registration order, and fixes error propagation in the 
+ulock get callback.
 
-[Severity: Low]
-Should this commit include a Fixes: tag for the commit that added the DMA
-zone retry logic in do_alloc_pages()?
+Compile-tested only.
 
-  Fixes: dd164fbfdc20 ("ALSA: memalloc: Drop special handling of GFP for CO=
-NTINUOUS allocation")
+Best regards,
+Phuc
 
-> diff --git a/sound/core/memalloc.c b/sound/core/memalloc.c
-> index 5986e9b84ac0a..9458f9cbee537 100644
-> --- a/sound/core/memalloc.c
-> +++ b/sound/core/memalloc.c
-> @@ -298,13 +298,17 @@ static void *do_alloc_pages(struct device *dev, siz=
-e_t size, dma_addr_t *addr,
->  		return p;
->  	if ((*addr + size - 1) & ~dev->coherent_dma_mask) {
->  		if (IS_ENABLED(CONFIG_ZONE_DMA32) && !(gfp & GFP_DMA32)) {
-> +			free_pages_exact(p, size);
->  			gfp |=3D GFP_DMA32;
->  			goto again;
->  		}
->  		if (IS_ENABLED(CONFIG_ZONE_DMA) && !(gfp & GFP_DMA)) {
-> +			free_pages_exact(p, size);
->  			gfp =3D (gfp & ~GFP_DMA32) | GFP_DMA;
->  			goto again;
->  		}
+bui duc phuc (4):
+  ASoC: atmel: mchp-spdifrx: Improve probe error handling
+  ASoC: atmel: mchp-spdifrx: Use devm helpers for runtime PM
+  ASoC: atmel: mchp-spdifrx: Move IRQ request after runtime PM setup
+  ASoC: atmel: mchp-spdifrx: Propagate runtime PM errors in ulock get
 
-[Severity: High]
-This problem wasn't introduced by this patch, but when the GFP_DMA retry in
-do_alloc_pages() still exceeds dev->coherent_dma_mask [1], doesn't the
-first branch match !(gfp & GFP_DMA32) again because the GFP_DMA branch
-cleared GFP_DMA32?
+ sound/soc/atmel/mchp-spdifrx.c | 81 ++++++++++++++++------------------
+ 1 file changed, 39 insertions(+), 42 deletions(-)
 
-Instead of reaching the new return NULL fallback below, execution re-enters
-the first branch, sets GFP_DMA | GFP_DMA32, and triggers VM_BUG_ON() on
-GFP_ZONE_BAD in gfp_zone() on the next alloc_pages_exact() call.  Checking
-!(gfp & (GFP_DMA32 | GFP_DMA)) in the first branch avoids re-entering it
-after GFP_DMA has been tried.
+-- 
+2.43.0
 
-> +		free_pages_exact(p, size);
-> +		return NULL;
->  	}
-
-[Severity: High]
-Does returning NULL here cause do_alloc_pages() to unconditionally fail
-when a caller passes a non-NULL struct device whose coherent_dma_mask is 0?
-
-When dev->coherent_dma_mask is 0, ~dev->coherent_dma_mask is all ones, so
-every retry fails the mask check and now hits this return NULL.  For
-example, tascam_init_pcm() passes tascam->dev->dev.parent (a USB hub device
-with coherent_dma_mask =3D=3D 0) with SNDRV_DMA_TYPE_CONTINUOUS:
-
-sound/usb/usx2y/us144mkii_pcm.c:tascam_init_pcm() {
-	...
-	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_CONTINUOUS,
-				       tascam->dev->dev.parent, 64 * 1024,
-				       tascam_pcm_hw.buffer_bytes_max);
-	...
-}
-
-With this regression, PCM buffer allocation for the TASCAM US-144MKII fails
-with -ENOMEM.  Should do_alloc_pages() check if (!dev ||
-!dev->coherent_dma_mask) before enforcing coherent_dma_mask?
-
-[1] https://sashiko.dev/#/bug/linux-189ef083-a418-4b5d-b005-2d24356f0b93
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119100928.2740=
--1-sreekuttan2156239@gmail.com?part=3D1
