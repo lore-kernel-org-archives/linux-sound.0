@@ -1,56 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795051391;
-	b=1/FmKRB/VDlATPlAzcG7HuFjiNK5Tceu+CJmqvAJtZJWUHeZY9+o7Shwh98hF4zt81Bn
-	 2C5qXe64pCl32KCEQB3eVLTmnAXa2UmrbKAhJ2rNgsSaHJL4yb9IHKgcY6GnkbvXN3iSV
-	 dwulkLKiuEK9Q4AgmXHcosf2Du5MXWdbggKOEDePHkNOHdAMCMvQQjPzZlVlLwd6A6cpf
-	 rtZpMMJTZGkf0SnxhHwhRKfDws0rpqPG/k/yzKJIgVQXJ1wV9WCPXPig/yvpWWzMmkmvr
-	 W17qvW6y38FIKiNugmLAqftUinwTudyRZeSub9f22K09CGK+NrjPMyAaVlnZM0D+h9A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795051391;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=4uLrLp0fki5ghus0ruvn5fMgdpiAK87HSNDgQ2Gt3rg=;
-	b=Hp/p6n8EmP6klW6Cw4DYOuEJfbZPzWSzhqxD2ZizDNNmt8P8DcSAAusCtSFeSHNNE8MR
-	 4hicqIQOnv6j/h3+V3xt/UdtLBQNzawbvbGWuTcy7oEkgj3Y5+5JM+OW7tHlK6aF1kvTN
-	 g4dlUoOKJxMJsN7MAx3M0wrxww600/7kJtv3FsNx9bV7wrGoO3/pP/fmQHygUhhuVG5Xd
-	 8PkK0P/2FoipB+CH3m0LNuO0DKdIZ44ONcFasnkrED/0FIapnrYG2PCSoHW9ZZZr7A/P2
-	 PG9ekmAfab6UMJjv/V7hkhzuVPDcWH8u7qEA7t04beAQOjAFKjvcmDb2E1nadx8ppEw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RUPsTjlj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795057269;
+	b=jltvBdfmChpXjrC14Yn7078EkBEEVWtmAPKpebj/SHafPLJvE4iHdlN5tk5BN9n4lscM
+	 1rXLK1powIBwmZP6k0kjEc9WMmnksDDxQLDUdv0mb87cO5xnlQu/CVI/GFEqLZDII/OwD
+	 Dhu0GyZao7cw856FGI+0mQLVh8QLmg7deqRcvZltj47xB0MFb6D7qc31JaZ8KeNYgbkGN
+	 iSXVsHMnDryrYeL9sMiNIJLkYY4y330mG9UeGrQxaM4zl0bTzg37rvP1ZBkd7+inBZCcM
+	 tp2kL/5DsMKErXLahwhQARwF7y8vYGWOmOLwtVoPRbAZ+r3M6Qwo/KbsUQAFAVnGMCw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795057269;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=4w8GhN5mD7HSPr7/jRT4i69y1K7zgd/Fqk2kSujU6ZY=;
+	b=skkydvjzZPs7jir3UrkU6A1OST3H6qxbkNeXQCeCicRmy/VVtqISj7xHVDoFNLkIPVuv
+	 8gc+3zo+9OFDYKCRVfoU590FSjuMc9jmm5t1mFTUzdjk3kj29NNfN5YggdpVZCzLqNiLD
+	 8LTgBUgzXvRRHmKHFVqPw6bN7JPv6MoGEEgUKVlGCECe2G/jJzY2hgX8mn0OFRTJ8duyy
+	 tEdkMm9KssAlJThGQslGhphoHPALOAU8dpRIJ/bQczyppfNlq6PygU5gnpZEf04rHhS+e
+	 HCVtf7l52LmAijCpFG4l8bKjaU2vJc+GWZGtFCAIDhNGahR3YadIF5FeOPCiftu88ig==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qGyl57PS;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CD0606A33B
-	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 01:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C06860A2624
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 03:01:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C06860A2624
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RUPsTjlj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B36F51F000C4;
-	Thu, 19 Nov 2026 01:23:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795051390;
-	bh=4uLrLp0fki5ghus0ruvn5fMgdpiAK87HSNDgQ2Gt3rg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RUPsTjljuiYFTRjou7UH9MXhfpl1iHgxWQcH9Zn9m6r4nwKm/Elg6NrZxnyJ2LAUr
-	 LDgD+z0yGZnKDNpvxJzwRL173o8O+635/zN2vipljvqu6AAR/47xqyOsIf8m4kwD7w
-	 83vk5R5bzT6OM2CYGJOZw2bEMGMMCSWsQ2S/izCrx9Y7j2qUpazZEvO/oZIVGruGKw
-	 EK69WIx3oUC6w+hu0KiVMr7Bk/rmQafaxXAKDoo7MUCmERR+lyxj16XVSfNiRKmAh2
-	 19uSCg7w/1LhHlR1q5ucvlOLiwbdtce3J8BAOjy+ry/W1F3plnJDFNF0HrxW61ZF7W
-	 ddYkZPCS3cx0Q==
-Message-ID: <sashiko-outbox-222281@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1] ASoC: tas2781: add realtime speaker protection data
- control for TAS2573
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shenghao Ding" <shenghao-ding@ti.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261119011102.1790-1-shenghao-ding@ti.com>
-References: <20261119011102.1790-1-shenghao-ding@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 01:23:10 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qGyl57PS
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-14394530ec6so2723636c88.1
+        for <linux-sound@vger.kernel.org>; Wed, 18 Nov 2026 19:01:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795057268; cv=none;
+        d=google.com; s=arc-20260327;
+        b=d5zrYJcbmAsk7vFVf8HFZ+qJ35s9rb2QG8IZIZMVdt7IYNDc1mmLTIonlCaal+sRDe
+         +mlZHe0enVGoX63y4WDurXEWVCTNTxKGugAb3mcjezlAO2e5bvMUgwnEyLJyBN0g9yg9
+         ixy+KGRy6dzM77NpU3c4YMH/a6/PMNtu3ckXGMFi9MmOaAITLc4MMB5EB3twMi3DFsgs
+         nXMOEEBktOU3gr0/VJO/APJ14WkInHGNz+1AR3RcelsFI6JBwgsAdH6Sidaz/ETYGBLo
+         lmRVXMmTxDXxMwj8JfurQzmd0+fuwD+yaIQiMfA9WNZN2b/UTDe9O+7OtV8XDUFqAH0l
+         rE3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=4w8GhN5mD7HSPr7/jRT4i69y1K7zgd/Fqk2kSujU6ZY=;
+        fh=hQZddDfU+2vFtR2bEfFZ2iHQF/2GxRgdUA4LudyjiZQ=;
+        b=Ls/JsG+QtE/Lr3ezg/WW0OFcb/La+hZTgdu0yF0+373+6KgfdnhMwwUJDy9SUChiYE
+         qNIx7FjLqHKAuur4NJfKtsw098OmRJmQ8C3SWM1ZtfYKJwzFDZQrr3T9Mm+pCAttu6mR
+         lrYfu9G3ePfSp7dRAPmm2VxYM0D/SubJDbEE+0QGWXop1IalFPBweNhlv/e780cc9j7A
+         3Ttv2sfbxVEkyDla3aPCLMIo7QG/6ASChAX3m+Mc7MI3B6feBQhQuRhJqLJZHIZatNae
+         xzDynOVMP1GEtdObn1eOKB0VhkTmvBcIp+Z3Zwqx6R/KH55xrwoL2W476RZfzffpAHTf
+         7nWA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795057268; x=1795662068; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4w8GhN5mD7HSPr7/jRT4i69y1K7zgd/Fqk2kSujU6ZY=;
+        b=qGyl57PSwCtsdthkmE8mGKl7E1ablioWbIPgus3WZwvaz358B4f7F3nMpH/9HSkSJh
+         qI1FrOJhazuItFi/655BPj0IU+PPMhi2Rrqn8KlXDZKGlQSw97kymvhDkMBfwoaTDSH4
+         IltQZh4JvV5dD5/ZgMzrAKHXk40kEUs0S2hqyORYzuWEYKCpD3y0Xp2EfBG2Qowh110Z
+         Yk9pDfxcDjNd7CtAmSsJanK9KLRjwbZjuyhz3jacNllUAHB73PZ38QlFAFVhglh9kSZx
+         XbLS2/meEcyIvwjFiNhSK6EQ/KMVXyk1FWeLiE5eJ6sACTfDEkgP8OSxulO/Po4KBw/4
+         LYbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795057268; x=1795662068;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4w8GhN5mD7HSPr7/jRT4i69y1K7zgd/Fqk2kSujU6ZY=;
+        b=LcywjENyjvl+EijKxMv7BDqG1XRnZZSW5Sp1GYiBsEWcOyX9hSPd8tq5ynCUZ93wlj
+         gNlV8Mtyo7/6tL16uru2FwEuaosUhsCfsO4P4Vul/PobgTouUM+TLBgvm4ruNAKWA50P
+         cys82ObOkPpNFNfRj22iOSw+RdXNg5UOb80BEcimBvr9CFHHeMmHF5h09xv9yuv0R+KE
+         krsiGnrFIvParPtZefoenUf6MqKh/8Ja/jMbYFhsO60Nk7LlDOlYIF449RHmS8kDvMOf
+         2FhkH2GHMHYEBydgPae/zoUcD+B1AhTVpQ91fMQIybmd6mzdEnEzVglVRizKoJ1i+NAg
+         JF8A==
+X-Gm-Message-State: APuU4Z9ZGsR1bc9Bul7XXRJ/d3RD7Gbl1NeWgB7n968qtvSaGg8QESQz
+	lMTWkAkC1HaN4sBlv+n2Fzye+4m7L1Evya6kV1wrUIIyE9iK1wv7FFu6kMouDp4xkEFzQgQWg/J
+	+vIpKRuZ9n9Bln/6C1yM7Bb9WyhpUkpMNGrBldLE=
+X-Gm-Gg: AYBFou0FW+3Vx2VxDNy5yws7wG1h8zHZBEULnaV6aPj9WOVXbQdJZxfIj+8h7faoUNz
+	56GXJY4W6/996+lFmDqeu0PenAAf8kcKgmWZ+EJlP5uaQKRH+iKiBKsOiKDE+GUSlmnYl2jLaXs
+	5GlCOTg8SyQRsd9Nj2OL1/jNpqKlzLBebom0btd1UwMcCpwI1oBqeYDKtgc6f0QpRxHJcNCmpKh
+	GSTtGVfIoJZ2/ezXc8TqKAvgYjNdmLZteyKrdYtkzvPdUmFOL/cT8FhKoqzhgkkc2+avu3wXYUW
+	Deo2VpUPUbTsRbShbLmzOhkeRBG7cN7emXYmGN81ZSmLrAkbG/Ggghf6BAeUhQhE2kaspVlB2T1
+	uUvSyYLej5wbNmYnAskvQiRXxUkAnx0/LOGtWWdZdKoFm/+nq+Yen4JF8DdavXt1anNRIcjkDq2
+	eaKZaT2zjR8wFLEaIJjbJnNgPp8At1/EoK7OHad99AyidzxJvztxd6rPvYgzsoW1k49brbX13V9
+	cX5XgEvbn862vtr1xYNLxSWp9SDMjI+miWfbYhc9MmJ0nAgpXhcnPJcwLjsaGJs6iVlyOW/7wca
+	5+E=
+X-Received: by 2002:a05:7022:f51b:b0:18d:9eec:e0be with SMTP id
+ a92af1059eb24-1b543af02d5mr3572408c88.2.1795057268368; Wed, 18 Nov 2026
+ 19:01:08 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,154 +101,47 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+From: Jeremy Bryan Smith <helamonster@gmail.com>
+Date: Thu, 19 Nov 2026 03:00:54 +0000
+X-Gm-Features: AclHuK9nXomkhmMPmwPPA7MC9ZvJFm-hb8h2R8UJUevCW9DF2BMhpq2yU1eWGPs
+Message-ID: <CAAk_qkgY_To5dwBgua8NBpUv7YWB6g1w5b2g6+BzQ5=mqgq6dA@mail.gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Rename Line Out control to
+ Headphone on ThinkPad X1 Carbon 6th
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de, perex@perex.cz, zhangheng@kylinos.cn, 
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [Medium] ASoC: tas2781: buffer offset shift on error in
-  tas2573_status_get_common()
-- [Low] ASoC: tas2781: duplicate report logic in
-  tas2573_calib_status_get()
-- [Low] ASoC: tas2781: use devm_kzalloc_obj() in
-  create_tas2573_rt_spk_data_ktrl()
---
+[REGRESSION]
 
-commit ab506d198e775a76f5fde0b4b1d45d99fc376412
-Author: Shenghao Ding <shenghao-ding@ti.com>
+Hi,
 
-ASoC: tas2781: add realtime speaker protection data control for TAS2573
+On a Lenovo ThinkPad X1 Carbon 6th (20KH002RUS, PCI SSID 17aa:225c,
+ALC285), the speaker and mic-mute LEDs stopped tracking mute state after
+upgrading to Ubuntu 26.10 kernel 7.3.0-10-generic. The mute keys and ALSA
+switches work, but both /sys/class/sound/ctl-led/speaker/card0/list and
+/sys/class/sound/ctl-led/mic/card0/list are empty.
 
-This commit introduces a common register-map report helper for TAS2573 and
-extends the "Real-time Speaker Impedance" control into "Real-time Speaker
-Protection Data" covering seven protection registers.
+Both LEDs follow the mute state after manual attachment:
 
-> diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2=
-c.c
-> index 984cb67476a53..e44a1d460c703 100644
-> --- a/sound/soc/codecs/tas2781-i2c.c
-> +++ b/sound/soc/codecs/tas2781-i2c.c
-> @@ -1544,37 +1544,62 @@ static int create_tas2781_cali_start_ktrl(struct =
-tasdevice_priv
->  	return 0;
->  }
-> =20
-> -static int tas2573_re_get(struct snd_kcontrol *kcontrol,
-> -	struct snd_ctl_elem_value *ucontrol)
-> +/*
-> + * Common helper: shared by all controls that read a group of registers =
-and
-> + * pack the results into a report.
-> + */
-> +static int tas2573_status_get_common(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol, const struct tasdev_reg_map *map)
->  {
->  	struct snd_soc_component *comp =3D snd_kcontrol_chip(kcontrol);
->  	struct tasdevice_priv *priv =3D snd_soc_component_get_drvdata(comp);
->  	unsigned char *dst =3D ucontrol->value.bytes.data;
->  	struct soc_bytes_ext *bytes_ext =3D
-> -		(struct soc_bytes_ext *) kcontrol->private_value;
-> +		(struct soc_bytes_ext *)kcontrol->private_value;
-> +	unsigned int j, k, val;
->  	unsigned int i =3D 0;
-> -	unsigned int j;
->  	int rc;
-> =20
-> -	guard(mutex)(&priv->codec_lock);
-> +	/* Report header: max size and 'r' marker */
->  	dst[i++] =3D bytes_ext->max;
->  	dst[i++] =3D 'r';
-> =20
-> -	dst[i++] =3D TASDEVICE_BOOK_ID(TAS2573_RE_OUT);
-> -	dst[i++] =3D TASDEVICE_PAGE_ID(TAS2573_RE_OUT);
-> -	dst[i++] =3D TASDEVICE_PAGE_REG(TAS2573_RE_OUT);
-> -
-> +	/* Emit book/page/reg triplets for every register in the map */
-> +	for (j =3D 0; j < map->nregs; j++) {
-> +		dst[i++] =3D TASDEVICE_BOOK_ID(map->regs[j]);
-> +		dst[i++] =3D TASDEVICE_PAGE_ID(map->regs[j]);
-> +		dst[i++] =3D TASDEVICE_PAGE_REG(map->regs[j]);
-> +	}
->  	dst[i++] =3D 'D';
-> =20
-> +	guard(mutex)(&priv->codec_lock);
-> +
-> +	/*
-> +	 * Read each channel: first register via single read, the rest
-> +	 * via bulk read (4 bytes each).
-> +	 */
->  	for (j =3D 0; j < priv->ndev; j++) {
->  		dst[i++] =3D j;
-> +		dst[i++] =3D 0;
-> +		dst[i++] =3D 0;
-> +		dst[i++] =3D 0;
-> =20
-> -		rc =3D tasdevice_dev_bulk_read(priv, j, TAS2573_RE_OUT,
-> -			&dst[i], 4);
-> +		rc =3D tasdevice_dev_read(priv, j, map->regs[0], &val);
->  		if (rc < 0)
-> -			dev_err(priv->dev, "chn %d bulk_rd err =3D %d\n", j, rc);
-> +			dev_err(priv->dev,
-> +				"chn %d %s[0] rd err =3D %d\n",
-> +				j, map->tag, rc);
-> +		else
-> +			dst[i++] =3D val;
-> =20
-> -		i +=3D 4;
-> +		for (k =3D 1; k < map->nregs; k++, i +=3D 4) {
-> +			rc =3D tasdevice_dev_bulk_read(priv, j, map->regs[k],
-> +						     &dst[i], 4);
-> +			if (rc < 0)
-> +				dev_err(priv->dev,
-> +					"chn %d %s[%u] bulk_rd err =3D %d\n",
-> +					j, map->tag, k, rc);
-> +		}
->  	}
-> =20
->  	return 0;
+  printf '%s' 'numid=11' > /sys/class/sound/ctl-led/speaker/card0/attach
+  printf '%s' 'numid=7'  > /sys/class/sound/ctl-led/mic/card0/attach
 
-[Severity: Medium]
-Does an error from tasdevice_dev_read() leave i misaligned by one byte in
-dst[]?
+Commit 108704eecab9 ("ALSA: hda/realtek: Rename Line Out control to
+Headphone on ThinkPad X1 Carbon 6th") adds ALC285_LENOVO_DAC_RENAME for
+17aa:225c. That fixup is not chained to ALC269_FIXUP_THINKPAD_ACPI, so
+snd_hda_gen_add_mute_led_cdev() and snd_hda_gen_add_micmute_led_cdev() are
+no longer applied through the old pin fixup.
 
-Unlike the pre-patch tas2573_re_get() and the bulk-read loop below it, the
-rc < 0 branch skips incrementing i for the fourth byte of map->regs[0], so
-the remaining registers for channel j and all subsequent channels are
-written shifted left by one byte in the fixed-layout report buffer.
+Chaining ALC285_LENOVO_DAC_RENAME to ALC269_FIXUP_THINKPAD_ACPI, while
+keeping the rename at HDA_FIXUP_ACT_BUILD, looks like the likely fix.
 
-[Severity: Low]
-This isn't a bug, but tas2573_calib_status_get() right below
-tas2573_status_get_common() still open-codes an identical copy of this
-report-packing and register-reading loop over fct_status_regs[] instead of
-using tas2573_status_get_common().
+Full diagnostics are available at:
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2174970
 
-> @@ -1682,37 +1707,48 @@ static int create_tas2573_cali_status_ktrl(struct=
- tasdevice_priv
->  	return 0;
->  }
-> =20
-> -static int create_tas2573_cali_re_ktrl(struct tasdevice_priv
-> +/* Realtime sp data control */
-> +static int tas2573_rt_get(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	return tas2573_status_get_common(kcontrol, ucontrol,
-> +					 &tas2573_rt_data_map);
-> +}
-> +
-> +static int create_tas2573_rt_spk_data_ktrl(struct tasdevice_priv
->  	*priv, struct snd_kcontrol_new *cali_ctrl)
->  {
->  	struct soc_bytes_ext *ext_cali_start;
->  	char *cali_start_name;
-> =20
-> -	ext_cali_start =3D devm_kzalloc_obj(priv->dev, *ext_cali_start);
-> +	ext_cali_start =3D devm_kzalloc(priv->dev,
-> +		sizeof(*ext_cali_start), GFP_KERNEL);
+Please advise.
 
-[Severity: Low]
-This reverts the devm_kzalloc_obj() conversion from 4dd10fbbeb9c
-("treewide: Convert devm_kmalloc() family to the devm_kmalloc_obj()
-family"), diverging from the neighboring kcontrol helpers in this file.
+Regards,
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261119011102.1790=
--1-shenghao-ding@ti.com?part=3D1
+Jeremy Bryan Smith
