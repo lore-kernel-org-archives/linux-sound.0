@@ -1,68 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795102013;
-	b=GV44VlPzk7KMv+mydEr25C60LMUx7HuZfqzjVbC5vE486svmWjht0CmGmeHDl6Y99B8J
-	 ulo7B1EHmWRapZaInmCouDY55G7WIdVe7b87qpGdH7H7mRhxR+Sp/cX+xcraKu9ZqtN8y
-	 Z0x1wpfSRPFyVijYb2MalakbSGnzkEUJMRhhpl/kA++l4V2lZ4gxMKHdHI+NtgeRJQ/vA
-	 B0tnnMy7XXLBHxm0Ch0OlKlo3qplAMybLo0ORbOSyzUVmhTzVhciI96Ra4BmTY95SaYQ6
-	 dDZGotzK9p/2/RtZ1gf/jDrh+CTXf580SLm5T3Uiq/ZQwMhEn+H3e+fvuVm1O/Lby6Q==
+	t=1795102477;
+	b=UAIH/OqsZXMGx27gm6wDDRW6XrAP/+jV1ZwaIx0goUw8FY93gjbx5AjMReVL80Ono/Sz
+	 jOsXr3t8c1npXGYY7Bkre3OB7C73h5F9wHaazwZqggJPRDb48BhX3F2mQWpHLNq/szZxB
+	 o1tuEW2IHbCkJF0PH0f0a8z7DhNxjTWYyccRQY5FOJy8NLsJlTD0WdKADHjHgR0p8NZHs
+	 Jbpeafmgkx1m4vkQsSqCPTrJobpnlyuqaeE+zCgWFdLdRNaXN7/LADIOTflHVg1I+Q6zd
+	 upzJrkfYwBylzuNsFzoIs1VPW9yBPFwp2WvLN+WZ5p6wzSNUNvw8R8ciYWgKoM2TGHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795102013;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=1DhxKPag4QnJI8h018mWy2cQ1T0+TGTYvGJUvXmgtiw=;
-	b=3oYTf2PiGVO+zMBoNM/nUnRfocsCOkTpGaZDb4khfPBOEzyMrA8FdEWKGY+F6tK1GaSi
-	 /p2F4kP7OQjnIPtHKAWfZCiD1+M06E4q3O4BkSu7IRh0+WZpiXfYpc3WOgCkwjH6CIMyP
-	 +r3qrrrLxlXtZXPSpzkkpKpV3B8R8nQNMWFVFFcaBPZTjO0hO442d72cv4SqnW8KoIimR
-	 GBSuARcMuCzqDvLWrqZ4kt8M06X5qEPNWFlyexehibl8p3I+WUCqpBkigOebOTtu3jR/c
-	 vIzP05cdCj+GHq6XTOz08rMZJc3uct6m1yTriSX00IzXJv9nF7S8Ess9u2U1Ez5KoBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795102477;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Cookie;
+	bh=zUWKx5Yb7D3P1BEOd7tz67w6OHnpP3z+gZKnajmy0bU=;
+	b=39NW8hD5zAFcb/zs5Ci0RozjSiZ6hZzmSR5cxgPA9B/LTp6EhH3S/beO+iJ8PITaU5FP
+	 WDE6uyZCjxd6FoyMOJRCgtcC666dPfAmWl6Y8uviX8TOdWoMzYOoYIUpFgkbh9TldTuaa
+	 8a8/kNxFIXj/str8Dg5Xzl1KHHpnp5IncC75BL2PNqUjKb1q/QVZnhIH1CIuQmS/hZBeD
+	 Sgi/xilAKvu90nu5zC6ELBM8GLFXbH55oySXu6FJItWGrRt1mntuov8inMasMiyS2qDsB
+	 Z6We+cxkkXkuSgIV7RFCy6BvQCOtvY3CqjebEwb3PyoDsLCKjcy6LIW/jbspiBu1/6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="Dbx0/FmK";
-	arc=none smtp.remote-ip=198.175.65.9
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Urpye30k;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A67606A324;
-	Thu, 19 Nov 2026 15:26:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09A67606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13DB0606A332
+	for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 15:34:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Dbx0/FmK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795102014; x=1826638014;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=WY6VoEXvMcL6w5qrhNPPqWVL4OjNmLGwj52oUp7WWCE=;
-  b=Dbx0/FmKyMYNGYA/2gD9fgQFEQ3Troi5tzLo6Cj9Heumj19sNlhmlFMW
-   5YWlr+1K+rcakMXg6hvTCVz8Vk8ngvHbNFa1uHgZHGhVx6TBSjHM3jcpO
-   sz4bn9clHXbPExAYhjPHUH5bkpVr+Jew7eONj4lnSN7Qhec3LhO5sC/8H
-   AR3dOiRqJvD9OLsl3cXzRu/Ch8ChtFQnd8zyJBLf6ArDLJDyXKc5dBsrm
-   i/RUtaRhnFcfPFcGx7O2iVInsG1XV6fVhN6BMAfVcPnYdPc3j0Z/oPNwE
-   8QwBntPsuPgH2QHRErcBEbOOy5qW4SYNLxZHWXOMXxhw9DRenTmjMFZzQ
-   w==;
-X-CSE-ConnectionGUID: Nz9sNUzcSHq9BjOgzIlB1w==
-X-CSE-MsgGUID: UFq2sUDARK+ovGlc5v93ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11971"; a="3800163"
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="3800163"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 07:26:53 -0800
-X-CSE-ConnectionGUID: 8zH6sFHFR1y7uZIeUyNLZQ==
-X-CSE-MsgGUID: z8JgdylwRtusIJXVBOleqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,221,1787036400"; 
-   d="scan'208";a="10823970"
-Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.137]) ([10.245.245.137])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2026 07:26:50 -0800
-Message-ID: <026c4fd4-cae7-41e6-88e7-be8387031eb7@linux.intel.com>
-Date: Thu, 19 Nov 2026 17:26:47 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Urpye30k
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799AB1F000C5;
+	Thu, 19 Nov 2026 15:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795102476;
+	bh=zUWKx5Yb7D3P1BEOd7tz67w6OHnpP3z+gZKnajmy0bU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Urpye30k6bH7qhHh3GMlxhiBouODJq9moObOMaHnCeaQbiIJMR8yag2+LdMj5FvPL
+	 EW3epiazJ8slLgRJUBserecw9Ny5J5RrcocCJiD9/x7XQpTAFPkA0rKx1T67tmWjyB
+	 LP4exQS54Q4irsX9qrG9a3y01g7YbHZic0rq8vljnX4K28jx56cwezDo147+FSVp88
+	 u4Juvv5ZoHziQRDeejQZwC2X1IPdIwVTqd4U9EXZlVJa+BadLvH7RFWiEjeoN8hmJv
+	 a4u0294EWFAEf6OcHDkwxARqoibbMWpHnv82CfgB4jgFCiMfdgGeXusQaTP0MbgQHh
+	 9PF1n+MCKM4oA==
+Date: Thu, 19 Nov 2026 15:34:32 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rafael Diniz <rafael@riseup.net>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: wm8731: power the converters together, activate
+ the interface last
+Message-ID: <16044ae8-679a-4e4b-83e4-1e2bc2c0554b@sirena.org.uk>
+References: <98d2b656-a944-47c6-af47-126b46c5a953@riseup.net>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,72 +59,44 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/4] Add larger page size support for USB audio offload
- path
-To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20261109-16k_offload_v1_b4-v6-0-858c6e0e007d@oss.qualcomm.com>
- <a38e874c-4685-4892-81b4-a6aeeaaeddb4@oss.qualcomm.com>
- <54beec96-2221-4109-ab7a-74502969b369@linux.intel.com>
- <82a57df7-a3c5-4986-a724-44f00b22a532@oss.qualcomm.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <82a57df7-a3c5-4986-a724-44f00b22a532@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="adelDT6O83/PHJ7h"
+Content-Disposition: inline
+In-Reply-To: <98d2b656-a944-47c6-af47-126b46c5a953@riseup.net>
+X-Cookie: I'm into SOFTWARE!
 
-On 11/19/26 00:30, Wesley Cheng wrote:
-> 
-> 
-> On 11/17/2026 1:59 AM, Mathias Nyman wrote:
->> Hi
->>
->>>>
->>>
->>> Hi Mathias,
->>>
->>> Was wondering if this design looked a bit more acceptable?  Was able to figure out a way to achieve what you had suggested earlier mitigating the dma free problem I mentioned in my previous email.  If there are any issues w/ this please let me know.
->>>
->>> Thanks
->>> Wesley Cheng
->>
->> Big picture looks good
->> I got stuck on the "no_pool_rings[EP_CTX_PER_DEV]" solution in [PATCH v6 2/4].
->>
->> It reveals and reminds me of how poorly designed existing xhci_free_dev() is.
->>
->> I tried to quickly fix that fist by 'unlinking' vdev from xhci->devs[]
->> inside the lock, preventing it from being dereferenced based on slot_id
->> somewhere else, and then free it without the lock.
->>
->> I ended up with a huge mess that rewrites vdev free/allocation,
->> slot enable/disable, xhci_discover_or_reset_device() and xhci_resume().
->>
->> Seems like best solution for now is to add "no_pool_rings[]" to support the
->> larger page size, and then later rework the vdev allocation/free and
->> slot enabling/disabling. I'll take a look at the details of the series.
->>
->> I also have another sideband change attempting to fix the use-after-free
->> stale vdev pointer in sideband. It basically swaps vdev to udev.
->> I'll post it on the list. Let me know your thoughts on it.
->>
-> Sure, I assume you're talking about:
-> https://lore.kernel.org/all/20261118125109.1429538-1-mathias.nyman@linux.intel.com/
-> 
-> If so, let me look it over, pull it into my branch and test it out if it looks good.  I wasn't able to reliably reproduce the issue that Lianqin initially reported, so I'll see if I can figure out a way to exercise that call path.
-> 
 
-Yes, but sashiko found one missing sideband_to_vdev(sb) check that would be good to fix.
-Rest of warnings were expected.
+--adelDT6O83/PHJ7h
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'll fix it, and clean up some other minor things, and send a v2
+On Thu, Nov 19, 2026 at 03:05:18PM +0000, Rafael Diniz wrote:
+> The datasheet's power-up sequence powers the converters, sets the other
+> registers and activates the digital audio interface last.  The driver
+> has ACTIVE as a supply widget, which DAPM powers ahead of the ADC, DAC
+> and line input, and gives each converter a widget of its own, so a
+> capture starting next to a running playback powers the ADC up under an
+> active interface.
 
-Thanks
-Mathias
+You've not provided a Signed-off-by for this so I can't do anything with
+it, please see Documentation/process/submitting-patches.rst for details
+on what this is and why it's important.
 
+I think the patch is mangled as well.
+
+--adelDT6O83/PHJ7h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr/FwgACgkQJNaLcl1U
+h9D94Af8DmZNz4EC+U0Z8xZ9lmO/t0xAfHrFPsYfAXh+3lQuYUMas3TlNatc2aS3
+Nb6Zv8LcXlSqmX7d4Mpfw6kzdwG6G9YpGy5tcRYds5iJLn7TUpgdO/anNTK1Kyhu
+mHWMXms6kBKvhMu0X/d0lvyzTKZKzcUL41zAfFtTOPRqwfXJCKMWIQrTtlHrrFM6
+FI3RYOykscwpaWCemqpCIoRe5/I3eLSDbYhdJB10xcb1wAeLUo1tL4/VVQjI6CY6
+RdlNucIvNeud+oIBZPHeqoaDqcXpzySb9a0HL01uJknAtGbVmkpJX38Ot++SUzoK
+PctMJ/RRo/Ac8dB+3u2EsJVMKnZtGg==
+=2d2f
+-----END PGP SIGNATURE-----
+
+--adelDT6O83/PHJ7h--
