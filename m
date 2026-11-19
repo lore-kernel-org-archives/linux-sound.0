@@ -1,55 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795106458;
-	b=oels1EXfVcJWfyz44oLgC8ztLVYKTFz76dpNvDFuPHjwY/maceyoBYyMiEUIROhvg7E8
-	 pAg6cj/ojUse2HWhHAK1lu6vybj9hyBCFrjgfq+vQDizhq9d7YFaXDzFrGsnxS8SKz0EE
-	 I0IBSI24iRbXmQlq0Ru4Evf9AR6F380ihg3YcdjmUrPWWjHpZHU8tpdWrdghJFu+ndlej
-	 DemdMSLAQIr+1L3pZF7szwjrvEfe3M0cxKbGv19FEokOfp3jmUjCxcm3zOXqFhpB6zwi+
-	 JKTxkuSIh+rWcKIPPT49dwHC6YrRnRk0TojjXktio0FvTm40rmQu+/CPubyPlJtVExA==
+	t=1795106746;
+	b=s9FL96zA7JoynzdR0Tk1RlSJvEY/KGR4XDqvYuxMCHyMQtzlfY45HYmE08A8ds9bVYJv
+	 uhdTMntZQ/ZmQIluQ0IaZ61WK//q1iLZ3xy0n21zNWt5izLd32aAUoo0wciig8nAsTHkn
+	 DE8nzhDTH45PyTn9SnGpZe/1ZplAi+VwXUbnAT4zQbczLRiGfd0Z09vJ5EM1K+8pHNOVv
+	 7cGAwQKKCPZiQ7MkJuBSQfG7F8dGOTVHAG8oEENSI9QXcPy/N2umtjrxP/Pf5+e0wmtX8
+	 L0kDJs/lHE7T6udnabJkHLMcwzbjdZX+BmxphSe8hH84tAsAVHANhyv/+FcsNhQH7Dg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795106458;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=AZySMT1uU7wlY3CYeO28UhSAh5rHHrQpOqvsCMUAbds=;
-	b=ALJGDlS0YFTizqVLdtQavmVkZFS5QP8xKG6goEL0zpsM19CKHLfn+Z3g6n5M2NJgePV+
-	 6OCUn9GYVSIJ1daqUHqqWKa1OOBI9k+AHjwgCubqK2iErZ0rmS5M3jLZqoJDTa8sWcqA2
-	 dmPBvOg8C34xjS5i7uWxOE4jovEj5HCPQkdI7LeEroi118TUg19c6/qEcUBSfUdvzbEIb
-	 pSTQio09HGfzwuM5D2DG7X5v2/6mYfnfinwZM4PdVgaErxznmPpUb2taj13pDAG79SwEy
-	 RI1csc14XndknWMVJGfggXIOTqiubhEH/AyH6/XZpdf6NMmIJKZf6fzyuBzaQ6G7mXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795106746;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=teBN3u9VFLQp1xigXBoBdxmacTll6U0dI+yoO1tpfjY=;
+	b=G2BB+WTjMtKB6kIARVZnCtZ/IwjoTgqQZKwL1PxKUFQskdr9fp2eKvNdjkaHAXosQobw
+	 lNDnSwn4UyLnT10QVtL3N6lm3xZ7Rzi1RrYkxB/ozJ/CPFTxbX7Fu8G//OUX9NsZoVE9j
+	 6vNibjrhRfgkjfXVb30vHX5EWjs0I7bah7yWyEEw0gGwYUdcwOQtYxMCh6at8Ha2QHEzt
+	 UIU8MEYdVN4Tp44R5AO/pRQFVekvTZK0L1Vc54UIEI2vV/xjfzJvbyPvbUn6mk9CNTVNt
+	 L+ryMunhuRg45sLrku73YMqfZlduYB4Wy+DxIbuZzc/NKoVkA2qIyX9FzXSXErUGASg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fMdV5UjX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BLmdEj8d;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12314606A320;
-	Thu, 19 Nov 2026 16:40:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B9C606A337;
+	Thu, 19 Nov 2026 16:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fMdV5UjX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DABE1F000C5;
-	Thu, 19 Nov 2026 16:40:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BLmdEj8d
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C4D1F000C7;
+	Thu, 19 Nov 2026 16:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795106457;
-	bh=AZySMT1uU7wlY3CYeO28UhSAh5rHHrQpOqvsCMUAbds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fMdV5UjXdX/M8UzIX6qLsUyhd0zlCkn90kXBrTvBEcKGMjKb8Xc+juHj6UT0mwNd+
-	 1hWoOCjuV7XxkYJg9/WAsZFMaHH5Q5CuCMYz9s3L4ZcjPYf28/A7c+YeDnHBVCVSde
-	 pmWyfghpTUVEcXxXBzHCl/H6UhZ7B2O7OjlOTnHn+gsiazjXxzLKzVjXACnbl3jl1F
-	 OyrsD7bzUieZZFeULh0uhjg+gQ7/3ns1nrVGCqJHlxWt1BlzhCFV8TGIQFIuvmeu7V
-	 JRwhuhVDObgXXrWYglGs2rmA305KOuAa5aHAQ+xoZCTbqiSf780T38UJCiDHp7LjIG
-	 6JnVr9j6wSrvg==
-Date: Thu, 19 Nov 2026 16:40:53 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marco Giunta <marco_giunta@outlook.it>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] ASoC: aw88261: fix sign bit check in
- aw88261_dev_get_vcalk()
-Message-ID: <dabf17f4-f878-4412-a0d4-f9dfe5c4d66d@sirena.org.uk>
-References: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
+	s=k20260515; t=1795106745;
+	bh=teBN3u9VFLQp1xigXBoBdxmacTll6U0dI+yoO1tpfjY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=BLmdEj8dcnwiLUDfl7hwZxyTbBT4dKYYO1s22LzWlXeNUtW6oagamn6lK2dY+vkFP
+	 84RnVDZ1YRn1DUacVNtXKzmMjlTwpNY+epuX9TDGMuUJOTmHOaeQ1vpNW3b19g1HSY
+	 w+L16heQ7EpB79bwA6lNuCV8hDqypVQMN5jovvBfhqlV+CpirIM53fWUbwInwUylJx
+	 Pa2gxZjJyYzL3sLm8qvOk3tHf5whlUqoCh4N3dnpdVlToc6S+/5M9ihZM72MyMHnKP
+	 +++Cqlhdh1NtoheMbscf2GthLcwR/iME9R2gkeX8Xa+cPtsc6gVKve6xdIoJegOim0
+	 NJuaFIIY3GT4Q==
+From: Lee Jones <lee@kernel.org>
+To: broonie@kernel.org, lee@kernel.org, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, mfd@lists.linux.dev, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20261112141650.1931348-2-ckeepax@opensource.cirrus.com>
+References: <20261112141650.1931348-2-ckeepax@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH v2 1/2] mfd: cs42l43: Add load detection
+ register needed for cs42l43b
+Message-Id: <179510674408.77674.4732953853855712916.b4-ty@b4>
+Date: Thu, 19 Nov 2026 16:45:44 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,53 +61,20 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9xUOkPRIi3otwYtj"
-Content-Disposition: inline
-In-Reply-To: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
-X-Cookie: I'm into SOFTWARE!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
+On Thu, 12 Nov 2026 14:16:49 +0000, Charles Keepax wrote:
+> The headphone load detection procedure on cs42l43b is slightly different
+> and require a register that wasn't used on previous versions of the
+> chip. Add that register into the driver.
 
---9xUOkPRIi3otwYtj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks!
 
-On Thu, Nov 19, 2026 at 05:30:12PM +0100, Marco Giunta wrote:
+[1/2] mfd: cs42l43: Add load detection register needed for cs42l43b
+      commit: cc29c6e45db7b4306efc7a76e7a64d549229d4ac
 
-> ---
-> Hi everyone,
-> I'm currently working on an aw88399 patch series targeting some QOL fixes.
->=20
-> While working on this, I spotted some things needing fixes that I'm
-> sending separately now, as they are all relatively straightforward.
->=20
-> I checked whether the same bugs were present in other awinic drivers
-> and found a couple of matches, that are included in this series as
-> well.
->=20
-> Overall:
->=20
-> * patches 1 & 2 fix a missing bitmask inversion in aw88261 and aw88399;
-> * patches 3 & 4 fix an OR that should be an AND in aw88166 and aw88399;
-> * patch 5 fixes a forgotten rename from AW883XX to AW88399 in aw88399.
+--
+Lee Jones [李琼斯]
 
-As covered in submitting-patches.rst this stuff should be in a cover
-letter, patch 0 for the series.  No need to resend for just this.
-
---9xUOkPRIi3otwYtj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmr/JpUACgkQJNaLcl1U
-h9BZMAf/UnWn/DazoQR5q2evNfNl3nkKkInR1wCI+PFFGKVGTYlNaaeqxbJK6y1s
-UpMjMfbY/Lucjsn1XpXKLyL0Vfk4IFqz0R5PkwTllrj1iBzrV0M1oUCYe0JTQs19
-mC36ST0qLaAhXnWlfu/E4cS5x5/7m9H2KHMYQ5I0D/vKbZyECyLXZMmzMsxv/Dlc
-9SEt2rChJ+ugTJ0Qh1EQNwXhZ6gKm9Pqud7iK5rhqw5jOMG+iYsHbteLNb/o9hHr
-l+I62Jl6dGlwSqcd5XvG2jx5Al/ltqD5phPa1RIqN75yS5DIkPKXQu56gO+r0mk7
-wavtpw7jsiUclFK6xqOYReNQtVgz7g==
-=Uk0R
------END PGP SIGNATURE-----
-
---9xUOkPRIi3otwYtj--
