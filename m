@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795169067;
-	b=M+T/TZks1+1WP3MrYy7odAZQ/o63lwuj8CnKxb8FIHK+z0NQzeOSLc0+ecYRJB5PxnzX
-	 yLj7HKjTqZ36MS71F2puySRsDEWjfK/SF+P5099Q0fJeFFrjuHhOoScibvEBZLB5R1Xwe
-	 DFVH7tsHCfANZMRPAJBa7JXhWro/HT2fyD/32IEcmxAao6Qly3kFTc77eVihboE3UzgRP
-	 2o2m823/WSf4ku8FyWYuOcK+pa786sHcE8HaW/swObjPgCbs3H7JPzLnfLZ2Ar+P/7ugB
-	 UMpUIMGWwHqapY9TDwbafnHELt3aiHvgkxkKGQohfH29/9Cyxi5uvS/cjgcWbkIrRZA==
+	t=1795169072;
+	b=EG0zXPZftNPHDyWY6qWrYup0NU4DQ2KQaU70G+SP4S2LF4mMbf10gseYK9i1WOyoc7PW
+	 Dhi3TOM8o09zFuuBWfmc5oaABdbVS3jtWm48yOWlFLSgTLDylPNCrcrYlaEgG7BK3kf8M
+	 DrJ8DhBVy6wjqxtXSt2njivHniFciqty/fem5W9mtkHb25Kz8neZe+Qy300b/PCtCgdtt
+	 +4A1tBZa1F72RNazV8qbGHfHWn2wKUN4HlOxezayA1W+Qv39ZOQR/Hf8EIpxVywMW6xi1
+	 PoLLyEjg/EWDR6uRV6iWiHyJbZspukgz6/vTyKTSCJZimRXDCGIhurxxmexXkmp6Ltg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795169067;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795169072;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=lmmBhmNLI6X/YEoK3eoy0+dFw9XJT8YVwQjaeh+3Oek=;
-	b=Btoyrc1H6fueI+Ow7+pMBNkAs5NWTpOKunyv3P6iF5K5I1UGesrKIo0MDa8mTxydtxTF
-	 L1CC3yOdYcd2dI4P1q/5k+Rm1GecUL+PlCjmLzNb1HfKlt1IHZeBtQmI1Z1bHqzNQfBOV
-	 mQR76ez0rZ8FB1OE0Vjg91g4GPPSpuY3F28gO2c7rYFj87HWYDgw7ElDMdxfnVJSl1EKE
-	 GXN6/Xu/ky26LtQlCWaqjWYbfCpjq6ifKI6hTT5ngGIW9a19ZnSSk481Elrzh81VRK1AL
-	 wMSF31eG7bd66PVEHuxoOcbGnXU5Ma0wh/swUy6AOYq3/BcILsZfH7nVKRJd98CVHGg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=zZhz1yQnT71k8uzCjSn9kv5P76pbsHicTRHAiqa3oWA=;
+	b=nPW/k+KlICzcRoqccVTeG6rf0WmH9E7g7gMEzayLSE0BI63/EcOSYnAoFRjxfNqlxIh8
+	 J6Cx/cvon/zcQmL0Eh+UZrWai2qcOEcaEzXK39uQ/RYC0A1lPm/OjU0qech5upl10v9GZ
+	 7bycNbjOm6eMv4z5aaKg+MI4mkwtPgrBR4+E2jdIc482IxuJ/aJoadwAzPFWsAic8If2W
+	 wL6bjBD3k5Rp/CgUHdqIwk/nAKHr2Qm87zi2FMBYDFHc80K8su1gfcNfNx/mUm89shn73
+	 EACEtzSGStG8GGIcPdcbTx8YFGVq5lpyQjjqixX4La7qoYd6Yeq6lo6nYgxwXYeZsiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BYhegRtB;
-	arc=none smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rv26arhW;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954B0606A325
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 10:04:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 954B0606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D868606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 10:04:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D868606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BYhegRtB
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e9d7791b00so6178155ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 02:04:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rv26arhW
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2f0426a65e0so4294505ad.3
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 02:04:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795169066; x=1795773866; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lmmBhmNLI6X/YEoK3eoy0+dFw9XJT8YVwQjaeh+3Oek=;
-        b=BYhegRtBsgi5AtmDSa/ZiSPpHJlDcOCqCcFjFdcBrD5xolD+l+zguPhEfK8XLP/mDo
-         e12fLcPt2o7Me+ql/gtc7eTeHurPyepx+CLa7Oz+nNvTuQ77QKBGyIYGba4u7ZtqBWQ/
-         hHG7wTw7DdWAjr+AT18xGcYVnt+3lJMH8N+n6AxL6PeVkn9ItjCCSKzb8/eVudnRe9tv
-         RtfF2mjbt9c1VM6fTyDFE5jnul9NRetK9zwr6HH1EWMDPICSTOQEfmrgE5nBtipfJl6C
-         KE0DFauDto8VeDl2GGaAmNoncIEnnyaRn1oxROtZupgcPHrVdRMq+Nqi0ZXeM9JaBqe3
-         cQDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795169066; x=1795773866;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795169071; x=1795773871; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lmmBhmNLI6X/YEoK3eoy0+dFw9XJT8YVwQjaeh+3Oek=;
-        b=mOtaezHvnF6ZmkOv50dhM+u104Y7D3PRAVXLsRAyzuGlvvjYYvGiBs4X0UwCSsPrAf
-         JUUFtKBTwaY4PPo1hWI1d5RskJpQ5//pWO3jnNy3kZfw5VmwN8fFZXkdlcLFVVyu3muf
-         Kk/3ji7nDkiJu7ggikn0nfAcjJl3zDq3SXD+/RbZBM3Taz/Q2K/7Nrkm3nFud2GVZg+s
-         lfNmVjI4FPj7Tta3/3EDovoNoYYzWsYxZzYSGS66uMqD5W/TK8bTQBKrpeoSlM7+4iz4
-         zw7pWaC+szCC3hvY4KgyykS/ypMcu58DD7IBFeJfyBCrFfW3n1JwOjGHi+PWBgA8XiXz
-         MCfg==
-X-Forwarded-Encrypted: i=1; AL+hErHtg+R8OtWYeJRntdOVGftyQZXS0EExZmK6o275k5BAVxJdxUyXoxxQkXrcWr9bX1OP/DFquWdppWSwSg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9V/AxXhILtRid5NTgAckduA3qzTOkoutFCu/seb/k5zhpUw+PP
-	5Ob8lqwx+zJhQWmxVg1EP8bwaBfOZ5ORCzw00+38Kz4w9d1jlvQjR7yx
-X-Gm-Gg: AZFdTZcP/G3zL8M9MCBmNwU0Atf10W4tceq71jStbyAvvGby3z0Dr3KHJPLU7Hp9NqA
-	OvjpFSDpfzkueROYbQMNmTXH99U230Ob70sqEiHLhgV2jtJAypfhBw7fgl/Y0/De2IyupK/Z0++
-	0HQ/F1lydgc2frPslAPiXV/gFbtT9B2OeBpj7Ugvf3KltKHg42dOq1O/QWj2BArmgI3qFXwyYLK
-	NZwsKfxi/vJ0ogcAdxHbXtOasRjBF/p5YFLXf8R0/e26+TfqDzQZ/IdKacMsHjUMzdoyRqOyMRv
-	h4Kwsy87jl6VxGpRZhpLNr1m39w8zXMbOxT7c6uAV4Qs6uIGAkvY/5sEM5+8SUSemJCMHsO/5Ak
-	4rbAzbDHsgLNriC9N/4N55cVszHp4L2S5D6gDxriubrtTwOA8g+jRNDfF60UMFG9DihL/T+jB7Y
-	YeJC+S9EmcNlBsVnNmmxs5YisM079V15zV+h4bOGqxC9K+ZAoiEt+Rte7MTPMNjYICSlmBS7ltl
-	T/+VDWG+8aj5txJuKMfDyFycx+v96W/swN6hmGoELlzC7SoK+FW1cSmhnkFVf5Pmpto1MPZY1zX
-	cB0IRWGPt56xZBF6HEHDng9Zzm3zKMRbdOjk3og3kzyGAWFs+JtISDEd1nl3hfhRGJ8d5s90ERE
-	JqOMsoLQA4zGtxzlqVCNuOaa9C0vW5/cor5RRnPrEIzxz
-X-Received: by 2002:a17:903:4b07:b0:2ed:379:1592 with SMTP id d9443c01a7336-2f03f14473cmr23954385ad.26.1795169065871;
-        Fri, 20 Nov 2026 02:04:25 -0800 (PST)
+        bh=zZhz1yQnT71k8uzCjSn9kv5P76pbsHicTRHAiqa3oWA=;
+        b=rv26arhWCmPTw+sGPLYU0uZRUZySILft18MOw1dsJV6s2ZB7fEQ/7c9oU2q4avOJRQ
+         P6ywwpyVAnYf4JZslqApm6RUgfklMx7fj3V0QJGETa1rHrisIBBoR+fAxb0HsX9oMER5
+         JxUqF5dZZv4QancIRpxevm3WC+OMkOQz4MiACoFaw/JFYUBUQqqzLdqBDtJL1yDEKRdE
+         H8rtHN2aYSfC/AUVxhND/8L/vluzACFGo3rY+v8vamFaE6dX7yTE/YllWOFjj82E4qbv
+         tzXONUndkRC/YFDECF87vUak2sghtrx/zPuOFdVNXFGXIHfJWSYaEP0MMT9bD706pQNK
+         pzKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795169071; x=1795773871;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zZhz1yQnT71k8uzCjSn9kv5P76pbsHicTRHAiqa3oWA=;
+        b=p4Sk88dC5PMG2+zVEhQltboIa5xFLUG8a8EEtABDRhJursr1jXu98AWOq67obo0giu
+         GRi3+PvmdBdcbMEVYL2sFrvPa1DITPNYPuKk62sCvqXV6Z6aPBUYi6oeUcUrgMQC1Kut
+         zucMKigQXta5qLUtB8HnBc9EgE7yTKsE25UKX0U69S2lV6mBDoqWQFZUgY4t56RMvyD0
+         APNirGVRWF2L0Bhepj8CRLVhnWpKE6m5Oy02NI3bSBA2zksl/JYpHjOdsWb9XTbLA9x8
+         RV/2TPmKGJhFSkbIy6PKSAkbsvLWVpBB5YgiR0XIvlWiy0Wfk5HFxmDDu67AjmXhtt/9
+         fKMw==
+X-Forwarded-Encrypted: i=1; AL+hErEVCyda3g/yUneY1vDPtR+DkjDgZzzTjmzdv+MRTycwW+KoJsWJLZ2DW5o+5xjgCVIFc1DzLak6pkjmbA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9LYY9D6kdEYJ3XTMPkgV9DjuEYefw3sXNc2mEG96z1UJ5WpjL2
+	wYcXVqvIsdzjP37NFqfmI4L46bHfbJsOlOwbkthdtzoK7UuTsiL7dJyH
+X-Gm-Gg: AZFdTZeBCgBwspz0z6WGfWdNrgZstednJHUxAIE63Ku8Zdi7zqJxyTgu7eiO1VyWSDQ
+	DownHUO9GAIw1UWDUUmdV7Hie2z5P0Y1QbW+mXGK/2VABaQFpok34+6G4JRxjdBmJ4Wiy4bK8D3
+	VaFRPE/B9d14v/fSiyxa07fph6kwbJxtvK85PZ13+73nqa/hMtF80OTMh0GaGOG/BCoYgOMmZfj
+	kYAN2YtxeAoU0NdWS+E2ZioGJgbjO36Wlojkb3duy6zzl/WXGpkZ+F3tAfpnMNytDdC2MwE7Khf
+	0B44ep8u1TG3/tRMLCRTPn8iG5HZnez+mCZ2ZsnXntPE+Zb9oP4DaBkae8Oqn3YW10rWTBwOh2d
+	k04n4bOXUlTp+HkOODcEXIsqAvSCa8TWVaPN8SOzs3C4mfWnF1+Nedkma8s8EE1SQxdwQRES2qf
+	J9rtaid354ePNsJ9jdI6JyHAONHJWRCBqBELvl0BahXgxh3Lt/cixkoOOOmm+/nm7A3MWBV8lvR
+	n+87gBMRKzc5WL+6zTqA3b2bAmtvCqODlrlI3waEvzVOPF9IbvDsZQJNjOJ0Ibtl+95ZpJ8rji2
+	Drdyzyxlom8chN6aDC3vfAVHxI49S/IsBc5izJLtplFzNQdzypM35Ukzr8KW09xL1XMUJ/mI8e2
+	71IvPa0qrTE1gehJNHekZWXCufQQf70kfFOQfcLLi4DKO
+X-Received: by 2002:a17:903:2391:b0:2dd:c0ff:e72c with SMTP id d9443c01a7336-2f03f263555mr26063905ad.62.1795169071541;
+        Fri, 20 Nov 2026 02:04:31 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1a69sm11797365ad.18.2026.11.20.02.04.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f0c1a69sm11797365ad.18.2026.11.20.02.04.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 02:04:25 -0800 (PST)
+        Fri, 20 Nov 2026 02:04:31 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
@@ -92,10 +93,12 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 0/2] ASoC: atmel: Mark interrupt registers as volatile
-Date: Fri, 20 Nov 2026 17:04:06 +0700
-Message-ID: <20261120100408.8053-1-phucduc.bui@gmail.com>
+Subject: [PATCH 1/2] ASoC: atmel: mchp-pdmc: Mark IMR as volatile
+Date: Fri, 20 Nov 2026 17:04:07 +0700
+Message-ID: <20261120100408.8053-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261120100408.8053-1-phucduc.bui@gmail.com>
+References: <20261120100408.8053-1-phucduc.bui@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,24 +112,31 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+The interrupt handler reads ISR and IMR to determine which interrupts
+are pending. While ISR is marked as volatile, IMR is not, causing
+regmap to return its cached value instead of reading the hardware.
 
-This series marks the interrupt mask and status registers as volatile 
-in the PDMC and SPDIFTX drivers to ensure they are read from hardware.
+Add IMR to the volatile registers.
 
-Compile-tested only.
+Fixes: c5682e2ba132 ("ASoC: mchp-pdmc: fix poc noise at capture startup")
+Fixes: 50291652af52 ("ASoC: atmel: mchp-pdmc: add PDMC driver")
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/atmel/mchp-pdmc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards,
-Phuc
-
-bui duc phuc (2):
-  ASoC: atmel: mchp-pdmc: Mark IMR as volatile
-  ASoC: atmel: mchp-spdiftx: Mark interrupt registers as volatile
-
- sound/soc/atmel/mchp-pdmc.c    |  1 +
- sound/soc/atmel/mchp-spdiftx.c | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
-
+diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
+index 8b55d864f3d5..4b380dc8b6cf 100644
+--- a/sound/soc/atmel/mchp-pdmc.c
++++ b/sound/soc/atmel/mchp-pdmc.c
+@@ -842,6 +842,7 @@ static bool mchp_pdmc_volatile_reg(struct device *dev, unsigned int reg)
+ {
+ 	switch (reg) {
+ 	case MCHP_PDMC_ISR:
++	case MCHP_PDMC_IMR:
+ 	case MCHP_PDMC_RHR:
+ 		return true;
+ 	default:
 -- 
 2.43.0
 
