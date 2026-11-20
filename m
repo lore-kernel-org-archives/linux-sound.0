@@ -1,45 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795192630;
-	b=EJgkZfumvddKT9aPlyZz+GccB2rEDzpjleJ/xLzVurxBMeJpQtPdwaLKOiJWuVg2qzvZ
-	 6ATRV93YdhpthMwFHujQw3XIuV3X6zG631w3UFGPzhPhClEZAlvdaWmZtdlutHgLHVf1L
-	 GKE2L+36+F5dEEt4jFv029rEF+4046YceYh7dk01dzyH8bHTxUS6zdZXTZM1WwhL7AMM4
-	 xwYKI+7mDPK9uB5eKwJ/S79/zV+F31iIhSAMUPGT8tIH3K25FCritPGZsckImLCi1y/Qt
-	 i9eTmwMqDeiN5IZFTvHttJGPap8bzLBg9CKENiEJyow/EyrD1FZMf/pg/GMt6UNC0oA==
+	t=1795192862;
+	b=UqvybLDTD1d95V5LSLPWe9pNe0GedrqV2846T5uTcm1SEZF/9yZf0NfevYGFfdzAedjy
+	 55CUFdO5iiTqaFVMROIp/RrXU9brxyGEOf0v5KplAHsJ6uItIoQwJw3RaTrU17KhkJyV6
+	 SnDyVg832hXBv7gbFBnRwAYZ+HtdiQSvNpIxkw7elkSgbXvcIk3kctL09qnKTq5oSX4p1
+	 cgit4bwRt3iu8sjVC154jwxzWxSsDwDDgrxF6tKqUbrbPx92/uO/mzvnzWPuuh6AB2iJw
+	 97mkWluNXeMCyyRGFrTALW+iv8dHW6PyEsNDOTgZT+DY7LQ0n3+fW4kXvJ9Vioe8dNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795192630;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=LllCkifyLZHZsmUqrWM2olB5E55wg9TtY6x0+O+3vRQ=;
-	b=wywzPxKJdlPHYc3CNMGvwSkFu+zt/mfLLh2tcwVx4dDnH9/34n37eEXnjAtVt7bOXt9h
-	 YG5UT+wvbzv0zr4DuSRrb9bsnmAvfhrtgwepk5nz87rjfwIWakbPYu3CXDKZsJcia5JLW
-	 SRV95DFb9rp4K7zYT8O93Y2dlhJ8XZC+0W3t8vLO71/Na3nwMW+wfvO3IdWnKJh0iTvxS
-	 FbpQaPNEwa05ultskCkax3N1F6HkCPbRUZumpaX8YHZzx8wK9yvJG/Qy3ZaRBZk76dPtf
-	 njAtNdEKnxfvXPgo9j64IfhR78wk5V5WYKic61nv5V3Fl2XtXDztf+ggq0qUZmRSSMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795192862;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=OjPGoFJRdi3qmVRMmvzL7U4nnvhNTrtanM8zaXmfRhU=;
+	b=MQdSgpFjgS5t+PqqHbcxLA3mKG+FaSwSsgt8o+1nun+xdeUYo1fS9dQPw4PhIQdeO1wF
+	 IaoNsH2Qx12HNuHK/cpW6LJu0DDQkFjzOmCzCdQJ+AenYwKrCjixnqqWtjfmvgi/5LzPC
+	 nfIT03vnJf9wPFgygwnqC64A4kRcb4sZTgblqRc+cxnI3K/cC49eqp4DR9UcKXBi8GTcU
+	 RziGaAWeSr6kUfSeQibZ5AqYFa6CZi9OuvofJMuzoE0c4JIOloVBzbJ3Mr9F3bJjaJJoN
+	 U+2Qe+ONnKaBog6OD/yrY7OZf8SLUw8ShMi51xVhyZBVPRYipFdUxyjYhJuO52s4Ncg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FbTNGwmO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lwYrsX7j;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587A6606A330
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 16:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DB6606A616
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 16:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FbTNGwmO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9BA1F000D2;
-	Fri, 20 Nov 2026 16:37:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lwYrsX7j
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78471F000C4;
+	Fri, 20 Nov 2026 16:41:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795192629;
-	bh=LllCkifyLZHZsmUqrWM2olB5E55wg9TtY6x0+O+3vRQ=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=FbTNGwmOEvZvdnkOFipQ0cz32BhXv9yZpWVJdD3S/YO2Yg9TcVD/9inedpWyeRci+
-	 G9UObQ3tpokd6RjCgwtH/6vZ6FuaaLo8GJHsvOPvg6nPbrUgER+3aI/iivDWkE2y2S
-	 9RZipTD8hhgmG7TWRoFnr7hEE09OYS6pcPvyr/gP68kfVgWrTBse6hwb6mnWuTVV2v
-	 nr7xUQbOTieAMXxSI/fN53BLsHy1nNJYwV1MUHrY6NHUMBl+TTHwjiZo/PQ4CMvrky
-	 /btMZbXfkYcSO1a7gD79/Z73hcrjnwLg5yzta7vWpHnp5zF1+7sgL+MBSPGFv9pYxh
-	 2BPuS9k/9g//Q==
+	s=k20260515; t=1795192861;
+	bh=OjPGoFJRdi3qmVRMmvzL7U4nnvhNTrtanM8zaXmfRhU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lwYrsX7jZJJlqM/XqKPgKL92PjW93W6y1+0S6HZwTVCO6Gdh0ZYiOb3U65JCFIS//
+	 SpxnAUmh9+CHEQkmK0MyRS33Fko8WXMspvruSUfJNyM3EC9391cksGomFfeUrFhY/D
+	 rhnB1Mauvc7lRuSAzyGjahag+EuphVE03UNy2vUGf5fXVn9C4IDvDI3Xoba86/HGZb
+	 QHTxf7EruOFcIeN0PdSPsZjSV5iELcpKifC7jrE3Nj5IAD/rb4/MyaNVQZQGN3/Xqy
+	 GDEwoRNshtl83uMU9zoxLWSWD0iyENgnrtmQSJltEp/ea5soalqEgFMJBK6ZsuyhAM
+	 dbllRquz9BrnQ==
+Message-ID: <sashiko-outbox-225582@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 7/7] ALSA: hda/cs35l41: rework how firmware requests
+ are queued and flushed to prevent races
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Stefan Binding" <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261120161136.157593-8-sbinding@opensource.cirrus.com>
+References: <20261120161136.157593-1-sbinding@opensource.cirrus.com>
+ <20261120161136.157593-8-sbinding@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2026 16:41:01 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -48,59 +60,129 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2] ASoC: wm8731: power the converters together,
- activate the interface last
-From: Mark Brown <broonie@kernel.org>
-To: Rafael Diniz <rafael@riseup.net>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- patches@opensource.cirrus.com, linux-sound@vger.kernel.org
-In-Reply-To: <20261120080825.2078162-1-rafael@riseup.net>
-References: <20261120080825.2078162-1-rafael@riseup.net>
-Date: Fri, 20 Nov 2026 16:36:23 +0000
-Message-Id: <179519258391.6016.15133087600189015778.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1371; i=broonie@kernel.org;
- h=from:subject:message-id; bh=RYy3GQyCZGG3NOsKsfxlHRlwhrk59kxoXeWn8NDcBvA=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZyo0SVwTMq1o/zalp0jq/B8t5b22eZnz4RRn7mY6r0
- keu+8/U7yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEHpxh+CsnJrDwYjZnUQHf
- LK5J2hnv/iS9/K04c3FKROWTZTqPq2wYGY4vKl2QFP/CvE7/y8aQLM6Aq9fW5e9lMYm4dFlv5+P
- EFywA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The datasheet's power-up sequence powers the converters, sets the other
-> registers and activates the digital audio interface last.  The driver
-> has ACTIVE as a supply widget, which DAPM powers ahead of the ADC, DAC
-> and line input, and gives each converter a widget of its own, so a
-> capture starting next to a running playback powers the ADC up under an
-> active interface.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] ALSA: hda/cs35l41: DSP left running on cs35l41_hda_bind()
+  error and unbind
+- [Medium] ALSA: hda/cs35l41: missing DSP shutdown in cs35l41_hda_bind()
+  and unbind
+--
 
-> +static int wm8731_interface_event(struct snd_soc_dapm_widget *w,
-> +				  struct snd_kcontrol *kcontrol, int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +	unsigned int pwr = snd_soc_component_read(component, WM8731_PWR);
+commit 9729b30d404ee5bf8ccaef4a8856612e54fee87c
+Author: Stefan Binding <sbinding@opensource.cirrus.com>
+
+ALSA: hda/cs35l41: rework how firmware requests are queued and flushed to p=
+revent races
+
+This commit queues CS35L41 firmware load work on system_freezable_wq, adds
+a PM notifier to cancel or re-queue firmware loads across system suspend,
+and moves ALSA control creation in cs35l41_hda_bind() outside fw_mutex.
+
+> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codec=
+s/side-codecs/cs35l41_hda.c
+> index 6f4b2088c5fe6..512b1a0094764 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+
+[ ... ]
+
+> @@ -1464,7 +1528,7 @@ static int cs35l41_hda_bind(struct device *dev, str=
+uct device *master, void *mas
+>  	struct cs35l41_hda *cs35l41 =3D dev_get_drvdata(dev);
+>  	struct hda_component_parent *parent =3D master_data;
+>  	struct hda_component *comp;
+> -	int ret =3D 0;
+> +	int ret;
+> =20
+>  	comp =3D hda_component_from_index(parent, cs35l41->index);
+>  	if (!comp)
+> @@ -1494,8 +1558,6 @@ static int cs35l41_hda_bind(struct device *dev, str=
+uct device *master, void *mas
+>  		dev_dbg(cs35l41->dev, "Firmware Autostart is disabled.\n");
+>  	}
+> =20
+> -	ret =3D cs35l41_create_controls(cs35l41);
+> -
+>  	comp->playback_hook =3D cs35l41_hda_playback_hook;
+>  	comp->pre_playback_hook =3D cs35l41_hda_pre_playback_hook;
+>  	comp->post_playback_hook =3D cs35l41_hda_post_playback_hook;
+> @@ -1510,9 +1572,18 @@ static int cs35l41_hda_bind(struct device *dev, st=
+ruct device *master, void *mas
+> =20
+>  	mutex_unlock(&cs35l41->fw_mutex);
+> =20
+> +	/* Create the necessary controls, do not create them under fw_mutex */
+> +	ret =3D cs35l41_create_controls(cs35l41);
+> +	if (ret) {
+> +		dev_err(cs35l41->dev, "Failed to create controls: %d\n", ret);
+> +		goto err;
+> +	}
 > +
-> +	if (event == SND_SOC_DAPM_POST_PMU && !(pwr & WM8731_PWR_CONVERTERS))
-> +		snd_soc_component_update_bits(component, WM8731_ACTIVE,
-> +					      WM8731_ACTIVE_ACTIVE,
-> +					      WM8731_ACTIVE_ACTIVE);
+>  	if (!device_link_add(&cs35l41->codec->core.dev, cs35l41->dev, DL_FLAG_S=
+TATELESS))
+>  		dev_warn(dev, "Unable to create device link\n");
+> =20
+> +	register_pm_notifier(&cs35l41->pm_notifier);
+> +
+>  	dev_info(cs35l41->dev,
+>  		 "CS35L41 Bound - SSID: %s, BST: %d, VSPK: %d, CH: %c, FW EN: %d, SPKI=
+D: %d\n",
+>  		 cs35l41->acpi_subsystem_id, cs35l41->hw_cfg.bst_type,
+> @@ -1520,6 +1591,15 @@ static int cs35l41_hda_bind(struct device *dev, st=
+ruct device *master, void *mas
+>  		 channel_name[cs35l41->hw_cfg.spk_pos],
+>  		 cs35l41->cs_dsp.running, cs35l41->speaker_id);
+> =20
 > +	return 0;
-> +}
+> +err:
+> +	memset(comp, 0, sizeof(*comp));
+> +	scoped_guard(mutex, &cs35l41->fw_mutex) {
+> +		cs35l41->request_fw_load =3D false;
+> +	}
+> +	cs35l41_fw_load_cancel_sync(cs35l41);
+> +	cs35l41->codec =3D NULL;
 > +
->  static const struct snd_soc_dapm_widget wm8731_dapm_widgets[] = {
-> -SND_SOC_DAPM_SUPPLY("ACTIVE",WM8731_ACTIVE, 0, 0, NULL, 0),
-> +SND_SOC_DAPM_POST("Interface", wm8731_interface_event),
+>  	return ret;
+>  }
 
-This will run after we power up the output mixer, the datasheet
-recommends setting ACTIVE before updating WM8731_PWR.OUTPD.  See
-datasheet page 61:
+[Severity: Medium]
+Does the err path leave the DSP running when cs35l41_create_controls()
+fails?
 
-   https://www.mouser.com/datasheet/2/76/WM8731_v4.9-532414.pdf#page=61
+Earlier in cs35l41_hda_bind(), cs35l41_smart_amp() loads and starts the
+DSP synchronously rather than via fw_load_work.  Cancelling fw_load_work
+and clearing request_fw_load without calling cs35l41_shutdown_dsp() leaves
+cs_dsp.running and cs_dsp.booted set to true while unbound, so a later
+bind calls cs_dsp_power_up() on an already running DSP and leaks
+cs_dsp.alg_regions.
 
--- 
-Mark Brown <broonie@kernel.org>
+> @@ -1538,7 +1618,11 @@ static void cs35l41_hda_unbind(struct device *dev,=
+ struct device *master, void *
+>  		memset(comp, 0, sizeof(*comp));
+> =20
+>  		cs35l41_remove_controls(cs35l41);
+> -		cancel_work_sync(&cs35l41->fw_load_work);
+> +		scoped_guard(mutex, &cs35l41->fw_mutex) {
+> +			cs35l41->request_fw_load =3D false;
+> +		}
+> +		unregister_pm_notifier(&cs35l41->pm_notifier);
+> +		cs35l41_fw_load_cancel_sync(cs35l41);
+>  		cs35l41->codec =3D NULL;
+>  	}
+>  }
+
+[Severity: Medium]
+Should cs35l41_hda_unbind() also shut down the DSP if cs_dsp.running is
+true?
+
+Resetting request_fw_load to false without calling cs35l41_shutdown_dsp()
+leaves cs_dsp.running true across an unbind/rebind cycle, either causing
+cs35l41_hda_bind() to run cs_dsp_power_up() on an active DSP when
+firmware_autostart is enabled, or leaving request_fw_load out of sync with
+cs_dsp.running so the next HDA_GEN_PCM_ACT_CLOSE unexpectedly unloads the
+firmware.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120161136.1575=
+93-1-sbinding@opensource.cirrus.com?part=3D7
