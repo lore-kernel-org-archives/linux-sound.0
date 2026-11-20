@@ -1,54 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.149
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795176211;
-	b=a4bmcGEVTBScYQlv/Y9Hqzd++wMdP4lkpVWEubehDKQ+vfjlTBPVSH0L1Kf/q+5HQpUP
-	 5gWi/SkPDqnN0YP3Ft8s7KYYWADP4S+zFSG9MdkQWbC1MJi6lAu8TLEwcB6RYgYow9l0F
-	 dkHGtTEGxAyRwTOcYL3lJOz7nnJ9wqzS/3/1DkCTqmbcgHCR+FyKNYzf675emDKmNPfc6
-	 6PfWgq/4yZtvWRSLERXWjA4AAjunFNU+t6rGkWs9z81ZDSOjmTJV+OHeb4paU/JyfWaaN
-	 iEBeMmjzN6BrKEZ6VZPWnepmx2m9AIBDzh++s5DyrZ3Egzcx8H4hIablHVEmK1Nv0wA==
+	t=1795176275;
+	b=HQqUArhxz0PiSgRBCmOTVj9KXSWOfdvMr4aPZMUO6L1/tjC/8cu0YEeVOoYuJGECP51o
+	 HUZ5sabu+mY+Nr09ghTslKioM7RJNcWMWUQ7O/7E+j63MOZec3lb+KoVHjMPAFJ8SKbJ/
+	 IhxCHt1+49s8yupOsP2ksKP94yuOs399mz8fQ+w2Zq/dnUR/5jsG0pDJ6oGoQGhuw2TGl
+	 DMTJjyO7bicgEuVrB2l/H5gyDwEu27BmCFQ4T+Ypwu14NWjym8urJInHKYiqqvZy2voD0
+	 XV/M/0GKppyQ1mb1a/GpMzHvTPT9evZB/XykrXxJFw/KNftYb3cLR2vzV18W4aCxkcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795176211;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:DKIM-Signature;
-	bh=NWt4zqOMFdyJigG9DzG25I+Ygh8+spedVIRbfLrr1Y0=;
-	b=NW/GNMRu+lA2Aa5Acw65Fp2FfHl3UxOQZ6zAiuAyfmzq13jBev/p3rogolDrTLaI1yMQ
-	 oOKTsNmH1euzl7F7tMkdcSbtVGbOB7xL6rGxk25vslAMJV8J07hhyV6zlGR8A3a9ykUSh
-	 KRcttofKDJG0bUx08XFMUVwQtsn+CM0sNC1WFhVKLlnKr7FeghU3Dfuung4lKKZADhHeh
-	 pdt2YbDThCSwYL9h87s4zOdzB5o8meRkDANfecjnZUsD3u+LCI7ezte3Q55ePW+YtSpik
-	 LvxwOsemaS1XGmgh05biMA3250J4FKp8tNXvP4rIntrlFuOTWxRKMYJh5KqBGmj+sUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795176275;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=W+H3ZgwXRf3uRNP9Sao2k6J8GvvE+kh8lsRez7kjrbQ=;
+	b=XOuMPWoy3BZ+SQhnLkgv9rtpiDELitvRrCOsGODdXYZGGJFmB7uAhoWH6CF6z76/ES14
+	 qW6YeCbSUaLUHdeByL/mKNZ1CR/2X7rrhZH2D1aPubp6lyWYxl0dOWNNnr0wZx2N7RlVh
+	 iT/mYd3ut/msAfRp9T+Q4vFOfj5UtT3X8tkPuCjqaVV1TeYUyUcLtta5mGsgDCpIBbTxi
+	 DnI61DxY52xvBwuU6m3/rORCVQu5JEfIKcLEMCwwDfsW8+qmPAzy/rzAmcIPSaRQqyMwX
+	 GQowj2JSq72ibPaJxWxgSexaVV2XFCZnrr0FA+l9koL1663tIn7AgKCYx3vYbEFrG6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=molgen.mpg.de;
-	spf=pass smtp.mailfrom=molgen.mpg.de;
-	dkim=pass header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=V32SkBC9;
-	arc=none smtp.remote-ip=141.14.17.11
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+	dmarc=pass header.from=kode54.net;
+	spf=pass smtp.mailfrom=kode54.net;
+	dkim=pass header.d=kode54.net header.i=@kode54.net header.a=rsa-sha256 header.s=fm3 header.b=oXJE79cN;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="Yq9/JIaj";
+	arc=none smtp.remote-ip=103.168.172.149
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86374606A325;
-	Fri, 20 Nov 2026 12:03:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86374606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CC0606A33C
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 12:04:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0CC0606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kode54.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kode54.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=V32SkBC9
-Received: from abreu.molgen.mpg.de (g42.guest.molgen.mpg.de [141.14.220.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 303A44C2C90B4C;
-	Fri, 20 Nov 2026 13:03:16 +0100 (CET)
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
+	dkim=pass (2048-bit key, unprotected) header.d=kode54.net header.i=@kode54.net header.a=rsa-sha256 header.s=fm3 header.b=oXJE79cN;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Yq9/JIaj
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 0257BEC09D1
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 07:04:34 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Fri, 20 Nov 2026 07:04:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kode54.net; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1795176273; x=1795262673; bh=W+H3ZgwXRf3uRNP9Sao2k
+	6J8GvvE+kh8lsRez7kjrbQ=; b=oXJE79cNf6Hsut8sx/6vJWy+DfxOWk3fg652A
+	zae5ohfdsY8PFrmanC8TxXGmj1siTxWrP9k0zq4igyTE6FkPDs1HLIDPE0B3SETN
+	G2TTyF0muvXZY6ZJzUUfZMANBFQTE9N9UwaLzRvrfsq45fG5H6m5CFC5k7G11FdU
+	l7Hpt6MRqOHYSPJQxGUzL02UUagR/gpptOM3wmb/TskQHzqIUHYWlZuiOINxAcWK
+	jqSwPvteQwMl22zVRxsjZXyM9TR/ehX9p/JSMdYJyYKKH0OmGy7an2Fv2t5hO8XX
+	gpZNIDlbCjHMZY9swvQEQhJGRN1tDrG2X+MIQN/1Twzq310Dg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1795176273; x=1795262673; bh=W+H3ZgwXRf3uRNP9Sao2k6J8GvvE+kh8lsR
+	ez7kjrbQ=; b=Yq9/JIajrw83X2WSksArbZ19sEM0Ogbc77EapoBakWzgJ40BGM8
+	aopdZR7/rLFKQANHTjuhT9ZYr3XBYRCQ1OMmEF4RE/V1N1v8di2Jx4HrezWHARNt
+	ynpKgGfIqgbquSwoa8J2shkqHHL+nmaX8Rf7gkHGSpxM8KPOquEco/aqbY1kr+HR
+	lD31oQ3/nzn/wo2p+ZHyiaRt3Ll+i6nEORlPAH7wM9wACoE5Bl9vrnItmRZjmW3e
+	U3CFYv7o967vQCAtB4zOlLaYiik+kqX4g4IHf/rRt7o4c3faVpq+PHdGyeBqClY9
+	w9ORWkeNYzsWDk3kEDUBtKq5VlknUVxbkIw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=kode54.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795176273; d=kode54.net;
+	mf=PGNocmlzQGtvZGU1NC5uZXQ+;
+	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
+	s=fm3:rsa-sha256:S5tF4VTgVeONGT2gw20Ycp1efACTMbOYm1YHd5+Yg0NtcH8
+	kV0kYP5XxNUnOt0O0wfvfJAo69CCxiOjdcAk4F77sBS8YUZNkpYJhyfYftbTd7KY
+	OVVgEkmYY6U3EK9+c2Uhzx/Jqul+dzNuDlcWXOgmLzCMvqKFRqV5TkYl8K/sal+G
+	ARgtOW0jADaElQ1KoG6HMGPoAsbwCoqc1tDv95jgTOZM4wy+VGgj8EQ0syRD8ccv
+	/PMPBPWkxqQ+ZRsrgZ+PRhWYhFW7fIBV44UKGXE0OD+Fr5P/I4TKg2UkybWAVLm6
+	6fVUJB5fnZrFfbErWfu4UNolAsPDY4XQPqCxAyw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=9;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	message-id,mime-version,subject,to;
+Message-Instance: m=1; h=sha256:7f5JvrCyyfIj42IC9CMRwjOPfNQ2x+DOCGRSM6nymkg=:CGQ+xCpDJLwH/GY6i3EAx/RyFdm100D0fEFf+ftdEUw=;
+X-ME-Sender: <xms:UTcAa1k4shN0XPzbyzDISsP01a4OOP3itHE7GrVaWhNiXFRPnorEpQ>
+    <xme:UTcAaxhiPTCIeOUj4H-PyTY_sqwXx6BaqVmlsC8clYPDBid4PdcplFf3zfecKFzkG
+    AXTQZYdV4UmDHa6GeLomGzq_XgELab1_TV0-HuF5QjP71tfvS6S-vg>
+X-ME-Received: <xmr:UTcAa50oGTbzSpk4TNycbH9Zo5hcLNg5DY8BtsJXzn_9kPpxEPjrcoISh7Q>
+X-ME-Proxy-Cause: dmFkZTGW7ioBdtv7wnzDBQK/fEyd4fv5lhnt/d7TOogTZlX/GOXgDKVzeAkjBBOrEv9dNS
+    3WuN2xQsgZM5fFFnTyn34AbFdDMKTMpKbQbfmQPUnMMXRgbUPIuijen24FQIyNn3SUFb4v
+    6LZkE2A6eOWjpPZbK1/DxxVXsckNet5C5lGo4jzbzmYsg7mfRWLcwWFOC7YUdPicK121dI
+    BsLMvvIsp0FXPOaQN3vVqfT2iWgIiM8ieWlTTtZsSnudMIBRJwYFP+qIlg0iV6793eR+JD
+    060z8l7oHHBWQ3mp2jT5Sm+fAM68Yi0Z5bNyKCCCkWzykRbJVCKzzyf/y7kmDyrcjVAfK7
+    +/pCa95xwzgOyCWG7ncB5b84LXd+4rBxDpdBXQDf6UkYtjWezLMEve7mt9eMAzWP1fK1Ir
+    TAklqfwPE++lQkKK5RR/KCshZHgRKQ8OD4FzjQ/eTRtGckI8YDW6431stYoo8ItScShoKz
+    YYf1rVwRpX/aks47+yvFQG0O5bGTEz2Iy/7VqNusf3ygn6/v+5N71B3qJsLWsJ14FZHm3W
+    krRpJpfdB2aLZJPASgY3LNOmlE0Nv1wZ3jCyTt2jH1Ebvi6x9IQ2/8LfDd6TIZP+/ZATFj
+    k37O/TQIqjQi3tQ7hgBQ95x6leAe19mvxz5I4iv+jDttMdRjVOe+W7HbqpAA
+X-ME-Proxy: <xmx:UTcAa6K4PIzz9Yk-uiASAOTNVOZRleDoZVfiiplfkMN4NiZuop1dLg>
+    <xmx:UTcAa5yE7mgJc6_UhZtc1Nr7AjlMrF4PHBSRysHhkBSgPmFkrliyBg>
+    <xmx:UTcAa4WZ6w4rGKk_n3DhUOaEbdwRp_JoERql4oV-woXtRgG0xDQKsA>
+    <xmx:UTcAa5iZZnYbmD5Wryl-bixgIVQUUM8S_jLMKd2dO1iwSJjY9y9yEA>
+    <xmx:UTcAa3GBYdZFQu8kQFbTyEN4AD5Trqo9nM2fFlZ02cseLm6YrHvkqJ86>
+Feedback-ID: i9ec6488d:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Nov 2026 07:04:32 -0500 (EST)
+From: chris@kode54.net
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Christopher Snowhill <chris@kode54.net>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Rong Zhang <i@rong.moe>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: pcsp: Only autoload if the pcspkr input driver is disabled
-Date: Fri, 20 Nov 2026 13:03:04 +0100
-Message-ID: <20261120120307.629996-1-pmenzel@molgen.mpg.de>
-X-Mailer: git-send-email 2.55.0
+Subject: [PATCH 0/2] ALSA: usb-audio: quirk_flags parsing fix and Logitech PRO X 2 LIGHTSPEED quirk
+Date: Fri, 20 Nov 2026 04:03:46 -0800
+Message-ID: <20261120120356.10909-1-chris@kode54.net>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,121 +125,59 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=molgen.mpg.de; s=20260906; 
-	t=1795176196; 
-	h=from:from:subject:date:message-id:mime-version:content-type:content-transfer-encoding; 
-	bh=NWt4zqOMFdyJigG9DzG25I+Ygh8+spedVIRbfLrr1Y0=; 
-	b=V32SkBC9eEBEuewlqR/H95XJTB2VBlzCIxOLySqA4xqGrN8BnunvlIq9h+8spt7jq+awywEk9CJs
-	4JGU5ZYAK9wAqfpAQC1KwOt+mbco2mZ5NFSIbDYQkxmzT6I3PvWI7HdtaDxhgF9/sHLoYQa8y+S/zj
-	UmjV4G7uUfNKA//7GM0i5N9FUTfRwbjI+Dxs8vOVehFMWqRTtH6/MYMcintlwePNxMty3urO+1yP6x
-	igvEm2tbxOm+zxu7mss/qzrcwjknN4CJAURH0MFfucG0BLj8nkuLnyE//3jaXEljDICYrFR4wM1Qu0
-	ho5kCIRr7Ju24cO/2L7bD4XhdbsFCitw==
 
-The input driver pcspkr and snd-pcsp both register a platform driver
-named "pcspkr" for the platform device of the same name, and both
-declare the module alias platform:pcspkr. With both built as modules,
-as distribution configurations do, udev loads both for the device, and
-the second one fails to register its driver on every boot. On a Dell
-XPS 13 9310 with Linux 7.4-rc1 and the Debian configuration:
+Patch 1 fixes parsing of flag names written to the quirk_flags module
+parameter with a trailing newline, as echo produces.
 
-    [    0.793761] input: PC Speaker as /devices/platform/pcspkr/input/input7
-    [    0.813617] Error: Driver 'pcspkr' is already registered, aborting...
+Patch 2 adds quirk flags for the Logitech PRO X 2 LIGHTSPEED receiver
+(046d:0af7). This is a mitigation, not a fix. After a hotplug the
+receiver firmware resets itself on the first stream open, and also on
+repeated GET_STATUS requests or on SET_CONFIGURATION shortly after a
+port reset. It only behaves once it has gone through such a reset of
+its own. The flags avoid the worse failure, where the probe-time
+interface setup wedges the receiver for about 77 seconds.
 
-Which driver ends up handling the beeps depends on the module load
-order. The help text of SND_PCSP already says that the driver is not
-needed for beeps, and that it may become the default sound card. Debian
-therefore removes the alias since 2014 [1], and Ubuntu blacklists
-snd_pcsp. With pcspkr built in, snd-pcsp cannot register its driver at
-all, so the alias is useless there, too.
+The same receiver hotplugs without trouble on Windows and macOS. A
+USBPcap capture of a Windows hotplug, with G HUB installed, shows no
+missing request that made a difference when I tried it. Replaying
+G HUB's initial HID reports before the audio driver binds did not
+help, and neither did a host port reset. These differences were not
+isolated:
+- Windows never sends GET_STATUS.
+- It sets the playback alt setting once, about 0.9 s after
+  configuration, and keeps it.
+- It only reads the volume controls at probe.
+Suggestions on how to narrow this down, or on whether the quirk should
+be expressed differently, are welcome. Captures and logs are available.
 
-Only declare the alias if INPUT_PCSPKR is disabled. Then snd-pcsp is
-loaded automatically and takes over the beeps as before. Otherwise only
-pcspkr is loaded automatically, and users wanting PCM sound from the PC
-speaker keep pcspkr from loading and load snd-pcsp explicitly, which is
-already needed today for a deterministic result. Document it in the
-Kconfig help text.
+The device entry repeats CTL_MSG_DELAY_1M from the Logitech vendor
+entry, as the other Logitech device entries do, because a device entry
+replaces the vendor match. The receiver also worked with only
+SKIP_IFACE_SETUP | IFACE_DELAY. The PRO X Wireless (046d:0aba) entry
+does not carry the delay; Rong, I'm not sure whether that was intended.
 
-Tested on the Dell XPS 13 9310 with Linux 7.4-rc1 and the Debian
-configuration (INPUT_PCSPKR=m, SND_PCSP=m), with snd-pcsp not
-blacklisted: without this change, the error above is logged; with it,
-only pcspkr is loaded and provides the PC Speaker input device, and after
-`rmmod pcspkr`, `modprobe snd-pcsp` binds snd-pcsp and creates its sound
-card. In QEMU with x86_64_defconfig, kvm_guest.config and SND_PCSP=m,
-with systemd-udevd loading the modules, the same holds for
-INPUT_PCSPKR=m, and with INPUT_PCSPKR=n, snd-pcsp is still loaded
-automatically, binds the device, and creates its sound card and PC
-Speaker input device.
+Testing: with both patches applied, sound/usb/ builds without warnings
+with W=1 and checkpatch --strict is clean. Patch 2 was runtime-tested on
+a 7.3.5 stable kernel. Cold hotplugs on a front-panel (PROM21) port and
+a rear (CPU xHCI, behind a hub) port recover within half a second and
+then play normally.
+Patch 1 was runtime-tested on the same kernel. Flag names written with
+a plain echo are applied, and an empty echo is ignored by the parser.
+The sysfs readback still shows the newline as written, because the
+parameter stores the raw string. That is cosmetic and left unchanged.
 
-[1]: https://bugs.debian.org/697709
+Assisted-by: AI
 
-Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
----
+Christopher Snowhill (2):
+  ALSA: usb-audio: Ignore trailing whitespace in quirk_flags
+  ALSA: usb-audio: Add quirk flags for Logitech PRO X 2 LIGHTSPEED
 
-Notes:
-    Tool use: Claude Code (claude-opus-5-5) analysed the conflict, wrote the patch
-    and the commit message, and ran the build, modinfo, QEMU and hardware
-    tests; the author reviewed it.
-    
-    QEMU 11.1.2 test: the guest boots the host’s root file system read-only
-    over 9p, with the test kernel’s modules bind-mounted over
-    /usr/lib/modules from the second (writable) share. The init script
-    starts systemd-udevd, runs `udevadm trigger` and `udevadm settle`, and
-    records the loaded modules, the driver bound to the pcspkr platform
-    device, the PC Speaker input devices and /proc/asound/cards; with
-    pcspkr loaded, again after `rmmod pcspkr; modprobe snd-pcsp`. No audio
-    backend is configured, so this checks loading and binding, not sound.
-    
-        qemu-system-x86_64 -enable-kvm -cpu host -smp 2 -m 1G \
-            -machine q35 -display none -no-reboot -nic none \
-            -serial file:$OUT/console \
-            -kernel $OUT/kernel/boot/vmlinuz-7.4.0-rc2-pcsp-fix-n \
-            -append "console=ttyS0,115200 root=root rootfstype=9p rootflags=trans=virtio,version=9p2000.L,cache=none ro init=$GUEST_INIT" \
-            -fsdev local,id=root,path=/,security_model=none,readonly=on,multidevs=remap \
-            -device virtio-9p-pci,fsdev=root,mount_tag=root \
-            -fsdev local,id=out,path=$OUT,security_model=none,multidevs=remap \
-            -device virtio-9p-pci,fsdev=out,mount_tag=out
+ sound/usb/quirks.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
- sound/drivers/Kconfig     | 5 ++++-
- sound/drivers/pcsp/pcsp.c | 7 +++++++
- 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/sound/drivers/Kconfig b/sound/drivers/Kconfig
-index 6debd8e95cb7a..4d875d0f5a17b 100644
---- a/sound/drivers/Kconfig
-+++ b/sound/drivers/Kconfig
-@@ -55,7 +55,10 @@ config SND_PCSP
- 	  If you don't have a sound card in your computer, you can include a
- 	  driver for the PC speaker which allows it to act like a primitive
- 	  sound card.
--	  This driver also replaces the pcspkr driver for beeps.
-+	  This driver also replaces the pcspkr driver for beeps. If the
-+	  pcspkr driver (INPUT_PCSPKR) is enabled too, only pcspkr is loaded
-+	  automatically. To use this driver instead, prevent pcspkr from
-+	  loading, and load this driver explicitly.
- 
- 	  You can compile this as a module which will be called snd-pcsp.
- 
-diff --git a/sound/drivers/pcsp/pcsp.c b/sound/drivers/pcsp/pcsp.c
-index ff6bb375c9001..d7d28ec2250b6 100644
---- a/sound/drivers/pcsp/pcsp.c
-+++ b/sound/drivers/pcsp/pcsp.c
-@@ -22,7 +22,14 @@
- MODULE_AUTHOR("Stas Sergeev <stsp@users.sourceforge.net>");
- MODULE_DESCRIPTION("PC-Speaker driver");
- MODULE_LICENSE("GPL");
-+/*
-+ * The input driver pcspkr binds to the same platform device and has the same
-+ * driver name, so only one of the two can be loaded. If pcspkr is available,
-+ * let it handle the beeps, and leave loading this driver to the user.
-+ */
-+#if !IS_ENABLED(CONFIG_INPUT_PCSPKR)
- MODULE_ALIAS("platform:pcspkr");
-+#endif
- 
- static int index = SNDRV_DEFAULT_IDX1;	/* Index 0-MAX */
- static char *id = SNDRV_DEFAULT_STR1;	/* ID for this card */
+base-commit: 58161ead29e50d70a317ea26b472e0c7508e69da
 -- 
-2.54.0
+2.56.0
 
