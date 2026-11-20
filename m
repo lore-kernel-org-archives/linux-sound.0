@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795191142;
-	b=sMAf/LmwNEfWkRnH4Xy0pEOfW8M6bvlqY3BF3WpUkRiF+ki3PDEIdWjIbo7NzXdZ2bET
-	 WtNV3nFNTUl6Rw1fs4fSP6ETJvBMwDjOHvqOTMgXs+wm1d1EaJRarTz+zCVM24H1xa7Az
-	 RN5vZ09nCViM6uDOKrmflafX1VpGEfWDH64SyT2wWyECZQikXFEQcIz2WSA96A2n/0Bd9
-	 yfGTOTBrBLuSWND1Q2gWP/4NcbFEsXI9Kr3F6lMrEpo8II5MM/yci7r9RHyncIHJ9Yvfy
-	 pQuexa+RT4kDyszcyzI9zZIwS/QGPbjaxug/9lA5y7GWS9ejqVP+w6SOUDOdodPTuaA==
+	t=1795191137;
+	b=Ax+ZAr1glmJ25/UrjDSe7+YboRkH06JpHVZuzXV+US2zUauoBoB23I7H5pz/lPv3iIwn
+	 BrFQ5XcY6yIjv7dcFq2bTzZ4HaEV1fh8PV3ucufLJ7OHreyvRbqycnKLbgdFWBuSpMJhn
+	 O+KYxY+zjRuX7XWG8nESlhtaI3gJydsA9P3nzryQM82y9ZnEs5fHKxXOXEJ/W92ipgGR4
+	 BcutzVHjlYAESVBdUyi8BFiEKpi4MWQcpL+rqV4m7br5ZzwgkNy4QxzO+VWuD2A3BVTGn
+	 4uNbMpn8tCqaEkRkgddZ+SXP30VQ8Ri+7WkfxcDa0OZ/YJ2wWY8Za9SknZNDSROHfEA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191142;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191137;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
 	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
 	 Received:Received:Received:From:To:Cc:Subject:Date:Message-ID:
@@ -29,54 +29,54 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
 	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
 	 X-Proofpoint-Spam-Reason;
-	bh=7j6ZOB5q+ngT0PEKYdYJP1WhtPr2P4K4HWwSKGBe/Cc=;
-	b=Lu+oi2zyOfEkhefR9EkLmeoWcVxO0GX53N9xNNz8u6Ubp34JGdm+Vp0Y6mzGtlDu//U1
-	 Uu3o+B27augniMTUa6y4lQCdKNibWs2jU0TUKb+PqeKGUn4NH5Ar90CBXsBP0XNsBfFTe
-	 XmGv8tRNOdNpPENzvV/jcz+66Grd+21iutLTqfS21S0FkhNfnvajlFQ6FjFW1Nk+4+DB2
-	 T1wIQXhATi2nLHxhdRw0MhZSfE7n9u2HeasxPLPHy5bkeI6ARPOJAur6xFJBWzuS8VaPd
-	 oF/77F2bH0SVaLEa643/8o09asUeiLdKuCdsc29xc6j/tHCHA34wVCR2hqOwW/FMFAg==
+	bh=HjoibbXoKZefkqN/Yr08T4hhlHeqBqw7C0f/toxLA1M=;
+	b=DBhIE+aVKC5ADY6J1HrKp9gMZ3NWyOA8LNuXakA7gVG/eBIJ9KRuukvynxAVWr2Y8cNI
+	 VaxopTfXq920eK+FAcJA4je7Sie4s5wwTeL2TexdX2D6A1EzCdRrYbApnda292x35po/p
+	 IzulLnv/y1/IkW9iegb5DiLNE/a3RCEDtGqKi+CGuS+seGYkdDOAh7WGyW9CqVwiJ11WH
+	 uTJVcEi5Sz0KumY1v8KWRyDsby4MzDP0HcRmjB7UO53RvVFFzL6bJbe+GSspxRf/Wb2H9
+	 RUKDuQpQ7/tU/UTev5sPUfmUo1KAKh02BuR2EF9yBOBLXLH8lQ3ZxTYOeFKm+GCHPiw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=opensource.cirrus.com;
 	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b="BMcUJd/c";
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=Ze05+H6j;
+	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=bGi9BaRX;
+	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=pNelZVOT;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.152.168
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AF0606A336;
-	Fri, 20 Nov 2026 16:12:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6AF0606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C22606A334;
+	Fri, 20 Nov 2026 16:12:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52C22606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=BMcUJd/c;
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=Ze05+H6j
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=bGi9BaRX;
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=pNelZVOT
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKFll7I918391;
-	Fri, 20 Nov 2026 10:12:03 -0600
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKFll7E918391;
+	Fri, 20 Nov 2026 10:11:56 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=7j6ZOB5q+ngT0PEKYdYJP1WhtPr2P4K4HWwSKGBe/Cc=; b=
-	BMcUJd/cG5pbS+VA8NihzJZ3cpXquwtr0qFkWIFWAIHXcSr/dncy7V1dl6jFt5F8
-	07qc2AE0r2CHfyVN8PzvGsvFNpcg0H+r1yABGO5iHCcUIPR4Ki29YSk9mPfsLjj8
-	tfdBCzXcEWcV+ffOEUcD+g1/nyVybNEZYAxD2k9ftk8gXbDFBrHwjbSA4n9ywXbo
-	Ki8vJKzMCPv/pttCOjHELawt/fj2+iwVXvi395K/T0+2ioTtZxECOMTT2IvoL8sg
-	e7Q8ejhsiFzEIWA2tDPBoSjKzknr+vYurJUtJav23BqQrq2HsMp0TvCyNumFC1ke
-	AsIixdQEQW0JAYU40AOX5A==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021072.outbound.protection.outlook.com [40.107.208.72])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4j242mjb48-1
+	PODMain02222019; bh=HjoibbXoKZefkqN/Yr08T4hhlHeqBqw7C0f/toxLA1M=; b=
+	bGi9BaRXF8h0tgK2+HMT3T8Zq9xe16MoLP4SDE88USwr2KMXnR5fG6jKc3sx5Z/1
+	cZeaDaUfmHHwRmR/HVJivCHUkdmu76/r/nznFi/WcCO0JtI6PV8iFyA9XuOxQ3UT
+	yKuwXaNpmFWooM8aSdnFs41KPR4Y7IlKL1ProVJ5GRhs2+jkKjUMvrAjdplb6AjI
+	Gss4khekoHV4OeIq+RetbuECG0Zt0yM5ClMDYFgmfpOumMHdGYClY1rTEaegcHgM
+	gbqcSeQsthoyBNIygVDc7BZ5TzVzARMY9uI/ite7VL7H/x/Nbv8ByxlZyjGhOYpq
+	Z2xPYUOpefyFZX589EB7bg==
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azon11020129.outbound.protection.outlook.com [52.101.46.129])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4j242mjb3w-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 20 Nov 2026 10:12:02 -0600 (CST)
+	Fri, 20 Nov 2026 10:11:56 -0600 (CST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C6i436hi/dVQwQM4OpejPl112q4E6ZM9VI6XpJ9BdOA+UZbdbyzhg9T7cf6Lds3haKoEYMqUBafw/gwm0ceFDik5jX2dFVWBHxPrG5NYiwcrse+Y8IrO39etqs+/mG+KlI6823RZXIMiRddUxKRmP94BTBfOGMgQ5TPtyEHg0gQ/QhtfYCLWaQFWfgMIZWa4EZDt/pN+QHs0sVH58d+Myhb6BhhrWTyWCwKbXPqfNOT+s931t9e8LiLNIi0/9H/fABuqfoAw3Y2yP9gBIsKMKjZFD1mjzk9K/orzoZzvoA8Oa7hZ8JVt6AUqKfzVyCCfWiMBOxkNCqbzvXac8TH0pg==
+ b=XM+ABTtKMdwQKjfamgEyMxMs1QU8oQ++rnbonNtI4TXG4NvAccHMPdWpDrVgnjpzjuqYRLSlvWVLUvaAGfVmYYlajYUSMOEub7FNdCj4EP5yYIfe1r4sW8S3sTBfXTe3NMX/5HSdfchstraL1M+vGWqrVPZmBRO9hSsIaxBZak7GqaZzD+hA1teeQovu8W7CV9VW9bs7Lls9t9fzWAlAcWPSs/V73H6GLIfRoCyE10BaNS0+Ey4elMO07Avv3ZrGjkldwQqeyNZYrwXHYFby8BJOplIyL7du0NhYHjKUy8pbmKMLFzko2SUJNAeiJ/M9Q1wLNGqEeDqSC5xqIMnqJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7j6ZOB5q+ngT0PEKYdYJP1WhtPr2P4K4HWwSKGBe/Cc=;
- b=qhNM4FOvy3uJXhsG+I1FKoz1dpc73wZzvQ5uPOtqB8mHJT4NNni3YW1smpdakoRxJiNc/maFImijPvZDv/uPjL96aLb9usL1TH61tPHMCsICludETsta6yPEhggUzrF8tle71GZnbHSH9TKIHdpcm7Q965yhzeM/P7V6FDrtDolLOs31AxqG0Slvrjxfoyo1l15DKpR5fUNtqPwwpRy9Wd9lkl5RH1xODgPxYuiPA2FTlVm3TDsX7gkEpW/zSIvLyfHBgkdIAQqFVeEVj5QyzBGVYSqDsc1INn81+ovSywU7GfsUCSKocAlWpWtjURhPzSSx25TxGOEbzBdfJRMXyA==
+ bh=HjoibbXoKZefkqN/Yr08T4hhlHeqBqw7C0f/toxLA1M=;
+ b=IHFmB6OSjypJehxOaA/BE6Lr1CLhIRAXPza4xIN+y0luPLuzyw1u/6rUkGQerSQY/OaKNd4HIdq6LtuGzi2wkIWuJ/1EiPElAlKXhW6C0Scc7FQPVkbgf2/w3EHtPF/A3X/gFc//8jdofe7Lyw83HKMjyNO8PVOEcTe8Ha7TSsrab4BHU1mPYHjvFvt3oRrjc1pZfFMTGeE55ZNaCnWUwJay+pWdDzWFHtDO6zNUmgwmwI3R21CyxAylEafpp9tFhKJkrCj7ZYD8wJ1IlJheGUODVBFuYeBBwAqSmO1uO4zYOlwzuRARhbTo/Wp6UK/uTEehVB3XRbiyOrOksE7Yjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -85,18 +85,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7j6ZOB5q+ngT0PEKYdYJP1WhtPr2P4K4HWwSKGBe/Cc=;
- b=Ze05+H6j7yRSNiEh7tTqaysoAcP5cxddNd4CS6HqBAsID8uC0V3Gg4f4vUXq1JQV3SYtoRe0y2URHwcmbKr7qhC4a9Stme8RvvuCBa6ln1nkfrRBVQ1otrFFnpe9PpFULA3u0c4w0WrT12aWJLwioctDRxmQ8okr5St1tPf0SBY=
-Received: from MW4PR04CA0085.namprd04.prod.outlook.com (2603:10b6:303:6b::30)
- by CY2PR19MB819635.namprd19.prod.outlook.com (2603:10b6:930:118::12) with
+ bh=HjoibbXoKZefkqN/Yr08T4hhlHeqBqw7C0f/toxLA1M=;
+ b=pNelZVOTdfvo/yJ3/BUboEEqORlGGRab8dRfcLqgxfap0XwpscYAzcI/WYGRXXCnlyQwWZpHmUGvNdmxorcRysEqs2T7tck7draNKjD44VLMZZ39Hc5BAa+y9QrbpKkjBAT22EhiE0RjLuz0dX1lv7ZleDDLjcKSzLMN1rE4Jgk=
+Received: from MW3PR05CA0015.namprd05.prod.outlook.com (2603:10b6:303:2b::20)
+ by PH3PPF72AAE353B.namprd19.prod.outlook.com (2603:10b6:518:1::c2c) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
  2026 16:11:51 +0000
-Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
- (2603:10b6:303:6b:cafe::a0) by MW4PR04CA0085.outlook.office365.com
- (2603:10b6:303:6b::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.12 via Frontend Transport; Fri,
- 20 Nov 2026 16:11:50 +0000
+Received: from MWH0EPF000C6193.namprd02.prod.outlook.com
+ (2603:10b6:303:2b:cafe::67) by MW3PR05CA0015.outlook.office365.com
+ (2603:10b6:303:2b::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.2 via Frontend Transport; Fri, 20
+ Nov 2026 16:11:51 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
  IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
  not signed) header.d=none;dmarc=fail action=oreject
@@ -104,24 +104,24 @@ X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
+ MWH0EPF000C6193.mail.protection.outlook.com (10.167.249.107) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.5
- via Frontend Transport; Fri, 20 Nov 2026 16:11:50 +0000
+ via Frontend Transport; Fri, 20 Nov 2026 16:11:49 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 656ED40655B;
-	Fri, 20 Nov 2026 16:11:47 +0000 (UTC)
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id DCD93406559;
+	Fri, 20 Nov 2026 16:11:46 +0000 (UTC)
 Received: from lonswws02.ad.cirrus.com (lonswws02.ad.cirrus.com [198.90.188.42])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 27430822542;
-	Fri, 20 Nov 2026 16:11:47 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id ADBEB822544;
+	Fri, 20 Nov 2026 16:11:46 +0000 (UTC)
 From: Stefan Binding <sbinding@opensource.cirrus.com>
 To: Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
         Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         patches@opensource.cirrus.com,
         Stefan Binding <sbinding@opensource.cirrus.com>
-Subject: [PATCH v1 7/7] ALSA: hda/cs35l41: rework how firmware requests are queued and flushed to prevent races
-Date: Fri, 20 Nov 2026 16:10:53 +0000
-Message-ID: <20261120161136.157593-8-sbinding@opensource.cirrus.com>
+Subject: [PATCH v1 5/7] ALSA: hda/cs35l41: Remove support for alternative firmware types
+Date: Fri, 20 Nov 2026 16:10:51 +0000
+Message-ID: <20261120161136.157593-6-sbinding@opensource.cirrus.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261120161136.157593-1-sbinding@opensource.cirrus.com>
 References: <20261120161136.157593-1-sbinding@opensource.cirrus.com>
@@ -137,359 +137,258 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|CY2PR19MB819635:EE_
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C6193:EE_|PH3PPF72AAE353B:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 0bff0ad0-68fd-4515-b6a1-08df4720fc0d
+X-MS-Office365-Filtering-Correlation-Id: fbbe0203-ea77-4902-b360-08df4720fbd8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|23010399003|61400799027|18002099003|22082099003|16102099003|3023799007|11063799006|56012099006|261022075727099003|261022105027099003|261026140227099003|261028144727099003|261026121527099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|10067099003;
+	BCL:0;ARA:13230040|23010399003|376014|36860700016|61400799027|82310400026|261022105027099003|10067099003|261022075727099003|11063799006|56012099006|261009223027099003|261021123027099003|261102123227099003|261021121427099003|261028144727099003|261026121527099003|261026140227099003|18002099003|22082099003|16102099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	q2utvcEiv0VtDIIdtNn1EhOAwfN3ZpZnr63/mstO0L8Y6MA2d4QJ8lOqJP4DS+03t25HfxWpZYfvUTINwi6oUMxxGs4AGktCnjdYOmYAkgdtA8uLferfU0U3WyxbLtaexCfbnf1+/lHPS4ZQEKfCeW+oU5GtdMcQ8sDzFvKlO1Zr4JiUJ/wT9SxIYt/m//EAU+JqQ7cie8dyOFYy0zEH2r5aymq6oZQLczCWfn0UDVtiajU7+bCY497DfoF/BMNPJzeA9gxKRk0gFfRiU41GLLYWaqBvEiIW2KzMgYlHAlqx7/0M2V3P6edIaTz89WQ5gceTPn9Irhf5+jkPRDEcp6Ei2TUmJI/pAYF5dKGVfSfgq6Lfgx0d+oY58pV3+i0Cr2766YdHOOJMCWzjpo6iLN+b6q/QLyWLBoiCTdlYPQo2nvlxXdnV1/bGXxdOonRWYJhjwm9qJ4ZxLQNPcyIbni7lbSSDY6gJXkWP/rX1Zoa2J8gA3Uv8lPDDbS8cas3CZqHZFlCaFI8CBsA3yU26mzPt/T2J/q8G1oCbjMRjhirwBxU738G6XVsClW5/s4g9t2DcIGnZrugrpzKxSA2y+MMjt4qbAl8t6dy4BMl2uh1fmlBICvpmSFVOjyaXqPjfv07G8S3TCqag3apRXJ9/1oMkY+Dkb3mWF4wJ7j4TQyHiaKbBRLm6rGucubqNYdkQe+RVBwgg90CURukCnbO89A==
+	YucznPZ0TzqRH25EU2WtLkLV2oN5x2c3LzkxMdXmyeAC7shkP9Y82jxV8D+1L0OTGbnE5MHkCSnQEZ0fzbvUSDlLooZjBN1zxBIrwYiBJh2ksZbACb7pelHeJrYNXiwgv+i96TtF7NkY/HqQ1E2jpBYPEUQ33vdA6M2CcbcvCP6wV29J7tV58F8Xag8Dfe1GYO7D5B+QSk6GD0V3voflKrdIzdQYADmmT35ZA73wOXKWiDyX5FBnL+T7y0KJ8ukGPW4NpF8ezgq6fRZ3E0vSErnP9RpK1zCGmdMh9qQqq/eBYGJ+t/yYN7rlJ8hJW/7wxTkAGRarNo7lfC2/sOfyhkr3vd1pLEFZyYG26S6jS6RFsOSBCziGwL5NggISshb+gnfd5Y7E0tEWHLzVfLL7tVm0voMb/Rtnv3gqNmLzolMeYwqyDMXYx98ECN+aMrA2r+YWlx1cg4d+G7sRimiwywPO+OJCYEeaO2eqrkYvYN91V7NTRZz/Kw5ZlnZa6k+4kL9tkQ4QlGVD+7F4+qMK1Ju89KiKTpP0uA+mW+TOGxxtgiY7xK+0PauQGRzPOQ7wK37EYLwc42IGXjgvzdkb2b6O8Mz3PWMpcte2HdMa8Ss/Xv5DJ+b9ELsYSGp0G601uqIreLOiLyxKsIOSKC0H+hOmwWM+QnFQcquxeK8/4R/rR16mIvzBTUd1RVkC9aifCok8HAeqjrfNsFzfpOrwOw==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(23010399003)(61400799027)(18002099003)(22082099003)(16102099003)(3023799007)(11063799006)(56012099006)(261022075727099003)(261022105027099003)(261026140227099003)(261028144727099003)(261026121527099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(23010399003)(376014)(36860700016)(61400799027)(82310400026)(261022105027099003)(10067099003)(261022075727099003)(11063799006)(56012099006)(261009223027099003)(261021123027099003)(261102123227099003)(261021121427099003)(261028144727099003)(261026121527099003)(261026140227099003)(18002099003)(22082099003)(16102099003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	quoIA9isUwumG/AA2IhkGBpBEY6XHmvUbu1n+mg8yeECOsTAQsZuPDg2W17oZH4PMwG2bOTPr2V9F1PeVka9r2o86mLUoqAlV54GIkB+xFsI8WAWyLZFBP3qkWqm4OLIpEF8/gu9X8PMatauD46uaCp6A3GywkCAfUNWvbqx0q/0Ickv3eJ3Ohy/oaEP+dhbLansg57b2fmmy0tu/EqEe2uv9Q4I1TWE1N7RnOOKTZQ4JeLCcmEQRH1fOEVRU1vo7znGn6adBoBRHk6ujGxABMWKcQD3cIQTYyC6nXLFTNfAMyxuMxXkeW6ox+xc6vWU1uwHQjkWqcoUCDmxfcoeGghFo+7RcgSuRODv0ScBlTzejoamqGdBH6QMF5t8R8LGRTDgu3718BUO3bAob3n8cys5sZyG/m8vhD3HZ0DCoDewxo8f9ZUBBIiK+hsvKLlL
+	hebYClIb9TafTvlLj83KhcMtXvbLMS2kVJyW7c9cc7NExh4IXgLwNzFNAODUm+0opq2hgLCyIv4+2pv88hla/oTsasQcGrgnDdJ3KPiFZVeYLwVotmxA1exJ36mcYhwmPZnpOAmCALgr0+QwgyERG1OBCUiknpPESW3rgthvniTNqzedOAqFuaFp18DUD6KFMOC8sqhADzItuLJusV3KbVT7/eULol3xS3ZNLQRKE9nKxwwq79dMp52Y+UlhU7Z/DK4s7v4GUI7skg0cBwrC4K/uU3hIz+gQLOSCPedBI72xO2Eij/6y2Fh7kuEUVuDRpFjA4ytha4ht10N/f54F2PHNG0B4YuyVZQfoCqZLT/khtzzIEW1OwnwHR5dQERV9RugsEqcLG8Wm7GxtULGZsSMmRN+S/Ht1NXtRBc9WKc4DdWgZW3vfTIgUrZFojJRu
 X-Exchange-RoutingPolicyChecked:
-	J+Dwdc97BIqtchtF1/v/PrylrKJU0IkZeb0FSaKnaoemmfnZ1xnYnGJXBdnPrjDVMECqdqcHEBuwI9EdvcrzqVMO41WnC3k6k/3ymGowrAdVmNMx9tsUn+nrJWl9sCVyyL+f2MZYvXogkWSWdvd75XGNhWyrgScG6QB0gRvTUw/ehiZ0nuOYBLoB9cO6migvrC4QEmAQ+wLoWp0jiHnncXEIF9J+CpwckAsh+53a5T4SssZdzXMF7uuojSeg0qyPcrFWQbN2x029rE5oliVjWGpLbf2cNsSOssV8633lscBLTVF3j5eVqP/x8GcpO1ex74/F9XTa7hR81FU+7mh1lg==
+	bgP1gI0FnJvmgcOqTsBMGVVusZe9/85lk+q5xMcevw/4CgtoDL3xZRAp/syapqyw+MxTVASe3oh4U6VRb7Gl4AKUkB/gDiku5aY+/btz28XolFcj7C49i5BDJVccahEQuxkY78KLDQkLbtSZ9yo+kMm0TQlfHoUuyAHdndegPPHDzodP0MA3X5Isf70YulNmJ15F9M3f9y2BEYvVZyQIbHW/ukfnYy1ojXv1vgEIgk/VuMklhXa4+w4hO/nUaCsf9VmtP9Ei7MCfB4EGUEtPhScw3VcQ4AqlxeE7nKREK4GillLvcGMzwo7pa9JPrS6+HyYUXTqevuL7B+ehqTsQzQ==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 16:11:50.0040
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 16:11:49.6573
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bff0ad0-68fd-4515-b6a1-08df4720fc0d
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbbe0203-ea77-4902-b360-08df4720fbd8
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF00000204.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000C6193.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY2PR19MB819635
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA2NCBTYWx0ZWRfX2XFN4LLgXhyG
- P2pE7mr/1Gi4rDSXnd6/LfapN4EI7yn25GxpV3lR1kYdEg5RhUDcFCT+mOczS1c/cFxX95NzhHN
- N2juOVFUn/01FJUcWZ702QpVguC6qVR+koXXUU0aIKut1Co694iAsR5arVQvVGHqiA3FrEbNwTi
- r5OSavP08ZIXqIBa+Mr1KsSx9TNKxK/wfuMg6pY4V88saxs9evagybCdmVNHEmtGv6cOrTyLhKI
- 82V17kXGBX8X+aWza6TQR9fRFgA1jeLfxonfXtt4JHKQVoDl0VGNwHOq5vbmxQd30npcMfvg33+
- +2IUHQtLEPFmGretkMAd5v5y6DS1wznJFQLfmd8SwTdKYLu7f3077UHVJrmduQyXOHyGtOJQRx7
- De9NWZl+i+gU8hInNa1/5b8GLHes7AWcUwEebEr0bkUm8yXWnLbfASBs9ur6YWYVEpCy9aSGBtx
- y9XC86Ean/ooShXCo7g==
-X-Authority-Analysis: v=2.4 cv=A5z5rKWG c=1 sm=1 tr=0 ts=6b007152 cx=c_pps
- a=iw7oLBvYkO7Cn1VXvgkbEg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF72AAE353B
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA2NCBTYWx0ZWRfX5bfas8DBlMi/
+ biOcUj50e00+xcgvG0Ue3a/fzbq1PG0Tm41D2IqUAXwcaL7UcXl0qdO6cSe9oe4bwra/HNa5Z/4
+ Uy7BsQCJEjSCllk+LUKFaA2HkpP+IOTWoC9BN1a4guB9EZtvXBqjMeaUerEFJx9oIsvZsvUK4tp
+ xrY92dDLOG7n7FJmB+tAeJBpCdp2CNeZz0LV/xdK/28DC4BPDE8PCbZkR64pi7Huytuiv5VNkBi
+ weOOIRR4ByyTp+wWFCdj2oUecJWMANuf5HQ5NsrbDkey5D+t5iFL6qxzo81at8njsf07TuWgOa0
+ jXp7xsiPG83gtvOqHYU+d36HxNfR3SwV7rjOVOqgQD/LWv1xJWOwcEleOnbmj6g2Yo7oJZMKTcQ
+ vgT5iXj26zBbzBJUwPk02Xm90+jxrEAsxUWB/h6XJ/qNunBS+k/5zWQuHmNM4il1U7SIGmMyolH
+ OCH6hrD/PXdUzyWXblg==
+X-Authority-Analysis: v=2.4 cv=A5z5rKWG c=1 sm=1 tr=0 ts=6b00714c cx=c_pps
+ a=h3k+fpqimRfUez0hfxQzig==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=QZhCBxU6JqVPGuaT7xIA:9
-X-Proofpoint-ORIG-GUID: gtQEG5uPHIWSXjQYJHbKzxS7BQKDL2CI
-X-Proofpoint-GUID: gtQEG5uPHIWSXjQYJHbKzxS7BQKDL2CI
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA2NCBTYWx0ZWRfX2WvQMLH25B+W
- Dew8vE3f0GCuBlo02xTfw2CaHsFqNQxcKA81uT42DRsd8LWC28+rJcJJnRyX1WgH5QkoXOWvqMU
- IEmlw//OA9pAiuMivflLF4Zot6ZjzBQ=
+ a=zJRp6_cAMcgA:10 a=RWc_ulEos4gA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22 a=w1d2syhTAAAA:8
+ a=pVWxiN6LJ3DPxKXD4osA:9
+X-Proofpoint-ORIG-GUID: 2zij9mqqZr1lSLNP_-L6qZTnlKgTvc-y
+X-Proofpoint-GUID: 2zij9mqqZr1lSLNP_-L6qZTnlKgTvc-y
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA2NCBTYWx0ZWRfXwWFJxLN7EmOK
+ YFnvWUTS0ArmnL3l3JCL3BJG6LF6xOofxuuv8cYvfQBQ6LX3GcK5ThmYA9IIwWedSW2ehAwu2YE
+ N6W4e3XUJA5nCln9VCY7vEjj+/tOmYY=
 X-Proofpoint-Spam-Reason: safe
 
-Currently, in a small number of scenarios, the firmware on CS35L41 can
-be reloaded:
-- Using an ALSA control
-- System Resume
-- After Playback (after System Resume - if reload has not occurred)
+Originally the driver has support for loading alternative firmware
+types. However, whilst it could load alternative types, only speaker
+protection was ever actually supported in the driver.
 
-In all these cases, the reload is done inside a work item and
-scheduled on the default workqueue.
-
-This should instead be queued on the system_freezable_wq, which ensures
-that the work item is handled correctly during system suspend, where it
-is not allowed to start whilst the workqueue is frozen.
-
-There are 3 main scenarios where we need to ensure firmware load work
-is flushed:
-- Before System Suspend
-- Before first playback after System Resume
-- Error Paths
-
-Register the driver for PM Notifications so that it can correctly flush
-before suspending. Ensure any firmware work is either cancelled (if
-pending) or flushed in the PM_*_PREPARE notification callbacks.
-This ensures that the work item completes before any workqueues are
-frozen. If the firmware load work item is still running when the
-workqueue is frozen, then it would ordinarily be flushed, but may hang
-on waiting for filesystem access in a call to request_firmware(), if
-filesystem access requires work in a freezable workqueue itself.
-
-Additionally, ensure that we flush the work before we start playback
-after system resume. This ensures firmware is loaded before we restart
-any playback after system suspend.
-
-We also need to re-queue the firmware load in the PM_POST_* notifiers,
-if the suspend was aborted before we finished suspending, but after
-the PM_*_PREPARE notifier cancelled a pending firmware load.
-
-Fixes: 88672826e2a4 ("ALSA: hda: cs35l41: Support System Suspend")
+Remove this support to ensure that the firmware type is fixed.
+This is preparing the driver to make proper use of firmware caching in
+later commits.
 
 Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
 ---
- sound/hda/codecs/side-codecs/cs35l41_hda.c | 129 +++++++++++++++++----
- sound/hda/codecs/side-codecs/cs35l41_hda.h |   2 +
- 2 files changed, 109 insertions(+), 22 deletions(-)
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 86 ++--------------------
+ sound/hda/codecs/side-codecs/cs35l41_hda.h |  2 -
+ 2 files changed, 8 insertions(+), 80 deletions(-)
 
 diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-index 6f4b2088c5fe..512b1a009476 100644
+index 1a192749c7b0..a0e2e0c5addf 100644
 --- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
 +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
-@@ -12,6 +12,7 @@
- #include <sound/hda_codec.h>
- #include <sound/soc.h>
- #include <linux/pm_runtime.h>
-+#include <linux/suspend.h>
- #include <linux/spi/spi.h>
- #include <linux/vmalloc.h>
- #include "hda_local.h"
-@@ -603,6 +604,38 @@ static int cs35l41_init_dsp(struct cs35l41_hda *cs35l41)
- 	return 0;
- }
+@@ -37,6 +37,7 @@
+ #define CS35L41_DSM_GET_MUTE		5
+ #define CS35L41_NOTIFY_EVENT		0x91
+ #define CS35L41_TUNING_SIG		0x109A4A35
++#define CS35L41_HDA_FW_ID		"spk-prot"
  
-+static void cs35l41_fw_load_request_unlocked(struct cs35l41_hda *cs35l41)
-+{
-+	/* firmware request is pending */
-+	if (cs35l41->fw_request_ongoing)
-+		return;
-+
-+	/* no need to request firmware load if DSP running state matches request */
-+	if (cs35l41->cs_dsp.running == cs35l41->request_fw_load)
-+		return;
-+
-+	/* block firmware load request if suspending */
-+	if (cs35l41->suspending)
-+		return;
-+
-+	cs35l41->fw_request_ongoing = queue_work(system_freezable_wq, &cs35l41->fw_load_work);
-+}
-+
-+static void cs35l41_fw_load_request(struct cs35l41_hda *cs35l41)
-+{
-+	guard(mutex)(&cs35l41->fw_mutex);
-+
-+	cs35l41_fw_load_request_unlocked(cs35l41);
-+}
-+
-+static void cs35l41_fw_load_cancel_sync(struct cs35l41_hda *cs35l41)
-+{
-+	cancel_work_sync(&cs35l41->fw_load_work);
-+
-+	guard(mutex)(&cs35l41->fw_mutex);
-+	cs35l41->fw_request_ongoing = false;
-+}
-+
- static void cs35l41_shutdown_dsp(struct cs35l41_hda *cs35l41)
- {
- 	struct cs_dsp *dsp = &cs35l41->cs_dsp;
-@@ -617,7 +650,7 @@ static void cs35l41_remove_dsp(struct cs35l41_hda *cs35l41)
- {
- 	struct cs_dsp *dsp = &cs35l41->cs_dsp;
+ enum cs35l41_tuning_param_types {
+ 	TUNING_PARAM_GAIN,
+@@ -73,21 +74,6 @@ static const struct cirrus_amp_cal_controls cs35l41_calibration_controls = {
+ 	.checksum =	CAL_CHECKSUM_DSP_CTL_NAME,
+ };
  
--	cancel_work_sync(&cs35l41->fw_load_work);
-+	cs35l41_fw_load_cancel_sync(cs35l41);
- 
- 	guard(mutex)(&cs35l41->fw_mutex);
- 	cs35l41_shutdown_dsp(cs35l41);
-@@ -811,6 +844,7 @@ static void cs35l41_hda_playback_hook(struct device *dev, int action)
- 		pm_runtime_get_sync(dev);
- 		break;
- 	case HDA_GEN_PCM_ACT_PREPARE:
-+		flush_work(&cs35l41->fw_load_work);
- 		scoped_guard(mutex, &cs35l41->fw_mutex) {
- 			cs35l41_hda_play_start(dev);
- 		}
-@@ -821,14 +855,7 @@ static void cs35l41_hda_playback_hook(struct device *dev, int action)
- 		}
- 		break;
- 	case HDA_GEN_PCM_ACT_CLOSE:
--		scoped_guard(mutex, &cs35l41->fw_mutex) {
--			if (!cs35l41->cs_dsp.running && cs35l41->request_fw_load &&
--			    !cs35l41->fw_request_ongoing) {
--				dev_info(dev, "Requesting Firmware Load after HDA_GEN_PCM_ACT_CLOSE\n");
--				cs35l41->fw_request_ongoing = true;
--				schedule_work(&cs35l41->fw_load_work);
--			}
--		}
-+		cs35l41_fw_load_request(cs35l41);
- 
- 		/*
- 		 * Playback must be finished for all amps before we start runtime suspend.
-@@ -925,6 +952,45 @@ static int cs35l41_ready_for_reset(struct cs35l41_hda *cs35l41)
- 	return 0;
- }
- 
-+static void cs35l41_set_suspending(struct cs35l41_hda *cs35l41, bool suspending)
-+{
-+	guard(mutex)(&cs35l41->fw_mutex);
-+
-+	cs35l41->suspending = suspending;
-+}
-+
-+static int cs35l41_hda_pm_notifier(struct notifier_block *nb, unsigned long action, void *data)
-+{
-+	struct cs35l41_hda *cs35l41 = container_of(nb, struct cs35l41_hda, pm_notifier);
-+
-+	dev_dbg(cs35l41->dev, "PM notifier action: %lu\n", action);
-+
-+	switch (action) {
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_SUSPEND_PREPARE:
-+	case PM_RESTORE_PREPARE:
-+		cs35l41_set_suspending(cs35l41, true);
-+		cs35l41_fw_load_cancel_sync(cs35l41);
-+		break;
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_SUSPEND:
-+	case PM_POST_RESTORE:
-+		/*
-+		 * If suspending is still set, we are in the recovery path - reload firmware
-+		 * after failed suspend
-+		 */
-+		if (cs35l41->suspending) {
-+			cs35l41_set_suspending(cs35l41, false);
-+			cs35l41_fw_load_request(cs35l41);
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
- static int cs35l41_system_suspend_prep(struct device *dev)
- {
- 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
-@@ -980,6 +1046,7 @@ static int cs35l41_system_suspend(struct device *dev)
- 		disable_irq(cs35l41->irq);
- 
- 	dev_dbg(cs35l41->dev, "System Suspended\n");
-+	cs35l41_set_suspending(cs35l41, false);
- 
- 	return ret;
- }
-@@ -1078,12 +1145,7 @@ static int cs35l41_system_resume(struct device *dev)
- 		return ret;
- 	}
- 
--	guard(mutex)(&cs35l41->fw_mutex);
+-enum cs35l41_hda_fw_id {
+-	CS35L41_HDA_FW_SPK_PROT,
+-	CS35L41_HDA_FW_SPK_CALI,
+-	CS35L41_HDA_FW_SPK_DIAG,
+-	CS35L41_HDA_FW_MISC,
+-	CS35L41_HDA_NUM_FW
+-};
 -
--	if (cs35l41->request_fw_load && !cs35l41->fw_request_ongoing) {
--		cs35l41->fw_request_ongoing = true;
--		schedule_work(&cs35l41->fw_load_work);
--	}
-+	cs35l41_fw_load_request(cs35l41);
+-static const char * const cs35l41_hda_fw_ids[CS35L41_HDA_NUM_FW] = {
+-	[CS35L41_HDA_FW_SPK_PROT] = "spk-prot",
+-	[CS35L41_HDA_FW_SPK_CALI] = "spk-cali",
+-	[CS35L41_HDA_FW_SPK_DIAG] = "spk-diag",
+-	[CS35L41_HDA_FW_MISC] =     "misc",
+-};
+-
+ static bool firmware_autostart = 1;
+ module_param(firmware_autostart, bool, 0444);
+ MODULE_PARM_DESC(firmware_autostart, "Allow automatic firmware download on boot"
+@@ -173,24 +159,19 @@ static int cs35l41_request_firmware_file(struct cs35l41_hda *cs35l41,
+ 	*firmware = NULL;
+ 	if (spkid > -1 && ssid && amp_name)
+ 		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s-spkid%d-%s.%s", CS35L41_PART,
+-				      dsp_name, cs35l41_hda_fw_ids[cs35l41->firmware_type],
+-				      ssid, spkid, amp_name, filetype);
++				      dsp_name, CS35L41_HDA_FW_ID, ssid, spkid, amp_name, filetype);
+ 	else if (spkid > -1 && ssid)
+ 		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s-spkid%d.%s", CS35L41_PART,
+-				      dsp_name, cs35l41_hda_fw_ids[cs35l41->firmware_type],
+-				      ssid, spkid, filetype);
++				      dsp_name, CS35L41_HDA_FW_ID, ssid, spkid, filetype);
+ 	else if (ssid && amp_name)
+ 		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s-%s.%s", CS35L41_PART,
+-				      dsp_name, cs35l41_hda_fw_ids[cs35l41->firmware_type],
+-				      ssid, amp_name, filetype);
++				      dsp_name, CS35L41_HDA_FW_ID, ssid, amp_name, filetype);
+ 	else if (ssid)
+ 		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s-%s.%s", CS35L41_PART,
+-				      dsp_name, cs35l41_hda_fw_ids[cs35l41->firmware_type],
+-				      ssid, filetype);
++				      dsp_name, CS35L41_HDA_FW_ID, ssid, filetype);
+ 	else
+ 		*filename = kasprintf(GFP_KERNEL, "cirrus/%s-%s-%s.%s", CS35L41_PART,
+-				      dsp_name, cs35l41_hda_fw_ids[cs35l41->firmware_type],
+-				      filetype);
++				      dsp_name, CS35L41_HDA_FW_ID, filetype);
  
- 	return 0;
- }
-@@ -1320,9 +1382,11 @@ static int cs35l41_fw_load_ctl_put(struct snd_kcontrol *kcontrol,
- 		return -EBUSY;
+ 	if (*filename == NULL)
+ 		return -ENOMEM;
+@@ -589,7 +570,7 @@ static int cs35l41_init_dsp(struct cs35l41_hda *cs35l41)
  	}
  
--	cs35l41->fw_request_ongoing = true;
-+	guard(mutex)(&cs35l41->fw_mutex);
-+
- 	cs35l41->request_fw_load = ucontrol->value.integer.value[0];
--	schedule_work(&cs35l41->fw_load_work);
-+
-+	cs35l41_fw_load_request_unlocked(cs35l41);
+ 	ret = cs_dsp_power_up(dsp, wmfw_firmware, wmfw_filename, coeff_firmware, coeff_filename,
+-			      cs35l41_hda_fw_ids[cs35l41->firmware_type]);
++			      CS35L41_HDA_FW_ID);
+ 	if (ret) {
+ 		cs35l41_set_default_tuning_params(cs35l41);
+ 		return ret;
+@@ -1237,7 +1218,7 @@ static int cs35l41_smart_amp(struct cs35l41_hda *cs35l41)
+ 	}
  
+ 	dev_info(cs35l41->dev, "Firmware Loaded - Type: %s, Gain: %d\n",
+-		 cs35l41_hda_fw_ids[cs35l41->firmware_type], cs35l41->tuning_gain);
++		 CS35L41_HDA_FW_ID, cs35l41->tuning_gain);
+ 
+ 	return 0;
+ 
+@@ -1319,38 +1300,6 @@ static int cs35l41_fw_load_ctl_put(struct snd_kcontrol *kcontrol,
  	return 1;
  }
-@@ -1464,7 +1528,7 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
- 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
- 	struct hda_component_parent *parent = master_data;
- 	struct hda_component *comp;
--	int ret = 0;
-+	int ret;
  
- 	comp = hda_component_from_index(parent, cs35l41->index);
- 	if (!comp)
-@@ -1494,8 +1558,6 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
- 		dev_dbg(cs35l41->dev, "Firmware Autostart is disabled.\n");
- 	}
- 
--	ret = cs35l41_create_controls(cs35l41);
+-static int cs35l41_fw_type_ctl_get(struct snd_kcontrol *kcontrol,
+-				   struct snd_ctl_elem_value *ucontrol)
+-{
+-	struct cs35l41_hda *cs35l41 = snd_kcontrol_chip(kcontrol);
 -
- 	comp->playback_hook = cs35l41_hda_playback_hook;
- 	comp->pre_playback_hook = cs35l41_hda_pre_playback_hook;
- 	comp->post_playback_hook = cs35l41_hda_post_playback_hook;
-@@ -1510,9 +1572,18 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
+-	ucontrol->value.enumerated.item[0] = cs35l41->firmware_type;
+-
+-	return 0;
+-}
+-
+-static int cs35l41_fw_type_ctl_put(struct snd_kcontrol *kcontrol,
+-				   struct snd_ctl_elem_value *ucontrol)
+-{
+-	struct cs35l41_hda *cs35l41 = snd_kcontrol_chip(kcontrol);
+-
+-	if (ucontrol->value.enumerated.item[0] < CS35L41_HDA_NUM_FW) {
+-		if (cs35l41->firmware_type != ucontrol->value.enumerated.item[0]) {
+-			cs35l41->firmware_type = ucontrol->value.enumerated.item[0];
+-			return 1;
+-		} else {
+-			return 0;
+-		}
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-static int cs35l41_fw_type_ctl_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+-{
+-	return snd_ctl_enum_info(uinfo, 1, ARRAY_SIZE(cs35l41_hda_fw_ids), cs35l41_hda_fw_ids);
+-}
+-
+ static void cs35l41_remove_controls(struct cs35l41_hda *cs35l41)
+ {
+ 	if (!cs35l41->codec)
+@@ -1361,9 +1310,6 @@ static void cs35l41_remove_controls(struct cs35l41_hda *cs35l41)
  
- 	mutex_unlock(&cs35l41->fw_mutex);
- 
-+	/* Create the necessary controls, do not create them under fw_mutex */
-+	ret = cs35l41_create_controls(cs35l41);
-+	if (ret) {
-+		dev_err(cs35l41->dev, "Failed to create controls: %d\n", ret);
-+		goto err;
-+	}
-+
- 	if (!device_link_add(&cs35l41->codec->core.dev, cs35l41->dev, DL_FLAG_STATELESS))
- 		dev_warn(dev, "Unable to create device link\n");
- 
-+	register_pm_notifier(&cs35l41->pm_notifier);
-+
- 	dev_info(cs35l41->dev,
- 		 "CS35L41 Bound - SSID: %s, BST: %d, VSPK: %d, CH: %c, FW EN: %d, SPKID: %d\n",
- 		 cs35l41->acpi_subsystem_id, cs35l41->hw_cfg.bst_type,
-@@ -1520,6 +1591,15 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
- 		 channel_name[cs35l41->hw_cfg.spk_pos],
- 		 cs35l41->cs_dsp.running, cs35l41->speaker_id);
- 
-+	return 0;
-+err:
-+	memset(comp, 0, sizeof(*comp));
-+	scoped_guard(mutex, &cs35l41->fw_mutex) {
-+		cs35l41->request_fw_load = false;
-+	}
-+	cs35l41_fw_load_cancel_sync(cs35l41);
-+	cs35l41->codec = NULL;
-+
- 	return ret;
+ 	snd_ctl_remove(cs35l41->codec->card, cs35l41->fw_load_ctl);
+ 	cs35l41->fw_load_ctl = NULL;
+-
+-	snd_ctl_remove(cs35l41->codec->card, cs35l41->fw_type_ctl);
+-	cs35l41->fw_type_ctl = NULL;
  }
  
-@@ -1538,7 +1618,11 @@ static void cs35l41_hda_unbind(struct device *dev, struct device *master, void *
- 		memset(comp, 0, sizeof(*comp));
+ static int cs35l41_add_control(struct cs35l41_hda *cs35l41,
+@@ -1390,16 +1336,8 @@ static int cs35l41_add_control(struct cs35l41_hda *cs35l41,
  
- 		cs35l41_remove_controls(cs35l41);
--		cancel_work_sync(&cs35l41->fw_load_work);
-+		scoped_guard(mutex, &cs35l41->fw_mutex) {
-+			cs35l41->request_fw_load = false;
-+		}
-+		unregister_pm_notifier(&cs35l41->pm_notifier);
-+		cs35l41_fw_load_cancel_sync(cs35l41);
- 		cs35l41->codec = NULL;
- 	}
- }
-@@ -1970,6 +2054,7 @@ int cs35l41_hda_probe(struct device *dev, const char *device_name, int id, int i
- 	cs35l41->irq = irq;
- 	cs35l41->regmap = regmap;
- 	cs35l41->control_bus = control_bus;
-+	cs35l41->pm_notifier.notifier_call = cs35l41_hda_pm_notifier;
- 	dev_set_drvdata(dev, cs35l41);
+ static int cs35l41_create_controls(struct cs35l41_hda *cs35l41)
+ {
+-	char fw_type_ctl_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+ 	char fw_load_ctl_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+ 	char mute_override_ctl_name[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+-	struct snd_kcontrol_new fw_type_ctl = {
+-		.name = fw_type_ctl_name,
+-		.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+-		.info = cs35l41_fw_type_ctl_info,
+-		.get = cs35l41_fw_type_ctl_get,
+-		.put = cs35l41_fw_type_ctl_put,
+-	};
+ 	struct snd_kcontrol_new fw_load_ctl = {
+ 		.name = fw_load_ctl_name,
+ 		.iface = SNDRV_CTL_ELEM_IFACE_CARD,
+@@ -1416,17 +1354,11 @@ static int cs35l41_create_controls(struct cs35l41_hda *cs35l41)
+ 	};
+ 	int ret;
  
- 	ret = cs35l41_hda_read_acpi(cs35l41, device_name, id);
-@@ -2076,7 +2161,7 @@ void cs35l41_hda_remove(struct device *dev)
- 	struct cs35l41_hda *cs35l41 = dev_get_drvdata(dev);
+-	scnprintf(fw_type_ctl_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s DSP1 Firmware Type",
+-		  cs35l41->amp_name);
+ 	scnprintf(fw_load_ctl_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s DSP1 Firmware Load",
+ 		  cs35l41->amp_name);
+ 	scnprintf(mute_override_ctl_name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN, "%s Forced Mute Status",
+ 		  cs35l41->amp_name);
  
- 	component_del(cs35l41->dev, &cs35l41_hda_comp_ops);
--	cancel_work_sync(&cs35l41->fw_load_work);
-+	cs35l41_fw_load_cancel_sync(cs35l41);
+-	ret = cs35l41_add_control(cs35l41, &fw_type_ctl, &cs35l41->fw_type_ctl);
+-	if (ret)
+-		goto err;
+-
+ 	ret = cs35l41_add_control(cs35l41, &fw_load_ctl, &cs35l41->fw_load_ctl);
+ 	if (ret)
+ 		goto err;
+@@ -1526,8 +1458,6 @@ static int cs35l41_hda_bind(struct device *dev, struct device *master, void *mas
  
- 	pm_runtime_get_sync(cs35l41->dev);
- 	pm_runtime_dont_use_autosuspend(cs35l41->dev);
+ 	strscpy(comp->name, dev_name(dev), sizeof(comp->name));
+ 
+-	cs35l41->firmware_type = CS35L41_HDA_FW_SPK_PROT;
+-
+ 	if (firmware_autostart) {
+ 		dev_dbg(cs35l41->dev, "Firmware Autostart.\n");
+ 		cs35l41->request_fw_load = true;
 diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.h b/sound/hda/codecs/side-codecs/cs35l41_hda.h
-index 64ee70c31a43..b374836e8537 100644
+index 56ec07c0bb74..6fea4b2ad0ac 100644
 --- a/sound/hda/codecs/side-codecs/cs35l41_hda.h
 +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.h
-@@ -78,6 +78,8 @@ struct cs35l41_hda {
+@@ -73,11 +73,9 @@ struct cs35l41_hda {
+ 	unsigned volatile long irq_errors;
+ 	const char *amp_name;
+ 	const char *acpi_subsystem_id;
+-	int firmware_type;
+ 	int speaker_id;
+ 	struct mutex fw_mutex;
  	struct work_struct fw_load_work;
+-	struct snd_kcontrol *fw_type_ctl;
  	struct snd_kcontrol *fw_load_ctl;
  	struct snd_kcontrol *mute_override_ctl;
-+	struct notifier_block pm_notifier;
-+	bool suspending;
  
- 	struct regmap_irq_chip_data *irq_data;
- 	bool firmware_running;
 -- 
 2.43.0
 
