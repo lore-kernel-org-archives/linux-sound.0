@@ -1,57 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795205848;
-	b=xjktQx92UMEVjm4Vj8rarrM0eFSUvjYNfmcMCiocwiPUSWeGZfb5GIVmL3G7zyJB1oVP
-	 8ogKpqggXvDqN3DuQfcT86UtGoFd5+upYQcLN4JsKvv80agQbUdBVGXuxIvsaC6IcAALT
-	 +JtS1RnWiejvVFTIw3nsfYwgBd7pbNrzrIeA1izVsYGEHuphEqKqnlBCEmtTT5Y7mZdtK
-	 Vbt/0fN6JFtkKaoPa7+VOO/pProtzqOKT5X80nqO0C4cKFdVpqvIptfznd5/JgsCYncIb
-	 ihHJXokx87zEFmHTxzqJ9xluaQf/QMl28dHmndrjIvZRFDFK0DAN3iKxdqf8h7/T0oA==
+	t=1795206659;
+	b=j4gOtaJkkIAQlFzh6txw2a3EVD0pc/fGnLTYDpoQ7jmxj8YJttag571qKGblMK4zDz1E
+	 GF5bG0z0OVOSXJa0SobHVSwjMvDl1f8fLXTyp9kGu966SQ27L7Wc6Of+RAGcJGOgzmoQH
+	 IP407PwFcCWWiIcUo7l/dQyWkmEYN1ssB4nuri/ATp8M1NMKubH71llyLrKitVyFDgP7J
+	 zX5bBIJ9DbDaMM0enHFWFT67DprDT81Rkn8X2joB+YDkhzBBhQKgf6F8ze8N1OCmfGSp6
+	 kFm2SL/u2kpZixJwAujl6cEtRRDQRJSd5xK7KgWFvn2L94ahLpETtbVSTenuNqh+dmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795205848;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mjkEWbZ9NXVNPSXEqcA3SYLXWAnHnEaUk0TfB5aw4ZY=;
-	b=AKk6VOlVWnAS+TBK/KGi6sU7tMrJbTj5OMqfgWKaO0q7pqxsv0z3BTk1vXELId/1OBdS
-	 8MzbgEza78lLKcnUofxVwZTcyP0vhGLIoW8fXVwNw2cXvwY68cy8qh1BIXWlHqQMJ9+Iq
-	 NQ9b10pjaj2fJ0Z7es0wESc77Ecsq0teE7g8Et4DmaMn29p3a8q4PX4kzyWWKPbqh9U+v
-	 lRgzwoeFrgOh215+4OS/aOHtc+pe/oJF8Zh15aMnQERHAE6+42v2tCKbBg1iAdksDB2w2
-	 Awt0U/YLMzP/WkGrf/t+3QJQKzwUj/p4D0YJ0kDwF0Lf6YAGsOzUejHheeCypoh83Nw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795206659;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=SmOVzPTxZLEPzBlb9pJmyycy/swtGBBs1iU1TcCQUmE=;
+	b=KULJmxOIA1lOREYgLcxuPMrzvQSOl8qh/FyHLG512FqZl5q0zOunh+sN6QYDKFSLWIUk
+	 ebhD0XgycpNjMZkr6TcqDWuR2eZFSACDaebbO2FD98NbjChvAWA92XSPcsaXV1usJOu1v
+	 DUvKvva/XS4P7mT34tSjlu+PFJM1COioozG5/EA1YuDfPalceGkI+hXmmGCA+2v6ZFw8S
+	 ppxc11ppzLi4NMXHLKv7SZdLyj3PStYxei3QPh2CU3uYlZZSKg0JQrwV/nxtHWHzta/qd
+	 82XSihTNaXkGkuTdV3FW+JJC7c1sgVSx2AFtZMrodDF8Zo+XvQ9mCSynZm1rQ+nkL6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g1VBEiva;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XnTyMdLM;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998A0606A6F4
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 20:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B97B606A6FC
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 20:30:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B97B606A6FC
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g1VBEiva
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A18201F000C0;
-	Fri, 20 Nov 2026 20:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795205847;
-	bh=mjkEWbZ9NXVNPSXEqcA3SYLXWAnHnEaUk0TfB5aw4ZY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=g1VBEivasvHsFhHlfUJosCckrpI8W0q67Egkaka4dcVs4cctlxp/ujQwYZe7fufo1
-	 8GJbw/hB9iDIA/JOGjpwCQDx/I5fa1Q34DftNl2116N1l5V/eraVslj+ctRqe+OSW/
-	 ouWSrYK3W3JMz8awQ50PSa1L6lwv8QQdFtprTmeYzhcthfvdWl2FXgmCt8P0PCfSWE
-	 oEQgDdERiedBz96qsKc7JTBWsqK3fS1pjtFqNHdLVsY6JbYz9ze9g6jVI8UPqkOU6s
-	 VrkxxGTQrqOsYGChsGxw2pfvKZ7yHxwcFldBFwpsod0xzOxcZ79ubQVOWSwT5bwmFS
-	 e3/NJxuLWFs4w==
-Message-ID: <sashiko-outbox-226027@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] ASoC: qcom: q6apm-dai: keep a playback stream
- running across a PCM reset
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Perry Dale" <techluddite@outlook.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <LV5PR84MB4026E23CD27421FEF1D8B373A7782@LV5PR84MB4026.NAMPRD84.PROD.OUTLOOK.COM>
-References: <LV5PR84MB40268B01B9F458296BE453ACA7782@LV5PR84MB4026.NAMPRD84.PROD.OUTLOOK.COM>
- <LV5PR84MB4026E23CD27421FEF1D8B373A7782@LV5PR84MB4026.NAMPRD84.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 20:17:27 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XnTyMdLM
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb77a462c6so19383795e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 12:30:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795206655; x=1795811455; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SmOVzPTxZLEPzBlb9pJmyycy/swtGBBs1iU1TcCQUmE=;
+        b=XnTyMdLMQViLqocCLy7l53u8I41tA2MqvkXvE1ryN5Z93y0PQUUVutNe+V0SYZODNo
+         IXOp2PMyTFBKAByn+kk8n+1UM6AsOe9ZTmGeo7szboOffqEXblHUO5/NRcnuIetCktYH
+         IiOYqiGnV8VWUNSpsxYnxLK0zHHALVlrtZ+PlfrfkCt+Acv4JzpuHR5FFmBKZEGQ1Brs
+         KqSV6GUXCPjpvKYW9KcNc6JK7RoukrvbWJ+3y/SG0u3U1+ascXEK5zVPE1a5R7j98pRi
+         RebOYAbmMNumGz/ScnXgseJWEUW2jR272d1b479fCcLrbmUktSCblyWUrYM15Yqey69/
+         XMIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795206655; x=1795811455;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SmOVzPTxZLEPzBlb9pJmyycy/swtGBBs1iU1TcCQUmE=;
+        b=gPah2NvzwfnWdydfSi+HAMHrvIzmow5gn7r8jM5T7CqEbzXFh4eFGWMgwZycVPwvFN
+         905b6HirX5/9gsW7g4PPcFM7pZ14yo8QDuS6N/jCR5GJE84trzbvIuTgaGoOdBugNSm0
+         nt1/Qd1px+6ZQUfPM2UisY/rqUgdr1+F/Iy7d8uY6nDAE5+b29z9NRGWFkNP8XQaVL1b
+         5lY0cFzXOkET08HoE24KA14NZ7babix8pOxnbG08IVT8dBopbHJBwGurHrs/oWQGhppm
+         s0injgYopJeixppjG9RYzsq+FnPdJS/zAhPO/CgHrTYB9s6W38V4FM4q4f3ZfqfwlvKj
+         pT5A==
+X-Forwarded-Encrypted: i=1; AL+hErF8zHcALt34E+ZXIJoHpH/9/ubaWjgMU5h7BA4v+EGXZb3D1D1dv6aNKxdG3DydY5igY/IPrgbKnsuBvg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z81nkyJD2sEcO6ggL6yB6NjappwGO5U5wwplbBCPBE9FSzduLQI
+	rLRtgHBlRYS8hIrlSvnZNlpcUbuJRRIbRJPa020KLDZWi3I1mPCsTBo6
+X-Gm-Gg: AYBFou0I7OkM2y3xu0WeanWv7TpzkLNZKNHJPnRJDqOGCh9qAsSme/nkMCLanRNxQ3F
+	z6HcdFApRe+IpnkwYC/aG6KnZna1SWQP1hifrcMO1HOMRAlkkIwyE0ZPfrfEwlRZCDpOBRN2Hpl
+	7dn64bKIbgqrLAr+3x/87HIugF+6GxjqBHPom4EZuSQC+bVAsNdcuPCdcfCIs6obJQbAg7cgxiy
+	8WdPSOuggqOWhXv3wXhFKb2+eqfujMA2PohddiQFUBHXqINjJZlHx1ywkCPRXIi2jqosmRPKNgG
+	xH2L91LetkUJf0ADwIYhcee3ZBxIMQupxbgYM9461K2Kcv05kha9ZaOm9g9qhXB4mzgBoQ58aHe
+	cLCzONsG+3rXWiWan72XCj+X094CKEXmx26qvEKwvJZOMZww9Roxoxh+0Zd+wOhP2PjCYL/2uOH
+	7c9nUUB/PCJkFnk8oF18g95GzQFMtKAjxlrz0i7SkQ+e2LRIR3mbncgrvE/RBO5k2UyJa+nNjzz
+	dj/EDw0iiGVRRKXkoCS1N4b5eOh/SMs2Lz8hhakCC9giY3dV3TDUZ0L/JIXTeAR7RtEiMkCjFbf
+	Z0sA+KZr1GqsQy40IniE/nsxs5c2mz+GwgShkR2+
+X-Received: by 2002:a05:600c:1d83:b0:4bb:687c:4fbe with SMTP id 5b1f17b1804b1-4bb88805c26mr86419975e9.8.1795206654499;
+        Fri, 20 Nov 2026 12:30:54 -0800 (PST)
+Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8849247asm113647955e9.7.2026.11.20.12.30.53
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 20 Nov 2026 12:30:53 -0800 (PST)
+Date: Fri, 20 Nov 2026 21:30:50 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Gabriel Ilie <gabiilie95@gmail.com>
+Cc: linux-usb@vger.kernel.org, mathias.nyman@intel.com,
+ linux-sound@vger.kernel.org
+Subject: Re: xhci 8086:7a60 (HM770) skips ~9.5% of isoc OUT packets when
+ hot; HDA on same PCH underruns in step
+Message-ID: <20261120213050.18641baf.michal.pecio@gmail.com>
+In-Reply-To: <CAHJAn3zOCh8oKjE9fVbeD_XbnSG-h8psZWan9qkNji_mps8rFA@mail.gmail.com>
+References: <CAHJAn3zOCh8oKjE9fVbeD_XbnSG-h8psZWan9qkNji_mps8rFA@mail.gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,246 +97,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] ASoC: qcom: q6apm-dai: queue_ptr desync and stall on
-  non-running reset
-- [Medium] ASoC: qcom: q6apm-dai: reset lock-gap race in
-  q6apm_dai_ioctl()
-- [Medium] ASoC: qcom: q6apm-dai: snd_pcm_stop() while paused skips stop
-  trigger
---
+Hi,
 
-commit 76e6dbc3559b40e7770b67301512b5eb160e3c6d
-Author: Perry Dale <techluddite@outlook.com>
+On Mon, 16 Nov 2026 16:05:13 -0500, Gabriel Ilie wrote:
+> 1. Is a periodic ~1 ms inability to service periodic endpoints a known
+> behaviour of the 700-series PCH when it is hot (PCH thermal
+> throttling, DMI, or something else)? Is there a way to read the PCH's
+> throttle state or temperature on this platform to confirm it?
 
-ASoC: qcom: q6apm-dai: keep a playback stream running across a PCM reset
+No idea, but it seems you found clear correlation with temperature.
+Maybe the proper solution is more heatsinking and airflow.
 
-This commit tracks the number of playback buffers in flight with the DSP
-and realigns queue_ptr against hw_ptr on SNDRV_PCM_IOCTL1_RESET and in a
-shared queueing helper called from .ack and APM_CLIENT_EVENT_DATA_WRITE_DON=
-E.
+> 2. The controller advertises CFC (hcc params bit 11), so as far as I
+> understand the isoc TDs carry explicit frame IDs and the ones whose
+> frame has passed are skipped after the Missed Service Error. For a
+> UAC2 async device with its own buffer, sending those packets late
+> would probably be inaudible, while dropping 1 ms is not. Would using
+> SIA instead of frame IDs be acceptable here, perhaps as a quirk or an
+> option I can test?
 
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6ap=
-m-dai.c
-> index d0d19fc38e8be..e4a6817ee17bb 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-[ ... ]
-> @@ -433,14 +447,39 @@ static int q6apm_dai_prepare(struct snd_soc_compone=
-nt *component,
->  	return 0;
->  }
-> =20
-> -static int q6apm_dai_ack(struct snd_soc_component *component, struct snd=
-_pcm_substream *substream)
-> +/*
-> + * Give queue_ptr its ring offset back relative to hw_ptr. Called with t=
-he
-> + * stream lock held after hw_ptr moved without it.
-> + */
-> +static void q6apm_dai_align_queue(struct snd_pcm_substream *substream)
->  {
->  	struct snd_pcm_runtime *runtime =3D substream->runtime;
->  	struct q6apm_dai_rtd *prtd =3D runtime->private_data;
-> -	int i, ret =3D 0, avail_periods;
-> +	snd_pcm_uframes_t hw_ptr =3D runtime->status->hw_ptr;
-> +	snd_pcm_uframes_t ahead;
-> =20
-> -	if (q6apm_is_graph_in_push_pull_mode(prtd->graph))
-> -		return 0;
-> +	ahead =3D (prtd->queue_ptr % runtime->buffer_size + runtime->buffer_siz=
-e -
-> +		 hw_ptr % runtime->buffer_size) % runtime->buffer_size;
-> +	/*
-> +	 * The offset is 0 both for an empty and for a full queue. A running
-> +	 * stream with every buffer queued continues with the buffers the DSP
-> +	 * holds. A paused stream can have them played before its hw_ptr moves
-> +	 * again, so a stream that is not running queues what is written from
-> +	 * here on.
-> +	 */
-> +	if (!ahead && snd_pcm_running(substream) && prtd->in_flight =3D=3D runt=
-ime->periods)
-> +		ahead =3D runtime->buffer_size;
-> +
-> +	prtd->queue_ptr =3D (hw_ptr + ahead) % runtime->boundary;
-> +}
+Somebody recently added quirk flag "PLAYBACK_URB_FIXUP" to
+snd_usb_audio which submits playback URBs with SIA. AFAIK there
+is some way to try those quirks with a module parameter.
 
-[Severity: High]
-Can q6apm_dai_align_queue() desynchronize prtd->queue_ptr from
-prtd->in_flight and stall playback when SNDRV_PCM_IOCTL_RESET runs on a
-prepared or paused stream?
+It may reduce the number of missed microframes, but I doubt
+it will make the glitches inaudible. There is no such thing as
+transmitting an isochronous packet "later", it must be skipped
+if it doesn't make it on time.
 
-Because q6apm_dai_prepare() starts the DSP graph immediately and
-q6apm_dai_trigger() does not stop or pause the graph, the DSP continues
-consuming queued periods while !snd_pcm_running(substream).  In that state
-event_handler() decrements prtd->in_flight down to 0, while
-snd_pcm_period_elapsed_under_stream_lock() leaves runtime->status->hw_ptr
-unchanged.
-
-If the application queues k periods (0 < k < runtime->periods) while
-prepared or paused, waits for the DSP to finish them (prtd->in_flight =3D=
-=3D 0),
-and calls SNDRV_PCM_IOCTL_RESET, snd_pcm_lib_ioctl_reset() sets
-runtime->status->hw_ptr =3D 0 and appl_ptr =3D 0.  q6apm_dai_align_queue()
-then computes ahead =3D k * runtime->period_size and leaves prtd->queue_ptr
-at k * runtime->period_size even though no buffers are in flight.  If the
-application writes m <=3D k periods and starts or unpauses the stream,
-q6apm_dai_queue_playback() sees pending =3D (m - k) * runtime->period_size =
-<=3D 0
-and queues nothing, stalling playback permanently with prtd->in_flight =3D=
-=3D 0.
-
-Conversely, if a full ring is queued while prepared (prtd->in_flight =3D=3D
-runtime->periods, prtd->queue_ptr =3D=3D runtime->buffer_size) and reset be=
-fore
-start, q6apm_dai_align_queue() sets prtd->queue_ptr =3D 0.  If the applicat=
-ion
-rewrites K < runtime->periods periods and starts the stream, .ack cannot
-queue anything while prtd->in_flight =3D=3D runtime->periods.  When the fir=
-st
-in-flight buffer finishes, snd_pcm_period_elapsed_under_stream_lock()
-advances runtime->status->hw_ptr from 0 to runtime->period_size before
-calling q6apm_dai_queue_playback().  With prtd->queue_ptr (0) now behind
-runtime->status->hw_ptr (runtime->period_size), ahead wraps past
-runtime->buffer_size and q6apm_dai_align_queue() sets prtd->queue_ptr to
-runtime->buffer_size (past appl_ptr =3D K * runtime->period_size), so the K
-rewritten periods are never queued.
-
-> =20
-> +/* Queue the periods written and not yet queued. Called with the stream =
-lock held. */
-> +static int q6apm_dai_queue_playback(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
-> +	struct q6apm_dai_rtd *prtd =3D runtime->private_data;
-> +	snd_pcm_sframes_t ahead, pending;
-> +	int i, ret, avail_periods;
-> +
->  	/*
->  	 * ALSA calls .ack whenever appl_ptr moves, also after a stop and
-[ ... ]
-> @@ -461,37 +500,84 @@ static int q6apm_dai_ack(struct snd_soc_component *=
-component, struct snd_pcm_sub
->  		return 0;
->  	}
-> =20
-> -	if (substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
-[ ... ]
-> +	for (i =3D 0; i < avail_periods; i++) {
-> +		ret =3D q6apm_write_async(prtd->graph, prtd->pcm_count, 0, 0, NO_TIMES=
-TAMP);
-> +		if (ret < 0) {
-> +			dev_err(prtd->dev, "Error queuing playback buffer %d\n", ret);
-> +			/*
-> +			 * The core has moved on to its next buffer. Only a
-> +			 * prepare brings queue_ptr back in step with it.
-> +			 */
-> +			snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN);
-> +			return ret;
->  		}
-
-[Severity: Medium]
-What happens when snd_pcm_stop(substream, SNDRV_PCM_STATE_XRUN) is called
-here while runtime->state is SNDRV_PCM_STATE_PREPARED or
-SNDRV_PCM_STATE_PAUSED?
-
-q6apm_dai_queue_playback() runs in both states, where
-snd_pcm_running(substream) is false.  In sound/core/pcm_native.c,
-snd_pcm_do_stop() only invokes the SNDRV_PCM_TRIGGER_STOP callback when
-snd_pcm_running(substream) is true, while snd_pcm_post_stop()
-unconditionally sets runtime->state to SNDRV_PCM_STATE_XRUN.  That leaves
-prtd->state as Q6APM_STREAM_RUNNING, and when called from
-SNDRV_PCM_STATE_PAUSED it also causes later snd_pcm_prepare() and
-snd_pcm_drop() calls to miss their runtime->state =3D=3D SNDRV_PCM_STATE_PA=
-USED
-check and skip snd_pcm_pause(substream, false), leaking fe_pause and
-be_pause on the DPCM runtimes.
-
-[ ... ]
-
-> +/*
-> + * A PCM reset, which ALSA also runs at the end of every prepare, moves
-> + * hw_ptr: modulo the buffer size on a running stream, to 0 otherwise.
-> + * appl_ptr follows it without a call to .ack. The buffers the DSP holds
-> + * stay with it, so keep queue_ptr in step with the ring.
-> + */
-> +static int q6apm_dai_ioctl(struct snd_soc_component *component,
-> +			   struct snd_pcm_substream *substream,
-> +			   unsigned int cmd, void *arg)
-> +{
-> +	struct snd_pcm_runtime *runtime =3D substream->runtime;
-> +	struct q6apm_dai_rtd *prtd =3D runtime->private_data;
-> +	int ret;
-> +
-> +	ret =3D snd_pcm_lib_ioctl(substream, cmd, arg);
-> +	if (ret < 0 || cmd !=3D SNDRV_PCM_IOCTL1_RESET ||
-> +	    substream->stream !=3D SNDRV_PCM_STREAM_PLAYBACK ||
-> +	    q6apm_is_graph_in_push_pull_mode(prtd->graph))
-> +		return ret;
-> +
-> +	guard(pcm_stream_lock_irq)(substream);
-> +	q6apm_dai_align_queue(substream);
-> +
-> +	return 0;
->  }
-
-[Severity: Medium]
-Can an APM_CLIENT_EVENT_DATA_WRITE_DONE event race with the unlocked windows
-around q6apm_dai_ioctl() during SNDRV_PCM_IOCTL_RESET?
-
-During snd_pcm_reset(), the PCM stream lock is acquired and dropped four
-separate times across snd_pcm_lib_ioctl_reset(), q6apm_dai_ioctl(),
-snd_pcm_do_reset(), and snd_pcm_post_reset():
-
-CPU0                                    CPU1 (kworker)
-snd_pcm_reset()
-  snd_pcm_do_reset()
-    snd_pcm_lib_ioctl_reset()
-      lock(pcm_stream_lock)
-      runtime->status->hw_ptr %=3D
-        runtime->buffer_size;
-      unlock(pcm_stream_lock)
-    q6apm_dai_ioctl()
-      lock(pcm_stream_lock)
-      q6apm_dai_align_queue()
-      unlock(pcm_stream_lock)
-                                        event_handler()
-                                          lock(pcm_stream_lock)
-                                          prtd->in_flight--;
-                                          snd_pcm_period_elapsed_...()
-                                          q6apm_dai_queue_playback()
-                                            pending =3D hw_avail - ahead;
-                                            q6apm_write_async()
-                                            /* queues stale periods */
-                                          unlock(pcm_stream_lock)
-    lock(pcm_stream_lock)
-    runtime->hw_ptr_base =3D 0;
-    unlock(pcm_stream_lock)
-  snd_pcm_post_reset()
-    lock(pcm_stream_lock)
-    runtime->control->appl_ptr =3D
-      runtime->status->hw_ptr;
-    unlock(pcm_stream_lock)
-
-If event_handler() runs on a stream in its second lap before
-snd_pcm_post_reset() updates runtime->control->appl_ptr,
-runtime->status->hw_ptr and prtd->queue_ptr have already been reduced into
-the first ring lap while runtime->control->appl_ptr still holds its
-pre-reset value.  snd_pcm_playback_hw_avail(runtime) can then evaluate to up
-to runtime->buffer_size instead of 0, causing q6apm_dai_queue_playback() to
-queue stale DMA periods to the DSP and advance prtd->queue_ptr ahead of the
-appl_ptr that snd_pcm_post_reset() is about to set.
-
-Similarly, if event_handler() runs between snd_pcm_lib_ioctl_reset() and
-snd_pcm_do_reset(), runtime->status->hw_ptr has already been reduced while
-runtime->hw_ptr_base is still >=3D runtime->buffer_size, so
-snd_pcm_update_hw_ptr0() sees a delta >=3D runtime->buffer_size and either
-drops the hw_ptr update after prtd->in_flight was decremented or restores
-runtime->status->hw_ptr to >=3D runtime->buffer_size right before
-snd_pcm_do_reset() zeroes runtime->hw_ptr_base.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/LV5PR84MB40268B01B9=
-F458296BE453ACA7782@LV5PR84MB4026.NAMPRD84.PROD.OUTLOOK.COM?part=3D2
+Regards,
+Michal
