@@ -1,82 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795135465;
-	b=Qlkf0sLdWbp7RdhNZzEjdOQeSxOeeczPl3Gz2vNKNc2pZ7FTcjm12wha20cM2cfukne3
-	 9QqrPO5DiKCov9Tl2mAqc+eqkqF+EJRFyh5CetYRKncpqcayknb/zwNF1M4i6LI2oXhUs
-	 kX7RVPAgjuOg+CNQ1Kxl/dyVcZJWfVmAzYBUjOR//yha680Ea2wdd8VleEERLFs1Ng3Gj
-	 VQrj0eq3ohfesclrEMg12HBXrMdy9TdmPEqiNqPHb+AACPdwwJzAKaeZKnB9mKdDCSsjd
-	 Q5J9DSL7zdZkRCdPK441kdP3XqY4A/D/Fn0ZRI4CazGW7jLTJaMOJ2xvrCO0l+5w/IA==
+	t=1795135467;
+	b=QBd0ZywWGk3aWKu48Rlz2GIQjYcGgAFnNWNVKK6cwUQVr1obyGjtuUfOgU/5WteF9nGn
+	 UvpezEU/Cw5hZ17ErCSxtGjfqb7WAx4R4vC0Up+LgAJ4ZGvAOQzKNy4e45iXkYZfN3odS
+	 XyxN2wQACO7iWQ0/bzxGlRpe/Z0OLdJGk1q5BaTq3VCy5aFPnBV+kjwBfr+OAuxpElqn3
+	 X/wjeHYFvakizDt74dMgaDlJ7obU1I7TOphFEE9qd+8EsOQ/eErWH1I2YPPRz+KguWGjp
+	 wXYtwrb7mPWJ1YrfrulFggLh5CHIbY/5i7jL0QeUL5BVmz/kHR30KzyuSNpViFu5M0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795135465;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795135467;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=lq4xVgtNlmtEagdZAmjDen81yw3EXLE97jdOjgf12ho=;
-	b=kCmk/4Ex4uL2domV7MrfpUKmBH5u/lVCsbmHOVNlS6/Yx/azS2rzkn8XAvpf8uKWqtXw
-	 R2kdXjUFJZ4QYqKnomXkOmn2Sg9qGlAE0p7OvBwn3BErravvT0o5NNziu3cswm4xshcyq
-	 9dBQVgEOqZ+hiqGnNsEUwu76JqE6MbWAaHAb6RuMXAXP6CInFXMECOeqdaqCappMlDABB
-	 0X/odIR7HZ8+uortY6LlNSF0F8A+VxkEvP+32WseWmcykhU84qDlJOchCvAIT7w3aTS1U
-	 AXby0sfbJdQpk98UjShkeZjnWJ9P9P8nwZ10oN9tyQGou3TvJ3vhLoKt4w5HvLmCTRA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=HAT1U9wNy0EKa5OwUErsAyJuiK065rYrDAt2SMRpc5U=;
+	b=NPALXgiYc1TX2dND1YMDipjsrT52HRuWy9QY3XpDoj/ky4auE/cz0EIXuh/f4IajFNup
+	 SqHUZUggC8FvonVzzDlbX6K/n9GcAteng7NRVLCO90j97NE+tWHwHesBbnaW93agVeVLI
+	 xbnG8WtITAuZ06hJStvwlEFZ3InNWt2dolHyOobuD2FfN9mACAnOxG9U7QSE9IRoH9Fl+
+	 XANxYSQrjV7c+aE0/gxaD23AH5rLoKZDSa4lp9HkGK/Wx5y+02T+ha4sOY/z9EZPXQP8L
+	 1yb3faLmE5RcoIWpDK+z54kmCofI8Qga2fTSf3VkPb6gjcMew3A2xWT07hdEB+CQ6ZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IRFlv3VN;
-	arc=none smtp.remote-ip=209.85.221.54
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Cqnxk9wz;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC7B606A325
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 00:44:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBC7B606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67367606A334
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 00:44:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67367606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IRFlv3VN
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so264915f8f.1
-        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 16:44:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Cqnxk9wz
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so2536635e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 19 Nov 2026 16:44:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795135463; x=1795740263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lq4xVgtNlmtEagdZAmjDen81yw3EXLE97jdOjgf12ho=;
-        b=IRFlv3VNsJ1GzKjSCCB7rSjUtYgDKXWzZhfkSD3dJQiG4X9YmvRIAgxwKegRoqEf4c
-         DPm9/TLjvO2VxHjeHj91AaKMhQoCj0kmRhRYaiR+46zSKr9qk0DZlqqSDTV5qXAlvaGY
-         Oq0PTBJ8ZPz4q/QeeOgpU8C/7HbdXncslutjkH7MI+yPdKCzCf+OtZ9HYU789kIpbq/5
-         v9NkbLCVirR5k930wDDy4oqZ4bubxOdAQ+6bJHeTJX7PZfXcQnWeUmdXs9NG9lc9BJ+I
-         OughswD6Thx5e3VpkEXvj4WWC/zcYjFrnx9Qt8gAs8WMXrZJ46EAafW+FRsR+UjgfdC+
-         DjUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795135463; x=1795740263;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795135465; x=1795740265; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lq4xVgtNlmtEagdZAmjDen81yw3EXLE97jdOjgf12ho=;
-        b=DtbXgzvR4n+xbcRlybbouNJczNM/XaCoeckMhJ7mOOoaVJzx1AWU7lpZhTZ+BaFepX
-         43TlaN1QUfCppGTLbpymZLUCzcqW4HLMpSBWpFixR4nQwfE8gevbCobTY5x4XcraufPH
-         jf5GxL2JvCUv/7S2qCLo158u1e7Z4fb5rjkEde2cKGoIrgvu3saHRsxGA37+ntlD8kF3
-         D8Cb4gKzyhToId0v4cj/2yp4gFwnKY36dkcr9GRPP+wwwBqCsZv7gYRFnnUZQ/RIdehG
-         xMDNbOnZzJu0Kz4Lsot6ZjJDJ6usSqZVBX5msF1Df7c0zAgv+jzHUGsZnDpxj4YUtkb+
-         sh2g==
-X-Forwarded-Encrypted: i=1; AL+hErFZkXsG2/Fuam55eZlCcDV6DF0ROGEY8ltQTGijAbnxtTcYfiA5qthknRRsK2FHv2u4XO/d2X4T8bEY8A==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8C92W6rmTxnZijUr8PI3S1QhXG0l0Up6XH2/C/ht/TLwWJrrhD
-	aS5R9+c47SLJPrPC9RReYi21skLyYopsJCJ152G6DCu1JA08v5I4dbP2
-X-Gm-Gg: AZFdTZe+3Nzp+MjvxqsluaOftC8JvZ7wn81uKw+KbpngxTcb0D9N/mETqryPE/zNYVu
-	rEJCvyLfertJtQNxmlEGxfNkfyk9t2xL0S+4l0C3P/RX2fhSzk2JEwPs64hW0KDJlCAl7i7iL7B
-	/f4aTABWsFgRHXBJ1tjRr/PX+M4Ovkkjfz45wicvlCjCgNSIU5QOqnabHAP0Zvg5Qd6nH7zEDhu
-	jZouSt1TaKPjcqe9VD8PeQbsARw0Fkp9llY2gs1dnpFh1Mm2wmnlonYLKFgYxryZNF42w/xTALE
-	xwYAZmecnFjRbijjXo8c6hv1epsjkx+PKF0TDL1HP5WKuLgyGe93G3Q+hSO65jFZXRIl67BcllC
-	CYt3MueWM8Wm/GYI1Prgpzcera4t59vslgIQEv6mVEBdR7Z+vcRh6pYyXqkND+6y6UoCchaUE64
-	LqHCUiDnvGcYdzX3NouW75voC5G69wqv37i8mC/b1BdGxpNUI40gRvw5MjvhwJF5R3mrdVAGOko
-	uvof71l2G4qZ2p8rDDxTcWvPco+oIbmqrncEPjN7P614iJUtsGN/f8GGZeFyVBNTsc7zZFmNbCS
-	X9azcdE/ysJ3t90HS2SuWGAVoXL1WIEylWN4tQ==
-X-Received: by 2002:a05:6000:250e:b0:492:7efe:3fc4 with SMTP id ffacd0b85a97d-4abb4b86685mr2252995f8f.21.1795135463090;
-        Thu, 19 Nov 2026 16:44:23 -0800 (PST)
+        bh=HAT1U9wNy0EKa5OwUErsAyJuiK065rYrDAt2SMRpc5U=;
+        b=Cqnxk9wz0Xf8p62QPRh6wqWUaj6v9mXQsriLuN8UnEMEfuadKYAqGLmj2PlPcQQgMw
+         1F9YfjUJxiJIwBYb8pbaXU9k5zEnDIATH2HproQtfLWzbPfvlmJevYLApPJd0nFmAFvb
+         eCL3LX5N5r0CXCaN153CD3JIDOrqlPNExUtHaZSc6f0MKrh+1F1+SAsYm3d0srADQgj9
+         eBVmVczMSBocwB87o4u9yN8jVGEZEsR8A49kyeuk+ZfV0H/NkbXekdXmGc0YsUue0UKq
+         q+N6TkbS/z9ta2AYlybHRpNyQ/TiugRwMNXTWP/GUhXi3Pelpl7zkoXZLcPGlVK0fQAA
+         5VYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795135465; x=1795740265;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HAT1U9wNy0EKa5OwUErsAyJuiK065rYrDAt2SMRpc5U=;
+        b=un2fdsrHaFFVh4wK9b1hhkFNuhnp43vaVSl+koWUlDlMxwnkm9ytcRzYwG/94wb/iQ
+         IyMilSAxasBiJYwR+hPJdrd/1AKaz+3cZ0ZHc5UIGGuz9rOeoOp1kdcmwzr92vlyFhVr
+         noYG8I6jfpCjwbUjY/oWbkSmBG4YeVvBZEYSOABtofmqWokEqAaLwhWOiT6KFLR3NP8A
+         qpZPrdC8UuTjZeRVp6p5u408mkGhr6MIJJ3mUUcSXEwj9Ps0S5EcphLw9pSm0XCgQVd6
+         P3ZArL/LEbzweigSExCsym8V1gLUZICZCWvsVkRkdgAZBWmepdrSDz+xSx6eLtw65mvj
+         Pj7Q==
+X-Forwarded-Encrypted: i=1; AL+hErG/H80EU+0OJr2DcMjuyGDhpHlXH1n+EUqDPIWl4e36f/XR5DDYBQx8+svC3NvKSGxAyTv+WjLooEc84w==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+KIkt2hQ0vtFj9jS8Q8Y67t8TfKTDUFYhWFiC0q/mSTVRUPBC6
+	b/oMQ0VRrVJu0rj5hxXiHuscvimtDfXWy9yqusMi9ey1GAh+9dzWDQ2X3KfVG49l6qY=
+X-Gm-Gg: AYBFou3srTnzLULYhQ5xLC8g1uHOy1qH39q6wgnANMorNCvS6rmF0N9nkg9vO0vQa4+
+	pb2CpQrCnKCx6j2/mElkzInMDjPECPTfEcpC6o78plj4JZROyTrswBMi368mqN8ztQOxFX48Z0U
+	FEcC25NEHkRppsotbSZl0TiaSmyNrYJy1hD3bADP61WkAd6B+iplTxe8MuTsl2FazXEsBIEV4Vm
+	pYZgQy1rOp0zgIBZu8gFuSEqpA5XMv0hS+MTpVl2N7bEOlkSl35OoVLcPL5m5BOyovVm2CkqPbc
+	YurNJTmWbdh2hVKUtsQ4P7xGeBmcfYAwjFsvIRvZBPT5ZdD3AKdXwv1m0oxAFiKN+VmS5M9/Ii3
+	nl3YfYbTbIxzeH272VSPM6crhXUlLFE9QlM4FegXk8OqNtd3mdWDS2MDF8zpKMyp/V8E8J1r5yU
+	2jFxB0qXv0kO9+EWC4xO6GZ7r9pjmq8zvH+IeImec99V5hmOHTXDNxbqo4d2rwWP1Bf2H8xftco
+	SOEmpWoEN5/Ec9qHPZKp/1Jwc4wr/XkMneobuKDcnNlyj7nqal/3mkX091GO+Sya0n7MtLIbjBa
+	6iADEvnwBzRWdGxVDNYWPibcvyy/vFViTmiBOQ==
+X-Received: by 2002:a05:600c:4515:b0:4bb:659c:b8db with SMTP id 5b1f17b1804b1-4bb88813b27mr26497435e9.12.1795135464741;
+        Thu, 19 Nov 2026 16:44:24 -0800 (PST)
 Received: from unknown.m0rf30.ray ([2a02:b027:10:5673:5f22:93eb:1bb8:839c])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4ab6a67f204sm2686669f8f.21.2026.11.19.16.44.21
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4ab6a67f204sm2686669f8f.21.2026.11.19.16.44.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 16:44:22 -0800 (PST)
+        Thu, 19 Nov 2026 16:44:24 -0800 (PST)
 From: Gianluca Boiano <morf3089@gmail.com>
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -94,10 +95,12 @@ Cc: Gianluca Boiano <morf3089@gmail.com>,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 0/2] ASoC: codecs: add Texas Instruments TAS2557 smart amplifier driver
-Date: Fri, 20 Nov 2026 01:43:22 +0100
-Message-ID: <20261120004414.1686884-1-morf3089@gmail.com>
+Subject: [PATCH v4 1/2] ASoC: dt-bindings: add Texas Instruments TAS2557
+Date: Fri, 20 Nov 2026 01:43:23 +0100
+Message-ID: <20261120004414.1686884-2-morf3089@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261120004414.1686884-1-morf3089@gmail.com>
+References: <20261120004414.1686884-1-morf3089@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,51 +112,239 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TAS2557 is a mono Class-D smart amplifier with an on-chip DSP for
-speaker protection, controlled over I2C, with audio over I2S/TDM. The
-DSP needs a firmware image tuned for the speaker; without it the chip
-passes no audio.
+Document the TAS2557 mono Class-D smart amplifier with an integrated
+DSP for speaker protection. The device is controlled over I2C and
+receives audio over I2S/TDM (ASI).
 
-Patch 1 adds the binding, patch 2 the driver. One node describes one
-chip or a stereo pair on one bus, using the reg-array convention of
-ti,tas2781.yaml: reg index 0 is DEV_A, index 1 is DEV_B.
+One node describes either a single device or, with a two-entry reg, a
+stereo pair sharing one bus. The device at each reg index applies one
+half of a stereo-tuned firmware image: index 0 is DEV_A and index 1 is
+DEV_B. No channel selection property is needed, as for ti,tas2781.yaml.
+reg is limited to two entries because the firmware format only defines
+mono or DEV_A/DEV_B devices.
 
-v4 uses tas2781-comlib for register access, adds the firmware rate
-constraint asked for in the v2 review, and addresses the v3 review
-from Mark Brown, Krzysztof Kozlowski and Markus Elfring. The
-ti,imon-slot-nos/ti,vmon-slot-nos properties are gone: the register
-they were written to only holds the I-sense scale. I/V sense now stays
-on while the amplifier plays, as in TI's driver. Details are in the
-per-patch changelogs.
+reset-gpios and interrupts are per device: the item at array index N
+configures the device at the Nth reg entry, and a single entry is
+shared by every device in the group. A pair wired to independent RESET
+and INT pins uses two entries each.
 
-Testing: built against broonie/sound for-next with W=1, checkpatch
---strict and dt_binding_check clean. The v4 driver was run in mono on
-a Xiaomi Redmi Note 6 Pro (SDM636, ASI2) on a 7.2-based kernel:
-firmware load, playback, stream restarts without a program reload and
-unbind/bind. Stereo pairs, TDM, DSP_A, ASI1 and suspend were not
-tested with v4.
+ti,asi-port selects which of the two audio serial interfaces, ASI1 or
+ASI2, is wired to the host.
 
-Link to v3: https://lore.kernel.org/linux-sound/20260717233402.414326-1-morf3089@gmail.com/
-Link to v2: https://lore.kernel.org/linux-sound/20260711145722.188556-1-morf3089@gmail.com/
-Link to v1: https://lore.kernel.org/linux-sound/20260709221331.989109-1-morf3089@gmail.com/
+The DSP boots from a firmware image generated per speaker design with
+the TI PurePath Console tuning tools. The optional firmware-name
+property selects a board specific image shared by the whole group. The
+default names are the mono images, so a pair must set it.
 
-Gianluca Boiano (2):
-  ASoC: dt-bindings: add Texas Instruments TAS2557
-  ASoC: codecs: add TAS2557 mono smart amplifier driver
+Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
+---
 
- .../devicetree/bindings/sound/ti,tas2557.yaml |  158 +
- MAINTAINERS                                   |    1 +
- sound/soc/codecs/Kconfig                      |   13 +
- sound/soc/codecs/Makefile                     |    2 +
- sound/soc/codecs/tas2557.c                    | 2973 +++++++++++++++++
- sound/soc/codecs/tas2557.h                    |  207 ++
- 6 files changed, 3354 insertions(+)
+Notes:
+    Changes in v4:
+    - use the ASoC subject prefix (Mark Brown)
+    - reset-gpios and interrupts take one entry per reg index, a single
+      entry is shared by the group (boards with independent RESET/INT
+      lines per chip)
+    - add ti,asi-port to name the wired ASI (Mark Brown)
+    - drop ti,imon-slot-nos and ti,vmon-slot-nos: the chip has no slot
+      field for I/V sense, SNS_CTRL only holds the I-sense scale, which
+      the firmware programs
+    - require firmware-name for two chips, the default names are mono
+      images
+    - move the review history out of the commit message (Krzysztof
+      Kozlowski); Reviewed-by not carried over because of the property
+      changes
+    
+    Changes in v3:
+    - single-node reg-array model (up to two devices), matching
+      ti,tas2781.yaml; drop ti,channel, derive DEV_A/DEV_B from reg order
+    - rename ti,imon-slot-no/ti,vmon-slot-no to the plural
+      ti,imon-slot-nos/ti,vmon-slot-nos arrays; firmware-name maxItems: 1
+    
+    Changes in v2:
+    - add the four mandatory supplies to "required" (Wang Sen)
+
+ .../devicetree/bindings/sound/ti,tas2557.yaml | 158 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ 2 files changed, 159 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/sound/ti,tas2557.yaml
- create mode 100644 sound/soc/codecs/tas2557.c
- create mode 100644 sound/soc/codecs/tas2557.h
 
-
-base-commit: cee03387d20bb267663085d9ac2622ff9263d302
+diff --git a/Documentation/devicetree/bindings/sound/ti,tas2557.yaml b/Documentation/devicetree/bindings/sound/ti,tas2557.yaml
+new file mode 100644
+index 000000000..4a7f90659
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/ti,tas2557.yaml
+@@ -0,0 +1,158 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2026 Gianluca Boiano <morf3089@gmail.com>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/ti,tas2557.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Texas Instruments TAS2557 Mono Smart Amplifier
++
++maintainers:
++  - Gianluca Boiano <morf3089@gmail.com>
++
++description: |
++  The TAS2557 is a mono, digital-input Class-D amplifier with an
++  integrated DSP for speaker protection, controlled over I2C, with
++  audio over I2S/TDM (ASI). The DSP runs a firmware image generated for
++  the speaker with the TI PurePath Console tuning tools.
++
++  One node describes one device or a pair sharing one ASI bus, using
++  the reg-array convention of ti,tas2781.yaml. The device at reg index 0
++  is DEV_A and the one at index 1 is DEV_B; they select the two halves
++  of a stereo-tuned firmware image. The firmware format defines no
++  other device types, so a node has at most two devices.
++
++  Datasheet: https://www.ti.com/lit/gpn/tas2557
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: ti,tas2557
++
++  reg:
++    minItems: 1
++    maxItems: 2
++    description:
++      I2C address of each physical device sharing this node. One
++      entry configures a single mono TAS2557. Two entries configure a
++      device pair; the device at index 0 is DEV_A and the device at
++      index 1 is DEV_B.
++
++  '#sound-dai-cells':
++    const: 0
++
++  reset-gpios:
++    minItems: 1
++    maxItems: 2
++    description:
++      GPIO connected to the active-low RESET pin of each physical
++      device sharing this node, one entry per reg entry. A single
++      entry is shared by every device in the group.
++
++  interrupts:
++    minItems: 1
++    maxItems: 2
++    description:
++      Fault interrupt output (INT) of each physical device sharing
++      this node, one entry per reg entry. A single entry is shared
++      by every device in the group.
++
++  vbat-supply:
++    description: Battery/boost input supply (VBAT), 2.9 V to 5.5 V.
++
++  iovdd-supply:
++    description: Digital I/O supply, 1.62 V to 3.6 V.
++
++  avdd-supply:
++    description: Analog supply, 1.65 V to 1.95 V.
++
++  dvdd-supply:
++    description: Digital core supply, 1.65 V to 1.95 V.
++
++  firmware-name:
++    maxItems: 1
++    description:
++      Name of the DSP firmware image to load. Defaults to a name
++      derived from the silicon revision, which is the mono image, so a
++      device pair must set this property. A device pair shares one
++      image; each device's half of it is selected by its reg index,
++      not by this property.
++
++  ti,asi-port:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [1, 2]
++    default: 2
++    description:
++      Which audio serial interface (ASI1 or ASI2) of the chip is
++      wired to the host. Only the selected interface is configured.
++
++required:
++  - compatible
++  - reg
++  - '#sound-dai-cells'
++  - vbat-supply
++  - iovdd-supply
++  - avdd-supply
++  - dvdd-supply
++
++if:
++  properties:
++    reg:
++      minItems: 2
++then:
++  required:
++    - firmware-name
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@4c {
++            compatible = "ti,tas2557";
++            reg = <0x4c>;
++            #sound-dai-cells = <0>;
++            reset-gpios = <&tlmm 77 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&tlmm>;
++            interrupts = <73 IRQ_TYPE_LEVEL_HIGH>;
++
++            vbat-supply = <&vph_pwr>;
++            iovdd-supply = <&vreg_l6b_1p8>;
++            avdd-supply = <&vreg_l6b_1p8>;
++            dvdd-supply = <&vreg_l6b_1p8>;
++        };
++    };
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        audio-codec@4c {
++            compatible = "ti,tas2557";
++            reg = <0x4c>, <0x4e>;
++            #sound-dai-cells = <0>;
++            reset-gpios = <&tlmm 77 GPIO_ACTIVE_LOW>,
++                          <&tlmm 78 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&tlmm>;
++            interrupts = <73 IRQ_TYPE_LEVEL_HIGH>, <74 IRQ_TYPE_LEVEL_HIGH>;
++
++            vbat-supply = <&vph_pwr>;
++            iovdd-supply = <&vreg_l6b_1p8>;
++            avdd-supply = <&vreg_l6b_1p8>;
++            dvdd-supply = <&vreg_l6b_1p8>;
++
++            firmware-name = "tas2557-stereo.bin";
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d37ed235d..8e024bcfb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -27724,6 +27724,7 @@ M:	Sen Wang <sen@ti.com>
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/sound/ti,tas2552.yaml
++F:	Documentation/devicetree/bindings/sound/ti,tas2557.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tas2562.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tas2770.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tas27xx.yaml
 -- 
 2.56.1
 
