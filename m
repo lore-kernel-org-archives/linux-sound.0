@@ -1,57 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795136525;
-	b=bsdJzXxc+X+UFeRCVfPYhgNNol5wPcLo8Mryy2napKUJ8jGfmVTdkLIye8BrwBHszZzw
-	 Uzf/cR4y4D6ME3fpW77AwdauHH+hh9ATX7L66PQl0ACDTUvBb2WHAXR2ecrpA2mua4foE
-	 aA4J1Sp0u/0m68N/cxodcBQMYawOyPBT0nB4meOlxhONnfo8aL6cvzEpU+oTV7FTspPn4
-	 ypcZeLHWLk+BtipXCtiO0NVXtXMyzYyt3uQrHU7SRMfW5oBCjGgU0eRCrJEnYOdU+94HL
-	 Q+cJAKZIHW+CuU3NjD/wURDxMPwTbfTVW1Bsye6BOE1yas9zD4SJpljZ/JvqmMCra/A==
+	t=1795138756;
+	b=URLo7R6BFzBRoohroWKA5B+w6re7YLCu/ZFE17pct5ArK2FPNAOugAC9U6C6fu8xK1JL
+	 puZrpjazEHfSKvLIjQm1ZrLOilCJoVtX6UEx4xi6HHXqB+8Fgd8QNnBRDrBf/5I/2pY+7
+	 AOo5L45vDb/ROpm0f9Uhsjbcl6KhVrl7ElwvNh3jomRkMfveDUHaa4jbiKoZnyOsUok42
+	 Mf4SdItclkhJKqNIiEyZZ9kaaK9QjAtxViBPcvfnLLBH7o8CiUAFfwggLD71Jo9pO1dvS
+	 71M3V7k+lFXTHFxqId5+Xok26YZ74FhZGUzAyB6u6BBSBL8GI0Ru6ShknIN0L73fYuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795136525;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=/tdEX8rylVykmHr6S1EU1bYPERjT+t46e1UnLYqAt70=;
-	b=IOOk6/9we5TBgXPTMYs5lCPwyKGjkMtUfjl+Y3lGuB/2LGHrbYM6Px1ihB+BQfC8+n4/
-	 U7vZRUl9OtD+qD14wvblZ8DEAyDb5QWkzzeGNzITXPmHTC/BVBwdB0elSpim71GIv6ru9
-	 dOvk1lm4Sd/HLNNwZJ/Wfn+8nMXktRHq2jHX4raLAzQ4lcmNtzn8E+YeC0QS4gPBxqMqI
-	 /7SssrFHJfxKuEIm7AdW3WzzxfHcBDD4ENPg+PqwrDoTTcP19wQDIZB7O5lEuFAYl8Pq+
-	 oqAEHF5eI9nZhIxtrr2nIN5J62lmTpxLZvym3FxDGhUXpz/DIfyyHrfHrNXGUnAS7aA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795138756;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+	bh=+4gtkgXVA0XgvD3lHDgwF805+IW47uvAyK6BBLzsiWc=;
+	b=Rk9+dCtO/jo/ZRApKnSAsOyB7xHelw5qCfvK5Gl4NmOQhFZ51tBbRhkctQzuVdqvtIXn
+	 ofQm8J27wvFsfmXqSvlW9NRkMairHvvFfQ3JHYVdr49ao6SGXc9GTLCQhwG3XcNMwCiEY
+	 jGBfpC7MNfXhttSrEKHLMDtA84l2v7BKYWLryS1gk5s8/HsOhhLqGG4k/QvAuuWSy8QC7
+	 J1bf2++5t96MDNRDl8FxdZ5fm7Jypk7DOnbuceRsyMX7F41mkgTMCEdbECDOOOcgeoi2T
+	 V3+yKbJeH8mURl4SPwZ+bZtO02By0IQl4schWgCicKm24mCJyfFIFXvTR7WXGF0UwVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bqqgBzmZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=YEGxNLbX;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D216606A325;
-	Fri, 20 Nov 2026 01:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D810606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 01:39:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D810606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bqqgBzmZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326F21F000C4;
-	Fri, 20 Nov 2026 01:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795136525;
-	bh=/tdEX8rylVykmHr6S1EU1bYPERjT+t46e1UnLYqAt70=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bqqgBzmZZ7hSLh04CExRHXpBGiE8G4hCy0iw/jD74mJfEEBg/pfhYaLFLm6t/vovS
-	 b3XXIcWLWh8J1Udq5XNgMWjXOmSmBnVQZeeEDokAlNQslUJIm8yWP/wxE94MztrTFh
-	 JZBrN4foR8LrHTRchjrOnwgSxNN8l9sIJfBZR2Y8NSmX8AcBp8bV/5uUQ0FHoJkcGa
-	 tPcHwsK1FvCrwoETXPjdAuydNX2tdPjTyNwExsltDfZvsuMbauEskJN4rpx2JFHe0z
-	 JELJs8GOw7tjSg0AvesBZKPBv0gCC+OOh50VmIQeG4ZOHvLhb7cFXZVtxqIW8A5Ea1
-	 Al6nDJn4YFeag==
-Message-ID: <sashiko-outbox-224281@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/2] ASoC: codecs: add TAS2557 mono smart amplifier
- driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Gianluca Boiano" <morf3089@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261120004414.1686884-3-morf3089@gmail.com>
-References: <20261120004414.1686884-1-morf3089@gmail.com>
- <20261120004414.1686884-3-morf3089@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Nov 2026 01:02:04 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=YEGxNLbX
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=+4gtkgXVA0XgvD3lHDgwF805+IW47uvAyK6BBLzsiWc=;
+	b=YEGxNLbXrNCRiru6LRF6hWowaGfDswvDpCmI4ThObmvLxg3n9h+I9exKU+l5G5/i11HIQ3uJ0
+	EKgxngWBrEunNgHJggfTYpohImC4YVhr0grgxR5t5j5FvCw+t8yN1kKDJ1CDgUla4OyG4clwDe9
+	5gGcuwE8gBWx+6lB+YSNYDU=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jVyfd5NJHz1cypj;
+	Fri, 20 Nov 2026 09:38:49 +0800 (CST)
+Received: from whupemo500017.china.huawei.com (unknown [7.152.184.243])
+	by mail.maildlp.com (Postfix) with ESMTPS id A18C84055B;
+	Fri, 20 Nov 2026 09:39:10 +0800 (CST)
+Received: from [10.67.108.64] (10.67.108.64) by whupemo500017.china.huawei.com
+ (7.152.184.243) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Fri, 20 Nov
+ 2026 09:39:09 +0800
+Message-ID: <c0880561-cc89-43d6-b305-69e6821090fa@huawei.com>
+Date: Fri, 20 Nov 2026 09:39:09 +0800
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,237 +61,184 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 1/2] ASoC: SOF: ipc4-control: Fix out-of-bounds
+ backup restore in bytes ext put
+To: <sashiko-reviews@lists.linux.dev>
+CC: <linux-sound@vger.kernel.org>
+References: <20261119121446.124833-1-yeweihua4@huawei.com>
+ <sashiko-outbox-223133@kernel.org>
+Content-Language: en-US
+From: Weihua Ye <yeweihua4@huawei.com>
+In-Reply-To: <sashiko-outbox-223133@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ whupemo500017.china.huawei.com (7.152.184.243)
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [Medium] ASoC: tas2557: tas2557_power_up_locked() clobbers unmuted
-  state on reload
-- [Medium] ASoC: tas2557: tas2557_startup_sequence() powers PLL and
-  clk-err before ASI
-- [Low] ASoC: tas2557: missing offset check for bulk write in
-  tas2557_load_block()
-- [Low] ASoC: tas2557: tas2557_parse_dt() fails probe with -ENOSYS when
-  !CONFIG_OF
---
 
-commit b6c7726849d63f604c14fd11d9de768bf9364c52
-Author: Gianluca Boiano <morf3089@gmail.com>
+On 2026/11/19 21:04, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 4 potential
+> issues to consider:
+> - [Medium] ASoC: SOF: restored scontrol->size overwritten in
+>    sof_ipc4_bytes_ext_put()
+> - [Medium] ASoC: SOF: scontrol->size not restored on EFAULT in
+>    sof_ipc4_bytes_ext_put()
+> - [Medium] ASoC: SOF: ipc4-control: incomplete backup restore when
+>    priv_size is 0
+> - [Medium] ASoC: SOF: ipc4-control: incomplete msg restore in
+>    sof_ipc4_set_get_kcontrol_data()
+> --
+>
+> commit 3d54ef5fbf4ff729417838f0907d7062db9c4154
+> Author: Ye Weihua <yeweihua4@huawei.com>
+>
+> ASoC: SOF: ipc4-control: Fix out-of-bounds backup restore in bytes ext put
+>
+> This commit records the backup size in old_ipc_control_data_size to avoid an
+> out-of-bounds read when restoring bytes control data, restores msg->data_size
+> when replaying the backup, and moves the scontrol->size update in
+> sof_ipc4_bytes_ext_put() until after sof_ipc4_set_get_bytes_data() returns.
+>
+>> diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
+>> index e29c8d89284af..f8b4842f39365 100644
+>> --- a/sound/soc/sof/ipc4-control.c
+>> +++ b/sound/soc/sof/ipc4-control.c
+>> @@ -58,6 +58,8 @@ static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
+>>   
+>>   	/* It is a set-data operation, and we have a valid backup that we can restore */
+>>   	if (ret < 0) {
+>> +		struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
+>> +
+>>   		if (!scontrol->old_ipc_control_data)
+>>   			goto unlock;
+>>   		/*
+>> @@ -65,9 +67,18 @@ static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
+>>   		 * configuration
+>>   		 */
+>>   		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
+>> -		       scontrol->size);
+>> +		       scontrol->old_ipc_control_data_size);
+>> +		scontrol->size = scontrol->old_ipc_control_data_size;
+>>   		kfree(scontrol->old_ipc_control_data);
+>>   		scontrol->old_ipc_control_data = NULL;
+>> +		scontrol->old_ipc_control_data_size = 0;
+>> +		/*
+>> +		 * If the message payload points into the restored buffer, its size
+>> +		 * must be restored as well, otherwise the last known good
+>> +		 * configuration would be sent with the size of the rejected data.
+>> +		 */
+>> +		if (msg->data_ptr == cdata->data->data)
+>> +			msg->data_size = cdata->data->size;
+>>   		/* Send the last known good configuration to firmware */
+>>   		ret = iops->set_get_data(sdev, msg, msg->data_size, set);
+>>   		if (ret < 0)
+> [Severity: Medium]
+> Does checking msg->data_ptr == cdata->data->data miss generic bytes controls
+> (SOF_IPC4_BYTES_CONTROL_PARAM_ID) and leave msg->extension un-restored?
+>
+> When data->type == SOF_IPC4_BYTES_CONTROL_PARAM_ID,
+> sof_ipc4_set_get_bytes_data() calls sof_ipc4_set_bytes_control_data(), which
+> copies the new payload into a separate msg_data buffer and sets
+> msg.data_ptr = msg_data:
+>
+> sound/soc/sof/ipc4-control.c:sof_ipc4_set_bytes_control_data() {
+> 	...
+> 	msg_data->id = cdata->index;
+> 	msg_data->num_elems = data->size;
+> 	memcpy(msg_data->data, data->data, data->size);
+>
+> 	memcpy(&msg, &cdata->msg, sizeof(msg));
+> 	msg.extension = SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
+>
+> 	msg.data_ptr = msg_data;
+> 	msg.data_size = data_size;
+>
+> 	ret = sof_ipc4_set_get_kcontrol_data(scontrol, &msg, true, lock);
+> 	...
+> }
+>
+> Because msg->data_ptr points to msg_data rather than cdata->data->data, the
+> replay call re-sends the rejected msg_data buffer and size instead of the
+> restored backup.  Even when msg->data_ptr == cdata->data->data,
+> sof_ipc4_bytes_ext_put() overwrites data->type from user space before
+> sof_ipc4_set_get_bytes_data() sets msg.extension, so msg->extension is not
+> restored from the backed-up cdata->data->type either.
+Pre-existing issue, will fix in another patch.
+>> @@ -630,6 +641,7 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
+>>   	struct sof_abi_hdr *data = cdata->data;
+>>   	struct sof_abi_hdr abi_hdr;
+>>   	struct snd_ctl_tlv header;
+>> +	int ret;
+>>   
+>>   	/*
+>>   	 * The beginning of bytes data contains a header from where
+>> @@ -686,21 +698,25 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
+>>   							 scontrol->size, GFP_KERNEL);
+>>   		if (!scontrol->old_ipc_control_data)
+>>   			return -ENOMEM;
+>> +		scontrol->old_ipc_control_data_size = scontrol->size;
+>>   	}
+> [Severity: Medium]
+> Can backing up and restoring scontrol->size bytes leave cdata->data
+> un-restored when a bytes control has no initial topology payload?
+>
+> In sof_ipc4_control_load_bytes(), scontrol->size is initialized to
+> sizeof(*control_data) + scontrol->priv_size.  When scontrol->priv_size is 0,
+> scontrol->size is only sizeof(*cdata), which stops before the flexible array
+> member cdata->data (struct sof_abi_hdr).  kmemdup() then backs up 0 bytes of
+> cdata->data, and on failure of copy_from_user() or iops->set_get_data(),
+> memcpy(..., scontrol->old_ipc_control_data_size) restores only sizeof(*cdata)
+> bytes, leaving the rejected ABI header and payload in cdata->data and
+> replaying the rejected cdata->data->size and payload to the firmware.
+Pre-existing issue, will fix in another patch.
+>>   	/* Copy the whole binary data which includes the ABI header and the payload */
+>>   	if (copy_from_user(data, tlvd->tlv, header.length)) {
+>>   		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
+>> -		       scontrol->size);
+>> +		       scontrol->old_ipc_control_data_size);
+>>   		kfree(scontrol->old_ipc_control_data);
+>>   		scontrol->old_ipc_control_data = NULL;
+>> +		scontrol->old_ipc_control_data_size = 0;
+>>   		return -EFAULT;
+>>   	}
+> [Severity: Medium]
+> Should this error path also restore
+> scontrol->size = scontrol->old_ipc_control_data_size, like
+> sof_ipc4_set_get_kcontrol_data() does?
+>
+> Because scontrol->old_ipc_control_data is kept across successful updates
+> while later updates change scontrol->size, a copy_from_user() failure on a
+> subsequent call restores the older backup into scontrol->ipc_control_data
+> without resetting scontrol->size, causing the next sof_ipc4_bytes_ext_put()
+> to kmemdup() the wrong size.
+Pre-existing issue, will fix in another patch.
+>> -	/* Update the cdata size */
+>> -	scontrol->size = sizeof(*cdata) + header.length;
+>> +	ret = sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
+>> +	if (!ret)
+>> +		/* Update the cdata size */
+>> +		scontrol->size = sizeof(*cdata) + header.length;
+>>   
+>> -	return sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
+>> +	return ret;
+>>   }
+> [Severity: Medium]
+> Does this overwrite the restored scontrol->size with the rejected payload
+> size whenever the backup replay succeeds?
+>
+> When the firmware rejects the new payload in
+> sof_ipc4_set_get_kcontrol_data(), the recovery path restores
+> scontrol->size = scontrol->old_ipc_control_data_size, frees
+> scontrol->old_ipc_control_data, and calls:
+>
+> 	ret = iops->set_get_data(sdev, msg, msg->data_size, set);
+>
+> When replaying the backup configuration succeeds, ret becomes 0 and
+> sof_ipc4_set_get_bytes_data() returns 0.  Then if (!ret) here overwrites the
+> restored scontrol->size with sizeof(*cdata) + header.length from the rejected
+> request, so the next sof_ipc4_bytes_ext_put() backs up the wrong size.
 
-ASoC: codecs: add TAS2557 mono smart amplifier driver
+Will send v2 to fix this, thanks.
 
-This commit adds an ASoC codec driver for the Texas Instruments TAS2557
-mono Class-D smart amplifier, supporting single and dual-chip groups, DSP
-firmware loading, and fault recovery.
-
-> diff --git a/sound/soc/codecs/tas2557.c b/sound/soc/codecs/tas2557.c
-> new file mode 100644
-> index 0000000000000..c49917149c863
-> --- /dev/null
-> +++ b/sound/soc/codecs/tas2557.c
-[ ... ]
-> +static const unsigned int tas2557_startup_common_data[] =3D {
-> +	TAS2557_GPI_PIN_REG,      0x15,	/* enable DIN, MCLK, CCI */
-> +	/* Power sequencing: Class-D + Boost first, then DSP/PLL */
-> +	TAS2557_POWER_CTRL2_REG, 0xA0,		/* Class-D, Boost power up */
-> +	TAS2557_POWER_CTRL2_REG, 0xA3,		/* Class-D, Boost, IV-sense power up */
-> +	TAS2557_POWER_CTRL1_REG, 0xF8,		/* PLL, DSP, clock dividers power up */
-> +	TAS2557_UDELAY, 2000,			/* 2 ms stabilisation */
-> +	/* CE1_IC =3D ASI1; TI's ASI2 build writes the same value */
-> +	TAS2557_CLK_ERR_CTRL, 0x2b,		/* enable clock error detection */
-> +	TAS2557_DBOOST_CFG_REG, 0x0b,		/* reduce full-band noise */
-> +	0xFFFFFFFF, 0xFFFFFFFF
-> +};
-[ ... ]
-> +static int tas2557_startup_sequence(struct tas2557_priv *tas2557)
-> +{
-> +	const unsigned int *asi =3D tas2557->asi_port =3D=3D TAS2557_ASI_PORT1 ?
-> +				  tas2557_startup_asi1_data :
-> +				  tas2557_startup_asi2_data;
-> +	unsigned int dout_reg =3D tas2557_asi_reg(tas2557, TAS2557_GPIO3_PIN_RE=
-G,
-> +						TAS2557_GPIO7_PIN_REG);
-> +	unsigned int chn;
-> +	int ret;
-> +
-> +	ret =3D tas2557_load_data_all(tas2557, tas2557_startup_common_data);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret =3D tas2557_load_data_all(tas2557, asi);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Only chip 0 drives DOUT of the shared ASI */
-> +	for (chn =3D 1; chn < tas2557->tas_priv->ndev; chn++) {
-> +		ret =3D tas2557_dev_write(tas2557, chn, dout_reg, 0x00);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-[Severity: Medium]
-Does tas2557_startup_sequence() power up the PLL and arm clock-error
-detection before the ASI clock pins and dividers are enabled?
-
-tas2557_startup_common_data powers up the PLL/DSP, waits 2 ms, and writes
-0x2b to TAS2557_CLK_ERR_CTRL while the ASI BCLK/WCLK GPIO muxes and ASI2
-dividers in the asi table are still disabled.  In a two-chip group, chip 0
-sits with clock-error detection armed and its clock inputs disabled for
-over 2 ms while chip 1 runs tas2557_startup_common_data, exceeding the
-0.34 ms hysteresis in TAS2557_CLK_ERR_CTRL2 and tripping a clock fault
-before chip 0's ASI pins are configured.  Writing TAS2557_CLK_ERR_CTRL in
-tas2557_startup_common_data also arms detection when dac_muted is true and
-the host has not started the I2S clocks, until tas2557_apply_mute_state()
-clears it later.  In addition, tas2557_load_data_all(tas2557, asi)
-enables DOUT on every chip before the loop zeroes dout_reg on chn >=3D 1,
-briefly driving the shared DOUT line from both chips at once.
-
-[ ... ]
-
-> +static int tas2557_load_block(struct tas2557_priv *tas2557,
-> +			      struct tas2557_block *block, unsigned int chn)
-> +{
-> +	const u8 *data =3D block->data;
-> +	unsigned int i;
-> +	u8 book, page, offset, value;
-> +	u16 sleep_time, bulk_len;
-> +	int ret;
-> +
-> +	dev_dbg(tas2557->tas_priv->dev, "chn %u: load block type=3D0x%x cmds=3D=
-%u\n",
-> +		chn, block->type, block->num_commands);
-> +
-> +	for (i =3D 0; i < block->num_commands; ) {
-> +		book   =3D data[i * 4];
-> +		page   =3D data[i * 4 + 1];
-> +		offset =3D data[i * 4 + 2];
-> +		value  =3D data[i * 4 + 3];
-> +		i++;
-> +
-> +		if (offset <=3D 0x7f) {
-> +			ret =3D tas2557_dev_write(tas2557, chn,
-> +						TAS2557_REG(book, page, offset),
-> +						value);
-> +			if (ret < 0)
-> +				return ret;
-> +		} else if (offset =3D=3D 0x81) {
-> +			sleep_time =3D ((u16)book << 8) | page;
-> +			msleep(sleep_time);
-> +		} else if (offset =3D=3D 0x85) {
-> +			bulk_len =3D ((u16)book << 8) | page;
-> +
-> +			if (bulk_len =3D=3D 0)
-> +				return -EINVAL;
-> +
-> +			if (i >=3D block->num_commands)
-> +				return -EINVAL;
-> +			/* Verify bulk payload stays within block->data */
-> +			if ((size_t)i * 4 + 3 + bulk_len >
-> +			    (size_t)block->num_commands * 4)
-> +				return -EINVAL;
-> +
-> +			book   =3D data[i * 4];
-> +			page   =3D data[i * 4 + 1];
-> +			offset =3D data[i * 4 + 2];
-> +
-> +			if (bulk_len > 1)
-> +				ret =3D tas2557_dev_bulk_write(tas2557, chn,
-> +							     TAS2557_REG(book, page, offset),
-> +							     &data[i * 4 + 3], bulk_len);
-> +			else
-> +				ret =3D tas2557_dev_write(tas2557, chn,
-> +							TAS2557_REG(book, page, offset),
-> +							data[i * 4 + 3]);
-
-[Severity: Low]
-Can a bulk write command (0x85) with offset > 0x7f overflow into the next
-page in TAS2557_REG(book, page, offset)?
-
-Unlike the single-write branch, the 0x85 branch does not check that the
-target register offset is <=3D 0x7f.  Because TASDEVICE_REG() computes
-(book * 256 * 128) + (page * 128) + reg and TASDEVICE_PAGE_REG() reduces
-reg modulo 128, an offset >=3D 0x80 increments the encoded page (or book)
-and wraps TASDEVICE_PAGE_REG(reg) to offset - 128, bypassing the
-TASDEVICE_PAGE_REG(reg) + len > 128 check in tas2557_dev_bulk_write().
-
-[ ... ]
-
-> +static int tas2557_power_up_locked(struct tas2557_priv *tas2557,
-> +				   unsigned int prog_idx)
-> +{
-> +	int cfg_idx, ret;
-> +
-> +	lockdep_assert_held(&tas2557->tas_priv->codec_lock);
-> +
-> +	cfg_idx =3D tas2557_find_config(tas2557->fw, prog_idx, tas2557->sample_=
-rate);
-> +	if (cfg_idx < 0) {
-> +		dev_err(tas2557->tas_priv->dev, "no config for program %u at %u Hz\n",
-> +			prog_idx, tas2557->sample_rate);
-> +		return cfg_idx;
-> +	}
-> +
-> +	if (tas2557->powered || !tas2557->prog_valid ||
-> +	    tas2557->devs[0].current_program !=3D prog_idx ||
-> +	    tas2557->devs[0].current_config !=3D cfg_idx) {
-> +		if (tas2557->powered) {
-> +			ret =3D tas2557_shutdown_sequence(tas2557);
-> +			if (ret < 0)
-> +				return ret;
-> +			/* Callers set powered again on success */
-> +			tas2557->powered =3D false;
-> +			tas2557->dac_muted =3D true;
-> +		}
-> +
-> +		ret =3D tas2557_set_program(tas2557, prog_idx, cfg_idx);
-> +		if (ret < 0) {
-> +			dev_err(tas2557->tas_priv->dev,
-> +				"firmware program load failed on power-up: %d\n",
-> +				ret);
-> +			return ret;
-> +		}
-> +	}
-[ ... ]
-> +	ret =3D tas2557_apply_mute_state(tas2557);
-> +	if (ret < 0)
-> +		goto err_shutdown;
-
-[Severity: Medium]
-Does setting tas2557->dac_muted =3D true when shutting down an
-already-powered group prevent tas2557_apply_mute_state() from restoring an
-unmuted state?
-
-When tas2557_hw_params() calls tas2557_power_up_locked() for a live
-rate_changed reload while the amplifier is powered and unmuted,
-tas2557->dac_muted is overwritten with true before tas2557_set_program()
-runs.  tas2557_apply_mute_state() then sees dac_muted =3D=3D true (and
-tas2557_hw_params() skips remute when rate_changed is true), leaving the
-amplifier muted and clock-error detection disabled.
-
-[ ... ]
-
-> +static int tas2557_parse_dt(struct tas2557_priv *tas2557, struct i2c_cli=
-ent *client)
-> +{
-[ ... ]
-> +	/* Which ASI's pins/dividers/format registers to program */
-> +	tas2557->asi_port =3D TAS2557_ASI_PORT_DEFAULT;
-> +	ret =3D of_property_read_u32(np, "ti,asi-port", &tas2557->asi_port);
-> +	if (ret && ret !=3D -EINVAL)
-> +		return dev_err_probe(dev, ret, "failed to read ti,asi-port\n");
-
-[Severity: Low]
-Does of_property_read_u32() fail probe with -ENOSYS when CONFIG_OF is
-disabled?
-
-Earlier in tas2557_parse_dt(), of_property_read_reg() is guarded with
-if (np) so non-OF instantiation falls back to client->addr and
-client->irq, and SND_SOC_TAS2557 does not depend on OF.  When CONFIG_OF=3Dn,
-the of_property_read_u32() stub returns -ENOSYS rather than -EINVAL, which
-causes this check to abort probe.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120004414.1686=
-884-1-morf3089@gmail.com?part=3D2
