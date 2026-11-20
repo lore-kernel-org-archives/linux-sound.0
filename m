@@ -1,94 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795173108;
-	b=WtgR5jYxmZl65sgaVFWOrCIqCMMtjEkxRZbukK0RKxzEoPEAD/BdISUJlU+VQbbqOzeP
-	 8In7YgHYOaQNFOulSnU0Q+c6fACKqKvJ4GF6UtU7MyMoaHXZUyvGJTUN3HhHIuExZufYZ
-	 xcaF+ZUXB4Yp458S4+wKxOjMxWsPJ5ay+TlBAP8K4Udirf4u8qBG7hHcaMH5TfhI0Cuc6
-	 r2gHVX+YYJU27bqNiFN1W5bzNvNdwjIWrMYjFsRcIYLsIJzqjv7zde13zr35Ef+R/JmvQ
-	 Ies6nc6eLb1WpjWuSR/ldWQsHsrY7i4xksWBY5PZcSAciWpDxO3uR7za18+mfF8ftDg==
+	t=1795173109;
+	b=hfHQYRzws0Gakc7Ibtrw3Oi+FqoMB+s3cImuT9j3T0AiwLA4oHCAhzJvVH1wv5ULTF4r
+	 nWuHmHkzxe9zLr3MC1UjELdqXdK9hjlbyW5T89P9tDtOIuKjlOxz3Ke/sU3qQXcTvrZgK
+	 buSwZ0B1sBTf8F23k8E9pZU4nDhku7f2V/JV7Z0zr3heu+A30YJchFkkF3iV378bdt1He
+	 2uz0cXpGVDcJSS2kbHsVkY0eN4UDchEi45rZ0eLcrJxOvwgpG4Don8QrJzJpQ04ZT3fXk
+	 Eu54K5gd+bT5nGqz5o11+Q2DWcZon1q98sY2ggSlJmrmVrip48M0zQO5/cIAt4y5HrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795173108;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795173109;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:X-Developer-Signature:X-Developer-Key:
 	 Content-Transfer-Encoding;
-	bh=QLWkNiy3nGWHUjhF+lKT3m6fXbXug21HuCcoF8psO5Y=;
-	b=gK7wki4Gq3Yz/A0+Gygdgu6ggNaHE1N3ufl+EHR23JxrNNO/hU38MX/cRF3MnsooIaBG
-	 LUdsMSORVpETiGa0+6R2pTG5MpMLa78Rldir+3rc8Jy661fVOC1sxtcDOj+Z57PweNrrN
-	 zuX+j+zrM9YHMRrTbfebxBtrGwYUzPjzApF3TJsV8vbjBtMPE4fC+awANGxU9OoVe4c/+
-	 8VQNsZ+z1Dke4OVqYlJ00cwRAetsIrafRbYPEyXq7reQk9gK6FiqjSp6OkhmCr896bXrp
-	 TxcD2KQTviNBByjwJPaopMYrt6F2FhI4chJ/jHojLaWeQii78XbtOrpl8TPbKa3YeOA==
+	bh=cuiicWRrAUyZnamF+M3BRWBEPX8j9IJGR3LJj1dql0I=;
+	b=T+V9sb3LdLGVrLcBbIBHopf3luUOgzEv8/oNpP9GHyhR2jGKhxYjZsL/M5bj7HQ/bQxm
+	 HGQSTYFVDSquS1QEk9L6DTjqOJCVdsxgPodEWPE+WisI3Pmifown4u3VkkBI1dJ7YwBzt
+	 yvZRpcPzb6ZAlU+1tvDAhT/IzP6Q111Jk39qXRwsfzP8cOhCIHaASN2JtAcTnKdXp2JHq
+	 X3Gmhe9tAEVLlJ+x6KIYpS2G4hwatPyEI3GCfkqiLV2CshNb12mtnTR9/GRreORWLia0Z
+	 i7V5CZSsFK9gtb5SPppWIe+0XHcxnkzOTemDc+fjjROCJBE0/KtPnh7iy9r1g/+IfHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=baylibre.com;
 	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b="Z/+yz/TJ";
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=M4o7stAM;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA0260A6F57
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:11:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DA0260A6F57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EE260A2621
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:11:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3EE260A2621
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=Z/+yz/TJ
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso6886115e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 03:11:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=M4o7stAM
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so6141555e9.0
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 03:11:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795173106; x=1795777906; darn=vger.kernel.org;
+        d=baylibre.com; s=google; t=1795173107; x=1795777907; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QLWkNiy3nGWHUjhF+lKT3m6fXbXug21HuCcoF8psO5Y=;
-        b=Z/+yz/TJ5gx/uHkjvZJLarmDD8W0E/mAgswzMMnNQ3pwYvTSZSz7Wn6bpzfoDZEuxy
-         QVfmltBcAIY7NCURjeQRLiUVhXT7FgOtDElyVn16ILko8YhTFGsMsyF2FGMOotjjXwAj
-         xMYE0664AWZNF16A+lyWbSsyQJ+4vb02tL4htVqOq0kuN3ci7WXxPIcZAIJwaTtsnqzJ
-         sJ+EehAJV//OfqAXjhTSK456H1CMeEyNTxrBEI37erZAEWq5j+kiOzFEkC5AMjvLBUPD
-         YI9fSdWcGmzHXIAaHYbZhnO0/0bZZMY/lAWCVq5U81qVE/wqTpGLCKw5VEcA30mAkGwv
-         p0+w==
+        bh=cuiicWRrAUyZnamF+M3BRWBEPX8j9IJGR3LJj1dql0I=;
+        b=M4o7stAMTlrwBv/WtVwSB9GIePNPlbc5sv+jGi4LMHFQbKjA6YVOrAMeoT9BbQLJCg
+         tH+M1Wa/E7CQtJMIAIZl6Drfmih9N5wkx8t+5OedQHxCxsRXI6QkiBUYD3Gga0IfY/OI
+         rlBvwRWrzxSME1abmyjZB9IA7GeMHBc2K2acQwXgf3oTvOZYfcMqdzBDE2qcGAZc74yu
+         yJ0vk1JdEsHRtmCEUQLctOG3gwmcBZH3Ovd0ylFYFz6VDFByL93l9DhykaebxoCQhqJv
+         LjgpJ62t4w3t8EwAlpFBzCFZ9X+j/K2NRdDufJJ0BIQjyfdnAzHuaE3HWTD4ykg7FOXp
+         hoZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795173106; x=1795777906;
+        d=1e100.net; s=20260707; t=1795173107; x=1795777907;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QLWkNiy3nGWHUjhF+lKT3m6fXbXug21HuCcoF8psO5Y=;
-        b=gHSTsNsx+uP0ef/1sWpvi5WVnrUKcneDqK9Xc3O35aSM9Qov7mFNqcitbQ7oAm4zu7
-         BqjOLkfY9sflh78DLjAV8s1zQVMaX5uNiIWQGJ358yEeCtmVn3SrJOjTC4h4eg07VGFp
-         5s97FU9zlWehF+XwPNbSir3jic8AVTW7ruZe3gj+2e8sUln4Wq+oZXHSEAonf6+dbnLL
-         brKrY0Hrn+Bgq1ET9B2vJXQ36o7UEvJuW1lglTowPV2xqt0RWZVkJeCjRn6rwdT2w0h7
-         cs+AFy19W9wPk+FaRpnRE66iixJDUO2yO7cIhClUj4/1VBddZl7JZU5eBIXJXga7OFhS
-         6uHQ==
-X-Forwarded-Encrypted: i=1; AL+hErHF2e4CQysRMCc1EPSQggQLkUzcSmgM/lPND+cbRyOgBgVBn5W9i6Xovg3Q/5H0mKh4qlYZVcrLJN2Yng==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/JihG3c6lgUBKJwqCdBEOo12rUd/eyhVToAPkfHf/gjc/r9khI
-	udm2jwYZQeDtMoUqnlcchbyYDgDNVB6LqzUPMUOu34c/Wp4B+p+X1Y9lbDlE48hR/h4=
-X-Gm-Gg: AYBFou1IAgNjNkkoeUaliqkbgdCPwWS6vpZufaxGp5x6zDsKyojIOBNZvSd3LrbnWfb
-	+azq9vHzBqlnEJMEtzXluZDPmujaK/K6X01H55TnngOfW83vukeZgXxMQzScnOc4LRY4tvWNVaZ
-	xhKDld6WvH8lR++wGvS/l2hJVgUlMP9dTeW1pM1Xbcg93A3F0M7WkYE32UFVOUon2hZ6jwdFbms
-	MpzTjFvMIaKYBps4/nY0EsMtOt5dZGpun6mzHWXd0tTpPqyK+KaCZtJpit7ODdQfEgqMIlIRmV4
-	HW3kHt7n0b2XHGrGncQUzlzTL7cJjxucYqQ3feH5Z11dyyfQmzWB7Ma9iDKGiWQ+tXQDS9wPWg2
-	iUqBLVl2TWI6c7jmDeUzPCEiADXVLX47PqSD9jKlOW1UrUrh6bIuXNV/6jq9sMK8fb45MrgZ7w3
-	2l/i8GZfBLR2P3sZkeUi4WjmGUak9omSzSyDrEkpXPcRlyTIlvafe1FrEe1GpKxbg9Utv1UYk/l
-	B+7VPz2Uxo2gRaWFHRiHocAQUOjnOiemz7TqLDa78amAQXbQCibN/OsW6yDr0DJDGaq9IkShjhI
-	SndfcyzBT2Z3rRcJgtX8OZ7W6TpQQagsyxA+G94tMpa+Yy5dzZ9QJutnghDAdxoGdbudvGBmHNL
-	YOPpVB5j10sodF4ty
-X-Received: by 2002:a05:600c:3ba4:b0:4ba:493b:3401 with SMTP id 5b1f17b1804b1-4bb8880abafmr66297285e9.9.1795173105614;
-        Fri, 20 Nov 2026 03:11:45 -0800 (PST)
+        bh=cuiicWRrAUyZnamF+M3BRWBEPX8j9IJGR3LJj1dql0I=;
+        b=F3PJjGrImvcikIhf38ApT1bqy+ausSx5z/dDEofGVukQFZkT7mOx+TzF2uVjjTbgW6
+         lnm/YmU4pVFW0ohF/tM/TQAOJKVCKpvMSOmd/BrqvrhA31kaM+DXN0cX2zBdg6OByiKU
+         PsFQnaB5MuqpKIpwU6Qe1ELCtGfwIQNVQdDxoPSOzETZiWBRNIVWbyhGwe75EKVmzmoa
+         pfZvTJpAi3ENFr+YqlKwG5iD/kRBLb1+7yXIQLR0u+TaQSM0wCqUtNzeFAteJ44MmhDO
+         rjWe1+ybdTcmGQd3Nj8nyvoOqaZJp3XVF2ks4n1tvScJBTrsT408lg0PjhpPhtBew6XA
+         RWGg==
+X-Forwarded-Encrypted: i=1; AL+hErGcDkkXIyNzW6CjdxUk+yDns3bO3n9HHzmuby0ydDyTuWtTpD48NaXnlBH0vMUc4ZoJ/ZPw71J1OX+BTA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8PO1koqU2dSjdl4V5r3ujJSKKtx3XPVxV4OzuQMTUGhYdEH95l
+	2vcCLkJcy3fRwGJem0je3tEIf1ANhJjJV7jf7aGK5EOM8AmewmiLBWlmXCxEyppvvk8=
+X-Gm-Gg: AYBFou2u19xGkiXaaFMBaKEcCPCkykSRurbhO2SJz5733g2Dsvg5OlEGlBoPQq1yxAe
+	A40yKX4gUu4UpzrL3w3yZxCwmk660rq/sjXiGP0iOLq0sLV3n+IWh2eNE4yTMBtZEQ3eU+OpSYE
+	K/t0wH784N84jnyNeld6PG9lH8U+a5dO6JcyepBtGBvMSonXVDClmCSgo4867sSJe/3CZitppeH
+	+NrvI5cDrrryhzdqQqax9nuq7rXJTnF7daI7v41yv1e9NKmJtbSVJ6TAV1eRERTjhw3fLD1/wmv
+	lkjF5EUGmODEgb2aBUul6dkwbwfDNTDgsSZc7gwHCwpCvbcnqWbHJjaZjWgxJsmARPlNyrYMMYf
+	DekoMgDF8FKovz3KYig5DgbVcfj8XNAtX1wUY2o0bY4+gmhqNfg4oY08CDPA3yqwIq2Rjldz4ld
+	db9axrfO9M0IbdpDquiySE/hfYQ7WVrrsfWGs5pENrHu6XhBHMSL10oMWWiyet7JsgaQGfOewR4
+	M8JaSDDyGATGlkCvowM92VpyLnD5EIdGF8qtrdECc/3oWAH3tlmobhPqUItDM7sXMC/RVtOhdJw
+	WNV2gedXWtf64k7TzcKvZ1XvZ0/OSzi4NEymIW+N9Pk9uTe5AXEXP3zn3+gu1yChde992I7KcfD
+	+Q7guLPHyqwscDapj
+X-Received: by 2002:a05:600c:530f:b0:4ba:6d8:dfad with SMTP id 5b1f17b1804b1-4bb88811eecmr54699805e9.14.1795173107047;
+        Fri, 20 Nov 2026 03:11:47 -0800 (PST)
 Received: from localhost (p200300f65f19a904be03815e1634e776.dip0.t-ipconnect.de. [2003:f6:5f19:a904:be03:815e:1634:e776])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb884a15absm67903925e9.9.2026.11.20.03.11.45
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb895f66e1sm30127895e9.0.2026.11.20.03.11.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 03:11:45 -0800 (PST)
+        Fri, 20 Nov 2026 03:11:46 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH v2 09/10] slimbus: qcom-ngd-ctrl: Allow untainted use of driver_override
-Date: Fri, 20 Nov 2026 12:11:10 +0100
-Message-ID:  <73098a91d24bd8e2c27ee4de81aef7a215ab538f.1795171088.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v2 10/10] ASoC: samsung: i2s: Allow untainted use of driver_override
+Date: Fri, 20 Nov 2026 12:11:11 +0100
+Message-ID:  <39437b69f33702ba7d77dacf03131df51166f21a.1795171088.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
 References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
@@ -102,7 +105,7 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=766; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=bKCrn8vViXTu0oRlxufm/tfBP+e4swrbdxcQ4l2ZgRo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBrACrdvLhzTzaMKwmKnBXhF0uK0DkOtNVzco9fG yM02k33F1iJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCawAq3QAKCRCPgPtYfRL+ TniQCACDWbt5o9mgMSvrlUKqiqBaTVs/F+dfkkTAAv/ojdKir3ePdcwWOewFi7fwlSENK4UuK20 QRSJ0IZiKzy+DoENmo6F9pgy+tGFYAHT+p20bUom8ZEvGdksgkHZTLJM/WjP1vm9xsN3u/9C0FD Evc6HmbZovSEcyAA+wULCRVDEZgj4TIq4SZQYGtssF9KljfUwcNtrN62Dfw6uFOvOjkShZq0PSk tt9623PDRiQ4WcJjQc2vraz+jzX12aPKsCBssCdDaT/PNW3iqHEpUmmx/BrbE7KCwq7/mHJ3a+4 bXnSEzWrxBEQw/3c5i1BpaQARrYR4JXfTdh5TA3SV/fUfXvZ
+X-Developer-Signature: v=1; a=openpgp-sha256; l=752; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=NCbETnE3cdFv78WOvSzd9ijxsgB7KGRQfu1FsNiCyVA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBrACrfm5+Hbbkg181I/azv7rYjAKeGSAw2N4SsV v/BjYJkMVyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCawAq3wAKCRCPgPtYfRL+ TsBLB/46UlMqDqwhF+Hzrd6i1/DmRSvRbFxrJIZjT7l5JmCmW3xDm7xNCdTbVYZgYSrNJD+LoYX os+gkEOw7ZJz0BW2kOmIa8rRwy+Fzxu59p84xrBXmzGWWhlOkC9pSTp7jh3JhtWBG7EeqpmR+iS akISIODBb9ptlSCUYsxh3cRbH+yTuSq/daZTZIkFsckU5syIfAHheN3Sqn6Y8Ao60idv89m/wJR 1QONMUfpyBh6YxkCKIpMuZcOgyHfIy27wKMLviqJPlX3XnMYKmlTTIJT+DepajDdni5W2/2wH3Z ZUFLJu37X2l56fna0me5T3FMlnCA21oLk4Jfi9nu2hflrEk7
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
@@ -112,17 +115,17 @@ so should be allowed to match via that mechanism.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
- drivers/slimbus/qcom-ngd-ctrl.c | 1 +
+ sound/soc/samsung/i2s.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 8da75c4b50e5..f501740fa4a6 100644
---- a/drivers/slimbus/qcom-ngd-ctrl.c
-+++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1837,6 +1837,7 @@ static struct platform_driver qcom_slim_ngd_driver = {
- 	.driver	= {
- 		.name = QCOM_SLIM_NGD_DRV_NAME,
- 		.pm = &qcom_slim_ngd_dev_pm_ops,
+diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
+index 8a938d0d79f9..fdddd3d4eb65 100644
+--- a/sound/soc/samsung/i2s.c
++++ b/sound/soc/samsung/i2s.c
+@@ -1740,6 +1740,7 @@ static struct platform_driver samsung_i2s_driver = {
+ 		.name = "samsung-i2s",
+ 		.of_match_table = of_match_ptr(exynos_i2s_match),
+ 		.pm = pm_ptr(&samsung_i2s_pm),
 +		.support_driver_override = true,
  	},
  };
