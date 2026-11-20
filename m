@@ -1,96 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795179462;
-	b=kvSt5Dk90kC5nGcACIBDCFJQ5wTX4SXjLCJna22PXFNDj9WcFEfOK6JKjM80e5oxPmxo
-	 PDT1cS5nkTpNjBy5um6CqEwofeI8NncU7aiy1J9Kryf7h9TFi92EkYy4iu+jFMwgw78Ak
-	 pnm2w9BgYhqoZrPk7cUJnlAqEyWIRXYooZb3gBj2haxdpHOYFpproRuDwikW4DiHi0rEo
-	 PLvMeroJjnEQX++KMuLWqpE2gVvyDR18ycTnSFKRmEILT1AiEaK34FjGvZWYAVyjag5eg
-	 2mPMNelHlIwZxuP5jYSJceHVotwayB45IdACMqatFs7wCsn2Ob+UubPExXOnehqkxXA==
+	t=1795182198;
+	b=qphQtnrPgov4oRabWQBsIDm3fMvd7tIGXTZDMpWEzsbkdsFjGC+RH9A/3C4iYz5P+z2O
+	 fnHV6h2oquSgVFtRpj8jNO1cknH4ARn+S6DINWw9zpmcJRU6yyaf0ska14YVF+pFDuJOe
+	 YCcWSyYvVENysLPasFAEpv7ns9T5Tre2Ao+dbf1qYxfbFwlg5ymXTcskoIbxWIX1h4bg0
+	 d2TnvsgUh+p7rsEZiHfMGA/+hRKvhK5aPlLTEIsimjY3ffp24Zp+r/qzh6fZ9kTVQQoFr
+	 udKhTVM8ivWcaZI2ml9bIgB2VWla+sUNhOZP90KrmsBkN7sDVGwaoBBUSncjdaYHJbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795179462;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=KeRD44dQOO6ZDNI7a8JiTN75jiv8xR1iGSuq9LBDHK0=;
-	b=3JLj6nuuXSD8q4X1eVvYupjX4Ugvz5lBmUzXcIVgBfUhM8JTnAlsb3IgX3Z86o7/vkDL
-	 9nUSfxRQ1X+cSfJD8W1QpHUFOMhsp5YvS4LqbH0Dc8xPVvYloRUFE0rUAc4EX+bX4VTCj
-	 zrb7zcdl4hxmZNokj8swVilqyyFhlWCRZ13ebAN6FsxCbsH3Q7S7dJjsXTGQ5tnGz9GEp
-	 zNiM5/T0HYp3aLF7zgRY4yDCh2i4zHn0S027w6oeGn0v6KvAbY9QQQ6Sstxa2tTU6CHYd
-	 aTlcGsQAhBwPWr14rtaDly9b+GBkSXJC7QXS7yA2uu6qfv+pEZqboJ0x9EhIRxUQaFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795182198;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 User-Agent:MIME-Version:Content-Type:X-Rspamd-Queue-Id:X-Spam-Level:
+	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=A7ic0CVjCzukvSTgJx4WMC2o+tIKJQMs35wGW1e+9fA=;
+	b=Mz12TWRJwilWpO9wGNz31u3V9rAzL+AcpnJHjVWG7FCFGdmPqAYDt5QgLH4t5/n2Zza+
+	 jGGXl/wLzJ6rZxapWI5M/keXh/JDe6BQ51xiB8bzpQvtqgyRCJ4dDuytMvZKQbTqs4RJK
+	 2DwTSBeYoNlM3pJWv2/taR4K3B8mY+6lspMCvnTYTQ77f4nVV2opMWccJt35IlmUqXVU8
+	 fsNUboPfF4HzJRPBMwRAwmPgTmPrbvjSTEyO1lEV2K6wFI3e5bvupRDH84H9yMx9i787V
+	 QmbAekoAB8WuYe9E7BFSp8DVUYcwXq19pzDhR/keg0vS3Z4KIadM7l/P8oXr7rq6H4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="xc+/RY6m";
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Q61mpzs5;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wNCeRlBF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="oTWLN/I/";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sVCOfaoM;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8210D606A32A
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 12:57:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8210D606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE9A606A334;
+	Fri, 20 Nov 2026 13:43:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BE9A606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xc+/RY6m
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-33fb4680717so2173448eec.1
-        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 04:57:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795179461; x=1795784261; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KeRD44dQOO6ZDNI7a8JiTN75jiv8xR1iGSuq9LBDHK0=;
-        b=xc+/RY6mE5bOW4O6W5gmg4gOu1k2/kFtnQHpgVLHJtgbPGIRhrKRwoGhJrhblCxn+h
-         CzjDJ2yuxJGPeB1SYPdsf3M8s2oRmbU9IFlDdFxssBz3l+8R1vq0JIajfQ+6AIHWny+s
-         qijpk6JuGsHJEAjwF0k4VzfTIflN5H3cWa2UvDgOdYW/OteghkBjgq3dkzjjgPIRmyrR
-         b7TEvcxwf7cXtTOe5Je90WOZqLekoGgMN5EV7tbjpSVmJn8BcMfdPQd97aIwEQef2A6N
-         qPsWgVZNPxkdkZ+bk6HMHggZzp3xEyzgXyHsGhjMBo7MSDddugjn9q4LW3umHiUENL+o
-         o7/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795179461; x=1795784261;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KeRD44dQOO6ZDNI7a8JiTN75jiv8xR1iGSuq9LBDHK0=;
-        b=GIIwX3trIBI9ZLjNzHi27wpRC7qbjjqVJDWUgN7xFy9iG6jBz27PDd3N/GA3BiZwx3
-         7Qfl5Ph3z4+bIfRVbfHUnZiTc3cKK+TPL6avUfNqbIMAu1jv9e/BWIQU5xMBGE5G4N8S
-         iM2KflcTZbSUDgTo//xhbqBmRSZw1GNEAUe3ecGT21wJ13M7rw+bK3JuNwVEVi075MTi
-         WX4yveVD5p8X6iS2jt2ytQfBg4rCs+LxCR7SkBEZGkueJOQ4pLA58eLK4BHlJY8wxWpu
-         iO1MaRyA3JiRnbpDoJ9ZOPwRDeSaTKInsv9OFzuIlbMEmJQKU9KdzFrCfcIV+aYq5Zbt
-         +LeQ==
-X-Forwarded-Encrypted: i=1; AL+hErG6b4UGb7Z6ZhoQ0F2dM9isE1kpJOOt7r+D8uXws5F8lyhxD0Ux+UtBLhsMgzG5VDDVR5+/CntfocRuWg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/wbw/cNfGVxWgd13MZMeQrLmuTPmZSOhPKQCSLwFQ8UNQJ6wch
-	N3/59N1Gf+y4WAArq4lfUysu3pPkfYfheKo+YbVgF5XNUBZe7XlUrD75
-X-Gm-Gg: AZFdTZewzWgJ2wjbyA1ONoZaTwiJoZtHEuSog3OsuaR5bX7yyqRDMtdKZfcuNHxWpAf
-	B1+DXpfUMnmgGaESfIcxIvSve7D5oX2XqTqE7aZe9pXtgQVuRgxAF1Jd+Hh/KVwaUxitml5lJ0j
-	MPu6JmGEk36AG524gC21pJ2YFkjjhkkT89QsOkvn7oN0YZnZeYBQJ+0eR1bFidiHrZZbfrZ+n/A
-	apne2+3Twf1e0KhPfhYgXukeTw1jo0XhmSL7OyowF1lR33N7LuStDiiWbE48FVCiHiLEA+gUN8J
-	6hDfsIAp2YewZtVewQiUF2JlXcxrTiW8/JrlU+HuqE50Qz0d0OicJkZiS81FHFDM0ZZKyFD7Eu+
-	LvCyW5qW/JPYF5QZhde5NZwQtsvDEri6CwdpWl9TXFUisR/GIab83y1vOivVLURrTN+Tv/BP9ch
-	yvj0tNBvslKJsajXaAcWgULXllatAV7qQ0NDM71QjWAMnnhlFDxEIJuMEohv7EXGfTNwFuYdehl
-	RwW+SHnRCVhwRdXWIzNVMdIQzphaBfg/HFMf+4ujNyf4h9cxwMbgn/dqVF1mvBY4+siVb+OGtsm
-	ej3Z8/hmf6tRTLduCSayASgc2MeoTNNrQBzutMxOch5VVJVGyJn/Et5PPEzrGCecr7+p4DRW
-X-Received: by 2002:a05:7301:182f:b0:385:cf42:9b9b with SMTP id 5a478bee46e88-385cf429e7amr1916243eec.8.1795179460450;
-        Fri, 20 Nov 2026 04:57:40 -0800 (PST)
-Received: from akhil ([61.0.85.44])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385665f21aesm10672548eec.4.2026.11.20.04.57.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 04:57:39 -0800 (PST)
-From: Akhil Arul <akhilarul324@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: shenghao-ding@ti.com,
-	baojun.xu@ti.com,
-	Carmel@aperio.ai,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Akhil Arul <akhilarul324@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/tas2781-spi: Set tas_hda->dev in probe
-Date: Fri, 20 Nov 2026 18:27:29 +0530
-Message-ID: <20261120125729.135171-1-akhilarul324@gmail.com>
-X-Mailer: git-send-email 2.56.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Q61mpzs5;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wNCeRlBF;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oTWLN/I/;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sVCOfaoM
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DAC4922520;
+	Fri, 20 Nov 2026 13:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795182195; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=A7ic0CVjCzukvSTgJx4WMC2o+tIKJQMs35wGW1e+9fA=;
+	b=Q61mpzs5eM0a7yPOnUBHq4qHsIw7TNvSNkd2wAKyaxGBJrSsaoQ8/eV9D6PT1dnslijOim
+	Lypr6wNvxK060ZQwnYxceuBkeWLuL4utmsBOSGVdU3cycmWy1TkZD5yFIW30AqIvbbSo5S
+	RTZu/3G6aYpVFDiejBt0CTtNGfXHDFQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795182195;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=A7ic0CVjCzukvSTgJx4WMC2o+tIKJQMs35wGW1e+9fA=;
+	b=wNCeRlBFB192MPmF4eMcfpkMPavBUz1aeJ1HSctTY+Jl8izwFo26Ti6nf+fO5EHt+9vF26
+	EYvGKld6XXRmNwDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="oTWLN/I/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sVCOfaoM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795182194; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=A7ic0CVjCzukvSTgJx4WMC2o+tIKJQMs35wGW1e+9fA=;
+	b=oTWLN/I/Aj6srHUlaWOUPJnwDLDVK52sPrl7c7HGpltF1nI1JcFVNs+lWf4Q4KhBXZngd/
+	1nA7+FZ+6tAYHdVb9cpPEyGrao4ll9c/MVrROfShwhZuKud0DqmdizPXhD9pWmZJrnRC/Q
+	SYVj1m3n6hr3cbxzjv26kfAxyRJf78U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795182194;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=A7ic0CVjCzukvSTgJx4WMC2o+tIKJQMs35wGW1e+9fA=;
+	b=sVCOfaoMV8xQSCWPegSf5zyvmpVF21SCzHKv6oDqNkhIMz5MrYCDnm4XS9TsFv1s61JQPX
+	4rpu/fSRTY+t5cDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8DF051348F;
+	Fri, 20 Nov 2026 13:43:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id avdnGHJOAGvffAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Nov 2026 13:43:14 +0000
+Date: Fri, 20 Nov 2026 14:43:14 +0100
+Message-ID: <87pkvzmxe5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 7.4-rc4
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,56 +105,225 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: DAC4922520
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Spam-Score: -12.51
 
-tas2781_hda_remove() is shared by the I2C and SPI drivers and uses
-tas_hda->dev for component_del() and for the runtime PM calls.  The I2C
-probe sets that field, the SPI probe does not, so for SPI it stays NULL
-from the devm_kzalloc().  Unbinding the device through sysfs then warns
-in component_del() and crashes on the NULL device in pm_runtime_get_sync():
+Linus,
 
-  WARNING: drivers/base/component.c:839 at component_del+0x149/0x170
-  Call Trace:
-   tas2781_hda_remove+0x16/0x60 [snd_hda_scodec_tas2781]
-   device_release_driver_internal+0x19e/0x200
-   unbind_store+0xa4/0xb0
-  Oops: general protection fault, kernel NULL pointer dereference 0x1d1
-  RIP: 0010:__pm_runtime_resume+0x1a/0x90
-   tas2781_hda_remove+0x23/0x60 [snd_hda_scodec_tas2781]
+please pull sound fixes for v7.4-rc4 from:
 
-The same path runs from the driver remove callback and from the
-component_add() failure path in tas2781_hda_spi_probe().
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.4-rc4
 
-Before the common library was introduced, the SPI driver had its own
-remove function that used tas_priv->dev.  Set tas_hda->dev in
-tas2781_hda_spi_probe(), as the I2C driver does.
+The topmost commit is 3c3db0de2aa937e80ef96e21da940dc8816d3c16
 
-Tested the probe/unbind path with KASAN and lockdep enabled: without this
-change, unbinding the device gives the warning and oops above; with it,
-unbind, bind and unbind again complete without any splat.
+----------------------------------------------------------------
 
-Fixes: 28a09d9e42c5 ("ALSA: hda/tas2781: Create an independent lib to save the shared parts for both SPI and I2C driver")
-Reported-by: Carmel Okun <Carmel@aperio.ai>
-Closes: https://lore.kernel.org/linux-sound/AS2PR02MB10038DB2CE8CAE659D35B9F1AC8792@AS2PR02MB10038.eurprd02.prod.outlook.com/
-Cc: stable@vger.kernel.org
-Signed-off-by: Akhil Arul <akhilarul324@gmail.com>
+sound fixes for 7.4-rc4
+
+A collection of various small fixes.  Nothing really stands out.
+While we still get more fixes than before, things look still well
+manageable (fingers crossed).  Here are the highlights:
+
+* ALSA core:
+- Fix page leaks at buffer allocation retries
+- Fix in compress-offload API for setting metadata_set flag
+- Parameter flag handling fixes on setup and error in PCM OSS layer
+
+* HD-audio:
+- Fix AE-5 LED strip color corruption during animation in ca0132
+- Correct boost values for CS35L41 on several HP laptops
+- Realtek quirk regression fixes for Lenovo Legion and V14 G2 ITL
+- Fix quiet speakers on HP 250 G6
+- Various Realtek quirks and mute LED fixups (HP, Lenovo, THUNDEROBOT)
+
+* USB-audio:
+- Fix UBSAN array bounds warning and period wake-up issue in usx2y
+- Quirk for Yamaha MODX M
+
+* ASoC:
+- Intel / SoundWire: Support for Senary SN6245 codec
+- AMD: Fix ACP7.x DMIC/PDM ring buffer address on resume, ACP quirks
+- Fixes for Qualcomm to reject oversized compress ring buffers,
+  AudioReach routing disconnect, LPASS clocks probe ordering and
+  WCD934x MCLK initialization
+- Fixes for Meson about locking and sleeping in atomic context
+- Rockchip fix to avoid stuck clear condition in I2S/TDM consumer mode
+- Mediatek fix for ETDM3_OUT DAI startup error on MT8195
+- Codec fixes for CS35L56, TAS2781, ES9039Q2M, and WM8962
+
+----------------------------------------------------------------
+
+Adolfo Morales Tena (1):
+      ASoC: amd: yc: Add DMI quirk for GIGABYTE EAGLE 9MJ
+
+Arnav Kapoor (1):
+      ALSA: hda/realtek: Don't apply the Legion Slim 7 quirk to Lenovo V14 G2 ITL
+
+Chen Yuxi (1):
+      ASoC: wm8962: Fix broken headset button caused by wrong guard constant
+
+Devin Christensen (1):
+      ALSA: hda/ca0132: Fix AE-5 LED strip color corruption during animation
+
+Dirk Su (1):
+      ALSA: hda/realtek: Add LED fixup for HP ZBook Ultra G1a Laptops
+
+Dustin Tacy (1):
+      ALSA: hda/realtek: Add mute LED quirk for HP OMEN 15t-ek000
+
+Gaurav Suman (1):
+      ASoC: codecs: wcd934x: keep MCLK enabled so init writes reach the codec
+
+Geoffrey D. Bennett (1):
+      ALSA: usb-audio: Add always_set_rate quirk for Yamaha MODX M
+
+HyeongJun An (1):
+      MAINTAINERS: Add myself as a reviewer for the virtual PCM test driver
+
+Josh Klecka (1):
+      ALSA: hda/realtek: Add mute LED support for HP Pavillion Aero 13-be1xxx
+
+Julius Bairaktaris (2):
+      ASoC: qcom: q6apm-dai: reject compress rings larger than the DMA buffer
+      ASoC: qcom: q6asm-dai: reject compress rings larger than the DMA buffer
+
+Karl Asseily (1):
+      ASoC: es9039q2m: Enable the DAC clock at component probe
+
+Louis-Alexis Eyraud (1):
+      ASoC: mediatek: mt8195: Fix ETDM3_OUT DAI startup error
+
+Marc Herrero (2):
+      ASoC: qcom: audioreach: use a 32-bit container for S24_LE PCM
+      ASoC: qcom: audioreach: only disconnect the route a mixer control owns
+
+Marek Vasut (1):
+      ALSA: doc: cs35l56: Point to kernel.org firmware repository
+
+Nicholas E. Andrade (1):
+      ASoC: amd: acp: fix PDM ring buffer address on ACP7.x resume
+
+Qianghua Wang (1):
+      ASoC: sn624x: add support for the SN6245 part ID
+
+Richard Fitzgerald (2):
+      ASoC: cs35l56: Only write ASP1TXn registers when widget is powered-up
+      ASoC: cs35l56: Fix unwanted writes to ASP config registers
+
+Sinan Turunc (2):
+      ALSA: usx2y: Count completions apart from the URB array length
+      ALSA: usx2y: Account for every period a URB completes
+
+Sreeraj S Kurup (2):
+      ALSA: compress: Set metadata_set only after successful callback
+      ALSA: memalloc: Fix DMA allocation retry cleanup
+
+Stefan Binding (1):
+      ALSA: hda: cs35l41: Correct Boost values for several laptops with overridden ACPI
+
+Takashi Iwai (2):
+      ALSA: hda/realtek: Fix regression on Lenovo Legion 16IRX9H
+      ASoC: tas2781: Avoid possible zero-division
+
+Tim Surber (1):
+      ASoC: rockchip: i2s-tdm: Don't reset a pending clear in consumer mode
+
+Valerio Setti (3):
+      ASoC: meson: aiu-fifo: prevent sleeping when spinlock is held
+      ASoC: meson: gx-formatter: change stream lock from mutex to spinlock
+      ASoC: meson: gx-formatter: add lockdep_assert_held check
+
+Ye Weihua (2):
+      ALSA: pcm: oss: Restore params flag after failed reconfiguration
+      ALSA: pcm: oss: Clear params flag only after successful setup
+
+Zhang Heng (5):
+      ALSA: hda/realtek: Add quirk for THUNDEROBOT Gravity16G2Pro
+      ALSA: hda/realtek: Add quirk for HP Pavilion 15-cw1xxx
+      ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14ASP9
+      ALSA: hda/realtek: Enable mute LEDs on HP Laptop 15-fd1xxx
+      ALSA: hda/realtek: Fix quiet speakers on HP 250 G6
+
+suso (1):
+      ASoC: amd: acp: Add ACP70 ACPI flag override for LG gram 16U55U
+
+yzddMr6 (1):
+      ASoC: qcom: q6dsp-lpass-clocks: Set driver data before registering clocks
+
 ---
- sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-index da71b57a26e..4bcee8362b6 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-@@ -781,6 +781,7 @@ static int tas2781_hda_spi_probe(struct spi_device *spi)
- 	if (!hda_priv)
- 		return -ENOMEM;
- 
-+	tas_hda->dev = &spi->dev;
- 	tas_hda->hda_priv = hda_priv;
- 	spi->max_speed_hz = TAS2781_SPI_MAX_FREQ;
- 
--- 
-2.56.1
+ Documentation/sound/codecs/cs35l56.rst             |   2 +-
+ MAINTAINERS                                        |   1 +
+ include/sound/cs35l56.h                            |   2 +-
+ sound/core/compress_offload.c                      |   4 +-
+ sound/core/memalloc.c                              |   8 +-
+ sound/core/oss/pcm_oss.c                           |   6 +-
+ sound/hda/codecs/ca0132.c                          |  54 +++-----
+ sound/hda/codecs/realtek/alc269.c                  |  48 +++++++
+ .../hda/codecs/side-codecs/cs35l41_hda_property.c  |   8 +-
+ sound/soc/amd/acp-config.c                         |   7 +
+ sound/soc/amd/acp/acp-legacy-common.c              |   5 +-
+ sound/soc/amd/yc/acp6x-mach.c                      |   7 +
+ sound/soc/codecs/cs35l56-shared.c                  |  38 +-----
+ sound/soc/codecs/cs35l56.c                         | 147 ++++++++++++++++-----
+ sound/soc/codecs/cs35l56.h                         |   1 +
+ sound/soc/codecs/es9039q2m.c                       |  12 ++
+ sound/soc/codecs/sn624x-sdca-sdw.c                 |   2 +
+ sound/soc/codecs/tas2781-fmwlib.c                  |   2 +-
+ sound/soc/codecs/wcd934x.c                         |   6 +
+ sound/soc/codecs/wm8962.c                          |   2 +-
+ sound/soc/intel/common/soc-acpi-intel-arl-match.c  |  18 ++-
+ sound/soc/intel/common/soc-acpi-intel-lnl-match.c  |  18 ++-
+ sound/soc/intel/common/soc-acpi-intel-mtl-match.c  |  18 ++-
+ sound/soc/intel/common/soc-acpi-intel-ptl-match.c  |   9 ++
+ sound/soc/mediatek/mt8195/mt8195-dai-etdm.c        |  30 ++++-
+ sound/soc/meson/aiu-fifo-i2s.c                     |  15 ++-
+ sound/soc/meson/aiu-fifo-spdif.c                   |  14 +-
+ sound/soc/meson/aiu-fifo.c                         |   3 +-
+ sound/soc/meson/gx-formatter.c                     |  26 ++--
+ sound/soc/meson/gx-formatter.h                     |   4 +
+ sound/soc/meson/gx-interface.h                     |   3 +-
+ sound/soc/qcom/qdsp6/audioreach.c                  |  10 +-
+ sound/soc/qcom/qdsp6/q6apm-dai.c                   |   3 +
+ sound/soc/qcom/qdsp6/q6asm-dai.c                   |   3 +
+ sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c          |  14 +-
+ sound/soc/qcom/qdsp6/topology.c                    |   4 +-
+ sound/soc/rockchip/rockchip_i2s_tdm.c              |  47 +++++++
+ sound/soc/sdw_utils/soc_sdw_utils.c                |  56 +++++++-
+ sound/usb/quirks.c                                 |   4 +
+ sound/usb/usx2y/usbusx2y.h                         |   1 +
+ sound/usb/usx2y/usbusx2yaudio.c                    |  11 +-
+ 41 files changed, 510 insertions(+), 163 deletions(-)
 
