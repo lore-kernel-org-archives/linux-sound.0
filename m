@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795153087;
-	b=VpJ0Iv2m0Z+6iZhd4N7idV2rghGR/Ykvr32IjBUo0fC/kjnLxfXYzl3bn+KVA5XTU5PO
-	 ZLa79HMgaehLucUtyVkl+MubEpbH6hDN0U65WUEDqxNDoDranKCoF1EsfD1c0zGP1hn2B
-	 nwBEEa3hLAPGwjTDXpWXXddeKsz/iPnTkeNOLpJ71wRQsqIhIQjNNDL6K9XVjkWjVvE8J
-	 fEs17s3hR05DY32Ck9/WzAgUBt3tD7h8WvljehIPoqk3liU/+zXx6T2GEy022oERES5nL
-	 36iG5uMZXKFy0a8strJ5xRi9SxLPZr+lYbrnscLhOMS4kz8ifk5F6UtkqaLYqPsUCGg==
+	t=1795153088;
+	b=ufqL7Adg25PSNapc3tYU6/XIQpyIZNLX2y+b48vYtlX3N/TZwKmpcF8qnZL0p3nl8UkL
+	 VRtRf227yTAbflCRIW9ZptaMs1+chnQQSySO03iUQYHVRK7z6CUbW79Mjx0OPWZkZjcCU
+	 LSGdnNaB0XXOFw7DuLQrvTYUYZYRgdT6bs/cY3OUN3zpP79vSgE9xutjmQaX8jNNxkF9v
+	 HS/dFm5KidOdB2H/UEbzA9YINgbqlv4odZw8ihH2qLtW2TLnKpTHhky4TjyzSqDa/rfR9
+	 cN+/NTfzs+U+XOUDQk1qozs2pBqcgGmTLemX/zNYL6Oy63QbYemphzEBtL1SpA+vl5A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795153087;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795153088;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=q66B+0Oh8Ienwaxd7dcFDn5dZKhuNLiVtGT1faS1aqg=;
-	b=hxSUVBaRVyFpP4wrVg6rVUF+INunF/GJLhYKzdAHDQT56UgnJgznD+xzu/C48sOO5Hkn
-	 EuabWNF+4WvYHl+nKWj1BbwiywsrhVgzFcdKALt1cDYbGJImzsVAEgxq3Jto7U5WYfUM1
-	 VQJTv4tA52TPsXRbUtaLHQwZVZ1EZP9Gs2/H+KwAuA5MAprLK3KBj+SMBMh0LLw5WcyaQ
-	 158f4hs0yu3u8yqCl3QNHgld/iJpcla2gZjl/fJn4eIIG3IDqEeSY2tXPckleHmvHshcf
-	 idjEW4o0uskaWYm2yFrhlFf7knlHgsRbkTWgJ4Mn+JlQ49z8cIYhxl8rBKHUuLIczvg==
+	bh=FQV27F+25SDT6+Die50FMSITrrA1WgE6PAtCddC8U3s=;
+	b=1mwgD24RPDMJPB9kaJOY7jJ4a2X3jUMq4h9DQ5Erhes2yeeihVmzOjgsXj5Pt8WbF/W5
+	 bauTGVytefpVm3SrpCkkfXebcUArhEe1XCken3JFf3AzCK2kcNTP8oK5mVgGLGBpjI0P0
+	 lBn/3hLJjJ01k0RtnmK83Nwe1s7ZsYBdEaXxxhe9Py/I8UzKgxvEUhuCysCDQjB+8BTi/
+	 WPJBIRnBlkfEBpXBDpq7qddQjpOgI2rwzczPWjlYFdx8Tfyi6oMteCP+xalA9KKHJCB30
+	 GUF4+NVlt2EcawppKrbwZEDb6wH0TYIrjmri7RNt6g7R7vgIALgnUmDosXWxMP1jsKg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MLhenT+R;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gqOUjkqe;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF15606A32C;
-	Fri, 20 Nov 2026 05:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B725606A336;
+	Fri, 20 Nov 2026 05:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MLhenT+R
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gqOUjkqe
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1795153087;
-	b=ASrxm23yDmiR/5XxQgECwLSVgJfIvRUep8rzWNUvmXK3gvLe5+peWYUV7A7lHtclSlTi
-	 wuV/H38tdrI6uESCXdm8JMVbqKb3A3+mvGdlJmwdzSzbIOehg3hD9qy+tq4JbDCCbhZ7J
-	 +5yID2xO+zA3YofUVxZ6MC6Iqb4K6ig0ITYRKPrzypBtdhC3qfU3MGBH9v3i2N/OMciyq
-	 THDrvfFpxi0mCSsODHOlANVhpgdDG0rvEJ3EXqywL4zuFTasVsV7BKuDrc+sjqsKkn71Y
-	 UfzjYsobFTkhcBhRHLnw4Zl4utav1ONFwzQgdGvzSm4xxV3EvnBSHwzGDHGtzknZnNw==
+	b=d9H0REmzCALo9ZbpbxH9TcEL71gEGuZYErDG+R2YQwSV6gLW0BZy1VeuNrVauO4zk4IO
+	 a6wTVXovS3B9i2USEYrTpb1pmaJulfN2OLRDXmPpp0IRMoYHwpMElV3KKJM//83NF8xDf
+	 K2oa2Mla05DadrVwiYch9vGEiE/M87jh77sYjUD6bm5467HTfp3slouQi3h3cEGXzDtz0
+	 57PdF4A+8PRLcxFJEk+Mzr0k25aHyzI7gaQ//YWYB/yIvI/njG7mbeX0dKCWOxxsl9CSO
+	 fgSAIjFssudYpXYSl+Af/gaaIfFmdUpqUKICVmajWrliiBocO+mesByFRAyq18GEs/A==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1795153087;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=q66B+0Oh8Ienwaxd7dcFDn5dZKhuNLiVtGT1faS1aqg=;
-	b=pbrDW7MBZkqUPtZPxHVNtdj0Y5SifCkmGw1aWoFxQZ+KA4p97m9A3am9HizChh78aYN5
-	 tu+SLMI3k9lEdBqmRPuCgKz/nZ7TXm1Nodqgmn58jeVUlsoSiSWAmjuWzs/+FjwwqTTV2
-	 myELI7VkIH4yMZpnJAVbYWUkepjSyYUisHS4GJyayTK1b4dJhmg/xmGkANQSCzJGGz792
-	 tLWD7iL/hYV5O+VnIEig3pBOQGzRGLAotTtpjyuiOYKbT4vT7k1I+LrTj16fCBhhn/Odh
-	 PBQZB/CaUDx5xjLQszZ0Iw7ZFs4yUAvH/lWOPhZD4/2stTNQwSqFzpCUfQ5t9mDJK2Q==
+	bh=FQV27F+25SDT6+Die50FMSITrrA1WgE6PAtCddC8U3s=;
+	b=H4XhbGh6RxMvn7ufDil5CdXvvY2FIXzWwSIz7E9gmiU9kyOHtThP2qly4kiqwXEnFoij
+	 Uwn15tRYu7M7oXyxfmykv1LPRVQciCQmB8SrrS9lvAawqLf51QVagpWqkSob/noOFwuY3
+	 ZPPbS47tT7h8Lt4Of0DH+8jxPxsu9WR39Ig98ZfrwC0Fn5lY3rF6Jva+gmxFJUwsICYNY
+	 trjs1DHiCMqNH3E0zOgPKa1JgXVxSwfW5aGNT8ooCLGM5+e+IU0RtJ8w+gV4u0wcikB4A
+	 1AVd1TNUzMfE38ZFb3AgFPstLa/QEJsOSqlT6PjtViD9CWNKXNMNYw0OcTvn1iHA8tg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id EE4C21F000C4;
-	Fri, 20 Nov 2026 05:38:06 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 2FF291F000CA;
+	Fri, 20 Nov 2026 05:38:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795153087;
-	bh=q66B+0Oh8Ienwaxd7dcFDn5dZKhuNLiVtGT1faS1aqg=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=MLhenT+RtWOMBri4IcDL2reiYDrppJsQGsJS3fypZNwXVq6Jlshe7ZGYafKYP9u5a
-	 zocE5yureHWsISPaV+t6k2maJvyNTqQi0nTDj6cUOVMjujb9DuWqYNExhw6X3NPrNH
-	 XMFzG3+suIyxTzrGN4cTWm8b2SBm01rQ9kZGQIsuJVKHkN5osb2HvAOvaNH0ljuvUr
-	 gkIjxyJXX/noLM1AgL5fBeLSXCi4q9auexiwPMJgzzhrBUeprc2ylvqNppaXDujHUX
-	 SNZVRRh/YsEKVN2Bgf8idA+v8ECw6Tky2lm1q01AWkcTbcA23Q3CmfV06Y4/RgE62w
-	 HiOulKGgBbPxQ==
+	bh=FQV27F+25SDT6+Die50FMSITrrA1WgE6PAtCddC8U3s=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=gqOUjkqe9xazqq66jm79/hVbwJfGdFHSDs9yVjjf2xXzPofIFaVL68XlPGjSy7pWq
+	 5aLC7vgOAjG7yk7QkXkjlRgj2e8VSc84L2cnQk1OWdN6mfuMuTcYbocA/gyvU+XZnq
+	 lyYai9aCHI+J2Z2dpaux84wZFVnbupL8O3G2nnJL0N3dMmHhRD7dYQwbye0RhiJxgw
+	 3PUb3me/qE+zwyx+eQJu7X6k221MdjWiHU+BY8GI4O/JdVLpPGxPdxEl0f3iZURmp+
+	 lfWTDr+rnC1d8igGkucRDKmD59FvJDPKFRfDOTbKgAD9O1TLae5AnneLkPl+w8glrb
+	 q7IHTDPKG+/iw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6995F496DF;
+	by lkml.kernel.org (Postfix) with ESMTP id AF2BF496EB;
 	Fri, 20 Nov 2026 05:38:06 +0000 (UTC)
 From: Suyuan Wang via B4 Relay <devnull+shyckless.gmail.com@kernel.org>
-Subject: [PATCH 0/2] ALSA: firewire: Don't loop forever after a bus reset
-Date: Fri, 20 Nov 2026 05:38:04 +0000
-Message-Id: <20261120-firewire-busreset-v1-0-8bb9079a2984@gmail.com>
+Date: Fri, 20 Nov 2026 05:38:06 +0000
+Subject: [PATCH 2/2] ALSA: fireworks: Rearm the transaction after a bus
+ reset
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,19 +85,18 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAL3c/2oC/yXMwQ6CMBCE4Vche6YJrSCBVyEe2jLoegCzW9SE8
- O5WOMzhO8y/kUIYSn2xkeDNysucYcuC4sPPdxges8lV7mqtq8zEgk+eCasKFMn4gC62Pl7qpqX
- 8ewkm/h7N4XZa1/BETP8Q7fsP5EADmXUAAAA=
-X-Change-ID: 20261120-firewire-busreset-abe9c7ac3457
+Message-Id: <20261120-firewire-busreset-v1-2-8bb9079a2984@gmail.com>
+References: <20261120-firewire-busreset-v1-0-8bb9079a2984@gmail.com>
+In-Reply-To: <20261120-firewire-busreset-v1-0-8bb9079a2984@gmail.com>
 To: clemens@ladisch.de, o-takashi@sakamocchi.jp, tiwai@suse.com
 Cc: stefanr@s5r6.in-berlin.de, linux-sound@vger.kernel.org, perex@perex.cz, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795153085; l=868;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795153085; l=1609;
  i=shyckless@gmail.com; s=default; h=from:subject:message-id;
- bh=kqdcAldR5ptexRkJpjKE62fPaO7t4IL0FVM36AEWNY8=;
- b=0XCSaYs+uCfOdVTIuNBd/1AOewM+siiNqG9KH3o/azct6PqpT7GNP5qfzbRKpk3fp155A+ZHW
- AMA0fZzRGoLBIZszI6zTgvwrXfkxZa8PsAXJSBhl8CWvh3VOVbog60k
+ bh=1Y5tLKaRBeTaHsrbFAyk3KOEWMVkXW1Qflif+BgawNU=;
+ b=jfZH8RUBvwraViT8Is2/7Gi8yarnl9HNAqUbWPcQSzB3Bty7B0Xq67oE/zAQRKUHbPmIBsdIE
+ 9y9YKoNEzXYBaW4ox60Dpfw/3UCwnmwqwrGkQNv3hSpokJOeUSp4Zqr
 X-Developer-Key: i=shyckless@gmail.com; a=ed25519;
  pk=pMtccVGiWES3bV+7YBFuBclkvq2n2HBHQ5azaBrK2lY=
 X-Endpoint-Received: by B4 Relay for shyckless@gmail.com/default with
@@ -105,25 +104,44 @@ X-Endpoint-Received: by B4 Relay for shyckless@gmail.com/default with
 X-Original-From: Suyuan Wang <shyckless@gmail.com>
 Reply-To: shyckless@gmail.com
 
-fcp_avc_transaction() and snd_efw_transaction_run() resend their
-command after a bus reset but never move the transaction back to
-STATE_PENDING. The response to the resent command is then ignored and
-the wait returns immediately, so both loops keep resending the command
-after each ERROR_DELAY_MS pause, without a retry limit, until sending
-fails.
+From: Suyuan Wang <stevewong@hust.edu.cn>
 
-Each patch sets the state back to STATE_PENDING before resending.
+snd_efw_transaction_run() has the same problem as fcp_avc_transaction():
+after snd_efw_transaction_bus_reset() moves the transaction to
+STATE_BUS_RESET, the loop sleeps and resends the command but leaves the
+state as it is. The response handler only completes a transaction in
+STATE_PENDING, and wait_event_timeout() returns at once on the stale
+state, so the command is resent every ERROR_DELAY_MS without counting
+tries and the caller never returns unless sending fails.
 
-Found with a static analysis tool and checked by hand. Compile tested
-only (x86_64, W=1); I don't have FireWire audio hardware.
+Set the state back to STATE_PENDING before resending.
 
+Found with a static analysis tool and checked by hand.
+
+Fixes: bde8a8f23bbe ("ALSA: fireworks: Add transaction and some commands")
+Cc: stable@vger.kernel.org
+Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+Signed-off-by: Suyuan Wang <stevewong@hust.edu.cn>
 ---
-Suyuan Wang (2):
-      ALSA: firewire-lib: Rearm the FCP transaction after a bus reset
-      ALSA: fireworks: Rearm the transaction after a bus reset
-
- sound/firewire/fcp.c                             | 2 ++
  sound/firewire/fireworks/fireworks_transaction.c | 2 ++
- 2 files changed, 4 insertions(+)
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/firewire/fireworks/fireworks_transaction.c b/sound/firewire/fireworks/fireworks_transaction.c
+index 5c859773fe06..57aef570ac2d 100644
+--- a/sound/firewire/fireworks/fireworks_transaction.c
++++ b/sound/firewire/fireworks/fireworks_transaction.c
+@@ -100,6 +100,8 @@ int snd_efw_transaction_run(struct fw_unit *unit,
+ 			break;
+ 		} else if (t.state == STATE_BUS_RESET) {
+ 			msleep(ERROR_DELAY_MS);
++			/* resend the command and wait for its response again */
++			t.state = STATE_PENDING;
+ 		} else if (++tries >= ERROR_RETRIES) {
+ 			dev_err(&t.unit->device, "EFW transaction timed out\n");
+ 			ret = -EIO;
+
+-- 
+2.34.1
 
 
