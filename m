@@ -1,53 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795178900;
-	b=mSP2UBtBd1yvsdA2T+kccmJlq6t3QzMHf/tp3D81ATYfpQFJv8a9kEKxZaMcPCUbeZqy
-	 xhIBXJ3pw9cRLsTc1PJ4cFAaNFRsF9msZT8vv8GxIEKYrXgj5UnUyksW8n9LfuT4OVzAz
-	 k7F8JuxKLRfIwdQQkIivbAvLXW4mce4i5pamGPDFXJmN8QEmyOTnWVkeCeMjYiNmRyYmt
-	 GV3ZW9fOe7bC1N2xeKbsPo6+sq0qOB6AFpUYfcxA3TQrDyBOqxXJINGAKEOQwoKUWPj/S
-	 Z8VoyNfd+XZWPpfwg3ThBNTiPXAZgZEqQOcwupgemmauPK5MCmv2JlylJSpcMXYHmLg==
+	t=1795179334;
+	b=4W9S+R7V2wEL1ImSfLkMy4JEPVN1HsMRqr8C+O4ymDu1LAIuy8GTrmRGCNpvJphWYo3j
+	 VFsQNXCKPxpVsaqLl06iic7IkSv76+aQQsYrCvuVr4qg+jH+RI8Z/txfS/f3dQClzaWru
+	 SRa788D/Id3AYoi6YGyuY+pjzr2/y4EkaP/SXrurwP45X2G7Jq2jPlJo2VA5rxiyLzlSd
+	 SrGBUeh1NMoeWXOVL0SGaflNiPE8cMYmrrCUPE37//3MCaSKzRHpWmvNSEBVDNI+l683F
+	 2KgaSFzDFZG5RJbUJIT7PoZ1jfkw7U7nBelbwRkGkixc6Ic4A7kABLTHag+XtwC0cPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795178900;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=Cg+yXYoA3oibNedrGmE7N4FdC6+zKg0DLBg8pWT82MY=;
-	b=VWhZOpekcUdwN+7Du4pU9sQB5ftuGT2Hf6nXZymcKiCxK5f8UGED3CRcvHXoOQL23qFF
-	 qJTnmdMAsv4MRZkatgXom3vUKUoMfdhJWO9lL+ZWPK+eSKdnpvLPZFvW8j3qVdSXL8Dp7
-	 i6Ani2EQys7hamxAR+zbWdwI2WBVpRkK3zI1IK60NY3W0YCjq1R7pmJc5zU97B1Ig7oyO
-	 dkTFCIf8dMFEBPHmiuBNFV9zfIwZLJpxypk14jUNpRgnW+5jP8c2GpsE5T1ugcTtweBN0
-	 UphUv2X7kmW2RV1Opw8HNU3ZFra44CCl+6xgPHS7dyXQQESRmoEFu/Mv7KLMqRffdXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795179334;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=a9XbVf4FhnzktWS3qGCIKBfurWHFZpTKRrnVlbTItsk=;
+	b=Fix/hX8ICsH82MAo/1OO4ZJdUlFMQnrTIwXOT6DRrS0wQC9q1e2Cg6p4YvSksiGOO5p5
+	 pvrK5/Y5ogGoxLexwFjeE3X9pDH6w2F2sjPb/A5keMdkA2H+SSlzLabvLyyngtGY72Nsy
+	 dbTM+4/JoUnjI4wBy0PFPhFWi3++kvIIoLYn+5nZokIDdLlQwl8SPSrvUeopJYA4OusSW
+	 5hOZjvB1RAEHxXzTP/pbpU9wSlw9fVxbEOYDLAg7O3Xy9vr8r38D7kt3tPsm+sRelklFx
+	 XcWcz2Wz9fl/rpYvop9a5TA9sHs7zHbtiw5NoEsmIlMGfTTbyCPy70rP7IHMBgKNN3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YC6ZNfva;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ierlH+1y;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68FB60A2606;
-	Fri, 20 Nov 2026 12:48:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04D9606A325;
+	Fri, 20 Nov 2026 12:55:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YC6ZNfva
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 312651F000CF;
-	Fri, 20 Nov 2026 12:48:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ierlH+1y
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA431F000CF;
+	Fri, 20 Nov 2026 12:55:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795178900;
-	bh=Cg+yXYoA3oibNedrGmE7N4FdC6+zKg0DLBg8pWT82MY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YC6ZNfvavCAAyqRXdeOXOCabwgg3Xkez+bjA5m1MdYWJ1DJ9tE9adI2MfgaLQkQB8
-	 Wj8/5GTGeYenMYFTOMwnodtMWsZ0yYxNij8l4QLVE/Yt05ZpKgpQIoj+56XrvW/miL
-	 aaTuy2nZoJOG2zrMarmA4jkCnEjS7GddiFVcy1/vub2v1IsQEJdqbZQZFfHYvbY+u1
-	 rJazQlT1WoNMcEzIAGhO7CtiQ/Y/w/n4YJKsZDhKTg1oxVE86nAcV0Px410vZKPR3q
-	 f5RhgcjzY6XnJfVHzzDZGiVjO2bn4rCPPf9vHAz3j6kPTj79ts9STaGkA2KsFf0WbR
-	 f41hj6kd8tlqQ==
-Date: Fri, 20 Nov 2026 12:48:16 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 0/4] ASoC: cs35l56: Prepare for SDCA Companion Amp
-Message-ID: <0315d02d-1d6c-40e5-840e-36d23eefde5e@sirena.org.uk>
-References: <20261120110441.2163567-1-rf@opensource.cirrus.com>
+	s=k20260515; t=1795179334;
+	bh=a9XbVf4FhnzktWS3qGCIKBfurWHFZpTKRrnVlbTItsk=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=ierlH+1yaKgOGiKDNN4HpqkZHJDN9nGZ6onn+NykctOULAD1baYA6H8n3s0meIiNB
+	 GGWS5q5X06phVlVO1pXNSbyepQskwvGrCiI4Ube+oV2AfTwYbuIa7ZWyu2g2ZVbfJf
+	 0VQMfsijJ+rlsbA5W8jM09Uwd7H/dv5RLNWr5JdTJGzGXsJ0s7UjbLcdloql+CqNOX
+	 a4W/eg+pNFMGJjjofAgaf0I4xYEvEHF9UsxT1ML7e0QpuOQVv4wR2ADWZQuo4wgsTi
+	 c7rll+4IOSmbhIayxmCmziPaUd3YjqZiO8+tz5F0PfQMzQlHoyAdiHLM/8sRbYgM/g
+	 +wKrsPl/ySjLA==
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,40 +49,83 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+/kmc2Pm4ZCxV7zZ"
-Content-Disposition: inline
-In-Reply-To: <20261120110441.2163567-1-rf@opensource.cirrus.com>
-X-Cookie: Error in operator: add beer
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 3/3] ASoC: qcom: x1e80100: Allow userspace WSA RX
+ chmap override
+From: Mark Brown <broonie@kernel.org>
+To: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-3-29e06613115f@oss.qualcomm.com>
+References: <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-0-29e06613115f@oss.qualcomm.com>
+ <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-3-29e06613115f@oss.qualcomm.com>
+Date: Fri, 20 Nov 2026 12:55:30 +0000
+Message-Id: <179517933021.6016.6430816550414163668.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1895; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=gi4YhkF1nfJuktb0DH/M4fSx8AVY+E8YevyMn12hA+o=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZnJ32iqhqTZt1LvnYvZPaD15/fNnuKLg+5WvWWeZF3
+ 7b72nDEdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAi1qsZ/pk9/fT8cxXr5YCJ
+ mkwytjtdZR02ni/urgq6znL9p7CpyDKG/yW7Wj953rnuqtfbmWF9/fii5JPuwsrWlb0Cq+1SFMO
+ m8AIA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+> The WSA RX slot mapping is currently computed entirely from the channel
+> count in .prepare() and pushed unconditionally via
+> snd_soc_dai_set_channel_map(). Userspace has no way to express a
+> different channel map, so any map defined in UCM is ignored.
 
---+/kmc2Pm4ZCxV7zZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> +
+> +static int x1e80100_wsa_chmap_ctl_get(struct snd_kcontrol *kcontrol,
+> +				      struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	unsigned int *map = x1e80100_wsa_chmap_from_kcontrol(kcontrol);
+> +	int i;
+> +
+> +	if (!map)
+> +		return -EINVAL;
+> +
+> +	for (i = 0; i < X1E80100_WSA_MAX_CHANNELS; i++)
+> +		ucontrol->value.integer.value[i] = map[i];
 
-On Fri, Nov 20, 2026 at 11:04:37AM +0000, Richard Fitzgerald wrote:
+Nothing intialises the default maps AFAICT so this will just return 0s
+until the control has been written.
 
-> 0004 is KUnit testing for the changes in #1. This patch depends on code
-> introduced by the previous pending patch:
-> "ASoC: cs35l56: Add KUnit test that widget init doesn't write ASP registers"
-> https://lore.kernel.org/linux-sound/20261117154700.840631-1-rf@opensource.cirrus.com/T/#t
+> +static int x1e80100_wsa_chmap_ctl_put(struct snd_kcontrol *kcontrol,
+> +				      struct snd_ctl_elem_value *ucontrol)
+> +{
 
-Do not send me patches that can't be applied, managing stacks of in
-flight dependencies gets very unweidly very fast.
+> +	for (i = 0; i < X1E80100_WSA_MAX_CHANNELS; i++)
+> +		map[i] = ucontrol->value.integer.value[i];
+> +
+> +	return 1;
 
---+/kmc2Pm4ZCxV7zZ
-Content-Type: application/pgp-signature; name="signature.asc"
+This just stores the value but doesn't tell the hardware about it, we
+only write at prepare() time.  Either the writes should take effect or
+we should refuse them while the stream is prepared.
 
------BEGIN PGP SIGNATURE-----
+> +static int x1e80100_add_wsa_chmap_ctls(struct snd_soc_pcm_runtime *rtd,
+> +				       const char *name)
+> +{
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsAQY8ACgkQJNaLcl1U
-h9ANbQf/T8qDs25KSOzdxQAD53gdQOe3fckIgrsBxVbqQ1fMPTcVntZ2n5I4NG8Q
-ihHBVbmEbKbEgNZrWPjpIFS3AApCYKlFMYZFegnM5EF2jcRqRJ+UJ7lh55vC2R9A
-fUW4HTihqj9DIOtgpQge9yuy1ppWvmkBGhBJ6wPVJXf23Z9yNGOJgbcwF2/PgOo/
-SXDdunQ/hYaQCTGatofY8uVMdkkmqpmep53pT0GXywzMN4EKOXH3gQMbMiIjlQoW
-Jkn/QMwOZUACUJG2n0mZMnbncytyqLnkaU4AjUuW6M/6aXcmqzxuu9LeDOtHsR6G
-8g0D6KWm1DWky2BVxhqQmWQuKRbrSQ==
-=6NMn
------END PGP SIGNATURE-----
+> +	/*
+> +	 * The core registers a query-only control. Make it writable so that
+> +	 * userspace (UCM) can select the WSA channel map. The card is not yet
+> +	 * registered at this point, so the control is not visible to
+> +	 * userspace while being modified.
+> +	 */
+> +	for (i = 0; i < info->kctl->count; i++)
+> +		info->kctl->vd[i].access |= SNDRV_CTL_ELEM_ACCESS_WRITE;
+> +	info->kctl->get = x1e80100_wsa_chmap_ctl_get;
+> +	info->kctl->put = x1e80100_wsa_chmap_ctl_put;
 
---+/kmc2Pm4ZCxV7zZ--
+The TLV should also advertise SNDRV_CTL_TLVT_CHMAP_VAR.
+
+-- 
+Mark Brown <broonie@kernel.org>
