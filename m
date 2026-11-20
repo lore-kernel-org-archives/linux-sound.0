@@ -1,72 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795159819;
-	b=rEZ6QGiOH/h5iz0u86eR7gQdS7tJfXgisIrCZpQoh/Z/AE0IRvBn+dfFKzI+tkdVDQEC
-	 OLINCWVIC2MR7WNw+Tm3iMerVHBDCJ2qXPFCT5UxtI/eH0xUUPiPIMiUlpHIkligabD0l
-	 Jqjswo2CqbO4woxcoOGz7Nz68NprmuKYbpdnW/CsRjeTTkrxuUWJ3GQc0NZRNWPRBVwiq
-	 oqBIJOmlcWgjuZFnjD73pYoSy5+rB32HB4dD5jllEyYdpFjhWPYNTdDqZykH6bc3hAX9J
-	 dn1qUZxd8khLxpvbpHN9bYqEVioSRNyPbBjbLUqa0rslnZS77iX8sXAaJ+UtuXY8Kng==
+	t=1795160202;
+	b=SfC3M8AAeWGS0E1rPxg9VEAZlk8l+Egh02E6EHcE2SqqT5kmkk4A5St5ou0J1IXalT9Z
+	 +EOif20TavXQPCsPbt1N2IXsf5SWEu7t1YosKpyYvFemRyWcZnqG/coK5pgZa7Sz7IuSp
+	 RSvWhwAUX1OTDFo3Z3jRZOi8Aj82tRjAwhlfKDDqhoAdmdx9DwsezHqUKGJ0k4GMoOYyC
+	 OQm9X1glzf5QUJZ0/U2/VQ5furz7hSBZvjS76InO1WSRJyWjsY5SyYaOQG4zGrU2JbO5P
+	 HE0Ya0G5sFpt8NRwHNHgKPjGsyuUUP9RfcuIYY6MQ1JeW/qANlcJZK5rbqgm2gFHp9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795159819;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=sf/md8bvtm448mpFbyId9jbWIjg9Hk3iICDBHBuUOiQ=;
-	b=4H5Y4DLHiXhMRVVtp4TTRz35PpIHFPK9psFXo3H3AfGqaeRtqJs03eBydyl5GULeSQsI
-	 5h/DXhg2wE8VLAEEJ8bYodFPLW1fhtEpoVEhTp0k2M9e47oOLTgDOKswv5p72n9zZZPWf
-	 +zSBB4s23YZfFfBDqFr2zQd5cgXXqty5o7BuikMVCMYTJwveYw88DcsPSKEGZ8sD9gIj0
-	 n+ktz1l2d0oqSw8FjwBYjNzMhb0NnxduFQTxqUoKT1jRxkE6jGP2NdHW3ObSFxdY4whbM
-	 5R+YmCN1RglBFR4VT7iQJ01QDOmN9glr2P/KxFBkX2PiWEVpJdAQ22Pxv3w1WcfZ3bg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795160202;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
+	b=W4zuW2Z61Ek0FYgCriNwlep4smRjsrj2rF374xG26OlzBvpXUxXdq9kEjzAEXGnKbDwM
+	 zw76x7PDO3pOsVF/SfHO+/kqoFmNNwwrn7owsJX1FehAOQkUDePDO9tqeb5wryJhAwfjW
+	 GKiDkN5+O4PXdExFoFZ88fNZPk0VyUd/U8smnRSRS00XnKaSUjbe0xeD7Fh/KK8Pv5zuS
+	 erF0bgtr482YEVDJXnbv7cXygaohxyv3Ije7xxhy1zon/mKsRVndpxymGuO0goKHUadaZ
+	 bshX8BQyTrbW3coyVO2DlOwkL4b7wi8NWJW2J3d2nUCUH8t26Ecb5seKwKLNhTKAi2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=PYxAxU7z;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EE8606A32A;
-	Fri, 20 Nov 2026 07:30:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8EE8606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013C5606A325
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 07:36:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 013C5606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=PYxAxU7z
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=sf/md8bvtm448mpFbyId9jbWIjg9Hk3iICDBHBuUOiQ=;
-	b=PYxAxU7zA2Hdjh1LcCoTIgfpifY4IpdI+gOCW3MUG1QTYvjdBJCOV/N2/yAMPeazXrHKmMc7u
-	BpgdLj9LM+tUFVPI0JW3lnqY4dkkFOIQBHcWL5nldVQpEWos4eRsozHhpW2IcADlB7wCks2/YuK
-	P7WSVhXwC/QsmRRqkTuSZXM=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jW6Rf6h9Lz1cyPV;
-	Fri, 20 Nov 2026 15:29:50 +0800 (CST)
-Received: from whupemo500017.china.huawei.com (unknown [7.152.184.243])
-	by mail.maildlp.com (Postfix) with ESMTPS id F1ED540561;
-	Fri, 20 Nov 2026 15:30:11 +0800 (CST)
-Received: from huawei.com (10.67.174.49) by whupemo500017.china.huawei.com
- (7.152.184.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Fri, 20 Nov
- 2026 15:30:10 +0800
-From: Ye Weihua <yeweihua4@huawei.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, Kai
- Vehmanen <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <sound-open-firmware@alsa-project.org>, <linux-sound@vger.kernel.org>,
-	<stable@vger.kernel.org>, Ye Weihua <yeweihua4@huawei.com>
-Subject: [PATCH v2 1/3] ASoC: SOF: ipc4-control: Fix out-of-bounds backup restore in bytes ext put
-Date: Fri, 20 Nov 2026 07:00:40 +0000
-Message-ID: <20261120070042.279508-2-yeweihua4@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261120070042.279508-1-yeweihua4@huawei.com>
-References: <20261120070042.279508-1-yeweihua4@huawei.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E855C1FB70;
+	Fri, 20 Nov 2026 07:36:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795160200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
+	b=TxwieGTBirq+XNOwXc2LTb0QXHU9CeZVO25KA8TC1prUQNhMPrhuH8RjtmyKCAYeywI2J/
+	Ilrce+Vlz/NBdxf78DjXORIjW13G2/6zIIi2UMDMjLdsW4kryxWLhu728I8kqDb0F2wGfY
+	ugk1lTXr2xlgd3f7bpHDL5fByZziJ0A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795160200;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
+	b=lf4c6zKsTA3X8f/pSkc7KnBCflEcTi7D6+AkLib1qJzrB7wcrnTSQWpPSNxnTsAZ27wFh8
+	Y6BsA3Iefki1XFBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TxwieGTB;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lf4c6zKs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795160200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
+	b=TxwieGTBirq+XNOwXc2LTb0QXHU9CeZVO25KA8TC1prUQNhMPrhuH8RjtmyKCAYeywI2J/
+	Ilrce+Vlz/NBdxf78DjXORIjW13G2/6zIIi2UMDMjLdsW4kryxWLhu728I8kqDb0F2wGfY
+	ugk1lTXr2xlgd3f7bpHDL5fByZziJ0A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795160200;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
+	b=lf4c6zKsTA3X8f/pSkc7KnBCflEcTi7D6+AkLib1qJzrB7wcrnTSQWpPSNxnTsAZ27wFh8
+	Y6BsA3Iefki1XFBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A42DA1348F;
+	Fri, 20 Nov 2026 07:36:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KTu2HYf4/2pdBQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Nov 2026 07:36:39 +0000
+Date: Fri, 20 Nov 2026 08:36:39 +0100
+Message-ID: <874idcned4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.4-rc3
+In-Reply-To: <1d2dffbb27f822112be2ca68c0bcf7d8@kernel.org>
+References: <1d2dffbb27f822112be2ca68c0bcf7d8@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -75,129 +111,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- whupemo500017.china.huawei.com (7.152.184.243)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	DKIM_TRACE(0.00)[suse.de:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: E855C1FB70
 
-sof_ipc4_bytes_ext_put() backs up ipc_control_data with
-kmemdup(..., scontrol->size), but scontrol->size is the current payload
-size, not the allocation size. Since the backup is kept after a
-successful update, scontrol->size can grow beyond it. When a later update
-is rejected, sof_ipc4_set_get_kcontrol_data() restores with
-memcpy(..., scontrol->size), reading past the end of the backup.
+On Thu, 19 Nov 2026 23:41:25 +0100,
+Mark Brown wrote:
+> 
+> The following changes since commit aebb7274476403040d582c61478df8f4a7bf9cd3:
+> 
+>   Linux 7.4-rc3 (2026-11-15 14:30:11 -0800)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.4-rc3
+> 
+> for you to fetch changes up to f66297be665c067d2e96da9ce1c5767b587e17b7:
+> 
+>   ASoC: tas2781: Avoid possible zero-division (2026-11-19 17:34:26 +0000)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v7.4
+> 
+> Quite a lot of fixes here together with a few quriks for new devices,
+> mostly not particularly remarkable.  The Cirrus changes are relatively
+> large but reasonably so, there's a bunch of data table updates and a
+> couple of new functions needed and they come with clear reasonining.
 
-Back up and restore the whole allocation (sizeof(*cdata) + max_size),
-like IPC3. This also restores the ABI header and payload for controls
-loaded without initial data. Recompute scontrol->size from the restored
-payload on every restore, including the copy_from_user() failure path,
-and only update it after the firmware accepts the new data.
+Pulled now.  Thanks.
 
-Fixes: ebcfdbe4add9 ("ASoC: SOF: ipc4-control: Keep the payload size up to date")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ye Weihua <yeweihua4@huawei.com>
----
- sound/soc/sof/ipc4-control.c | 42 +++++++++++++++++++++++++++---------
- 1 file changed, 32 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
-index e29c8d89284a..ace3bf2f719d 100644
---- a/sound/soc/sof/ipc4-control.c
-+++ b/sound/soc/sof/ipc4-control.c
-@@ -56,18 +56,25 @@ static int sof_ipc4_set_get_kcontrol_data(struct snd_sof_control *scontrol,
- 	if (!set)
- 		goto unlock;
- 
- 	/* It is a set-data operation, and we have a valid backup that we can restore */
- 	if (ret < 0) {
-+		struct sof_ipc4_control_data *cdata = scontrol->ipc_control_data;
-+
- 		if (!scontrol->old_ipc_control_data)
- 			goto unlock;
- 		/*
--		 * Current ipc_control_data is not valid, we use the last known good
--		 * configuration
-+		 * Current ipc_control_data is not valid, we use the last known
-+		 * good configuration. The backup covers the whole allocated
-+		 * control data, so the ABI header and payload are restored even
-+		 * when the control was loaded without initial data.
- 		 */
- 		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
--		       scontrol->size);
-+		       sizeof(*cdata) + scontrol->max_size);
-+		/* Keep the size consistent with the restored control data */
-+		scontrol->size = sizeof(*cdata) + sizeof(*cdata->data) +
-+				 cdata->data->size;
- 		kfree(scontrol->old_ipc_control_data);
- 		scontrol->old_ipc_control_data = NULL;
- 		/* Send the last known good configuration to firmware */
- 		ret = iops->set_get_data(sdev, msg, msg->data_size, set);
- 		if (ret < 0)
-@@ -628,10 +635,11 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
- 	struct snd_soc_component *scomp = scontrol->scomp;
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	struct sof_abi_hdr *data = cdata->data;
- 	struct sof_abi_hdr abi_hdr;
- 	struct snd_ctl_tlv header;
-+	int ret;
- 
- 	/*
- 	 * The beginning of bytes data contains a header from where
- 	 * the length (as bytes) is needed to know the correct copy
- 	 * length of data from tlvd->tlv.
-@@ -679,30 +687,44 @@ static int sof_ipc4_bytes_ext_put(struct snd_sof_control *scontrol,
- 				    abi_hdr.size, scontrol->max_size - sizeof(abi_hdr));
- 		return -EINVAL;
- 	}
- 
- 	if (!scontrol->old_ipc_control_data) {
--		/* Create a backup of the current, valid bytes control */
--		scontrol->old_ipc_control_data = kmemdup(scontrol->ipc_control_data,
--							 scontrol->size, GFP_KERNEL);
-+		/*
-+		 * Create a backup of the current, valid bytes control. Cover
-+		 * the whole allocated control data, including the ABI header
-+		 * and payload, so that the last known good configuration can
-+		 * always be restored, even when the control has no initial
-+		 * data (priv_size == 0).
-+		 */
-+		scontrol->old_ipc_control_data =
-+			kmemdup(scontrol->ipc_control_data,
-+				sizeof(*cdata) + scontrol->max_size, GFP_KERNEL);
- 		if (!scontrol->old_ipc_control_data)
- 			return -ENOMEM;
- 	}
- 
- 	/* Copy the whole binary data which includes the ABI header and the payload */
- 	if (copy_from_user(data, tlvd->tlv, header.length)) {
- 		memcpy(scontrol->ipc_control_data, scontrol->old_ipc_control_data,
--		       scontrol->size);
-+		       sizeof(*cdata) + scontrol->max_size);
-+		scontrol->size = sizeof(*cdata) + sizeof(*data) + data->size;
- 		kfree(scontrol->old_ipc_control_data);
- 		scontrol->old_ipc_control_data = NULL;
- 		return -EFAULT;
- 	}
- 
--	/* Update the cdata size */
--	scontrol->size = sizeof(*cdata) + header.length;
-+	ret = sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
-+	if (!ret)
-+		/*
-+		 * Update the cdata size. Use the payload size from the control
-+		 * data so that a restore of the last known good configuration
-+		 * does not get overwritten with the size of rejected data.
-+		 */
-+		scontrol->size = sizeof(*cdata) + sizeof(*data) + data->size;
- 
--	return sof_ipc4_set_get_bytes_data(sdev, scontrol, true, true);
-+	return ret;
- }
- 
- static int _sof_ipc4_bytes_ext_get(struct snd_sof_control *scontrol,
- 				   const unsigned int __user *binary_data,
- 				   unsigned int size, bool from_dsp)
--- 
-2.34.1
-
+Takashi
