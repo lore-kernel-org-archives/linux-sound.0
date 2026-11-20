@@ -1,108 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795194470;
-	b=ER/ZWPvzxQRcrpp33pyDQDLGvbCw6aBVTVesXLMN9X84T0fl8GmnkJDrHTbirs4HXdZJ
-	 dzWDZrOMoH/kN6mFMja9a9wgngZ68P7YZDYg94JQzDSvG3+KUwI6+NJbnZ/P4ESbClttL
-	 y/aSMWdpvDIpBer89yXXd85xREshd9Ok5kBvN9+q2sCPjApxjXvpHMTCb9Sr7IGJzJf/p
-	 SOhJxHGzlWtXixF5S/Y865wtGkWMHzluRzugAWhFSGl7rtmkPNVrLxRuGuNE/n1coFGjN
-	 lXhaOhLyD+tF7LksKakBppWRASSaeNuWqX8nKaSUDOOWjlDVurAr5nqtZp0pnJg5/NQ==
+	t=1795194551;
+	b=iw4HpiJvgnphS+vaK0mY+BSyiTtdXKt46upmQaPLvLBC7pHYWNFpBM3uQ9q3fcybYCeI
+	 6Pl4gprNTjzgCSh9jbbaoc3UCfSX8WnAkfu1vs7hyrLYJoYxySsSfmM09JHIexYhl4dUD
+	 WQI+ZJ1kTqu2j6OVuRNbpG522DF5alsiHZREji2lzNlJj6YgcNmE+kFt5EiYbu2uiZzU7
+	 PShupwPpoIFuw9Em03wfTq6oxAbY/sRDENYNn9MlkHAinw4rU8mazwPGHp247Vs9I0DiT
+	 vk3/jB9S5MEXrJLvLSvH0OJ5NYhYNIyHyMaFl5DvxBStJpIDoIkC5xfpmir1f5MngWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795194470;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795194551;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=XuVKaJNpKyz+U6NZtRi5Tyuv4ViqF1AlOegkq4Q2eoY=;
-	b=pbbsDcERLbpI1TxFS4pV/KBEqVbr7mWgpYQ4Q3h1TRU+FbAd9uWUbOgx7fH4E6qdjpsP
-	 +6NZh+VtX3Er228IN7IlsxzShc4YJmiFz0YCQeFWROrB2l9kI8fzKL9pOch+Iu5v8dGEw
-	 W+E0dJizc7NpGBREMkmbGpor7bDfMjH+h7QzXNOcVkSWpHBuEJbJB7KxQhEnLi7P+JkSk
-	 PJlR7GRQ1XN+bk9pxfR2T4YyuK0XcX76JC4DicQxol1i4xN06zx4x89BoWnAbJRRHVtHJ
-	 igjKRzmXcCseN0OEg6wKhDMW+2BZPlFd0GRqFIS4nG47gXh09oSva1mECKuhycusXOw==
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=aoWT+2BSpjUJRhMXG6Rg0wLsCrBurv5q4LV08hsOWtM=;
+	b=RvDYjRCNLhqL2UXtWn4ZpTE7Em8YXz20lUilfwM9luX5LpHeViMFIvuo5j4UoHNoTPKu
+	 jjoj6Ptn375u/Fqqv0eDe3Al+/fPpUlWUenHn1D36ZVlc75zq4YYmhOLzbZdjgph3WGau
+	 +4HnR4zJPYLVMEGSwBGJ2PWoGr8QmNkYgoJemK3uYRmyLCG+yf/6qotvKMEAbwatpyQxJ
+	 58dXStuwLHlxuxo6EbiXuoIMD5ttU+kdmJNX3dK+akH8E23OC9p58kw1ftwFK3HW+qhyX
+	 RDu+AoCt/tchtD1+Eb6keeWc+2IX2G/NlQ4MXkTcZ9fOfLtydK8CSTuflzxlpy0t+1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d1ULq2zy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D1IH1LyY;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d1ULq2zy;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D1IH1LyY;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t4pXnOP3;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vNxXW9sT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t4pXnOP3;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vNxXW9sT;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2D8606A335;
-	Fri, 20 Nov 2026 17:07:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC2D8606A335
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77FC606A320;
+	Fri, 20 Nov 2026 17:09:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B77FC606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d1ULq2zy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D1IH1LyY;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d1ULq2zy;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=D1IH1LyY
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t4pXnOP3;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vNxXW9sT;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t4pXnOP3;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vNxXW9sT
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B7B4A1F7F2;
-	Fri, 20 Nov 2026 17:07:47 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BEA5622297;
+	Fri, 20 Nov 2026 17:09:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795194467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795194548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XuVKaJNpKyz+U6NZtRi5Tyuv4ViqF1AlOegkq4Q2eoY=;
-	b=d1ULq2zyTyoBIgRU4iQS7+5LVbDLTqwAnhorvIqGgbZ1UFGNYLTEDV3lji3HD+nG2yaJ/a
-	tGY99Z7mdRbdZ7mTxY1scStPzKiWYxyFZOWDpmomeEoNo1qjAVYTgB30aQF6042//h96g3
-	2QsSBVyj/qytQXK/lbakyXdkzM9cQv8=
+	bh=aoWT+2BSpjUJRhMXG6Rg0wLsCrBurv5q4LV08hsOWtM=;
+	b=t4pXnOP3kIcweGARDuRt4iXbiB/B4ma0vFIwoEqxl10Y9hP69ZsN+UK2YBKOIQbpPQQkbb
+	5B5U9jLC4WIrMoH5DczT0ljgBb6DcRyDEJu4HQB3EeSMGZQp+/F7KbjAOhr4XZvdMf5OkG
+	hTRMyAyIeuBYmQztc0xoO4kG2qk+w5U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795194467;
+	s=susede2_ed25519; t=1795194548;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XuVKaJNpKyz+U6NZtRi5Tyuv4ViqF1AlOegkq4Q2eoY=;
-	b=D1IH1LyYEpTadsR8sPOAawsd3rthMFWp0YZXiARgkHXXoqzJkSzUrZTMIQNYTkwyx4aAY2
-	Y5OjaBpeS6cvkeCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=d1ULq2zy;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=D1IH1LyY
+	bh=aoWT+2BSpjUJRhMXG6Rg0wLsCrBurv5q4LV08hsOWtM=;
+	b=vNxXW9sTRHlNYC0uNUoUG9cELSJa00mJipPYr4tOJOpyb07SGFoXNUxFBsVOaq93Hv6jxV
+	6vRga9b8Ti7aB1Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795194467; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795194548; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XuVKaJNpKyz+U6NZtRi5Tyuv4ViqF1AlOegkq4Q2eoY=;
-	b=d1ULq2zyTyoBIgRU4iQS7+5LVbDLTqwAnhorvIqGgbZ1UFGNYLTEDV3lji3HD+nG2yaJ/a
-	tGY99Z7mdRbdZ7mTxY1scStPzKiWYxyFZOWDpmomeEoNo1qjAVYTgB30aQF6042//h96g3
-	2QsSBVyj/qytQXK/lbakyXdkzM9cQv8=
+	bh=aoWT+2BSpjUJRhMXG6Rg0wLsCrBurv5q4LV08hsOWtM=;
+	b=t4pXnOP3kIcweGARDuRt4iXbiB/B4ma0vFIwoEqxl10Y9hP69ZsN+UK2YBKOIQbpPQQkbb
+	5B5U9jLC4WIrMoH5DczT0ljgBb6DcRyDEJu4HQB3EeSMGZQp+/F7KbjAOhr4XZvdMf5OkG
+	hTRMyAyIeuBYmQztc0xoO4kG2qk+w5U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795194467;
+	s=susede2_ed25519; t=1795194548;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=XuVKaJNpKyz+U6NZtRi5Tyuv4ViqF1AlOegkq4Q2eoY=;
-	b=D1IH1LyYEpTadsR8sPOAawsd3rthMFWp0YZXiARgkHXXoqzJkSzUrZTMIQNYTkwyx4aAY2
-	Y5OjaBpeS6cvkeCw==
+	bh=aoWT+2BSpjUJRhMXG6Rg0wLsCrBurv5q4LV08hsOWtM=;
+	b=vNxXW9sTRHlNYC0uNUoUG9cELSJa00mJipPYr4tOJOpyb07SGFoXNUxFBsVOaq93Hv6jxV
+	6vRga9b8Ti7aB1Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C7111342D;
-	Fri, 20 Nov 2026 17:07:47 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6DB9B1342D;
+	Fri, 20 Nov 2026 17:09:08 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aD8qEWN+AGsyTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 20 Nov 2026 17:07:47 +0000
-Date: Fri, 20 Nov 2026 18:07:46 +0100
-Message-ID: <877bi7whwd.wl-tiwai@suse.de>
+	id QxpdEbR+AGsJUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Nov 2026 17:09:08 +0000
+Date: Fri, 20 Nov 2026 18:09:07 +0100
+Message-ID: <875wxrwhu4.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: chris@kode54.net
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Rong Zhang <i@rong.moe>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: pcsp: Only autoload if the pcspkr input driver is disabled
-In-Reply-To: <20261120120307.629996-1-pmenzel@molgen.mpg.de>
-References: <20261120120307.629996-1-pmenzel@molgen.mpg.de>
+Subject: Re: [PATCH 0/2] ALSA: usb-audio: quirk_flags parsing fix and Logitech PRO X 2 LIGHTSPEED quirk
+In-Reply-To: <20261120120356.10909-1-chris@kode54.net>
+References: <20261120120356.10909-1-chris@kode54.net>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -114,82 +114,79 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: B7B4A1F7F2
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -12.51
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Fri, 20 Nov 2026 13:03:04 +0100,
-Paul Menzel wrote:
+On Fri, 20 Nov 2026 13:03:46 +0100,
+chris@kode54.net wrote:
 > 
-> The input driver pcspkr and snd-pcsp both register a platform driver
-> named "pcspkr" for the platform device of the same name, and both
-> declare the module alias platform:pcspkr. With both built as modules,
-> as distribution configurations do, udev loads both for the device, and
-> the second one fails to register its driver on every boot. On a Dell
-> XPS 13 9310 with Linux 7.4-rc1 and the Debian configuration:
+> Patch 1 fixes parsing of flag names written to the quirk_flags module
+> parameter with a trailing newline, as echo produces.
 > 
->     [    0.793761] input: PC Speaker as /devices/platform/pcspkr/input/input7
->     [    0.813617] Error: Driver 'pcspkr' is already registered, aborting...
+> Patch 2 adds quirk flags for the Logitech PRO X 2 LIGHTSPEED receiver
+> (046d:0af7). This is a mitigation, not a fix. After a hotplug the
+> receiver firmware resets itself on the first stream open, and also on
+> repeated GET_STATUS requests or on SET_CONFIGURATION shortly after a
+> port reset. It only behaves once it has gone through such a reset of
+> its own. The flags avoid the worse failure, where the probe-time
+> interface setup wedges the receiver for about 77 seconds.
 > 
-> Which driver ends up handling the beeps depends on the module load
-> order. The help text of SND_PCSP already says that the driver is not
-> needed for beeps, and that it may become the default sound card. Debian
-> therefore removes the alias since 2014 [1], and Ubuntu blacklists
-> snd_pcsp. With pcspkr built in, snd-pcsp cannot register its driver at
-> all, so the alias is useless there, too.
+> The same receiver hotplugs without trouble on Windows and macOS. A
+> USBPcap capture of a Windows hotplug, with G HUB installed, shows no
+> missing request that made a difference when I tried it. Replaying
+> G HUB's initial HID reports before the audio driver binds did not
+> help, and neither did a host port reset. These differences were not
+> isolated:
+> - Windows never sends GET_STATUS.
+> - It sets the playback alt setting once, about 0.9 s after
+>   configuration, and keeps it.
+> - It only reads the volume controls at probe.
+> Suggestions on how to narrow this down, or on whether the quirk should
+> be expressed differently, are welcome. Captures and logs are available.
 > 
-> Only declare the alias if INPUT_PCSPKR is disabled. Then snd-pcsp is
-> loaded automatically and takes over the beeps as before. Otherwise only
-> pcspkr is loaded automatically, and users wanting PCM sound from the PC
-> speaker keep pcspkr from loading and load snd-pcsp explicitly, which is
-> already needed today for a deterministic result. Document it in the
-> Kconfig help text.
+> The device entry repeats CTL_MSG_DELAY_1M from the Logitech vendor
+> entry, as the other Logitech device entries do, because a device entry
+> replaces the vendor match. The receiver also worked with only
+> SKIP_IFACE_SETUP | IFACE_DELAY. The PRO X Wireless (046d:0aba) entry
+> does not carry the delay; Rong, I'm not sure whether that was intended.
 > 
-> Tested on the Dell XPS 13 9310 with Linux 7.4-rc1 and the Debian
-> configuration (INPUT_PCSPKR=m, SND_PCSP=m), with snd-pcsp not
-> blacklisted: without this change, the error above is logged; with it,
-> only pcspkr is loaded and provides the PC Speaker input device, and after
-> `rmmod pcspkr`, `modprobe snd-pcsp` binds snd-pcsp and creates its sound
-> card. In QEMU with x86_64_defconfig, kvm_guest.config and SND_PCSP=m,
-> with systemd-udevd loading the modules, the same holds for
-> INPUT_PCSPKR=m, and with INPUT_PCSPKR=n, snd-pcsp is still loaded
-> automatically, binds the device, and creates its sound card and PC
-> Speaker input device.
+> Testing: with both patches applied, sound/usb/ builds without warnings
+> with W=1 and checkpatch --strict is clean. Patch 2 was runtime-tested on
+> a 7.3.5 stable kernel. Cold hotplugs on a front-panel (PROM21) port and
+> a rear (CPU xHCI, behind a hub) port recover within half a second and
+> then play normally.
+> Patch 1 was runtime-tested on the same kernel. Flag names written with
+> a plain echo are applied, and an empty echo is ignored by the parser.
+> The sysfs readback still shows the newline as written, because the
+> parameter stores the raw string. That is cosmetic and left unchanged.
 > 
-> [1]: https://bugs.debian.org/697709
+> Assisted-by: AI
 > 
-> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> Christopher Snowhill (2):
+>   ALSA: usb-audio: Ignore trailing whitespace in quirk_flags
+>   ALSA: usb-audio: Add quirk flags for Logitech PRO X 2 LIGHTSPEED
 
-Applied to for-next branch now.
+Applied both patches now.  Thanks.
 
-
-thanks,
 
 Takashi
