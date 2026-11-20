@@ -1,108 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795160202;
-	b=SfC3M8AAeWGS0E1rPxg9VEAZlk8l+Egh02E6EHcE2SqqT5kmkk4A5St5ou0J1IXalT9Z
-	 +EOif20TavXQPCsPbt1N2IXsf5SWEu7t1YosKpyYvFemRyWcZnqG/coK5pgZa7Sz7IuSp
-	 RSvWhwAUX1OTDFo3Z3jRZOi8Aj82tRjAwhlfKDDqhoAdmdx9DwsezHqUKGJ0k4GMoOYyC
-	 OQm9X1glzf5QUJZ0/U2/VQ5furz7hSBZvjS76InO1WSRJyWjsY5SyYaOQG4zGrU2JbO5P
-	 HE0Ya0G5sFpt8NRwHNHgKPjGsyuUUP9RfcuIYY6MQ1JeW/qANlcJZK5rbqgm2gFHp9w==
+	t=1795160552;
+	b=uPDj3AZrOHT/DWvkP6xtTfUMbQ5zvv0qdv7QtiG7ptMLny5d19Cf/V5M7dwF0DU8V7X0
+	 SB+zQ6culBZM5smfcmVYexSdVSwyYqqJf8MBnwA5MynETx8wdfzsQkncU/C7nEbA9emN7
+	 /+z1bXL+IdzXnu8oF6oREcnCMFDJLfZsQnXrCbD+BnsO6BmVqIEpumf5kw9JgirzY+xwD
+	 N1u9Wxlxm8+VPJh0mf/tjzHBq5AW1or87oeiu9TioQIa0PsFCMz1WZp1NAvGI89z5Xw1x
+	 B4Eyac/a2j4cXWRDcxoSlRbqSZvohrUfL+AXzJlinf673qHLOZWKI10VZS9Yt+DjDRA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795160202;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
-	b=W4zuW2Z61Ek0FYgCriNwlep4smRjsrj2rF374xG26OlzBvpXUxXdq9kEjzAEXGnKbDwM
-	 zw76x7PDO3pOsVF/SfHO+/kqoFmNNwwrn7owsJX1FehAOQkUDePDO9tqeb5wryJhAwfjW
-	 GKiDkN5+O4PXdExFoFZ88fNZPk0VyUd/U8smnRSRS00XnKaSUjbe0xeD7Fh/KK8Pv5zuS
-	 erF0bgtr482YEVDJXnbv7cXygaohxyv3Ije7xxhy1zon/mKsRVndpxymGuO0goKHUadaZ
-	 bshX8BQyTrbW3coyVO2DlOwkL4b7wi8NWJW2J3d2nUCUH8t26Ecb5seKwKLNhTKAi2A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795160552;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=beTyTTB3jrGVnb4lDXL6jTxGd9XgtEPt03vK5yGukDE=;
+	b=e0PH5kA9vULGuQhkJgZAjHiOrKR5B04lfbOXbrR3vEDIeVRwTJmG+FBn1A2OrFseXRKy
+	 9qCfdxVhaS566jov+FTmD8FOFb5TpG3/FNVYMZKMrOJ7jt6j2Ww/rYDe4VcVgEKjRjMIC
+	 I/nEZpvSz7a7YbPn6yVJ6XS/KUWr3AxTqI9E/7p50SzLyBR0bGxdl2WIbcAxLn4Fgx7Rj
+	 z+4Q9+S3Kcx+BPB5/4Iu4Ca9QkVENod+ZH6QGr8QXw4LNWgdFssnlRzHqHdaMZSNdEEkj
+	 edtHHdoh3+v19yE+kCmF7Ay1T4T2Ur1ACfN4+aXDpVWyz0j2X+e2d9vnRnl/kO2f9Tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ErK6YUmU;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013C5606A325
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 07:36:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 013C5606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08C9606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 07:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TxwieGTB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=lf4c6zKs
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E855C1FB70;
-	Fri, 20 Nov 2026 07:36:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795160200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
-	b=TxwieGTBirq+XNOwXc2LTb0QXHU9CeZVO25KA8TC1prUQNhMPrhuH8RjtmyKCAYeywI2J/
-	Ilrce+Vlz/NBdxf78DjXORIjW13G2/6zIIi2UMDMjLdsW4kryxWLhu728I8kqDb0F2wGfY
-	ugk1lTXr2xlgd3f7bpHDL5fByZziJ0A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795160200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
-	b=lf4c6zKsTA3X8f/pSkc7KnBCflEcTi7D6+AkLib1qJzrB7wcrnTSQWpPSNxnTsAZ27wFh8
-	Y6BsA3Iefki1XFBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TxwieGTB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lf4c6zKs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795160200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
-	b=TxwieGTBirq+XNOwXc2LTb0QXHU9CeZVO25KA8TC1prUQNhMPrhuH8RjtmyKCAYeywI2J/
-	Ilrce+Vlz/NBdxf78DjXORIjW13G2/6zIIi2UMDMjLdsW4kryxWLhu728I8kqDb0F2wGfY
-	ugk1lTXr2xlgd3f7bpHDL5fByZziJ0A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795160200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cRh1HYATXVNzgWhypno6VuZ+diVja1QSq9VuzmoGwAg=;
-	b=lf4c6zKsTA3X8f/pSkc7KnBCflEcTi7D6+AkLib1qJzrB7wcrnTSQWpPSNxnTsAZ27wFh8
-	Y6BsA3Iefki1XFBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A42DA1348F;
-	Fri, 20 Nov 2026 07:36:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KTu2HYf4/2pdBQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 20 Nov 2026 07:36:39 +0000
-Date: Fri, 20 Nov 2026 08:36:39 +0100
-Message-ID: <874idcned4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v7.4-rc3
-In-Reply-To: <1d2dffbb27f822112be2ca68c0bcf7d8@kernel.org>
-References: <1d2dffbb27f822112be2ca68c0bcf7d8@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ErK6YUmU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F4181F000CA;
+	Fri, 20 Nov 2026 07:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795160552;
+	bh=beTyTTB3jrGVnb4lDXL6jTxGd9XgtEPt03vK5yGukDE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ErK6YUmU4Me91bK3iNlMx/gOZAblAfI/dmdKZm733R3DI6hRbT49qZcWiTL2URMXq
+	 YI5s7x879ZaCgu44rfTxa8GHgDNsBpCRafUVq8YLoY4qzenr99qsP4WFy1K4wnApMH
+	 If6h1XlT9ZiQMglfCDIrvNv82M3vGUOpT36gg2D4Qfxg+mKO+RPlngh+wrJon2nKbp
+	 g6PsS07BZZfR2iTnliOUrte77CX2U9tuDKVXDGFVwQ2NgPT1u3VHpftwOArtvSzEx0
+	 slpsQwLnSTp+reMCJ/Wx8NFINU5tJeocuGb3oTQnkq3WwtpsqkhIUedTLyTjr5EEJ1
+	 QHX9cECxmuisA==
+Message-ID: <sashiko-outbox-224651@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/3] ASoC: SOF: ipc4-control: Rebuild replay message
+ after restoring data
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ye Weihua" <yeweihua4@huawei.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261120070042.279508-4-yeweihua4@huawei.com>
+References: <20261120070042.279508-1-yeweihua4@huawei.com>
+ <20261120070042.279508-4-yeweihua4@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2026 07:42:31 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,66 +60,115 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	DKIM_TRACE(0.00)[suse.de:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: E855C1FB70
 
-On Thu, 19 Nov 2026 23:41:25 +0100,
-Mark Brown wrote:
-> 
-> The following changes since commit aebb7274476403040d582c61478df8f4a7bf9cd3:
-> 
->   Linux 7.4-rc3 (2026-11-15 14:30:11 -0800)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.4-rc3
-> 
-> for you to fetch changes up to f66297be665c067d2e96da9ce1c5767b587e17b7:
-> 
->   ASoC: tas2781: Avoid possible zero-division (2026-11-19 17:34:26 +0000)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v7.4
-> 
-> Quite a lot of fixes here together with a few quriks for new devices,
-> mostly not particularly remarkable.  The Cirrus changes are relatively
-> large but reasonably so, there's a bunch of data table updates and a
-> couple of new functions needed and they come with clear reasonining.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ASoC: SOF: ipc4: missing size and type check in
+  sof_ipc4_set_get_bytes_data()
+--
 
-Pulled now.  Thanks.
+commit 5bb9387ebbc31097ff7ba75b9019b86b70c0a08a
+Author: Ye Weihua <yeweihua4@huawei.com>
 
+ASoC: SOF: ipc4-control: Rebuild replay message after restoring data
 
-Takashi
+This commit moves the IPC replay after a rejected set-data request from
+sof_ipc4_set_get_kcontrol_data() to its callers so that the message and
+payload are rebuilt from the restored backup data.
+
+> diff --git a/sound/soc/sof/ipc4-control.c b/sound/soc/sof/ipc4-control.c
+> index ace3bf2f719d3..8ed006efe17f3 100644
+> --- a/sound/soc/sof/ipc4-control.c
+> +++ b/sound/soc/sof/ipc4-control.c
+
+[ ... ]
+
+> @@ -315,12 +314,35 @@ sof_ipc4_set_bytes_control_data(struct snd_sof_cont=
+rol *scontrol, bool lock)
+>  	msg.data_size =3D data_size;
+> =20
+>  	ret =3D sof_ipc4_set_get_kcontrol_data(scontrol, &msg, true, lock);
+> +
+> +	kfree(msg_data);
+> +
+> +	return ret;
+> +}
+> +
+> +static int
+> +sof_ipc4_set_bytes_control_data(struct snd_sof_control *scontrol, bool l=
+ock)
+> +{
+> +	struct snd_soc_component *scomp =3D scontrol->scomp;
+> +	void *old_ipc_control_data;
+> +	int ret;
+> +
+> +	old_ipc_control_data =3D scontrol->old_ipc_control_data;
+> +	ret =3D sof_ipc4_send_bytes_control_data(scontrol, lock);
+> +	if (ret < 0 && old_ipc_control_data &&
+> +	    !scontrol->old_ipc_control_data) {
+> +		/*
+> +		 * The new data was rejected and the last known good
+> +		 * configuration was restored. Rebuild the message from the
+> +		 * restored control data and replay it.
+> +		 */
+> +		ret =3D sof_ipc4_send_bytes_control_data(scontrol, lock);
+> +	}
+> +
+>  	if (ret < 0)
+>  		dev_err(scomp->dev, "%s: Failed to set control update for %s\n",
+>  			__func__, scontrol->name);
+> =20
+> -	kfree(msg_data);
+> -
+>  	return ret;
+>  }
+> =20
+> @@ -510,6 +532,7 @@ static int sof_ipc4_set_get_bytes_data(struct snd_sof=
+_dev *sdev,
+>  	struct sof_ipc4_control_data *cdata =3D scontrol->ipc_control_data;
+>  	struct sof_abi_hdr *data =3D cdata->data;
+>  	struct sof_ipc4_msg msg;
+> +	void *old_ipc_control_data;
+>  	int ret =3D 0;
+> =20
+>  	/* Send the new data to the firmware only if it is powered up */
+> @@ -540,7 +563,21 @@ static int sof_ipc4_set_get_bytes_data(struct snd_so=
+f_dev *sdev,
+>  	else
+>  		msg.data_size =3D scontrol->max_size - sizeof(*data);
+> =20
+> +	old_ipc_control_data =3D scontrol->old_ipc_control_data;
+>  	ret =3D sof_ipc4_set_get_kcontrol_data(scontrol, &msg, set, lock);
+> +	if (ret < 0 && set && old_ipc_control_data &&
+> +	    !scontrol->old_ipc_control_data) {
+> +		/*
+> +		 * The new data was rejected and the last known good
+> +		 * configuration was restored. Rebuild the message from the
+> +		 * restored control data and replay it.
+> +		 */
+> +		msg.extension =3D SOF_IPC4_MOD_EXT_MSG_PARAM_ID(data->type);
+> +		msg.data_ptr =3D data->data;
+> +		msg.data_size =3D data->size;
+> +		ret =3D sof_ipc4_set_get_kcontrol_data(scontrol, &msg, set, lock);
+> +	}
+
+[Severity: Medium]
+Does replaying inside sof_ipc4_set_bytes_control_data() and
+sof_ipc4_set_get_bytes_data() skip the !data->size and data->type checks
+that sof_ipc4_set_get_bytes_data() only performs before the first send?
+
+When a bytes control is loaded from topology without initial data
+(scontrol->priv_size =3D=3D 0), sof_ipc4_bytes_ext_put() backs up the
+zero-initialized cdata->data (data->size =3D=3D 0, data->type =3D=3D 0) into
+scontrol->old_ipc_control_data.  If the firmware rejects an update and
+sof_ipc4_set_get_kcontrol_data() restores that empty backup, both replay
+paths unconditionally send a 0-byte MOD_LARGE_CONFIG_SET IPC with
+param_id 0 instead of returning early as the initial !data->size check
+does.  Likewise, if the rejected user payload and the restored backup
+differ on whether data->type is SOF_IPC4_BYTES_CONTROL_PARAM_ID, the
+replay stays in the branch chosen by the rejected data->type and sends
+the restored payload in the wrong format.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120070042.2795=
+08-1-yeweihua4@huawei.com?part=3D3
