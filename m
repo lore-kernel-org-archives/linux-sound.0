@@ -1,100 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.175
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795170403;
-	b=P/BAUZb5s0m/F1TdlABonYHcvtXcCKtunxXec2YZIrgiVRgry57Ry6lDHniQ3OcpvOfY
-	 GuxAjeCpyPbEPCk0Rx2XjEwsydPKpDDQmcLAcpOvT7Z3zIJEZ6HXbl8rebrkfOglfqj3a
-	 PMY+0fHVbUjbAiM8iF9z2wmO1ZOBTHmn9JTQomrXcsVetdcATedrf9k8EjdzNH0D6fpEU
-	 Or49SNetprTbis8zWTK9V7Q1nDRMfSY+XwDigF1Y1pg45B6+KhgxBqLtwDUKta/G4kJHB
-	 OhI658xtPkVlRTnwE57IaBWlsD67XYS3HVo0LahdKlk15j01T85VEViSuJwFgIghm9w==
+	t=1795170551;
+	b=lOiUMzSlPROBJ0PRoSA1ocOh5gTzKE6kVJjKnJ7yaN36MuSPMXRmyPxS7FGziEQIvHfI
+	 cXH9HUbC+xjVrhq1Lkl5q+NhdXEJRYoRHNLOcu1hJxJVu/PPFvKcIYKea94a2URIvv+rE
+	 ilqYHfXsXqXSQYD2nglAumu15RiVx/loV8AzYJQui0iQ6rpTRoZzBJ/leHzwxez7uqufF
+	 Beb4Z1XLvxNUoyUHjYtzPNfFD63Aslknfn17L1cvuMgAbNWumTlswleCNENJCTk2jEjCG
+	 Ts1QB2+oSyBSuD/FiJA/ASNvB9QFTya1e/xDAVFfjq9If9TsyoPHrO7urFaXPTM75wQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795170403;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795170551;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LF2/f7qLTUBrb9c2xXcASr++BpW6e38apQYvPO24BK8=;
-	b=uq71wAabIa0cfs7UkEx79Lv9TtxcHrLzJIc18caYNW0QXxNx8AEex2UklM1ZPlX/swaF
-	 IDFm0Q+Z5EpFVwriAUM/NKAq8pPX3j3oUjK3HcUN9cTktoRFhPcM2i+RJGE3Nh0LPlZSs
-	 XE3YSNN0N06mgttM0KFR3fd2Av7eSUeRMP/2aO3Yowfgop9qR4zO17/imCI7iWgghZa9c
-	 VtzsrGssQT9BEUL+p3hIyz//p17zEsSrpOToyV9TitkEM1Y+9DKadiSFhUVlCFa92Wwtk
-	 KhRHscpsHKlk6TLcMyvHE/rx+QMacCgX+sUgo48XoYhlyNZSMk2EnoYNY3IjtlE3ZeQ==
+	 Content-Type;
+	bh=uVsgtw9AnWofNH90qnHhiYcpUjxrPNJEDFOgQ0n6Gqw=;
+	b=z6GDSMn+CLtV0pg96Z5UlBwRd/6dSRNZiMe+/Tqm6N3NrRwL2SPSqnLI0lafnEyGQ+6s
+	 ASb+PAHyRAEWHL5BRChTpIDLC+sBjBzgm4ojOHwOjF501C4/eWfzD/xntv1F3hwoqdxkS
+	 ZoGoYRuU8wCUlLOs1vVJVUViprlvAq4u6WIidzhf0moRRW5E60syc+QoF+NIrae02UH1o
+	 OxVesBICvWj8BLqg4fFZtnMyDMeZ48dF5EVBI+lL7LfPqyfirz375mHH7YCIA1yTGCYN2
+	 Zv0x56mMhm4MVAYYW0nMZoHxao66iSQiOfJb7kkl+rBsaxKPinISpNrC3eKlzRGXERQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rbvNTSC0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.178
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fEONgvy7;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.175
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E193606A325
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 10:26:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E193606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DDA606A32A
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 10:29:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41DDA606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rbvNTSC0
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8b6a88e4341so346109b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 02:26:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795170402; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fEONgvy7
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cde5a7d7849so344500a12.0
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 02:29:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795170550; cv=none;
         d=google.com; s=arc-20260327;
-        b=fbdK5h2GlI+DeCsLSIPR7a9R4k+kn3Xbg3b0dtvEXNtoW168+ZRudyjHJM34LUtnnH
-         azVljDalZubnOwf5yrLvibefd3nAAgslkDvQIDhIuim/PFeP8ea1g48xWyQXIOkrDyVb
-         cCN9kFIHjIE4s4fyBy0BjShTOEf0PQ1zpL2vwnXJrnzq9oMMAMkE1Ho1D9QH1rpde/Li
-         4XBM/6cgNeYvD81baBjDcz/sdyDL6QwCLGZfz7+/k90z1w3piZsX0wTgFJQzw7qzSmA4
-         KajwPiT6pLBQbSASmYlaO81NIUzjwMstNVlv6D6p2xbk2PiumjDWPfo9CDnD35korm5L
-         Lvdg==
+        b=KjQiMQWmPpHpj7s9N16inslcuIYoqjLBiWB2RpU9u49lmWJTTh3f56L9HtwXayToFu
+         Y4Dqtu1N8q+zZ924aBhrfLSL+VlH8KughLVfQrrX4AjEZboBXPJMJ9X+XvaXnuIjjPLW
+         JvibiQ++2ja2YzHrjPWikNwaw5UJoWi86WiDiUg5RPVwMVoa/UpzNegeezhooyS8The1
+         Xap6BDufC7bArteuqcUfO/vZkuaznol65qnMnyn+b8+BE+PxosRLxz8z7neXeuseDHxY
+         WhDcgAktVvmNAk9IZ7I9aZtPj8dwlFAGuWpb8P9BTQAP5ek/7s+h1bbrAMQZKEsJDiRp
+         qBgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LF2/f7qLTUBrb9c2xXcASr++BpW6e38apQYvPO24BK8=;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uVsgtw9AnWofNH90qnHhiYcpUjxrPNJEDFOgQ0n6Gqw=;
         fh=j7qE0RlvzNR5Qm6xA4ehUDBqPqcz09gsE3Wa6zaxdUU=;
-        b=QuiY00KVZttzCnryS6979v2pJ/sl9yErWiShfhPqsLyYt02Zn3H1APCK3fhVMIirZn
-         LniI1hPOGSuz6I4M/n7MY6STyWnSlrlJSQcJ/11GH/WDvOT1KttbnhZ2bcg/55ZuiRvv
-         iFH+90/G0kzCMDZYsy3PSNcBVJcChryp0/KghRANsWxZD1EkRHdjOfOcJZ+YwP/cbecp
-         XwFEGsKDSWYokcWVo98wWITMJabUAANd7bkXnpDLBtqdTmTrg7f32cT2Ei2APv8MXZ0O
-         0FgvioPrZcf5yt1aXoOZmEpXLvkzUZJw+I0K9gy2Al1BXob1ZbHUE7dfgK8ie+VpI4L5
-         jU5w==;
+        b=KOrbEt2U7w70lJY8yYCiElRPvCf3J8vLj1xa/+uVB3KZmE/yTOX0K1MBiY6FEmYj2b
+         nVbKAV/REIiohMN79VrnbftLC2EeErqnf8X1h6SO/sDAjfdIknk7JA2i4011ocrc02V/
+         MAwM8H5kPMYy/mSvKKXIYNi9KV9sCH71Xd/zWU/qtmB5tmMepR+1rHxwR9rmdm5KnGdm
+         lPFPLIBZN/zbFPdSJA4SSLzzZ5RJ71pljVzbp7DDeXv2ZCMMmWxhkiyV02XIqVaApmZL
+         fPGWYPQjT34N30lufqyYJ3JfvBJKNw7ikm9G61hT3VYE3B7YwUr5piNbOQ5hGz0EJSSu
+         3F2g==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795170402; x=1795775202; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LF2/f7qLTUBrb9c2xXcASr++BpW6e38apQYvPO24BK8=;
-        b=rbvNTSC0nf09Fh5hmJe3kZ7dYIEvmvKLr5KIqv+yICEkSSCr7mS4L+zARwi2VkQppf
-         LK/2BS2hv6i6dd4KKeFnOAtlnSObfyehd6gC22aNopNERk+mGscqLkLIcHNzJHvzNfZ0
-         rpykhsdYgVhiDdPDjERqh+SdPQ8OnV2wjaXva1c71crN4vdbOyk7Zp7bZJFltaMQwvKL
-         Ulgy0fpwufr2TCqdboPXgnRIHxr6aEhoQHz6C2NxyWbd/rO+75pp64kQ21FA5tHM90OD
-         o+Oz7KA/4DhXFDZsEQPB5Javjq4pm/hSdMH737WnP0wBeO0f/zXL6zi79TeB2RoTJSe0
-         ZEgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795170402; x=1795775202;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1795170550; x=1795775350; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LF2/f7qLTUBrb9c2xXcASr++BpW6e38apQYvPO24BK8=;
-        b=tqsde2TU5S8zZktx5DyhNEY/qdvJmwRS7F3S2Jm+DpF/Mi5G1jcxjZ5IsM2pf10DG6
-         ch92w/h4Rjvrakf4f4kCm/02C+9zDuOKAvKLTKp77tiKmTqdGccHPW0CBGSc8w7hdAId
-         FoIPW9IKgLF+VIJhXBjnYXY4bD3P/dFapnzKo2nbzlgLl0aEqYkR68EtSi6KQPoL/+th
-         6KyEk9QLfxpVduVkGN6if/2ds2dOtMveoT+p7BWdQKb2mqLKz1tK89SSpAT1cBQgCXJg
-         JWMmk5G+znEHTJ4X5IyfefI1ZlE+qPSYYJzzHo7s4MAyUT0uSeSQvkSUR6HsCfJ7V81+
-         +jpA==
-X-Gm-Message-State: APuU4Z+kMPKHvdgKy7X7icnJfQjp7YQPPCnfuYZyf/X7GlJh75IpVUEW
-	3Gf0Gf+3eBEj9eZ2VDp3itvuAdb6BeCk/Nepyyf1wVs6UQ7bFNDgIjyda1EydJpnh9vJDr8K6tn
-	Y6UnTnlsCcKJPqfgbfd61mz8zkeI8CEA=
-X-Gm-Gg: AYBFou0Dc/nO7IesJJT5DQ7OZNDGMZKLg3m3lcWtYF/mcxK4OMaLXZLpiQP3bzBaJfs
-	JNylJbeNaSSBagYBTN5a8kkovEzkvzdjggRJfeAKNX2RFaBbFO/ikGw+B6q3Ur6IUqrRIJKVr9/
-	QEZ12++Ofuzhy0RhxPzWnygp6eVen62CnCK3YtTpo2xVDpNJEet4HM+8FIYBtusWDnp8kH478T4
-	I2FFRafyG5zB+X8dLuiAEU5i25/+NrPt4JOSdD9NJSxra2HE4MluI8+OACI90Yer35S7vnK5wNa
-	fHlDejvi+JizKbSeWGEhiQEgWSeGiBfxus7YpObV3FJcpuhSWTQ8t6ASRoxdTvNRFOQota6bakc
-	QDxgO0Nsp2mbGCZp57VNs5ks/sv78E2LC8sMcXXIHmon40oukwV7K0CuzF+lnucjZJWMR2/dWGW
-	yLUz3Zo7IzOLVmyAvZexQe/NLghv26xIl7EQ1wTutJbDjvXidq
-X-Received: by 2002:a05:6a21:3b8f:b0:3f8:e16d:c9b1 with SMTP id
- adf61e73a8af0-4014e254f09mr3223108637.45.1795170402519; Fri, 20 Nov 2026
- 02:26:42 -0800 (PST)
+        bh=uVsgtw9AnWofNH90qnHhiYcpUjxrPNJEDFOgQ0n6Gqw=;
+        b=fEONgvy7NGk4o8B3tjmL+gnvv5zENAENpxW2J99tzu30WJ6ewxGQZYN/kwTUeruIEt
+         tJxBM1Cwb7exLEeJ07rF/B15AXXLhIPZajOaz65qIbFz7Hg6uUBnAPh8Ywbk5Q3TX/SE
+         f/WzfaDL3E85WisVtSsqM83+QrZ3NthvnzFLBavObDOWybqLezpDhNHDObVREeYRtxAZ
+         FAUIBNELI4zguhHeKuOD3eUWLbInLuuRamAVCvWxaj2af5TPzy1T7rYJriLRwKFfeDKF
+         PspHhVgMdTksH89YTXsam1D2yN88ZcqhP1vCN4nrwa6Bk2+WAKGcq7u4/abCMqZbPOFI
+         AZ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795170550; x=1795775350;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=uVsgtw9AnWofNH90qnHhiYcpUjxrPNJEDFOgQ0n6Gqw=;
+        b=gVrAKmhLcoUZY42Vo3gGSa+7ND7yAv8WVUg1BDVHvgEztHFTjCBhciDjfUaVPIvb/p
+         vfS9tR3Hw1n94VH2iLvHay/nrm17O0MXxP554g7esMfKThrn/e4pFsCpnCQoiEk9a+qy
+         kPQkAL1WSj22R4ql1akMM44tE8/JX3fRGE/nqIW04Kpu5ZPcWDBp53Y2qsejs5UxUfyp
+         URIKzLlehp/0H1Bpa8UGOYqBy0OmUoYqZAlSUFV1WQKoZt7KOuu4RY0RfDrKpZqrcVwa
+         4UjNkNwqM6oK+FkPoCg8aUHyEH+5Iscvsid2OWRGPDX2EqXooQsuDVyqXZXqW/gjVUeC
+         bxHg==
+X-Gm-Message-State: APuU4Z/TdAjZH6Ocl8yZYa6I4g7knPoq5Q14Gg7sflBEIgqrWGFqpPmA
+	sdHC5xP5/5+vltV/i/cDZzx2KC+cO0NoM8E/PhPHIoIAbapshj5h5nr4yEIz8XoB3GGr+Buh/zz
+	ESCaDRiE6Qfm16cNkysXTqVL0T8dsxJjk99iL
+X-Gm-Gg: AZFdTZfrag1nO4rbcfWbbf0jZXX8GM0rjUu3JKl+57TyPPXMfTisI/kdPH0B1kTQAWD
+	Ruxhm+hCvnXiVfpRmB80T0sutVBd7NaXpYxwI24ktdIWesABdC+f1GYUkETqcpwB0FUXxXnyJ33
+	8jqWBjmgYHXU6Cjw2R/FCOI9lsaeNGUSHoV+Ip1eLcOtuHhD8fIARGHSSzIPGe1pQS9NPAZEcM5
+	AajK59jbyu8qfe89TmVe0A7Eck+ktMPSXMxavDaki68b5fpzTYkdbXdTZ3CMPTag6WP1t71pmPq
+	p/563F5bvxKqUpjPeZhgOuyYCT76ppfIqSAgXBcb1AFcziTJ5OlAVCHEXptZSkAXae4qQ29Exhw
+	VAfdaqGf5jyYUlz2EmFfa32eE6PlxqYRg5dMkOIC+3imUOfiWekaqK2qzKVnHyggKiuO1eP1MVN
+	dt3WnLsBFfHOSer0o+S3hMjLpsxgIUE017kvqKpb05gozv2xMI
+X-Received: by 2002:a17:90b:264d:b0:3b1:bd5d:53a9 with SMTP id
+ 98e67ed59e1d1-3b41c9825a8mr2178054a91.63.1795170550564; Fri, 20 Nov 2026
+ 02:29:10 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,42 +103,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120100408.8053-1-phucduc.bui@gmail.com> <20261120100408.8053-3-phucduc.bui@gmail.com>
- <sashiko-outbox-224911@kernel.org> <CAABR9nEJ3Jgva3iTo2GVacHXRp_FVrqVxQ-VCdGg41vLbh4htQ@mail.gmail.com>
-In-Reply-To: <CAABR9nEJ3Jgva3iTo2GVacHXRp_FVrqVxQ-VCdGg41vLbh4htQ@mail.gmail.com>
+References: <20261120100408.8053-1-phucduc.bui@gmail.com> <20261120100408.8053-2-phucduc.bui@gmail.com>
+ <sashiko-outbox-224919@kernel.org>
+In-Reply-To: <sashiko-outbox-224919@kernel.org>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 20 Nov 2026 17:26:30 +0700
-X-Gm-Features: AclHuK8GZnsfv_ewo_R90J5NHdMDIeazjGuJGm3zsdOP0C8Jt5X981fvDU5EK6o
-Message-ID: <CAABR9nEVZp4-3xws7qm0N2gCnDXsh=kRF-UcHDeme7ZTbs10sA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ASoC: atmel: mchp-spdiftx: Mark interrupt registers
- as volatile
+Date: Fri, 20 Nov 2026 17:28:58 +0700
+X-Gm-Features: AclHuK-SrE20lDTbd7YPskSVweT1_hnxLgkilNwL0_Ve5O-b4yK8MlqO-HwVMqo
+Message-ID: <CAABR9nE8o6h59mCJuSY6RGKGm0fme6qLqCZj591OiRArRapcDA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: atmel: mchp-pdmc: Mark IMR as volatile
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 20, 2026 at 5:22=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.com=
-> wrote:
 >
-> > [Severity: Low]
-> > In commit 06ca24e98e6b ("ASoC: mchp-spdiftx: add driver for S/PDIF TX
-> > Controller"), mchp_spdiftx_regmap_config left .cache_type unset
-> > (REGCACHE_NONE), so regmap_read() read SPDIFTX_ISR and SPDIFTX_IMR
-> > directly from hardware.  Regmap caching was enabled later in commit
-> > 4bf54ca60f99 ("ASoC: mchp-spdiftx: add runtime pm support"), which adde=
-d
-> > .cache_type =3D REGCACHE_FLAT without a .volatile_reg callback.
-> >
-> > Should the Fixes tag reference that commit instead?
-> >
-> >   Fixes: 4bf54ca60f99 ("ASoC: mchp-spdiftx: add runtime pm support")
+> [Severity: Low]
+> In 50291652af52 ("ASoC: atmel: mchp-pdmc: add PDMC driver"),
+> mchp_pdmc_regmap_config did not enable regmap caching, so regmap_read()
+> on MCHP_PDMC_IMR always read from hardware.  Regmap caching
+> (.cache_type = REGCACHE_FLAT) was enabled in e8c8e9de4ee3 ("ASoC:
+> mchp-pdmc: use runtime pm for clock power saving") without marking
+> MCHP_PDMC_IMR volatile.
 >
-> Commit 06ca24e98e6b already fixes 4bf54ca60f99, so I included both
-> commits in the Fixes tags.
-> I don't think this is a critical issue, so I'll wait for the
-> maintainer's opinion.
+> Should the second Fixes: tag reference e8c8e9de4ee3 ("ASoC: mchp-pdmc:
+> use runtime pm for clock power saving") instead of 50291652af52 ("ASoC:
+> atmel: mchp-pdmc: add PDMC driver")?
+>
 
-
-Sorry, I got that wrong. You're right. I'll update the Fixes tag to:
-
-> Fixes: 4bf54ca60f99 ("ASoC: mchp-spdiftx: add runtime pm support")
+Agreed. I'll update the second Fixes tag to reference `e8c8e9de4ee3`.
