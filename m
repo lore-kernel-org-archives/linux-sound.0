@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795167866;
-	b=FHcJjTy0pOljNg4cEIKMBNx5mYbIKv44sm84jEZJGPxm/0IPtR6zsCJRR4sR9wcKiatA
-	 WTC1kgFE8KmXh40sGejTmY5YCLRIW26wsyTXq+5L1mV3uwZam6Pq5itW57xjG2pZWXfAd
-	 GBBElmgqUYHycqvOh7ugpO7ovDHcKXCU7tnM9bixKw0/ZEtuQHjzZQUgpJNMH4o7Eh4Us
-	 23MD4/4OJ0XYbvBaGw5f+7Bk2L9RDCAhWfU2ww7w99cL71PdLuUbb04DXweFFuU1II37C
-	 3tcZFqRs2eg/ED+viP4dlkcE9oIZt2dQBTQXaOcXZaRLJf9vDjuz9qsonAcnXGqkoTg==
+	t=1795167872;
+	b=bbiivOThxJLpmRpotMe+pQbIt9hyM1G3FlOfYLxBG//1RmqAnTVB6xxS5l+FI1bulD/L
+	 GGbKLel9JpvfaUOssz/6B2bQbbr0kvD8dWFht8tPHZnaCUwCSW8eCr/6qOzmQHGojNgSX
+	 8UDchpiMBqmrZf6s3pYDOroVb5ecgyXhxtwngPXubDemcpBBfcR6AROklyyaZV6aFCh/x
+	 JVbTeWQapEaXQgFrkoACvoAPcwc7CID9OYG+vjJCcRWZry+HqqIR9xaVJvMpaXFP88GFM
+	 GozqU7sjKRtCy+8Bk1jyuvwLhUMsyC/lyfwaOMb9YNR0YBKhcFGu19aSSnCRF0iA/GQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795167866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795167872;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=3cCgqwbNvrgOhuXLkkf/Vlhr66lfaezWECzWianZik4=;
-	b=x2enJGcf5g3/oyvZSEix+2pH4VMWhM4TOKGpa0ikt40RG2RXpfGfw2EqOt1VIib9Unen
-	 B9ehWBa2jhepVS181mAzkLprdzAW+cvA8IbADbMk7zVHNlY+eqmgXXnC60a8+AsvHTjlW
-	 gCMNEa8XD/8O+8BZscqA9rxhprE/kxhT7g8UvpvPfe+nqFGwRxqIoMySyvEa2b1qeMmwF
-	 OYjO1xeGu1iWKhKPJuJmoWOvaWJJoMbNegx5LGA36OjlvOnQJNIWrKVMv4W+m1VBA5kVf
-	 PK7D92WPsNR8TBToGjRjscK5Iutk+o7zABqNWFrDuWs3NnqZvzTbUqDOZeD5wkYWVxA==
+	bh=gc0YH7tul+j0foN+otRZFbZgrVsjLkGsvyOuJz0JIG8=;
+	b=LDu1718paOCeGhCCwyQVsdJqGMvkIJav4Nv7WWXa7sGJ5AhbxTTYqMy60RHJOzqpbznl
+	 i2kNnJgLjb/1sFZ/N7J4Wjl+LRWh/RdYQ80iSQyipMhDhWOk8J9xB2I12w6a0NSySwjI5
+	 Q4ly6ztrhMZby1fHNVXkLhv8hSmHocsQHTxfg2uDE/vyEXWkCGken/pXtMtPlMwUlVr31
+	 t4g7yMHnGiOufYjQ6lVM1MOGj0h7wFda64xlII15eCm0PjHhkObPwajlZ2NYeP0ijeU1q
+	 ht670CGlCxbSIkFNxJLhV2FGvOULEuVfCW7a70RKDbvkSCEHRcEVeW1R2h+tdX03csw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ddcU1O7z;
-	arc=none smtp.remote-ip=74.125.82.170
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kWVqnyUO;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA7F606A320
-	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 09:44:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AA7F606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344EF606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 09:44:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 344EF606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ddcU1O7z
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36a315ed211so740588eec.0
-        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 01:44:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kWVqnyUO
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3712b6d9843so598124eec.1
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 01:44:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795167865; x=1795772665; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795167870; x=1795772670; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3cCgqwbNvrgOhuXLkkf/Vlhr66lfaezWECzWianZik4=;
-        b=ddcU1O7zDzzRsmAjkyUl3JiKnqOVKUs14aQ4k3kKTX7rgQGYVCmBzrAoowQbwhdc5l
-         QMts06I2dY5a53fGAwPWlag7qO/IJOa9QEeKnvRKogh8V6qAUq5Ic1Qwjq16g3Fp/mdF
-         e62n0ld8os8ErmUEBXMbuTQtzG9WVyM2dCDIRnRIN/A6kbC//ijmE1mnH4hLG0yKFyRu
-         OalIMB5dmB/4MOGNADS42QGb2/THUAY5ASo8Rldtz06d+S6mRwkUEdVu1FLxN7sTaAOv
-         fgAA/0mjpAvkngYV+V6yXuAS+bFPLvVPCXw3Aal4Xo9xUNhR9XpmHRGXx/oFdTeUlUP4
-         QVCw==
+        bh=gc0YH7tul+j0foN+otRZFbZgrVsjLkGsvyOuJz0JIG8=;
+        b=kWVqnyUOu6Ja5aE/SymBF8yS0E/gQYa9DgVh+hqp2KYCZ3IDoemXQTlXTHCueN5Bm7
+         fexNC26c7m/5UXChtp95ApxxTwA0ujv6BArRjhPVp2yJRxC8x3D+SH7hJuAXzkKt1npk
+         HcZIEmpuDoR/l15EAim+pUYKCnI7837W0nwh7BRxgp6mT/EYBOL3YD6DWCAB9RR1e+Bi
+         hkaJW9kKUiyRbq5BW5Y6JHBdUcrzyAICrYTLB6Ufb1+j16mO+zqZYkuqrUh9wNzIHYjz
+         zpXJ3uB4encl9pfMIie1FYS+qR+5czJHzsntv0ALI2yJOkxXCLoF6w99lAallkZVS51l
+         828w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795167865; x=1795772665;
+        d=1e100.net; s=20260707; t=1795167870; x=1795772670;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3cCgqwbNvrgOhuXLkkf/Vlhr66lfaezWECzWianZik4=;
-        b=laeloiUcp6CheMliSx3og46T7GCzB7OiODa/w+KSst8TD5b396YIURblfWjO19qR3I
-         trEuHcWuSrC3oeKUffrePaTDmNqtOddQEC41SqM5yqwDOSunVAi3BDSJ8yP4QqNYGyfN
-         hvLn5l9TWu22gTRXUrnTiyk2AmP5aT9bOYE+7uL+PHqohLuuEWWZRwh/fOCHnhPMhTHq
-         Doaed7EMNhLXA4NeA1Yg+/TNDdXZF1HhurOjkP896wCF+J14SN1tE2Qhy/GZTYozr54m
-         O8VKHwDh5EmUZCiACyF3vonFl4rWRNjeinHW5kJP1F+0YHNrI7x+dyOJb4i814gqFlyq
-         W3xg==
-X-Forwarded-Encrypted: i=1; AL+hErGv04ifSAqV5vnmAAV/MkXpJT/UfCRA87bFvWjWI61MwsePV6MKZPey+rGNY/nr4qq7jg8xrdDLy5ud0g==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+73I/FT1R/6eTsUb9BymMQi5uqUK1inLRgZS/smWZ6t/iAh2T7
-	h+ERp1VETnMdMsYaOd2aZ+5O4cS9XSZZVALys7BzULYdvhj4GB9L/Msy
-X-Gm-Gg: AYBFou0MBG/iy5/DZel5+XLod5OsRshjCxL51hIqkdbWpBVvhLlAdklwyTXYI2wsXHb
-	P6nKOvyFFPLyAYsemOMPXFXDnC/3q2KeTkwUl6kNVzr7autZHIfvt1UI1qVL9Ih7SsULyjHo7hm
-	Tsj515D2qES+EuokojV1EAw18jZccOGWsuXNGEYxnNZ7DvdxDrCm3NB6uv5gFFb8yeiGHK78BrX
-	pYtXxWbxo8Dthcjv/UyN/Cz/iDtfcF+8NwSj/PynPZTmZUcpBKCzT7hs0+pEu4I0aJd0FfMESgO
-	94q2BwsHAjp95Qm4us1MsroDv92vXgkeXjJkpBl51bcIIaWRSwzLhuvzHPlQ6FgW1soTv1O7pqR
-	lNz4lXQJdLqvGGBr+VfPikuNdYScCy+gxL7Q297+/4ebRLioHQtKgJSYedXlE1hv6hQPZF8Q0kp
-	LcLILnIPkRLOg62KERBRQ+4g3VBY1nyRLtBUkLqchZW1jJDvH/aXAGIh4zMGudKvagVL5E028x7
-	bxqdQSFX3XOSL/q9I01sihdBtAi+i9LiA4rW0/Y9Ikdv7t9IeV8Q+xBUOyxWWwiLl69lB9Pr/fh
-	TX660xozQiOlwZVkgHaWi1ntAKd2Ewe9hxmGNfxy0V6/tLH9C4pY4HFvJYll9+YYca1s2d4agd7
-	Aokw92fDylOi+vODs9PxWiAvdgOUzcGzoI0a4igR7lD708mPpc2MJIrMf7/p/ctSeUg==
-X-Received: by 2002:a05:7301:dd8e:b0:386:6c8e:b4f7 with SMTP id 5a478bee46e88-3866c8ebd4bmr51424eec.12.1795167865186;
-        Fri, 20 Nov 2026 01:44:25 -0800 (PST)
+        bh=gc0YH7tul+j0foN+otRZFbZgrVsjLkGsvyOuJz0JIG8=;
+        b=UZYp2ZJJ8683KMRuO2W5AmLOpYVkmnXte8C4tJQw6asWneUjfwFI+1z0+ZUaQ2iYek
+         5RhZmJj4XcPK7oP9omgTpjTk4WHY9twwC/S2dEL8Oh/REY6p9Kvq2Tly55Gke8isTTxV
+         y3oxo7hr8D2NsEotFnzfIo5HTs+/7wW3vo90bHcl/NXHdsINekamO1nB8QMzH0BFE4GP
+         GD2LIajD08jJMP2BGGCeeJ2U3pJZaYfPzmeGAsAzj4id3myE/CzLkQ/njQaOVqIFB9w2
+         VRVOPtSyY+3w/ZzkZsyyRqEtsDbML88uJwfiW+5eqYBiedznFuzghMTR2cGETQpJv6+g
+         MmhQ==
+X-Forwarded-Encrypted: i=1; AL+hErH82OVlXQ+RA5cbIPPL+lqlFrE6ruzQu838PPbK0IbHlA50UBDH1dcv9Fv0WS/2qLAQYEopKN1UzIy8rw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/d+IY9nRUsF5iLaCZu05NMn42Mw7KCqNoLFqIMPWFVuxN7qxwE
+	9TMW6QlfaDBhnEPrzF6h5A5kAY3E4w04n5KCyDN1w+qTpaV3X/5wnzY2M5daYQ==
+X-Gm-Gg: AYBFou0HbTyMlnAWOvDDRD5y9AXVzniE8ag5iQyKnGvkLayxh5zfASmvMJCzEFHS1O3
+	9mbOvMqB4w7Ttyxus4vdghNJ3BVPE2i7CSZiS2dYu2UB0lJSHTc2OTdVVtDljLMDHKjBDIHSq1j
+	yHkCegPY7qSjrfhBVrCKDxqgmClWhJBLLDOP5KnWkeJDKfnyOscS/SPbytOgog+BW+R1j8MCiJ3
+	Ck66NFpEWoen8dA2tUbyOf+lq566T//tbkbZjgqjvMqzvs6BNFIrufaBFYxSjdNjCXkA7NNcsNY
+	nWe0WKGMI7WTtRdQQdlGzGc8cnMiYC8qtsouoWtOv6ZuNz4oP4MPnAjNFySJ+kpGqRd1d9LJZny
+	ZZ1Dk/nNsdm60W2a7khvgCUBktbGCUiIplpaM2AN3X/l39aP2TG1+ur4XULlvGHYDHby6NiOBtn
+	0f4vKrz95CyqBwMOKI7J9cHT8eMq05qOpNARGE5WciMhGWDT0sWJxXfvDECaPN5GrJr7ZhauyBb
+	hF6hZnD/s5Jd+RzZ83lAHLFed42O0r2XEfM8tm/Xl56zTEfdCWmwFfgSWWSpLU4XMGp0wK0pH/4
+	vs1Qto4kZ5//MaL906u4725QTDqukhquHeCZW7DO12XKSQkTxlwjCsnsqv7b2lW3suz/iOm0yBN
+	2umfQjf5FWbKCY62CmYJxBSDm2sOiVthCeLaSk3oQNqbK
+X-Received: by 2002:a05:693c:4091:b0:379:4197:5eef with SMTP id 5a478bee46e88-3856f65b3cfmr2456499eec.8.1795167870262;
+        Fri, 20 Nov 2026 01:44:30 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm3982974eec.13.2026.11.20.01.44.22
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm3982974eec.13.2026.11.20.01.44.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 01:44:24 -0800 (PST)
+        Fri, 20 Nov 2026 01:44:29 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
@@ -92,9 +92,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/3] ASoC: atmel: mchp-spdiftx: Use devm helpers for runtime PM
-Date: Fri, 20 Nov 2026 16:43:53 +0700
-Message-ID: <20261120094354.6814-3-phucduc.bui@gmail.com>
+Subject: [PATCH 3/3] ASoC: atmel: mchp-spdiftx: Move IRQ request after runtime PM setup
+Date: Fri, 20 Nov 2026 16:43:54 +0700
+Message-ID: <20261120094354.6814-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261120094354.6814-1-phucduc.bui@gmail.com>
 References: <20261120094354.6814-1-phucduc.bui@gmail.com>
@@ -111,105 +111,49 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Use devm_pm_runtime_enable() and a devm action to handle runtime PM
-cleanup automatically.
-
-This removes the manual runtime PM cleanup from the probe error
-paths and the remove callback.
+Move devm_request_irq() after runtime PM setup to ensure the IRQ is
+released before the runtime suspend action runs during cleanup.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/atmel/mchp-spdiftx.c | 46 ++++++++++++++++++----------------
- 1 file changed, 24 insertions(+), 22 deletions(-)
+ sound/soc/atmel/mchp-spdiftx.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/sound/soc/atmel/mchp-spdiftx.c b/sound/soc/atmel/mchp-spdiftx.c
-index 6ab32f0b8b8e..b034bd46cd5a 100644
+index b034bd46cd5a..658ff667439c 100644
 --- a/sound/soc/atmel/mchp-spdiftx.c
 +++ b/sound/soc/atmel/mchp-spdiftx.c
-@@ -778,6 +778,15 @@ static const struct dev_pm_ops mchp_spdiftx_pm_ops = {
- 		       NULL)
- };
+@@ -812,16 +812,11 @@ static int mchp_spdiftx_probe(struct platform_device *pdev)
+ 	if (IS_ERR(regmap))
+ 		return PTR_ERR(regmap);
  
-+/* Runtime suspend the device on cleanup if necessary */
-+static void mchp_spdiftx_runtime_suspend_action(void *data)
-+{
-+	struct device *dev = data;
-+
-+	if (!pm_runtime_status_suspended(dev))
-+		mchp_spdiftx_runtime_suspend(dev);
-+}
-+
- static int mchp_spdiftx_probe(struct platform_device *pdev)
- {
- 	struct mchp_spdiftx_dev *dev;
-@@ -836,11 +845,22 @@ static int mchp_spdiftx_probe(struct platform_device *pdev)
- 	dev->regmap = regmap;
- 	platform_set_drvdata(pdev, dev);
+-	/* Request IRQ */
++	/* Get IRQ */
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+ 		return irq;
  
--	pm_runtime_enable(dev->dev);
-+	err = devm_add_action(dev->dev, mchp_spdiftx_runtime_suspend_action,
-+			      dev->dev);
-+	if (err)
-+		return err;
-+
-+	err = devm_pm_runtime_enable(dev->dev);
-+	if (err)
-+		return err;
- 	if (!pm_runtime_enabled(dev->dev)) {
- 		err = mchp_spdiftx_runtime_resume(dev->dev);
--		if (err)
-+		if (err) {
-+			devm_remove_action(dev->dev,
-+					   mchp_spdiftx_runtime_suspend_action,
-+					   dev->dev);
- 			return err;
-+		}
+-	err = devm_request_irq(&pdev->dev, irq, mchp_spdiftx_interrupt, 0,
+-			       dev_name(&pdev->dev), dev);
+-	if (err)
+-		return err;
+-
+ 	/* Get the peripheral clock */
+ 	dev->pclk = devm_clk_get(&pdev->dev, "pclk");
+ 	if (IS_ERR(dev->pclk))
+@@ -863,6 +858,12 @@ static int mchp_spdiftx_probe(struct platform_device *pdev)
+ 		}
  	}
  
++	/* Request IRQ */
++	err = devm_request_irq(&pdev->dev, irq, mchp_spdiftx_interrupt, 0,
++			       dev_name(&pdev->dev), dev);
++	if (err)
++		return err;
++
  	dev->playback.addr = (dma_addr_t)mem->start + SPDIFTX_CDR;
-@@ -849,7 +869,7 @@ static int mchp_spdiftx_probe(struct platform_device *pdev)
- 	err = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to register PMC: %d\n", err);
--		goto pm_runtime_suspend;
-+		return err;
- 	}
+ 	dev->playback.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
  
- 	err = devm_snd_soc_register_component(&pdev->dev,
-@@ -857,32 +877,14 @@ static int mchp_spdiftx_probe(struct platform_device *pdev)
- 					      &mchp_spdiftx_dai, 1);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to register component: %d\n", err);
--		goto pm_runtime_suspend;
-+		return err;
- 	}
- 
- 	return 0;
--
--pm_runtime_suspend:
--	if (!pm_runtime_status_suspended(dev->dev))
--		mchp_spdiftx_runtime_suspend(dev->dev);
--	pm_runtime_disable(dev->dev);
--
--	return err;
--}
--
--static void mchp_spdiftx_remove(struct platform_device *pdev)
--{
--	struct mchp_spdiftx_dev *dev = platform_get_drvdata(pdev);
--
--	if (!pm_runtime_status_suspended(dev->dev))
--		mchp_spdiftx_runtime_suspend(dev->dev);
--
--	pm_runtime_disable(dev->dev);
- }
- 
- static struct platform_driver mchp_spdiftx_driver = {
- 	.probe	= mchp_spdiftx_probe,
--	.remove = mchp_spdiftx_remove,
- 	.driver	= {
- 		.name	= "mchp_spdiftx",
- 		.of_match_table = mchp_spdiftx_dt_ids,
 -- 
 2.43.0
 
