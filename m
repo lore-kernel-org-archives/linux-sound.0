@@ -1,56 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795196639;
-	b=S/M4qBNa0hiWMjpgySg54CbjUK+WIrYODb7Hy8jA4jXHfvTbNzG4hhdNyD6I8dd7Qt3d
-	 opE0t1DzqO2SZizZ0oRMmEVmnh1rB66Yg+WpNzUYDazyxwNBSGxnUzNrhoZqLXb7tZccP
-	 Ch8DNuZLX87fMLyfLpilSr5Q4NZWo1/TlysNNHYO3gm+yXZZpjfWC2pQWYd8PVwbh+yzn
-	 WuTMq7pRRvTfRw1V4bw0Y2W/t8KyHwbUEO+45iyvu/cufKHA+SX3K6DrsMirz39oncz+O
-	 Uf1AM6fCK4pld2WYVHx9ZNpI0c8ijJ/SKmnt46nqba50jUYN/QqlKLHE6QMpQWn758g==
+	t=1795202590;
+	b=SYLFAm2KTDpBMQYJSmJVYl0wQpmugOkKB07gFvEOVPgbcQb08dki3etuNgx4FWQqbsnQ
+	 PPmFs4UWun9JfTuNrGjVFHEwRc6DJEiR6n16eqGr1eAUHSNr9DW/BgE77H7NtD9MTN0YX
+	 Zsd5yMRcBIWHKStQFDiM3rDvVghRyhoX3IE8r6tvE823X4JapqxoiKvYVt2vq8gOwLB8o
+	 uFeDX8EWIQlJAu2Q10Q5a0jPgc72xrowa0kEUikax4Vg2NUJjooX7zPNt2ThE/mxAoRgl
+	 hUSiOslZ0K0ysz4holdcAWaZGyTQckVoW/79uRApzUmlgg1hXN/b7JJBB7CAjYVVAuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795196639;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=xat0mH4UMjxmPRzKNd3e0XnLZwP4P1uMlabaEm86BqE=;
-	b=kt/3mQv0Z0ebaP5PTTseroyBc9qI7QsVmGwpnjlILh6eq7FU9QK5fWxuWMgT5B2r3WHg
-	 xcdWvGXVM0FYIofex9f+c2hrO5iJFTKFF4Y+NGpbKX/eRrBjC4CGgiW2+x0KUA3D2l+Q+
-	 2qvTKkS6RTS33kzbYLkI8xpI0CRoSICUZ2cLTnIg3hMDT9TADKfMGF6wqcGQELL6w1dl5
-	 F023/oM7+XYvmGQ54GmpcLViFUopiLUGUfRDDwNlvIjb5JoARJKkeXoOJsyCxIfu40+3x
-	 AqgvapHNkCpxTnbnFCyMkP4zy7bc4bIAT/RsUBqMWhjVvQ5krhelojSthebibJFTgFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795202590;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Received:Date:Mime-Version:X-Mailer:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=SmqKUKumdGxdwkhpKUIyZ7SdR8A0GxJKvjackS3hq4w=;
+	b=Ncb/AybpgsJQyD+vFjOExnnPvo3nddxhqEepfIsqQDwjXjxLT9FJdMmLoq2An9BgJzzl
+	 RoQYxKQRT8bl/1WXk+bJvNrWPcPjWB135e0yE8dLecfv54YNZDGExarosDKOo/xokNv/S
+	 +LwJgLLIzxaI/wmKv6q77bSTj7NZM63/vn38FkRC5V9JRx94ZriYt/bK/sy21MaLwKeX2
+	 nLqZmW/1UgGpRQtY1RijAUAQGUwCrteiFWDnffN8uU3cGiIFbBWRfuMXQ70UsblkVrcNM
+	 uVAys/4g0jiXq0gjvO2et+wkjsyUnaNF+xcB+Hc1At4vX/UezdzvcbmrmcZyKsgxO2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K2yehk+z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--elkin.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="kgxN/Pzj";
+	arc=none smtp.remote-ip=74.125.82.72
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AA8606A7ED;
-	Fri, 20 Nov 2026 17:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E43606A6CE
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 19:23:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43E43606A6CE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--elkin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K2yehk+z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 806E71F00AD3;
-	Fri, 20 Nov 2026 17:43:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795196638;
-	bh=xat0mH4UMjxmPRzKNd3e0XnLZwP4P1uMlabaEm86BqE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=K2yehk+zF0NETZVxwSIsQIUmU95o7SfgWlZuZx7RFV21aApbwDR3LprOwvVVf3Pkc
-	 +oUtPFq71jL5CZdYZI8QEoL7XXZJHMfFqNf5VdSm65y8rgN487yybM2bzetZkD2FAQ
-	 AIpl9VXFhsRbx1UGcawdzzcLhINCFO6vFS0mGk/CwlX+ib3zmmvaxrE95/TttiFzbi
-	 V125oXol8cGLMJTWdfAGajESnfQDvhPWwEdfFOpa+M66seY/BSBXZQl/vcfy+CuoWO
-	 rfbVkqd31w23owUQdQp7migxQacU8KCqS9LCyG/GiulcNaEpL2l4xN4CLl833UgcHr
-	 2khwVcPMVJwjw==
-From: Mark Brown <broonie@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, 
- krzk+dt@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- alsa-devel@alsa-project.org, neo.chang70@gmail.com, kchsu0@nuvoton.com, 
- sjlin0@nuvoton.com
-In-Reply-To: <20261118084214.527804-1-YLCHANG2@nuvoton.com>
-References: <20261118084214.527804-1-YLCHANG2@nuvoton.com>
-Subject: Re: [PATCH v3 0/2] ASoC: codecs: nau8310: Add NAU83G10 amplifier
-Message-Id: <179519003077.6016.13854568103739443276.b4-ty@b4>
-Date: Fri, 20 Nov 2026 15:53:50 +0000
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kgxN/Pzj
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1a5005fd0f8so2278065c88.0
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 11:23:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795202582; x=1795807382; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SmqKUKumdGxdwkhpKUIyZ7SdR8A0GxJKvjackS3hq4w=;
+        b=kgxN/Pzj25n0jNJ+d3MBbijp/Xfc1gOkFKnTuc8QhMBofVEjxUdit1cXWqKmfThc2D
+         crebl0bqzTEAsyo8ZhCHHHU5DTv9Ud+rt12LY4JAj00YXKh/zeQYVKqfX4KIB0neIeX/
+         diclQ1kfzCnc0TfKNwNTUYpX6+mHTMuRMdTVqjPWjbdcRXXaShvtwBAFLqAjchY29Cbj
+         cROi8q3IB9S9JS8KHZFxEJVAhXFrcE/kiRuNiKqCRN3oDP/iV0b0Z37jQ4D80QJXvTQa
+         GqZXb3oZ9mOuWCEEISbQsFTHHrZBwowqPdPI6cb7jn9uv1ncjNxftLvjp5dbrxlpUCpc
+         pekA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795202582; x=1795807382;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SmqKUKumdGxdwkhpKUIyZ7SdR8A0GxJKvjackS3hq4w=;
+        b=s3B0khQEydzAp5QvA/2jGpq5bAr3Tasgk9C9MGYX3dQn++1sMQNCNcHWqH/6dDZFGY
+         a6cpz6o5bUaj4hCAVxl3OOiDJkx6tS0vxcKXVSxjliHOGnRgWntUqNSZfzhTJxOCeekx
+         Ql+/mnvlE3DDvLe64ojm/U6HqlC3kIJv9pazOCGF1cnMUHffni+LpcfvjoxCoMHKk4Yo
+         OztjnuzWMzbzpDzK3GG2gitEoKYKxzGpijqnLyi/mZVFN5loJpN5RPjhFE15cj+/0Z/r
+         FpnSt7QMmvcHi/A49F6iSSWIq65fnGDQ/vuqBLUsNeAjCSlypWNFXBif3YuaP2lK4TYs
+         m7HA==
+X-Gm-Message-State: APuU4Z80gdLwWiQsZkQ7hmpe1CGpZnDu+PKe/6egi52dCfvUBuy2H8T7
+	QFwK/BoqXNZI/LNMS6Tq4QW0kqYsZXVSEyCUTC38OTB1HWFIUWU96lA46p0KV+v8TuDLTb383WU
+	t3Q==
+X-Received: from dydu5.prod.google.com ([2002:a05:7300:51e5:b0:384:8179:4ea5])
+ (user=elkin job=prod-delivery.src-stubby-dispatcher) by 2002:a05:701b:465f:10b0:1b2:48db:23dd
+ with SMTP id a92af1059eb24-1b5568cfbcdmr4131052c88.16.1795202581997; Fri, 20
+ Nov 2026 11:23:01 -0800 (PST)
+Date: Fri, 20 Nov 2026 19:22:35 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,59 +74,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1579; i=broonie@kernel.org;
- h=from:subject:message-id; bh=w+ngpUDZBZVs+uIe3ql7UJZ0fyaMW6XlFX9OldcDsmc=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZ2m7Fv8qdsWW93YkZE45tf3+3bons9qZNtUkhXA9C/
- gmY8Hw06ihlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEltUxMpyoXLis96yHjuv5
- H++3x578fvPKJeXyV3Z7vymyh91+cy2D4b9L1aWJR19Pce59U8P5dv0fRpWmwq+uK00sIxlePp9
- 1mY0TAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
+Message-ID: <20261120192237.2870582-1-elkin@google.com>
+Subject: [PATCH 0/2] ASoC: mediatek: clear afe->regmap on devm_regmap_init_mmio()
+ error
+From: Elkin Cruz <elkin@google.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	llvm@lists.linux.dev, irogers@google.com, Elkin Cruz <elkin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 18 Nov 2026 16:42:12 +0800, Neo Chang wrote:
-> ASoC: codecs: nau8310: Add NAU83G10 amplifier
-> 
-> This patch series adds support for the Nuvoton NAU83G10 audio amplifier.
-> 
-> The NAU83G10 is a mono boost Class-D audio amplifier with
-> an integrated DSP and I/V-sense support. The driver supports
-> I2C register access through regmap.
-> DAPM widgets and routes, TDM interface configuration, and DSP firmware
-> loading.
-> 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
-
-Thanks!
-
-[1/2] ASoC: dt-bindings: nuvoton,nau8310: Add NAU83G10
-      https://git.kernel.org/broonie/sound/c/27d854b5e925
-[2/2] ASoC: codecs: nau8310: Add support for NAU83G10 amplifier
-      https://git.kernel.org/broonie/sound/c/8aaede9ea8ac
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+I am trying out a new Clang static analysis linter for ERR_PTR/NULL
+handling, and it flagged this code as possibly buggy. The findings were triaged
+and fixed with an AI coding assistant, then checked against linux-next (not
+runtime-tested on hardware).
 
 Thanks,
-Mark
+Elkin
+
+Elkin Cruz (2):
+  ASoC: mediatek: mt8196: clear afe->regmap on devm_regmap_init_mmio()
+    error
+  ASoC: mediatek: mt8189: clear afe->regmap on devm_regmap_init_mmio()
+    error
+
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c | 1 +
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+-- 
+2.56.1.750.gf70dc682cf-goog
 
