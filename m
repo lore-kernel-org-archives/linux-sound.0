@@ -1,71 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795167652;
-	b=JZxxolDmtWL6oFKFNK8EFJo3/tt5VUwQ4oBJ8JlPAyX1+Juh2GlCngr5t3W0KgNSgbwO
-	 x/kqR5TuszROkfaquxlxrhcKN7s+b7JZhHxJhERp3gJBCjnrnFF4444WzgN/WSw/RAS7X
-	 b2lSmJ4tVcIj2kkv92ZirlJqNJa9yr2KbsH4+bl07QaCB6y1FphcmbXnLdPTxf07/i2//
-	 UTquOHbKLInFbGLZplVJx2f8da/WdWr3WN5msRtFjzaz2Bes77fqq6BADyVswPfllrPMm
-	 4tX0s82FLqt/pgtG6TS4TafXgk36mmX08aIelDzJYwXWY9CjhY0yXZd+NRhR5+DNjMA==
+	t=1795167855;
+	b=0ydCIiLj/1ukPLpP+BkWH/3AcX/UP3ecVt4BPcrsQfYOb1ZYLwY4ql2CX65c05uyJpjN
+	 LBZ0dy7oRjJy2D4cUS0TpP7Mt6dc1NhlY1S/vMQNpl3N9Y3vg5dRqFsvjdIlsQHR01CQz
+	 VEE52TjLuwQCN5XZSnUSHO8Lq2yG2tAK5atDn9bW7FdmZt51uMZIQuqRjE7rRw5Yrq4am
+	 ZSuZySfWGihcQFYmSuanPNPVKgIKFCKoiwDcNLqxlIAeDZiOoNsL/6XYY73NT2cRsq6pc
+	 xsYwfTHSEwITSqcBaPV35QOk5R4gJraUVemnjH629MNKWoA36sjSgRy2H6m29Dhv28g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795167652;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=R8cEUfchtfL1CMYDQSUQAyd5j+dKyqqQvy8JCKkeHTQ=;
-	b=PKQzza0A9hq76LjcYK56846FmgSc7Q2qGCzhLsOQRke2C3vBK3pVHa0klgwB6IggPxCo
-	 g/ZbGabETEaWiaFDl3qaQP6i0K3nK1K7UI/u4hf6eHCs3hXNarVc1PpgtEiRfZrxkaczI
-	 DgZ2zsPNXQiOmuqoJrTTkaYbJbYQ8phcVqQVkqn4SgTnaSzm1yEj0PoxHn0FiUlfgoc/E
-	 bJgkconX2bw/Z2J1IE9kBYAEWWFE05wlyQHZsh6nlC+3sIufHFvXpg4LNpacVlIH4GCQ9
-	 /6fqP1DrbeKHbFx+AcL94pkkSLRFZsJc5Yxmcw/EZinR9gvo0IymNZSvnUx9g2o1uPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795167855;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Wv20V3Cm7/chgyBZeECK3U54HfislA0FQ3c62tQ5/jc=;
+	b=T8ROAypUdve0+6syfKfUs7bpfgHijBMHUB7Vf8tK4g7bapDhBa6vobLXzlqFsXaI3Y3n
+	 psNbDOtVTBIVOlkuI53AX9cqWyD/ADEnDYkpGEfBVCZmbJSrXKJq14zWH+6Qy3Kyg34Sz
+	 sYWMflfFNF6l4ktoBrZk+RytdMTtzSMaFR4knvGWVF4pRGGy3vnztN0M2awQnnpCEMXL+
+	 W9QfLa/OVadibvp3IdOWHOeusOnEugwi3TIU2Zu+yssz4+uR5jxrBDEcabbYeJ0u7Rmvu
+	 lurUQIKrhXl2upNR5ArdtNzpPTUZa5j3vNKlNO2r0Fr6jgQ7LftnTz4/EUEoWKRnirQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJ+pA1vH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="R/fCaOt7";
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682EE606A330;
-	Fri, 20 Nov 2026 09:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C21606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 09:44:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52C21606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iJ+pA1vH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E4A51F000C4;
-	Fri, 20 Nov 2026 09:40:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795167652;
-	bh=R8cEUfchtfL1CMYDQSUQAyd5j+dKyqqQvy8JCKkeHTQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iJ+pA1vHpaNYllnqQbqUJ7mgvSduDG3aAkO2Mj7oUyPqQEon+BW+dm59hcqXed7VL
-	 2xtu6/DPBtppJc/p36pz4lTHf73j60dqs4Y2iJl2+JUNEVzrwf+FUUjlExFJBgEsM9
-	 ommrbKid81+gyu2CItU+cACBgqGl/bCcydWGsQIDBLEK3IOBb4Vzm8VbFOayIw+eeA
-	 Mn3q7Er6t/56wzjh/vyVRsbCdtdCx8dB8knuV7KCI8zp0v+RyrBWk7Pbc1vfCKG/3v
-	 SOZeEMbStmNbMGude3EWA+Nd70n/JdRSXZJ82oSZmKz8JurO6jnMHZwf8IJ9rdVHEB
-	 rSXwSijGS2C3A==
-Date: Fri, 20 Nov 2026 15:10:48 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	Frank Li <Frank.Li@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v6 0/9] dmaengine: Support bus widths of 32 bytes and
- above
-Message-ID: <awAVoMe1VphXwQIw@parshuram>
-References: <20261014-dmaengine-support-wider-dma-masks-v6-0-5b3ffdef8191@analog.com>
- <auiDhzNcif3LhPlq@nsa>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=R/fCaOt7
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-3866a784546so28032eec.0
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 01:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795167854; x=1795772654; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Wv20V3Cm7/chgyBZeECK3U54HfislA0FQ3c62tQ5/jc=;
+        b=R/fCaOt7h6VGBa2F7QoE5wOHp5I7Bl833ajUoiznXQnLT4az1H3l4+qWN0ERhk+mxo
+         FID0w41tU3K1V3SK1XAkYXpjnx6F1lJG2sChXBseTM1OYW5WkM+j9Ta/zXPjmTzjeh+U
+         WSKX8PF8uGt4P5tlh5U4SDdpwGLy7SEbteIWGMt9HVPrEJwHBUCBYHimLkmrRXnOM+nW
+         lxLTu4zAjBGJHsdhWKcbebd1/WFSYunPCl9SF26MiyRljgqscAK6N9pV8Pt1CBbXYoue
+         uEcO9ldw2qKnGnyd8RYCZS95gDjkDkZxkjceQk0VNklSi3A1rKCiXDK2BdNsMVsqHBBg
+         gP9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795167854; x=1795772654;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Wv20V3Cm7/chgyBZeECK3U54HfislA0FQ3c62tQ5/jc=;
+        b=AiNqeiHfRUSLohuRFDM+EaItwNXbqSbA8/GRgtMRVW2Wknluloc7rgQhgnA2/cIdRH
+         xoVoe1w/WcbrOXX3SRa4D0MkgzD4AJ++9r2kJqRZ+D9CO6x1QqcXMOJ94gynUV3DOpJe
+         kD1CQFfETa3mEq3euAhDhXgvzPl9SnAbwfqdRaEcEtKh72b+d8iofKecs703fOm+4HYP
+         19HXj0iBQLu6DTmSa/SAgDXIruTDhuAKxGJfn1HDWbbZLEkdKOQIDyH9GtEO7scoC+SO
+         POZoO14OZbUvaPCg4jqtX1HaMBfGKttxgBB+/LDAW8ftARfqz90rnWpVI3Te5t36ffB6
+         ruxA==
+X-Forwarded-Encrypted: i=1; AL+hErHP7yMb9m45Zz1BToRVvseAkAeS+TO2vQciv5KL6o8UUtn97IQtwhQNX34+Ed32AhH70mqQrkGacHj9Ig==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+soM5BRLTeG53y5ZOrLmkAsKMhbGP2BQCyN14z6HRuXprajfYk
+	ywywTDkK5H5bw+K4i8aJI57V53C37Bu8bYD/yNKz0Af5y5X/HmVgI/5T
+X-Gm-Gg: AZFdTZf3gpvvjnoyTGsaB4jolMwpXnVMqWQxTw7B26liZoYmIPYTH9WVcJDAEPhN0fP
+	OnSQCCslmuwcWn2MUwtzeRsEColJVpZK2Yp+3dJe56KUirtuvG3hWWM2FpcPSTi2iMnFGkh2bvi
+	RQLDgJvHdin+77uOnlDyGTbV9Uhwocd+6WcuzYWOLfMGU4W4eRWijooLERLsox6Qc2qhO64PrZ6
+	QHm/jWunjvn8v3DL6IL+vJ98+T+9t7MPB1RS/vFa73P1j+mL1eRMEo8ksReTupFM8tcwkWUER6G
+	b2CVflpCibwIMA+2CaV82TJq4g4+8grdGFOhvoq0htDgAhedjWPWIUdBcIS/2gH8N9DkVO8cTod
+	+FJ7ZrYoNgKz3Uk2ZJh0X0eSSOaOX8Ds9zN2ezcLSeFRoVINrUN7tKxwUNieX0teZJQ9ZwmsD2u
+	s+HyEtX5jMjprcFgShNPOT8Msk0wke4SKmYjVL2XBwwLsMY7/GoqRSsdna9il8gqpoy9betiHyy
+	eKPmwwTsImJnmKgtq5NXlb4iDe3sWq+AZbqQFpRZs2VJL3TLS98d2l7LXjZjKotk9K28CqWZA08
+	slWQGv8HKq2phSIpe4zMlbYkoNFTieRxqk7DRrVukaFtGzG9nziVhdFtCvXORJT227xH5L+XYr2
+	mVxUz0p6eovwL+2YG4pdTJ/eijcOGlZjFJN/gDMcq6A8l
+X-Received: by 2002:a05:7300:f496:b0:385:551d:854a with SMTP id 5a478bee46e88-38570845477mr1900177eec.28.1795167854304;
+        Fri, 20 Nov 2026 01:44:14 -0800 (PST)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385f68bc0adsm3982974eec.13.2026.11.20.01.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 01:44:13 -0800 (PST)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Andrei Simion <andrei.simion@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/3] ASoC: atmel: mchp-spdiftx: Improve probe and PM handling
+Date: Fri, 20 Nov 2026 16:43:51 +0700
+Message-ID: <20261120094354.6814-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -75,86 +104,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <auiDhzNcif3LhPlq@nsa>
 
-On 02-11-26, 12:36, Nuno Sá wrote:
-> On Wed, Oct 14, 2026 at 03:19:10PM +0100, Nuno Sá wrote:
-> > The DMA engine slave capabilities advertise the supported source and
-> > destination bus widths through src_addr_widths / dst_addr_widths. These
-> > are plain u32 bitmasks where a set bit's position equals the
-> > corresponding enum dma_slave_buswidth value, e.g.
-> > DMA_SLAVE_BUSWIDTH_4_BYTES sets bit 4.
-> > 
-> > The consequence is that widths of 32 bytes and above cannot be
-> > represented at all: DMA_SLAVE_BUSWIDTH_32/64/128_BYTES would need bits
-> > 32, 64 and 128, which do not fit in a u32. Hardware with wider data
-> > paths is becoming common, so add a representation that can express these
-> > widths while still using enum dma_slave_buswidth.
-> > 
-> > This series switches consumers and a small set of producers to the new
-> > bus width capabilities, represented by a dma_buswidth_mask_t modeled
-> > after dma_cap_mask_t. The legacy dma_device u32 fields are kept for now
-> > so the remaining DMA controller drivers can be converted incrementally:
-> > dma_async_device_register() folds a legacy-only producer's u32 into the
-> > mask, so consumers only ever have to look at the mask.
-> > 
-> > Once the remaining producers are converted, the legacy dma_device
-> > src/dst_addr_widths fields can be removed as a final cleanup.
-> > 
-> > This issue was discussed before here:
-> > 
-> > https://lore.kernel.org/dmaengine/abkoXXbaxaiqbBuX@vaman/
-> > 
-> > Changes in v6:
-> > - Patch 1:
-> >   - Prefix the bus width helpers with dmaengine_ (Frank).
-> >   - Drop the wrapper macros taking the address of their mask arguments.
-> >     The helpers are now static inline functions taking a
-> >     dma_buswidth_mask_t pointer (Frank).
-> >   - Drop a stray blank line in dma_get_slave_caps() (Frank).
-> > - Patch 2-8:
-> >   - Use the renamed helpers, passing the masks by pointer.
-> > - Link to v5: https://patch.msgid.link/20261009-dmaengine-support-wider-dma-masks-v5-0-4c4e63a7a1af@analog.com
-> > 
-> > ---
-> > Nuno Sá (9):
-> >       dmaengine: Support bus widths of 32 bytes and above
-> >       dmaengine: dma-axi-dmac: Use bus width capability helpers
-> >       dmaengine: dw-axi-dmac: Use bus width capability helpers
-> >       dmaengine: qcom: gpi: Use bus width capability helpers
-> >       dmaengine: stm32-dma3: Use bus width capability helpers
-> >       iio: buffer-dmaengine: Use dma_slave_caps bus width accessors
-> >       ALSA: pcm_dmaengine: Use dma_slave_caps bus width helpers
-> >       spi: dw: Use dma_slave_caps bus width helpers
-> >       dmaengine: Drop legacy bus width fields from dma_slave_caps
-> > 
-> >  drivers/dma/dma-axi-dmac.c                         |  13 +-
-> >  drivers/dma/dmaengine.c                            |  23 ++-
-> >  drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c     |  39 +++--
-> >  drivers/dma/qcom/gpi.c                             |  11 +-
-> >  drivers/dma/stm32/stm32-dma3.c                     |  37 ++--
-> >  drivers/iio/buffer/industrialio-buffer-dmaengine.c |  15 +-
-> >  drivers/spi/spi-dw-dma.c                           |   7 +-
-> >  drivers/spi/spi-dw.h                               |   3 +-
-> >  include/linux/dmaengine.h                          | 188 +++++++++++++++++++--
-> >  sound/core/pcm_dmaengine.c                         |  20 ++-
-> >  10 files changed, 289 insertions(+), 67 deletions(-)
-> > ---
-> > base-commit: 42c31fec1ca76b8b5f7759def122d418dff2cd4b
-> > change-id: 20260615-dmaengine-support-wider-dma-masks-5aac12497e27
-> > --
-> > 
-> > Thanks!
-> > - Nuno Sá
-> > 
-> 
-> Hi Vinod, pinging this one before resend. Already got the rb  tag from Frank on the
-> first patch. If anything left to do, let me know please.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-This fails to apply for me, can you rebase on next and send
+Hi all,
+
+This series improves probe error handling and simplifies runtime PM 
+management in the mchp-spdiftx driver. It also moves IRQ registration 
+after runtime PM setup.
+
+Compile-tested only.
+
+Best regards,
+Phuc
+
+bui duc phuc (3):
+  ASoC: atmel: mchp-spdiftx: Improve probe error handling
+  ASoC: atmel: mchp-spdiftx: Use devm helpers for runtime PM
+  ASoC: atmel: mchp-spdiftx: Move IRQ request after runtime PM setup
+
+ sound/soc/atmel/mchp-spdiftx.c | 77 ++++++++++++++++------------------
+ 1 file changed, 37 insertions(+), 40 deletions(-)
 
 -- 
-~Vinod
+2.43.0
+
