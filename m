@@ -1,45 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795179334;
-	b=4W9S+R7V2wEL1ImSfLkMy4JEPVN1HsMRqr8C+O4ymDu1LAIuy8GTrmRGCNpvJphWYo3j
-	 VFsQNXCKPxpVsaqLl06iic7IkSv76+aQQsYrCvuVr4qg+jH+RI8Z/txfS/f3dQClzaWru
-	 SRa788D/Id3AYoi6YGyuY+pjzr2/y4EkaP/SXrurwP45X2G7Jq2jPlJo2VA5rxiyLzlSd
-	 SrGBUeh1NMoeWXOVL0SGaflNiPE8cMYmrrCUPE37//3MCaSKzRHpWmvNSEBVDNI+l683F
-	 2KgaSFzDFZG5RJbUJIT7PoZ1jfkw7U7nBelbwRkGkixc6Ic4A7kABLTHag+XtwC0cPg==
+	t=1795179462;
+	b=kvSt5Dk90kC5nGcACIBDCFJQ5wTX4SXjLCJna22PXFNDj9WcFEfOK6JKjM80e5oxPmxo
+	 PDT1cS5nkTpNjBy5um6CqEwofeI8NncU7aiy1J9Kryf7h9TFi92EkYy4iu+jFMwgw78Ak
+	 pnm2w9BgYhqoZrPk7cUJnlAqEyWIRXYooZb3gBj2haxdpHOYFpproRuDwikW4DiHi0rEo
+	 PLvMeroJjnEQX++KMuLWqpE2gVvyDR18ycTnSFKRmEILT1AiEaK34FjGvZWYAVyjag5eg
+	 2mPMNelHlIwZxuP5jYSJceHVotwayB45IdACMqatFs7wCsn2Ob+UubPExXOnehqkxXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795179334;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=a9XbVf4FhnzktWS3qGCIKBfurWHFZpTKRrnVlbTItsk=;
-	b=Fix/hX8ICsH82MAo/1OO4ZJdUlFMQnrTIwXOT6DRrS0wQC9q1e2Cg6p4YvSksiGOO5p5
-	 pvrK5/Y5ogGoxLexwFjeE3X9pDH6w2F2sjPb/A5keMdkA2H+SSlzLabvLyyngtGY72Nsy
-	 dbTM+4/JoUnjI4wBy0PFPhFWi3++kvIIoLYn+5nZokIDdLlQwl8SPSrvUeopJYA4OusSW
-	 5hOZjvB1RAEHxXzTP/pbpU9wSlw9fVxbEOYDLAg7O3Xy9vr8r38D7kt3tPsm+sRelklFx
-	 XcWcz2Wz9fl/rpYvop9a5TA9sHs7zHbtiw5NoEsmIlMGfTTbyCPy70rP7IHMBgKNN3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795179462;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=KeRD44dQOO6ZDNI7a8JiTN75jiv8xR1iGSuq9LBDHK0=;
+	b=3JLj6nuuXSD8q4X1eVvYupjX4Ugvz5lBmUzXcIVgBfUhM8JTnAlsb3IgX3Z86o7/vkDL
+	 9nUSfxRQ1X+cSfJD8W1QpHUFOMhsp5YvS4LqbH0Dc8xPVvYloRUFE0rUAc4EX+bX4VTCj
+	 zrb7zcdl4hxmZNokj8swVilqyyFhlWCRZ13ebAN6FsxCbsH3Q7S7dJjsXTGQ5tnGz9GEp
+	 zNiM5/T0HYp3aLF7zgRY4yDCh2i4zHn0S027w6oeGn0v6KvAbY9QQQ6Sstxa2tTU6CHYd
+	 aTlcGsQAhBwPWr14rtaDly9b+GBkSXJC7QXS7yA2uu6qfv+pEZqboJ0x9EhIRxUQaFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ierlH+1y;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="xc+/RY6m";
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04D9606A325;
-	Fri, 20 Nov 2026 12:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8210D606A32A
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 12:57:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8210D606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ierlH+1y
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AA431F000CF;
-	Fri, 20 Nov 2026 12:55:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795179334;
-	bh=a9XbVf4FhnzktWS3qGCIKBfurWHFZpTKRrnVlbTItsk=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=ierlH+1yaKgOGiKDNN4HpqkZHJDN9nGZ6onn+NykctOULAD1baYA6H8n3s0meIiNB
-	 GGWS5q5X06phVlVO1pXNSbyepQskwvGrCiI4Ube+oV2AfTwYbuIa7ZWyu2g2ZVbfJf
-	 0VQMfsijJ+rlsbA5W8jM09Uwd7H/dv5RLNWr5JdTJGzGXsJ0s7UjbLcdloql+CqNOX
-	 a4W/eg+pNFMGJjjofAgaf0I4xYEvEHF9UsxT1ML7e0QpuOQVv4wR2ADWZQuo4wgsTi
-	 c7rll+4IOSmbhIayxmCmziPaUd3YjqZiO8+tz5F0PfQMzQlHoyAdiHLM/8sRbYgM/g
-	 +wKrsPl/ySjLA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xc+/RY6m
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-33fb4680717so2173448eec.1
+        for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 04:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795179461; x=1795784261; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KeRD44dQOO6ZDNI7a8JiTN75jiv8xR1iGSuq9LBDHK0=;
+        b=xc+/RY6mE5bOW4O6W5gmg4gOu1k2/kFtnQHpgVLHJtgbPGIRhrKRwoGhJrhblCxn+h
+         CzjDJ2yuxJGPeB1SYPdsf3M8s2oRmbU9IFlDdFxssBz3l+8R1vq0JIajfQ+6AIHWny+s
+         qijpk6JuGsHJEAjwF0k4VzfTIflN5H3cWa2UvDgOdYW/OteghkBjgq3dkzjjgPIRmyrR
+         b7TEvcxwf7cXtTOe5Je90WOZqLekoGgMN5EV7tbjpSVmJn8BcMfdPQd97aIwEQef2A6N
+         qPsWgVZNPxkdkZ+bk6HMHggZzp3xEyzgXyHsGhjMBo7MSDddugjn9q4LW3umHiUENL+o
+         o7/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795179461; x=1795784261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KeRD44dQOO6ZDNI7a8JiTN75jiv8xR1iGSuq9LBDHK0=;
+        b=GIIwX3trIBI9ZLjNzHi27wpRC7qbjjqVJDWUgN7xFy9iG6jBz27PDd3N/GA3BiZwx3
+         7Qfl5Ph3z4+bIfRVbfHUnZiTc3cKK+TPL6avUfNqbIMAu1jv9e/BWIQU5xMBGE5G4N8S
+         iM2KflcTZbSUDgTo//xhbqBmRSZw1GNEAUe3ecGT21wJ13M7rw+bK3JuNwVEVi075MTi
+         WX4yveVD5p8X6iS2jt2ytQfBg4rCs+LxCR7SkBEZGkueJOQ4pLA58eLK4BHlJY8wxWpu
+         iO1MaRyA3JiRnbpDoJ9ZOPwRDeSaTKInsv9OFzuIlbMEmJQKU9KdzFrCfcIV+aYq5Zbt
+         +LeQ==
+X-Forwarded-Encrypted: i=1; AL+hErG6b4UGb7Z6ZhoQ0F2dM9isE1kpJOOt7r+D8uXws5F8lyhxD0Ux+UtBLhsMgzG5VDDVR5+/CntfocRuWg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/wbw/cNfGVxWgd13MZMeQrLmuTPmZSOhPKQCSLwFQ8UNQJ6wch
+	N3/59N1Gf+y4WAArq4lfUysu3pPkfYfheKo+YbVgF5XNUBZe7XlUrD75
+X-Gm-Gg: AZFdTZewzWgJ2wjbyA1ONoZaTwiJoZtHEuSog3OsuaR5bX7yyqRDMtdKZfcuNHxWpAf
+	B1+DXpfUMnmgGaESfIcxIvSve7D5oX2XqTqE7aZe9pXtgQVuRgxAF1Jd+Hh/KVwaUxitml5lJ0j
+	MPu6JmGEk36AG524gC21pJ2YFkjjhkkT89QsOkvn7oN0YZnZeYBQJ+0eR1bFidiHrZZbfrZ+n/A
+	apne2+3Twf1e0KhPfhYgXukeTw1jo0XhmSL7OyowF1lR33N7LuStDiiWbE48FVCiHiLEA+gUN8J
+	6hDfsIAp2YewZtVewQiUF2JlXcxrTiW8/JrlU+HuqE50Qz0d0OicJkZiS81FHFDM0ZZKyFD7Eu+
+	LvCyW5qW/JPYF5QZhde5NZwQtsvDEri6CwdpWl9TXFUisR/GIab83y1vOivVLURrTN+Tv/BP9ch
+	yvj0tNBvslKJsajXaAcWgULXllatAV7qQ0NDM71QjWAMnnhlFDxEIJuMEohv7EXGfTNwFuYdehl
+	RwW+SHnRCVhwRdXWIzNVMdIQzphaBfg/HFMf+4ujNyf4h9cxwMbgn/dqVF1mvBY4+siVb+OGtsm
+	ej3Z8/hmf6tRTLduCSayASgc2MeoTNNrQBzutMxOch5VVJVGyJn/Et5PPEzrGCecr7+p4DRW
+X-Received: by 2002:a05:7301:182f:b0:385:cf42:9b9b with SMTP id 5a478bee46e88-385cf429e7amr1916243eec.8.1795179460450;
+        Fri, 20 Nov 2026 04:57:40 -0800 (PST)
+Received: from akhil ([61.0.85.44])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385665f21aesm10672548eec.4.2026.11.20.04.57.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 04:57:39 -0800 (PST)
+From: Akhil Arul <akhilarul324@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: shenghao-ding@ti.com,
+	baojun.xu@ti.com,
+	Carmel@aperio.ai,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Akhil Arul <akhilarul324@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda/tas2781-spi: Set tas_hda->dev in probe
+Date: Fri, 20 Nov 2026 18:27:29 +0530
+Message-ID: <20261120125729.135171-1-akhilarul324@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -49,83 +100,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3 3/3] ASoC: qcom: x1e80100: Allow userspace WSA RX
- chmap override
-From: Mark Brown <broonie@kernel.org>
-To: Abel Vesa <abel.vesa@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-3-29e06613115f@oss.qualcomm.com>
-References: <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-0-29e06613115f@oss.qualcomm.com>
- <20261105-b4-sound-qcom-x1e80100-allow-ucm-channel-map-v3-3-29e06613115f@oss.qualcomm.com>
-Date: Fri, 20 Nov 2026 12:55:30 +0000
-Message-Id: <179517933021.6016.6430816550414163668.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1895; i=broonie@kernel.org;
- h=from:subject:message-id; bh=gi4YhkF1nfJuktb0DH/M4fSx8AVY+E8YevyMn12hA+o=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZnJ32iqhqTZt1LvnYvZPaD15/fNnuKLg+5WvWWeZF3
- 7b72nDEdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAi1qsZ/pk9/fT8cxXr5YCJ
- mkwytjtdZR02ni/urgq6znL9p7CpyDKG/yW7Wj953rnuqtfbmWF9/fii5JPuwsrWlb0Cq+1SFMO
- m8AIA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-> The WSA RX slot mapping is currently computed entirely from the channel
-> count in .prepare() and pushed unconditionally via
-> snd_soc_dai_set_channel_map(). Userspace has no way to express a
-> different channel map, so any map defined in UCM is ignored.
+tas2781_hda_remove() is shared by the I2C and SPI drivers and uses
+tas_hda->dev for component_del() and for the runtime PM calls.  The I2C
+probe sets that field, the SPI probe does not, so for SPI it stays NULL
+from the devm_kzalloc().  Unbinding the device through sysfs then warns
+in component_del() and crashes on the NULL device in pm_runtime_get_sync():
 
-> +
-> +static int x1e80100_wsa_chmap_ctl_get(struct snd_kcontrol *kcontrol,
-> +				      struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	unsigned int *map = x1e80100_wsa_chmap_from_kcontrol(kcontrol);
-> +	int i;
-> +
-> +	if (!map)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < X1E80100_WSA_MAX_CHANNELS; i++)
-> +		ucontrol->value.integer.value[i] = map[i];
+  WARNING: drivers/base/component.c:839 at component_del+0x149/0x170
+  Call Trace:
+   tas2781_hda_remove+0x16/0x60 [snd_hda_scodec_tas2781]
+   device_release_driver_internal+0x19e/0x200
+   unbind_store+0xa4/0xb0
+  Oops: general protection fault, kernel NULL pointer dereference 0x1d1
+  RIP: 0010:__pm_runtime_resume+0x1a/0x90
+   tas2781_hda_remove+0x23/0x60 [snd_hda_scodec_tas2781]
 
-Nothing intialises the default maps AFAICT so this will just return 0s
-until the control has been written.
+The same path runs from the driver remove callback and from the
+component_add() failure path in tas2781_hda_spi_probe().
 
-> +static int x1e80100_wsa_chmap_ctl_put(struct snd_kcontrol *kcontrol,
-> +				      struct snd_ctl_elem_value *ucontrol)
-> +{
+Before the common library was introduced, the SPI driver had its own
+remove function that used tas_priv->dev.  Set tas_hda->dev in
+tas2781_hda_spi_probe(), as the I2C driver does.
 
-> +	for (i = 0; i < X1E80100_WSA_MAX_CHANNELS; i++)
-> +		map[i] = ucontrol->value.integer.value[i];
-> +
-> +	return 1;
+Tested the probe/unbind path with KASAN and lockdep enabled: without this
+change, unbinding the device gives the warning and oops above; with it,
+unbind, bind and unbind again complete without any splat.
 
-This just stores the value but doesn't tell the hardware about it, we
-only write at prepare() time.  Either the writes should take effect or
-we should refuse them while the stream is prepared.
+Fixes: 28a09d9e42c5 ("ALSA: hda/tas2781: Create an independent lib to save the shared parts for both SPI and I2C driver")
+Reported-by: Carmel Okun <Carmel@aperio.ai>
+Closes: https://lore.kernel.org/linux-sound/AS2PR02MB10038DB2CE8CAE659D35B9F1AC8792@AS2PR02MB10038.eurprd02.prod.outlook.com/
+Cc: stable@vger.kernel.org
+Signed-off-by: Akhil Arul <akhilarul324@gmail.com>
+---
+ sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +static int x1e80100_add_wsa_chmap_ctls(struct snd_soc_pcm_runtime *rtd,
-> +				       const char *name)
-> +{
-
-> +	/*
-> +	 * The core registers a query-only control. Make it writable so that
-> +	 * userspace (UCM) can select the WSA channel map. The card is not yet
-> +	 * registered at this point, so the control is not visible to
-> +	 * userspace while being modified.
-> +	 */
-> +	for (i = 0; i < info->kctl->count; i++)
-> +		info->kctl->vd[i].access |= SNDRV_CTL_ELEM_ACCESS_WRITE;
-> +	info->kctl->get = x1e80100_wsa_chmap_ctl_get;
-> +	info->kctl->put = x1e80100_wsa_chmap_ctl_put;
-
-The TLV should also advertise SNDRV_CTL_TLVT_CHMAP_VAR.
-
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+index da71b57a26e..4bcee8362b6 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
+@@ -781,6 +781,7 @@ static int tas2781_hda_spi_probe(struct spi_device *spi)
+ 	if (!hda_priv)
+ 		return -ENOMEM;
+ 
++	tas_hda->dev = &spi->dev;
+ 	tas_hda->hda_priv = hda_priv;
+ 	spi->max_speed_hz = TAS2781_SPI_MAX_FREQ;
+ 
 -- 
-Mark Brown <broonie@kernel.org>
+2.56.1
+
