@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795187713;
-	b=N2nGkwQ+y2n4SFaY3JT5Gf8hTnqoTLp/hz2R8yYmKzXYweVrD2h8p9bptp7qbT4pGYyi
-	 hGHahRmwn9nUHjJ+A1OEdyEN62d1Vcy4HkzXFfY9RjRj76iZ9SdI2n1SNu/FrIcT76hQQ
-	 zQgqKWLSLb26Q2WFVXlyMGgHG1mUxsDomDO7CZOcvIqskiPMzAwLIH72jKMg3W+Tebx90
-	 QAau31Q6DXVqEbirN6lGxYsn8cwaG92ef1EYVWVCN/62urfTErtXBQ6k9PcYds9ikXMwp
-	 AWbB/nUwVecyvLTvrQqPMtoEPvYfCZp0Y7ZwbblC0dCYw5FjRFmaOda9ojlC5+3tHEA==
+	t=1795187750;
+	b=zsrtNNB/7BGLdsV8ucCPTJgWd87jfqYDAWc5xyLGxMciE1yEXC3KXnTI4EFkdsZFRVxu
+	 wbdCdsLXkWnfCYMYcdxuas147WvIQqd1fxC1HnQMZUuLg6gdtFchPQtbfbdrfDk0DLyNB
+	 axpD+rjxujwQ+PIy+aEcxpSOhXxrsUi3AHOlTuDX7DNWhA470JqfndPUHcGQhsn9TrT/Z
+	 NuMJXDw1EH1sT1Wi8gdfIO6vuEkSVhkY85A3lGOWHSsKve0ccdCjE9zeaX5EmAzUSG16U
+	 Iwu+u26ymWDiNUTYEkBdr9Yxrt45yRYkT2Uk9PXMIWlVpZW1/XwmILLTAHAjo9bxSlw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795187713;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795187750;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ctb1Jv59qIphIUTiA76EUOJsYvs5jg8Gp4OuvrA3/o8=;
-	b=GeDm4G+5Pz5PWwoL7MFfpHLsHv3+03qvLCL2fTkeKVIpLO4Igb0YzsxClwSzHhdb7Xx4
-	 csqvzxwo2I7llKSKnh7cSXXp7kjUS0WSQCuJc6YKaGy1JpO3Qbqk44fL8JElyFkFJYHTb
-	 OKPv8naN/RdIVgNYjWtYSi+aWyrRWOKk7JMJ1SXUDhBqqebFHltFdVyoz5u2S2XBp5MoB
-	 vIQty1Gu28dV6ZM+Bv3F9s6efIIOB1gf2r4GuAxFdbtfqF8zuKBhnLigBTHrI4Y0hVFSf
-	 i0oGDWSNZMUu4rfXRxgWTlqO7wipW/ZbGbiBuZtxhA5UTYClods2aQhOXUz3vokYnVw==
+	bh=ihZfSgxIvjEMkXvmyda1NP7Q3LgCpF1cCr/6VrpGnao=;
+	b=l5T9g6sNJg7B+4hxBe4LWnMHSq9itIhSboPTRHahvS51OPiW+NOyAeiUP7AQlspDer8Y
+	 5UdFHI89m8XotebISQ/GMlYAPGd6+Q9igviBspsWGfYvpyzVQMuNF39Du+hLcHMP/g4BS
+	 21RmlikRQmMymmLugdMaoL1dlCFU2VsEgpxlvr/t00W+Al33RArgENEZ/jK6+rv5aHqWs
+	 FYf8mTC6aM42/vLnEj9NJzkcPM2zRBia/rt5zEsIHISCqwukPVBOT5d4TTw3ObBaIJ1Q0
+	 tsymS3rMaT35VHmtAtVJM5zjM2QMBt6EmUmC/tOMhtbkxiJJAC2BMFAkNmVn6hyOo7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TiQD9vMR;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V2SdLCLl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261BA606A320;
-	Fri, 20 Nov 2026 15:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE791606A33B;
+	Fri, 20 Nov 2026 15:15:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TiQD9vMR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E891F000D2;
-	Fri, 20 Nov 2026 15:15:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V2SdLCLl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61B771F000CA;
+	Fri, 20 Nov 2026 15:15:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795187712;
-	bh=ctb1Jv59qIphIUTiA76EUOJsYvs5jg8Gp4OuvrA3/o8=;
+	s=k20260515; t=1795187750;
+	bh=ihZfSgxIvjEMkXvmyda1NP7Q3LgCpF1cCr/6VrpGnao=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TiQD9vMReX7MxulOHgIp4t1lAlYcg8Q6bEZe2CoRbS8R/9mIteUeSkYgPKmeIEDQu
-	 rmmr0JvsyJFDo4K8WhriZ2eAgcX2x+2HbWes+mTXJ7ECFc4KZKBSyb4TZ5aYXQfSso
-	 +2A7M7kU14nBIGXo/z5RWUlO1G7u3u5DNR+QTWGQn+zuIYWA1ioG7ps1S0Lyi0Spqj
-	 VMG6VEc9iyxEzN/WEdLtb15EIXEpYgQno86Ng57cKsxBCmBEhxNjNQZbpgxALBFmdm
-	 aYmFI2Y80W+Y3y2zo2G2fYmqwX47DW9+Px0tEnhudym+rZa5egtVn5MQrtmIl0anKv
-	 4iVPicHcNNm+g==
+	b=V2SdLCLl+PH46TsluxaAncAdCSR9/8rtkneR5aa2+XVpBg2n7i5eN61n5cLrPCib7
+	 Y1zs7LkeLUtQHrxcc20V7hPvUP9By06ovOk3iQTAmN7J3oH6MYzGl0HY05tTzkI+B9
+	 u/9dKgxi4O6o0Yh380pbhyF1vPo1Zrf5PGADjiauViB+YF/jzuMERHVtnTX/bql5Gi
+	 +1nUjCdWbZN56Z9I6mR55wZQkOhJnTdRQAJiICTpxYaLwdTX7LO1u+nmJjGRI2+jMd
+	 Ze3CRwcUqYqb0MS134tJx0N4UrdoQh6Eya2Ye/HI88d1y8sofiW9rEoG95Q2alL72z
+	 BzPxn460AJnUw==
 From: Mark Brown <broonie@kernel.org>
-To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Konrad Dybcio <konradybcio@kernel.org>, 
- Demeter Barna <me@fromdisposition.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
-References: <20261104-b4-sm8350-sound-v1-0-4c872df294fa@fromdisposition.org>
-Subject: Re: (subset) [PATCH 0/7] arm64: dts: qcom: sm8350: Add SoundWire
- and LPASS
-Message-Id: <179518673827.6016.6677815995841367128.b4-ty@b4>
-Date: Fri, 20 Nov 2026 14:58:58 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Myeonghun Pak <mhun512@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Ijae Kim <ae878000@gmail.com>, Cyril Chao <Cyril.Chao@mediatek.com>, 
+ Darren Ye <darren.ye@mediatek.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>
+In-Reply-To: <20261112011708-afe-v2-0-mhun512@gmail.com>
+References: <20261112011708-afe-v2-0-mhun512@gmail.com>
+Subject: Re: [PATCH v2 0/5] ASoC: mediatek: fix AFE IRQ registration and
+ removal ordering
+Message-Id: <179517904754.6016.16269615530838300307.b4-ty@b4>
+Date: Fri, 20 Nov 2026 12:50:47 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,22 +68,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1803; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YgJBtkWW8iWQG2laY8hnj1dOGRj0c+aLITIppNNt1Gk=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZkv+wHWdj3HBx+6w8lwubg9ZsPNvQ1SHz2O3ESb/VM
- hd5zv1501HKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJTJ3K8L/6OhP3l9CT6zqP
- HbdefX+V5gXRBfPeu5fxpT88uYzbsHQuI8OXFqfDx16+sXByvVOVxtpnw7Lyqzen7j8f3qodaxs
- n/OMHAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2005; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dSDkHmfmCeNxORnUsZPpEUBtYzLsL2QTxwlCUj1j5No=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZUhRfLDdqKWWb3LEh1FVrp2l39H3BnQd6bWoPShsfn
+ Lls+9Z1HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZhIsScjwx+bYs4LHKEzxes+
+ S92Pay44tVhO67TrulBDmRstCW8VnjL8r+p8UPu9RtY4RXbrMr6NlamTQhtecNl6Z6y6wp0qGfa
+ HAQA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 04 Nov 2026 18:07:08 +0000, Demeter Barna wrote:
-> arm64: dts: qcom: sm8350: Add SoundWire and LPASS
+On Thu, 12 Nov 2026 01:17:44 -0500, Myeonghun Pak wrote:
+> ASoC: mediatek: fix AFE IRQ registration and removal ordering
 > 
-> SM8350 has the ADSP audio services in its dtsi but none of the LPASS
-> codec macros or SoundWire controllers, so boards can't describe their
-> codecs and DMICs yet. This series adds the RX, TX and VA macros with
-> their SoundWire controllers, and the SM8350 sound card compatible.
+> This series fixes IRQ lifetime ordering in the MT8186, MT8188, MT8189,
+> MT8195 and MT8196 AFE drivers.
+> 
+> Request each IRQ after regmap initialization so it is freed before
+> the regmap. Where remove() shuts down the AFE, free the IRQ first.
+> Also balance MT8186's IRQ wake setting.
 > 
 > [...]
 
@@ -94,14 +95,16 @@ Applied to
 
 Thanks!
 
-[3/7] ASoC: dt-bindings: qcom,lpass-rx-macro: Add SM8350 LPASS RX
-      https://git.kernel.org/broonie/sound/c/bc7f78224043
-[4/7] ASoC: dt-bindings: qcom,lpass-tx-macro: Add SM8350 LPASS TX
-      https://git.kernel.org/broonie/sound/c/f1184077e11d
-[5/7] ASoC: dt-bindings: qcom,lpass-va-macro: Add SM8350 LPASS VA
-      https://git.kernel.org/broonie/sound/c/991a76f7064a
-[7/7] ASoC: dt-bindings: qcom,sm8250: Add SM8350 sound card
-      https://git.kernel.org/broonie/sound/c/a5b5d062b40c
+[1/5] ASoC: mediatek: mt8186: Keep the AFE IRQ within its resource lifetime
+      https://git.kernel.org/broonie/sound/c/420be55fe0e2
+[2/5] ASoC: mediatek: mt8189: Keep the AFE IRQ within its resource lifetime
+      https://git.kernel.org/broonie/sound/c/4f4067c2d110
+[3/5] ASoC: mediatek: mt8196: Keep the AFE IRQ within its resource lifetime
+      https://git.kernel.org/broonie/sound/c/eb9a5be4c2c1
+[4/5] ASoC: mediatek: mt8195: Keep the AFE IRQ within its resource lifetime
+      https://git.kernel.org/broonie/sound/c/eac2ac34a18d
+[5/5] ASoC: mediatek: mt8188: Keep the AFE IRQ within its resource lifetime
+      https://git.kernel.org/broonie/sound/c/94d0e251e7d7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
