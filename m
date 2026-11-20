@@ -1,45 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795191761;
-	b=T4gFKG7JKtJPCfxSaY8elM9+q/Yf2B+eX2N8EmnXiPLiqaA7xv55dyuE1mlTrL+0GjZI
-	 +WjbbYcGIAMw8s7oiVc6tw4gRzvFapoikmMk11JkTStnvVM6oz8ORkl5odHpU6LHHGTA0
-	 J1q5I6lS5QEMWZnfi6vParMaqpjWpvCMcTBkAr1W1kkgb4t0sPzYkxVbcM53Syd1sVSJE
-	 NonaqmaIi8z5i2EcXLPJcS8KUcC+gIVkyrB6oy9n9g3FTVbjhbt9Fl1wwyrUawR8mXwlW
-	 WaSGloSs3sQewp8R9Gh+vqzOlrT20RJzPNOQC7dZafC604ntoy8YflAqAvREAQc249Q==
+	t=1795191774;
+	b=Ujim6MraBA1nNEGHhOT30gSRACUFNKK3WJkRB/Kopmihq0zFFLvQYXHGTav4+/3UGvCt
+	 cO3Rxg0CEhGjMN7Fxf32OlTjC51dWP3Y7Zk+7zyyEyVzBTpQRlCS9vW+qdh0g6A+86/F6
+	 wjB/p1wRdZCqcogcnYN5fHy2IQ83tR3feDPR2pxzvmJADadUk3StkzIxbyf0I5K4uQEXw
+	 IIIpflg++BQCXIFVKSO9Tg3uaRZSDCUA4xUb1KutUC0AdeEb6UhsRMbNJyIWH1jrpkO+u
+	 j75kB8sNcLAyWfRfoRrfpjz5gGNdd8aM8fETOwIKYpl5VQUm8qxgVqVZTxhwVrGooQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795191761;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=UE3cxh4Yaz2lcwnzg8DWo7tmNqwhg5hgieOdXzNGseQ=;
-	b=n0hJUzUtQyX52WQI1/i4g8Sr9QaS7i3vmihhpYwq6B64S8T9LIEkMzfyOfxQMj8Dl0bN
-	 8G/SNh1/CA9ziBDAUD9fE0+cav9BYmtrSQ2HBvYKDkMI2QONxDjIaR7b8W2vAL1WRj5r4
-	 /KJkHbSg0za3CLmpaPOAKSPrMOtcVBTwIHVyHnpYagURhp0nPupdSqGxkWcL9y5A4KnHK
-	 8wU5FnPgvTflkNnv3MDIrIRLLjzdMUiFDPBUca2imHzr+baC5Mk7UE4GlTxGc0eBtrbaw
-	 fFuF7SEYyXQQ5Rv1Bo6sLh/dtbQf5qj+ZQLjdqAL3VTiFo+5DBH0OVcxNKrAuOdmlgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795191774;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=HZkKgO7Q+uLALgFFBP6a/CKYA4G/g6jmD4vyeOPLFIA=;
+	b=R1h4qBHcvTrbFZ4uHsz5S2gbd9Cp/p8CsluSWCaoud4uRYAGQXY50aHs+dOBF46fYqyR
+	 Ae1uML3HkfpnDESQUo4Nn9Qgy48s8Hm3qaR2OGSxTf5wCBIrB2XmL5yVjl+L3YZeDHtu+
+	 ojkL3y/QO3eRnwh2CTNU+RuoFP9kTmJsetGCNr1hlgOW1MyXKYcAAClWdcAjVwjb2EQsy
+	 Y444erMajUK5IeZbdR+7p6Gs/SJtPDC6sEQLskdSVYgMYoaBoJV78swGT6w113QJZt4Nh
+	 /Ur1+yz/x4cUTB+W5YcWSZf9/U4LiIwJDdwH544sysmiT/zr2lURdj4NjCgIZLgMIZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nflnBQL8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="e4sApNP/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C41606A32C;
-	Fri, 20 Nov 2026 16:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0738606A320
+	for <linux-sound@vger.kernel.org>; Fri, 20 Nov 2026 16:22:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nflnBQL8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 288541F000C4;
-	Fri, 20 Nov 2026 16:22:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=e4sApNP/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B0C1F000E1;
+	Fri, 20 Nov 2026 16:22:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795191761;
-	bh=UE3cxh4Yaz2lcwnzg8DWo7tmNqwhg5hgieOdXzNGseQ=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=nflnBQL81CdjNgAQ/lYDvapKo5OcUiVI4zN9sTkwdiIFXd8pW8MXDOa9wvWqdaa41
-	 sHBV7NtHqfhfVlJH9JLag/DchbMUcKhjoa3iuWEdBjYy0juR5TmfdmYoqFR7ms6P5o
-	 GaXOcm7lJRjo2FhAKVTxvhxAuS674IKTgf6BoHZSyaYjj7JGdYis43gk9MZCLSdSwU
-	 tRZM+J5OPDnGq0ycWPdgwZyW8enoCqC9SExG7mc7LUdHrHLFEwOZ06hrY5nJNFLj8s
-	 BmbtyP9Jzcu8wmuoiCQnlXClLCcttWsei4U4XorcCNnisPO0WhlTGY6aF+tUktypZ2
-	 eL40/Fqy3PChw==
+	s=k20260515; t=1795191774;
+	bh=HZkKgO7Q+uLALgFFBP6a/CKYA4G/g6jmD4vyeOPLFIA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=e4sApNP/3qskYVTbtO5KbXx9cnObj1Qrbo50IVbWN6hGA6iOmCYXydx0K2VmvVnKv
+	 VrdOBPQQYL8aZM539ZYQn+2bsKUOJRHckgLSxHJnZ0TK3RB/nGJpyZKyUhEznkYu3g
+	 9cZ5poFHCsb7m5WbZ3tgtmxhUiMKWRRyt04CxAGFmiiWejQM0GWwJYLdug6PMMv0Cb
+	 oQjq8xeFDiUBvWkG6kyy/8xGOoqG/qqz5Y8EhcsxvPIYhZmoKvndscYXNcyLatbB3q
+	 v1kEIfNdgUwLYFcsoPHnpYANeWb5jWMk0BN9WsNUIj8xCGdWSo8UFGI1xszW9hEXod
+	 fRdKaWCaS1Xug==
+Message-ID: <sashiko-outbox-225562@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1 2/7] ASoC: cs35l41: Prevent software reset when using
+ SPI
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Stefan Binding" <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261120161136.157593-3-sbinding@opensource.cirrus.com>
+References: <20261120161136.157593-1-sbinding@opensource.cirrus.com>
+ <20261120161136.157593-3-sbinding@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Nov 2026 16:22:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -48,54 +60,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] ASoC: mediatek: mt6797: Fix runtime PM handling in
- probe
-From: Mark Brown <broonie@kernel.org>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, kaichieh.chuang@mediatek.com, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261119075917.50241-1-zhujun2@cmss.chinamobile.com>
-References: <20261119075917.50241-1-zhujun2@cmss.chinamobile.com>
-Date: Fri, 20 Nov 2026 16:22:36 +0000
-Message-Id: <179519175666.6016.11644366244582649083.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=980; i=broonie@kernel.org;
- h=from:subject:message-id; bh=8U4fievZtT0npUDmkK6cNO/Z30hCYZ+2JMkBYDIrwIM=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLIZis+Gmv6WaOzLW7eycOnnooypgcvdwiRPyLodWDpd9
- 4HSzKuCHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjIqT+MDLtCako7rhWJpCn/
- zP+vtIuRYfvNpfXaLyuLXUrENWvUGxkZPvGe/PA2aJnbGR5Ftj3BCkbsmXyP32rmmO9XnbO27aE
- nFwA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The MT6797 AFE probe registers its components even when the runtime
-> resume fails to enable the clocks. If component registration fails
-> after a successful resume, the probe disables runtime PM while still
-> holding its usage reference. The runtime PM disabled path also
-> returns the previous successful result without registering components.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ASoC: cs35l41: missing Fixes trailer for
+  cs35l41_reset_and_boot() SPI fix
+--
 
-> @@ -846,11 +851,13 @@ static int mt6797_afe_pcm_dev_probe(struct platform_device *pdev)
->  				     afe->num_dai_drivers);
->  	if (ret) {
->  		dev_warn(dev, "err_dai_component\n");
-> -		goto err_pm_disable;
-> +		goto err_pm_put;
->  	}
->  
->  	return 0;
->  
-> +err_pm_put:
-> +	pm_runtime_put_sync_suspend(dev);
+commit c3f7f4bdf676f39aef6330251414c7d8f0d98d22
+Author: Stefan Binding <sbinding@opensource.cirrus.com>
 
-There's a race with userspace fiddling with runtime PM here, it can
-force runtime PM on.  Instead drop the reference with
-pm_runtime_put_noidle(), disable runtime PM and then directly call the
-suspend function to ensure the hardware is i the right state.
+> ASoC: cs35l41: Prevent software reset when using SPI
+>
+> If there is any SPI Bus activity during a software reset, even if the
+> chip select is not set for that Amp, the amp may not boot.
+>
+> This affects both CS35L41 ASoC and HDA drivers. For HDA this also
+> affects system resume.
+>
+> Whilst the driver needs the amp to be reset when coming out of system
+> suspend, the driver will always toggle the reset GPIO off and on to
+> ensure this occurs. If a reset GPIO is not defined for the amplifier,
+> the amplifier will not probe - unless the amp is using a shared reset.
+> In the case of a shared reset, the GPIO will control resets for both
+> amps anyway.
+>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D221161
+>
+> Signed-off-by: Stefan Binding <sbinding@opensource.cirrus.com>
 
--- 
-Mark Brown <broonie@kernel.org>
+[Severity: Low]
+This fixes a boot issue introduced with cs35l41_reset_and_boot().  Should
+this include:
+
+  Fixes: 9bfbc1af0713 ("ALSA: hda: cs35l41: Add common wait_for_boot api an=
+d reset_and_boot api")
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120161136.1575=
+93-1-sbinding@opensource.cirrus.com?part=3D2
