@@ -1,93 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.4
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795244752;
-	b=II6dSzXphPB732iMvbAydibxrKr9AbUkydYq0pRCrS72V5H1rxzQuSYW7v97TnQDKp3T
-	 ZiZtsxW/AhNxgOC/5NUYLcNjRePgyqmg4w8WrWVHRtlbeil9EOVygZd8W4tgmAq+xMnYA
-	 8ruCuQIu9xBHzp5AM37sDYvdFFpA+yEEEWM+YL42fBASILrXstqMCx3VTdoo+HyQ4YikU
-	 QNdEmYbNt1H56p5E3iR9hf0msB4N+B4NH9GQgQ3nZKS8rNPIg8lTfP/YgLp20dHuVwWsV
-	 PiYyddpXXYuafho1Em+IdN7QMC6HPx7WZnfmzDBTyMcaWSog/YMDmN8O1ZV3dWNDPog==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795244752;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:Content-Transfer-Encoding:Content-Type:
-	 X-ClientProxiedBy:X-Microsoft-Original-Message-ID:MIME-Version:
-	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=F+yva2Vv4P1sEJOns8MsaKnMdRPWFReUfvBYwMKHoGk=;
-	b=Wu6q3oXKcVMm3ad0WR6E4I7m+k9Hhl6QyG6KCAYbcpiU6caMIpjFrCQowbkE1nQxTlAR
-	 kuzSLlVr7XV7lp6s4pZceW+So8kOd5KJwEIXDu6GS/C99PjaGfq76aU1pUuo0lp+jI/iy
-	 BuA+Q3R2+4TJYKXROyd76dkBCTTHZMuMCyGMEH1MsPb0M8syMXUQw6MqdOmdAQB+86Kg+
-	 5vW1wRzk2e28SwfQS+CgPV0CNlPLKgyO3c6fS9dOj8dDOvjkkK9uMG4CAqNiKYt6ZTAOe
-	 MPGb5l9hs3s3AXlwxdoIH0o3KJgZglN7YMY4D5tBgUKpqLCQz0anM5HjJYFN+o7stMA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=outlook.it;
-	spf=pass smtp.mailfrom=outlook.it;
-	dkim=pass header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=UwrNMxqi;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.4
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19010004.outbound.protection.outlook.com [52.103.13.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE53E606A325;
-	Sat, 21 Nov 2026 07:05:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE53E606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=UwrNMxqi
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xZ2VD6uGoczh8GvSGPnToShknEXcq1bSF+BPgXum3wKftV8s0FkgJYMljCHRWExAYh969Cg5WIgUcJ8H7xR9N0y0agt+KRtWkl03Vnuh+T2PWxvh9lWeROQJk7qcQJiwbwHwYjPQ4Gtw7PSL9I6yKAcbfVNduOjPYXHYrcg+mRW5StfknKNnnWJFp7atAbcqLgPm+RnXDoSGibCLKsZwJXZHnVKjMyuB/hBnmd/eGNX7oixOPC0wlOXFXoSDg7H9/82GLvhkCNtbMu3N2opYB0wZI37E75Jfou6WbzOZzeJ7UqjiRegg8f/QDpiI6sGSmqHHEtzmk+OEpRIphyrJKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F+yva2Vv4P1sEJOns8MsaKnMdRPWFReUfvBYwMKHoGk=;
- b=gOH0ECLpMOJODnZdOF5BxVpXqxdd9PhSDrzt4fW9kgxD4py4rxJAdtecoGQFUCaC3Z2Fdlf6EPdUZjaVrYM83CvgrxUv17iAas+Nty7owvOlxi9+280DIEnEonKz2yy63bztK1kt/eYPTRAkpdTXG9frzShnwdjA+CS6oJsPPg8T963Q18Ia76CENlvU+5RGc9x1GarK7z2Gc9jA87VomHlYKudXZUtosFKXOf+jSD2iFmWXfQQZl2dPyam1aDXaKSGzJPoHuj/jq9rbJB3tIw1Cbo4sOkAlGvTbhxyFFnKbZrOfPwpUFNxOsbQPtzWTStr44MLge4oXvoMtY9gfqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F+yva2Vv4P1sEJOns8MsaKnMdRPWFReUfvBYwMKHoGk=;
- b=UwrNMxqiSawmUXRfSnfyLqnUlfrHThR+K6MJrsE6Kw3agkVGvDQbHjUvMcrP71sU0cq80k8+Qu3m2INj1eTgmMv0Jkds8bMs7rX+7sb6qKgepAoF3LwZK/QEaST+m5U0FVZvtLdTPluaKebWvlXdeEyC5HxnT0EnNw44LCry/reez1veN7HjxTtgEe/xZFh5iEWiEzxEkjmsU56h0AHBt5grX6iYFy0Kf80fNTZ/JEUjxQzFpB3kD7K6dXHvqpbQSuNYacG0PqD3wkqBWNHI20opR8j1Ian2VYdQ/1QmWW3AcOK6B5IQLzNkFd4ySAen8d5gayNxQpLUSaC/xVGz2w==
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com (2603:10b6:805:56::19)
- by PH7PR19MB6505.namprd19.prod.outlook.com (2603:10b6:510:1fb::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Sat, 21 Nov
- 2026 07:05:26 +0000
-Received: from SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a]) by SN6PR19MB2303.namprd19.prod.outlook.com
- ([fe80::805c:7f80:c69f:876a%4]) with mapi id 15.21.0639.011; Sat, 21 Nov 2026
- 07:05:26 +0000
-From: Marco Giunta <marco_giunta@outlook.it>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795253415;
+	b=2okQh0pz/92vOst6TTMAGAuqmhXEOFH8DEgKzCAlqu1+Ac7Sgzwbq0yCtrSwW3GWFUFJ
+	 uiykPdlQw5mlQnROoaQwhOwguw7prVqR7J2YHVHwqrv8Bj550derXOg3+aFHPSWZ0dCr5
+	 zAkDklMA0DTVhS3vZpvxUXcX66d7GAugkmozZCL7FT/PB/tuYIPZan/wm59F0dChQvN8j
+	 xc9bObHhBlbUD8M2OcpZMo+NyOngiY4U57WC7/MrIeyfn2v2HvHWys+DsNjM3dUWS2WnW
+	 BhFLgIXmBqXVi3X1/O0WN6Ei7bQd+unkUSnMAC68bTvi6R36lDHn2xQ+fzT8lK8xXUQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795253415;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=S1fow+tcHSCPQnCraqLiE7sTVQfos47VnR/u8cbK+IQ=;
+	b=t7jA3+LtCMkApLP+grR8JkpT6rl2nwpYCbqEw11S/2iorAbJyJbZZF5bph5EnjECeFRp
+	 bV9L9oKvjn0FPFkKB4FEzFpeJIoTdvwHbP0WxIJoTaOVzCpOm4moAsLly3z0HWoG48L05
+	 ZFv3bVtBrcpYrVITEt5GN4VVsS5gG0mRtpVDtIBgkOjdimHR7f1+3sfXuzlOl+f987a+B
+	 DNpSo+L1FN+9EePHb8CkvXb0Y4hv3FaDvw30vdqZ1OvsGt1G2WPawWpQPiRJtNsUUaq0B
+	 JfVMLZNPgz0kAFSXPigtmtVu6oqRGQ2+qFqH7kcSdeBaLLgrRaWcD1hPs0BeP0SuW3A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0E36606A325;
+	Sat, 21 Nov 2026 09:30:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0E36606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=S1fow+tcHS
+	CPQnCraqLiE7sTVQfos47VnR/u8cbK+IQ=; b=EMfd78ByRlHfslwxV15TylNw4q
+	raRpyYUqc/R3MnfE2j4SfZdW3fG2EKsCOp11GTZrVI8IBRFieSSnCNQJzAoIlUj1
+	aeYNp6kcK91pg4l83sf7OAYS4f8ce6rgmiDmA/eC/xJaZsEIDsuGLk3kk7tPE7XX
+	pdESg0v02UZmEi41k=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.70])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkDW3gGaZAFrlJH_AQ--.51524S2;
+	Sat, 21 Nov 2026 17:30:03 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Marco Giunta <marco_giunta@outlook.it>
-Subject: [PATCH] ASoC: aw88399: fix register used to disable I2S TX
-Date: Sat, 21 Nov 2026 08:05:10 +0100
-Message-ID:
- <SN6PR19MB23038B66A212CA32A4B6B3CCFC472@SN6PR19MB2303.namprd19.prod.outlook.com>
-X-Mailer: git-send-email 2.56.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI1PEPF00000AD5.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:298:1::4af) To SN6PR19MB2303.namprd19.prod.outlook.com
- (2603:10b6:805:56::19)
-X-Microsoft-Original-Message-ID:
- <20261121070510.7202-1-marco_giunta@outlook.it>
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH] ALSA: line6: Kill URBs before releasing the PCM buffer
+Date: Sat, 21 Nov 2026 17:30:01 +0800
+Message-Id: <20261121093001.18469-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,107 +58,106 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN6PR19MB2303:EE_|PH7PR19MB6505:EE_
-X-MS-Office365-Filtering-Correlation-Id: b12efa1e-e249-40a7-3639-08df479dd08f
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|24021099003|5062599005|51005399006|15080799012|5072599009|8060799015|19110799012|260925184616899003|25010399006|55001999006|3412199025|440099028|10035399007|40105399003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?rnMK4SNNecOYcdjsy04mZoCteMe9xd5kNL8erIAbvmd4NtMFA3r3bE4W4Uio?=
- =?us-ascii?Q?vFiioj5fpAi6fKNy7+qf+xQl014GCx6XJelF39zs+EvxPGtED+RxwemL7+2h?=
- =?us-ascii?Q?fm6EO0Y0oHrjd64aa2/I3MI9y1nJVvbj/hdARwNEpcQ+DIOcfNf5QQ6KJ13Q?=
- =?us-ascii?Q?4h+q45+2i+z0cUIRnJZf5O+PIWgW54zw2xi0FavZgbFhMo4EeUQoyjiUHZVM?=
- =?us-ascii?Q?pDrrzQUh49GoVJHzVzyJppwC+jAy2fjNnMVLTpopSTI74wiRxQvyZGOpAQLH?=
- =?us-ascii?Q?fKIwBRivNLo189ZAltjyZzPdpDZzOTbLWVVUuPZdrUnWbGqGRMoLwv5jqXNe?=
- =?us-ascii?Q?9qFc4zveJ3eOwJE8qcMNSw9y5gf2J9hnbJjKfvq+8pPlEYlBrf0uBhPDOWoQ?=
- =?us-ascii?Q?DQB00ZHgTpR1xrTdKzgCLV+SU2+1Dm73OXVoDgyOi2wTiuDulbhZst602ZyB?=
- =?us-ascii?Q?ag6dDYDHB8N//oX3DF/HovUYHMzwyWyandguMz8Q5ewVaSbbzAWXC2q+4lnk?=
- =?us-ascii?Q?d1fhn5lFYv2vAh4Q+98Ing/70N0SmZXZL78yL20rVJlNBNLqzZ1dOSa2heQA?=
- =?us-ascii?Q?TDx4W43T1pkoz7JFXewEceuqRMlC6oVM4V/rtMRYthvjZGef58GgmGSqqOb4?=
- =?us-ascii?Q?DYyrz994UK5nNF/xEtmQaUIm8x8BT1jVRS4nxAajr3TJsfsiDYrSMb1hIga7?=
- =?us-ascii?Q?KIiW2X7m3W43Bhsn258/Qm1MWrveUwZiQg0BANRjOoDNcUZSpWQKRhqEEi3J?=
- =?us-ascii?Q?BgBFtMc/Je3ra+n5WDoutfE5QlrSydnOLYszSqO4yQl7KGylEkaN77rz1qK7?=
- =?us-ascii?Q?B7NRBG3I7CbKs84Ss/YwUloJVZSzC22gSXfDhjyRGbVonFac7RPJyKeNx38T?=
- =?us-ascii?Q?HSmKRiR24IoeaxaiZjv3pGJc7lxPUFZJqse9z8QOdo18oieBgRI8UAk7ww7P?=
- =?us-ascii?Q?YhqH/+HVP8mZfgLJE9FuyKqQfmxvh4s0ndlm7UzZvrPu0zTdU2VgaXiEWHF4?=
- =?us-ascii?Q?efK3?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0YCnS7t+bwha/FF693ZxjQuAuNsqdFndXW1fGKKfQ9nPg8/moAQlUkEEb8Xa?=
- =?us-ascii?Q?JRDK8pdmuiRPj8LexOtYBKxmq3cN7cmR9s0gjrK8hGuWmSFoQS5u6H9ClmHz?=
- =?us-ascii?Q?fFl/pT2Ryl4kdr3QJeoIpbv/SB4BG4OPneoaJ8mCGKJy9+AU35XmrNu4cMG4?=
- =?us-ascii?Q?F/KCaxRAb+eM+2/Dgf31r+LQQ0Qn5T9aXPrEpbyWuvMWjDgYdINUCGHYdFxl?=
- =?us-ascii?Q?XmJz49iC/qIOuy+adoeCAeTpWEOZFo996wqhQ/doa+YN47Ff1nX8bYpLaKfv?=
- =?us-ascii?Q?x9vI3I4qY9GOE2yCGaS5R4LrX79jBrZe86JxHK1yucGv5lvPc8rMXtcyWGSX?=
- =?us-ascii?Q?af7t0kbfYBBbex6tnz9G8d1Kf8KeTVYeZg9SKiwdriiivqkyQvmHeGtN+Z7d?=
- =?us-ascii?Q?OoqfZLc5jutVXb9uScR3pu7n499Z1ev6kosMDlAb7Yy+EvD/7KqdzIimh0Sb?=
- =?us-ascii?Q?VOxwkJGNCVMEAPXJHYwXEgls0vUeaxi/TFxvY/y2HLLV0iPgVB3X73m9cQRt?=
- =?us-ascii?Q?rAGGVPvawdIuzPHa0IZtRDDCsc9p5+OyighLhNzVwn38b8L7hxOgZOl+BJ8H?=
- =?us-ascii?Q?LQ0MMG1IF/VcGDrtc4eSemxe3nYujw3ndVc+5X9wvT28jeu0saODw2zCPbe+?=
- =?us-ascii?Q?v21L3gcNYc8PoP4N4IlX2FCxbb/vmS/K/IdiRKWr6z01mPxyYkLQWlJVtkY6?=
- =?us-ascii?Q?vU+l7X/TGFekFjXKGMourPMxoZCqUTH9DwsNTjFQH+kaTqXxwx5p+wrYzVs2?=
- =?us-ascii?Q?QBvKIzWo4SDB6KFPas4rUuVq3M6doyxfRdDC2sP7mA3MTPzWaDmBw2k/b/7B?=
- =?us-ascii?Q?8eFdf6g6kQlyVr/SNiHzdrieuOfOjQa7BKQB/Fthm6CnL7x9RpMkJZsflg9q?=
- =?us-ascii?Q?nF12GFcphCO60fyoJ/mkI18+DG66k8f8ppg3ytI4rgHM5YAS+a0PrfN72CMQ?=
- =?us-ascii?Q?h6CF/yRdo2cZJx+JvVng06eMSzVFF5LXc9Hz3H1S39QwNRKJQrqc2+Kya67c?=
- =?us-ascii?Q?7TrnUeOSPeMDf5W6VCLENF19+mYOW2xOQVEqEUhx1ikyVCx0k4mm4NIID6Aq?=
- =?us-ascii?Q?owxwLLqyIStnQU5iWaZKFhDIwVEgJbSqWtxcxOsjJIlV8uUdWJnb/jXEg6h7?=
- =?us-ascii?Q?Ky6OZxBttGVMPz/zaxvEFSEng5sBtUXlnWZGBs7wCtczgpeOjvn26KY+irXJ?=
- =?us-ascii?Q?fve1W55fJYlcNdQ3m6d5YDKnZa6cUcF66nt5W7GaJaPT+Sc2zrQYI2WRc/J4?=
- =?us-ascii?Q?rrw38qEHn9p7ZDzvDMMC4XKOMaBsaaUWgxwV1/ox5acwmOyoDx7DUngzqUd8?=
- =?us-ascii?Q?3f4m8iFpY9lMq6CeBmXiKgSbgjn+ZCabdOVLP9N3urnIeqiDCdi8s4dL6fqs?=
- =?us-ascii?Q?Z11HvlE=3D?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: b12efa1e-e249-40a7-3639-08df479dd08f
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR19MB2303.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2026 07:05:26.1195
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6505
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkDW3gGaZAFrlJH_AQ--.51524S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGw1xXrW7uF17GrW7Gr4DArb_yoW5trW8pF
+	yrua4YyFZ8JF12krW7Jws5Ww1Sva1kXF9rGF1UCrWrAa13G3Z0q3Wavr45Wr4UCF40va4a
+	vFW5tw4rGr15Ca7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
+	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r
+	18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
+	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s
+	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8RbyJUUUUU==
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUED2sAYlijTwABsz
 
-aw_dev_i2s_tx_enable() uses I2SCTRL3 when enabling the I2S transmitter
-but I2SCFG1 when disabling it. Per the datasheet, the I2STXEN bit lives
-in I2SCTRL3.
+line6_buffer_release() frees the stream buffer after
+line6_wait_clear_audio_urbs() gave up waiting for the URBs that are still
+active.  The buffer is still referenced by those URBs, and the completion
+callback of such an URB resubmits it from submit_audio_out_urb() with
+line6pcm->out.buffer already set to NULL, which ends up in a NULL pointer
+dereference in the memset() in submit_audio_out_urb().
 
-As a result, the I2S transmitter is never disabled when the device is
-stopped.
+While the URBs remain queued, the host controller can also write the
+received isochronous data into the freed buffer.  Such a write does not go
+through the KASAN checks, so it silently corrupts the freed slab object;
+the corruption was observed as a bogus KASAN quarantine entry that later
+led to a general protection fault in qlist_free_all().
 
-Use I2SCTRL3 in both cases, as the vendor Android driver (aw883xx) and
-aw88166 (which is also derived from aw883xx) do.
+The active_urbs bitmap cannot prove that the URBs are gone:
+line6_unlink_audio_urbs() is called outside the stream lock and only marks
+the URBs that are active at that moment, so an URB resubmitted by a
+completion callback right after the scan is never unlinked and keeps being
+resubmitted after the stream was stopped.
 
-Fixes: 8ade6cc7e261 ("ASoC: codecs: Add aw88399 amplifier driver")
-Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
+Set the unlink bit for every currently active URB under the stream lock,
+so that the completion callbacks cannot resubmit them, and then kill them
+synchronously.  usb_kill_urb() waits for the giveback, hence the buffer is
+no longer referenced by any URB when it is freed.
+
+Fixes: 63e20df1e5b2 ("ALSA: line6: Reorganize PCM stream handling")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 ---
-Tested on a Lenovo Legion Pro 7 16AFR10H by reading I2SCTRL3 via
-regmap debugfs: without the fix bit 9 (I2STXEN) in register 8 (I2SCTRL3)
-remains set after playback ends and the device returns to idle;
-with this patch, it is cleared once playback stops.
+ sound/usb/line6/pcm.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-Link to aw883xx: https://www.awinic.com/en/driver/AW88399QNR/832
-
- sound/soc/codecs/aw88399-lib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/aw88399-lib.c b/sound/soc/codecs/aw88399-lib.c
-index f2e2c88f5ec0..a6303f32e2cf 100644
---- a/sound/soc/codecs/aw88399-lib.c
-+++ b/sound/soc/codecs/aw88399-lib.c
-@@ -552,7 +552,7 @@ static void aw_dev_i2s_tx_enable(struct aw_device *aw_dev, bool flag)
- 		ret = regmap_update_bits(aw_dev->regmap, AW88399_I2SCTRL3_REG,
- 			~AW88399_I2STXEN_MASK, AW88399_I2STXEN_ENABLE_VALUE);
- 	else
--		ret = regmap_update_bits(aw_dev->regmap, AW88399_I2SCFG1_REG,
-+		ret = regmap_update_bits(aw_dev->regmap, AW88399_I2SCTRL3_REG,
- 			~AW88399_I2STXEN_MASK, AW88399_I2STXEN_DISABLE_VALUE);
+diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
+index 2932eaf157f4..e05fa20cf4ed 100644
+--- a/sound/usb/line6/pcm.c
++++ b/sound/usb/line6/pcm.c
+@@ -134,6 +134,31 @@ static void line6_wait_clear_audio_urbs(struct snd_line6_pcm *line6pcm,
+ 			"timeout: still %d active urbs..\n", alive);
+ }
  
- 	if (ret)
-
-base-commit: 7884221ca9857a317bf4bd81ac3bf5528f266feb
++/*
++ * Mark all currently active URBs for unlinking and kill them.
++ *
++ * The unlink bit is set under the stream lock, so the completion
++ * callbacks cannot resubmit these URBs any longer; usb_kill_urb() then
++ * waits until each of them is given back and hence the stream buffer is
++ * no longer referenced by the host controller.  This function must be
++ * called from a sleepable context.
++ */
++static void line6_kill_audio_urbs(struct snd_line6_pcm *line6pcm,
++				  struct line6_pcm_stream *pcms)
++{
++	int i;
++
++	scoped_guard(spinlock_irqsave, &pcms->lock) {
++		for (i = 0; i < line6pcm->line6->iso_buffers; i++)
++			if (test_bit(i, &pcms->active_urbs))
++				set_bit(i, &pcms->unlink_urbs);
++	}
++
++	for (i = 0; i < line6pcm->line6->iso_buffers; i++)
++		if (test_bit(i, &pcms->active_urbs))
++			usb_kill_urb(pcms->urbs[i]);
++}
++
+ static inline struct line6_pcm_stream *
+ get_stream(struct snd_line6_pcm *line6pcm, int direction)
+ {
+@@ -172,7 +197,7 @@ static void line6_buffer_release(struct snd_line6_pcm *line6pcm,
+ {
+ 	clear_bit(type, &pstr->opened);
+ 	if (!pstr->opened) {
+-		line6_wait_clear_audio_urbs(line6pcm, pstr);
++		line6_kill_audio_urbs(line6pcm, pstr);
+ 		kfree(pstr->buffer);
+ 		pstr->buffer = NULL;
+ 	}
 -- 
-2.56.1
+2.34.1
 
