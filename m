@@ -1,45 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223831;
-	b=srBavq3Q6cHLoLnQpTlp9uPfNIQFvqjKYtu/dqcVIbDvgCwwGym5WrpeEr298mfvav6D
-	 i/SgL6aKEo9YoGNTHt7iL7i/GsXOAhuw1CdJyVXddC7PBbiMwGfJ7LHbezbFs/+sqnnht
-	 EprhjgsRhzVlxkAMcsP9cyV6NYRGbnVvyttSLeOX1BdIvl4jGAOUeD5ig9NoeKuhBa5el
-	 iik0uveIGL3YIrEMewzKPhdUzLvJs+7cLjTN4Dkz2hmIoMSURxiF40xACUQEjp13UMWXN
-	 ucrWcfpUmK/F9TQEYt9p6n8rjCy88OCr0BKuEoQivxAhDa7vlxyLf2ihth58rCnqM8g==
+	t=1795225910;
+	b=C8x1yhGd9v7XmeCYkA/q8+nupa6n4a8Ata/yz7WzstSsQfHr4eBYcbvjseW0Qusa0KWk
+	 cA/OoTyE2Yhs6Ui8oEYpvtgSWmU3BYNprII21XoIouxvCbAg8AZemR1M8MURLqCywJ7yZ
+	 dT5B4NyUQlcpO3RErQVocHz6ClFNMF/JH+PkhEdgYVIeFyIwJ2Jv8VWwr2i+b1COARyy/
+	 xYCvCwpaFOhxht4fgHI6EcsxKm3AlDT6RFCVqqUKM0M/mJM9Eu+OuJaUp/Ug03vbuMn15
+	 OTbMc8dF6ORj+obwgo2KvxpuyjJU92+PgrWsqBCwkUt0sKSAEo74quAwQi1tQ9VaYUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223831;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
-	 In-Reply-To;
-	bh=QklyuLab+Ko9mnpTo5UeclQww95mzIqhLo3F7I/BQkg=;
-	b=wFVV4gYWrx01cnFSnadL5PevvX3j04xWSPddAXakIWD+eXJLlH0ZIsjFZradl0gada+n
-	 JWzLydX9rKP6CIQV2qLNrY/ZqZ5EMrmfpRIwH1B540gc1VhzEDXMsJteCDMgoC34CYI1f
-	 CzYDVn2+X4WE+Sa04XwHimGmnBk4XJmNdxBfyBVxB5adOkHWqJFerm/lZ8GEw46B00xjo
-	 DPlVj6KH+VTyxJ9o2qucMHz6wvor4wnvxkz44NEur9Prs+VGLzqW5ZhTQk+dn4sTFo413
-	 3DnR9KY3K1+EMFmWNRgAAyR35ktqZd2fCn1lWZoHm43YAe/vDLZosZZjqhdCOBLDO+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795225910;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=QzIhuJSftvZpgQFLV10hnC6j7UD3FLUoU0pfIWKv3/w=;
+	b=wHQGpToHXHIg0bYtSxY0s+xccfWn8NJdvi2WjwpwjuxPiZ/N5CTbUsoqkJdTfN01BJyU
+	 chazXh48g703RIXD0sCM29Od4Tj30M9KHoxTCb9Nu3CMZtPbxka8UTUjYJBzaFrK/D+r6
+	 9afULHHFBg3MaWE4enTWNbb14BxjtJgGsHLhfwFYWQuksx7IFh1aXzIUjIFlym5hJLBAP
+	 Qh6aZKqUCDmpagTc86OYD0lpkjcpUShQp73jK86fjHkxXhKUrUGetgsU3QhhK9XRQpGYg
+	 z1qOoJobAhuym/RgEhAxaphHaLcbRDinI4Y00jVGA8xgj3JazncWSS0WoGrAymWFqbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gm8eJtOH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="COia/9Fa";
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C352606A684;
-	Sat, 21 Nov 2026 01:17:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66191606A681;
+	Sat, 21 Nov 2026 01:51:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66191606A681
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gm8eJtOH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE01B1F000CA;
-	Sat, 21 Nov 2026 01:16:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795223829;
-	bh=QklyuLab+Ko9mnpTo5UeclQww95mzIqhLo3F7I/BQkg=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=gm8eJtOHhBnaOZe7LwDMFJ8mofPVVmX1YGRFpGCBO2m5hz8UlzXX+WvNJUsq934h9
-	 Gtdb+AerXFQPif6SLfOq2/dWtEgcQTz7bh3I6KV8pXYeGgzuMqRHyjcJnn/Sn8iwhx
-	 YAqVTjTNfeSW2VdEJcGvIBkg4/J19L82jz9PAn9h9IkH5umIAy3FYAYFk2uVRLQd+T
-	 s94/ADqCteDEcqO9mcewjaHUBrR90XdQUJorq/NHZbaKSRZNalAGYYTXYCWvSW+hsc
-	 zi51JiNKnL+ynxLP/WhWXj9KNLrvetlXTYZdQhOtRoJb5Hc2rzkXDPGGzjDTCgK7xr
-	 LOe4azsm+AuJg==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=COia/9Fa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795225905; x=1826761905;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IwahHoB4S9ZhcNncbWPcEfTPsCZcT9vB1MtXpBP03/g=;
+  b=COia/9FayfUhZoHlHdDA7chh9woWIpsKfUytj5ByoamJt+IU9+pJTYIw
+   EdzwQC75k58UmKbSre01rx9RpPO4VmLI/yMjComA6x1LwJO0pt97GOKxH
+   RvQgA7Jy0P/BssQ1WXIgEoszMVD6Gv6899U78cgTe1Yh2IugbQtHmkCYZ
+   bdOuET67gvPyGWMLNaGQogoqrQARoLWJqiKwVNyzW/NEdBejvz4HJ8aCv
+   AXNurzIhD3U1OA0C6tuGZioLeF/Ou5tMjMKrN/FK1XTPbH6agv4dbBmUz
+   hntBeKh9PueulgYE91p1BevW0DeY1+JbrEFQ5Yx802CXi89Y+3nC0yeFB
+   A==;
+X-CSE-ConnectionGUID: b1zHbiI9SqeIjhhMNxxG2A==
+X-CSE-MsgGUID: WLw1KYsDQuaMsHAyO3S8rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11972"; a="4154313"
+X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
+   d="scan'208";a="4154313"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2026 17:51:44 -0800
+X-CSE-ConnectionGUID: AAmMxKbUSX+u0wxTw78PUQ==
+X-CSE-MsgGUID: NUWuXceNRh+Tm3I+RLBZpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,224,1787036400"; 
+   d="scan'208";a="10914179"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 20 Nov 2026 17:51:38 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xUaGM-00000001JC7-0LGj;
+	Sat, 21 Nov 2026 01:51:34 +0000
+Date: Sat, 21 Nov 2026 09:51:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Olivier Moysan <olivier.moysan@foss.st.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-sound@vger.kernel.org,
+	Olivier Moysan <olivier.moysan@foss.st.com>
+Subject: Re: [PATCH v2 08/11] iio: adc: stm32-mdf: add dma buffered
+ acquisition support
+Message-ID: <202611210936.q9qVaCjc-lkp@intel.com>
+References: <20261118-upstream_mdf_v2-v2-8-7939d3c3720a@foss.st.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -48,77 +104,74 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Nov 2026 02:16:56 +0100
-Message-Id: <DN0HQBTG5VUY.1F40HSFIRRGNQ@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Johan Hovold"
- <johan@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>, "Nipun Gupta"
- <nipun.gupta@amd.com>, "Nikhil Agarwal" <nikhil.agarwal@amd.com>, "Ioana
- Ciornei" <ioana.ciornei@nxp.com>, "Longfang Liu" <liulongfang@huawei.com>,
- "Julian Ruess" <julianr@linux.ibm.com>, "Ankit Agrawal"
- <ankita@nvidia.com>, "Brett Creeley" <brett.creeley@amd.com>, "Giovanni
- Cabiddu" <giovanni.cabiddu@intel.com>, =?utf-8?q?Micha=C5=82_Winiarski?=
- <michal.winiarski@intel.com>, "Eric Auger" <eric.auger@redhat.com>, "Eric
- Farman" <farman@linux.ibm.com>, "Matthew Rosato" <mjrosato@linux.ibm.com>,
- "Tony Krowiak" <akrowiak@linux.ibm.com>, "Jason Herne"
- <jjherne@linux.ibm.com>, "Harald Freudenberger" <freude@linux.ibm.com>,
- "Holger Dengler" <dengler@linux.ibm.com>, "Haiyang Zhang"
- <haiyangz@microsoft.com>, "Wei Liu" <wei.liu@kernel.org>, "Dexuan Cui"
- <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>, "Mark Brown"
- <broonie@kernel.org>, "Abel Vesa" <abelvesa@kernel.org>, "Stephen Boyd"
- <sboyd@kernel.org>, "Brian Masney" <bmasney+clk@redhat.com>, "Jerome
- Brunet" <jbrunet+clk@baylibre.com>, "Bjorn Andersson"
- <andersson@kernel.org>, "Mathieu Poirier" <mathieu.poirier@linaro.org>,
- "Srinivas Kandagatla" <srini@kernel.org>, "Sylwester Nawrocki"
- <s.nawrocki@samsung.com>, "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav
- Kysela" <perex@perex.cz>, "Jonathan Corbet" <corbet@lwn.net>, "Rafael J.
- Wysocki" <rafael@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>,
- "Bradley Morgan" <bradley.morgan@linux.dev>, "Armin Wolf" <W_Armin@gmx.de>,
- "Masami Hiramatsu" <mhiramat@kernel.org>, <linux-doc@vger.kernel.org>,
- <driver-core@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>, "Alex
- Williamson" <alex@shazbot.org>, "Mostafa Saleh" <smostafa@google.com>,
- <kvm@vger.kernel.org>, <qat-linux@intel.com>,
- <virtualization@lists.linux.dev>, <intel-xe@lists.freedesktop.org>,
- "Vineeth Vijayan" <vneethv@linux.ibm.com>, "Peter Oberparleiter"
- <oberpar@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>, "Vasily
- Gorbik" <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>,
- <linux-s390@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
- <linux-spi@vger.kernel.org>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, <linux-clk@vger.kernel.org>,
- <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
- <linux-remoteproc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, "Takashi Iwai" <tiwai@suse.com>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/10] driver core: Disable driver overriding by
- default
-References: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <cover.1795171088.git.u.kleine-koenig@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118-upstream_mdf_v2-v2-8-7939d3c3720a@foss.st.com>
 
-On Fri Nov 20, 2026 at 12:11 PM CET, Uwe Kleine-K=C3=B6nig wrote:
-> It is sensible to merge the driver core change (patch #1) together with
-> the individual driver patches setting .support_driver_override because
-> with the driver core change the driver override doesn't work any more
-> for the unmodified drivers (unless the new kernel parameter is provided
-> and a taint is accepted). So I suggest (once there is agreement that the
-> patches are fine) to merge them all in one go and provide a stable
-> branch in case a driver was missed to be adapted. I can create such a
-> branch and ask Greg or Linus to pull it, or Greg can do that.
+Hi Olivier,
 
-I think it should be good enough to just take them all through driver-core.=
- If
-it turns out in linux-next that we missed a driver we can always add anothe=
-r
-patch to the driver-core tree.
+kernel test robot noticed the following build warnings:
 
-Those patches only set support_driver_override =3D true, so there shouldn't=
- be
-interactions with other trees.
+[auto build test WARNING on d922ed738439e1d5b4701df7f4cdd49a09925624]
 
-So, let's keep it simple. I can pick this up once we have all the ACKs.
+url:    https://github.com/intel-lab-lkp/linux/commits/Olivier-Moysan/dt-bindings-iio-adc-add-stm32mp2-mdf-filter/20261118-161746
+base:   d922ed738439e1d5b4701df7f4cdd49a09925624
+patch link:    https://lore.kernel.org/r/20261118-upstream_mdf_v2-v2-8-7939d3c3720a%40foss.st.com
+patch subject: [PATCH v2 08/11] iio: adc: stm32-mdf: add dma buffered acquisition support
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20261121/202611210936.q9qVaCjc-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261121/202611210936.q9qVaCjc-lkp@intel.com/reproduce)
 
-Thanks,
-Danilo
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611210936.q9qVaCjc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/adc/stm32-mdf-adc.c:1781:12: warning: 'stm32_mdf_adc_resume' defined but not used [-Wunused-function]
+    1781 | static int stm32_mdf_adc_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/stm32-mdf-adc.c:1766:12: warning: 'stm32_mdf_adc_suspend' defined but not used [-Wunused-function]
+    1766 | static int stm32_mdf_adc_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/stm32_mdf_adc_resume +1781 drivers/iio/adc/stm32-mdf-adc.c
+
+  1765	
+> 1766	static int stm32_mdf_adc_suspend(struct device *dev)
+  1767	{
+  1768		struct iio_dev *indio_dev = dev_get_drvdata(dev);
+  1769		struct stm32_mdf_adc *adc = iio_priv(indio_dev);
+  1770		int ret = 0;
+  1771	
+  1772		if (iio_buffer_enabled(indio_dev))
+  1773			ret = stm32_mdf_adc_predisable(indio_dev);
+  1774	
+  1775		regcache_cache_only(adc->regmap, true);
+  1776		regcache_mark_dirty(adc->regmap);
+  1777	
+  1778		return ret;
+  1779	}
+  1780	
+> 1781	static int stm32_mdf_adc_resume(struct device *dev)
+  1782	{
+  1783		struct iio_dev *indio_dev = dev_get_drvdata(dev);
+  1784		struct stm32_mdf_adc *adc = iio_priv(indio_dev);
+  1785		int ret;
+  1786	
+  1787		regcache_cache_only(adc->regmap, false);
+  1788		ret = regcache_sync(adc->regmap);
+  1789	
+  1790		if (!ret && iio_buffer_enabled(indio_dev))
+  1791			ret = stm32_mdf_adc_postenable(indio_dev);
+  1792	
+  1793		return ret;
+  1794	}
+  1795	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
