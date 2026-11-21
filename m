@@ -1,95 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795264456;
-	b=VBJ65gaDKDAn6Mp9Z6j4p7pJTEXUO290jCcZ7AQKDDbSKsu3hnntlWhL5XssaDvLzFQH
-	 iI3Qca2MwnfXkJYxeu3vWyVyBXngGU7wLHBLCdT0USoMxM+VZ3MYQM9g7WQjXhG1RV9gz
-	 SIqm4vVNkz5AnFdYTTvdrk+rXPAo998NmWBEbKqjzHFNixEI81m3vM0IKx8IJHF86/hnV
-	 3pInBw/qIhdjGeyxwnWp9XRqDf+jnACxsa1p8fLWxRRx5+uD0jmKkubm1GCikFb7okcAm
-	 +4/8R9byVTnDOdkp8pv3u99GCGXH3cSWFQ1a6/jC9lSnAcfkmHx7ggMyQFscPLzfu7Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795264456;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-	b=iKT+w4ILQlIv6MlRppVHnUI68FyRECXfVXfK6hgGR+j2dkx5EH0/48t9rSne4VSLRKRj
-	 N/eu8kGONY/XbHFw+vyv0Gfir/ErOiQJt/dQIZWxxbIB1dczQt2OU5DP/xiJiMcytg5/+
-	 ODfsMUVj5tC7bm200CF4k4pcXSBZbfTxfcRPB2gtCohrC6JbgpDAE26DiBS+J4J3rPXso
-	 ds9A20kg+vtsqCnCaTLnWItctuXhSamO2PgGKMiDS1QXVAN78QOnRos3sTZzd0sjpuzVv
-	 hlTIN7pvmVLwj7n+QmP1zsS1lyG8a9148l69jhgGM4emqjTvcjzA1xmIhoTAm1/geZA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hQgSQQVE;
-	arc=none smtp.remote-ip=74.125.82.53
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795274789;
+	b=AchSqm3368i3eB3WAwz8v4zxF3mrvn6GMFvLmPELw5PZQ4GNZiXMCdV64YUlrFKpzpSK
+	 ePqfEL4dmbV7cv7gXMF67xX0tcWwOOC4qRMPro5/9JjJfAycCFwKnpPcJk5majvUlf1xE
+	 iBt+GyrnRqYjGweYME403GPsSBIhwPvtu/D2AuW+JMaw1tE/sDPi3esnYf8b3shbwVu+l
+	 zQ+rQym3jrvtHg1Qi38otQ+LVMP9URV96UtrCD0wtrE56DASC4OWRMK1U4Hipd56KcDKJ
+	 IaLIjaSb4h1CRcnoh0nz/3fP82+8gMgdpWCW/FUJQWitcMAQAKtBWi6CG3OqdQUuKsw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795274789;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=QC2cEHggkze8ARQwMAA8dJGzcnfsYoRrHYcMsVM/vFE=;
+	b=YpW9pcJ0M4acAZ/dXHKKnR3I7MAseG70NCTpjvenX+m5ObCpwx3bcKBoSheD4jYkYUpe
+	 WlT8TZ331kHQbkYs6yVbJXYgxjzmHtkOpLL2Y4TPwox1M20vzJyY6y0q2qQY5ciEiw5vQ
+	 hrtRaYZZRiudBL6Gihb5iSNYyaRI7DFiI4q1ZKRhUyIe7aWo9woPm8q+335AG9W9TAwNN
+	 XzRWhy8MGx0ral29g/uPGaTKdYt0+Zfxk82Dlma+/P/tF4B6LGO4kba4X/D4qBdV2jdeP
+	 4mY+sLWpcOQIZfZuSOFfQeMj9KjlQkmLeKU9awGcMfFNauf+xOYLsPbiVZb931PgzLQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPkfrWd9;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C93B606A320;
+	Sat, 21 Nov 2026 15:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPkfrWd9
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795274789;
+	b=WtSZwlWt86eEUtSwyFx4eLzcS9ZfTElpOL7p7oCundQeIGP1ZKeSfx2Z9taglIVYbt0o
+	 WZ5QkE1DSKQ8tVkvEV6mruBWE0UKpDf4vky4eYdNkogF9s8s42XGi2aRkYE+vnpRzvREP
+	 CRCpc0W5Sh7WK4QklW83zi/x+msM+SOz+pUY/gXswVQk+Hh9LMkb+u9llbGBvcWjohK2O
+	 h3H2+2tWtFzjkY40YUyUMEZMXB3sjFW2u8PYv8FXvcdgk4Fjc0YoXRWTy5fBfi0LP1uCg
+	 D41PNMT0AqTad2EPW77lY/UlpwcqXbU8fmESvjikK+HWl/gcVtjT/8kuPl9wPF1+Q5Q==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795274789;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=QC2cEHggkze8ARQwMAA8dJGzcnfsYoRrHYcMsVM/vFE=;
+	b=bWwyNvgvN84wrabwGNLEpY/M3dqqTcMWAlcrOE0ALyWKgYBpGQ5OwpmC6gpJeQ367S6o
+	 xSu5jtq4DKMVnKl/kyFzdkHCbc6NP3+GvcrpfIINH2W7lfsGIue+V8gZzJExpjd6rrN2U
+	 q/l9whMf8YueRGgsM1GD3BMXLb/ibnzuaSiqJuZRDZy19q0mspPGFPp/qlYEz2TccopTw
+	 oCGBV3p3J4QgzrqZ8/C9W73YmOafpYYGlCJT2yfltq0zSH1RfKQk5DU4eVb2jJf/x7yZy
+	 4e3ygghRqUBeItouUuvgmuab6xwrRkfTIORaDU7InwysTeELtvJHvCLU7OUCz0rvKMQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8529E606A32A
-	for <linux-sound@vger.kernel.org>; Sat, 21 Nov 2026 12:34:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8529E606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hQgSQQVE
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1b546061d58so3893213c88.1
-        for <linux-sound@vger.kernel.org>; Sat, 21 Nov 2026 04:34:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795264456; x=1795869256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=hQgSQQVE1Yg5CpJc/19imBMjUu1xfs/WpK/jLJhA4pljZFlH8/K2eWrBMd9Xb8O7tT
-         g8eHdEcL3JexJMk9wUEIi6oLTppDb4cTvi0IFGdjCckmf5z9SN9gQROQ7ZqffJ+oH0kk
-         dbOubHYWO+N4MOCNUXY4SByA7J44Z2heg8m6W0oRy9OTw3nJzow8xGbos0uXkaSLkUeJ
-         gvdRHgbp8r9RsTYySFvECc4KhV1/KLpOrtLQnoWSzHYvAQddwvA9qkxodQ+60BBgTI9K
-         hSpuXszw6S8FZmnqqaiQAeNCJqj+AeV7Fu1awDfUIlv3pW0PIKn+3pZFeg1u41tC0NXN
-         rFnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795264456; x=1795869256;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=eDmmTLsxnkRDq8qY/UPouR2EbPB3E+4Ib5D+I7YqBtI1D7J02W74Wm/eo7Imw9OE+3
-         b1uOo78lmJyaDcSMZ8zwYY4IlZK8UDbrc2pO1CQ9DhTKwiBdQlLyRHewzAp1sxYEBTXK
-         qo6lIAMmmDTSJUpO4r76+4DqYNMjnpslnwW2/Px7B6JvlMO5y+W63lUTkt1IQit3eBar
-         P9pFkHHuyHWAatMqMHi5Y91YuqVjwyorQoYAmYaVgP2bBgYpMSiD1YqSifK35V3lGTeX
-         ADthqmeC3GZwS4sQ7pv8gglZLT049arQxQCHBuNHKa7jTKQczPgFL8WBc8AIOmqL4uyU
-         cyfg==
-X-Forwarded-Encrypted: i=1; AL+hErF2x0mkGtyX91QwCbzkSbIbvhKSNVGjH3rAy09NS7kwWlgt7xGVz/zxtmK9XoF5qZ8NcJEBLx25Mis1rA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z96wFFKUaCq+t2Zy2XEfr97nqZiafYHQ9ISb5dKIRlfZdB9OcBA
-	/dVT8z8e4wgikbMhvS85QKL1NZhW+WHxFAHWLu1C9q4tBYVA0/qgRLNE
-X-Gm-Gg: AZFdTZepL58PLFkeg6ZmFppl+2B24Uo0SAf9JzJ+NYMBCrIwmp/OiRvKGibmV0UGVKJ
-	6cAPFrazro9BrgPpHdJTNGFSPmKiwqgVw4roj2epRhb70FkNSOdAkprysmMfwHxhDQtbPhYmBi6
-	Oms7TDRjr99Y4Sh+DuPLRQ1Pci6fOl38lG4P+q/9A6n23Dk+3i6O2G8+e46JCZqVNcAqkoynekZ
-	zhbIwmnQqm8WQ7Mg4REMqW9RVzmHjeyakEr+LAS7d682KSi4f6YkS5qHRdPrI3P+YeKgg9mcAoc
-	ui5JqEQhySFSY7TL7936+okA+ha+MJ4RUUKQ1dgaGt1/DDPziWvCAMzX8trJo4D5NriNGrTZGLI
-	dumcVLtSmc1tQ9pRer0dSf4/DKl2t6UEeAx8Trl2gtOyaaB4aUwnj8yHV6zdMGi1TxpV+Q/vYU9
-	zw6xUnQtA2a7mrOoDAAz/urTi7fsLxfOaA3Mz1ZBEZ1Nl7K/J/n5+59c3eEJEuEDVV19jWNa+Zw
-	HZiBoeW8Mxso7i9h5lQ0xoQ1uup1yCPFHSP+FvtYlKjdwYlU9QsA1D+dX0bqmKZIzdR2zHOUk7M
-	oBnHYmGSAEUzqW8YcpSxXKvkMn+ujxchFRMdWLxHoOd5fdaxtCc=
-X-Received: by 2002:a05:7022:1502:b0:192:e5a8:6bae with SMTP id a92af1059eb24-1b5644a3076mr2154983c88.40.1795264455644;
-        Sat, 21 Nov 2026 04:34:15 -0800 (PST)
-Received: from localhost.localdomain ([103.179.231.88])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556829d31sm24366451c88.9.2026.11.21.04.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 04:34:15 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	sreekuttan2156239@gmail.com
-Subject: Re: [PATCH] ALSA: pcm: Avoid reading beyond ELD monitor name
-Date: Sat, 21 Nov 2026 12:33:53 +0000
-Message-ID: <20261121123353.2617-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <874idbwhqo.wl-tiwai@suse.de>
-References: <874idbwhqo.wl-tiwai@suse.de>
+	by smtp.kernel.org (Postfix) with ESMTPS id 853371F000C6;
+	Sat, 21 Nov 2026 15:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795274789;
+	bh=QC2cEHggkze8ARQwMAA8dJGzcnfsYoRrHYcMsVM/vFE=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=hPkfrWd9dHSkfCd/YfmQx7OSfzipugP+Ut/daxWrXupNkxtBRzYETRJM+Alq78CsI
+	 iHHIQVrpdFnVCtJ2N9Um8m2sinWpUyZzj1cmjJzb2oCvDmycDyd4FkJ4ZIb4Aw/5Td
+	 8ljQbc9qHdUbHR2zHyuh+yZoW76K7L0rMLJs5fL3Uu3bsJQXOTT3tSbu/YqUke0l8K
+	 yY1U18yfIE6orYjjMEAbguw+bfroC+eLaKxP+6KFmuMx9OFKudSIjCdnRloX3agLz3
+	 MSuc9auo98BLo17Lv/Uks8kkJyE5tsfn4r/9llSskDfqeqpclpPBvh+uTMFg7q2+1Z
+	 HBTmPQ2Yk4WdQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id D8F804BCD5;
+	Sat, 21 Nov 2026 15:26:27 +0000 (UTC)
+From: Suyuan Wang via B4 Relay <devnull+shyckless.gmail.com@kernel.org>
+Date: Sat, 21 Nov 2026 15:26:27 +0000
+Subject: [PATCH] ASoC: SOF: ipc4-mtrace: fix the wrapped read when the user
+ buffer is short
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,11 +83,99 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261121-sof-mtrace-wrap-v1-1-9798707c3439@gmail.com>
+X-B4-Tracking: v=1; b=H4sIACK4AWsC/yXMwQrCMAyA4VcZORuwHR3UVxEPtUlnBLeRbG4w9
+ u5WPX6H/9/BWIUNLs0Oym8xGYcKd2ogP9LQMwpVgz/7zjnv0MaCr1lTZlw1TRioLRSJcgwt1Gp
+ SLrL9jtfb37bcn5zn7waO4wO9roLXcwAAAA==
+X-Change-ID: 20261121-sof-mtrace-wrap-5d3fd9ddc953
+To: yung-chuan.liao@linux.intel.com, broonie@kernel.org, 
+ lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com
+Cc: linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org, 
+ kai.vehmanen@linux.intel.com, tiwai@suse.com, 
+ pierre-louis.bossart@linux.dev, daniel.baluta@nxp.com, 
+ linux-sound@vger.kernel.org, perex@perex.cz
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795274787; l=2836;
+ i=shyckless@gmail.com; s=default; h=from:subject:message-id;
+ bh=eCZ+OHYWPM9lk6X07kSRGna3tHg4IdTpUM5N3XCFjbA=;
+ b=gljffVztdZYIhKC+yfJh8dtwobmcl9RKf2zd3Vthk2kNVBmFUctSJ3Yrg54DcHdX/pg7VKPAQ
+ y40IMyriAuGCFTG3uky0QbP9j1vYeAE5Yp/zliVCPp0hw3d5fQfAaAX
+X-Developer-Key: i=shyckless@gmail.com; a=ed25519;
+ pk=pMtccVGiWES3bV+7YBFuBclkvq2n2HBHQ5azaBrK2lY=
+X-Endpoint-Received: by B4 Relay for shyckless@gmail.com/default with
+ auth_id=1498
+X-Original-From: Suyuan Wang <shyckless@gmail.com>
+Reply-To: shyckless@gmail.com
 
-Hi,
+From: Suyuan Wang <stevewong@hust.edu.cn>
 
-Thanks for applying the patch!
+When the log data wraps around the end of the slot,
+sof_ipc4_mtrace_dfs_read() copies it in two parts:
 
-Best regards,
-Sreeraj
+	sof_mailbox_read(..., log_buffer, avail - write_ptr);
+	sof_mailbox_read(..., log_buffer + avail - write_ptr, write_ptr);
+
+This assumes that avail is still the full distance from read_ptr to
+write_ptr. But avail has just been cut down to count - sizeof(avail) if
+the user asked for less. If it ends up smaller than write_ptr,
+avail - write_ptr wraps around, and the first sof_mailbox_read() gets a
+length of about 4 GiB for the 4 KiB log_buffer.
+For example, with read_ptr = 4080 and write_ptr = 16, a read of 12 bytes
+gives avail = 8 and a copy of 0xfffffff8 bytes. If avail is cut but
+still larger than write_ptr, the two parts don't line up with read_ptr
+and the user gets the wrong bytes.
+
+Copy from read_ptr up to the end of the slot, but no more than avail,
+and take the rest from the start of the slot.
+
+Found with a static analysis tool and checked by hand.
+
+Fixes: f4ea22f7aa75 ("ASoC: SOF: ipc4: Add support for mtrace log extraction")
+Cc: stable@vger.kernel.org
+Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+Signed-off-by: Suyuan Wang <stevewong@hust.edu.cn>
+---
+Compile tested (x86_64, W=1). I don't have SOF hardware, so I checked
+the pointer arithmetic in userspace instead: the code of this function
+with the mailbox replaced by an array, under ASan. Without the patch a
+12-byte read at read_ptr 4080, write_ptr 16 copies 0xfffffff8 bytes,
+and a 104-byte read at read_ptr 4000 returns 16 wrong bytes; with it
+both return the expected data.
+---
+ sound/soc/sof/ipc4-mtrace.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/sof/ipc4-mtrace.c b/sound/soc/sof/ipc4-mtrace.c
+index 064291e26974..0d5135d256c3 100644
+--- a/sound/soc/sof/ipc4-mtrace.c
++++ b/sound/soc/sof/ipc4-mtrace.c
+@@ -230,14 +230,17 @@ static ssize_t sof_ipc4_mtrace_dfs_read(struct file *file, char __user *buffer,
+ 		/* Read data between read pointer and write pointer */
+ 		sof_mailbox_read(sdev, log_buffer_offset + read_ptr, log_buffer, avail);
+ 	} else {
++		/* avail may have been cut to the user's count above */
++		u32 tail = min(avail, log_buffer_size - read_ptr);
++
+ 		/* read from read pointer to end of the slot */
+ 		sof_mailbox_read(sdev, log_buffer_offset + read_ptr, log_buffer,
+-				 avail - write_ptr);
+-		/* read from slot start to write pointer */
+-		if (write_ptr)
++				 tail);
++		/* read the rest from slot start */
++		if (avail > tail)
+ 			sof_mailbox_read(sdev, log_buffer_offset,
+-					 (u8 *)(log_buffer) + avail - write_ptr,
+-					 write_ptr);
++					 (u8 *)(log_buffer) + tail,
++					 avail - tail);
+ 	}
+ 
+ 	/* first write the number of bytes we have gathered */
+
+
+
+
