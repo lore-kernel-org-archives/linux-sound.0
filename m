@@ -1,54 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795253415;
-	b=2okQh0pz/92vOst6TTMAGAuqmhXEOFH8DEgKzCAlqu1+Ac7Sgzwbq0yCtrSwW3GWFUFJ
-	 uiykPdlQw5mlQnROoaQwhOwguw7prVqR7J2YHVHwqrv8Bj550derXOg3+aFHPSWZ0dCr5
-	 zAkDklMA0DTVhS3vZpvxUXcX66d7GAugkmozZCL7FT/PB/tuYIPZan/wm59F0dChQvN8j
-	 xc9bObHhBlbUD8M2OcpZMo+NyOngiY4U57WC7/MrIeyfn2v2HvHWys+DsNjM3dUWS2WnW
-	 BhFLgIXmBqXVi3X1/O0WN6Ei7bQd+unkUSnMAC68bTvi6R36lDHn2xQ+fzT8lK8xXUQ==
+	t=1795253437;
+	b=p5YS6KFgziQkyqAufwOrdQBw/Ip4Nt7+TxjQe2zChpbF2druIyDJ4E96jI86Dj5/AAuc
+	 0OIq3zmb6Nel9w3n1Pj3XMcRNChkn1rZhmfkfAwlWbyULSN5aIbIK6929j4E9CdwZLKA+
+	 hVO3X9GhzGWWQ1M6HE94RClNlxUHZQm4e6yaKwiW042erOg115fkcNPRTWAWRjHYFQjX/
+	 f8NDXbAhhDxVV1wyMJyUjLixMG+aVW0T8cAmCP3i9HrahXnZfl8qKpPYAPqR9ytpZEIAB
+	 A3TG3M68fG7F/02wbWq8ZF0S0V2VQ/h61C66bbJdhhHQNwnuSLj9KxAHCdYlfrAJT5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795253415;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=S1fow+tcHSCPQnCraqLiE7sTVQfos47VnR/u8cbK+IQ=;
-	b=t7jA3+LtCMkApLP+grR8JkpT6rl2nwpYCbqEw11S/2iorAbJyJbZZF5bph5EnjECeFRp
-	 bV9L9oKvjn0FPFkKB4FEzFpeJIoTdvwHbP0WxIJoTaOVzCpOm4moAsLly3z0HWoG48L05
-	 ZFv3bVtBrcpYrVITEt5GN4VVsS5gG0mRtpVDtIBgkOjdimHR7f1+3sfXuzlOl+f987a+B
-	 DNpSo+L1FN+9EePHb8CkvXb0Y4hv3FaDvw30vdqZ1OvsGt1G2WPawWpQPiRJtNsUUaq0B
-	 JfVMLZNPgz0kAFSXPigtmtVu6oqRGQ2+qFqH7kcSdeBaLLgrRaWcD1hPs0BeP0SuW3A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795253437;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=165M+y67FGU92liuL0BI/yTTwNfE/BM37g04ys5KH88=;
+	b=KCwFhL8fksuVemSTRaeKjUaZam5mZ2QKynoGVHdJu/SJ30R2cuF5OA8ZTaw+hIm5XcXP
+	 /yu3LVW/UgLsKJcT2M15jDEqDYh+wOpt+bLnC6bnFFlWXGNzqbqR1/N08yMmwPj8h6TKX
+	 a0r95lX9GcnM/2ElyqPvDTGVoTUeQQhhuKDdHcQVJ10qQYQlpM24O7jHHeeXHDn4PdnVU
+	 vx4WM0GyBOOdG6VTKMWunsDRAmnaYSU7INmRUFlK3kLPrm1ElwEBz6DKkq7ym3RSXQD1a
+	 ZY+o1A/G0+3GlN9/2AXunsnZJY0NNCz6AGQwVnGSXz2Pas5Tu8Udlq231BsG7O0HfMQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0E36606A325;
-	Sat, 21 Nov 2026 09:30:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0E36606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z5fRBvPR;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A830606A687
+	for <linux-sound@vger.kernel.org>; Sat, 21 Nov 2026 09:30:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A830606A687
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z5fRBvPR
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so20574245e9.1
+        for <linux-sound@vger.kernel.org>; Sat, 21 Nov 2026 01:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=S1fow+tcHS
-	CPQnCraqLiE7sTVQfos47VnR/u8cbK+IQ=; b=EMfd78ByRlHfslwxV15TylNw4q
-	raRpyYUqc/R3MnfE2j4SfZdW3fG2EKsCOp11GTZrVI8IBRFieSSnCNQJzAoIlUj1
-	aeYNp6kcK91pg4l83sf7OAYS4f8ce6rgmiDmA/eC/xJaZsEIDsuGLk3kk7tPE7XX
-	pdESg0v02UZmEi41k=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.70])
-	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkDW3gGaZAFrlJH_AQ--.51524S2;
-	Sat, 21 Nov 2026 17:30:03 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH] ALSA: line6: Kill URBs before releasing the PCM buffer
-Date: Sat, 21 Nov 2026 17:30:01 +0800
-Message-Id: <20261121093001.18469-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
+        d=gmail.com; s=20260707; t=1795253435; x=1795858235; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=165M+y67FGU92liuL0BI/yTTwNfE/BM37g04ys5KH88=;
+        b=Z5fRBvPRvoNAHlTMNd+dxXxJjbgWlLta51HewPTOxJIZoF7VvFc/tMzPwtxfHCVH5/
+         9GzZCdaeIRUU+PkFsrbhuKKIAD5koBjBfYYPoEeInqPTXH1Pus2vHs3w8Ytb+b3GHxVL
+         sabss1un3a+vcTTkeKuDqWZ0pbfHqwpKjdPSzdyDMx4W+T7cmrr7uJOEkyOy3LywiBKj
+         P5B/U7GQ1g5TH8fXNSghU5/0uli3h1haKa9w0A8RCtyn0YyXm04Lb0sJEkoWNbmIdBR4
+         h95u/6WoF0XYcyQT34Ub+gi1RTB6gTYmf122qkoIMe+Vgy171J3PftY+DjzGgdW6m2gN
+         8VSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795253435; x=1795858235;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=165M+y67FGU92liuL0BI/yTTwNfE/BM37g04ys5KH88=;
+        b=rNROoSqC3PVWVj8vsbMWD/iMVBF5FdFl0rvLmfeFZRGnTHonUgmLmuUW/NOyDu+GuV
+         p9SCzFLYZFaNKv3YSjM/mUoCGY2vikYY8VSzKPl1Lan2GmwOhDlUfubncAC611VKMMPo
+         thRyiheMGbiPEvN3aJ02i8KXL0G6eEMw9nNgwT+BYVd16fQ4qEvCn38uBRMLVotz/cgF
+         t/lKyOSouq6xH6o8jtfgeWi6KFBbfu4lmuxwtW9RKRA8v+xdj6l12m9MAUO6I+ci4tSY
+         hh/QNMnps29Cb67mscGvc9ZyE0RVESro1Xj/cxMpObT+JLIPz0scirVnCm04s46hE49O
+         vF8g==
+X-Forwarded-Encrypted: i=1; AL+hErGf7hQijnN72R2UGO7LyeGap8X0O2pTpk0PhqJtC8D3j/JdICmLK0iTQmAgRt3dZjIn9Xp2G5qVmXeoig==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/D3NHZG8njaK/BNves/Z37geknWnzxMm1mvfamsaW9fOftTkT
+	qzfwrZLekahHawzqPf/2KZiMiXzQw2kVLH2SrzZBnuVFmQSaf7LtxBuT+czPzA==
+X-Gm-Gg: AZFdTZeFFmcghMCn/vbmYE0Q76OmM3DUhu1Nr47uBjyS0o+Y63qvC8fl2oy0LtqI9Vm
+	/h40NbNIRzFy67YeycQG3k/uAMjveAGwRcFrGTbEOas4qlpxvEQloTmSBlDyTwqui4iC1h0mMnv
+	w1ZJkvC/tBTP/XJSqzkyJDv0QiuJuLURLTWgEwwRBu9nzL66ftj18/ltXWKXaumzH4M+T3PXl2J
+	62UIWcQWweQKJalB1F5hYop6v7FqKOVvGxjRfSzGRF+Ax007OwfHFvU51dYvKg+tPenv3Bf5hkC
+	yJ9Cw+ZBKu25dLYCV4YCCTzBj68XvhKKiWgYFa/D+RLzVLaDuuHP6lbFPlTV63u5HTHU1WjhQBU
+	IDwHmrzsjMSuDAHhihq9Fjvlsi5+g1xlvcVkS+C6ofWOyLF4cn+UENgUzDoUz6GUSv5iLXZYBe+
+	uNq0tABCEVTCXJVqIGsvuPSL/FB696vYJZvFnX59YC+W++5ghr3AxrFhWXtHBHlfavDyYpsTAUX
+	LeNnmJSjcVKKh+G68hXxTnMtQ994jc16xjVFeyjNxYk8LtuRAEETElw/uQq9IDtiWOwtdQR2h2/
+	PLoGNPgDMRfD48lE2CZLmvfcArE=
+X-Received: by 2002:a05:600c:64c7:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb887ffee2mr119899625e9.9.1795253435290;
+        Sat, 21 Nov 2026 01:30:35 -0800 (PST)
+Received: from foxbook (bfh118.neoplus.adsl.tpnet.pl. [83.28.45.118])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9846sm215995135e9.11.2026.11.21.01.30.34
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 21 Nov 2026 01:30:35 -0800 (PST)
+Date: Sat, 21 Nov 2026 10:30:29 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: "Alex Kononov" <alex@albefly.com>
+Cc: "'Mathias Nyman'" <mathias.nyman@intel.com>,
+ <linux-usb@vger.kernel.org>, "'Takashi Iwai'" <tiwai@suse.com>,
+ <linux-sound@vger.kernel.org>
+Subject: Re: xhci: unratelimited "buffer overrun event" warning floods log
+ (~7000/s) with USB S/PDIF capture device
+Message-ID: <20261121103029.7af20ec4.michal.pecio@gmail.com>
+In-Reply-To: <001801dd7985$c068fc60$413af520$@albefly.com>
+References: <001801dd7985$c068fc60$413af520$@albefly.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,106 +99,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BbQMCkDW3gGaZAFrlJH_AQ--.51524S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGw1xXrW7uF17GrW7Gr4DArb_yoW5trW8pF
-	yrua4YyFZ8JF12krW7Jws5Ww1Sva1kXF9rGF1UCrWrAa13G3Z0q3Wavr45Wr4UCF40va4a
-	vFW5tw4rGr15Ca7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r
-	18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4fMxAIw28IcxkI7VAKI48JMxC20s
-	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
-	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
-	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
-	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
-	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8RbyJUUUUU==
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUED2sAYlijTwABsz
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-line6_buffer_release() frees the stream buffer after
-line6_wait_clear_audio_urbs() gave up waiting for the URBs that are still
-active.  The buffer is still referenced by those URBs, and the completion
-callback of such an URB resubmits it from submit_audio_out_urb() with
-line6pcm->out.buffer already set to NULL, which ends up in a NULL pointer
-dereference in the memset() in submit_audio_out_urb().
+Hi,
 
-While the URBs remain queued, the host controller can also write the
-received isochronous data into the freed buffer.  Such a write does not go
-through the KASAN checks, so it silently corrupts the freed slab object;
-the corruption was observed as a bogus KASAN quarantine entry that later
-led to a general protection fault in qlist_free_all().
+On Sat, 21 Nov 2026 01:58:44 -0500, Alex Kononov wrote:
+> Good day Mathias,
+> 
+> With a USB S/PDIF TX/RX adapter (Savitech, 262a:9123, UAC2, high
+> speed), the xHCI driver logs an isochronous buffer overrun warning
+> for nearly every microframe while the adapter's S/PDIF input has no
+> signal:
+> 
+> xhci_hcd 0000:00:14.0: WARN: buffer overrun event for slot 2 ep 4 on
+> endpoint
+> 
+> Rate measured: ~433,000 messages per minute (~7,200/s).
+> systemd-journald sits at 100% of one core and reports "Missed N
+> kernel messages".
+> 
+> Setup:
+> - Intel N100 (PCH xHCI 0000:00:14.0), Debian 13
+> - Kernel: 6.12.117+deb13-amd64 (same code in mainline 7.4-rc3)
+> - Capture stream open continuously (CamillaDSP), 48 kHz S16_LE,
+>   EP 0x82 IN isochronous, adaptive, 125 us interval
+> - TV feeding the S/PDIF input goes idle -> no input signal -> flood.
+>   With a valid input signal the count is 0.
+> 
+> The device is clearly misbehaving (it sends more data than requested
+> when the S/PDIF receiver is unlocked; it also reports its clock source
+> as valid while unlocked).
 
-The active_urbs bitmap cannot prove that the URBs are gone:
-line6_unlink_audio_urbs() is called outside the stream lock and only marks
-the URBs that are active at that moment, so an URB resubmitted by a
-completion callback right after the scan is never unlinked and keeps being
-resubmitted after the stream was stopped.
+Either the device is buggy or snd_usb_audio driver submits wrong URBs,
+but that's a sound subsystem issue.
 
-Set the unlink bit for every currently active URB under the stream lock,
-so that the completion callbacks cannot resubmit them, and then kill them
-synchronously.  usb_kill_urb() waits for the giveback, hence the buffer is
-no longer referenced by any URB when it is freed.
+> The driver handles the events correctly and audio recovers fine. The
+> problem is only the logging: the warning in handle_tx_event() for
+> COMP_ISOCH_BUFFER_OVERRUN is not rate-limited, so a single
+> misbehaving isoc device can generate thousands of lines per second.
+> 
+> Locally I changed that xhci_warn() to dev_warn_ratelimited() and the
+> rate dropped to ~100/min with no functional change. 
+> Would a patch rate-limiting this message (or demoting it to xhci_dbg)
+> be acceptable?
 
-Fixes: 63e20df1e5b2 ("ALSA: line6: Reorganize PCM stream handling")
-Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
- sound/usb/line6/pcm.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+Not Mathias, but I think it should be xhci_dbg() like all the other
+conditions which are device-triggerable rather than driver bugs.
+People can still see this as -EOVERFLOW status in iso_frame_desc[].
 
-diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
-index 2932eaf157f4..e05fa20cf4ed 100644
---- a/sound/usb/line6/pcm.c
-+++ b/sound/usb/line6/pcm.c
-@@ -134,6 +134,31 @@ static void line6_wait_clear_audio_urbs(struct snd_line6_pcm *line6pcm,
- 			"timeout: still %d active urbs..\n", alive);
- }
- 
-+/*
-+ * Mark all currently active URBs for unlinking and kill them.
-+ *
-+ * The unlink bit is set under the stream lock, so the completion
-+ * callbacks cannot resubmit these URBs any longer; usb_kill_urb() then
-+ * waits until each of them is given back and hence the stream buffer is
-+ * no longer referenced by the host controller.  This function must be
-+ * called from a sleepable context.
-+ */
-+static void line6_kill_audio_urbs(struct snd_line6_pcm *line6pcm,
-+				  struct line6_pcm_stream *pcms)
-+{
-+	int i;
-+
-+	scoped_guard(spinlock_irqsave, &pcms->lock) {
-+		for (i = 0; i < line6pcm->line6->iso_buffers; i++)
-+			if (test_bit(i, &pcms->active_urbs))
-+				set_bit(i, &pcms->unlink_urbs);
-+	}
-+
-+	for (i = 0; i < line6pcm->line6->iso_buffers; i++)
-+		if (test_bit(i, &pcms->active_urbs))
-+			usb_kill_urb(pcms->urbs[i]);
-+}
-+
- static inline struct line6_pcm_stream *
- get_stream(struct snd_line6_pcm *line6pcm, int direction)
- {
-@@ -172,7 +197,7 @@ static void line6_buffer_release(struct snd_line6_pcm *line6pcm,
- {
- 	clear_bit(type, &pstr->opened);
- 	if (!pstr->opened) {
--		line6_wait_clear_audio_urbs(line6pcm, pstr);
-+		line6_kill_audio_urbs(line6pcm, pstr);
- 		kfree(pstr->buffer);
- 		pstr->buffer = NULL;
- 	}
--- 
-2.34.1
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ handle_tx_event()
+>  	case COMP_ISOCH_BUFFER_OVERRUN:
+> -		xhci_warn(xhci,
+> -			  "WARN: buffer overrun event for slot %u ep %u on
+> endpoint",
 
+When submitting, please make sure to avoid line breaks like this.
+
+Regards,
+Michal
