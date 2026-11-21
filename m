@@ -1,102 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=68.168.211.169
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.4
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795244341;
-	b=Jnl3MuP77rI0aamvK9mBt196yJxQKTEka2yeNIydKMiJUiEbwMTN70utwMFLXDKSFxbN
-	 hmXKFvC7kwUwJUKhK/lHn/LzHFfJTMHZ5y3euqU93uqHelqiHv7R07nE7xRk12VwR6iJt
-	 ify7C4u8we8I4ltn+7p/iOze5uubKDeChklYGHuxgY4yFYGzQjl1FIjA8V3s5YdjchVFJ
-	 Hag0Nl8aXqnxFV3BLL93AbGnea+fsKdxO4WW1DkytdUwQo/AA9AWkgOB0Ll/2YttV/1HR
-	 nzNu/qNJm8KP75KbogY8coTFAaQPA52dvz/lRQyoD4msp79jz3jYGwE6daYEsNn/AeA==
+	t=1795244752;
+	b=II6dSzXphPB732iMvbAydibxrKr9AbUkydYq0pRCrS72V5H1rxzQuSYW7v97TnQDKp3T
+	 ZiZtsxW/AhNxgOC/5NUYLcNjRePgyqmg4w8WrWVHRtlbeil9EOVygZd8W4tgmAq+xMnYA
+	 8ruCuQIu9xBHzp5AM37sDYvdFFpA+yEEEWM+YL42fBASILrXstqMCx3VTdoo+HyQ4YikU
+	 QNdEmYbNt1H56p5E3iR9hf0msB4N+B4NH9GQgQ3nZKS8rNPIg8lTfP/YgLp20dHuVwWsV
+	 PiYyddpXXYuafho1Em+IdN7QMC6HPx7WZnfmzDBTyMcaWSog/YMDmN8O1ZV3dWNDPog==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795244341;
-	h=DMARC-Filter:DKIM-Signature:Received:X-Zone-Loop:X-MB-ID:Feedback-ID:
-	 X-INTERSERVER-ORIGIN:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:Thread-Index:Content-Language:X-AuthUser;
-	bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=;
-	b=m6FdtlnI2KOgGN4yaJ29lDqeORMfSLWTJXtwf4ztaI6F2/jtDjSAgOCFJxHXwiZegM9T
-	 Aymv1U4lcP21QnS+Xz8jhpuvMQFBEceX1JExAGQ6Je5/PXb3JzFf9iXs06cMEDDr25OrH
-	 59XM4gMmyxKymdd5OaDCLAYEpC9Wt0/qTFHLKwenpHyIIpIjKQQW4J9pdcMTmkl1sOYQH
-	 +MMm2gVdnJQUPAUHzlL2ohh745z5qiOATFDgoYr1cuV+IazoTgn0PnldX28T/9UWPCD7y
-	 hLbva5krl28sUWc7cwc+UO+wzboYqJvjIEOulQImiK4e1EwUZnYDiKtfziadit02xcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795244752;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:Content-Transfer-Encoding:Content-Type:
+	 X-ClientProxiedBy:X-Microsoft-Original-Message-ID:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=F+yva2Vv4P1sEJOns8MsaKnMdRPWFReUfvBYwMKHoGk=;
+	b=Wu6q3oXKcVMm3ad0WR6E4I7m+k9Hhl6QyG6KCAYbcpiU6caMIpjFrCQowbkE1nQxTlAR
+	 kuzSLlVr7XV7lp6s4pZceW+So8kOd5KJwEIXDu6GS/C99PjaGfq76aU1pUuo0lp+jI/iy
+	 BuA+Q3R2+4TJYKXROyd76dkBCTTHZMuMCyGMEH1MsPb0M8syMXUQw6MqdOmdAQB+86Kg+
+	 5vW1wRzk2e28SwfQS+CgPV0CNlPLKgyO3c6fS9dOj8dDOvjkkK9uMG4CAqNiKYt6ZTAOe
+	 MPGb5l9hs3s3AXlwxdoIH0o3KJgZglN7YMY4D5tBgUKpqLCQz0anM5HjJYFN+o7stMA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=albefly.com;
-	spf=pass smtp.mailfrom=albefly.com;
-	dkim=pass header.d=mailbaby.net header.i=@mailbaby.net header.a=rsa-sha256 header.s=bambino header.b=Urusk4JF;
-	dkim=pass header.d=albefly.com header.i=@albefly.com header.a=rsa-sha256 header.s=x header.b=KcSUItTm;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=68.168.211.169
-Received: from relay2-n.mailbaby.net (relay2-n.mailbaby.net [68.168.211.169])
+	dmarc=pass header.from=outlook.it;
+	spf=pass smtp.mailfrom=outlook.it;
+	dkim=pass header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=UwrNMxqi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.13.4
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazolkn19010004.outbound.protection.outlook.com [52.103.13.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484E6606A32C
-	for <linux-sound@vger.kernel.org>; Sat, 21 Nov 2026 06:58:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 484E6606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=albefly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=albefly.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE53E606A325;
+	Sat, 21 Nov 2026 07:05:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE53E606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mailbaby.net header.i=@mailbaby.net header.a=rsa-sha256 header.s=bambino header.b=Urusk4JF;
-	dkim=pass (2048-bit key, unprotected) header.d=albefly.com header.i=@albefly.com header.a=rsa-sha256 header.s=x header.b=KcSUItTm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=bambino; bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:feedback-id;
- b=Urusk4JFn9QczbPxyUdbGXL2eiSRkl6qPThApYODwsllZr5X7hJcWHOS0VPHUsjgTB6Gnr+WP
- dLxkhQryphS8d93zJQlC4HflBS3T4T2/aFmcXokkU0AXeCkGjfOCtenPyCznvAkmGiOi5vpmpai
- DRX2Ov5YVIBybSyeXt8zYV4=
-Received: from da900.is.cc [216.158.229.242] (Authenticated sender: da900)
- by relay2-n.mailbaby.net (MailBabyMTA) with ESMTPSA id 1a1fce67fc1000625c.001
- for <linux-sound@vger.kernel.org>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Sat, 21 Nov 2026 06:58:47 +0000
-X-Zone-Loop: 74653ffcd16e7644f60b17276eebad3257ef10a9b6c2
-ARC-Authentication-Results: i=1;	rspamd-cluster18.mailbaby.net;	auth=pass
- smtp.auth=da900 smtp.mailfrom=alex@albefly.com
-ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
- t=1795244327;
-	b=oe4Ubao6bAfdyKGCXOVTSatJYt/HLF96ehjVQIklMMO6IJo6r7iIJ/A6ZInRRsk/RfM/im
-	ICiKKnEtMxSJV6jVrcK81VyMPEazRf2fduuQPpAMW2pN6fVofA/eAC04/DuuOpAfRo+raV
-	5PF9kBJYRWLLJjf8odCTlTHwmdEyi7iNsYdWVmMCvmHCBTK8+SFbhTv+/dRZcmSFYIeIqp
-	x8WXfrTNwZJ/T8gTFaHXFGGXbBTZ+xjSzFKBVF2HiKIunI/rMoUrJHo6Ebeg97QaFp8jwv
-	OBBcRsFx61Hrvuenj9jfGSqlVrKDrkTXdGKo1Kk8496bXkunPe3+x593zL5cxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailbaby.net;	s=detka; t=1795244327;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=;
-	b=eq61z1Qyz9P8+PNBdp3XLolNQUA6v9mcjd9xUcudrp7L53zg4IvubDfRKuYsvlqwIwqIGq
-	nLj4Epn7crMdEfqyBmHoZ+XNki9b+F1225P7kp3QtsS2hazqhUMLlsazFl/Y1xOter8IOy
-	Y8NwPDwwI8aJGCUOANxpYSfNnXtNmlFcdZ8eusQxFmV4WTstzO0HkNHGA+AimEPuL8dH8f
-	Vg5ZxJu/RQjUq9h3hKCsqiup5jgxC/4ZM56hmYlKo71+wOZj263sZNultM06T9yjlGrM/b
-	vf8puckz9le0Lq8haCE4UXq6nkMP1btOLH4lKYQ3XJFr4GvKienXbM72BHlCoA==
-X-MB-ID: da900|alex@albefly.com
-Feedback-ID: da900:albefly.com:5b7b42465846515d4153555a4b5d78:mbaby
-X-INTERSERVER-ORIGIN: PASS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=albefly.com
-	; s=x; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:Resent-Date
-	:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
-	References:List-Id:List-Help:List-Unsubscribe:List-Unsubscribe-Post:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vB6aW7KMflR4R3MBYU1ro1EnDsiSwPynpZxpAQKLXS4=; b=KcSUItTmusTHWoKKsO4jADOWNc
-	K7FkQWSP1ymG8ZbcIS89btaU9DIXtSnOW6O8ZzqOLLlf6BGDelRU/oyaLxs999hDEOLVeXJv05HY5
-	QC0hAe1s+/l1h6WxiiWZ2JTWXJGKdORWqhzw2EQgwp3xbHwr+kll3krBVD+IobTM+VidUxgVEIAph
-	k5GvHOH5J1SXixJSOBmBAbdmILTqjtp9Kv5Ih/vcs4+DINKPjVRfeckJTx+L+mNUenFbkWfUd5rE6
-	h3ZWaO/mpMnQICYm5R0Jwhcrtn+qQo5qmTn7d0i167t8eVKqdPK9/5nTGodwYJkAITlmZ55tvgihm
-	AVpKY+OQ==;
-Received: from [47.197.78.70] (helo=AlexDevHomePC)
-	by da900.is.cc with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.100.1)
-	(envelope-from <alex@albefly.com>)
-	id 1xUf3f-00000000CBi-0XLl;
-	Sat, 21 Nov 2026 01:58:47 -0500
-From: "Alex Kononov" <alex@albefly.com>
-To: "'Mathias Nyman'" <mathias.nyman@intel.com>
-Cc: <linux-usb@vger.kernel.org>,
-	"'Takashi Iwai'" <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>
-Subject: xhci: unratelimited "buffer overrun event" warning floods log (~7000/s) with USB S/PDIF capture device
-Date: Sat, 21 Nov 2026 01:58:44 -0500
-Message-ID: <001801dd7985$c068fc60$413af520$@albefly.com>
+	dkim=pass (2048-bit key, unprotected) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.a=rsa-sha256 header.s=selector1 header.b=UwrNMxqi
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xZ2VD6uGoczh8GvSGPnToShknEXcq1bSF+BPgXum3wKftV8s0FkgJYMljCHRWExAYh969Cg5WIgUcJ8H7xR9N0y0agt+KRtWkl03Vnuh+T2PWxvh9lWeROQJk7qcQJiwbwHwYjPQ4Gtw7PSL9I6yKAcbfVNduOjPYXHYrcg+mRW5StfknKNnnWJFp7atAbcqLgPm+RnXDoSGibCLKsZwJXZHnVKjMyuB/hBnmd/eGNX7oixOPC0wlOXFXoSDg7H9/82GLvhkCNtbMu3N2opYB0wZI37E75Jfou6WbzOZzeJ7UqjiRegg8f/QDpiI6sGSmqHHEtzmk+OEpRIphyrJKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F+yva2Vv4P1sEJOns8MsaKnMdRPWFReUfvBYwMKHoGk=;
+ b=gOH0ECLpMOJODnZdOF5BxVpXqxdd9PhSDrzt4fW9kgxD4py4rxJAdtecoGQFUCaC3Z2Fdlf6EPdUZjaVrYM83CvgrxUv17iAas+Nty7owvOlxi9+280DIEnEonKz2yy63bztK1kt/eYPTRAkpdTXG9frzShnwdjA+CS6oJsPPg8T963Q18Ia76CENlvU+5RGc9x1GarK7z2Gc9jA87VomHlYKudXZUtosFKXOf+jSD2iFmWXfQQZl2dPyam1aDXaKSGzJPoHuj/jq9rbJB3tIw1Cbo4sOkAlGvTbhxyFFnKbZrOfPwpUFNxOsbQPtzWTStr44MLge4oXvoMtY9gfqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F+yva2Vv4P1sEJOns8MsaKnMdRPWFReUfvBYwMKHoGk=;
+ b=UwrNMxqiSawmUXRfSnfyLqnUlfrHThR+K6MJrsE6Kw3agkVGvDQbHjUvMcrP71sU0cq80k8+Qu3m2INj1eTgmMv0Jkds8bMs7rX+7sb6qKgepAoF3LwZK/QEaST+m5U0FVZvtLdTPluaKebWvlXdeEyC5HxnT0EnNw44LCry/reez1veN7HjxTtgEe/xZFh5iEWiEzxEkjmsU56h0AHBt5grX6iYFy0Kf80fNTZ/JEUjxQzFpB3kD7K6dXHvqpbQSuNYacG0PqD3wkqBWNHI20opR8j1Ian2VYdQ/1QmWW3AcOK6B5IQLzNkFd4ySAen8d5gayNxQpLUSaC/xVGz2w==
+Received: from SN6PR19MB2303.namprd19.prod.outlook.com (2603:10b6:805:56::19)
+ by PH7PR19MB6505.namprd19.prod.outlook.com (2603:10b6:510:1fb::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Sat, 21 Nov
+ 2026 07:05:26 +0000
+Received: from SN6PR19MB2303.namprd19.prod.outlook.com
+ ([fe80::805c:7f80:c69f:876a]) by SN6PR19MB2303.namprd19.prod.outlook.com
+ ([fe80::805c:7f80:c69f:876a%4]) with mapi id 15.21.0639.011; Sat, 21 Nov 2026
+ 07:05:26 +0000
+From: Marco Giunta <marco_giunta@outlook.it>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Marco Giunta <marco_giunta@outlook.it>
+Subject: [PATCH] ASoC: aw88399: fix register used to disable I2S TX
+Date: Sat, 21 Nov 2026 08:05:10 +0100
+Message-ID:
+ <SN6PR19MB23038B66A212CA32A4B6B3CCFC472@SN6PR19MB2303.namprd19.prod.outlook.com>
+X-Mailer: git-send-email 2.56.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MI1PEPF00000AD5.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:298:1::4af) To SN6PR19MB2303.namprd19.prod.outlook.com
+ (2603:10b6:805:56::19)
+X-Microsoft-Original-Message-ID:
+ <20261121070510.7202-1-marco_giunta@outlook.it>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -106,80 +97,107 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Ad15hWqKoBIPiDpISteJoxeMD+Y/bw==
-Content-Language: en-us
-X-AuthUser: alex@albefly.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN6PR19MB2303:EE_|PH7PR19MB6505:EE_
+X-MS-Office365-Filtering-Correlation-Id: b12efa1e-e249-40a7-3639-08df479dd08f
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|23021999003|24021099003|5062599005|51005399006|15080799012|5072599009|8060799015|19110799012|260925184616899003|25010399006|55001999006|3412199025|440099028|10035399007|40105399003|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?rnMK4SNNecOYcdjsy04mZoCteMe9xd5kNL8erIAbvmd4NtMFA3r3bE4W4Uio?=
+ =?us-ascii?Q?vFiioj5fpAi6fKNy7+qf+xQl014GCx6XJelF39zs+EvxPGtED+RxwemL7+2h?=
+ =?us-ascii?Q?fm6EO0Y0oHrjd64aa2/I3MI9y1nJVvbj/hdARwNEpcQ+DIOcfNf5QQ6KJ13Q?=
+ =?us-ascii?Q?4h+q45+2i+z0cUIRnJZf5O+PIWgW54zw2xi0FavZgbFhMo4EeUQoyjiUHZVM?=
+ =?us-ascii?Q?pDrrzQUh49GoVJHzVzyJppwC+jAy2fjNnMVLTpopSTI74wiRxQvyZGOpAQLH?=
+ =?us-ascii?Q?fKIwBRivNLo189ZAltjyZzPdpDZzOTbLWVVUuPZdrUnWbGqGRMoLwv5jqXNe?=
+ =?us-ascii?Q?9qFc4zveJ3eOwJE8qcMNSw9y5gf2J9hnbJjKfvq+8pPlEYlBrf0uBhPDOWoQ?=
+ =?us-ascii?Q?DQB00ZHgTpR1xrTdKzgCLV+SU2+1Dm73OXVoDgyOi2wTiuDulbhZst602ZyB?=
+ =?us-ascii?Q?ag6dDYDHB8N//oX3DF/HovUYHMzwyWyandguMz8Q5ewVaSbbzAWXC2q+4lnk?=
+ =?us-ascii?Q?d1fhn5lFYv2vAh4Q+98Ing/70N0SmZXZL78yL20rVJlNBNLqzZ1dOSa2heQA?=
+ =?us-ascii?Q?TDx4W43T1pkoz7JFXewEceuqRMlC6oVM4V/rtMRYthvjZGef58GgmGSqqOb4?=
+ =?us-ascii?Q?DYyrz994UK5nNF/xEtmQaUIm8x8BT1jVRS4nxAajr3TJsfsiDYrSMb1hIga7?=
+ =?us-ascii?Q?KIiW2X7m3W43Bhsn258/Qm1MWrveUwZiQg0BANRjOoDNcUZSpWQKRhqEEi3J?=
+ =?us-ascii?Q?BgBFtMc/Je3ra+n5WDoutfE5QlrSydnOLYszSqO4yQl7KGylEkaN77rz1qK7?=
+ =?us-ascii?Q?B7NRBG3I7CbKs84Ss/YwUloJVZSzC22gSXfDhjyRGbVonFac7RPJyKeNx38T?=
+ =?us-ascii?Q?HSmKRiR24IoeaxaiZjv3pGJc7lxPUFZJqse9z8QOdo18oieBgRI8UAk7ww7P?=
+ =?us-ascii?Q?YhqH/+HVP8mZfgLJE9FuyKqQfmxvh4s0ndlm7UzZvrPu0zTdU2VgaXiEWHF4?=
+ =?us-ascii?Q?efK3?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0YCnS7t+bwha/FF693ZxjQuAuNsqdFndXW1fGKKfQ9nPg8/moAQlUkEEb8Xa?=
+ =?us-ascii?Q?JRDK8pdmuiRPj8LexOtYBKxmq3cN7cmR9s0gjrK8hGuWmSFoQS5u6H9ClmHz?=
+ =?us-ascii?Q?fFl/pT2Ryl4kdr3QJeoIpbv/SB4BG4OPneoaJ8mCGKJy9+AU35XmrNu4cMG4?=
+ =?us-ascii?Q?F/KCaxRAb+eM+2/Dgf31r+LQQ0Qn5T9aXPrEpbyWuvMWjDgYdINUCGHYdFxl?=
+ =?us-ascii?Q?XmJz49iC/qIOuy+adoeCAeTpWEOZFo996wqhQ/doa+YN47Ff1nX8bYpLaKfv?=
+ =?us-ascii?Q?x9vI3I4qY9GOE2yCGaS5R4LrX79jBrZe86JxHK1yucGv5lvPc8rMXtcyWGSX?=
+ =?us-ascii?Q?af7t0kbfYBBbex6tnz9G8d1Kf8KeTVYeZg9SKiwdriiivqkyQvmHeGtN+Z7d?=
+ =?us-ascii?Q?OoqfZLc5jutVXb9uScR3pu7n499Z1ev6kosMDlAb7Yy+EvD/7KqdzIimh0Sb?=
+ =?us-ascii?Q?VOxwkJGNCVMEAPXJHYwXEgls0vUeaxi/TFxvY/y2HLLV0iPgVB3X73m9cQRt?=
+ =?us-ascii?Q?rAGGVPvawdIuzPHa0IZtRDDCsc9p5+OyighLhNzVwn38b8L7hxOgZOl+BJ8H?=
+ =?us-ascii?Q?LQ0MMG1IF/VcGDrtc4eSemxe3nYujw3ndVc+5X9wvT28jeu0saODw2zCPbe+?=
+ =?us-ascii?Q?v21L3gcNYc8PoP4N4IlX2FCxbb/vmS/K/IdiRKWr6z01mPxyYkLQWlJVtkY6?=
+ =?us-ascii?Q?vU+l7X/TGFekFjXKGMourPMxoZCqUTH9DwsNTjFQH+kaTqXxwx5p+wrYzVs2?=
+ =?us-ascii?Q?QBvKIzWo4SDB6KFPas4rUuVq3M6doyxfRdDC2sP7mA3MTPzWaDmBw2k/b/7B?=
+ =?us-ascii?Q?8eFdf6g6kQlyVr/SNiHzdrieuOfOjQa7BKQB/Fthm6CnL7x9RpMkJZsflg9q?=
+ =?us-ascii?Q?nF12GFcphCO60fyoJ/mkI18+DG66k8f8ppg3ytI4rgHM5YAS+a0PrfN72CMQ?=
+ =?us-ascii?Q?h6CF/yRdo2cZJx+JvVng06eMSzVFF5LXc9Hz3H1S39QwNRKJQrqc2+Kya67c?=
+ =?us-ascii?Q?7TrnUeOSPeMDf5W6VCLENF19+mYOW2xOQVEqEUhx1ikyVCx0k4mm4NIID6Aq?=
+ =?us-ascii?Q?owxwLLqyIStnQU5iWaZKFhDIwVEgJbSqWtxcxOsjJIlV8uUdWJnb/jXEg6h7?=
+ =?us-ascii?Q?Ky6OZxBttGVMPz/zaxvEFSEng5sBtUXlnWZGBs7wCtczgpeOjvn26KY+irXJ?=
+ =?us-ascii?Q?fve1W55fJYlcNdQ3m6d5YDKnZa6cUcF66nt5W7GaJaPT+Sc2zrQYI2WRc/J4?=
+ =?us-ascii?Q?rrw38qEHn9p7ZDzvDMMC4XKOMaBsaaUWgxwV1/ox5acwmOyoDx7DUngzqUd8?=
+ =?us-ascii?Q?3f4m8iFpY9lMq6CeBmXiKgSbgjn+ZCabdOVLP9N3urnIeqiDCdi8s4dL6fqs?=
+ =?us-ascii?Q?Z11HvlE=3D?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: b12efa1e-e249-40a7-3639-08df479dd08f
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR19MB2303.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2026 07:05:26.1195
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6505
 
-Good day Mathias,
+aw_dev_i2s_tx_enable() uses I2SCTRL3 when enabling the I2S transmitter
+but I2SCFG1 when disabling it. Per the datasheet, the I2STXEN bit lives
+in I2SCTRL3.
 
-With a USB S/PDIF TX/RX adapter (Savitech, 262a:9123, UAC2, high speed), the
-xHCI driver logs an isochronous buffer overrun warning for nearly
-every microframe while the adapter's S/PDIF input has no signal:
+As a result, the I2S transmitter is never disabled when the device is
+stopped.
 
-xhci_hcd 0000:00:14.0: WARN: buffer overrun event for slot 2 ep 4 on
-endpoint
+Use I2SCTRL3 in both cases, as the vendor Android driver (aw883xx) and
+aw88166 (which is also derived from aw883xx) do.
 
-Rate measured: ~433,000 messages per minute (~7,200/s). systemd-journald
-sits at 100% of one core and reports "Missed N kernel messages".
+Fixes: 8ade6cc7e261 ("ASoC: codecs: Add aw88399 amplifier driver")
+Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
+---
+Tested on a Lenovo Legion Pro 7 16AFR10H by reading I2SCTRL3 via
+regmap debugfs: without the fix bit 9 (I2STXEN) in register 8 (I2SCTRL3)
+remains set after playback ends and the device returns to idle;
+with this patch, it is cleared once playback stops.
 
-Setup:
-- Intel N100 (PCH xHCI 0000:00:14.0), Debian 13
-- Kernel: 6.12.117+deb13-amd64 (same code in mainline 7.4-rc3)
-- Capture stream open continuously (CamillaDSP), 48 kHz S16_LE,
-  EP 0x82 IN isochronous, adaptive, 125 us interval
-- TV feeding the S/PDIF input goes idle -> no input signal -> flood.
-  With a valid input signal the count is 0.
+Link to aw883xx: https://www.awinic.com/en/driver/AW88399QNR/832
 
-The device is clearly misbehaving (it sends more data than requested when
-the S/PDIF receiver is unlocked; it also reports its clock source
-as valid while unlocked). The driver handles the events correctly and audio
-recovers fine. The problem is only the logging: the warning in
-handle_tx_event() for COMP_ISOCH_BUFFER_OVERRUN is not rate-limited, so a
-single misbehaving isoc device can generate thousands of lines per second.
+ sound/soc/codecs/aw88399-lib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Locally I changed that xhci_warn() to dev_warn_ratelimited() and the rate
-dropped to ~100/min with no functional change. 
-Would a patch rate-limiting this message (or demoting it to xhci_dbg) be
-acceptable?
+diff --git a/sound/soc/codecs/aw88399-lib.c b/sound/soc/codecs/aw88399-lib.c
+index f2e2c88f5ec0..a6303f32e2cf 100644
+--- a/sound/soc/codecs/aw88399-lib.c
++++ b/sound/soc/codecs/aw88399-lib.c
+@@ -552,7 +552,7 @@ static void aw_dev_i2s_tx_enable(struct aw_device *aw_dev, bool flag)
+ 		ret = regmap_update_bits(aw_dev->regmap, AW88399_I2SCTRL3_REG,
+ 			~AW88399_I2STXEN_MASK, AW88399_I2STXEN_ENABLE_VALUE);
+ 	else
+-		ret = regmap_update_bits(aw_dev->regmap, AW88399_I2SCFG1_REG,
++		ret = regmap_update_bits(aw_dev->regmap, AW88399_I2SCTRL3_REG,
+ 			~AW88399_I2STXEN_MASK, AW88399_I2STXEN_DISABLE_VALUE);
+ 
+ 	if (ret)
 
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ handle_tx_event()
- 	case COMP_ISOCH_BUFFER_OVERRUN:
--		xhci_warn(xhci,
--			  "WARN: buffer overrun event for slot %u ep %u on
-endpoint",
--			  slot_id, ep_index);
-+		dev_warn_ratelimited(xhci_to_hcd(xhci)->self.controller,
-+				     "WARN: buffer overrun event for slot %u
-ep %u on endpoint\n",
-+				     slot_id, ep_index);
- 		break;
-or
-
-	case COMP_ISOCH_BUFFER_OVERRUN:
--		xhci_warn(xhci,
--			  "WARN: buffer overrun event for slot %u ep %u on
-endpoint",
--			  slot_id, ep_index);
-+		xhci_dbg(xhci, "Buffer overrun event for slot %u ep %u\n",
-+			 slot_id, ep_index);
- 		break;
-
-Endpoint descriptor:
-
-Endpoint 0x82 (capture), from lsusb -v:
-  altset 1 (S16_LE): Isochronous, Adaptive, wMaxPacketSize 104, bInterval 1
-  altset 2 (S24_3LE): Isochronous, Adaptive, wMaxPacketSize 156, bInterval 1
-
-/proc/asound/card0/stream0 while flooding:
-  Capture: Status: Running, Interface 3, Altset 1,
-  Packet Size = 36, Momentary freq = 48000 Hz
-
-Thank you,
-Alex.
+base-commit: 7884221ca9857a317bf4bd81ac3bf5528f266feb
+-- 
+2.56.1
 
