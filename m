@@ -1,52 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795334251;
-	b=4KeUYA4NhgKJGrJrPoZfvIPtm2Ukj2/i7XUkkiGWMj3RvToR8ZCM0a3JzCMaTsHX84gk
-	 5MaINvWOhxzY1E0vPcVjT2u/pVFUYHaR7IV+6z7e3ZElrXc4SFX82kJDSFo9gL108au0m
-	 1kNwJf7nVVTiHOVPt/JrQDZUBTq6/DfnnXV4jGbo7aw67TIZJNNV5gUGN9wDONcPCuaVq
-	 UbcXHjjmkMMjHaMTXiSZD31UCC7oiEfpkiS4MWVMO/wzE59QkWbmRL1CS/vSWdGA7RboW
-	 1H9Lx79fUvbYwhtmdItUjXC+Zpb/vsiWABn7Bci5UZ5vID6Xt2EBAp2bNGWPlffOx2Q==
+	t=1795334548;
+	b=s2UQdxH5pJizgjzN+2P1ZvhWAGdZenkieJ6y/aI3T+8byHFs5v1bzqRPMSP1Z/wxe0Ku
+	 4LqfTdd3MYMl7HiedXdPmlwlQJzra4Sw2w/l9nfR8T1OzXdn00osz9BaBwv95qv4VZ0vz
+	 DL651pw+Z2P7QnfnrpAul006OM+AOtiKg5Dqh60cNMyrzOZzl/TSERElsQDhAhPUMmiih
+	 fAvR0P+Jxf4jJi8X4d4oqMM9nqow9A2qS18dqPe1rHfg89h68/DhYL6AFaG30bV4d6PPl
+	 4z49negb393Kv5A3cxHeidyKgp7bqTVU7Sh6TnXgb2R/D4qUYLDIWM59aoiSzd9E49g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795334251;
-	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
-	 To:Cc:Subject:X-Priority:X-Mailer:In-Reply-To:References:
-	 X-CM-CTRLMSGS:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	 Message-ID:X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:
-	 X-Coremail-Antispam;
-	bh=0yCXZaNYz+5B+I2UOAZxquDZQuXvqCQ4CbV1tsrTsOI=;
-	b=hnVuokXMu0MAHRDEZz/N+ifP3XjrJZTogytLrLS279Jxe+1uPd/dBAqqlIi+QIOmPxop
-	 9Sypuz7JfHNvF//DwTd6ncv9MA1QGGZIrYBzoY/FEcInYJIr5FQM/QAmam82Lcq/igKxD
-	 LEsvcssVx3uFZfLxS8quth4CSQZJ+vS6ZVYuWR1eUEBOD5LVs3TomkWOQd8DI7weBWJtI
-	 /G9t4/GJbTnZvGpgHeMf4IWDtemRt8ivdzfHZWde+pYmOTBwCTddpQZOPN3bB0Kvc178H
-	 yqxKoxdGYZjZ0kbR7w/gGPnNyiJWFF+qokabz+gxHiJaLGMIijDkRXOynec/VxyqrXw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795334548;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=i3/52TCorX7BsdB81TFJLZsDWofvbJVnV4C7ebTMACE=;
+	b=te7UdrN5mf/GKDOeaySmQJJpw4Yhu1BOKlKv1uVoDRPbHMdFc6yFyF5TfAuyGSCHlDp6
+	 HVrwhIkOAnLXPe70k+zyLTc5ZG/U6fp/FXdU/IITX4rBzoPuhIDL3MLRiesNQqXjxDn6D
+	 ESo9n7CFYYJnrp9x1R8fwSLEY9jCdJ72vkYkXHc0OZ70uurR/QY27fQOWTgfPTXTtRhJ6
+	 QmrbarO68UmBNW5zjl5tvhBeL72AASGoC4kc3OPpdBu4v1d7Q4IMkThXlAald2yf1I/D5
+	 MXclJxMVxZ5oHUKJKaNRaXwbqmg9sqkY2YJsgmITVRJkTmNtZmMyBb7XeEtb+U/armA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.161.220
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E437E606A320;
-	Sun, 22 Nov 2026 07:57:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E437E606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from xuhx$hust.edu.cn ( [10.11.175.146] ) by ajax-webmail-app2
- (Coremail) ; Sun, 22 Nov 2026 15:57:29 +0800 (GMT+08:00)
-Date: Sun, 22 Nov 2026 15:57:29 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
-To: perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: sound: timer: snd_utimer_fops lacks .owner, so an open user timer
-  fd does not pin snd-timer
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
-In-Reply-To: <2026102727-data-sequel-ce41@gregkh>
-References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
- <2026102727-data-sequel-ce41@gregkh>
-X-CM-CTRLMSGS: =?B?OYuKvTiH6nJ5xwDR7hwMki1N8jM=
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NBAopWmr;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KMI1yzHe;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RDHt6oyF;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDr384KR;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A51606A320
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 08:02:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87A51606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NBAopWmr;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KMI1yzHe;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RDHt6oyF;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jDr384KR
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5636B1F8CC;
+	Sun, 22 Nov 2026 08:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795334539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i3/52TCorX7BsdB81TFJLZsDWofvbJVnV4C7ebTMACE=;
+	b=NBAopWmrhl401r7LPmOkDRoXonhq8+riPCMIWg/PKh6J8vycpE2b23/eGRr/JmdMvQAEP9
+	bhy5+Dshf5uBH4ARrl/1ZukkDP6/o6zHmveKZDdAcShKsMnuf2LSNiQQ3hd7xTkbGXA0rB
+	xxEjfZqNDRiwv6QCamFFD93GI8HEyKA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795334539;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i3/52TCorX7BsdB81TFJLZsDWofvbJVnV4C7ebTMACE=;
+	b=KMI1yzHes2zXZrISgSmQGbQ6jNzqqLilvl2j53bQj88Lvj3gXBMUEitUGxlZTSt0Jf89g1
+	jSvpXEcrx+RqrRAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RDHt6oyF;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=jDr384KR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795334538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i3/52TCorX7BsdB81TFJLZsDWofvbJVnV4C7ebTMACE=;
+	b=RDHt6oyFzP99U+zUeaPzGrQNKA34LjB3a+kUnXKZktkMoZoVBULDCQPgRJTvbRXJBTGNc0
+	wOIDZIpeYD6nreooAAdSPXJ6W3Ue0h0hRVjvT/hhF3VsLzItD1Jkuua3Kw1UoPI5uOLiYM
+	nVpIeN0HqjHzBFh97/HHdioR86MJ9ZE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795334538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i3/52TCorX7BsdB81TFJLZsDWofvbJVnV4C7ebTMACE=;
+	b=jDr384KRzagl5r0H4D12QrvA+vEdlQJaHWcHH17RkyTll4sQcwiCL99gPm7gqTsz6d9r5/
+	HsSLCpqsXxN71nCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEE201342D;
+	Sun, 22 Nov 2026 08:02:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xgb7MImhAmuSWQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 22 Nov 2026 08:02:17 +0000
+Date: Sun, 22 Nov 2026 09:02:17 +0100
+Message-ID: <87cxrx70qe.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Cristian-Marian Fotache <cristianmarianfotache@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	asas1asas200@gmail.com,
+	regressions@lists.linux.dev
+Subject: Re: [REGRESSION] ALSA: hda/realtek: Higole F9B fixup breaks speakers on unrelated Apollo Lake laptop (10ec:111e)
+In-Reply-To: <CACGjpbf73XdwrG34ffjmYU3ZYuStPpFNXf9w+AGYcTmLyHCN_w@mail.gmail.com>
+References: <CACGjpbf73XdwrG34ffjmYU3ZYuStPpFNXf9w+AGYcTmLyHCN_w@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -55,73 +113,165 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Message-ID: <1a84c621.2ad29.1a202429a8e.Coremail.xuhx@hust.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:IQEQrMDW_cVpoAJrx5EoAA--.27545W
-X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAQMTB2sBxG5D4QAAs0
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VW3Jw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.com,perex.cz,vger.kernel.org,gmail.com,lists.linux.dev];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,msgid.link:url]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 5636B1F8CC
 
-U05EUlZfVElNRVJfSU9DVExfQ1JFQVRFIGNyZWF0ZXMgYSB1c2VyLWRyaXZlbiB0aW1lciBhbmQg
-cmV0dXJucyBhbgphbm9ueW1vdXMgaW5vZGUgZmQgd2hvc2UgZmlsZV9vcGVyYXRpb25zIGlzIHNu
-ZF91dGltZXJfZm9wcy4gIFRoYXQKc3RydWN0dXJlIGhhcyBubyAub3duZXIgPSBUSElTX01PRFVM
-RS4gIGFub25faW5vZGVfZ2V0ZmlsZSgpIG9ubHkgY2FsbHMKdHJ5X21vZHVsZV9nZXQoZm9wcy0+
-b3duZXIpIHdoZW4gb3duZXIgaXMgbm9uLU5VTEwsIHNvIHRoZSBmZCBkb2VzIG5vdApob2xkIGEg
-cmVmZXJlbmNlIHRvIHRoZSBzbmQtdGltZXIgbW9kdWxlLiAgVGhlIG1vZHVsZSBjYW4gYmUgdW5s
-b2FkZWQKd2hpbGUgdGhlIGZkIGlzIHN0aWxsIG9wZW47IGEgbGF0ZXIgaW9jdGwoU05EUlZfVElN
-RVJfSU9DVExfVFJJR0dFUikgb3IKY2xvc2UoZmQpIGNhbGxzIHNuZF91dGltZXJfdHJpZ2dlcigp
-L3NuZF91dGltZXJfcmVsZWFzZSgpIGluIHVubG9hZGVkCm1vZHVsZSB0ZXh0LgoKVGhlIG1vZHVs
-ZSBmaWVsZCBkb2VzIG5vdCBzYXZlIHRoaXMgcGF0aDogdXRpbWVyLT50aW1lci0+bW9kdWxlIGlz
-IHNldAp0byBUSElTX01PRFVMRSBpbiBzbmRfdGltZXJfbmV3KCksIGJ1dCB0cnlfbW9kdWxlX2dl
-dCgpIGlzIG9ubHkgY2FsbGVkIGJ5CnNuZF90aW1lcl9vcGVuKCksIGFuZCBhIHV0aW1lciBmZCBu
-ZXZlciBnb2VzIHRocm91Z2ggc25kX3RpbWVyX29wZW4oKS4Kc25kX3V0aW1lcl9jcmVhdGUoKSBh
-bHNvIGNhbGxzIHNuZF90aW1lcl9uZXcoTlVMTCwgLi4uKSwgc28gd2l0aCBjYXJkID09Ck5VTEwg
-aXQgZG9lcyBub3QgZ28gdGhyb3VnaCBzbmRfZGV2aWNlX25ldygpOyBzbmRfdGltZXJfZ2xvYmFs
-X3JlZ2lzdGVyKCkKKHRpbWVyLmM6MTE4OC0xMTk0KSBvbmx5IGRvZXMgdGhlIGRldmljZS1saXN0
-IGluc2VydGlvbiBhbmQgdGFrZXMgbm8KbW9kdWxlIHJlZmVyZW5jZS4KClRoaXMgaXMgYSBzdGF0
-aWMgcmVwb3J0OiB0aGUgbWlzc2luZyAub3duZXIgYW5kIHRoZSBhbm9uX2lub2RlIGxpZmV0aW1l
-CmFyZSB1bmFtYmlndW91cywgYnV0IEkgZGlkIG5vdCBidWlsZCBhIGR5bmFtaWMgcmVwcm9kdWNl
-ciAoaXQgcmVxdWlyZXMKQ09ORklHX1NORF9USU1FUj1tIHRvZ2V0aGVyIHdpdGggQ09ORklHX1NO
-RF9VVElNRVI9eSkuCgpUaGUgZGV0YWlsZWQgZGVzY3JpcHRpb246CgoqIFRlc3QgZW52aXJvbm1l
-bnQgLyBhZmZlY3RlZCB2ZXJzaW9uCgogIFNvdXJjZSBhbmFseXNpcyBhZ2FpbnN0IG1haW5saW5l
-IDcuMzsgbm8gZHluYW1pYyByZXByb2R1Y2VyIHdhcyBydW4KICBmb3IgdGhpcyBjYXNlLgoKKiBS
-b290IGNhdXNlCgogIHNvdW5kL2NvcmUvdGltZXIuYzoyMTc1LTIxNzk6CgogICAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgc25kX3V0aW1lcl9mb3BzID0gewogICAgICAgIC5s
-bHNlZWsgICAgICAgID0gbm9vcF9sbHNlZWssCiAgICAgICAgLnJlbGVhc2UgICAgICAgPSBzbmRf
-dXRpbWVyX3JlbGVhc2UsCiAgICAgICAgLnVubG9ja2VkX2lvY3RsID0gc25kX3V0aW1lcl9pb2N0
-bCwKICAgIH07CgogIE1pc3NpbmcgLm93bmVyID0gVEhJU19NT0RVTEUuCgogIHNvdW5kL2NvcmUv
-dGltZXIuYzoyMjk4OgoKICAgIHRpbWVyX2ZkID0gYW5vbl9pbm9kZV9nZXRmZCh1dGltZXItPm5h
-bWUsICZzbmRfdXRpbWVyX2ZvcHMsIHV0aW1lciwKICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICBPX1JEV1IgfCBPX0NMT0VYRUMpOwoKICBmcy9hbm9uX2lub2Rlcy5jOjE0MS0xNDI6Cgog
-ICAgaWYgKGZvcHMtPm93bmVyICYmICF0cnlfbW9kdWxlX2dldChmb3BzLT5vd25lcikpCiAgICAg
-ICAgcmV0dXJuIEVSUl9QVFIoLUVOT0VOVCk7CgogIG93bmVyID09IE5VTEwgLT4gbm8gbW9kdWxl
-IHJlZmVyZW5jZS4gIHV0aW1lci0+dGltZXItPm1vZHVsZSA9CiAgVEhJU19NT0RVTEUgKHRpbWVy
-LmM6MjI1MikgaXMgb25seSBjb25zdWx0ZWQgYnkgc25kX3RpbWVyX29wZW4oKSwKICB3aGljaCB0
-aGUgZmQgZG9lcyBub3QgdXNlOyBzbmRfdGltZXJfZ2xvYmFsX3JlZ2lzdGVyKCkgaXMganVzdAog
-IGxpc3RfYWRkX3RhaWwoKSBhbmQgZG9lcyBub3QgdGFrZSBhIG1vZHVsZSByZWZlcmVuY2UuCgog
-IFVwc3RyZWFtIHNuZF91dGltZXJfZm9wcyBoYXMgLm93bmVyID0gVEhJU19NT0RVTEUuCgoqIEZh
-aWx1cmUgbW9kZWwKCiAgMS4gdXNlciBpb2N0bCBTTkRSVl9USU1FUl9JT0NUTF9DUkVBVEUgLT4g
-c25kX3V0aW1lcl9jcmVhdGUoKSAtPgogICAgIGFub25faW5vZGVfZ2V0ZmQoKSB3aXRoIHRoZSBv
-d25lcmxlc3MgZm9wczsKICAyLiBubyBvdGhlciBzbmQtdGltZXIgdXNlciAtPiBybW1vZCBzbmQt
-dGltZXIgc3VjY2VlZHM7CiAgMy4gdXNlciBjYWxscyBpb2N0bChTTkRSVl9USU1FUl9JT0NUTF9U
-UklHR0VSKSBvciBjbG9zZShmZCk7CiAgNC4gc25kX3V0aW1lcl9pb2N0bCgpL3NuZF91dGltZXJf
-cmVsZWFzZSgpIGV4ZWN1dGUgZnJvbSB0aGUgdW5sb2FkZWQKICAgICBtb2R1bGUsIGFuZCBkZXJl
-ZmVyZW5jZSB1dGltZXItPnRpbWVyIC8gY2FsbCBzbmRfdGltZXJfaW50ZXJydXB0KCkuCgogIFRo
-aXMgaXMgYSBtb2R1bGUtbGlmZXRpbWUgcmFjZSwgbm90IGEgZGF0YSByYWNlIG9uIGEgc2hhcmVk
-IGZpZWxkOyB0aGUKICBjb25jdXJyZW5jeSBpcyBybW1vZCB2cyBmZCBvcGVyYXRpb24uCgoqIFRy
-aWdnZXIgbW9kZWwKCiAgLSBDT05GSUdfU05EX1RJTUVSPW0gKG1vZHVsZSkgYW5kIENPTkZJR19T
-TkRfVVRJTUVSPXk7CiAgLSBhIHVzZXIgY3JlYXRlcyBhIHV0aW1lciBmZCB2aWEgL2Rldi9zbmQv
-dGltZXI7CiAgLSB0aGUgbW9kdWxlIGlzIHVubG9hZGVkIGJlZm9yZSB0aGUgZmQgaXMgY2xvc2Vk
-OwogIC0gdGhlIGZkIGlzIHVzZWQgKHRyaWdnZXIgaW9jdGwpIG9yIGNsb3NlZC4KCiAgUmVxdWly
-ZXMgbG9jYWwgYWNjZXNzIHRvIC9kZXYvc25kL3RpbWVyOyBubyBoYXJkd2FyZS4KCiogSW1wYWN0
-CgogIC0gZXhlY3V0aW9uIG9mIHVubG9hZGVkIG1vZHVsZSBjb2RlOiBVQUYgZXhlY3V0aW9uLCBj
-cmFzaDsKICAtIGlmIHRoZSBtb2R1bGUgYWRkcmVzcyByYW5nZSBpcyByZXVzZWQsIHBvdGVudGlh
-bCBjb2RlIGV4ZWN1dGlvbjsKICAtIGF0IG1pbmltdW0gYSBsb2NhbCBEb1MgLyBtb2R1bGUtdW5s
-b2FkIHJhY2UuCgoqIFN1Z2dlc3RlZCBkaXJlY3Rpb24gCgogIEFkZCAub3duZXIgPSBUSElTX01P
-RFVMRSB0byBzbmRfdXRpbWVyX2ZvcHMuICBBbHNvIGNvbnNpZGVyIHdoZXRoZXIgdGhlCiAgYW5v
-bi1pbm9kZSBwYXRoIHNob3VsZCBob2xkIGFuIGV4cGxpY2l0IG1vZHVsZSByZWZlcmVuY2UgZm9y
-IGNsYXJpdHk7CiAgLm93bmVyIGlzIHRoZSBzdGFuZGFyZCBmaXggYW5kIG1hdGNoZXMgdXBzdHJl
-YW0uCiAKCiAgUGxlYXNlIGtlZXAgbWUgaW4gQ2M7IEkgYW0gbm90IHN1YnNjcmliZWQgdG8gdGhl
-IGxpc3RzLgoKUmVnYXJkcywKSGFueGlhbmcgWHUKeHVoeEBodXN0LmVkdS5jbgo=
+On Sat, 21 Nov 2026 18:24:47 +0100,
+Cristian-Marian Fotache wrote:
+> 
+> Hello,
+> 
+> I would like to report an internal speaker regression affecting an
+> Intel Apollo Lake laptop with a Realtek ALC269VC codec.
+> 
+> The regression appears to be related to the following upstream commit:
+> 
+> 2a8ee6897302ca12ff39e8eb180503956797c60c
+> ALSA: hda/realtek: Fix silent speaker on Higole F9B
+> 
+> Original patch:
+> https://patch.msgid.link/20260923141344.1543158-1-asas1asas200@gmail.com
+> 
+> Affected hardware
+> 
+> CPU: Intel Celeron J3455 (Apollo Lake)
+> 
+> PCI audio controller: 8086:5a98
+> 
+> PCI subsystem ID: 10ec:111e
+> 
+> Codec: Realtek ALC269VC
+> 
+> Codec vendor ID: 0x10ec0269
+> 
+> Codec subsystem ID: 0x10ec111e
+> 
+> Codec revision: 0x100202
+> 
+> DMI baseboard product: SCHNEIDER
+> 
+> BIOS: American Megatrends AN12DV201 (2021-01-25)
+> 
+> Distribution: Linux Mint Xfce
+> 
+> This laptop is not a Higole F9B, but shares its subsystem identifier.
+> 
+> Regression testing
+> 
+> 6.14.0-37-generic: internal speakers work.
+> 
+> 7.0.0-43-generic (#43~24.04.1-Ubuntu): internal speakers are silent.
+> 
+> 7.0.0-43-generic with snd_hda_intel.model=nofixup: internal speakers work again.
+> 
+> The workaround has also been verified across a reboot.
+> 
+> Diagnostic findings
+> 
+> The affected kernel reports:
+> 
+> ALC269VC: picked fixup  for PCI SSID 10ec:111e
+> 
+> Comparing the complete codec dumps from the working and affected
+> kernels reveals changes to the connection configurations of nodes 0x14
+> and 0x15.
+> 
+> For speaker pin 0x14, the working kernel reports:
+> 
+> Connection: 2
+>   0x0c 0x0d*
+> 
+> The affected kernel reports:
+> 
+> Connection: 2
+>   0x0c* 0x0d
+> In-driver Connection: 1
+>   0x0c
+> 
+> Node 0x15 also receives the restricted in-driver connection list.
+> 
+> The captured ALSA mixer configurations from the working and affected
+> kernels are byte-for-byte identical.
+> 
+> When booting with snd_hda_intel.model=nofixup, the kernel reports:
+> 
+> ALC269VC: picked no fixup (nofixup specified)
+> 
+> The original connection topology is restored, and the internal
+> speakers produce sound again.
+> 
+> Suspected cause
+> 
+> The subsystem-ID-based Higole F9B quirk appears to match unrelated
+> hardware that requires a different audio routing configuration.
+> 
+> A more restrictive hardware match may be needed to preserve the
+> original Higole F9B fix without introducing a regression on other
+> devices sharing subsystem ID 10ec:111e.
+> 
+> I have not performed a full kernel bisection or independently tested
+> the suspected commit in an upstream kernel build.
+> 
+> Comparative codec dumps, mixer configurations, kernel logs, PCI
+> information and DMI information are included in the attached
+> diagnostic archive. A separate unified codec diff is also attached.
+> 
+> I would be happy to provide additional diagnostics, test proposed
+> patches, or assist in developing a correction that preserves
+> functionality on both machines.
+> 
+> The investigation and preparation of this report were assisted by an
+> LLM. All physical hardware testing and diagnostic captures were
+> performed directly on the affected machine.
+> 
+> Thank you for your time.
+> 
+> Best regards,
+> Cristian-Marian Fotache
+
+Thanks for the report.
+Unless we come with a quick fix, I'm going to revert the commit.
+
+Yu-Hsiang, could you check whether the quirk can be replaced with
+HDA_QUIRK_ENTRY() with the codec ID instead?  This could be more
+unique than PCI SSID.
+
+
+thanks,
+
+Takashi
