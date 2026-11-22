@@ -1,54 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795339231;
-	b=c6nDimL3Oj3dbjMeP8IdU8eQmcSuzpLfjO8y16Qzu9QtCUviSAMbI2Cj63TO0w7l8cqb
-	 NeLJVxWZrfDjbSR1itBAf2WwEfFHslW3gIhSL9tkNgGlXBIF00nTPamRorNCv3fjZCf4d
-	 a1+C07m+jSx2mvUsRoT5VP9dsN2fPESFTGKXrPghXHCCozjCTqSfSAk/q0C9AY9lw7MAu
-	 xF7doHK9f+EbypPptZyKLZMiuk8zMCB13q898JxgfH4s6qQoTXzJ0Ucy51E1QWaMTl8BQ
-	 7+P4D7YOV74Q738Oxrdii+dIFUPdnXvwVmngoTh8IXOAyZT5E+Sqze70/t5AsIbgLvw==
+	t=1795340064;
+	b=ZhL32pjplDvUJ7+DWdnAaK8rCf+epo7ItUAYodr5h2FhsjliOmfWJp16UjuXNvRdkdw7
+	 EJFUFDsjvJqXH5VvBnSNKzx62x7rDIKzAMx07V3bR1ghZwBIju8bTR+VR0ucy15kEk21f
+	 JUM2/w0ZDFTmU1wxmNvTJ8c4YWjPRbqe7oysarD5ZdCAxRe097qgE5hiM+5cFgg8LVHzg
+	 3OHWFAzV20mdxOr3dTrbkymPxNUcFHYX+9bWyfy2m3Mpfrm4BjOn+BZ5J3J4E7s9qgyFf
+	 +/gh68SdKxFXGQNB7b0SHLIqo6e3nhsgYeEDgtst08Wo1O/9AO0zVOBm0BhG3DIFYtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795339231;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=PwKnB8vusFC38NidYGeXP/OvxcdHiXBlFXmxsUk5hIU=;
-	b=xFuEH3LfhzYlVdNnvQiCL+LmytAZHxDw22cSZ/JTlwXZ79RFmIEnJ+eFifWdeSmxAZAm
-	 5DZSs+KSSnqR6JS9alufjECAyz8xKPqFb410j1CP9kTh2P7ZftBpKiHQaBRFSxH1TTSJw
-	 fvEg8n1uGHhFEXojUgKB5FpXp6IuZ8mobErRZ/pvL3GOrUFGcOzOD6NXPXzCt4zCtyP4c
-	 4pKMQHfor3Se3pRSzVi893OvVUtSerwsXvVvQrbMd7SapromboaHIH5qMzWs6SrIfWAC+
-	 faSfuTu+diGtQcpR/csO60lnaG+ZnzB3xXWHsDJf4cbeGwZr5uXRHj5fqFlNiWMk3Ww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795340064;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=3U7CcHWRUE31wmoeiAHLUkWdPGSZYVZsuRT2MibCOxY=;
+	b=ITqgMNBVyXplEkxH5h8btcWQRB/sGJJdPFSlGVJr7Mfx1Cp8d5iF5hMXnmEbYasINJrM
+	 deZxTw+NZs4lzd8IFy9ety+4eHVCNU+R/Eb/fDn8FVGdANPqt3jPefFYxkB5JfYL7ex6H
+	 rHDl1vGZBzD+tD9igppafwWH+slGjMsyhL2R4asEjZhCkywCPyMvsbe7TJ9bqso5k1+VG
+	 sugY39YlX/ehGOLxnLhq2E0uRqPLcPA2wHXaYl8DtL3UIqp6qIomvAtDCgNfmAu4HrnOW
+	 B1hwxZQcFA0XJuDZYJzwiInDdnY2lZmB6cxDL0JPSPs8a0A9/rQ3SNgQPJQY3RcH2Mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VsvbYdwq;
-	arc=none smtp.remote-ip=91.218.175.72
-Received: from mta0.migadu.com (out-72.mta0.migadu.com [91.218.175.72])
+	dmarc=none header.from=teslabs.com;
+	spf=fail smtp.mailfrom=teslabs.com;
+	dkim=pass header.d=teslabs-com.20260707.gappssmtp.com header.i=@teslabs-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=AeqvcKlm;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5C4606A320
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 09:20:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C5C4606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ECF606A32A
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 09:34:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7ECF606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=teslabs.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=teslabs.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VsvbYdwq
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=L2PQO1Eu8Zh0yQOhKwsxf82gavxb5aNtEP6JzcghrxY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795339227; v=1; x=1795944027;
- b=VsvbYdwqMl6RHdxshCYtsDW9cnuRG6M2BulTppJyRtjYyQTmJ9tzZ+eO1eqYIO/rwKLPeS30
- wA/tP6XA6NTJ3YJT3RFmXmnW1A00G8Ux4L6PmVJblnE/f6lduXOvXHI5fk+ziUDPtniQZh1b+Ns
- iPQscOgpciU6RfVMMChCs9lA=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id dcd1cfd034329e6a;
-	Sun, 22 Nov 2026 09:20:25 +0000
-X-Mizu-Trace-ID: dcd1cfd034329e6a
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <a527bf36-80d2-43d7-ab36-93f51e39fd02@linux.dev>
-Date: Sun, 22 Nov 2026 10:19:49 +0100
+	dkim=pass (2048-bit key) header.d=teslabs-com.20260707.gappssmtp.com header.i=@teslabs-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=AeqvcKlm
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-491f34b4e0fso1000595f8f.2
+        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 01:34:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=teslabs-com.20260707.gappssmtp.com; s=20260707; t=1795340062; x=1795944862; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3U7CcHWRUE31wmoeiAHLUkWdPGSZYVZsuRT2MibCOxY=;
+        b=AeqvcKlmO6WuW5/08hABOdRLV36YdZn1cQZDAfyiW0/pWBJ8jTutocF0NbZ8Nxbg0X
+         R4MdFnPdIzRvth8dfq7if23L/h2AF7Z3ERsdquRYCP3/9szFrj9hkralLojo3BSIaxOg
+         aFFkFqFzbjAmjrJu3ZPAQx48BxgQv+TAFp5SiHd1d/mLp8f1FWmR2ktqxTxgGrQgBBAb
+         7fPimDdzgEl9SW5l0KxFkB2rAtp78KYaDG1p78ekLNVRg5EM5n8MEfkc3bzDvXqh7HU+
+         rbFnpM4qYmr2VEAFt4J3zCxEL1B8rrpfj8r2dVA/AzYM5a5SVGnkQK8gDf4wZJ5QLV2n
+         RKrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795340062; x=1795944862;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3U7CcHWRUE31wmoeiAHLUkWdPGSZYVZsuRT2MibCOxY=;
+        b=qEIhLn2SkCsJmMOkplZhtj9aKwcoz0YxYaDfi4xcuYoW68Dn6fiMgqocUcjFPRf81M
+         bLAWXPMIaeaZkGttMn4syBeUH3C95/XaYumrBX+DmKCN6djwgXsuTNSpazOiRjAbnMWS
+         UaQdtXFZX6gCwO7fCiYhPTCbOPVfeFEEArfgMhiQ3vWQT6DR5HK4ouxQvmsjytSawaWU
+         8rFoEupaVg4mA6cG/3HZFW8+Ih75+oCJOnhT6hkVjNQyEMWrmcrysSP7x8ximYlQ148V
+         iUOgPsiuix6HEBDfz2hW0wD4zb3gKiJO4MGsuE9oLPrQzAaJg8tU5gyYYVJgZAcXtS7i
+         30wA==
+X-Gm-Message-State: APuU4Z9qjKFffmgrUvGYAwH+Gr5NCHCifppYLudEboFMU4MRTuWNuaFD
+	Uu5AzsEH8qbSICJ10dr72fpJFyffp238+bhff1RxDW5QDmlipHvfGGa2i0zwn54L/ds=
+X-Gm-Gg: AZFdTZf8Annxe0drxkW4ggm9+4LZwP8EWWPkpnqUMZGBYYJWKC8CIzO3/FzbO94Xl9c
+	lMHmPlHRFX0vPk2zJjlpcLmDotL2/7M6y9JTsvQF8kx3fyYtAdF5oUmHdzpG/8ATZv0GSrICjlP
+	f8BZBSo58Xq+FCUNDiWn76SJ8cPZbVDrhYlz7Dbnmc5jnK7TBRmXK2V85Fm7YLtI1EGTUvFWY1h
+	UoQ8So1iSWorMt0VNleDOAZLDSjZSOK2hDF3iJfZUWGUVyo72KFW3sQkQC/0TF2rVR7J6ny04oq
+	XxL0N/nKlcLywFpqWXLUM4FExuKWW+n3VTkgc3+/TE1k+k0hBFDTH55xQS5/d9TuPaLb/A1Mp4v
+	Ljkldp546xEF/9abFdf/edG0MDw03hgs3TI11txDFCOQeuU8xb5kemvgYBVObLksvSVeDy3duh1
+	heBOA0s35+9k9HR7vqGirwQ/7RVWgPwWAxL6jyiQfDejo7zKzKnvxIx1n5MQghOtj0tnARR8u2d
+	9aJE2vi+uGvkr7YQPD5/MFfhoO94eJXAtOjBtJLXZoqiZ1JdIJZ+Gu31Ry4Kj3RwZmk/ro3r2ax
+	vy31WOnCFJm8Ar319JeDx2wd4IZP+eIuXKVi4wk7pjij6LaoZeRUgenfBfdhVQp+M5OjpCagaGf
+	ioj4lEE/FRvE=
+X-Received: by 2002:a05:6000:2f87:b0:4a3:7954:ac75 with SMTP id ffacd0b85a97d-4abb2910fb2mr15442071f8f.37.1795340062126;
+        Sun, 22 Nov 2026 01:34:22 -0800 (PST)
+Received: from localhost.localdomain ([139.47.121.129])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf62f7sm17007803f8f.13.2026.11.22.01.34.21
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 22 Nov 2026 01:34:21 -0800 (PST)
+From: Gerard Marull-Paretas <gerard@teslabs.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Stephan Gerhold <stephan@gerhold.net>
+Cc: linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] ASoC: dt-bindings: awinic,aw8738: Add AW8155
+Date: Sun, 22 Nov 2026 10:34:19 +0100
+Message-ID: <20261122093419.72135-1-gerard@teslabs.com>
+X-Mailer: git-send-email 2.45.2
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,230 +98,63 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] soundwire: protect the slave IRQ mapping during alert
- dispatch
-To: Jizhou Tong <fqwqf@fqwqf.xyz>, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com
-Cc: rf@opensource.cirrus.com, ckeepax@opensource.cirrus.com,
- srini@kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <010601a20218c3b5-523b454f-b8b0-4259-9b20-524c1d435465-000000@ap-northeast-1.amazonses.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <010601a20218c3b5-523b454f-b8b0-4259-9b20-524c1d435465-000000@ap-northeast-1.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/22/26 08:11, Jizhou Tong wrote:
-> sdw_irq_create_mapping() publishes slave->irq before it registers the
-> devres action. If devm_add_action_or_reset() fails, it disposes the
-> mapping but leaves its number in slave->irq. sdw_bus_probe() then
-> calls the peripheral driver's probe() with that stale number.
+The AW8155 is a class-D/AB mono amplifier whose mode is selected by the
+number of pulses on its CTRL pin, holding it low shutting it down, as on
+the AW8738. The waveform the aw8738 driver generates (2 us pulses, 40 ms
+start-up wait, 1-2 ms low for shutdown) is within the AW8155 datasheet
+timings (0.75-10 us pulses, 40 ms start-up, 150-800 us turn-off), so
+the AW8738 compatible can serve as a fallback.
 
-Maybe I am thick and didn't get the problem, but if any error occurred
-in sdw_irq_create_mapping(), a simple way to prevent the driver probe
-from happening would be to change the prototype and return an error
-code, e.g.
+Only modes 1, 2 and 4 are valid on the AW8155, mode 3 being a test
+mode, so restrict awinic,mode to those.
 
-	/* Create IRQ mapping now so the driver can get it in probe() */
-	ret = sdw_irq_create_mapping(slave);
-	if (!ret)
-		return ret;
+Signed-off-by: Gerard Marull-Paretas <gerard@teslabs.com>
+---
 
-	ret = drv->probe(slave, id);
+Notes:
+    Checked with dtschema 2026.9: the steps of dt_binding_check run by hand (host make too old), yamllint and dt-check-style --mode=strict.
 
-> Clearing the number on release alone also leaves a window for the alert
-> handler to pick up the old IRQ before its mapping is disposed. Keep the
-> mapping private until cleanup is registered. On teardown, take a
-> per-slave write lock to drain active dispatches and clear the number
-> before disposing the mapping. Hold the read side across the nested IRQ
-> handler, which runs in thread context and can sleep.
+ .../bindings/sound/awinic,aw8738.yaml          | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-not following either. Presumably on a release, the interrupts are masked
-in the codec driver prior to cleanups at the bus level. In what case
-would an interrupt handler start *after* the resources are released?
+diff --git a/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml b/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml
+index bc6c6b172238..5ef7b800226a 100644
+--- a/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml
++++ b/Documentation/devicetree/bindings/sound/awinic,aw8738.yaml
+@@ -14,12 +14,28 @@ description:
+   (set using one-wire pulse control). The mode configures the speaker-guard
+   function (primarily the power limit for the amplifier).
+ 
++  The Awinic AW8155 also has its mode set by one-wire pulses on its control
++  pin. Its modes select the amplifier class, its gain and its power limit.
++
+ allOf:
+   - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: awinic,aw8155
++    then:
++      properties:
++        awinic,mode:
++          enum: [1, 2, 4]
+ 
+ properties:
+   compatible:
+-    const: awinic,aw8738
++    oneOf:
++      - const: awinic,aw8738
++      - items:
++          - const: awinic,aw8155
++          - const: awinic,aw8738
+ 
+   mode-gpios:
+     description:
 
-And last the 'irq_lock' is confusing, existing ASoC/SoundWire codec
-drivers already use a 'disable_irq_lock' - stored as a private resource
-to avoid polluting the sdw_slave struct.
-
-> The lock is independent of sdw_dev_lock so nested handlers continue to
-> run outside the peripheral callback lock. Peripherals that can operate
-> without an IRQ can still probe if mapping setup fails. Return early on
-> a zero mapping so there is no cleanup action to register for IRQ 0.
-> 
-> Fixes: a5fef9baa87f ("soundwire: bus: Move irq mapping cleanup into devres")
-> Link: https://lore.kernel.org/r/d7761226-31b0-4d0f-bc56-9c4d5e42bfba@opensource.cirrus.com
-> Signed-off-by: Jizhou Tong <fqwqf@fqwqf.xyz>
-> ---
-> This came up while moving WCD938x to SoundWire domain IRQs. Richard
-> previously pointed out the stale IRQ on release.
-> 
-> The rwsem lets overlapping alerts run and keeps per-slave state small.
-> Reusing sdw_dev_lock would bring it into nested handlers. A per-slave
-> SRCU domain would also have to drain readers during teardown. On this
-> base, mapping setup precedes the peripheral probe and sdw_dev_lock.
-> Unbind still holds the device mutex while draining readers. Do any
-> domain IRQ handlers depend on work that needs that same device mutex?
-> 
-> Built soundwire-bus.o with ARCH=arm64 W=1. In a four-vCPU arm64 guest
-> with PROVE_LOCKING and DEBUG_ATOMIC_SLEEP enabled, an emulated peripheral
-> ran three rounds of 200 driver-core bind/unbind cycles under concurrent
-> alert dispatch. Removal started with an active handler in 514 of the 600
-> cycles. To exercise lock ordering against sdw_dev_lock, the test handler
-> acquired that lock and slept while holding it. Lockdep remained enabled
-> and reported no warnings in any run.
-> The physical codec and runtime PM paths still need coverage.
-> 
->  drivers/soundwire/bus.c       |  4 ++--
->  drivers/soundwire/irq.c       | 36 +++++++++++++++++++++++++++++++----
->  drivers/soundwire/irq.h       |  5 +++++
->  drivers/soundwire/slave.c     |  1 +
->  include/linux/soundwire/sdw.h |  3 +++
->  5 files changed, 43 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
-> index aeaae5a57c89d8af05cadd6fe55d44856600e781..0bc0ad9e9934e790c27526ff4c736e8d5a2bebaf 100644
-> --- a/drivers/soundwire/bus.c
-> +++ b/drivers/soundwire/bus.c
-> @@ -1781,8 +1781,8 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
->  
->  		/* Update the Slave driver */
->  		if (slave_notify) {
-> -			if (slave->prop.use_domain_irq && slave->irq)
-> -				handle_nested_irq(slave->irq);
-> +			if (slave->prop.use_domain_irq)
-> +				sdw_irq_handle(slave);
->  
->  			mutex_lock(&slave->sdw_dev_lock);
->  
-> diff --git a/drivers/soundwire/irq.c b/drivers/soundwire/irq.c
-> index f18be37efef8e0ef63bad159cc0d9ebb619a89bf..1f13e1093d94863012fb966b555682826f051cb6 100644
-> --- a/drivers/soundwire/irq.c
-> +++ b/drivers/soundwire/irq.c
-> @@ -2,10 +2,13 @@
->  // Copyright (C) 2023 Cirrus Logic, Inc. and
->  //                    Cirrus Logic International Semiconductor Ltd.
->  
-> +#include <linux/cleanup.h>
->  #include <linux/device.h>
->  #include <linux/fwnode.h>
-> +#include <linux/interrupt.h>
->  #include <linux/irq.h>
->  #include <linux/irqdomain.h>
-> +#include <linux/rwsem.h>
->  #include <linux/soundwire/sdw.h>
->  #include "irq.h"
->  
-> @@ -49,15 +52,40 @@ void sdw_irq_delete(struct sdw_bus *bus)
->  static void sdw_irq_dispose_mapping(void *data)
->  {
->  	struct sdw_slave *slave = data;
-> +	unsigned int irq;
->  
-> -	irq_dispose_mapping(slave->irq);
-> +	scoped_guard(rwsem_write, &slave->irq_lock) {
-> +		irq = slave->irq;
-> +		slave->irq = 0;
-> +	}
-> +
-> +	irq_dispose_mapping(irq);
->  }
->  
->  void sdw_irq_create_mapping(struct sdw_slave *slave)
->  {
-> -	slave->irq = irq_create_mapping(slave->bus->domain, slave->index);
-> -	if (!slave->irq)
-> +	unsigned int irq;
-> +
-> +	irq = irq_create_mapping(slave->bus->domain, slave->index);
-> +	if (!irq) {
->  		dev_warn(&slave->dev, "Failed to map IRQ\n");
-> +		return;
-> +	}
-> +
-> +	if (devm_add_action(&slave->dev, sdw_irq_dispose_mapping, slave)) {
-> +		irq_dispose_mapping(irq);
-> +		dev_warn(&slave->dev, "Failed to register IRQ mapping cleanup\n");
-> +		return;
-> +	}
-> +
-> +	guard(rwsem_write)(&slave->irq_lock);
-> +	slave->irq = irq;
-> +}
-> +
-> +void sdw_irq_handle(struct sdw_slave *slave)
-> +{
-> +	guard(rwsem_read)(&slave->irq_lock);
->  
-> -	devm_add_action_or_reset(&slave->dev, sdw_irq_dispose_mapping, slave);
-> +	if (slave->irq)
-> +		handle_nested_irq(slave->irq);
->  }
-> diff --git a/drivers/soundwire/irq.h b/drivers/soundwire/irq.h
-> index 86e2318409dab8b8137df45586029a6312ee61ff..93e949ec10ca37abea6f0fb8f88e4f016e83259a 100644
-> --- a/drivers/soundwire/irq.h
-> +++ b/drivers/soundwire/irq.h
-> @@ -16,6 +16,7 @@ int sdw_irq_create(struct sdw_bus *bus,
->  		   struct fwnode_handle *fwnode);
->  void sdw_irq_delete(struct sdw_bus *bus);
->  void sdw_irq_create_mapping(struct sdw_slave *slave);
-> +void sdw_irq_handle(struct sdw_slave *slave);
->  
->  #else /* CONFIG_IRQ_DOMAIN */
->  
-> @@ -33,6 +34,10 @@ static inline void sdw_irq_create_mapping(struct sdw_slave *slave)
->  {
->  }
->  
-> +static inline void sdw_irq_handle(struct sdw_slave *slave)
-> +{
-> +}
-> +
->  #endif /* CONFIG_IRQ_DOMAIN */
->  
->  #endif /* __SDW_IRQ_H */
-> diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
-> index a7d2938b031d0f2d32986e93ffb2bd85e7d73520..ffe21bb04ff70e71af681b26cc475ea65c188c68 100644
-> --- a/drivers/soundwire/slave.c
-> +++ b/drivers/soundwire/slave.c
-> @@ -65,6 +65,7 @@ int sdw_slave_add(struct sdw_bus *bus,
->  	slave->probed = false;
->  	slave->first_interrupt_done = false;
->  	mutex_init(&slave->sdw_dev_lock);
-> +	init_rwsem(&slave->irq_lock);
->  
->  	for (i = 0; i < SDW_MAX_PORTS; i++)
->  		init_completion(&slave->port_ready[i]);
-> diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-> index f710e5932b4b23c025579b3c8346fe4b5e5f2624..d8c8eae7aed67ae02a140656432a561b28876575 100644
-> --- a/include/linux/soundwire/sdw.h
-> +++ b/include/linux/soundwire/sdw.h
-> @@ -15,6 +15,7 @@
->  #include <linux/lockdep_types.h>
->  #include <linux/device-id/sdw.h>
->  #include <linux/mutex.h>
-> +#include <linux/rwsem.h>
->  #include <linux/types.h>
->  #include <sound/sdca.h>
->  
-> @@ -643,6 +644,7 @@ struct sdw_slave_ops {
->   * @id: MIPI device ID
->   * @dev: Linux device
->   * @index: internal ID for this slave
-> + * @irq_lock: protects the IRQ mapping during nested interrupt handling
->   * @irq: IRQ number
->   * @status: Status reported by the Slave
->   * @bus: Bus handle
-> @@ -676,6 +678,7 @@ struct sdw_slave {
->  	struct sdw_slave_id id;
->  	struct device dev;
->  	int index;
-> +	struct rw_semaphore irq_lock;
->  	int irq;
->  	enum sdw_slave_status status;
->  	struct sdw_bus *bus;
-> 
-> base-commit: afd88e7ad78170040612f608203734156b8a9eb1
-> 
+base-commit: c44104f3642da720164042623e4832836aefdd8e
+-- 
+2.45.2
 
