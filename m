@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795364554;
-	b=zre0/tjg72gzkOz1TTZh4CNPiTRvjeqYJgEjlQaHbuJyL+r2z4QBn57sjY9DDufvMfbA
-	 9GcVmYrvErBdznWYqwjIYqfujUKrsZMnMJL6J0n7csOOCKywyutnI052SiW9+NdQOdaJ3
-	 rJCA4a8FWbFY1t3aSpj/U40p8VPVEmsgEP5zSo96HpJffYsPY3VJ8pgYX5OeOLktV3Yly
-	 J51frnclF+FoNpBCoxzPjNVFHyt7f+0veTKbYj7b7pjhgSyBTo2H5NdvxzQs/tIvF1vCx
-	 HB/YRLK9GqjriMeYwbxUEWbOd2vK5TWXK9pRnbpf3n3gErUK+wnCfQSdi3R4hxZTLXw==
+	t=1795364892;
+	b=DEHFmeGcB0cgnz2CT0pYUHpxfK9VekZoUZYHq9J4RAy3Tsg9Ndvge8VBdumFii0jLC74
+	 WiP+gwwEWDJsQi7DXMNMLiKrplllFpEHP5Cnup7sDSnzjTcs64Pbt+3SFf7i7JLQeTT2I
+	 L7FqUfVuS2zMI4CRDnwepVw7NN0iRA2kA77vwT+7/mzYYTRVyOy9Uxw300bzuRgOY/hBS
+	 CRCIvQJwLbi/x7acUg6oxa+wc8fGZ48NkQRvPZqGGa6GkeT8HLfKj/ERACVpZn+kLzpJg
+	 /bw9lukhTxp9oB5GCOGbSdUo8t1/CmPGiETYgn49M9ONvfJtnlqmtPtOfiwOS8EHuhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795364554;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795364892;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fCyjOOtWXDJ5XOALM5QGNepLBYeDVlP8VYNW5iLHW1k=;
-	b=HT8goqr3ABRE9F5koU6MN+T8+dXtaB5+gfNpQfHJJ1meanGaWV8jJYyOryq+Ukv35GiD
-	 wu6x7kq6GM3w6r4MMzrYCpLbXNmclrD5cledaQZRu5hkBtpyY9+l+l4dCWkvIdBqqhSw1
-	 QnzED3cPOqhs1SV5mPjnEZzADkWvYtxSB/Ov/E2dMSNMiq/5LPCNtF2pFbeFVhkVuX9/8
-	 cLJw+Cf95NkU0zxnYfKIgWC2XUKIwYW5uvwsIMUV4qo4hHgXdUlVSGAybF+qvVYrjQ/2x
-	 ljb3kVAuARpQAgUi2GsSSY7SSNt+KTmW4CVWGRTyL2nAicPxvStHTW52/5My2NHh7pA==
+	bh=w2jJbbjxqi3Ud6TAa04LKDmCAGuSmeUyHMDl5hTbDcw=;
+	b=FT/6jEfw73ru/N/zA2QbWgssxk5+63lZG+FiMBurIEk3wMA3Sn9vM7gL913awVWv82dL
+	 4A5nPM45QCTctq/Kvk8ixHRP8o9GVuT4I7UYV51vrygzIzquSeKZUIiP7MNe03yNGszlc
+	 VAqnfe22oNntN+UezhK6j3cEp4VGRJYSDuNZN1aynm8gzrTSFaOknpW7YZvC4Ya4kwNSG
+	 4ACa2TZlcvAfd4RfTtsrUtF/Rf3+H9Dg7mZVLsW9r8ljJ3TVkYo4Wit1Yp/kvYGGyiUVs
+	 1D4cd1isBMvl6V9MDJNe2hwNffIMBq03agUGjoxPPgthuyb/F/UwzEubxnxac50jjrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GVo8Rt6z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=axafC6tG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831B2606A320;
-	Sun, 22 Nov 2026 16:22:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B1C606A320;
+	Sun, 22 Nov 2026 16:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GVo8Rt6z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C22491F000C4;
-	Sun, 22 Nov 2026 16:22:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=axafC6tG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D11C1F000CF;
+	Sun, 22 Nov 2026 16:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795364554;
-	bh=fCyjOOtWXDJ5XOALM5QGNepLBYeDVlP8VYNW5iLHW1k=;
+	s=k20260515; t=1795364891;
+	bh=w2jJbbjxqi3Ud6TAa04LKDmCAGuSmeUyHMDl5hTbDcw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GVo8Rt6zVE43vBSFN+oHYa7oe6bZzTWftWo3scC9gtzz0u7FFqXFILiOX1ejYs60I
-	 zrrJ1AksVHD79O7Zsw+8JO3ATkvKmOt96fCZztqab/i5000HlQA9SLzS/sZU4RhGwq
-	 mDgzxcHPCKtl9GN1WJGKECcWzCmmD1drGHX/xto4pgzPXsrsHWfo5GG14g7k1io3NF
-	 ii8kbMciciKk6iReVtZXv8zI0L0vCz7xyUJlwIliXNuAiMFm4LS0Kf+xisDonmvi1g
-	 9s3emfv7ZRKg3fTJAEBMjWbrhKOLbSjUihFVmxiCuJu7rTSmnmBlBAZoGAVAE7zsrn
-	 tTXUu//cRSxVA==
-Message-ID: <sashiko-outbox-228094@kernel.org>
+	b=axafC6tGGgO6c19nmtvdrER4Uf95U+CjzXDNzQZvFCqphKUxWOkHCRLBEQdP644Rt
+	 ABSAtNNhmltPiOqOl07+pW37YGdjZt+3FSm6Xh33JMFxQStzJMWsQJOoe6SNMEWFgd
+	 5yKLqsF/aXt9x3/Yf8P3ekn4JJFIFaIO5KsouPWj9ftCRbIXv4LxwgjYnVlT8nEc0B
+	 2ldYStiYuW99sZpqKr8LSOWXWBaexKmDDxtXUgXP4Zth8zNOnNYlyBGzZJNltpSv6k
+	 4aeLB4/2nInxyC+h70ZGUVG/hkosAwGpf84/xQU08Ty/1RnOeEZygGn2PnUvt1XEUN
+	 hciXBDB++Ho2w==
+Message-ID: <sashiko-outbox-228098@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 12/24] ASoC: qcom: audioreach: cache VI calibration
- results per speaker
+Subject: Re: [PATCH v2 07/24] ASoC: codecs: wsa883x: add VI sense capture
+ DAI
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261122161437.5994-13-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20261122161437.5994-8-srinivas.kandagatla@oss.qualcomm.com>
 References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261122161437.5994-13-srinivas.kandagatla@oss.qualcomm.com>
+ <20261122161437.5994-8-srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 16:22:33 +0000
+Date: Sun, 22 Nov 2026 16:28:10 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,109 +61,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] ASoC: qcom: false success on num_ch =3D=3D 0 in
-  audioreach_vi_calibration_event()
-- [Low] ASoC: qcom: negative Q24 misformatting in
-  sp_vi_q24_to_int_frac()
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ASoC: codecs: wsa883x: missing port_enable check in
+  wsa883x_vi_hw_params()
 --
 
-commit cfc96c13af943af3459ead6b6b605460ffdd651e
+commit 82c65105b12aa380210860d9001570f29fccfcce
 Author: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 
-ASoC: qcom: audioreach: cache VI calibration results per speaker
+ASoC: codecs: wsa883x: add VI sense capture DAI
 
-This commit adds a mutex-protected per-speaker cache for VI calibration
-events to log state transitions once per speaker and store measured R0
-values when calibration completes.
+This commit moves the visense port to the SoundWire source port mask, adds
+a dedicated capture digital audio interface and stream runtime for it, and
+programs the host clock divider in bus_config.
 
-> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/aud=
-ioreach.c
-> index fbb9e3c4b84ae..2b5c083b8ae56 100644
-> --- a/sound/soc/qcom/qdsp6/audioreach.c
-> +++ b/sound/soc/qcom/qdsp6/audioreach.c
-
-[ ... ]
-
-> @@ -1462,16 +1482,112 @@ static int audioreach_gain_set(struct q6apm_grap=
-h *graph,
->  	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
->  }
+> diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
+> index 64391d654a08b..6de669288d6aa 100644
+> --- a/sound/soc/codecs/wsa883x.c
+> +++ b/sound/soc/codecs/wsa883x.c
 
 [ ... ]
 
-> +static int sp_vi_q24_to_int_frac(s32 val, int *frac)
-> +{
-> +	*frac =3D (int)(((s64)(val & 0xffffff) * 1000) >> 24);
-> +
-> +	return val >> 24;
-> +}
-
-[Severity: Low]
-Does sp_vi_q24_to_int_frac() misformat negative Q24 values when an
-out-of-range negative R0 is logged?  Because val is signed, val >> 24
-floors toward negative infinity and val & 0xffffff extracts the positive
-two's-complement offset above that floor, so -0.25 ohms (-4194304) prints
-as -1.750 ohms instead of -0.250 ohms.
-
->  void audioreach_vi_calibration_event(struct device *dev,
->  				     const struct event_id_vi_per_spkr_calibration *cali,
->  				     u32 num_ch)
->  {
-> +	bool decisive =3D true;
-> +	bool success =3D true;
->  	unsigned int i;
-> +	u32 bit;
-> +
-> +	guard(mutex)(&sp_vi_r0_lock);
-> +
-> +	if (!sp_vi_r0.armed)
-> +		return;
-> +
-> +	/* First event of this run: drop the previous result */
-> +	if (!memchr_inv(sp_vi_r0.seen_states, 0, sizeof(sp_vi_r0.seen_states)))=
- {
-> +		sp_vi_r0.state =3D SP_VI_CALI_RUNNING;
-> +		sp_vi_r0.num_ch =3D 0;
-> +		memset(sp_vi_r0.r0_cali_q24, 0, sizeof(sp_vi_r0.r0_cali_q24));
-> +	}
-> +
-> +	for (i =3D 0; i < num_ch; i++) {
->  		u32 state =3D cali->cali_param[i].state;
+> @@ -1335,6 +1351,25 @@ static const struct snd_soc_component_driver wsa88=
+3x_component_drv =3D {
+>  	.num_dapm_routes =3D ARRAY_SIZE(wsa883x_audio_map),
+>  };
 > =20
-> -	/* Raised every frame; keep the per-event log at debug level */
-> -	for (i =3D 0; i < num_ch; i++)
-> -		dev_dbg(dev, "VI calibration channel %u: state %u\n",
-> -			i, cali->cali_param[i].state);
-> +		if (sp_vi_cali_state_is_failure(state))
-> +			success =3D false;
-> +		else if (!sp_vi_cali_state_is_terminal(state))
-> +			decisive =3D false;
+> +static int wsa883x_vi_hw_params(struct snd_pcm_substream *substream,
+> +				struct snd_pcm_hw_params *params,
+> +				struct snd_soc_dai *dai)
+> +{
+> +	struct wsa883x_priv *wsa883x =3D dev_get_drvdata(dai->dev);
 > +
-> +		bit =3D BIT(min_t(u32, state, SP_VI_CALI_UNKNOWN_STATE_BIT));
-> +		if (!(sp_vi_r0.seen_states[i] & bit)) {
-> +			sp_vi_r0.seen_states[i] |=3D bit;
-> +			dev_info(dev, "VI calibration channel %u: %s\n",
-> +				 i, sp_vi_cali_state_name(state));
-> +		}
-> +	}
+> +	wsa883x->vi_port_config =3D wsa883x_pconfig[WSA883X_PORT_VISENSE];
+> +	wsa883x->vi_sconfig.frame_rate =3D params_rate(params);
+> +	/* VISENSE carries the V and I sense pair */
+> +	wsa883x->vi_sconfig.ch_count =3D 2;
+> +	wsa883x->vi_sconfig.bps =3D 1;
+> +	wsa883x->vi_sconfig.type =3D SDW_STREAM_PDM;
+> +	wsa883x->vi_sconfig.direction =3D SDW_DATA_DIR_TX;
 > +
-> +	if (!decisive)
-> +		return;
+> +	return sdw_stream_add_slave(wsa883x->slave, &wsa883x->vi_sconfig,
+> +				    &wsa883x->vi_port_config, 1,
+> +				    wsa883x->vi_sruntime);
+> +}
 > +
-> +	sp_vi_r0.armed =3D false;
-> +	sp_vi_r0.state =3D success ? SP_VI_CALI_SUCCESS : SP_VI_CALI_FAILED;
-> +	sp_vi_r0.num_ch =3D num_ch;
+>  static int wsa883x_hw_params(struct snd_pcm_substream *substream,
+>  			     struct snd_pcm_hw_params *params,
+>  			     struct snd_soc_dai *dai)
+> @@ -1344,6 +1379,9 @@ static int wsa883x_hw_params(struct snd_pcm_substre=
+am *substream,
+> =20
+>  	wsa883x->active_ports =3D 0;
+>  	for (i =3D 0; i < WSA883X_MAX_SWR_PORTS; i++) {
+> +		/* VISENSE is driven by the separate VI capture DAI */
+> +		if (i =3D=3D WSA883X_PORT_VISENSE)
+> +			continue;
+>  		if (!wsa883x->port_enable[i])
+>  			continue;
 
 [Severity: Medium]
-What happens if q6apm_vi_calibration_event() passes num_ch =3D=3D 0 (for
-instance, if cali->num_ch is 0 or the event payload has no cali_param
-entries)?  Because decisive and success start as true and the loop does
-not run, audioreach_vi_calibration_event() wipes the previous cached
-result, disarms sp_vi_r0.armed so later events are ignored, and records
-SP_VI_CALI_SUCCESS with sp_vi_r0.num_ch =3D 0.
+Should wsa883x_vi_hw_params() check wsa883x->port_enable for the visense
+port before calling sdw_stream_add_slave(), the same way
+wsa884x_vi_hw_params() does?
+
+Skipping this port before the port_enable[i] check in wsa883x_hw_params()
+removes the only reader of that entry, which makes the visense switch
+mixer control a no-op and unconditionally adds the port and its two-channel
+bandwidth to the SoundWire capture stream even when disabled on an
+inactive speaker.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261122161437.5994=
--1-srinivas.kandagatla@oss.qualcomm.com?part=3D12
+-1-srinivas.kandagatla@oss.qualcomm.com?part=3D7
