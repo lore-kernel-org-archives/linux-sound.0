@@ -1,65 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.251.234.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795331509;
-	b=UdYYg60+0hv7HO5sK8Du903NItXeGOqPLnbiov9nj5+swyN3//rcEK7WHlib1YmxJBGG
-	 DdL7Ld5UP4eZl1wZ4sbpe5f+V+4yvvRMnrTwYms4oVOQBPTz4yJ+fQNaqyNkK1KONg/7m
-	 u5AnITBweLsaZAXrR+4WcgVAuSUA/qWdOXi9NyWrn03C2vyc3djl+hbvwOlLhyNZLufev
-	 Dwg+IceYnX6JYF9C+VNiMnC5VXjgOj+5Yzq51fyKwDXYeCfEVqP3bggxGdoCoLj243pPb
-	 WN8t6NDCAJWhvsKK7MZbSPfHuUS6u5vdIji8s08nHseNLNRKRfh+VLk8/FiR9HOv45Q==
+	t=1795333426;
+	b=2320PfLZ7aa23wwRfKuHagECOhQrxwDaT9LdavQFVEbnQy8928gZMSmCq0Ri0conjxKV
+	 WqYJsLvgTYsvu6vc6PBFZtyxBAEkO9W4D4KsZZF6NmBJC4XmYAQo61hXvPKJ5+Af2xjsS
+	 sciK9Xx94XBC4hfCVaHq3KmsS28VJ+f0ZiSFZJFoKKbMl3/bA8WYSPFao7tMd1PyBUpt0
+	 bEmKx082qULFldggYgZro/QSQSoXrTTqo5v+WZr8SGNlp0/ls7Y1J0jR/gXhbllth53my
+	 zQsLTui/GBBpz1ICjhVVsC79xEWYPkHkcChDnWSGy5q1wSpnkLSiKQ69rM5h/7V4qOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795331509;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:X-Mailer:From:To:Cc:
-	 Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:
-	 Content-Type:Feedback-ID:X-SES-Outgoing;
-	bh=eJG1RWhQG7NS8RqaA5nBBKHSLMeEZTyXUq7B4ujKkRY=;
-	b=dS1HMkm2Fl8CKJzzeVOFYKB4N7tkfNqJ5W4FWgz4s3J2RrI0C7Ws8HdRsqcE0B5xLk3X
-	 mML/MR3p02IhaRngUKv7YVNxR4kgCVzn7hmffgQHxltzYcAwiaiUt+euCI5Gz9wG++Wcx
-	 xU6IM9qW8kIG4glF48ZumRg5VvtCZahley2+e68XQSuYwxbLFOZqGDXGoT4LQn+hDCyGE
-	 VgSJGVlhoeEDksZdjUY0TNZYirwa82PI2mBbLYKK92oraSUuBhiJ3NYirq9TGGSuiZXHb
-	 s8t8L3YDVfAK3Nduv5lYgfB4SkxIYz44k2PdS127Qei4mehvG7WuAo0aJniS76Nc6Pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795333426;
+	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
+	 To:Cc:Subject:X-Priority:X-Mailer:In-Reply-To:References:
+	 X-CM-CTRLMSGS:Content-Type:MIME-Version:Message-ID:X-Coremail-Locale:
+	 X-CM-TRANSID:X-CM-SenderInfo:X-Coremail-Antispam;
+	bh=HRiiE5TdN3ihvKcpPc4JsrK6iG5oD1BpJ232e3N3BrE=;
+	b=BxZ1E27BA+dGmlYZw/VBKE/Fm9MuuI0WVhCPgma4Doxejm/7p6iQmGjqtaZpF3UBU7Xz
+	 Bd02pN1RTEWMw6xgavr2UXqFGUIESt77UvWyicPjOsNBy2/3c1jd7q2yjHkmr+DTdBwuY
+	 131I3lpr95eafNyx3qp9/2kz1DtZi+eGrauB18SoN9wUBamUZ2tcgnAvUM5Vxcum81vy9
+	 EmVnBP8cPikFrWoUrglDSjhZyfL728cZQKlGEl+MvWBp1AyelpqzPmwDC4bwP1RP2gxzx
+	 q0WKaUw+0nT3YIh/4D+C91xgIbPGVXjFDgbCkZH7j/25x+p+U/CS4Idl327sBmf25Bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=fqwqf.xyz;
-	spf=pass smtp.mailfrom=send.fqwqf.xyz;
-	dkim=pass header.d=fqwqf.xyz header.i=@fqwqf.xyz header.a=rsa-sha256 header.s=resend header.b=mYo7S8ot;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=zh4gjftm6etwoq6afzugpky45synznly header.b=lCYRW4Vz;
-	arc=none smtp.remote-ip=23.251.234.53
-Received: from e234-53.smtp-out.ap-northeast-1.amazonses.com (e234-53.smtp-out.ap-northeast-1.amazonses.com [23.251.234.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0AB606A32A;
-	Sun, 22 Nov 2026 07:11:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD0AB606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fqwqf.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.fqwqf.xyz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fqwqf.xyz header.i=@fqwqf.xyz header.a=rsa-sha256 header.s=resend header.b=mYo7S8ot;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=zh4gjftm6etwoq6afzugpky45synznly header.b=lCYRW4Vz
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
-	d=fqwqf.xyz; t=1795331507;
-	h=From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=vVhzXuccvxigB1urtDltA4vZjbPesvRjPQ00ukwOVRM=;
-	b=mYo7S8otmOemYa4xaxgh+lGTEKQV0VU0avSp4TZ4PPn/tAnWtupRFMrnqayAJ0lq
-	xjVaMxgJ0sm47evofui2XRNBKYljAmcxXTFx11mQUwAxl5xqciCHzqVuSJ7uVk6AZOr
-	/jHs3veXXFgxuJHs9XQSBUWMIq6U9l0mf209MG9c=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=zh4gjftm6etwoq6afzugpky45synznly; d=amazonses.com; t=1795331507;
-	h=From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=vVhzXuccvxigB1urtDltA4vZjbPesvRjPQ00ukwOVRM=;
-	b=lCYRW4VzARxk+Y2ph1aut6LqXsKvyi+B8RQ9EL+2+k9MS8DgHIiRnBqfwR+vPW2E
-	eqJlrVpAj4y8zfYcbmsBhI3ddX0w0AztMYIY3AnX6jxymaUZxQQ/W3tcUKEK85MJyZP
-	S4vGLIQVrFLipmEbuSQHKnruSbGX9+7KkDLxZBcE=
-X-Mailer: git-send-email 2.53.0
-From: Jizhou Tong <fqwqf@fqwqf.xyz>
-To: vkoul@kernel.org, yung-chuan.liao@linux.intel.com
-Cc: pierre-louis.bossart@linux.dev, rf@opensource.cirrus.com, 
-	ckeepax@opensource.cirrus.com, srini@kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] soundwire: protect the slave IRQ mapping during alert
- dispatch
-Message-ID: <010601a20218c3b5-523b454f-b8b0-4259-9b20-524c1d435465-000000@ap-northeast-1.amazonses.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 07:11:47 +0000
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=13.76.78.106
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19C8D606A320;
+	Sun, 22 Nov 2026 07:43:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19C8D606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from xuhx$hust.edu.cn ( [10.11.175.146] ) by ajax-webmail-app2
+ (Coremail) ; Sun, 22 Nov 2026 15:43:32 +0800 (GMT+08:00)
+Date: Sun, 22 Nov 2026 15:43:32 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
+To: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	lgirdwood@gmail.com, broonie@kernel.org
+Subject: sound: core: compress offload fd does not pin card or module, so
+  card removal leaves a live fd pointing at freed snd_compr (KASAN UAF)
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
+ 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
+In-Reply-To: <2026102727-data-sequel-ce41@gregkh>
+References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
+ <2026102727-data-sequel-ce41@gregkh>
+X-CM-CTRLMSGS: =?B?bNtOyjiH6nJ5xwDR7hwMki1N8jM=
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_586060_143037616.1795333412174"
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,235 +56,261 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.ap-northeast-1.6BGMgStFQE7EJYq5syaCRzdneEHVt/+DAaGDrqUmDs9QLO4/SllUBZ3fHvnZ8rcAX/3IjUyTRgi5JFZsWrikFHwlPJqCkqEMlxDFM4JXh+ycxH/J5Tudg5bGdz6h4331g1L1EFsGR8kuYNfGLsrxz4Nym4YXoPcZxeVkrHry4Zx21n8vEVLEjc7s+OCM8PU9:1.ap-northeast-1.DTXDV/V9GPBWozcllKo8innbNB2qs2O/3F8XZSzd9ZM=:AmazonSES
-X-SES-Outgoing: 2026.11.22-23.251.234.53
+Message-ID: <60230a17.2ad11.1a20235d54e.Coremail.xuhx@hust.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:IQEQrMDW_cUknQJrfo0oAA--.27538W
+X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAQoTB2sBxG5DCgABsX
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-sdw_irq_create_mapping() publishes slave->irq before it registers the
-devres action. If devm_add_action_or_reset() fails, it disposes the
-mapping but leaves its number in slave->irq. sdw_bus_probe() then
-calls the peripheral driver's probe() with that stale number.
+------=_Part_586060_143037616.1795333412174
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-Clearing the number on release alone also leaves a window for the alert
-handler to pick up the old IRQ before its mapping is disposed. Keep the
-mapping private until cleanup is registered. On teardown, take a
-per-slave write lock to drain active dispatches and clear the number
-before disposing the mapping. Hold the read side across the nested IRQ
-handler, which runs in thread context and can sleep.
+c25kX2NvbXByX29wZW4oKSBvcGVucyAvZGV2L3NuZC9jb21wckMqRCogd2l0aG91dCBhZGRpbmcg
+dGhlIGZpbGUgdG8KY2FyZC0+ZmlsZXNfbGlzdCwgd2l0aG91dCB0YWtpbmcgYSBwZXJzaXN0ZW50
+IGNhcmQgZGV2aWNlIHJlZmVyZW5jZSBhbmQKd2l0aG91dCB0YWtpbmcgYSBtb2R1bGUgcmVmZXJl
+bmNlOyBpdCBldmVuIGRyb3BzIHRoZSBsb29rdXAgcmVmZXJlbmNlCndpdGggc25kX2NhcmRfdW5y
+ZWYoKSBiZWZvcmUgcmV0dXJuaW5nLiAgVGhlIEFTb0MgY2FyZCBjYW4gdGhlcmVmb3JlIGJlCnVu
+Ym91bmQgYW5kIGZyZWVkIHdoaWxlIHRoZSBjb21wcmVzcyBmZCBpcyBzdGlsbCBvcGVuLCBhZnRl
+ciB3aGljaAppb2N0bC9yZWFkL3dyaXRlL3BvbGwvY2xvc2UgZGVyZWZlcmVuY2UgZnJlZWQgc3Ry
+dWN0IHNuZF9jb21wciBhbmQKc25kX3NvY19wY21fcnVudGltZSBvYmplY3RzLiAgSSByZXByb2R1
+Y2VkIHRoaXMgb24gYSBMaW51eCA3LjMgS0FTQU4Ka2VybmVsIHdpdGggYSBzbWFsbCB0ZXN0IG1v
+ZHVsZTogb3BlbiB0aGUgY29tcHJlc3MgZGV2aWNlLCBjYWxsCnNuZF9jYXJkX2ZyZWUoKSwgdGhl
+biBpc3N1ZSBpb2N0bCgpIG9uIHRoZSBzdGFsZSBmZDsgdGhlIGlvY3RsIGVudHJ5CmFscmVhZHkg
+cmVwb3J0cyBzbGFiLXVzZS1hZnRlci1mcmVlIGluIG11dGV4X2xvY2soJnN0cmVhbS0+ZGV2aWNl
+LT5sb2NrKQppbnNpZGUgc25kX2NvbXByX2lvY3RsKCkuCgpUaGlzIGlzIG5vdCBhIHRoZW9yZXRp
+Y2FsIGxvc3QtcmVmZXJlbmNlIGlzc3VlLiAgVGhlIHVwc3RyZWFtIGNvbXByZXNzCm9mZmxvYWQg
+Y29kZSBoYXMgYW4gZXhwbGljaXQgb3Blbi1maWxlIGxpZmV0aW1lOiBzbmRfY2FyZF9maWxlX2Fk
+ZCgpIHBsdXMKdHJ5X21vZHVsZV9nZXQoKSBhdCBvcGVuLCBhIGRhdGEtPmxpc3Qgbm9kZSBsaW5r
+ZWQgaW50byBjb21wci0+b3Blbl9saXN0LApsaXN0X2RlbF9pbml0KCkgKyBtb2R1bGVfcHV0KCkg
+KyBzbmRfY2FyZF9maWxlX3JlbW92ZSgpIGF0IGZyZWUsIGFuZCBhCmRldl9kaXNjb25uZWN0IGNh
+bGxiYWNrIHRoYXQgd2Fsa3Mgb3Blbl9saXN0LCBzdG9wcyBSVU5OSU5HL0RSQUlOSU5HLwpQQVVT
+RUQgc3RyZWFtcywgc2V0cyBTTkRSVl9QQ01fU1RBVEVfRElTQ09OTkVDVEVEIGFuZCB3YWtlcyB3
+YWl0ZXJzLgpUaGUgY3VycmVudCB0cmVlIHJlbW92ZWQgYWxsIG9mIGl0IGF0IHRoZSBzdHJ1Y3R1
+cmUgbGV2ZWw6IHN0cnVjdApzbmRfY29tcHJfZmlsZSBubyBsb25nZXIgaGFzIGEgbGlzdCBub2Rl
+IGFuZCBzdHJ1Y3Qgc25kX2NvbXByIG5vIGxvbmdlcgpoYXMgb3Blbl9saXN0LiAgQ29uc2VxdWVu
+dGx5IHNuZF9jYXJkX2Rpc2Nvbm5lY3Rfc3luYygpLCB3aGljaCB3YWl0cyBmb3IKY2FyZC0+Zmls
+ZXNfbGlzdCB0byBkcmFpbiwgcmV0dXJucyBpbW1lZGlhdGVseSB3aXRoIHRoZSBjb21wcmVzcyBm
+ZCBzdGlsbApvcGVuLCBhbmQgdGhlIHN1YnNlcXVlbnQgc25kX3NvY19yZW1vdmVfcGNtX3J1bnRp
+bWUoKSAvIHNuZF9jYXJkX2ZyZWUoKQpmcmVlcyB0aGUgb2JqZWN0cyB0aGUgZmQgc3RpbGwgcG9p
+bnRzIHRvLgoKVGhlIGRldGFpbGVkIGRlc2NyaXB0aW9uOgoKKiBUZXN0IGVudmlyb25tZW50IC8g
+YWZmZWN0ZWQgdmVyc2lvbgoKICBMaW51eCB2ZXJzaW9uIDcuMy4wIChnY2MgMTMuMy4wLCBHTlUg
+bGQgMi40MikgIzYgU01QIFBSRUVNUFRfRFlOQU1JQywKICB2YW5pbGxhIDcuMyBzb3VyY2UgdHJl
+ZSB3aXRoIEtBU0FOIGFuZCBRRU1VL0tWTSB4ODZfNjQgKDQgdkNQVSwgNCBHQikuCiAgVGhlIG9u
+bHkgYnVpbGQtdGltZSBjaGFuZ2VzIHdlcmUgdGVtcG9yYXJ5IEtjb25maWcgcHJvbXB0cyB0byBi
+dWlsZAogIHNuZC1jb21wcmVzcy5rbyBhbmQgc25kLXJhd21pZGkua28gYXMgbW9kdWxlczsgbm8g
+ZnVuY3Rpb25hbCBzb3VyY2UKICBjaGFuZ2Ugd2FzIG1hZGUgZm9yIHRoaXMgY2FzZS4gIFRoZSBl
+eGFjdCB2ZXJzaW9uIGxpbmUgaXMgaW4KICBldmlkZW5jZS9rZXJuZWwtdmVyc2lvbi50eHQuCgoq
+IFJvb3QgY2F1c2UgYW5kIG9iamVjdCBsaWZldGltZQoKICBUaGUgb3BlbiBwYXRoLCBzb3VuZC9j
+b3JlL2NvbXByZXNzX29mZmxvYWQuYzo3NS0xNDMsIGRvZXMgb25seToKCiAgICBjb21wciA9IHNu
+ZF9sb29rdXBfbWlub3JfZGF0YShpbWlub3IoaW5vZGUpLCBTTkRSVl9ERVZJQ0VfVFlQRV9DT01Q
+UkVTUyk7CiAgICAuLi4KICAgIGRhdGEgPSBremFsbG9jX29iaigqZGF0YSk7CiAgICBydW50aW1l
+ID0ga3phbGxvY19vYmooKnJ1bnRpbWUpOwogICAgZGF0YS0+c3RyZWFtLmRldmljZSA9IGNvbXBy
+OwogICAgZi0+cHJpdmF0ZV9kYXRhID0gZGF0YTsKICAgIHNjb3BlZF9ndWFyZChtdXRleCwgJmNv
+bXByLT5sb2NrKQogICAgICAgIHJldCA9IGNvbXByLT5vcHMtPm9wZW4oJmRhdGEtPnN0cmVhbSk7
+CiAgICBzbmRfY2FyZF91bnJlZihjb21wci0+Y2FyZCk7CgogIFRoZXJlIGlzIG5vIHNuZF9jYXJk
+X2ZpbGVfYWRkKGNvbXByLT5jYXJkLCBmKSwgbm8KICB0cnlfbW9kdWxlX2dldChjb21wci0+Y2Fy
+ZC0+bW9kdWxlKSwgYW5kIG5vIGxpc3RfYWRkX3RhaWwoKSBpbnRvIGFuCiAgb3BlbiBsaXN0LiAg
+VGhlIHN0cnVjdHVyZSBkZWZpbml0aW9ucyB3ZXJlIGNoYW5nZWQgdG9vOgogIHNvdW5kL2NvcmUv
+Y29tcHJlc3Nfb2ZmbG9hZC5jOjQ0LTQ5IGhhcwoKICAgIHN0cnVjdCBzbmRfY29tcHJfZmlsZSB7
+CiAgICAgICAgdW5zaWduZWQgbG9uZyBjYXBzOwogICAgICAgIHN0cnVjdCBzbmRfY29tcHJfc3Ry
+ZWFtIHN0cmVhbTsKICAgIH07CgogIHdoaWxlIGluY2x1ZGUvc291bmQvY29tcHJlc3NfZHJpdmVy
+Lmg6MTk0LTIxMCBoYXMgbm8gb3Blbl9saXN0IG1lbWJlcgogIGluIHN0cnVjdCBzbmRfY29tcHIu
+CgogIFRoZSBmcmVlIHBhdGgsIHNvdW5kL2NvcmUvY29tcHJlc3Nfb2ZmbG9hZC5jOjE0NS0xNzAs
+IGNhbGxzCiAgY2FuY2VsX2RlbGF5ZWRfd29ya19zeW5jKCksIG9wdGlvbmFsbHkgdHJpZ2dlcihT
+VE9QKSwgdGFzay1mcmVlLAogIG9wcy0+ZnJlZSgpIGFuZCBrZnJlZSgpIC0tIGJ1dCBubyBsaXN0
+X2RlbF9pbml0KCksIG5vIG1vZHVsZV9wdXQoKSBhbmQKICBubyBzbmRfY2FyZF9maWxlX3JlbW92
+ZSgpLgoKICBUaGUgZGlzY29ubmVjdCBjYWxsYmFjaywgc291bmQvY29yZS9jb21wcmVzc19vZmZs
+b2FkLmM6MTQzMi0xNDQ3LCBpcwogIG9ubHk6CgogICAgY29tcHIgPSBkZXZpY2UtPmRldmljZV9k
+YXRhOwogICAgc25kX3VucmVnaXN0ZXJfZGV2aWNlKGNvbXByLT5kZXYpOwogICAgcmV0dXJuIDA7
+CgogIEl0IGRvZXMgbm90IHdhbGsgb3BlbiBzdHJlYW1zLCBkb2VzIG5vdCBzdG9wIHRoZW0sIGRv
+ZXMgbm90IHNldAogIFNORFJWX1BDTV9TVEFURV9ESVNDT05ORUNURUQgYW5kIGRvZXMgbm90IHdh
+a2UgcG9sbC9yZWFkIHdhaXRlcnMuCgogIFVwc3RyZWFtIGJ5IGNvbnRyYXN0IGhhcyBhbGwgb2Yg
+dGhlc2U6IHNuZF9jYXJkX2ZpbGVfYWRkKCkgYW5kCiAgdHJ5X21vZHVsZV9nZXQoKSBpbiBzbmRf
+Y29tcHJfb3BlbigpLCBkYXRhLT5saXN0IGxpbmtlZCBpbnRvCiAgY29tcHItPm9wZW5fbGlzdCwg
+bWF0Y2hpbmcgbGlzdF9kZWxfaW5pdCgpL21vZHVsZV9wdXQoKS8KICBzbmRfY2FyZF9maWxlX3Jl
+bW92ZSgpIGluIHNuZF9jb21wcl9mcmVlKCksIGFuZCBhIGRldl9kaXNjb25uZWN0IHRoYXQKICB0
+YWtlcyBjb21wci0+bG9jaywgc3RvcHMgYWN0aXZlIHN0cmVhbXMgYW5kIHNldHMgRElTQ09OTkVD
+VEVELgoKKiBXaHkgY2FyZCByZW1vdmFsIHJlYWNoZXMgdGhlIGZyZWVkIG9iamVjdHMKCiAgVGhl
+IEFTb0MgY2xlYW51cCBvcmRlciBpcyBpbiBzb3VuZC9zb2Mvc29jLWNvcmUuYzoxOTQ0LTE5ODE6
+CiAgc29jX2NsZWFudXBfY2FyZF9yZXNvdXJjZXMoKSBjYWxscyBzbmRfY2FyZF9kaXNjb25uZWN0
+X3N5bmMoKSBmaXJzdCwKICB0aGVuIGZvcl9lYWNoX2NhcmRfcnRkc19zYWZlKCkgLT4gc25kX3Nv
+Y19yZW1vdmVfcGNtX3J1bnRpbWUoKSwgdGhlbgogIHNuZF9zb2NfY2FyZF9yZW1vdmUoKSwgdGhl
+biBzbmRfY2FyZF9mcmVlKCkuICBzbmRfY2FyZF9kaXNjb25uZWN0X3N5bmMoKQogIChzb3VuZC9j
+b3JlL2luaXQuYzo1NzEtNTgyKSB3YWl0cyB1bmRlciBmaWxlc19sb2NrIGZvciBmaWxlc19saXN0
+IHRvCiAgYmVjb21lIGVtcHR5LiAgQSBjb21wcmVzcyBmZCBpcyBub3QgaW4gZmlsZXNfbGlzdCwg
+c28gdGhpcyB3YWl0IGlzIGEKICBuby1vcCBmb3IgaXQuICBzbmRfc29jX3JlbW92ZV9wY21fcnVu
+dGltZSgpIHRoZW4gcmVsZWFzZXMgcnRkIHZpYQogIGRldmljZV91bnJlZ2lzdGVyKHJ0ZC0+ZGV2
+KSwgd2hpbGUgdGhlIGZkIHN0aWxsIGhhcwogIGRhdGEtPnN0cmVhbS5kZXZpY2UgPSBjb21wciBh
+bmQgZGF0YS0+c3RyZWFtLnByaXZhdGVfZGF0YSA9IHJ0ZC4KICBzbmRfY29tcHJfaW9jdGwoKSwg
+c25kX2NvbXByX3JlYWQoKSwgc25kX2NvbXByX3dyaXRlKCkgYW5kCiAgc25kX2NvbXByX3BvbGwo
+KSBhbGwgYmVnaW4gd2l0aAogIGd1YXJkKG11dGV4KSgmc3RyZWFtLT5kZXZpY2UtPmxvY2spLCBp
+LmUuIHRoZXkgbG9jayBhIG11dGV4IGluc2lkZQogIGZyZWVkIHN0cnVjdCBzbmRfY29tcHIgYmVm
+b3JlIGxvb2tpbmcgYXQgc3RyZWFtLT5ydW50aW1lLgoKKiBUcmlnZ2VyIG1vZGVsCgogIC0gQSBj
+b21wcmVzcyBvZmZsb2FkIGRldmljZSBtdXN0IGV4aXN0IChyZWFsIEFTb0MgY29tcHJlc3MgZHJp
+dmVyLCBvcgogICAgdGhlIGF0dGFjaGVkIHRlc3QgbW9kdWxlKTsKICAtIGEgdXNlciB3aXRoIGFj
+Y2VzcyB0byAvZGV2L3NuZC9jb21wckMqRCogb3BlbnMgaXQ7CiAgLSB0aGUgY2FyZCBpcyByZW1v
+dmVkL3VuYm91bmQgKGRyaXZlciB1bmJpbmQsIGNhcmQgdW5yZWdpc3RlciwgbW9kdWxlCiAgICB1
+bmxvYWQsIG9yIHRoZSB0ZXN0IG1vZHVsZSdzIGZyZWUgcGFyYW1ldGVyKTsKICAtIHRoZSBzYW1l
+IGZkIGlzIHVzZWQgYWdhaW4gKGlvY3RsL3JlYWQvd3JpdGUvcG9sbCkgb3IgY2xvc2VkLgoKICBU
+aGUgY2FyZC1yZW1vdmFsIHN0ZXAgbm9ybWFsbHkgbmVlZHMgYSBwcml2aWxlZ2VkIGFjdGlvbiwg
+YnV0IHRoZSBmZAogIGFuZCB0aGUgcmVtb3ZhbCBjYW4gYmVsb25nIHRvIGRpZmZlcmVudCBwcm9j
+ZXNzZXMgYW5kIHRoZSBrZXJuZWwgbXVzdAogIG5vdCBmcmVlIG9iamVjdHMgdGhhdCBhbiBvcGVu
+IGZpbGUgc3RpbGwgcmVmZXJlbmNlcy4gIE5vIGhhcmR3YXJlIGlzCiAgcmVxdWlyZWQgZm9yIHRo
+ZSByZXByb2R1Y2VyLgoKKiBSZXByb2R1Y2VyIChhdHRhY2hlZDogc25kY29yZV9jb21wcmVzcy5j
+LCBzbmRjb3JlX3Rlc3QuYykgYW5kIHJlc3VsdHMgb24gNy4zCgogIHNuZGNvcmVfY29tcHJlc3Mu
+YyByZWdpc3RlcnMgb25lIGNhcmQgd2l0aCBvbmUgY29tcHJlc3MgZGV2aWNlIGFuZCBhCiAgbWlu
+aW1hbCBzdHJ1Y3Qgc25kX2NvbXByX29wczsgdGhlIGNhcmQgcHJpdmF0ZV9mcmVlIGZ1bmN0aW9u
+IGtmcmVlKClzCiAgdGhlIHN0cnVjdCBzbmRfY29tcHIsIG1hdGNoaW5nIEFTb0MncyBkZXZtX2t6
+YWxsb2MgbGlmZXRpbWUuICBUaGUKICB1c2Vyc3BhY2UgcHJvZ3JhbSBzbmRjb3JlX3Rlc3QuYyBv
+cGVucyAvZGV2L3NuZC9jb21wckMwRDAsIHdyaXRlcyB0aGUKICBtb2R1bGUncyAiZnJlZSIgcGFy
+YW1ldGVyIHRvIGNhbGwgc25kX2NhcmRfZnJlZSgpLCB0aGVuIGNhbGxzIGlvY3RsKCkKICBvbiB0
+aGUgc3RhbGUgZmQuCgogIE9ic2VydmVkIChldmlkZW5jZS9tcjAzLWthc2FuLXVhZi5sb2cpOgoK
+ICAgIGZyZWU6IGNhbGxpbmcgc25kX2NhcmRfZnJlZSguLi4pCiAgICBCVUc6IEtBU0FOOiBzbGFi
+LXVzZS1hZnRlci1mcmVlIGluIG11dGV4X2xvY2srMHg3Mi8weGUwCiAgICBXcml0ZSBvZiBzaXpl
+IDggYXQgYWRkciAuLi4gYnkgdGFzayBzbmRjb3JlX3Rlc3QvODgKICAgIENhbGwgVHJhY2U6CiAg
+ICAgbXV0ZXhfbG9jaysweDcyLzB4ZTAKICAgICBzbmRfY29tcHJfaW9jdGwrMHhkMi8weGZmMCBb
+c25kX2NvbXByZXNzXQogICAgIC4uLgogICAgQlVHOiBLQVNBTjogc2xhYi11c2UtYWZ0ZXItZnJl
+ZSBpbiBtdXRleF91bmxvY2srMHg2Yy8weGQwCiAgICAgc25kX2NvbXByX2lvY3RsKzB4MWQzLzB4
+ZmYwIFtzbmRfY29tcHJlc3NdCiAgICBLQVNBTiBidWcgY291bnQ6IDIKCiAgVGhlIGJ1ZyBjb3Vu
+dCBpcyB0aGUgbnVtYmVyIG9mIEtBU0FOIHJlcG9ydHMgY29sbGVjdGVkIGluIHRoYXQgcnVuOwog
+IHRoZSBmaXJzdCByZXBvcnQgaXMgdGhlIG11dGV4X2xvY2soKSBpbnNpZGUgdGhlIGlvY3RsIGVu
+dHJ5LgoKCgoqIFN1Z2dlc3RlZCBkaXJlY3Rpb24gCgogIFJlc3RvcmUgdGhlIHVwc3RyZWFtIGxp
+ZmV0aW1lIGluIG9uZSBzZXJpZXM6CiAgLSBzbmRfY29tcHJfb3BlbigpOiBzbmRfY2FyZF9maWxl
+X2FkZCgpLCB0cnlfbW9kdWxlX2dldCgpLCBsaW5rCiAgICBkYXRhLT5saXN0IGludG8gY29tcHIt
+Pm9wZW5fbGlzdDsKICAtIHNuZF9jb21wcl9mcmVlKCk6IGxpc3RfZGVsX2luaXQoKSwgbW9kdWxl
+X3B1dCgpIGFuZAogICAgc25kX2NhcmRfZmlsZV9yZW1vdmUoKSwgd2l0aCB0aGUgZXJyb3IgcGF0
+aHMgdW5kb2luZyBpbiByZXZlcnNlOwogIC0gc25kX2NvbXByZXNzX2Rldl9kaXNjb25uZWN0KCk6
+IHdhbGsgY29tcHItPm9wZW5fbGlzdCB1bmRlcgogICAgY29tcHItPmxvY2ssIFNUT1AgUlVOTklO
+Ry9EUkFJTklORy9QQVVTRUQgc3RyZWFtcywgc2V0CiAgICBTTkRSVl9QQ01fU1RBVEVfRElTQ09O
+TkVDVEVEIGFuZCB3YWtlIHdhaXRlcnM7CiAgLSByZXN0b3JlIHN0cnVjdCBzbmRfY29tcHJfZmls
+ZS5saXN0IGFuZCBzdHJ1Y3Qgc25kX2NvbXByLm9wZW5fbGlzdC4KCgogIFBsZWFzZSBrZWVwIG1l
+IGluIENjOyBJIGFtIG5vdCBzdWJzY3JpYmVkIHRvIHRoZSBsaXN0cy4KClJlZ2FyZHMsCkhhbnhp
+YW5nIFh1Cnh1aHhAaHVzdC5lZHUuY24K
+------=_Part_586060_143037616.1795333412174
+Content-Type: text/plain; name=sndcore_test.c
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="sndcore_test.c"
 
-The lock is independent of sdw_dev_lock so nested handlers continue to
-run outside the peripheral callback lock. Peripherals that can operate
-without an IRQ can still probe if mapping setup fails. Return early on
-a zero mapping so there is no cleanup action to register for IRQ 0.
+Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKI2RlZmluZSBfR05VX1NPVVJDRQoj
+aW5jbHVkZSA8c3RkaW8uaD4KI2luY2x1ZGUgPHN0ZGxpYi5oPgojaW5jbHVkZSA8c3RyaW5nLmg+
+CiNpbmNsdWRlIDxmY250bC5oPgojaW5jbHVkZSA8dW5pc3RkLmg+CiNpbmNsdWRlIDxlcnJuby5o
+PgojaW5jbHVkZSA8cHRocmVhZC5oPgojaW5jbHVkZSA8c3lzL2lvY3RsLmg+CiNpbmNsdWRlIDxz
+b3VuZC9hc291bmQuaD4KCnN0YXRpYyBpbnQgd3JpdGVfZnJlZShjb25zdCBjaGFyICptb2QpCnsK
+CWNoYXIgcGF0aFsyNTZdOwoJaW50IGZkOwoKCXNucHJpbnRmKHBhdGgsIHNpemVvZihwYXRoKSwg
+Ii9zeXMvbW9kdWxlLyVzL3BhcmFtZXRlcnMvZnJlZSIsIG1vZCk7CglmZCA9IG9wZW4ocGF0aCwg
+T19XUk9OTFkpOwoJaWYgKGZkIDwgMCkgewoJCWZwcmludGYoc3RkZXJyLCAib3BlbiAlczogJXNc
+biIsIHBhdGgsIHN0cmVycm9yKGVycm5vKSk7CgkJcmV0dXJuIC0xOwoJfQoJaWYgKHdyaXRlKGZk
+LCAiMVxuIiwgMikgIT0gMikKCQlmcHJpbnRmKHN0ZGVyciwgIndyaXRlICVzOiAlc1xuIiwgcGF0
+aCwgc3RyZXJyb3IoZXJybm8pKTsKCWNsb3NlKGZkKTsKCXJldHVybiAwOwp9CgpzdGF0aWMgaW50
+IGRvX2h3ZGVwKHZvaWQpCnsKCXN0cnVjdCBzbmRfaHdkZXBfZHNwX2ltYWdlIGltZzsKCWludCBm
+ZDsKCglmZCA9IG9wZW4oIi9kZXYvc25kL2h3QzBEMCIsIE9fUkRXUik7CglpZiAoZmQgPCAwKSB7
+CgkJZnByaW50ZihzdGRlcnIsICJvcGVuIGh3ZGVwOiAlc1xuIiwgc3RyZXJyb3IoZXJybm8pKTsK
+CQlyZXR1cm4gMTsKCX0KCW1lbXNldCgmaW1nLCAwLCBzaXplb2YoaW1nKSk7CglpbWcuaW5kZXgg
+PSAwOwoJaW1nLmxlbmd0aCA9IDA7CglpbWcuaW1hZ2UgPSAwOwoJZm9yIChpbnQgaSA9IDA7IGkg
+PCA0OyBpKyspIHsKCQlpZiAoaW9jdGwoZmQsIFNORFJWX0hXREVQX0lPQ1RMX0RTUF9MT0FELCAm
+aW1nKSA8IDApCgkJCWZwcmludGYoc3RkZXJyLCAiaW9jdGwgZHNwX2xvYWQ6ICVzXG4iLCBzdHJl
+cnJvcihlcnJubykpOwoJfQoJY2xvc2UoZmQpOwoJcHJpbnRmKCJIV0RFUDogaW9jdGwgZG9uZSAo
+bWF4X2FjdGl2ZSBzaG91bGQgYmUgPj0gMilcbiIpOwoJc2xlZXAoMSk7CglyZXR1cm4gMDsKfQoK
+c3RhdGljIHZvaWQgKmh3ZGVwX3RocmVhZCh2b2lkICphcmcpCnsKCWludCBmZCA9ICooaW50ICop
+YXJnOwoJc3RydWN0IHNuZF9od2RlcF9kc3BfaW1hZ2UgaW1nOwoKCW1lbXNldCgmaW1nLCAwLCBz
+aXplb2YoaW1nKSk7CglpbWcuaW5kZXggPSAwOwoJaW9jdGwoZmQsIFNORFJWX0hXREVQX0lPQ1RM
+X0RTUF9MT0FELCAmaW1nKTsKCXJldHVybiBOVUxMOwp9CgpzdGF0aWMgaW50IGRvX2h3ZGVwX3Jh
+Y2Uodm9pZCkKewoJcHRocmVhZF90IHRoWzRdOwoJaW50IGZkOwoKCWZkID0gb3BlbigiL2Rldi9z
+bmQvaHdDMEQwIiwgT19SRFdSKTsKCWlmIChmZCA8IDApIHsKCQlmcHJpbnRmKHN0ZGVyciwgIm9w
+ZW4gaHdkZXA6ICVzXG4iLCBzdHJlcnJvcihlcnJubykpOwoJCXJldHVybiAxOwoJfQoJZm9yIChp
+bnQgaSA9IDA7IGkgPCA0OyBpKyspCgkJcHRocmVhZF9jcmVhdGUoJnRoW2ldLCBOVUxMLCBod2Rl
+cF90aHJlYWQsICZmZCk7Cglmb3IgKGludCBpID0gMDsgaSA8IDQ7IGkrKykKCQlwdGhyZWFkX2pv
+aW4odGhbaV0sIE5VTEwpOwoJY2xvc2UoZmQpOwoJcHJpbnRmKCJIV0RFUDogNCBjb25jdXJyZW50
+IERTUF9MT0FEIGlzc3VlZFxuIik7CglzbGVlcCgxKTsKCXJldHVybiAwOwp9CgpzdGF0aWMgaW50
+IGRvX2NvbXByZXNzKHZvaWQpCnsKCWludCBmZDsKCglmZCA9IG9wZW4oIi9kZXYvc25kL2NvbXBy
+QzBEMCIsIE9fV1JPTkxZKTsKCWlmIChmZCA8IDApIHsKCQlmcHJpbnRmKHN0ZGVyciwgIm9wZW4g
+Y29tcHJlc3M6ICVzXG4iLCBzdHJlcnJvcihlcnJubykpOwoJCXJldHVybiAxOwoJfQoJcHJpbnRm
+KCJDT01QUkVTUzogZmQgb3BlbiwgZnJlZWluZyBjYXJkXG4iKTsKCXdyaXRlX2ZyZWUoInNuZGNv
+cmVfY29tcHJlc3MiKTsKCXByaW50ZigiQ09NUFJFU1M6IGNhcmQgZnJlZSByZXR1cm5lZCwgaXNz
+dWluZyBpb2N0bCBvbiBzdGFsZSBmZFxuIik7CglpZiAoaW9jdGwoZmQsIDB4NDMwMCwgMCkgPCAw
+KQoJCWZwcmludGYoc3RkZXJyLCAiaW9jdGwgc3RhbGUgZmQ6ICVzXG4iLCBzdHJlcnJvcihlcnJu
+bykpOwoJcHJpbnRmKCJDT01QUkVTUzogaW9jdGwgcmV0dXJuZWQgd2l0aG91dCBLQVNBTiByZXBv
+cnRcbiIpOwoJY2xvc2UoZmQpOwoJc2xlZXAoMSk7CglyZXR1cm4gMDsKfQoKc3RhdGljIGludCBk
+b19yYXdtaWRpKHZvaWQpCnsKCWludCBmZDsKCglmZCA9IG9wZW4oIi9kZXYvc25kL21pZGlDMEQw
+IiwgT19SRE9OTFkpOwoJaWYgKGZkIDwgMCkgewoJCWZwcmludGYoc3RkZXJyLCAib3BlbiByYXdt
+aWRpOiAlc1xuIiwgc3RyZXJyb3IoZXJybm8pKTsKCQlyZXR1cm4gMTsKCX0KCXByaW50ZigiUkFX
+TUlESTogZmQgb3BlbiwgbGV0dGluZyBmbG9vZCB0aHJlYWQgcnVuXG4iKTsKCXNsZWVwKDIpOwoJ
+cHJpbnRmKCJSQVdNSURJOiBjbG9zaW5nICh0cmlnZ2VyL2NhbmNlbC9mcmVlIHdpbmRvdylcbiIp
+OwoJY2xvc2UoZmQpOwoJc2xlZXAoMyk7CglwcmludGYoIlJBV01JREk6IGNsb3NlIHJldHVybmVk
+LCBmcmVlaW5nIGNhcmRcbiIpOwoJd3JpdGVfZnJlZSgic25kY29yZV9yYXdtaWRpIik7CglzbGVl
+cCgxKTsKCXJldHVybiAwOwp9CgppbnQgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCnsKCWlm
+IChhcmdjIDwgMikgewoJCWZwcmludGYoc3RkZXJyLCAidXNhZ2U6ICVzIGphY2tmcmVlfGNvbXBy
+ZXNzfHJhd21pZGl8aHdkZXB8aHdkZXAtcmFjZVxuIiwgYXJndlswXSk7CgkJcmV0dXJuIDI7Cgl9
+CglpZiAoIXN0cmNtcChhcmd2WzFdLCAiamFja2ZyZWUiKSkKCQlyZXR1cm4gd3JpdGVfZnJlZSgi
+c25kY29yZV9qYWNrIik7CglpZiAoIXN0cmNtcChhcmd2WzFdLCAiY29tcHJlc3MiKSkKCQlyZXR1
+cm4gZG9fY29tcHJlc3MoKTsKCWlmICghc3RyY21wKGFyZ3ZbMV0sICJyYXdtaWRpIikpCgkJcmV0
+dXJuIGRvX3Jhd21pZGkoKTsKCWlmICghc3RyY21wKGFyZ3ZbMV0sICJod2RlcCIpKQoJCXJldHVy
+biBkb19od2RlcCgpOwoJaWYgKCFzdHJjbXAoYXJndlsxXSwgImh3ZGVwLXJhY2UiKSkKCQlyZXR1
+cm4gZG9faHdkZXBfcmFjZSgpOwoJZnByaW50ZihzdGRlcnIsICJ1bmtub3duIG1vZGUgJXNcbiIs
+IGFyZ3ZbMV0pOwoJcmV0dXJuIDI7Cn0K
+------=_Part_586060_143037616.1795333412174
+Content-Type: application/octet-stream; name=sndcore_parent.h
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="sndcore_parent.h"
 
-Fixes: a5fef9baa87f ("soundwire: bus: Move irq mapping cleanup into =
-devres")
-Link: https://lore.kernel.org/r/d7761226-31b0-4d0f-bc56-9c4d5e42bf=
-ba@opensource.cirrus.com
-Signed-off-by: Jizhou Tong <fqwqf@fqwqf.xyz>
----
-This came up while moving WCD938x to SoundWire domain IRQs. Richard
-previously pointed out the stale IRQ on release.
+LyogU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgKi8KI2lmbmRlZiBTTkRDT1JFX1BB
+UkVOVF9ICiNkZWZpbmUgU05EQ09SRV9QQVJFTlRfSAoKI2luY2x1ZGUgPGxpbnV4L2RldmljZS5o
+PgojaW5jbHVkZSA8c291bmQvY29yZS5oPgoKc3RhdGljIHN0cnVjdCBkZXZpY2UgKnNuZGNvcmVf
+cGFyZW50OwoKc3RhdGljIGlubGluZSBpbnQgc25kY29yZV9jYXJkX25ldyhzdHJ1Y3Qgc25kX2Nh
+cmQgKipjYXJkLCBjb25zdCBjaGFyICpuYW1lKQp7CglpbnQgZXJyOwoKCXNuZGNvcmVfcGFyZW50
+ID0gcm9vdF9kZXZpY2VfcmVnaXN0ZXIobmFtZSk7CglpZiAoSVNfRVJSKHNuZGNvcmVfcGFyZW50
+KSkgewoJCWVyciA9IFBUUl9FUlIoc25kY29yZV9wYXJlbnQpOwoJCXNuZGNvcmVfcGFyZW50ID0g
+TlVMTDsKCQlyZXR1cm4gZXJyOwoJfQoJZXJyID0gc25kX2NhcmRfbmV3KHNuZGNvcmVfcGFyZW50
+LCAwLCAic25kY29yZSIsIFRISVNfTU9EVUxFLCAwLCBjYXJkKTsKCWlmIChlcnIgPCAwKSB7CgkJ
+cm9vdF9kZXZpY2VfdW5yZWdpc3RlcihzbmRjb3JlX3BhcmVudCk7CgkJc25kY29yZV9wYXJlbnQg
+PSBOVUxMOwoJfQoJcmV0dXJuIGVycjsKfQoKc3RhdGljIGlubGluZSB2b2lkIHNuZGNvcmVfcGFy
+ZW50X3B1dCh2b2lkKQp7CglpZiAoc25kY29yZV9wYXJlbnQpIHsKCQlyb290X2RldmljZV91bnJl
+Z2lzdGVyKHNuZGNvcmVfcGFyZW50KTsKCQlzbmRjb3JlX3BhcmVudCA9IE5VTEw7Cgl9Cn0KCiNl
+bmRpZgo=
+------=_Part_586060_143037616.1795333412174
+Content-Type: text/plain; name=sndcore_compress.c
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="sndcore_compress.c"
 
-The rwsem lets =
-overlapping alerts run and keeps per-slave state small.
-Reusing sdw_dev_lock would bring it into nested handlers. A per-slave
-SRCU domain would also have to drain readers during teardown. On this
-base, mapping setup precedes the peripheral probe and sdw_dev_lock.
-Unbind still holds the device mutex while draining readers. Do any
-domain IRQ handlers depend on work that needs that same device mutex?
+Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKI2luY2x1ZGUgPGxpbnV4L21vZHVs
+ZS5oPgojaW5jbHVkZSA8bGludXgva2VybmVsLmg+CiNpbmNsdWRlIDxsaW51eC9zbGFiLmg+CiNp
+bmNsdWRlIDxzb3VuZC9jb3JlLmg+CiNpbmNsdWRlIDxzb3VuZC9jb21wcmVzc19kcml2ZXIuaD4K
+I2luY2x1ZGUgInNuZGNvcmVfcGFyZW50LmgiCgpzdGF0aWMgc3RydWN0IHNuZF9jYXJkICpjYXJk
+OwpzdGF0aWMgc3RydWN0IHNuZF9jb21wciAqY29tcHI7CgpzdGF0aWMgaW50IGNfb3BlbihzdHJ1
+Y3Qgc25kX2NvbXByX3N0cmVhbSAqc3RyZWFtKSB7IHJldHVybiAwOyB9CnN0YXRpYyBpbnQgY19m
+cmVlKHN0cnVjdCBzbmRfY29tcHJfc3RyZWFtICpzdHJlYW0pIHsgcmV0dXJuIDA7IH0Kc3RhdGlj
+IGludCBjX3RyaWdnZXIoc3RydWN0IHNuZF9jb21wcl9zdHJlYW0gKnN0cmVhbSwgaW50IGNtZCkg
+eyByZXR1cm4gMDsgfQoKc3RhdGljIHN0cnVjdCBzbmRfY29tcHJfb3BzIGNvbXByX29wcyA9IHsK
+CS5vcGVuID0gY19vcGVuLAoJLmZyZWUgPSBjX2ZyZWUsCgkudHJpZ2dlciA9IGNfdHJpZ2dlciwK
+fTsKCnN0YXRpYyBpbnQgZnJlZV9zZXQoY29uc3QgY2hhciAqdmFsLCBjb25zdCBzdHJ1Y3Qga2Vy
+bmVsX3BhcmFtICprcCkKewoJaWYgKGNhcmQpIHsKCQlwcl9pbmZvKCJmcmVlOiBjYWxsaW5nIHNu
+ZF9jYXJkX2ZyZWUoJXApXG4iLCBjYXJkKTsKCQlzbmRfY2FyZF9mcmVlKGNhcmQpOwoJCWNhcmQg
+PSBOVUxMOwoJfQoJcmV0dXJuIDA7Cn0Kc3RhdGljIGNvbnN0IHN0cnVjdCBrZXJuZWxfcGFyYW1f
+b3BzIGZyZWVfb3BzID0geyAuc2V0ID0gZnJlZV9zZXQgfTsKbW9kdWxlX3BhcmFtX2NiKGZyZWUs
+ICZmcmVlX29wcywgTlVMTCwgMDIwMCk7CgpzdGF0aWMgdm9pZCBjYXJkX3ByaXZhdGVfZnJlZShz
+dHJ1Y3Qgc25kX2NhcmQgKmMpCnsKCXByX2luZm8oImNhcmQgcHJpdmF0ZV9mcmVlOiBrZnJlZShj
+b21wcj0lcClcbiIsIGNvbXByKTsKCWtmcmVlKGNvbXByKTsKCWNvbXByID0gTlVMTDsKfQoKc3Rh
+dGljIGludCBfX2luaXQgc25kY29yZV9jb21wcmVzc19pbml0KHZvaWQpCnsKCWludCBlcnI7CgoJ
+ZXJyID0gc25kY29yZV9jYXJkX25ldygmY2FyZCwgInNuZGNvcmVfY29tcHJlc3MiKTsKCWlmIChl
+cnIgPCAwKQoJCXJldHVybiBlcnI7CgoJY29tcHIgPSBremFsbG9jKHNpemVvZigqY29tcHIpLCBH
+RlBfS0VSTkVMKTsKCWlmICghY29tcHIpIHsKCQlzbmRfY2FyZF9mcmVlKGNhcmQpOwoJCWNhcmQg
+PSBOVUxMOwoJCXNuZGNvcmVfcGFyZW50X3B1dCgpOwoJCXJldHVybiAtRU5PTUVNOwoJfQoJY29t
+cHItPm9wcyA9ICZjb21wcl9vcHM7CgljYXJkLT5wcml2YXRlX2ZyZWUgPSBjYXJkX3ByaXZhdGVf
+ZnJlZTsKCgllcnIgPSBzbmRfY29tcHJlc3NfbmV3KGNhcmQsIDAsIFNORF9DT01QUkVTU19QTEFZ
+QkFDSywgInNuZGNvcmUiLCBjb21wcik7CglpZiAoZXJyIDwgMCkgewoJCWtmcmVlKGNvbXByKTsK
+CQljb21wciA9IE5VTEw7CgkJc25kX2NhcmRfZnJlZShjYXJkKTsKCQljYXJkID0gTlVMTDsKCQlz
+bmRjb3JlX3BhcmVudF9wdXQoKTsKCQlyZXR1cm4gZXJyOwoJfQoJZXJyID0gc25kX2NhcmRfcmVn
+aXN0ZXIoY2FyZCk7CglpZiAoZXJyIDwgMCkgewoJCXNuZF9jYXJkX2ZyZWUoY2FyZCk7CgkJY2Fy
+ZCA9IE5VTEw7CgkJc25kY29yZV9wYXJlbnRfcHV0KCk7CgkJcmV0dXJuIGVycjsKCX0KCXByX2lu
+Zm8oImNvbXByZXNzIGNhcmQgcmVnaXN0ZXJlZFxuIik7CglyZXR1cm4gMDsKfQoKc3RhdGljIHZv
+aWQgX19leGl0IHNuZGNvcmVfY29tcHJlc3NfZXhpdCh2b2lkKQp7CglpZiAoY2FyZCkgewoJCXNu
+ZF9jYXJkX2ZyZWUoY2FyZCk7CgkJY2FyZCA9IE5VTEw7Cgl9CglzbmRjb3JlX3BhcmVudF9wdXQo
+KTsKfQoKbW9kdWxlX2luaXQoc25kY29yZV9jb21wcmVzc19pbml0KTsKbW9kdWxlX2V4aXQoc25k
+Y29yZV9jb21wcmVzc19leGl0KTsKTU9EVUxFX0xJQ0VOU0UoIkdQTCIpOwpNT0RVTEVfREVTQ1JJ
+UFRJT04oInNvdW5kL2NvcmUgTVItMDMgY29tcHJlc3Mgb3Blbl9saXN0IHZlcmlmaWVyIik7Cg==
 
-Built soundwire-bus.o with ARCH=3Darm64 W=3D1. In a four-vCPU arm64 guest
-with PROVE_LOCKING and DEBUG_ATOMIC_SLEEP enabled, an emulated peripheral
-ran three rounds of 200 driver-core bind/unbind cycles under concurrent
-alert dispatch. Removal started with an active handler in 514 of the 600
-cycles. To exercise lock ordering against sdw_dev_lock, the test handler
-acquired that lock and slept while holding it. Lockdep remained enabled
-and reported no warnings in any run.
-The physical codec and runtime PM =
-paths still need coverage.
+------=_Part_586060_143037616.1795333412174--
 
- drivers/soundwire/bus.c       |  4 ++--
- drivers/soundwire/irq.c       | 36 +++++++++++++++++++++++++++++++----
- drivers/soundwire/irq.h       |  5 +++++
- drivers/soundwire/slave.c     | =
- 1 +
- include/linux/soundwire/sdw.h |  3 +++
- 5 files changed, 43 =
-insertions(+), 6 deletions(-)
-
-diff --git a/drivers/soundwire/bus.c =
-b/drivers/soundwire/bus.c
-index aeaae5a57c89d8af05cadd6fe55d44856600e781..=
-0bc0ad9e9934e790c27526ff4c736e8d5a2bebaf 100644
---- a/drivers/soundwire/bus=
-.c
-+++ b/drivers/soundwire/bus.c
-@@ -1781,8 +1781,8 @@ static int =
-sdw_handle_slave_alerts(struct sdw_slave *slave)
-=20
- 		/* Update the Slave driver */
- 		if (slave_notify) {
--			if (slave->prop.use_domain_irq && slave->irq)
--				=
-handle_nested_irq(slave->irq);
-+			if (slave->prop.use_domain_irq)
-+				sdw_irq_handle(slave);
-=20
- 			mutex_lock(&slave->sdw_dev_lock);
-=20
-diff --git a/drivers/soundwire/irq.c b/drivers/soundwire/irq.c
-index f18be37efef8e0ef63bad159cc0d9ebb619a89bf..1f13e1093d94863012fb966b555=
-682826f051cb6 100644
---- a/drivers/soundwire/irq.c
-+++ =
-b/drivers/soundwire/irq.c
-@@ -2,10 +2,13 @@
- // Copyright (C) 2023 Cirrus =
-Logic, Inc. and
- //                    Cirrus Logic International =
-Semiconductor Ltd.
-=20
-+#include <linux/cleanup.h>
- #include <linux/device.=
-h>
- #include <linux/fwnode.h>
-+#include <linux/interrupt.h>
- #include <linux/irq.h>
- #include <linux/irqdomain.h>
-+#include <linux/rwsem.h>
- #include <linux/soundwire/sdw.h>
- #include "irq.h"
-=20
-@@ -49,15 +52,40 @@ void sdw_irq_delete(struct =
-sdw_bus *bus)
- static void sdw_irq_dispose_mapping(void *data)
- {
- 	struct sdw_slave *slave =3D data;
-+	unsigned int irq;
-=20
--	irq_dispose_mapping(slave->irq);
-+	scoped_guard(rwsem_write, =
-&slave->irq_lock) {
-+		irq =3D slave->irq;
-+		slave->irq =3D 0;
-+	}
-+
-+	irq_dispose_mapping(irq);
- }
-=20
- void sdw_irq_create_mapping(struct =
-sdw_slave *slave)
- {
--	slave->irq =3D irq_create_mapping(slave->bus->domain=
-, slave->index);
--	if (!slave->irq)
-+	unsigned int irq;
-+
-+	irq =3D irq_create_mapping(slave->bus->domain, slave->index);
-+	if (!irq) {
- 		dev_warn(&slave->dev, "Failed to map IRQ\n");
-+		return;
-+	}
-+
-+	if (devm_add_action(&slave->dev, sdw_irq_dispose_mapping, slave)) {
-+		irq_dispose_mapping(irq);
-+		dev_warn(&slave->dev, "Failed to register =
-IRQ mapping cleanup\n");
-+		return;
-+	}
-+
-+	guard(rwsem_write)(&slave->irq_=
-lock);
-+	slave->irq =3D irq;
-+}
-+
-+void sdw_irq_handle(struct sdw_slave =
-*slave)
-+{
-+	guard(rwsem_read)(&slave->irq_lock);
-=20
--	devm_add_action_or_reset(&slave->dev, sdw_irq_dispose_mapping, slave);
-+	if (slave->irq)
-+		handle_nested_irq(slave->irq);
- }
-diff --git a/drivers/soundwire/irq.h b/drivers/soundwire/irq.h
-index 86e2318409dab8b8137df45586029a6312ee61ff..93e949ec10ca37abea6f0fb8f88=
-e4f016e83259a 100644
---- a/drivers/soundwire/irq.h
-+++ =
-b/drivers/soundwire/irq.h
-@@ -16,6 +16,7 @@ int sdw_irq_create(struct =
-sdw_bus *bus,
- 		   struct fwnode_handle *fwnode);
- void =
-sdw_irq_delete(struct sdw_bus *bus);
- void sdw_irq_create_mapping(struct =
-sdw_slave *slave);
-+void sdw_irq_handle(struct sdw_slave *slave);
-=20
- #else /* CONFIG_IRQ_DOMAIN */
-=20
-@@ -33,6 +34,10 @@ static inline void =
-sdw_irq_create_mapping(struct sdw_slave *slave)
- {
- }
-=20
-+static inline void sdw_irq_handle(struct sdw_slave *slave)
-+{
-+}
-+
- #endif /* CONFIG_IRQ_DOMAIN */
-=20
- #endif /* __SDW_IRQ_H */
-diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
-index a7d2938b031d0f2d32986e93ffb2bd85e7d73520..ffe21bb04ff70e71af681b26cc4=
-75ea65c188c68 100644
---- a/drivers/soundwire/slave.c
-+++ b/drivers/soundwire/slave.c
-@@ -65,6 +65,7 @@ int sdw_slave_add(struct =
-sdw_bus *bus,
- 	slave->probed =3D false;
- 	slave->first_interrupt_done =3D =
-false;
- 	mutex_init(&slave->sdw_dev_lock);
-+	init_rwsem(&slave->irq_lock);
-=20
- 	for (i =3D 0; i < SDW_MAX_PORTS; i++)
- 		init_completion(&slave->port=
-_ready[i]);
-diff --git a/include/linux/soundwire/sdw.h =
-b/include/linux/soundwire/sdw.h
-index f710e5932b4b23c025579b3c8346fe4b5e5f2=
-624..d8c8eae7aed67ae02a140656432a561b28876575 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -15,6 +15,7 @@
- #include <linux/lockdep_types.h>
- #include <linux/device-id/sdw.h>
- #include <linux/mutex.h>
-+#include <linux/rwsem.h>
- #include <linux/types.h>
- #include <sound/sdca.h>
-=20
-@@ -643,6 +644,7 @@ struct sdw_slave_ops {
-  * @id: MIPI device ID
-  * @dev: Linux device
-  * @index: internal ID for =
-this slave
-+ * @irq_lock: protects the IRQ mapping during nested interrupt =
-handling
-  * @irq: IRQ number
-  * @status: Status reported by the Slave
-  * @bus: Bus handle
-@@ -676,6 +678,7 @@ struct sdw_slave {
- 	struct sdw_slave_id id;
- 	struct device dev;
- 	int index;
-+	struct rw_semaphore irq_lock;
- 	int irq;
- 	enum sdw_slave_status status;
- 	struct sdw_bus *bus;
-
-base-commit: afd88e7ad78170040612f608203734156b8a9e=
-b1
