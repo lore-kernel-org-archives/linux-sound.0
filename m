@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795355194;
-	b=3uD5ka/6OKSbz6YF42DdJIkEXOcEoPRHTz0ybLS1WcutSYkj/RwvwnR+hJrcRPgnr1uO
-	 YcQqhPvBepLOIDPG6zqGGDC+lBD2SVqaETQL0AfaYkAzB6LLEcNowRC+9F+KJRWeLv0bh
-	 r8Sovllafh+EJiznDYGyTeyeDKIDeihq4EcTcK1KJm87HzWRLUPkdOUaRxqfjI3AFGTrl
-	 +2CAIIIMfNqJTkZ1WF69ssM+2JRGMzKYS9Y6Qi31XlQDCypTqh0YMlUlM+Wyx/4hTG5ou
-	 4bla9lRjl9t6TYJtTPU2Qxe+kltG/7sSDEgosXBCVES6ezS9MbVf8Ja9EOZpThgEfNg==
+	t=1795355201;
+	b=YhUW+/PxSrmRMM6Jl2RlDo6qHYupVEjTKmH9hdwT5MvUhI0vNVwGGYol8qGd7bDcpLDf
+	 LImFNxl/2QA/Z1316psWQTPHy/oVftGITmmIiB6kK24RD1XJ5WbZ1oenGJFIIsziASdTt
+	 OHe9uZP3HV+vOve7ugGJ5XbLXopotR70ofecbR5rFuYbC6xiPKhuPXAA6LKUPHX/YFP93
+	 Kd/2R3NOOHrzqMlo1w3vFBKURElM8h7x9+vdXEZo4yfBdjC/Mx0bXvwa8IaDluCkoGXmD
+	 YetEKvbYG6I/Q5afkL34A8uDX3u9U0e5H0lmnbnqvcqCcgUW9ZBpfSiOkDuHUA0FUAA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795355194;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795355201;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
 	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=gtyCzvN8AMjKD475BbMGxJHB7AJRr0EQgHC07KjEE5Y=;
-	b=eO4SrZiHDPaPlZpSuUlf6afFV2UFJQQZDTWmQMmofmZ/b2rVHzdNKtCqmgeV5Lwt6cpS
-	 gB+mMpIw2Fo7dXJ7mF8GofkarZwCzmOJPHCSJCdjLUbC79rTKsiJa/YX1Rmb79VCFEu2J
-	 ad/olfVKu9fKP+wh8qB5cUCZJV0HRPms1N+N5o6zRKvYtT/w//w80EvPjgdvqtrFk9L7s
-	 AGf9TG+ZbzMj77JvRXC+2Gk5CTpWleyfTWrpSgjwHisBF+M4h1udYJ5bRhUTBIzMpOUAk
-	 TcAb71BkgGWwfh6K8FlhHLmIKl2r8z6M3WOQXa29Zda20pivH2jSdOFWvNrkYZz+UoA==
+	bh=IOq0sh7TUG12wfWYomcvP/7qaSOL4zRWDT9IlKHa2mk=;
+	b=j3t+1PbMS8myb/b+pfVCu//xusOKIxtgPHnkhpDaJ/6GBkZGgmEUiFHynY/z9x+SYHUH
+	 r5neEISL4sqUIp+K74IMzG9D7BsoLaielSYiU2bOgkkMQed98v0ljfyBlSAYMKQPR6DIU
+	 rLSKPRmPZdjhx5KC8qP6/3mG+1nVdP5+NIWPUiWDCasRRILE6QXgSIYdwsd0u/gnbHnVb
+	 5AkLoDjewQaBB2bvuPddxRTDdDjEzJeAxRIS4V4JM9/Ou6sPtwZPtqupw6OyhIOz74bjV
+	 EmYLD/IrIy+yoQJU90V4DGQmwkNR0BvuEdxU3/24o3uZvP9wvOapKXyiwnHNqCS7mLQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SehhOicX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=irGi+cfk;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD841606A330;
-	Sun, 22 Nov 2026 13:46:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91570606A32C;
+	Sun, 22 Nov 2026 13:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SehhOicX
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=irGi+cfk
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795355194;
-	b=dzK57ej53HiorDJRWd6gpDIQkxrCw+rve0o/kX3RPw31JZOIzkrWWaF5MEMkcPaDdikp
-	 1RVFkcY2oOrsGIFz++NLOknYhM7f6Z9x/zlnEfDBVD4I6prUNZRfAunfFplL3xERaikJ/
-	 BUkCeauxMaZfagKEAn6u8OqvN20cfznlwDb3OgTiFaZY045ZKd0xlTAP0G6uapUuv3ZRK
-	 rjiAZw9rbbFDQXbQVmZHx/0TZ0xiztgwG2MROCsp4lL6qrM44XbsNRg+FDD4e5eyq1cPi
-	 hrKHaLELHCY/n4pI/i/psqAKt7o3qAdSfgGqJZJG2LLjR+dm8yXjj/uhUnLdeWpf0Sg==
+	t=1795355201;
+	b=FganSu0Ccf+kmBbXuoEbAJ2icNRSXKL8jBAy9zDmDU96DoFcWBu4pbNhwDxRWzrhqFA+
+	 bu4RSQ+KzJszRTpxnXwY3MgpQPmAug1BSnH64cZRC5LF/IPox8a37fLrO4SsmgRTtvR5F
+	 5KGfyGD9In6P45Q7AKFypo2o6LKVSOCMyVlcRE9utGIBzJIAhFcGXU1JfHlW/I1U+O8p0
+	 lq2jpNtsWMQ+AXr2RylgYg01zRQa+X5DD7+1DFX19WVIHIOdUWX/Mok4uHFGMZd2bVvsk
+	 nB1Oz1BwI8rOUlhHW+L1IgOvf3E2a+Hvn2jEBYmwgfNTSEOEz3qINHfmNcodzpd1TAw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795355194;
+	c=relaxed/relaxed; t=1795355201;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To;
-	bh=gtyCzvN8AMjKD475BbMGxJHB7AJRr0EQgHC07KjEE5Y=;
-	b=BXb+ffZmOXT8k4mYQEXXTykD89VgX9/poJYKgSpvnIMyrjEGs2095STODbdHchmgjcTQ
-	 RZKY20jIEc1NnlnPHWCvnPm9DLS7ZaAMYPPBhKAQQG7nJEiqK8kuC3CjTBtCOKvYymoZR
-	 Ka6Qf1crorB2cLTmvKRW3i88z4QO4fVUpReOnx2i3M/1ZFZw/7vSlz2tVvc1N/2DsaOr3
-	 7SdZWia2QtaAOVVMrH5xa6vvwPW09IubA1+GiuYAiLSRnXytfI3NUfR3N5IxQU2sTPuIC
-	 Tis3cBLDWzhShQ83ear9Py3MbQpvb1diwEzmHFbFfuIy/WeftypT74l4lQ8g/6/jomQ==
+	bh=IOq0sh7TUG12wfWYomcvP/7qaSOL4zRWDT9IlKHa2mk=;
+	b=l+HjDgrcJU8PxQtSnzvi07a6l7GyVQ4P9MhjOw98bMO0EZm7jB51oMRrDoEAU8PR2vve
+	 uFRbdo720biLjKlVXJzBzIoX6wIBkO9zgytdgr/sstO7xdKM4Tku7n8h9Yt3RPqD95MCS
+	 mt0Sm9foMMkz7MdcRaPiEeR43cO3D8rO6LKC/Vm+N/LfxKwStHhSXbzOd+0UdNPQRHGgs
+	 MKB1YuCc25VTk0MRgiYPm+TSA4HUe55o0tymOiv6Ledis7djnRDKijB4n5QKsS7m8eEnC
+	 LORPIaK4D/BAR6Nse4oZYfuEKuhuQr/YLN8JAjxoWWAgYCDhjNLNdSgUFj7zDSHP9XQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 2B50C1F000C4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 45BCD1F000C6;
 	Sun, 22 Nov 2026 13:46:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795355193;
-	bh=gtyCzvN8AMjKD475BbMGxJHB7AJRr0EQgHC07KjEE5Y=;
+	s=k20260515; t=1795355201;
+	bh=IOq0sh7TUG12wfWYomcvP/7qaSOL4zRWDT9IlKHa2mk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=SehhOicXakQs0JiHLIp5z+HIafqSnsAMDN+s5znGDyzw74nyekxzofNTGp7O1IbJG
-	 PIqPzCZSEi671l5oKTfCygSMbezQEsQuUxJADkoWnOVvR2A4A8smYGZwYJw5R17jNK
-	 YOcP88sqSI5Xl2CnSRuzUd9Gs+vKVhaYrtT/cNx5iszZKU2nvXKOjuLioSknFQ0XJc
-	 AjVVBf7IU4ROQp7XZnlyviMXnUbe/lrmDVHtaWaLPyxaG+gFAMmzYWk3II2qMYkIZr
-	 6yDf3Hp05Z0DpgEIyJ9pmB8+WtlZFl/5eQbexU8wDka0Ubvo7anafKr8xdwDVZkXHE
-	 vTo5UszIvEHGA==
+	b=irGi+cfknVxNz04GqlCL1I649TSNkW1P8mj11TsKq+3VkgK/RYo7pri3W3Ghq/EK3
+	 uPsiU+84GQlKxodpYojsW4xaVaDDkz8A81mt2FIXWbiInI4duvM2hBATO8SvUKbmKS
+	 lWOYEvx7WPg5wYCpI9PkdGj0wb8dO05fxUx6UGgDJMH6aWLBS+KhlfIEwcIk/Y8YP1
+	 MSBna8KqSCxa2LwNzhFEmfRMBVDGXJzmgfY99ouw1MVHCByoCA1dIdX5aLmED+SIRi
+	 SLjkGB/tB1hycKS9T1zsRrquIsEWZ7KVgTIg48EfCGK9qpZuJdIYsjxGqNwYSB8c/J
+	 dqlEjEgjKonng==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B4B884C0D4;
+	by lkml.kernel.org (Postfix) with ESMTP id CFC424C0D0;
 	Sun, 22 Nov 2026 13:46:29 +0000 (UTC)
 From: Suyuan Wang via B4 Relay <devnull+shyckless.gmail.com@kernel.org>
-Date: Sun, 22 Nov 2026 13:46:29 +0000
-Subject: [PATCH v2 1/2] ALSA: firewire-lib: Abort the FCP transaction on a
- bus reset
+Date: Sun, 22 Nov 2026 13:46:30 +0000
+Subject: [PATCH v2 2/2] ALSA: fireworks: Abort the transaction on a bus
+ reset
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -85,18 +85,18 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261122-firewire-busreset-v2-1-e104d785c8a1@gmail.com>
+Message-Id: <20261122-firewire-busreset-v2-2-e104d785c8a1@gmail.com>
 References: <20261122-firewire-busreset-v2-0-e104d785c8a1@gmail.com>
 In-Reply-To: <20261122-firewire-busreset-v2-0-e104d785c8a1@gmail.com>
 To: o-takashi@sakamocchi.jp, clemens@ladisch.de, tiwai@suse.com
 Cc: stefanr@s5r6.in-berlin.de, linux-sound@vger.kernel.org, perex@perex.cz, 
  linux-kernel@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795355188; l=2101;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795355188; l=1920;
  i=shyckless@gmail.com; s=default; h=from:subject:message-id;
- bh=6CqPPE3mEanKHilmp+S+EGLzRo0PnbexFfGZIxBreE4=;
- b=Yj/RgLnO8Z/dSCfWK46K0CN3liyIYd0tkQMUJh9vZHV/VYjNizrTQ+hZtZvNPJK3QUlAw0jaE
- aHWky6y0QI1DH6BBqNoQeCFKQNw9+SIXN76/86yDZ7iLoUCNIXIw3Dr
+ bh=fhg9NDjaNT8GJA64KhkdJLd88zbmeEobh1mF6AYpWhI=;
+ b=lUwJGdBidPNerzLa0yBkLF9tU6IAej1hLyHVFB831ArGHR82Z/pk553D0kCvPm9jsmArt+bWc
+ HzaBwnmNi9VC8uG1ryjSTNMmJ+YwujOqW9kBeRvgrW/4L34hDLl3/O5
 X-Developer-Key: i=shyckless@gmail.com; a=ed25519;
  pk=pMtccVGiWES3bV+7YBFuBclkvq2n2HBHQ5azaBrK2lY=
 X-Endpoint-Received: by B4 Relay for shyckless@gmail.com/default with
@@ -106,60 +106,50 @@ Reply-To: shyckless@gmail.com
 
 From: Suyuan Wang <stevewong@hust.edu.cn>
 
-When fcp_bus_reset() marks a transaction as STATE_BUS_RESET,
-fcp_avc_transaction() sleeps and resends the command, but leaves the
-state as it is. The response to the resent command is then ignored, and
-the next wait returns at once, so the loop keeps resending the command
-without a retry limit until sending fails.
+When snd_efw_transaction_bus_reset() marks a transaction as
+STATE_BUS_RESET, snd_efw_transaction_run() sleeps and resends the
+command, but leaves the state as it is. The response to the resent
+command is then ignored, and the next wait returns at once, so the loop
+keeps resending the command without a retry limit until sending fails.
 
-The AV/C Digital Interface Command Set General Specification 4.2 says
-that a target which detects a bus reset discards any AV/C transaction
-in progress without returning a response. So instead of resending, end
-the transaction on a bus reset and return -EAGAIN, so that the caller
-can start the sequence again. ERROR_DELAY_MS and <linux/delay.h> have no
-users left after this, so drop them.
+Fireworks devices also accept AV/C commands, and the AV/C general
+specification says that a bus reset discards any transaction in
+progress. Do the same as for FCP: end the transaction on a bus reset and
+return -EAGAIN. ERROR_DELAY_MS has no users left, so drop it.
 
 Found with a static analysis tool and checked by hand.
 
 Suggested-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Fixes: 31ef9134eb52 ("ALSA: add LaCie FireWire Speakers/Griffin FireWave Surround driver")
+Fixes: bde8a8f23bbe ("ALSA: fireworks: Add transaction and some commands")
 Cc: stable@vger.kernel.org
 Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
 Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
 Signed-off-by: Suyuan Wang <stevewong@hust.edu.cn>
 ---
- sound/firewire/fcp.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/firewire/fireworks/fireworks_transaction.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/firewire/fcp.c b/sound/firewire/fcp.c
-index e60bfd0ee4ac..b8e7e2c90791 100644
---- a/sound/firewire/fcp.c
-+++ b/sound/firewire/fcp.c
-@@ -14,7 +14,6 @@
- #include <linux/sched.h>
- #include <linux/spinlock.h>
- #include <linux/wait.h>
--#include <linux/delay.h>
- #include "fcp.h"
- #include "lib.h"
- #include "amdtp-stream.h"
-@@ -22,7 +21,6 @@
- #define CTS_AVC 0x00
+diff --git a/sound/firewire/fireworks/fireworks_transaction.c b/sound/firewire/fireworks/fireworks_transaction.c
+index 5c859773fe06..bb9ab8ed52b5 100644
+--- a/sound/firewire/fireworks/fireworks_transaction.c
++++ b/sound/firewire/fireworks/fireworks_transaction.c
+@@ -34,7 +34,6 @@
+ #define MEMORY_SPACE_EFW_RESPONSE	0xecc080000000ULL
  
- #define ERROR_RETRIES	3
--#define ERROR_DELAY_MS	5
- #define FCP_TIMEOUT_MS	125
+ #define ERROR_RETRIES 3
+-#define ERROR_DELAY_MS 5
+ #define EFC_TIMEOUT_MS 125
  
- int avc_general_set_sig_fmt(struct fw_unit *unit, unsigned int rate,
-@@ -272,7 +270,8 @@ int fcp_avc_transaction(struct fw_unit *unit,
- 			ret = t.response_size;
+ static DEFINE_SPINLOCK(instances_lock);
+@@ -99,7 +98,8 @@ int snd_efw_transaction_run(struct fw_unit *unit,
+ 			ret = t.size;
  			break;
  		} else if (t.state == STATE_BUS_RESET) {
 -			msleep(ERROR_DELAY_MS);
 +			ret = -EAGAIN;
 +			break;
  		} else if (++tries >= ERROR_RETRIES) {
- 			dev_err(&t.unit->device, "FCP command timed out\n");
+ 			dev_err(&t.unit->device, "EFW transaction timed out\n");
  			ret = -EIO;
 
 -- 
