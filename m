@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795343783;
-	b=l0f5pLAe9sHzvXua351t7EZ7QZ+wAHzhYibH/OglBCHJ8laTIsyh2Z226+wP4vVvhmQg
-	 UibUoej83We8q0EXotGs02vYNYckZvQkIxIZm6M+czWLqob1CnLxXBhtGHcfTyBgeNV4D
-	 +nyVRTG5UQmDJKRr4CVtRpiyXecdrPVDJLtusUoTj58CpO6pa3PAMyXs4PZUqzgj1i0Y0
-	 jx/fYINuM+L2MmYWyXRKPdbTtfGD3lN2gwk85vEbC6Bez+q16BdO6KlNVqNwbSI9T6eb8
-	 Egbw8OM+gqC1GnWV4YmLDaJR2IedmpoTyOqagy1Jk6PYRv6kSTZPMkYnX1Ad0IbiYWw==
+	t=1795343788;
+	b=Mk1jPCXodKLmrbSkkOjEweV+oHMNyj5ls9L4NQFzkwPiKbqyap4wjXvwwbOEtiwmLsEx
+	 fw4MBrJRUranNoJBpQqw0dhazIuxLgh7rwc70eIozvhXsrPaS8yzpsgaFRuOD6CLwGWAO
+	 Ns+FBpT/D7D88c4amVIMaEkIgsEmQtxEWS6XJnU6Cs+23jVFBU5crl0HPb1Ty2nkdy6CL
+	 7kXizEfMBI6TEnXViMGAKpg5X/lsKiqDfjF8V6wPVGu1SWOaBZ9QNjxoHFptZCpiPXMPa
+	 UiCmjqoCpHpBM3cprDW5x+k80tp3JW98IwkVmImgxLhaf7t3vq5V17jDLaTfemZ2+wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795343783;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795343788;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=NFO8ABB2++Lb4Qniw60fNu+n6Ox71u5p1UIy7s61ddc=;
-	b=pGHXbfK+SIMXYrz9RcrLUZCcxJX4+nehQKjiyclx2NfsNrKfOGYS4gJKd773NtRYFtuh
-	 IgobG7mekAdePYIupM9/OTxsPhyJdJPcBaV6sY4Nau6SRSC2e3OeYn9org8egvbDu/r/e
-	 BjXCht8w5RtBOnsuMmtmQRY3Qws6GInAxpFKVjFNVQDxwYY7b0Q/3ufvIutGDDfSVg2Lc
-	 rqxqVsywETjR/xcxp6v4cJrN0tJrWYA8ycb1RRY6cFOigJJ2c1jsLDbrXbgzwDS4SBKYS
-	 XwIZwBP20yNmruG5K+KG4F2Ujx4afw9U8UqThFHVImEoJ4GDua3FAL9Gvn9p5oMnQDw==
+	bh=/jvXQi6RIlt7Mtlnt0QbS4ARuJGb7qPHJ6+jlWg3p4k=;
+	b=x5AHGi5OZZSdkUj3kIiRX9YATZXq8ATRhSmDRotOR929cs77tIqZZnj7LTav6bdUiCve
+	 rJxgkrbUXSiyr46uTl9F71yWeDksQibfBfmhhpUU7OvvUUmW1UCbmttbshhKKa0Vtap4Q
+	 BX2G260VZyr4UNzTptdkqgWOqPK4X0wD7XUu00PZFqX8maUaBlY70W8iWG4TGzMUbJgpB
+	 OsxXWdluXz+oVXFxkyu7e/a4XuM/q61oT/tNrgN/SjCccwLsemSZjQ2QwXWPzA/bK7qrc
+	 nxyKSb+Wlap58h7hkWFCI2x32yck9ovXT4mueFyPrpBAyr0xnmmBB5p401QbGW7wXCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bCcPs84Q;
-	arc=none smtp.remote-ip=74.125.82.182
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OTrB9kG+;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4D7606A337
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 10:36:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C4D7606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D4E606A337
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 10:36:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95D4E606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bCcPs84Q
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-380b40312e2so5474922eec.1
-        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 02:36:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OTrB9kG+
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-380b40312e2so5475018eec.1
+        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 02:36:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795343782; x=1795948582; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795343787; x=1795948587; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NFO8ABB2++Lb4Qniw60fNu+n6Ox71u5p1UIy7s61ddc=;
-        b=bCcPs84Q8MYdYT0X0Bg0dhFEe41xvC4BLYFYIgvjMg22VLdC9WSL47hQ+tfl47Cc/u
-         OktulD8NotuMYcw4+w0akb+FEpn+QcdMWFtGMNyhRT6wjIdzK0tiwfGuC8QDjEStM3Bi
-         5UBP7f5nMjSDbmNUVycWUpwL0dJYSwg1x8V4jXy4N34AXF2lXp5tzF9vt3lVOLb3yVRS
-         17oKRQN040/K49pauZHoR1u1voRXfmnOmgSIbrNFbh7JTH4Zi7pUf0i+iq8PqYRxVHXk
-         xe0j0LMUw4uEZBbuFnYm9BuDXtRe6sc705osle31d37Iab39b7mc0NU3921rMfrL5BKv
-         VKTA==
+        bh=/jvXQi6RIlt7Mtlnt0QbS4ARuJGb7qPHJ6+jlWg3p4k=;
+        b=OTrB9kG+zDwFTQehuRLEAcN1WkieTn0pOHRiTB9/eh53c3uJmmO09751vH6i/+gOLu
+         pgG7l2wyutG7jRl56gYC/AautEwNenET3+/Iapran3yZtODUegFhZG1V9/94yKeRr5FY
+         Z4UqzyQ1JB+XAG/8SZByFJKP3WYfZx0dk0uWCqfuv7LYPyXnkVEY81BYhYsILQDZiuGt
+         aB4Wwr4b0XCYkS+6oJ5rN0rhgLbtkHLCBODVy9bsmXvayQIsjdD5V3VJHNA1VCjMMCO4
+         gYCFWQnb/bWBLN5VNuSdPgfqTQ8pC9kBnXx4gPoRiPbVFFVnx6F9ed8/bROlhoEeYlkm
+         HNJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795343782; x=1795948582;
+        d=1e100.net; s=20260707; t=1795343787; x=1795948587;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NFO8ABB2++Lb4Qniw60fNu+n6Ox71u5p1UIy7s61ddc=;
-        b=z+9MNFvppwiY6l+vluNt53re+Ed9CRjAeOougJbt/chcdhOm1aKHn/Ph1YKYzTfzXZ
-         MUC/pCV0lBJgTRqn8lx6lfta0WPDpaYz5WLXLmVHKNL/zFfNBQc+3QcPEi5lxeX2Z7wP
-         i0lsN4bnLQIJWTgScJtSxlVozErrWIcoZD6JiVJezkHq503k5RugBa9OUyZTf/c49S7k
-         0SNknh79B2LR7Kh86ClzOLNCOB5FlX8UUM0SfU5cw0odnTv1tNjthx/Z/lekVxduwx2J
-         i6Ctm9uhv/qngN8t974GcILa4h5gEHOdZsP5XcPXdXdk8xBmx5Pmsyaj1z3jPd4yzj0i
-         4JLw==
-X-Forwarded-Encrypted: i=1; AL+hErG1mFAvuitKtOrDHNWhXFSP8fDdk9OCn0I9UFg5sMfDAdfeHSb+W4b58NuGiq+uExAaf1Wj6+BXpMZbyQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/vADJOQlDu8of6mYFX1ZbyK9ghs7hD2DuxAsUHOADt16+WtwuV
-	sbPoe4kTgu1nasogB8YKaimHpyxzKW7iPnukAbjivjHo9E/t5J6X/GPhpbtKI/e/
-X-Gm-Gg: AZFdTZf566od3IABCDLVM9GhA5XwKJtzT0pfwQ1Tc2YpvX6c8SbX8M0RDHl8/kt1L1V
-	e/MANmV1SUEfZAjRdNmm3j+MQtop5RgVMI4z4UJl6YFUCFj5+Gltmt3ISyizeFVynLBMa9RudrG
-	OdPp7VSp+u7UhOLPNh+Gqq1zmUxQqux4iZeg6PrXUewsJ1p8FoacRexIqTPNDZDmKasbYEPCGxd
-	1PgGXJyuyAq7213SM5dsLsyGNonTPgv6vSkeVGyldIwoKKQill6/g3Q8UXyaF4OMJZ7/XTi26VL
-	nH6BWazYsE/bsi4er5zwZtKmEl9c/EpP+drJ4sJdCXeKAkoqtq/Yt5H3WsHKsyKNvb/HYKuI4dK
-	L0sr2eoZ1zWWD4nN+rtmcCDL5JJYupooCT4ecILoUyS1HP8tRHs67ikG8GCqnIxg7EC55C4a2NE
-	PbQVeFCGzCvMsI0j4XLG5Sgt3j9oIkAMcZJhIi/ZRWRR8gO4TN23I0uTcemJdyUa7sgFqfIB6O4
-	pagu+ZvnurHdLijQdyyiJ+1ZKdW9QRwTUrM6jj5+j6RELTLhLd5O4U66+yRd9aGH7sDMp4/V1BS
-	8UzKJT8c1r4mXgekmnijPLMTMiItsRyLgYBUM12jYLZJkAhbDrj37QocwQPtzVCjT5YdexWmcWE
-	/wSoCLl3nCLH76EUSKC8LHfXUulW6mO2lEtZnmxfk
-X-Received: by 2002:a05:7300:f68e:b0:369:f291:49da with SMTP id 5a478bee46e88-38571814b1dmr8880157eec.40.1795343782479;
-        Sun, 22 Nov 2026 02:36:22 -0800 (PST)
+        bh=/jvXQi6RIlt7Mtlnt0QbS4ARuJGb7qPHJ6+jlWg3p4k=;
+        b=pmWdGEUwoDaQLkcUnj25NJkhCK5b7kZ+S0xrHQgcvYWbpoQIT83y0Vjy9yQ3WYJn7b
+         8IRwax8GoHDSWeRyIWkxYU7FnZ/Bg5bEZid3j3DcVhP3LLZTqlKdMiUKwsmRyhfYq5jI
+         JaWLefJGiccdbcmXzhanCsetQQZ3BWFhcXqgWyuAGZ61ES04VsW0/UOGhvGSeuRa6plP
+         YecNrfP0q7yp8gH6B7Xa/RvWNReFIGfMVj2qGKZvZ/IQ19TPyl4Z0LJzOK7Owej5+NXu
+         Uo0u6qapmvpA9hS93cEDKcZCxTZwF4WLCKLUIdi9VsFwWixM9B251iQG05jA7AE/CS9Z
+         TAmQ==
+X-Forwarded-Encrypted: i=1; AL+hErGPAbrm+11Myvtp0a5QCebMd6IY46LsB9hx2Tvpg5de/8mCrpYK7wiLg2ruD4+rVkvaBm/3ZMlVjlXABg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/+hQTrZ22qU34aNeCkQ7j1iUDzCLD0xFd8BAgVKk6XOpG+Y8rN
+	Cl8wf5ZLmYT5h6jFQqxuHe6tBO9SzcZCh9Ecw077P5YHcj60xvISBqor
+X-Gm-Gg: AZFdTZf69QORJfwu18EcLhsT7qiTV/IQpEumtnYzvoXm2wVFIvwKgrdFbXhzvO6aw+d
+	EKp2Ax66gcZ+H+r6YIObKUEHaJY2GTDAWqEVm99RgqcwJIB2UP17m0nXZibimcBkGE0BU/BeJnh
+	msnooxmdQXAOm97Gh70LWwg//952ecCmXONOb9ic5YUoot6/94WTZllWyLwfK2fPuBsrX9Dd1HK
+	jNoChT/XrDWd9UquvAXW6EgKMzQadm08YCrJ/WFq0LR69qGcdUL7+lqmtx5PLHJ63Vf8MJm4TPh
+	bt/81oeoKc2eKKcls+xtN1TJIF7bXkOw73WYCCASakL0EFrsLx/j1k2bLaloTZZ4NeukURmFO4i
+	0cQM6lm4xSF9cQhw2nBjt22huolBb2cQ2Fezc4TQzxrsiYje7V2nKmx1rmWQ77lf49rZQ4XSMbu
+	/rLRhpwbjKzNKkMGNslxbyBPhhqk5mTE64a38HU1hwj2RgjfkzRee33TKEQy0SOtX9r4bPcgwUN
+	7GkL7nWglE8rXgfAFpNiqYIh0APG5brEJLIsEjKuodj5nDaDTLRkD7dT0ZpmTOSwgPcHxSFMbZS
+	pDgKJP1G6LIcTedQT0UPyps8F8MZ04VYKLCiQimrZ8i85FUDKzGoT7HHXLNJKd5Q+HW4W0AsKRs
+	WP3+2QzGYDaa4UuEHjgejI5jMkwdZfoF8jffIToZ/
+X-Received: by 2002:a05:7300:bf27:b0:36d:3c0f:cc6f with SMTP id 5a478bee46e88-3856c9a7dd1mr10341532eec.3.1795343786729;
+        Sun, 22 Nov 2026 02:36:26 -0800 (PST)
 Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385667decc2sm26176803eec.9.2026.11.22.02.36.20
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385667decc2sm26176803eec.9.2026.11.22.02.36.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 02:36:21 -0800 (PST)
+        Sun, 22 Nov 2026 02:36:26 -0800 (PST)
 From: HyeongJun An <sammiee5311@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
@@ -87,11 +87,10 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/2] ALSA: seq: ump: Don't drop MIDI 2.0 RPN and NRPN for MIDI 1.0 clients
-Date: Sun, 22 Nov 2026 19:36:10 +0900
-Message-ID: <20261122103611.3264343-2-sammiee5311@gmail.com>
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH 2/2] selftests/alsa: Test the sequencer UMP MIDI 2.0 RPN conversion
+Date: Sun, 22 Nov 2026 19:36:11 +0900
+Message-ID: <20261122103611.3264343-3-sammiee5311@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261122103611.3264343-1-sammiee5311@gmail.com>
 References: <20261122103611.3264343-1-sammiee5311@gmail.com>
@@ -106,81 +105,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The cvt_ump_midi2_to_midi1() converts MIDI 2.0 channel voice messages
-for a UMP MIDI 1.0 client. It has no case for the RPN and NRPN
-messages, so they fall into the default case and are dropped. A pitch
-bend range or a tuning set by a MIDI 2.0 client never reaches a MIDI 1.0
-client.
+Check that an RPN and an NRPN from a UMP MIDI 2.0 client reach a UMP
+MIDI 1.0 client as the four CCs that select and set them. The NRPN data
+has low bits set, so CC 38 is checked as well.
 
-The core converter, cvt_ump_midi2_to_legacy(), turns the same messages
-into CC 101 and 100 (99 and 98 for NRPN) followed by CC 6 and 38. The
-program change case here already sends the bank select CCs ahead of the
-program in the same way.
-
-To fix this, deliver the four CCs that cvt_ump_midi2_to_legacy()
-produces.
-
-Fixes: e9e02819a98a ("ALSA: seq: Automatic conversion of UMP events")
-Cc: stable@vger.kernel.org
 Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- sound/core/seq/seq_ump_convert.c | 36 ++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ tools/testing/selftests/alsa/seq-ump-test.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/sound/core/seq/seq_ump_convert.c b/sound/core/seq/seq_ump_convert.c
-index b42a7ffbf31e..e76fdb54df17 100644
---- a/sound/core/seq/seq_ump_convert.c
-+++ b/sound/core/seq/seq_ump_convert.c
-@@ -432,6 +432,38 @@ static int cvt_ump_midi1_to_midi2(struct snd_seq_client *dest,
- 					      atomic, hop);
+diff --git a/tools/testing/selftests/alsa/seq-ump-test.c b/tools/testing/selftests/alsa/seq-ump-test.c
+index 55bb7ea5b02f..7030d061dfae 100644
+--- a/tools/testing/selftests/alsa/seq-ump-test.c
++++ b/tools/testing/selftests/alsa/seq-ump-test.c
+@@ -620,4 +620,24 @@ TEST_F(seq_pair, ump_midi2_to_midi1_note)
+ 			  { 0x20913c01, 0 }, { 0x20813c00, 0 });
  }
  
-+/* send a MIDI 2.0 RPN/NRPN as the four MIDI 1.0 CCs that select and set it */
-+static int cvt_ump_midi2_rpn_to_midi1(struct snd_seq_client *dest,
-+				      struct snd_seq_client_port *dest_port,
-+				      struct snd_seq_ump_event *ev_cvt,
-+				      const union snd_ump_midi2_msg *midi2,
-+				      int atomic, int hop)
++TEST_F(seq_pair, ump_midi2_to_midi1_rpn)
 +{
-+	union snd_ump_midi1_msg *midi1 = (union snd_ump_midi1_msg *)ev_cvt->ump;
-+	bool rpn = midi2->rpn.status == UMP_MSG_STATUS_RPN;
-+	u16 v = downscale_32_to_14bit(midi2->rpn.data);
-+	const unsigned char cc[4][2] = {
-+		{ rpn ? UMP_CC_RPN_MSB : UMP_CC_NRPN_MSB, midi2->rpn.bank },
-+		{ rpn ? UMP_CC_RPN_LSB : UMP_CC_NRPN_LSB, midi2->rpn.index },
-+		{ UMP_CC_DATA, v >> 7 },
-+		{ UMP_CC_DATA_LSB, v & 0x7f },
-+	};
-+	int i, err = 0;
++	int skip = 0;
++	int err;
 +
-+	midi1->cc.status = UMP_MSG_STATUS_CC;
-+	for (i = 0; i < ARRAY_SIZE(cc); i++) {
-+		midi1->cc.index = cc[i][0];
-+		midi1->cc.data = cc[i][1];
-+		err = __snd_seq_deliver_single_event(dest, dest_port,
-+						     (struct snd_seq_event *)ev_cvt,
-+						     atomic, hop);
-+		if (err < 0)
-+			return err;
-+	}
++	err = open_pair(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0,
++			&self->src, SNDRV_SEQ_CLIENT_UMP_MIDI_2_0, &skip);
++	if (skip)
++		SKIP(return, "UMP sequencer client unavailable: %s",
++		     strerror(-err));
++	ASSERT_EQ(0, err);
 +
-+	return err;
++	SEND_UMP(0x40210001, 0x80000000);
++	SEND_UMP(0x40310203, 0x12345678);
++	EXPECT_MT_PACKETS(2, { 0x20b16500, 0 }, { 0x20b16401, 0 },
++			  { 0x20b10640, 0 }, { 0x20b12600, 0 },
++			  { 0x20b16302, 0 }, { 0x20b16203, 0 },
++			  { 0x20b10609, 0 }, { 0x20b1260d, 0 });
 +}
 +
- /* convert UMP packet from MIDI 2.0 to MIDI 1.0 and deliver it */
- static int cvt_ump_midi2_to_midi1(struct snd_seq_client *dest,
- 				  struct snd_seq_client_port *dest_port,
-@@ -499,6 +531,10 @@ static int cvt_ump_midi2_to_midi1(struct snd_seq_client *dest,
- 		midi1->pb.data_msb = v >> 7;
- 		midi1->pb.data_lsb = v & 0x7f;
- 		break;
-+	case UMP_MSG_STATUS_RPN:
-+	case UMP_MSG_STATUS_NRPN:
-+		return cvt_ump_midi2_rpn_to_midi1(dest, dest_port, &ev_cvt,
-+						  midi2, atomic, hop);
- 	default:
- 		return 0;
- 	}
+ TEST_HARNESS_MAIN
 -- 
 2.43.0
 
