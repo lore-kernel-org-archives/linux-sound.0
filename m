@@ -1,77 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795347893;
-	b=K+Gvj05HWd35/on2W967NbFkeEdy4HqTc74c7bMbVsECY1ZWC1L0eS4blqD51PdnyO2u
-	 ZFvWjPS6bWAYcTXGqGR7S6b1YVmmsdAljJXbBDR9s664xALEbDnlIYiDUwijT7sCQIFIF
-	 IbyQBSXBHm/A2SEPFgCM3xYB5Hn8+HX7MIIQO9NntXCiQ9KTU3iBidaxQ4csAYx/DvlTO
-	 MYKgTHuXzJD7TKaxjA1QudNq9Cg5aBQGYNY/WpWMmor/eXH6yMuLZUwj4DvqxEKmXjC+g
-	 BtZqmrLvB7X6GTdpWwJAWIHAbeipXBIMiZ5ofOMILiWvqAUiBemPrJc0V2EO2C5mzxQ==
+	t=1795348980;
+	b=vkZXwlrRgH9nIa5c75StbRtmFZdTruz7zQKw1B76y9FMnlq0XB8lhL+3ZiqNQsCDav0e
+	 G+OnVKYlF17d98+KkNTvf/DZwX0CI91ZKMXfFuvINvEyYP0bUaDw15z+dTrchGVz8N3Iu
+	 VPm2JqF6OwJIRik2uCVOILtrHOkNPNwuHr8pOrcp6NUkd0dJ8OWGX2S+P14HgGP/5BF7F
+	 AkGzABvicFbCxvCOTH4VuwLAiCiQnRTBfLwkI39BQILoIg8/n0aa9tMEfSBTHj0U1E6ev
+	 yPEkD40+9I3V0Jb6pFBUTD39uYc4c43k5DMd26VSgmcY8RRrBLjwzyVPgPMQLRP2mHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795347893;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=tqn3evdzfY5lz/GM39OllBYZAG/XOb6qG6Ibnfdd1kE=;
-	b=x+vkwYbKkzG2o+iweJ8Mdy0rBMEjmBs51syu4BR+9YV+hbr7bMrvMqiZVfk/0BnWl814
-	 biZLG/fh6uBXUbcAOhfcn1bnLE8D4ahXYnZxMuyOpyL/6DJy8230ikRVnijr5kCDv1BHj
-	 6qysOO9EVfZLY+J2lVOPbKAMxRsssFGDxZRE8gHXGxw4h+ZTCIuaYd4qkRXyX+898DCwb
-	 72g/wQEzGYFMf5xzkl2wH9DbEYbgifJhGvbGP2ZthnLricPDzdjXqG0RUXyYrdkgv6XCO
-	 s6TdQ56my+YLGLVPk8VLEjs6v5rHsg5c3yXaHICPWAkPlTcRqfp/p6S211TlkxBgbCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795348980;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=dxKNiMftVupVb5om+wXy5zkYQQ2Gh2XoL0QWLFEag50=;
+	b=Uo0IvKJTdD3DW/xzU9fvuHm9pXsYt/d9YxtfwGnR1uja8QEIfyBpTfF1/8bKLw4F3rVF
+	 S0f301DPDeBdUzS7ddCe1v4iGYsY8vVicFOxkZKPQp/tsx9cOYbfXJSoW9w/AqfFgGscm
+	 3fPXtRORR7bvr/hAfjrrxoCNEp6yLZ/erGsxTYgWLV7JM9u+jpHVL99DDjKGsEJPZnxJ8
+	 DkQBLg+pHVdnkefjEjPGq1hT7ZU+kX8L25cxnajfIEfwXNRbwFetPvkIwj7jSGrf/Ygnm
+	 uXcN/JahSuh0LU/v/xZcTaEdoR0W5/+1n7M1cbVmERF5+iJrU8fT1RUbTGAHxeVVj0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R47fOL1x;
-	arc=none smtp.remote-ip=198.175.65.13
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=mgcrea.io;
+	spf=pass smtp.mailfrom=mg-crea.com;
+	dkim=pass header.d=mgcrea.io header.i=@mgcrea.io header.a=rsa-sha256 header.s=google header.b=h37WmvXl;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E45C606A320;
-	Sun, 22 Nov 2026 11:44:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E45C606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DAD606A32C
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 12:02:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38DAD606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mgcrea.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R47fOL1x
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795347893; x=1826883893;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NaDq3yHRaSEVeWcGiIitp+2C5qU+qo+C4x+8xn0OP+0=;
-  b=R47fOL1x69BKIAxAjoqIcju/VuLCYIvdcXaNedC5GXqXyo4BmQJi6yC9
-   BqMR93ENdtmUoT02UfjjducpcdaoViyA6BfArKwTMUdqDGt6boq9rsuHw
-   jVhRSAVlvkNWJzG+4WBLZ5+88GSALEjeZjt/+eCcQwcnba5kAi7XU9h8E
-   fRk1A28BNtteahuCTYFCYMhbROfHkNz4/hfWLQ5lln/CloqkbsNdWsBlF
-   vP9UIm+v6IWWeu18wIYWyu6c3BxqyQmBRRTpYw9TfDl+0T4CngZKZwoH6
-   OYtgk0Vr+gid8kUdqBP1Sl9ndsKpvnPozS2ne3Kozo1sLD/PWTi/qH3PR
-   g==;
-X-CSE-ConnectionGUID: 78dJD/i+RGuZZZf0n/YB0g==
-X-CSE-MsgGUID: qC0K9cY+R1i5FyBHO372+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4063158"
-X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="4063158"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 03:44:52 -0800
-X-CSE-ConnectionGUID: 9FSmiboLT3KHDyCdpVX9qw==
-X-CSE-MsgGUID: 3IeqatCMT32dkl/R8/HOcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="11276015"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 03:44:49 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com
-Subject: [PATCH] soundwire: dmi-quirks: Add MSI Modern 16S AI+ quirk
-Date: Sun, 22 Nov 2026 19:44:42 +0800
-Message-ID: <20261122114442.2140276-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=mgcrea.io header.i=@mgcrea.io header.a=rsa-sha256 header.s=google header.b=h37WmvXl
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso17784715e9.0
+        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 04:02:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mgcrea.io; s=google; t=1795348973; x=1795953773; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dxKNiMftVupVb5om+wXy5zkYQQ2Gh2XoL0QWLFEag50=;
+        b=h37WmvXlzeqJOg2skDXkuZ2+T7AUQHNgThGjgdFemHp3spzjs6KBY6eYQMLhocih+J
+         vdEYZeECN+/WBbybSUhmDji0q0kGhSN7f+RdRRtaFsNi9yWY1lNGJn7xuB1cn5i/8ScM
+         tk8BgynI/J3dvysUVS2moeOvYoAiSkA16sgDP4kNic15y1ifZ2XzRwI2fFI708nj/zbj
+         k4sb0gC4CgEJ8mxFEo/8xTtmnkXiveyBTOdD35D2PGlgGGZgfKF8JiO/OTZt4Ix5WVAr
+         GHqZITv4Qhv0YjEyHEL3stdQh8wMyhT/oJLoqFHi0za1Jcw0cgXO3wOQ8RQ8wuH5oSAQ
+         kDww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795348973; x=1795953773;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dxKNiMftVupVb5om+wXy5zkYQQ2Gh2XoL0QWLFEag50=;
+        b=oP32JArtUj5devxiy62huvJoXluJO5Gd3QFAzckqTB0L/yngC7te8u0J7FTkuzgPk3
+         s5frhTfVyz8YOGOYWepMfzJIihOJt8GyxjE+voTufcqxk9slZ56+xf7K8zZQURUd3lNd
+         vASG0mEuqPIeZDUXyMtbVoVOVe6dGMOBEe+rsEQyKIqioZozRkmzAsbtkL4/TiA6opBj
+         iWTmrEApZYraumk/a8fNrg4OxpZVQ/e2VWtco7aVI8FW1YcTlsggI1rmd7Wop5R/NWnT
+         141V+7UDdpiy4GxpvCw4ecQK78gQWPjq24pGDrWYFdBayQUOjoFIblWe1NBfbglr4C1W
+         r4FA==
+X-Forwarded-Encrypted: i=1; AL+hErGyUxcrHXdYR+TavW9VgOAG+XRqoEvXGPB2seUsK0CXDiQxI4q9vvwsw2LC/6cvzGE7FkCMYfqoZ+v+wQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+dq7McKN0pbewanLGovaHrIHlXOs5fxzYZvcU+NEhNh+ORoKne
+	B4MB45oIbnotFpe7J3JgeYzFl1dzEx4SvlQw1CbeV0jwhaIyksahJMPbjjUDdh7cqwE=
+X-Gm-Gg: AZFdTZdLW0knyyid2UQJoVwSNUj4UBM4p+GiiOzoZ97vqZbtjRMN97gnprPabkgcDa2
+	WzLHbVhU6aTwkooHjKFEz1UcJ3lhDVfxIRHz+VfPEX453KHaotJdZi3iJ2+TrkVZ+/tpbjWkiI/
+	Jp4d6XUTYhph672n1wmE9my8M53zgr4aPeagL8IBL2UO+xaJTPK7RQMFRWFnhQ3sL/5AYvvXLMT
+	xG2kj8d+zwcCvBWBqTqsjUlleMl+2OM6LR+fWkv2o3w7UybkODEiua7ecIK97xaf+Uq3KvjUUNR
+	Ofv4XZA2MSdFdktOu1h8OIU/Hivfz7rqTKAlLTGSLTkPg3a7++208J0P5TaVzrmyQaP/+Z6aUpR
+	2MMPUyKsZ3cwC6zUCDgXMHxHUCtOiSoyjhSwObQjqscAeBy0uvmZ+CqoArVv0fJwiz4atYOBYmY
+	vwPVnqYmFI8ggZAoO/sH9qJYW05o7vnQL/WZRKXhx1CAZUDmWoxnzYGuEJPOBH/M66i6y4n9Bl2
+	8NR+HRxyBV2j+0wzAnHSIaQuSU1apsvDlT1ietXWWRCYRYBLlBewDzPghcaLZZKcjMklGoUqXaI
+	KbHTLEZrzI4no3ybGXFXLLdbJ8zx/3WVJnf1Hino496DruCUM3dtxJAl7Bf0FpORd1s27q8LQHt
+	NhcTAF68=
+X-Received: by 2002:a05:600c:1c28:b0:4bb:867b:f0f0 with SMTP id 5b1f17b1804b1-4bb88810708mr212949495e9.15.1795348973238;
+        Sun, 22 Nov 2026 04:02:53 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e0a:9d2:5a71:a5ac:a6f0:7687:6596])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8d4f9aa8sm209160435e9.4.2026.11.22.04.02.52
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 22 Nov 2026 04:02:52 -0800 (PST)
+From: Olivier Louvignes <olivier@mgcrea.io>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"H. Nikolaus Schaller" <hns@goldelico.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-mips@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] ASoC: jz4740-i2s: Add support for the X1600
+Date: Sun, 22 Nov 2026 13:02:51 +0100
+Message-ID: <20261122120251.2083-1-olivier@mgcrea.io>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <179495557744.2707353.8222109296948133350.b4-review@b4>
+References: <20261024214438.33342-1-olivier@mgcrea.io> <179495557744.2707353.8222109296948133350.b4-review@b4>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,31 +107,27 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MSI Modern 16S AI+ has the ghost rt722 codec in the BIOS.
+Hi Mark,
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- drivers/soundwire/dmi-quirks.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Tue, Nov 17, 2026 at 10:46:17PM +0000, Mark Brown wrote:
+> > +	.field_i2sdiv_capture	= REG_FIELD(JZ_REG_AIC_CLK_DIV, 0, 8),
+>
+> In the v2 thread Nikolaus said that there are separate TX and RX
+> dividers, is that the case?
 
-diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
-index 715626174367..1c3c57ebc2ea 100644
---- a/drivers/soundwire/dmi-quirks.c
-+++ b/drivers/soundwire/dmi-quirks.c
-@@ -249,6 +249,13 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
- 		},
- 		.driver_data = (void *)ghost_realtek,
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Micro-Star International Co., Ltd."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Modern 16S AI+ G3MG"),
-+		},
-+		.driver_data = (void *)ghost_realtek,
-+	},
- 	{
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--- 
-2.43.0
+Yes, I2SDIV has TDIV in bits 8:0 and RDIV in bits 24:16 (X1600
+programming manual, 9.7.2.6). RDIV is only used in independent clock
+mode though (AICFR.DMODE set, the "6line-mode" with its own RX_BCLK and
+RX_LRCLK).
 
+The driver writes AICFR in probe without that bit, so the AIC stays in
+share clock mode, where capture runs from the transmit clocks and so
+from TDIV. That is why both fields point at 8:0, as in the X1000 entry.
+
+I could not test capture, the R1 has no capture path.
+
+Would you like a comment in x1600_i2s_soc_info saying so, or is it fine
+as is?
+
+Thanks,
+Olivier
