@@ -1,57 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795339210;
-	b=pv3SYJ7mxcGunIJquadOsUfQR5Y6aXnf2PyTkDHa10co/IZ71H5gJaf8XVcf8UjDFTnR
-	 lkiIfNqB09XftZNaq7KrHCm7jh6dgftoMQyPfkkncJ1IT1/IO7rvOZCFe4UEM+s0wEIUA
-	 LGahFN1ljd60oUL3+V1JKaLG4rsLtTH5bBnNCxmrektwOoXcXhRAsjBoOwuqiOQ0faBeK
-	 HRlRO7dtqVueYr97mb2O2LgMwLa4KUwjVtod0g8JVvh51E0cKQtrZ8wwJJi5vvpVLBRmh
-	 AcOge5+t0JbFSffilf4ZPtX/OaNzZWjCuYsBm6HbFXbw/XklwWEn0Ssx9Rd3EESB3Pg==
+	t=1795339231;
+	b=c6nDimL3Oj3dbjMeP8IdU8eQmcSuzpLfjO8y16Qzu9QtCUviSAMbI2Cj63TO0w7l8cqb
+	 NeLJVxWZrfDjbSR1itBAf2WwEfFHslW3gIhSL9tkNgGlXBIF00nTPamRorNCv3fjZCf4d
+	 a1+C07m+jSx2mvUsRoT5VP9dsN2fPESFTGKXrPghXHCCozjCTqSfSAk/q0C9AY9lw7MAu
+	 xF7doHK9f+EbypPptZyKLZMiuk8zMCB13q898JxgfH4s6qQoTXzJ0Ucy51E1QWaMTl8BQ
+	 7+P4D7YOV74Q738Oxrdii+dIFUPdnXvwVmngoTh8IXOAyZT5E+Sqze70/t5AsIbgLvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795339210;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=eJyvDwdOa+78F7CazJPfn+FSQMl5wBjmPxh9UItn2Nw=;
-	b=dBMANEXyi680cOd/gwoK1QjOR0eZM2KwYFmANYPUzfKMVdUxZ1gF5eK+P+p+N8wKFrZk
-	 HLc2nm4w3JCLmUGHCrDEQFYC8FlQ57489NH6jSwR9L/h/dRn2+nwpT+LYIFFzkVjnewWJ
-	 EylaaLXxxN3JDnOt59pRo4yadBE9sWDKS9yvaie4dmRNrc1lgPu+9JVWifkVR++3n0PL/
-	 WTE38JVx42WmLWAFrNF5cOaXFG12g33VxpN48Msv7oEMBpyyjThUJ/enfaSyLwwsQ5/g5
-	 Uq0rlyIh0wbGsgopJ98sYblxYSmzhJxcqFPnvn9h+tb1iNKPh9A5YCdAnWvRCShUbhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795339231;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=PwKnB8vusFC38NidYGeXP/OvxcdHiXBlFXmxsUk5hIU=;
+	b=xFuEH3LfhzYlVdNnvQiCL+LmytAZHxDw22cSZ/JTlwXZ79RFmIEnJ+eFifWdeSmxAZAm
+	 5DZSs+KSSnqR6JS9alufjECAyz8xKPqFb410j1CP9kTh2P7ZftBpKiHQaBRFSxH1TTSJw
+	 fvEg8n1uGHhFEXojUgKB5FpXp6IuZ8mobErRZ/pvL3GOrUFGcOzOD6NXPXzCt4zCtyP4c
+	 4pKMQHfor3Se3pRSzVi893OvVUtSerwsXvVvQrbMd7SapromboaHIH5qMzWs6SrIfWAC+
+	 faSfuTu+diGtQcpR/csO60lnaG+ZnzB3xXWHsDJf4cbeGwZr5uXRHj5fqFlNiWMk3Ww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jBuTzWwF;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VsvbYdwq;
+	arc=none smtp.remote-ip=91.218.175.72
+Received: from mta0.migadu.com (out-72.mta0.migadu.com [91.218.175.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDED4606A320
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 09:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5C4606A320
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 09:20:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C5C4606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jBuTzWwF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5101F000C0;
-	Sun, 22 Nov 2026 09:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795339210;
-	bh=eJyvDwdOa+78F7CazJPfn+FSQMl5wBjmPxh9UItn2Nw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jBuTzWwF2PfqVpww8s4LwM/51GjfxooAkrrk3M6CVsfXGFVWGolD4KnWa6iW5ks5L
-	 xU2uIo3r/VHfhNi4IHEskuUVoiBQ3fDBbeIwnabnB1B/884Xsoz6t85v0IS3+3Rsgn
-	 J0o3SnQBInTodOaVWxsSwtmVe208LI6m4vmODntm5OKHylqbyUyOj5lI9EZcL39ED0
-	 r5Es08FARcJw8S5cH39ndeEKXCY278tJwunwv18tqwEFyaFizGi9+dVkx9fDwIYGpH
-	 YmLOdXO+PiJNXHhTModXXy/x4P5Q1hPtvfsfmoJkgE2UU6Rd4IFJ82PQ9Iy3uHToLo
-	 j8X9HqQj8fpbg==
-Message-ID: <sashiko-outbox-227847@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4] ALSA: line6: Stop URBs synchronously via sync_stop
- callback
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261122090454.6217-1-25031212351@stu.xidian.edu.cn>
-References: <87a4n1702t.wl-tiwai@suse.de>
- <20261122090454.6217-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 09:20:09 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=VsvbYdwq
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=L2PQO1Eu8Zh0yQOhKwsxf82gavxb5aNtEP6JzcghrxY=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795339227; v=1; x=1795944027;
+ b=VsvbYdwqMl6RHdxshCYtsDW9cnuRG6M2BulTppJyRtjYyQTmJ9tzZ+eO1eqYIO/rwKLPeS30
+ wA/tP6XA6NTJ3YJT3RFmXmnW1A00G8Ux4L6PmVJblnE/f6lduXOvXHI5fk+ziUDPtniQZh1b+Ns
+ iPQscOgpciU6RfVMMChCs9lA=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id dcd1cfd034329e6a;
+	Sun, 22 Nov 2026 09:20:25 +0000
+X-Mizu-Trace-ID: dcd1cfd034329e6a
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <a527bf36-80d2-43d7-ab36-93f51e39fd02@linux.dev>
+Date: Sun, 22 Nov 2026 10:19:49 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,197 +57,231 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] soundwire: protect the slave IRQ mapping during alert
+ dispatch
+To: Jizhou Tong <fqwqf@fqwqf.xyz>, vkoul@kernel.org,
+ yung-chuan.liao@linux.intel.com
+Cc: rf@opensource.cirrus.com, ckeepax@opensource.cirrus.com,
+ srini@kernel.org, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <010601a20218c3b5-523b454f-b8b0-4259-9b20-524c1d435465-000000@ap-northeast-1.amazonses.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <010601a20218c3b5-523b454f-b8b0-4259-9b20-524c1d435465-000000@ap-northeast-1.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] ALSA: line6: snd_line6_sync_stop() kills URBs while shared
-  stream is running
-- [Medium] ALSA: line6: snd_line6_sync_stop() misses helper playback
-  stream on capture stop
-- [Medium] ALSA: line6: unsynchronized URB unlink when pstr->opened
-  remains non-zero
-- [Medium] ALSA: line6: NULL pointer dereference in
-  line6_kill_audio_urbs() on probe error
---
+On 11/22/26 08:11, Jizhou Tong wrote:
+> sdw_irq_create_mapping() publishes slave->irq before it registers the
+> devres action. If devm_add_action_or_reset() fails, it disposes the
+> mapping but leaves its number in slave->irq. sdw_bus_probe() then
+> calls the peripheral driver's probe() with that stale number.
 
-commit 03ea0b5c4363156759700a216da2dd67752857be
-Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Maybe I am thick and didn't get the problem, but if any error occurred
+in sdw_irq_create_mapping(), a simple way to prevent the driver probe
+from happening would be to change the prototype and return an error
+code, e.g.
 
-ALSA: line6: Stop URBs synchronously via sync_stop callback
+	/* Create IRQ mapping now so the driver can get it in probe() */
+	ret = sdw_irq_create_mapping(slave);
+	if (!ret)
+		return ret;
 
-This commit replaces line6_wait_clear_audio_urbs() with a synchronous
-line6_kill_audio_urbs() helper and wires it into the PCM sync_stop
-callback while removing the URB wait calls from snd_line6_prepare() and
-line6_pcm_acquire().
+	ret = drv->probe(slave, id);
 
-> diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
-> index d17baf7761c67..dc850aa2ebd09 100644
-> --- a/sound/usb/line6/pcm.c
-> +++ b/sound/usb/line6/pcm.c
-> @@ -109,29 +109,33 @@ static void line6_unlink_audio_urbs(struct snd_line=
-6_pcm *line6pcm,
->  }
-> =20
->  /*
-> -	Wait until unlinking of all currently active URBs has been finished.
-> -*/
-> -static void line6_wait_clear_audio_urbs(struct snd_line6_pcm *line6pcm,
-> -					struct line6_pcm_stream *pcms)
-> + * Mark all currently active URBs for unlinking and kill them.
-> + *
-> + * The unlink bit is set under the stream lock, so the completion
-> + * callbacks cannot resubmit these URBs any longer.  usb_kill_urb() then
-> + * waits for the giveback of every URB, hence the stream buffer is no
-> + * longer referenced by the host controller.  The unlink marks are
-> + * cleared afterwards, so that a later stream start can submit the URBs
-> + * again.  This function must be called from a sleepable context.
-> + */
-> +static void line6_kill_audio_urbs(struct snd_line6_pcm *line6pcm,
-> +				  struct line6_pcm_stream *pcms)
+> Clearing the number on release alone also leaves a window for the alert
+> handler to pick up the old IRQ before its mapping is disposed. Keep the
+> mapping private until cleanup is registered. On teardown, take a
+> per-slave write lock to drain active dispatches and clear the number
+> before disposing the mapping. Hold the read side across the nested IRQ
+> handler, which runs in thread context and can sleep.
+
+not following either. Presumably on a release, the interrupts are masked
+in the codec driver prior to cleanups at the bus level. In what case
+would an interrupt handler start *after* the resources are released?
+
+And last the 'irq_lock' is confusing, existing ASoC/SoundWire codec
+drivers already use a 'disable_irq_lock' - stored as a private resource
+to avoid polluting the sdw_slave struct.
+
+> The lock is independent of sdw_dev_lock so nested handlers continue to
+> run outside the peripheral callback lock. Peripherals that can operate
+> without an IRQ can still probe if mapping setup fails. Return early on
+> a zero mapping so there is no cleanup action to register for IRQ 0.
+> 
+> Fixes: a5fef9baa87f ("soundwire: bus: Move irq mapping cleanup into devres")
+> Link: https://lore.kernel.org/r/d7761226-31b0-4d0f-bc56-9c4d5e42bfba@opensource.cirrus.com
+> Signed-off-by: Jizhou Tong <fqwqf@fqwqf.xyz>
+> ---
+> This came up while moving WCD938x to SoundWire domain IRQs. Richard
+> previously pointed out the stale IRQ on release.
+> 
+> The rwsem lets overlapping alerts run and keeps per-slave state small.
+> Reusing sdw_dev_lock would bring it into nested handlers. A per-slave
+> SRCU domain would also have to drain readers during teardown. On this
+> base, mapping setup precedes the peripheral probe and sdw_dev_lock.
+> Unbind still holds the device mutex while draining readers. Do any
+> domain IRQ handlers depend on work that needs that same device mutex?
+> 
+> Built soundwire-bus.o with ARCH=arm64 W=1. In a four-vCPU arm64 guest
+> with PROVE_LOCKING and DEBUG_ATOMIC_SLEEP enabled, an emulated peripheral
+> ran three rounds of 200 driver-core bind/unbind cycles under concurrent
+> alert dispatch. Removal started with an active handler in 514 of the 600
+> cycles. To exercise lock ordering against sdw_dev_lock, the test handler
+> acquired that lock and slept while holding it. Lockdep remained enabled
+> and reported no warnings in any run.
+> The physical codec and runtime PM paths still need coverage.
+> 
+>  drivers/soundwire/bus.c       |  4 ++--
+>  drivers/soundwire/irq.c       | 36 +++++++++++++++++++++++++++++++----
+>  drivers/soundwire/irq.h       |  5 +++++
+>  drivers/soundwire/slave.c     |  1 +
+>  include/linux/soundwire/sdw.h |  3 +++
+>  5 files changed, 43 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
+> index aeaae5a57c89d8af05cadd6fe55d44856600e781..0bc0ad9e9934e790c27526ff4c736e8d5a2bebaf 100644
+> --- a/drivers/soundwire/bus.c
+> +++ b/drivers/soundwire/bus.c
+> @@ -1781,8 +1781,8 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
+>  
+>  		/* Update the Slave driver */
+>  		if (slave_notify) {
+> -			if (slave->prop.use_domain_irq && slave->irq)
+> -				handle_nested_irq(slave->irq);
+> +			if (slave->prop.use_domain_irq)
+> +				sdw_irq_handle(slave);
+>  
+>  			mutex_lock(&slave->sdw_dev_lock);
+>  
+> diff --git a/drivers/soundwire/irq.c b/drivers/soundwire/irq.c
+> index f18be37efef8e0ef63bad159cc0d9ebb619a89bf..1f13e1093d94863012fb966b555682826f051cb6 100644
+> --- a/drivers/soundwire/irq.c
+> +++ b/drivers/soundwire/irq.c
+> @@ -2,10 +2,13 @@
+>  // Copyright (C) 2023 Cirrus Logic, Inc. and
+>  //                    Cirrus Logic International Semiconductor Ltd.
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/device.h>
+>  #include <linux/fwnode.h>
+> +#include <linux/interrupt.h>
+>  #include <linux/irq.h>
+>  #include <linux/irqdomain.h>
+> +#include <linux/rwsem.h>
+>  #include <linux/soundwire/sdw.h>
+>  #include "irq.h"
+>  
+> @@ -49,15 +52,40 @@ void sdw_irq_delete(struct sdw_bus *bus)
+>  static void sdw_irq_dispose_mapping(void *data)
 >  {
-> -	int timeout =3D HZ;
->  	int i;
-> -	int alive;
-> =20
-> -	do {
-> -		alive =3D 0;
-> -		for (i =3D 0; i < line6pcm->line6->iso_buffers; i++) {
-> +	scoped_guard(spinlock_irqsave, &pcms->lock) {
-> +		for (i =3D 0; i < line6pcm->line6->iso_buffers; i++)
->  			if (test_bit(i, &pcms->active_urbs))
-> -				alive++;
-> -		}
-> -		if (!alive)
-> -			break;
-> -		set_current_state(TASK_UNINTERRUPTIBLE);
-> -		schedule_timeout(1);
-> -	} while (--timeout > 0);
-> -	if (alive)
-> -		dev_err(line6pcm->line6->ifcdev,
-> -			"timeout: still %d active urbs..\n", alive);
-> +				set_bit(i, &pcms->unlink_urbs);
+>  	struct sdw_slave *slave = data;
+> +	unsigned int irq;
+>  
+> -	irq_dispose_mapping(slave->irq);
+> +	scoped_guard(rwsem_write, &slave->irq_lock) {
+> +		irq = slave->irq;
+> +		slave->irq = 0;
 > +	}
 > +
-> +	for (i =3D 0; i < line6pcm->line6->iso_buffers; i++)
-> +		if (pcms->urbs[i])
-> +			usb_kill_urb(pcms->urbs[i]);
-
-[Severity: Medium]
-Can pcms->urbs[i] dereference a NULL pcms->urbs pointer when
-line6_init_pcm() fails during probe?
-
-line6_init_pcm() publishes line6->line6pcm before checking
-max_packet_size_in/out and before allocating out.urbs and in.urbs.  If one
-of those steps fails, line6_probe() unwinds via line6_disconnect() ->
-line6_pcm_disconnect() -> line6_kill_audio_urbs() while pcms->urbs is still
-NULL.  Checking if (!pcms->urbs) before the loop (as cleanup_urbs() does)
-would avoid this.
-
-[ ... ]
-
-> @@ -337,8 +341,6 @@ int line6_pcm_acquire(struct snd_line6_pcm *line6pcm,=
- int type, bool start)
->  		ret =3D line6_buffer_acquire(line6pcm, pstr, dir, type);
->  		if (ret < 0)
->  			goto error;
-> -		if (!pstr->running)
-> -			line6_wait_clear_audio_urbs(line6pcm, pstr);
->  	}
-
-[Severity: Medium]
-Does dropping the !pstr->running synchronization from line6_pcm_acquire()
-and snd_line6_prepare() leave URBs only asynchronously unlinked when
-pstr->opened remains non-zero?
-
-When a monitor or impulse stream is stopped via line6_pcm_release(),
-__line6_pcm_release() calls line6_stream_stop() (which only runs the
-unlocked, asynchronous line6_unlink_audio_urbs()) and then
-line6_buffer_release(), which only calls line6_kill_audio_urbs() when
-pstr->opened reaches 0.  If an idle PCM substream already holds a bit in
-pstr->opened (for example, snd_line6_capture_open() sets
-LINE6_STREAM_CAPTURE_HELPER in both out.opened and in.opened),
-line6_kill_audio_urbs() is skipped and ALSA core will not invoke
-snd_line6_sync_stop() because the PCM substream itself was not running.
-
-If the stream is then started again via line6_pcm_acquire() or
-snd_line6_trigger() while active_urbs or unlink_urbs is still non-zero
-from the asynchronous unlink, line6_stream_start() sees
-(pstr->active_urbs || pstr->unlink_urbs) non-zero, sets the bit in
-pstr->running without submitting URBs, and leaves the stream stalled once
-the unlinking URBs complete:
-
-sound/usb/line6/pcm.c:line6_stream_start() {
-	...
-	if (!test_and_set_bit(type, &pstr->running) &&
-	    !(pstr->active_urbs || pstr->unlink_urbs)) {
-		pstr->count =3D 0;
-		ret =3D line6_submit_audio_urbs(line6pcm, pstr);
-	}
-	...
-}
-
-[ ... ]
-
-> @@ -592,15 +592,23 @@ int line6_init_pcm(struct usb_line6 *line6,
+> +	irq_dispose_mapping(irq);
 >  }
->  EXPORT_SYMBOL_GPL(line6_init_pcm);
-> =20
-> +/* common PCM sync_stop callback */
-> +int snd_line6_sync_stop(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_line6_pcm *line6pcm =3D snd_pcm_substream_chip(substream);
-> +	struct line6_pcm_stream *pstr =3D get_stream(line6pcm, substream->strea=
-m);
+>  
+>  void sdw_irq_create_mapping(struct sdw_slave *slave)
+>  {
+> -	slave->irq = irq_create_mapping(slave->bus->domain, slave->index);
+> -	if (!slave->irq)
+> +	unsigned int irq;
 > +
-> +	guard(mutex)(&line6pcm->state_mutex);
-> +	line6_kill_audio_urbs(line6pcm, pstr);
-> +	return 0;
+> +	irq = irq_create_mapping(slave->bus->domain, slave->index);
+> +	if (!irq) {
+>  		dev_warn(&slave->dev, "Failed to map IRQ\n");
+> +		return;
+> +	}
+> +
+> +	if (devm_add_action(&slave->dev, sdw_irq_dispose_mapping, slave)) {
+> +		irq_dispose_mapping(irq);
+> +		dev_warn(&slave->dev, "Failed to register IRQ mapping cleanup\n");
+> +		return;
+> +	}
+> +
+> +	guard(rwsem_write)(&slave->irq_lock);
+> +	slave->irq = irq;
 > +}
+> +
+> +void sdw_irq_handle(struct sdw_slave *slave)
+> +{
+> +	guard(rwsem_read)(&slave->irq_lock);
+>  
+> -	devm_add_action_or_reset(&slave->dev, sdw_irq_dispose_mapping, slave);
+> +	if (slave->irq)
+> +		handle_nested_irq(slave->irq);
+>  }
+> diff --git a/drivers/soundwire/irq.h b/drivers/soundwire/irq.h
+> index 86e2318409dab8b8137df45586029a6312ee61ff..93e949ec10ca37abea6f0fb8f88e4f016e83259a 100644
+> --- a/drivers/soundwire/irq.h
+> +++ b/drivers/soundwire/irq.h
+> @@ -16,6 +16,7 @@ int sdw_irq_create(struct sdw_bus *bus,
+>  		   struct fwnode_handle *fwnode);
+>  void sdw_irq_delete(struct sdw_bus *bus);
+>  void sdw_irq_create_mapping(struct sdw_slave *slave);
+> +void sdw_irq_handle(struct sdw_slave *slave);
+>  
+>  #else /* CONFIG_IRQ_DOMAIN */
+>  
+> @@ -33,6 +34,10 @@ static inline void sdw_irq_create_mapping(struct sdw_slave *slave)
+>  {
+>  }
+>  
+> +static inline void sdw_irq_handle(struct sdw_slave *slave)
+> +{
+> +}
+> +
+>  #endif /* CONFIG_IRQ_DOMAIN */
+>  
+>  #endif /* __SDW_IRQ_H */
+> diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
+> index a7d2938b031d0f2d32986e93ffb2bd85e7d73520..ffe21bb04ff70e71af681b26cc475ea65c188c68 100644
+> --- a/drivers/soundwire/slave.c
+> +++ b/drivers/soundwire/slave.c
+> @@ -65,6 +65,7 @@ int sdw_slave_add(struct sdw_bus *bus,
+>  	slave->probed = false;
+>  	slave->first_interrupt_done = false;
+>  	mutex_init(&slave->sdw_dev_lock);
+> +	init_rwsem(&slave->irq_lock);
+>  
+>  	for (i = 0; i < SDW_MAX_PORTS; i++)
+>  		init_completion(&slave->port_ready[i]);
+> diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+> index f710e5932b4b23c025579b3c8346fe4b5e5f2624..d8c8eae7aed67ae02a140656432a561b28876575 100644
+> --- a/include/linux/soundwire/sdw.h
+> +++ b/include/linux/soundwire/sdw.h
+> @@ -15,6 +15,7 @@
+>  #include <linux/lockdep_types.h>
+>  #include <linux/device-id/sdw.h>
+>  #include <linux/mutex.h>
+> +#include <linux/rwsem.h>
+>  #include <linux/types.h>
+>  #include <sound/sdca.h>
+>  
+> @@ -643,6 +644,7 @@ struct sdw_slave_ops {
+>   * @id: MIPI device ID
+>   * @dev: Linux device
+>   * @index: internal ID for this slave
+> + * @irq_lock: protects the IRQ mapping during nested interrupt handling
+>   * @irq: IRQ number
+>   * @status: Status reported by the Slave
+>   * @bus: Bus handle
+> @@ -676,6 +678,7 @@ struct sdw_slave {
+>  	struct sdw_slave_id id;
+>  	struct device dev;
+>  	int index;
+> +	struct rw_semaphore irq_lock;
+>  	int irq;
+>  	enum sdw_slave_status status;
+>  	struct sdw_bus *bus;
+> 
+> base-commit: afd88e7ad78170040612f608203734156b8a9eb1
+> 
 
-[Severity: High]
-Does snd_line6_sync_stop() kill in-flight URBs on pstr even when another
-stream type in pstr->running is still using the stream?
-
-pstr->running is a bitmask shared across LINE6_STREAM_PCM,
-LINE6_STREAM_MONITOR, LINE6_STREAM_IMPULSE, and
-LINE6_STREAM_CAPTURE_HELPER.  When a PCM substream stops,
-line6_stream_stop() clears LINE6_STREAM_PCM and returns early if another
-bit in pstr->running is still set so the URBs keep running:
-
-sound/usb/line6/pcm.c:line6_stream_stop() {
-	scoped_guard(spinlock_irqsave, &pstr->lock) {
-		clear_bit(type, &pstr->running);
-		if (pstr->running)
-			return;
-	}
-
-	line6_unlink_audio_urbs(line6pcm, pstr);
-}
-
-Because snd_line6_sync_stop() does not check if (!pstr->running) before
-calling line6_kill_audio_urbs(), stopping a PCM playback or capture stream
-(on drop, prepare, hw_free, or close) kills the URBs while software
-monitoring (enabled at startup on TonePort devices) or capture on
-LINE6_CAP_IN_NEEDS_OUT devices is still active.  With the other stream's
-bit still set in pstr->running, later line6_stream_start() calls for that
-type see test_and_set_bit(type, &pstr->running) already set and cannot
-restart the URBs.
-
-[Severity: Medium]
-On devices with LINE6_CAP_IN_NEEDS_OUT, does snd_line6_sync_stop() also
-need to synchronize &line6pcm->out when stopping a capture substream?
-
-In snd_line6_trigger(), stopping SNDRV_PCM_STREAM_CAPTURE on a
-LINE6_CAP_IN_NEEDS_OUT device also stops LINE6_STREAM_CAPTURE_HELPER on
-SNDRV_PCM_STREAM_PLAYBACK via line6_stream_stop(), which only performs an
-asynchronous line6_unlink_audio_urbs() on &line6pcm->out.  Because
-snd_line6_sync_stop() only kills URBs on get_stream(line6pcm,
-substream->stream) (&line6pcm->in) and the wait in snd_line6_prepare() is
-removed, re-preparing and restarting capture while &line6pcm->out URBs are
-still unlinking causes line6_stream_start() for
-LINE6_STREAM_CAPTURE_HELPER to see active_urbs or unlink_urbs non-zero and
-skip submitting playback URBs, stalling capture.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261122090454.6217=
--1-25031212351@stu.xidian.edu.cn?part=3D1
