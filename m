@@ -1,99 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795343788;
-	b=Mk1jPCXodKLmrbSkkOjEweV+oHMNyj5ls9L4NQFzkwPiKbqyap4wjXvwwbOEtiwmLsEx
-	 fw4MBrJRUranNoJBpQqw0dhazIuxLgh7rwc70eIozvhXsrPaS8yzpsgaFRuOD6CLwGWAO
-	 Ns+FBpT/D7D88c4amVIMaEkIgsEmQtxEWS6XJnU6Cs+23jVFBU5crl0HPb1Ty2nkdy6CL
-	 7kXizEfMBI6TEnXViMGAKpg5X/lsKiqDfjF8V6wPVGu1SWOaBZ9QNjxoHFptZCpiPXMPa
-	 UiCmjqoCpHpBM3cprDW5x+k80tp3JW98IwkVmImgxLhaf7t3vq5V17jDLaTfemZ2+wg==
+	t=1795344054;
+	b=xYgOd+jUleF+1InZMVbCOIC4KJkJUFfstRGOdPAnGeB0k4fhJudE2n99SGGh0WpFfSIX
+	 Eh7GWj4uXmb7xGGUdTtpsf2PYB3yfxBcB9O1wxpXm0NabJgG8PQ2DG6IolECw0CH1sUMU
+	 mHQ0byAu0wnvPLG9UTr5duJktHP3VxvW0rcQIG0YBsUi3Jvr8/rqutT/hig4WZJ+Dum1p
+	 6/U+PrdXsYm1q/8lmCNm8xC86/Zz+Fsertt4JvwcMCbE2lXWhIuvnZYiwX4f1CuuHaHw8
+	 6zTgj12yVs2kjQ1mIOHRFBT2snJ03gGJGf+2tFio2SB52kTUeM8EK7Oy2uLyXBOL71A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795343788;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=/jvXQi6RIlt7Mtlnt0QbS4ARuJGb7qPHJ6+jlWg3p4k=;
-	b=x5AHGi5OZZSdkUj3kIiRX9YATZXq8ATRhSmDRotOR929cs77tIqZZnj7LTav6bdUiCve
-	 rJxgkrbUXSiyr46uTl9F71yWeDksQibfBfmhhpUU7OvvUUmW1UCbmttbshhKKa0Vtap4Q
-	 BX2G260VZyr4UNzTptdkqgWOqPK4X0wD7XUu00PZFqX8maUaBlY70W8iWG4TGzMUbJgpB
-	 OsxXWdluXz+oVXFxkyu7e/a4XuM/q61oT/tNrgN/SjCccwLsemSZjQ2QwXWPzA/bK7qrc
-	 nxyKSb+Wlap58h7hkWFCI2x32yck9ovXT4mueFyPrpBAyr0xnmmBB5p401QbGW7wXCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795344054;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=jhmtZHgAZHHLxL1xrZ0iLQYNj0E6BsWsRpu5xb+aQ5o=;
+	b=KWFydQDodFF6Q1vMIGIBsW5pLvfYWkvWicVw83NF1qvd1yBpozlZuAjHzzspFdSeC9TS
+	 4Of3mE7wvJ77/qa4GFdxwX/ZeSXfEIRroia1huDp1MdlWnZcC1arVFQcgkl7GLvX4CKQy
+	 aguyAQ5cfoLQBBO9hNI5Qrznqod8CERA11gXtof5fbESvsYwJYK3xePywPYt5q1wLVGMZ
+	 lKVYOc7kZEwJvBZZMgZ7e5QOOgD4moB6K3+Jbae01f+yi6wfaWtnxL7Z7ByIk1tDbF5bC
+	 JDi98fw/MA6A0c7Mw1A1OhmXioExMd9+kKa/x52h0aaowELMgri04mECqaKZQ6QG2cQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OTrB9kG+;
-	arc=none smtp.remote-ip=74.125.82.179
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D4E606A337
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 10:36:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95D4E606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OTrB9kG+
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-380b40312e2so5475018eec.1
-        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 02:36:27 -0800 (PST)
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9280606A32A;
+	Sun, 22 Nov 2026 10:40:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9280606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795343787; x=1795948587; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/jvXQi6RIlt7Mtlnt0QbS4ARuJGb7qPHJ6+jlWg3p4k=;
-        b=OTrB9kG+zDwFTQehuRLEAcN1WkieTn0pOHRiTB9/eh53c3uJmmO09751vH6i/+gOLu
-         pgG7l2wyutG7jRl56gYC/AautEwNenET3+/Iapran3yZtODUegFhZG1V9/94yKeRr5FY
-         Z4UqzyQ1JB+XAG/8SZByFJKP3WYfZx0dk0uWCqfuv7LYPyXnkVEY81BYhYsILQDZiuGt
-         aB4Wwr4b0XCYkS+6oJ5rN0rhgLbtkHLCBODVy9bsmXvayQIsjdD5V3VJHNA1VCjMMCO4
-         gYCFWQnb/bWBLN5VNuSdPgfqTQ8pC9kBnXx4gPoRiPbVFFVnx6F9ed8/bROlhoEeYlkm
-         HNJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795343787; x=1795948587;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/jvXQi6RIlt7Mtlnt0QbS4ARuJGb7qPHJ6+jlWg3p4k=;
-        b=pmWdGEUwoDaQLkcUnj25NJkhCK5b7kZ+S0xrHQgcvYWbpoQIT83y0Vjy9yQ3WYJn7b
-         8IRwax8GoHDSWeRyIWkxYU7FnZ/Bg5bEZid3j3DcVhP3LLZTqlKdMiUKwsmRyhfYq5jI
-         JaWLefJGiccdbcmXzhanCsetQQZ3BWFhcXqgWyuAGZ61ES04VsW0/UOGhvGSeuRa6plP
-         YecNrfP0q7yp8gH6B7Xa/RvWNReFIGfMVj2qGKZvZ/IQ19TPyl4Z0LJzOK7Owej5+NXu
-         Uo0u6qapmvpA9hS93cEDKcZCxTZwF4WLCKLUIdi9VsFwWixM9B251iQG05jA7AE/CS9Z
-         TAmQ==
-X-Forwarded-Encrypted: i=1; AL+hErGPAbrm+11Myvtp0a5QCebMd6IY46LsB9hx2Tvpg5de/8mCrpYK7wiLg2ruD4+rVkvaBm/3ZMlVjlXABg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/+hQTrZ22qU34aNeCkQ7j1iUDzCLD0xFd8BAgVKk6XOpG+Y8rN
-	Cl8wf5ZLmYT5h6jFQqxuHe6tBO9SzcZCh9Ecw077P5YHcj60xvISBqor
-X-Gm-Gg: AZFdTZf69QORJfwu18EcLhsT7qiTV/IQpEumtnYzvoXm2wVFIvwKgrdFbXhzvO6aw+d
-	EKp2Ax66gcZ+H+r6YIObKUEHaJY2GTDAWqEVm99RgqcwJIB2UP17m0nXZibimcBkGE0BU/BeJnh
-	msnooxmdQXAOm97Gh70LWwg//952ecCmXONOb9ic5YUoot6/94WTZllWyLwfK2fPuBsrX9Dd1HK
-	jNoChT/XrDWd9UquvAXW6EgKMzQadm08YCrJ/WFq0LR69qGcdUL7+lqmtx5PLHJ63Vf8MJm4TPh
-	bt/81oeoKc2eKKcls+xtN1TJIF7bXkOw73WYCCASakL0EFrsLx/j1k2bLaloTZZ4NeukURmFO4i
-	0cQM6lm4xSF9cQhw2nBjt22huolBb2cQ2Fezc4TQzxrsiYje7V2nKmx1rmWQ77lf49rZQ4XSMbu
-	/rLRhpwbjKzNKkMGNslxbyBPhhqk5mTE64a38HU1hwj2RgjfkzRee33TKEQy0SOtX9r4bPcgwUN
-	7GkL7nWglE8rXgfAFpNiqYIh0APG5brEJLIsEjKuodj5nDaDTLRkD7dT0ZpmTOSwgPcHxSFMbZS
-	pDgKJP1G6LIcTedQT0UPyps8F8MZ04VYKLCiQimrZ8i85FUDKzGoT7HHXLNJKd5Q+HW4W0AsKRs
-	WP3+2QzGYDaa4UuEHjgejI5jMkwdZfoF8jffIToZ/
-X-Received: by 2002:a05:7300:bf27:b0:36d:3c0f:cc6f with SMTP id 5a478bee46e88-3856c9a7dd1mr10341532eec.3.1795343786729;
-        Sun, 22 Nov 2026 02:36:26 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385667decc2sm26176803eec.9.2026.11.22.02.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 02:36:26 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Mark Brown <broonie@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=jhmtZHgAZHHLxL1xrZ0iLQYNj0E6BsWsRp
+	u5xb+aQ5o=; b=BRETWVW2iK3zgHYf5/mKXcFPP+8Q90us5dIhnG6nP4qLapmAt4
+	DeyWeGHC6gKRSlQRWlpG/EkMBZok6yOwWkx/3gunQcjCyNWchcrCwilTtJEKh3Ys
+	CYumSX+BooB9N1fN1yO9vOdiTcg1vXF1KZZ2F6BZA5YiVyn6aexBys6+k=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.70])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkCmqfyoxgJrgsIOAg--.2960S2;
+	Sun, 22 Nov 2026 18:40:40 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH 2/2] selftests/alsa: Test the sequencer UMP MIDI 2.0 RPN conversion
-Date: Sun, 22 Nov 2026 19:36:11 +0900
-Message-ID: <20261122103611.3264343-3-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261122103611.3264343-1-sammiee5311@gmail.com>
-References: <20261122103611.3264343-1-sammiee5311@gmail.com>
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH v6] ALSA: line6: Stop URBs synchronously via sync_stop callback
+Date: Sun, 22 Nov 2026 18:40:39 +0800
+Message-Id: <20261122104039.7160-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <87a4n1702t.wl-tiwai@suse.de>
+References: <87a4n1702t.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,45 +62,298 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkCmqfyoxgJrgsIOAg--.2960S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3CrWkWFy7tr4xZr4rtFWfuFg_yoWkWw4xpF
+	yru3y5Kr47JF1IvrW7XwsYqw1aqw18tFnxKw1UCrZYya1fG3WrX3W7AF1fur4DCF4v9ay3
+	Zr4jq3y5Grs8GaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9vb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
+	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6r
+	W5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
+	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s
+	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
+	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+	W8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5X_-JUUUUU==
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUFD2sBs9hbQAAAsU
 
-Check that an RPN and an NRPN from a UMP MIDI 2.0 client reach a UMP
-MIDI 1.0 client as the four CCs that select and set them. The NRPN data
-has low bits set, so CC 38 is checked as well.
+line6_buffer_release() frees the stream buffer after
+line6_wait_clear_audio_urbs() gave up waiting for the URBs that are still
+active.  The buffer is still referenced by those URBs, and the completion
+callback of such an URB resubmits it from submit_audio_out_urb() with
+line6pcm->out.buffer already set to NULL, which ends up in a NULL pointer
+dereference in the memset() in submit_audio_out_urb().
 
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+While the URBs remain queued, the host controller can also write the
+received isochronous data into the freed buffer.  Such a write does not go
+through the KASAN checks, so it silently corrupts the freed slab object;
+the corruption was observed as a bogus KASAN quarantine entry that later
+led to a general protection fault in qlist_free_all().
+
+The active_urbs bitmap cannot prove that the URBs are gone:
+line6_unlink_audio_urbs() is called outside the stream lock and only marks
+the URBs that are active at that moment, so an URB resubmitted by a
+completion callback right after the scan is never unlinked and keeps being
+resubmitted after the stream was stopped.
+
+Stop the URBs synchronously instead of polling for them: mark the URBs
+that are currently active under the stream lock, so that the completion
+callbacks cannot resubmit them, and kill them with usb_kill_urb(), which
+waits for the giveback.  Expose this through the sync_stop PCM op, which
+ALSA core invokes before hw_free(), hw_params() and prepare() once the
+stream was stopped, so the buffer is guaranteed to be unused when it is
+released.
+
+The URBs are marked and killed only while no stream is running on that
+stream, and only those that are active at that moment, so neither a
+stream started concurrently nor another stream type still running
+(software monitoring, impulse or the capture helper) is stopped.
+Unlink marks left on already completed URBs are dropped afterwards, while
+those of still active URBs are kept, so that a later stream start can
+submit the URBs again.
+
+line6_pcm_acquire() and snd_line6_prepare() keep a synchronous stop for
+an idle stream as well: sync_stop() is invoked only when the substream
+itself was stopped, while the other stream types sharing the same stream
+never set that, and their unlinking URBs would make
+line6_stream_start() skip the submission.  line6_pcm_disconnect() and
+line6_buffer_release() stop the URBs unconditionally, as the device may
+be gone already and the buffer is about to be freed.
+
+The helper skips the loop when the URBs were not created, as
+line6_pcm_disconnect() may run after a failed probe.
+
+Fixes: 63e20df1e5b2 ("ALSA: line6: Reorganize PCM stream handling")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 ---
- tools/testing/selftests/alsa/seq-ump-test.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+v6:
+- Mark and kill only the URBs that are active at that moment, and only
+  while no other stream is running, so that a concurrently started stream
+  is not stopped; drop only the unlink marks of completed URBs.
+- Keep the synchronous stop in snd_line6_prepare() as well, since
+  sync_stop() is invoked only when that substream itself was stopped.
 
-diff --git a/tools/testing/selftests/alsa/seq-ump-test.c b/tools/testing/selftests/alsa/seq-ump-test.c
-index 55bb7ea5b02f..7030d061dfae 100644
---- a/tools/testing/selftests/alsa/seq-ump-test.c
-+++ b/tools/testing/selftests/alsa/seq-ump-test.c
-@@ -620,4 +620,24 @@ TEST_F(seq_pair, ump_midi2_to_midi1_note)
- 			  { 0x20913c01, 0 }, { 0x20813c00, 0 });
+v5:
+- Skip line6_kill_audio_urbs() when the URBs are not created yet, as
+  line6_pcm_disconnect() can be called after a failed probe.
+- Stop the URBs while no other stream type is running, and stop the
+  leftover playback URBs of the capture helper as well.
+
+v4:
+- Add the sync_stop PCM op and drop the waits from snd_line6_prepare()
+  and line6_pcm_acquire(), as suggested by Takashi Iwai.
+
+v3:
+- Kill the URBs unconditionally instead of rechecking active_urbs outside
+  the stream lock, and clear the unlink marks after the kills.
+
+v2:
+- Rebased on sound/for-next.  v1 was generated against v7.3.1 and no longer
+  applied, because line6_buffer_release() gained the prev_fbuf clearing
+  block in the meantime.  No code change.
+---
+ sound/usb/line6/capture.c  |   1 +
+ sound/usb/line6/pcm.c      | 102 ++++++++++++++++++++++++++-----------
+ sound/usb/line6/pcm.h      |   1 +
+ sound/usb/line6/playback.c |   1 +
+ 4 files changed, 76 insertions(+), 29 deletions(-)
+
+diff --git a/sound/usb/line6/capture.c b/sound/usb/line6/capture.c
+index 626274e503c7..fa98c26cf77d 100644
+--- a/sound/usb/line6/capture.c
++++ b/sound/usb/line6/capture.c
+@@ -284,6 +284,7 @@ const struct snd_pcm_ops snd_line6_capture_ops = {
+ 	.hw_free = snd_line6_hw_free,
+ 	.prepare = snd_line6_prepare,
+ 	.trigger = snd_line6_trigger,
++	.sync_stop = snd_line6_sync_stop,
+ 	.pointer = snd_line6_pointer,
+ };
+ 
+diff --git a/sound/usb/line6/pcm.c b/sound/usb/line6/pcm.c
+index d17baf7761c6..34d68a9ce328 100644
+--- a/sound/usb/line6/pcm.c
++++ b/sound/usb/line6/pcm.c
+@@ -109,29 +109,51 @@ static void line6_unlink_audio_urbs(struct snd_line6_pcm *line6pcm,
  }
  
-+TEST_F(seq_pair, ump_midi2_to_midi1_rpn)
+ /*
+-	Wait until unlinking of all currently active URBs has been finished.
+-*/
+-static void line6_wait_clear_audio_urbs(struct snd_line6_pcm *line6pcm,
+-					struct line6_pcm_stream *pcms)
++ * Mark all currently active URBs for unlinking and kill them.
++ *
++ * The unlink bit is set under the stream lock, so the completion
++ * callbacks cannot resubmit these URBs any longer.  usb_kill_urb() then
++ * waits for the giveback of every URB, hence the stream buffer is no
++ * longer referenced by the host controller.  This function must be
++ * called from a sleepable context.
++ *
++ * When @idle_only is set, nothing is done if some stream is still running
++ * on @pcms, and only the URBs that are active at that moment are killed,
++ * so that a concurrently started stream is never stopped.
++ */
++static void line6_kill_audio_urbs(struct snd_line6_pcm *line6pcm,
++				  struct line6_pcm_stream *pcms, bool idle_only)
+ {
+-	int timeout = HZ;
++	unsigned long active;
+ 	int i;
+-	int alive;
+ 
+-	do {
+-		alive = 0;
+-		for (i = 0; i < line6pcm->line6->iso_buffers; i++) {
+-			if (test_bit(i, &pcms->active_urbs))
+-				alive++;
+-		}
+-		if (!alive)
+-			break;
+-		set_current_state(TASK_UNINTERRUPTIBLE);
+-		schedule_timeout(1);
+-	} while (--timeout > 0);
+-	if (alive)
+-		dev_err(line6pcm->line6->ifcdev,
+-			"timeout: still %d active urbs..\n", alive);
++	/* May be called when the URB creation failed during the probe */
++	if (!pcms->urbs)
++		return;
++
++	scoped_guard(spinlock_irqsave, &pcms->lock) {
++		if (idle_only && pcms->running)
++			return;
++		active = pcms->active_urbs;
++		for_each_set_bit(i, &active, line6pcm->line6->iso_buffers)
++			set_bit(i, &pcms->unlink_urbs);
++	}
++
++	for_each_set_bit(i, &active, line6pcm->line6->iso_buffers)
++		if (pcms->urbs[i])
++			usb_kill_urb(pcms->urbs[i]);
++
++	/*
++	 * Drop the unlink marks left on URBs that were completed and not
++	 * resubmitted, so that a later stream start can submit the URBs
++	 * again.  An URB that is still active keeps its mark.
++	 */
++	scoped_guard(spinlock_irqsave, &pcms->lock) {
++		for_each_set_bit(i, &pcms->unlink_urbs,
++				 line6pcm->line6->iso_buffers)
++			if (!test_bit(i, &pcms->active_urbs))
++				clear_bit(i, &pcms->unlink_urbs);
++	}
+ }
+ 
+ static inline struct line6_pcm_stream *
+@@ -172,7 +194,7 @@ static void line6_buffer_release(struct snd_line6_pcm *line6pcm,
+ {
+ 	clear_bit(type, &pstr->opened);
+ 	if (!pstr->opened) {
+-		line6_wait_clear_audio_urbs(line6pcm, pstr);
++		line6_kill_audio_urbs(line6pcm, pstr, false);
+ 		if (pstr == &line6pcm->in) {
+ 			/* prev_fbuf points into the capture buffer we are about
+ 			 * to free; drop it while no capture URB is in flight.
+@@ -337,8 +359,7 @@ int line6_pcm_acquire(struct snd_line6_pcm *line6pcm, int type, bool start)
+ 		ret = line6_buffer_acquire(line6pcm, pstr, dir, type);
+ 		if (ret < 0)
+ 			goto error;
+-		if (!pstr->running)
+-			line6_wait_clear_audio_urbs(line6pcm, pstr);
++		line6_kill_audio_urbs(line6pcm, pstr, true);
+ 	}
+ 	if (start) {
+ 		for (dir = 0; dir < 2; dir++) {
+@@ -510,10 +531,8 @@ static int snd_line6_new_pcm(struct usb_line6 *line6, struct snd_pcm **pcm_ret)
+ */
+ void line6_pcm_disconnect(struct snd_line6_pcm *line6pcm)
+ {
+-	line6_unlink_audio_urbs(line6pcm, &line6pcm->out);
+-	line6_unlink_audio_urbs(line6pcm, &line6pcm->in);
+-	line6_wait_clear_audio_urbs(line6pcm, &line6pcm->out);
+-	line6_wait_clear_audio_urbs(line6pcm, &line6pcm->in);
++	line6_kill_audio_urbs(line6pcm, &line6pcm->out, false);
++	line6_kill_audio_urbs(line6pcm, &line6pcm->in, false);
+ }
+ 
+ /*
+@@ -592,6 +611,27 @@ int line6_init_pcm(struct usb_line6 *line6,
+ }
+ EXPORT_SYMBOL_GPL(line6_init_pcm);
+ 
++/* common PCM sync_stop callback */
++int snd_line6_sync_stop(struct snd_pcm_substream *substream)
 +{
-+	int skip = 0;
-+	int err;
++	struct snd_line6_pcm *line6pcm = snd_pcm_substream_chip(substream);
++	struct line6_pcm_stream *pstr = get_stream(line6pcm, substream->stream);
 +
-+	err = open_pair(&self->dst, SNDRV_SEQ_CLIENT_UMP_MIDI_1_0,
-+			&self->src, SNDRV_SEQ_CLIENT_UMP_MIDI_2_0, &skip);
-+	if (skip)
-+		SKIP(return, "UMP sequencer client unavailable: %s",
-+		     strerror(-err));
-+	ASSERT_EQ(0, err);
-+
-+	SEND_UMP(0x40210001, 0x80000000);
-+	SEND_UMP(0x40310203, 0x12345678);
-+	EXPECT_MT_PACKETS(2, { 0x20b16500, 0 }, { 0x20b16401, 0 },
-+			  { 0x20b10640, 0 }, { 0x20b12600, 0 },
-+			  { 0x20b16302, 0 }, { 0x20b16203, 0 },
-+			  { 0x20b10609, 0 }, { 0x20b1260d, 0 });
++	guard(mutex)(&line6pcm->state_mutex);
++	line6_kill_audio_urbs(line6pcm, pstr, true);
++	/*
++	 * A capture stream may use the playback stream as a helper, and
++	 * snd_line6_trigger() stops it together with the capture stream.
++	 * Stop the leftover playback URBs here as well, so that the helper
++	 * stream can be restarted at the next trigger.
++	 */
++	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE &&
++	    (line6pcm->line6->properties->capabilities &
++	     LINE6_CAP_IN_NEEDS_OUT))
++		line6_kill_audio_urbs(line6pcm, &line6pcm->out, true);
++	return 0;
 +}
 +
- TEST_HARNESS_MAIN
+ /* prepare pcm callback */
+ int snd_line6_prepare(struct snd_pcm_substream *substream)
+ {
+@@ -599,8 +639,12 @@ int snd_line6_prepare(struct snd_pcm_substream *substream)
+ 	struct line6_pcm_stream *pstr = get_stream(line6pcm, substream->stream);
+ 
+ 	guard(mutex)(&line6pcm->state_mutex);
+-	if (!pstr->running)
+-		line6_wait_clear_audio_urbs(line6pcm, pstr);
++	/*
++	 * sync_stop() is called only after this substream itself was
++	 * stopped; other stream types sharing the stream (monitor, impulse
++	 * or the capture helper) may have left URBs unlinking.
++	 */
++	line6_kill_audio_urbs(line6pcm, pstr, true);
+ 
+ 	if (!test_and_set_bit(LINE6_FLAG_PREPARED, &line6pcm->flags)) {
+ 		line6pcm->out.count = 0;
+diff --git a/sound/usb/line6/pcm.h b/sound/usb/line6/pcm.h
+index a15913bf2a7a..21e550948cd8 100644
+--- a/sound/usb/line6/pcm.h
++++ b/sound/usb/line6/pcm.h
+@@ -183,6 +183,7 @@ extern int line6_init_pcm(struct usb_line6 *line6,
+ 			  struct line6_pcm_properties *properties);
+ extern int snd_line6_trigger(struct snd_pcm_substream *substream, int cmd);
+ extern int snd_line6_prepare(struct snd_pcm_substream *substream);
++extern int snd_line6_sync_stop(struct snd_pcm_substream *substream);
+ extern int snd_line6_hw_params(struct snd_pcm_substream *substream,
+ 			       struct snd_pcm_hw_params *hw_params);
+ extern int snd_line6_hw_free(struct snd_pcm_substream *substream);
+diff --git a/sound/usb/line6/playback.c b/sound/usb/line6/playback.c
+index e93a16f6958e..10e273f4b77a 100644
+--- a/sound/usb/line6/playback.c
++++ b/sound/usb/line6/playback.c
+@@ -414,6 +414,7 @@ const struct snd_pcm_ops snd_line6_playback_ops = {
+ 	.hw_free = snd_line6_hw_free,
+ 	.prepare = snd_line6_prepare,
+ 	.trigger = snd_line6_trigger,
++	.sync_stop = snd_line6_sync_stop,
+ 	.pointer = snd_line6_pointer,
+ };
+ 
 -- 
-2.43.0
+2.34.1
 
