@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795365434;
-	b=BCOH2e/w+69FYkw9UMZo4apQnJjuG8yx2to2AGTBFo75EdCLWbidGChUd2wu/ic9wbpm
-	 aI2cjsSwqkatwMZpn27Y2IKFvQB39kkQsUcvoY9uUmuHB9Z1vMkAs5FrNdzH0WVCx7Epk
-	 NrDYFV2gtxlcLl3gXPOgRGmfZRF4Pw583t0sDlDF03o96WNdm5TDmNEFUsl0Dq5GPyna+
-	 hbgHn9+uFQDvHHtWyxt76u6m1NkaSHabp0NMuGy3/Hkh/V86CbmCl+yQMfY9OHb3RER2X
-	 B7wUWjkFFbQhDV4JpuaRjDyA+LE5eSf1EybCUG5emKPG0G2eMtO7+P/3Yvk6zHx2UJA==
+	t=1795365461;
+	b=XaFFrcBAc4gCwsqFT//bsq6OWErv3whYArK0Aqb9CaGwhrizOaMil5r2CE8Ha/3rwT8k
+	 tK7G4hhfWJszTVPwXqoUadAY2MRISx3gi2KH8RJj/j/+7JyJc45T1q1vpSMh+BITbL6Ll
+	 GuiQ/pnykjZrNO9LICxeWAgiIb9XYQmw8tAL6SCNaefkRZXAZMEoDWnl6KadSuuu8Edu/
+	 pWnjLFsa38QrXSo9vMTe0cE33WmsmjOsP4vRgajXlqxU/mfN9um2lhcvjJvk5rBqBfijb
+	 knsIZ4e5rAOsAXqt5PzzlygC/FJxtHtI6x5UpDvKpnOxEDv15StMLKTubpnfc70lSow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795365434;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795365461;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=GWAglO+5a4u/5RewBNuoI5oFRHjla/0a2x/fQ/FR7Qs=;
-	b=nHM3dBvkA+nwDpcFZ18+SZ9xTSG3O+TlUKTx8oXqaXb9v1xfJVbX4wxvbLNz5HrA6w/o
-	 3cCjSJYvPDJS7orMAuf3bnQsh0boOOiz5gh7CPoSXRgD0fgBOM4ZQhaIoymX+juM6mtFj
-	 14bLBIHLM9xIn5qmpUn61IFGwf0bQW9rQgK7jlMfj8RBk7Z93boH6KL/+a8nIdGsovgKr
-	 HXD6OvBEkSN7GAY8r7T1FMIwv7vyIAg8Wy74PFEZzOcKb1zEpsRMYc9DKpfwvuOgCN5Gt
-	 H4pOwmy38u+w6XCnfMLkMUrQAV1NcG0evlnCjM06pwEn5Uxzc0UUAgGqi3Hb0rIWsRw==
+	bh=nY+jX+tTjVCxVX3DPZeOwp/3aFpE5Bnh/bsfQicddJg=;
+	b=vlscj/uBYRZdTCXCchIlM/oYvaKxDmothTfoG9AWC4QkkacejmZA1x9hW4fjqphTFUSe
+	 rqHfQnhZWa2yN8U5WmEKDWkLXhT7Yd8DmteE64kcT6R8P+ifjJuHP29l0pqOzM27k+Adu
+	 KVv5qjQ89DUYZO1pPpZpbS2Xb8AiQlDVFVh1L6g+Wzr/qlbAFInXcxPYtkznUu1zZj/fu
+	 GUrFgO6UHDryEyygDUb2cdx5NdXI2BCTlby8GaUIjBWYxn9ozdPZS2M6csC+8g/3hDO5y
+	 Y4MuI8ShnNdQB/i0NCympy67MNU8A7wqMEO/sbXgBB/WX1RLjA+Gqz2j92JKl1kRDHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BKlKmn4W;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G+VI7Dtf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04C606A320;
-	Sun, 22 Nov 2026 16:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D522606A320;
+	Sun, 22 Nov 2026 16:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BKlKmn4W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD7721F000CA;
-	Sun, 22 Nov 2026 16:37:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G+VI7Dtf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80611F000C6;
+	Sun, 22 Nov 2026 16:37:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795365434;
-	bh=GWAglO+5a4u/5RewBNuoI5oFRHjla/0a2x/fQ/FR7Qs=;
+	s=k20260515; t=1795365461;
+	bh=nY+jX+tTjVCxVX3DPZeOwp/3aFpE5Bnh/bsfQicddJg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BKlKmn4WpswSO5WmrnivF73DhK4v1tgyp5+E9fszQk/84w9Jd/mD6y6DPzsqu4Nyq
-	 SrY4msmjCRCmMAMV0h0a1hYokzUz+4vbndVG1+SJt6w957tr28e1+SbFqO++cIM/LX
-	 AYi++j63EDjwo7dIThFoB0vXZKe83u+pKd+cnYDanUCVezcSf+tR6uejgWZ2rVbAEn
-	 /YgdQkEywEtAmaH7/U4j9qJeO66yp+66qHmG2np3j1CKObtWjupbwrnB5l2ST61S3N
-	 EpMiwAGVcK9QQIJicFB4yiITBSeeDLHdCF13KT+3aQ6YouUjMNzsnRHbeBav+e1r0i
-	 jwV512WLBvUHw==
-Message-ID: <sashiko-outbox-228109@kernel.org>
+	b=G+VI7DtfLEDhbK7D4NtuLEc0RErYrwbeXxPBmkNHYqfvWVCpwXHC4gG8izlUB/x/L
+	 n9RAlyktv6z+Io1Xj+Ckeupv6wjwCapj2vzjDCFIpltKN8HSgjcI5eB14xB9ULavDP
+	 1vWY7zs+PfyDP3ICK2PXP86cdoSA4k7ZMF4fnuTav/PvqcIMT5HzEHG1+WkWoMFhn8
+	 El6DL5166wh5kKhurkUEkUEhN0BcVDVmXpeukLwZ8fhk8bgEEHGYy0mutnPA7pcLV5
+	 fZAGTMPwrXeKLmwgejG8h96Cy2MUOOnHafZUR6FX+uFCc4p827nUZGUgiKJ2yDWIG4
+	 mw6GtaRq4qjGQ==
+Message-ID: <sashiko-outbox-228110@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 18/24] ASoC: qcom: audioreach: add live speaker
- temperature (T0) readback
+Subject: Re: [PATCH v2 19/24] ASoC: qcom: audioreach: add speaker protection
+ calibration state control
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261122161437.5994-19-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20261122161437.5994-20-srinivas.kandagatla@oss.qualcomm.com>
 References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261122161437.5994-19-srinivas.kandagatla@oss.qualcomm.com>
+ <20261122161437.5994-20-srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 16:37:13 +0000
+Date: Sun, 22 Nov 2026 16:37:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,124 +61,210 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 5 potential
 issues to consider:
-- [High] ASoC: qcom: audioreach: raw 64-bit division in
-  audioreach_get_sp_vi_t0() breaks 32-bit builds
-- [Medium] ASoC: qcom: audioreach: T0 read in
-  audioreach_vi_calibration_event() while PA is active
+- [Medium] ASoC: qcom: audioreach: early return in
+  audioreach_vi_calibration_abort()
+- [Medium] ASoC: qcom: audioreach: uncanceled sp_cal_watchdog work on
+  module removal
+- [Medium] ASoC: qcom: audioreach: unsynchronized sp_operation_mode
+  reads across sleep
+- [Low] ASoC: qcom: audioreach: commit message omits calibrate control
+  and abort logic
+- [Low] ASoC: qcom: mode reset before cancel in
+  audioreach_sp_finish_calibration()
 --
 
-commit 3728c7efdae7573a4ea88b27f3a3cef2f0452415
+commit e3b1c2c58754c22248379e200349ec50156d0cf4
 Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-ASoC: qcom: audioreach: add live speaker temperature (T0) readback
+> ASoC: qcom: audioreach: add speaker protection calibration state control
+>
+> Add a read-only "Speaker Protection Calibration State" control with
+> each speaker's last calibration state, so userspace can follow a run.
+>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-This commit allows the machine driver to register speaker thermal zones in
-VI channel order, exposes their Q6 temperatures via a read-only "Speaker
-Protection T0" ALSA control, and records T0 alongside R0 when calibration
-completes.
+[Severity: Low]
+This isn't a bug, but the commit title and message only mention adding the
+read-only "Speaker Protection Calibration State" control.  Should the
+changelog also describe the "Speaker Protection Calibrate" trigger control
+and the VI calibration abort handling on graph stop and close added in
+this patch?
 
 > diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/aud=
 ioreach.c
-> index 97d8585a287ba..2bb56933b9de4 100644
+> index 2bb56933b9de4..f1e454062ece3 100644
 > --- a/sound/soc/qcom/qdsp6/audioreach.c
 > +++ b/sound/soc/qcom/qdsp6/audioreach.c
+
 [ ... ]
-> @@ -1605,6 +1613,50 @@ void audioreach_get_sp_vi_r0t0(long *vals, unsigne=
-d int count)
->  	}
+
+> @@ -1805,6 +1825,46 @@ void audioreach_vi_calibration_event(struct device=
+ *dev,
+>  	audioreach_sp_finish_calibration();
 >  }
 > =20
-> +int audioreach_sp_register_speaker_map(struct thermal_zone_device * cons=
-t *tzs,
-> +				       unsigned int num)
+> +/* A run cut short never reports a final state, close it out */
+> +void audioreach_vi_calibration_abort(struct device *dev)
 > +{
-[ ... ]
-> +}
-> +EXPORT_SYMBOL_GPL(audioreach_sp_register_speaker_map);
+> +	unsigned int i;
 > +
-> +/* Read each speaker's T0 in Q6 (degC * 64), 0 if its zone cannot be rea=
-d */
-> +int audioreach_get_sp_vi_t0(long *vals, unsigned int count)
-> +{
-> +	unsigned int i, n;
+> +	guard(mutex)(&sp_vi_r0_lock);
 > +
-> +	guard(mutex)(&sp_speaker_map_lock);
+> +	if (!sp_vi_r0.armed)
+> +		return;
 > +
-> +	n =3D min(count, sp_speaker_map.num);
-> +	for (i =3D 0; i < n; i++) {
-> +		int mdeg;
+> +	sp_vi_r0.armed =3D false;
 > +
-> +		if (sp_speaker_map.tz[i] &&
-> +		    !thermal_zone_get_temp(sp_speaker_map.tz[i], &mdeg))
-> +			vals[i] =3D ((s64)mdeg * 64) / 1000;
-
-[Severity: High]
-Does dividing ((s64)mdeg * 64) with the plain / operator break 32-bit
-builds (where SND_SOC_QDSP6 is reachable under ARCH_QCOM || COMPILE_TEST)
-with an undefined reference to __aeabi_ldivmod or __divdi3?  Using
-div_s64((s64)mdeg * 64, 1000) avoids the 64-bit division helper.
-
-[ ... ]
-
-> @@ -1730,12 +1783,20 @@ void audioreach_vi_calibration_event(struct devic=
-e *dev,
->  			 i, r0_int, r0_frac, sp_vi_r0.r0_cali_q24[i]);
->  	}
-> =20
-> -	/* Only a run where every speaker succeeded gives a usable R0/T0 set */
-> +	/*
-> +	 * Only a run where every speaker succeeded gives a usable R0/T0 set.
-> +	 * The DSP reports only R0, so pair it with the speakers' last T0
-> +	 * reading; a zone that cannot be read gives T0 =3D 0.
-> +	 */
->  	if (success) {
-> +		audioreach_get_sp_vi_t0(t0_live, num_ch);
-> +
->  		guard(mutex)(&sp_vi_r0t0_cfg_lock);
->  		sp_vi_r0t0_cfg.num_ch =3D num_ch;
-> -		for (i =3D 0; i < num_ch; i++)
-> +		for (i =3D 0; i < num_ch; i++) {
->  			sp_vi_r0t0_cfg.r0_cali_q24[i] =3D cali->cali_param[i].r0_cali_q24;
-> +			sp_vi_r0t0_cfg.t0_cali_q6[i] =3D (s16)t0_live[i];
-> +		}
->  	}
+> +	/* The DSP never reported on this run: keep the previous result */
+> +	if (!memchr_inv(sp_vi_r0.seen_states, 0, sizeof(sp_vi_r0.seen_states)))
+> +		return;
 
 [Severity: Medium]
-Can audioreach_get_sp_vi_t0() here record 0 (0.000 degC in Q6) into
-sp_vi_r0t0_cfg.t0_cali_q6[] on WSA884x speaker amplifiers because the PA is
-still active when the calibration completion event arrives?
+Does returning here skip audioreach_sp_finish_calibration() when a run is
+aborted before the DSP sends any event?
 
-wsa884x_get_temp() cannot read hardware temperature registers while
-wsa884x->pa_on is true and returns -EAGAIN unless wsa884x->temperature was
-previously cached while the PA was off:
+When a graph is closed without ever starting (as noted in
+q6apm_graph_close()) or stopped before the first calibration event
+arrives, sp_vi_r0.seen_states is still all zeros.  Returning early leaves
+sp_operation_mode stuck in PARAM_ID_SP_VI_OP_MODE_CALIBRATION and
+sp_cal_watchdog pending for 60 seconds, so retries of "Speaker Protection
+Calibrate" fail with -EBUSY and any normal playback started during that
+window configures the DSP in Calibration mode instead of Normal mode.
 
-sound/soc/codecs/wsa884x.c:wsa884x_get_temp() {
-    ...
-	if (wsa884x->pa_on) {
-		/*
-		 * Reading temperature is possible only when Power Amplifier is
-		 * off. Report last cached data if we have one, -EAGAIN otherwise.
-		 */
-		if (!wsa884x->temperature)
-			return -EAGAIN;
-		*temp =3D wsa884x->temperature * 1000;
-		return 0;
-	}
-    ...
+> +
+> +	sp_vi_r0.state =3D SP_VI_CALI_ABORTED;
+> +
+> +	for (i =3D 0; i < MAX_SP_VI_SPEAKERS; i++) {
+> +		u32 state =3D sp_vi_r0.last_state[i];
+> +
+> +		/* Slot never reported: not part of this run */
+> +		if (!sp_vi_r0.seen_states[i])
+> +			continue;
+> +
+> +		if (sp_vi_cali_state_is_terminal(state))
+> +			continue;
+> +
+> +		dev_info(dev, "VI calibration channel %u: aborted while %s\n",
+> +			 i, sp_vi_cali_state_name(state));
+> +		sp_vi_r0.last_state[i] =3D VI_CALIBRATION_STATE_INACTIVE;
+> +	}
+> +
+> +	dev_info(dev, "VI calibration aborted: graph stopped before the DSP fin=
+ished\n");
+> +
+> +	/* Edge-triggered: the mode auto-returns to Normal on abort too. */
+> +	audioreach_sp_finish_calibration();
+> +}
+> +EXPORT_SYMBOL_GPL(audioreach_vi_calibration_abort);
+
+[Severity: Low]
+Can audioreach_sp_finish_calibration() cancel a newly scheduled watchdog
+if userspace triggers another calibration run concurrently?
+
+sound/soc/qcom/qdsp6/audioreach.c:audioreach_sp_finish_calibration() {
+	WRITE_ONCE(sp_operation_mode, PARAM_ID_SP_VI_OP_MODE_NORMAL);
+	cancel_delayed_work(&sp_cal_watchdog);
 }
 
-Because wsa884x_probe() enables its tripless thermal zone before SoundWire
-attachment (while wsa884x->hw_init is false), wsa884x->temperature starts
-at 0 and is not polled.  If calibration runs before anything reads the
-thermal zone with the PA off, thermal_zone_get_temp() fails during
-audioreach_vi_calibration_event() and t0_cali_q6[i] is set to 0, which lies
-within [SP_VI_T0_MIN_Q6, SP_VI_T0_MAX_Q6] and is sent to the DSP as a 0 degC
-calibration reference on subsequent normal playback.  Sampling
-audioreach_get_sp_vi_t0() when arming calibration in DAI prepare (before
-DAPM powers on the PA) would prime the reading while the PA is still off.
+CPU0                                  CPU1
+audioreach_sp_finish_calibration()
+  WRITE_ONCE(sp_operation_mode,
+             ..._NORMAL)
+                                      audioreach_put_sp_calibrate()
+                                        audioreach_trigger_sp_calibration()
+                                          cmpxchg(&sp_operation_mode, ...)
+                                          schedule_delayed_work(&sp_cal_wat=
+chdog, ...)
+  cancel_delayed_work(&sp_cal_watchdog)  <-- cancels new run's watchdog
+
+Also, because cancel_delayed_work() is non-synchronous, an already running
+audioreach_sp_cal_watchdog_fn() from the finishing run can execute its
+cmpxchg() after CPU1 re-arms calibration and reset sp_operation_mode back
+to Normal.  Calling cancel_delayed_work_sync(&sp_cal_watchdog) before
+resetting sp_operation_mode avoids both races.
+
+> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topol=
+ogy.c
+> index 0e28c68c735d2..a19efbb889a8e 100644
+> --- a/sound/soc/qcom/qdsp6/topology.c
+> +++ b/sound/soc/qcom/qdsp6/topology.c
+> @@ -1548,6 +1548,45 @@ static int audioreach_get_sp_t0(struct snd_kcontro=
+l *kcontrol,
+
+[ ... ]
+
+> +static int audioreach_put_sp_calibrate(struct snd_kcontrol *kcontrol,
+> +				       struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	if (!ucontrol->value.integer.value[0])
+> +		return 0;
+> +
+> +	return audioreach_trigger_sp_calibration() ? : 1;
+> +}
+
+[Severity: Medium]
+Can sp_cal_watchdog fire after snd-q6apm is unloaded?
+
+audioreach_put_sp_calibrate() exposes audioreach_trigger_sp_calibration()
+to userspace, which schedules the static 60-second sp_cal_watchdog delayed
+work.  Neither apm_remove() nor q6apm_audio_remove() cancels
+sp_cal_watchdog with cancel_delayed_work_sync(), so unbinding the driver
+and unloading snd-q6apm while the watchdog is pending leaves the timer
+queued in unmapped module memory and causes a use-after-free crash when it
+fires.
+
+> +
+>  static const struct snd_kcontrol_new audioreach_sp_telemetry_controls[] =
+=3D {
+
+[ ... ]
+
+> +	{
+> +		/*
+> +		 * Write-only edge trigger.  Writing 1 arms a calibration run
+> +		 * for the next (or current) WSA playback graph; the mode
+> +		 * returns to Normal on its own once the DSP reports terminal
+> +		 * state, on graph abort, or on the watchdog timeout.
+> +		 */
+> +		.iface	=3D SNDRV_CTL_ELEM_IFACE_MIXER,
+> +		.name	=3D "Speaker Protection Calibrate",
+> +		.access	=3D SNDRV_CTL_ELEM_ACCESS_READWRITE |
+> +			  SNDRV_CTL_ELEM_ACCESS_VOLATILE,
+> +		.info	=3D audioreach_info_sp_calibrate,
+> +		.get	=3D audioreach_get_sp_calibrate,
+> +		.put	=3D audioreach_put_sp_calibrate,
+> +	},
+>  };
+
+[Severity: Medium]
+Can concurrent changes to sp_operation_mode while a graph is being
+prepared send an inconsistent configuration to the DSP?
+
+With "Speaker Protection Calibrate" and audioreach_vi_calibration_abort()
+now able to flip sp_operation_mode at runtime without serialization
+against q6apm_graph_media_format_pcm(), sp_operation_mode can change while
+GPR commands sleep:
+
+sound/soc/qcom/qdsp6/audioreach.c:audioreach_speaker_protection_vi() {
+	u32 mode =3D READ_ONCE(sp_operation_mode);
+    ...
+	op_cfg->cfg.operation_mode =3D mode;
+    ...
+	rc =3D q6apm_send_cmd_sync(graph->apm, pkt, 0);
+    ...
+	if (sp_operation_mode =3D=3D PARAM_ID_SP_VI_OP_MODE_NORMAL) {
+
+audioreach_speaker_protection_vi() snapshots sp_operation_mode into mode
+for event registration and PARAM_ID_SP_VI_OP_MODE_CFG, but re-reads the
+global sp_operation_mode after q6apm_send_cmd_sync() sleeps when deciding
+whether to send PARAM_ID_SP_TH_VI_R0T0_CFG.  In addition,
+audioreach_speaker_protection() and audioreach_speaker_protection_vi()
+each read sp_operation_mode separately across sleeping GPR calls during
+the same graph preparation, so a mode transition in between configures one
+module in Normal mode and the other in Calibration mode.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261122161437.5994=
--1-srinivas.kandagatla@oss.qualcomm.com?part=3D18
+-1-srinivas.kandagatla@oss.qualcomm.com?part=3D19
