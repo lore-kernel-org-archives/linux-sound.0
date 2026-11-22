@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795365139;
-	b=Rwz7i+t+ykyC6oVRbODAwttLztcm134vG7tB9aTBThxCge7UgPQde6Re7OVWn+tifbEw
-	 AUApYnyqHekrxEMP0SUT92Rq7RJpqmO5/+sS4LyV85Mi4WIFQUQ1ZaoanRasoYzDozjEj
-	 CQNTTjm/fvawf2Cr7u2cJNFF/Y5/PR2T6HjA0YhVjDyYbpMA9jjuBKZx5fNa0q6ZeKTx0
-	 Fk22Fzfzlx2KDvutffyivJDHHSV4TKffYjXmpYpCNckWKV90LOyULBZkt25OH6n9fgsIw
-	 KjD+BnK9Cal9qwT9MrQi3EMo8AdJV0N3inipSdTjyPSx73SYLsRkPgEWyuwxMYVb7qQ==
+	t=1795365434;
+	b=BCOH2e/w+69FYkw9UMZo4apQnJjuG8yx2to2AGTBFo75EdCLWbidGChUd2wu/ic9wbpm
+	 aI2cjsSwqkatwMZpn27Y2IKFvQB39kkQsUcvoY9uUmuHB9Z1vMkAs5FrNdzH0WVCx7Epk
+	 NrDYFV2gtxlcLl3gXPOgRGmfZRF4Pw583t0sDlDF03o96WNdm5TDmNEFUsl0Dq5GPyna+
+	 hbgHn9+uFQDvHHtWyxt76u6m1NkaSHabp0NMuGy3/Hkh/V86CbmCl+yQMfY9OHb3RER2X
+	 B7wUWjkFFbQhDV4JpuaRjDyA+LE5eSf1EybCUG5emKPG0G2eMtO7+P/3Yvk6zHx2UJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795365139;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795365434;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dt8i5RP92by2JJrI2tbSRgg0MLfhaCOkTNkOwIIyk4U=;
-	b=ldoiCaU5Uuu9rxa+mYPZ936+G7cIYWva/B/QOfslWFIz+PExpRpUrq5Mf5rXBByLS/Q7
-	 svBrOb1MsC82TVIbw/NuOfHI6FlF4PklZE3fGB5DKIbMm801SkZi/hrOcr+ZfOi+HBuSX
-	 NvoGy6yAt4ciERfe0Gxl4FpyNVLtvBFT4LZYZCEWCXuotGEgcFDEFxYtZG3YpYOo5xTcO
-	 LJrS0d81sZOBHOTYI7duXGm94/INKmQSd5Rtp8rgICFsz7b4dRpbQelmGYJ7eH8114KM4
-	 GAkn6x08TSCcPg/liVUf/kHnLPFI0hWHNV+KRqK7s0svedB/eQEPfs2D2+4dwtLDSQQ==
+	bh=GWAglO+5a4u/5RewBNuoI5oFRHjla/0a2x/fQ/FR7Qs=;
+	b=nHM3dBvkA+nwDpcFZ18+SZ9xTSG3O+TlUKTx8oXqaXb9v1xfJVbX4wxvbLNz5HrA6w/o
+	 3cCjSJYvPDJS7orMAuf3bnQsh0boOOiz5gh7CPoSXRgD0fgBOM4ZQhaIoymX+juM6mtFj
+	 14bLBIHLM9xIn5qmpUn61IFGwf0bQW9rQgK7jlMfj8RBk7Z93boH6KL/+a8nIdGsovgKr
+	 HXD6OvBEkSN7GAY8r7T1FMIwv7vyIAg8Wy74PFEZzOcKb1zEpsRMYc9DKpfwvuOgCN5Gt
+	 H4pOwmy38u+w6XCnfMLkMUrQAV1NcG0evlnCjM06pwEn5Uxzc0UUAgGqi3Hb0rIWsRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQ8ZStns;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BKlKmn4W;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0768B606A32A;
-	Sun, 22 Nov 2026 16:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04C606A320;
+	Sun, 22 Nov 2026 16:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IQ8ZStns
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43D811F000D1;
-	Sun, 22 Nov 2026 16:32:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BKlKmn4W
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD7721F000CA;
+	Sun, 22 Nov 2026 16:37:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795365138;
-	bh=dt8i5RP92by2JJrI2tbSRgg0MLfhaCOkTNkOwIIyk4U=;
+	s=k20260515; t=1795365434;
+	bh=GWAglO+5a4u/5RewBNuoI5oFRHjla/0a2x/fQ/FR7Qs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IQ8ZStns47k5f/jSnkRF8/KwHyLGf9N7XJWm8S5V+kcsJt3s249JzJVREiNw+nUDJ
-	 xzbrk8GPS2ZqekFExlZaW6/41sitfzozifb6tsMSyTJ4hagLPcq/6wxhG7MS1GiihZ
-	 dChP5aFInWHbDfFkvr/TZmSM5RsHxLp/e1mihRAOEq3QBA4OJQnaku8kMydumivSqO
-	 5X4hjrmknT0OH4nhECGvXMCGceBOj2elHq9Mu22itgNABtIQCc917STcofEak4MSsB
-	 J2Y58hv+YB1cNnAJfJ77/B8VO75HAWIJPAPUZfnAnH38hisK7IdROqXrclm6uY2ZXc
-	 uGXLH48PZoSdw==
-Message-ID: <sashiko-outbox-228107@kernel.org>
+	b=BKlKmn4WpswSO5WmrnivF73DhK4v1tgyp5+E9fszQk/84w9Jd/mD6y6DPzsqu4Nyq
+	 SrY4msmjCRCmMAMV0h0a1hYokzUz+4vbndVG1+SJt6w957tr28e1+SbFqO++cIM/LX
+	 AYi++j63EDjwo7dIThFoB0vXZKe83u+pKd+cnYDanUCVezcSf+tR6uejgWZ2rVbAEn
+	 /YgdQkEywEtAmaH7/U4j9qJeO66yp+66qHmG2np3j1CKObtWjupbwrnB5l2ST61S3N
+	 EpMiwAGVcK9QQIJicFB4yiITBSeeDLHdCF13KT+3aQ6YouUjMNzsnRHbeBav+e1r0i
+	 jwV512WLBvUHw==
+Message-ID: <sashiko-outbox-228109@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 09/24] ASoC: qcom: audioreach: add control link
- support to graphs
+Subject: Re: [PATCH v2 18/24] ASoC: qcom: audioreach: add live speaker
+ temperature (T0) readback
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261122161437.5994-10-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20261122161437.5994-19-srinivas.kandagatla@oss.qualcomm.com>
 References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261122161437.5994-10-srinivas.kandagatla@oss.qualcomm.com>
+ <20261122161437.5994-19-srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 16:32:17 +0000
+Date: Sun, 22 Nov 2026 16:37:13 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,234 +61,124 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 3 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issues to consider:
-- [High] ASoC: qcom: audioreach: control link packet stride and size
-  mismatch
-- [Medium] ASoC: qcom: audioreach: num_elems underflow in
-  audioreach_parse_cl_tokens()
-- [Medium] ASoC: qcom: audioreach: leak of control links on widget load
-  error path
+- [High] ASoC: qcom: audioreach: raw 64-bit division in
+  audioreach_get_sp_vi_t0() breaks 32-bit builds
+- [Medium] ASoC: qcom: audioreach: T0 read in
+  audioreach_vi_calibration_event() while PA is active
 --
 
-commit 77f495967e00a276e886e8a3124534923666b6d1
+commit 3728c7efdae7573a4ea88b27f3a3cef2f0452415
 Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-ASoC: qcom: audioreach: add control link support to graphs
+ASoC: qcom: audioreach: add live speaker temperature (T0) readback
 
-This commit parses control link tokens from the topology into a
-per-subgraph list and serializes deduplicated control links into the
-APM_CMD_GRAPH_OPEN command packet.
+This commit allows the machine driver to register speaker thermal zones in
+VI channel order, exposes their Q6 temperatures via a read-only "Speaker
+Protection T0" ALSA control, and records T0 alongside R0 when calibration
+completes.
 
 > diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/aud=
 ioreach.c
-> index aa1f4e2967647..afa8e0159570e 100644
+> index 97d8585a287ba..2bb56933b9de4 100644
 > --- a/sound/soc/qcom/qdsp6/audioreach.c
 > +++ b/sound/soc/qcom/qdsp6/audioreach.c
-> @@ -109,6 +109,26 @@ struct apm_mod_conn_list_params {
-> =20
->  #define APM_MOD_CONN_PSIZE(p, n) ALIGN(struct_size(p, conn_obj, n), 8)
-> =20
-> +/* Control Links */
-> +struct apm_control_link_obj {
-> +	u32 peer1_mod_inst_id;
-> +	u32 peer1_mod_port_id;
-> +	u32 peer2_mod_inst_id;
-> +	u32 peer2_mod_port_id;
-> +	u32 num_props;
-> +	struct apm_prop_data intent_data;
-> +	u32 num_intents;
-> +	u32 intent_id_list[MAX_INTENTS];
-> +} __packed;
-> +
-> +struct apm_mod_control_links_params {
-> +	struct apm_module_param_data param_data;
-> +	u32 num_ctrl_link_cfg;
-> +	struct apm_control_link_obj link_obj[];
-> +} __packed;
-> +
-> +#define APM_MOD_CTRL_LINK_PSIZE(p, n) ALIGN(struct_size(p, link_obj, n),=
- 8)
-
 [ ... ]
-
-> @@ -442,6 +465,47 @@ static void audioreach_populate_graph(struct q6apm *=
-apm,
-> =20
->  		apm_populate_sub_graph_config(sg_cfg, sg);
-> =20
-> +		list_for_each_entry(clink, &sg->control_link_list, node) {
-> +			bool dup =3D false;
-> +			int k;
-> +
-> +			/* Both subgraphs usually declare the link, send it once */
-> +			for (k =3D 0; k < nlink; k++) {
-> +				struct apm_control_link_obj *o =3D &cl_data->link_obj[k];
-> +
-> +				if ((o->peer1_mod_inst_id =3D=3D clink->peer1_mod_inst_id &&
-> +				     o->peer2_mod_inst_id =3D=3D clink->peer2_mod_inst_id) ||
-> +				    (o->peer1_mod_inst_id =3D=3D clink->peer2_mod_inst_id &&
-> +				     o->peer2_mod_inst_id =3D=3D clink->peer1_mod_inst_id)) {
-> +					dup =3D true;
-> +					break;
-> +				}
-> +			}
-> +			if (dup)
-> +				continue;
-> +
-> +			clink_obj =3D &cl_data->link_obj[nlink++];
-> +			clink_obj->peer1_mod_inst_id =3D clink->peer1_mod_inst_id;
-> +			clink_obj->peer1_mod_port_id =3D clink->peer1_mod_port_id;
-> +			clink_obj->peer2_mod_inst_id =3D clink->peer2_mod_inst_id;
-> +			clink_obj->peer2_mod_port_id =3D clink->peer2_mod_port_id;
-> +			clink_obj->intent_data.prop_id =3D APM_MODULE_PROP_ID_CTRL_LINK_INTEN=
-T_LIST;
-> +			clink_obj->num_props =3D 1;
-> +			clink_obj->num_intents =3D 0;
-> +
-> +			/* Pack the intents that are set into a dense list */
-> +			for (j =3D 0; j < MAX_INTENTS; j++) {
-> +				if (clink->intent[j])
-> +					clink_obj->intent_id_list[clink_obj->num_intents++] =3D
-> +						clink->intent[j];
-> +			}
-> +
-> +			/* The list length itself is part of the property payload */
-> +			clink_obj->intent_data.prop_size =3D
-> +				sizeof(clink_obj->num_intents) +
-> +				clink_obj->num_intents * sizeof(clink_obj->intent_id_list[0]);
-> +		}
-
-[ ... ]
-
-> @@ -477,12 +541,16 @@ static void audioreach_populate_graph(struct q6apm =
-*apm,
->  			ncontainer++;
->  		}
+> @@ -1605,6 +1613,50 @@ void audioreach_get_sp_vi_r0t0(long *vals, unsigne=
+d int count)
 >  	}
-> +
-> +	/* The dedupe above may have packed fewer links */
-> +	cl_data->num_ctrl_link_cfg =3D nlink;
 >  }
+> =20
+> +int audioreach_sp_register_speaker_map(struct thermal_zone_device * cons=
+t *tzs,
+> +				       unsigned int num)
+> +{
+[ ... ]
+> +}
+> +EXPORT_SYMBOL_GPL(audioreach_sp_register_speaker_map);
+> +
+> +/* Read each speaker's T0 in Q6 (degC * 64), 0 if its zone cannot be rea=
+d */
+> +int audioreach_get_sp_vi_t0(long *vals, unsigned int count)
+> +{
+> +	unsigned int i, n;
+> +
+> +	guard(mutex)(&sp_speaker_map_lock);
+> +
+> +	n =3D min(count, sp_speaker_map.num);
+> +	for (i =3D 0; i < n; i++) {
+> +		int mdeg;
+> +
+> +		if (sp_speaker_map.tz[i] &&
+> +		    !thermal_zone_get_temp(sp_speaker_map.tz[i], &mdeg))
+> +			vals[i] =3D ((s64)mdeg * 64) / 1000;
 
 [Severity: High]
-Does indexing cl_data->link_obj[nlink++] at a fixed stride misalign
-subsequent control links when num_intents is less than MAX_INTENTS?
-
-struct apm_control_link_obj declares intent_id_list[MAX_INTENTS] as a
-fixed 4-element array, so link_obj[nlink++] always advances by 48 bytes
-even though intent_data.prop_size is set to the packed intent count.
-When a link uses fewer than 4 intents and more than one link is packed,
-the DSP advances by prop_size and reads the unused zero entries of
-intent_id_list[] as the next link's peer IDs, rejecting GRAPH_OPEN.
-
-In addition, audioreach_alloc_graph_pkt() sets param_data->param_size
-from the pre-deduplication num_control_links count and fixed MAX_INTENTS
-size, and audioreach_populate_graph() updates cl_data->num_ctrl_link_cfg
-to nlink without updating cl_data->param_data.param_size.
-
-> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topol=
-ogy.c
-> index aa2ab2b058d0f..5dd7f2c51d5cf 100644
-> --- a/sound/soc/qcom/qdsp6/topology.c
-> +++ b/sound/soc/qcom/qdsp6/topology.c
+Does dividing ((s64)mdeg * 64) with the plain / operator break 32-bit
+builds (where SND_SOC_QDSP6 is reachable under ARCH_QCOM || COMPILE_TEST)
+with an undefined reference to __aeabi_ldivmod or __divdi3?  Using
+div_s64((s64)mdeg * 64, 1000) avoids the 64-bit division helper.
 
 [ ... ]
 
-> @@ -348,6 +394,85 @@ audioreach_get_module_priv_data(const struct snd_soc=
-_tplg_private *private)
->  	return NULL;
->  }
+> @@ -1730,12 +1783,20 @@ void audioreach_vi_calibration_event(struct devic=
+e *dev,
+>  			 i, r0_int, r0_frac, sp_vi_r0.r0_cali_q24[i]);
+>  	}
 > =20
-> +static void audioreach_parse_control_link_tokens(struct q6apm *apm,
-> +						 struct audioreach_control_link *link,
-> +						 const struct snd_soc_tplg_vendor_array *cl_array)
-> +{
-> +	const struct snd_soc_tplg_vendor_value_elem *cl_elem =3D cl_array->valu=
-e;
-> +	int tkn_count =3D 0;
+> -	/* Only a run where every speaker succeeded gives a usable R0/T0 set */
+> +	/*
+> +	 * Only a run where every speaker succeeded gives a usable R0/T0 set.
+> +	 * The DSP reports only R0, so pair it with the speakers' last T0
+> +	 * reading; a zone that cannot be read gives T0 =3D 0.
+> +	 */
+>  	if (success) {
+> +		audioreach_get_sp_vi_t0(t0_live, num_ch);
 > +
-> +	while (tkn_count <=3D (le32_to_cpu(cl_array->num_elems) - 1)) {
-
-[ ... ]
-
-> +static void audioreach_parse_cl_tokens(struct q6apm *apm, struct audiore=
-ach_sub_graph *sg,
-> +				       const struct snd_soc_tplg_private *private)
-> +{
-> +	const struct snd_soc_tplg_vendor_value_elem *cl_elem;
-> +	const struct snd_soc_tplg_vendor_array *cl_array;
-> +	struct audioreach_control_link *link;
-> +	int link_id, tkn_count, sz;
-> +	bool found =3D false;
-> +
-> +	for (sz =3D 0; sz < le32_to_cpu(private->size);) {
-> +		cl_array =3D (struct snd_soc_tplg_vendor_array *)((u8 *)private->array=
- + sz);
-> +		cl_elem =3D cl_array->value;
-> +		sz =3D sz + le32_to_cpu(cl_array->size);
-> +		tkn_count =3D 0;
-> +
-> +		/* Module config blobs are not token tuples, stop here */
-> +		if (le32_to_cpu(cl_array->type) =3D=3D SND_SOC_AR_TPLG_MODULE_CFG_TYPE)
-> +			break;
-> +
-> +		while (tkn_count <=3D (le32_to_cpu(cl_array->num_elems) - 1)) {
-> +			if (le32_to_cpu(cl_elem->token) =3D=3D AR_TKN_U32_CONTROL_LINK_IID) {
-> +				link_id =3D le32_to_cpu(cl_elem->value);
-> +				link =3D audioreach_tplg_alloc_control_link(apm, sg, link_id, &found=
-);
-> +				/* Skip on error or already parsed control link data */
-> +				if (!IS_ERR(link) && !found)
-> +					audioreach_parse_control_link_tokens(apm, link, cl_array);
-> +			}
-> +			tkn_count++;
-> +			cl_elem++;
+>  		guard(mutex)(&sp_vi_r0t0_cfg_lock);
+>  		sp_vi_r0t0_cfg.num_ch =3D num_ch;
+> -		for (i =3D 0; i < num_ch; i++)
+> +		for (i =3D 0; i < num_ch; i++) {
+>  			sp_vi_r0t0_cfg.r0_cali_q24[i] =3D cali->cali_param[i].r0_cali_q24;
+> +			sp_vi_r0t0_cfg.t0_cali_q6[i] =3D (s16)t0_live[i];
 > +		}
-> +	}
-> +}
+>  	}
 
 [Severity: Medium]
-Can le32_to_cpu(cl_array->num_elems) - 1 underflow when a vendor array in
-the topology has num_elems =3D=3D 0?
+Can audioreach_get_sp_vi_t0() here record 0 (0.000 degC in Q6) into
+sp_vi_r0t0_cfg.t0_cali_q6[] on WSA884x speaker amplifiers because the PA is
+still active when the calibration completion event arrives?
 
-le32_to_cpu() returns an unsigned u32, so subtracting 1 when num_elems is
-0 wraps to U32_MAX, promoting tkn_count to unsigned and reading past the
-end of the topology buffer in both audioreach_parse_cl_tokens() and
-audioreach_parse_control_link_tokens().
+wsa884x_get_temp() cannot read hardware temperature registers while
+wsa884x->pa_on is true and returns -EAGAIN unless wsa884x->temperature was
+previously cached while the PA was off:
 
-Also, unlike audioreach_get_module_priv_data() right above, the outer
-loop does not check for a zero cl_array->size (which would spin forever
-because sz never advances), and audioreach_parse_cl_tokens() silently
-ignores IS_ERR(link) from audioreach_tplg_alloc_control_link() instead of
-propagating the error.
+sound/soc/codecs/wsa884x.c:wsa884x_get_temp() {
+    ...
+	if (wsa884x->pa_on) {
+		/*
+		 * Reading temperature is possible only when Power Amplifier is
+		 * off. Report last cached data if we have one, -EAGAIN otherwise.
+		 */
+		if (!wsa884x->temperature)
+			return -EAGAIN;
+		*temp =3D wsa884x->temperature * 1000;
+		return 0;
+	}
+    ...
+}
 
-> @@ -617,6 +742,8 @@ static int audioreach_widget_load_module_common(struc=
-t snd_soc_component *compon
->  	if (IS_ERR(sg))
->  		return PTR_ERR(sg);
-> =20
-> +	audioreach_parse_cl_tokens(apm, sg, &tplg_w->priv);
-> +
->  	cont =3D audioreach_parse_cont_tokens(apm, sg, &tplg_w->priv);
->  	if (IS_ERR(cont))
->  		return PTR_ERR(cont);
-
-[Severity: Medium]
-Does an error return after audioreach_parse_cl_tokens() leak the newly
-allocated struct audioreach_control_link and its ID in
-apm->control_links_idr?
-
-If audioreach_parse_cont_tokens(), audioreach_parse_common_tokens() or
-audioreach_get_module_priv_data() fails,
-audioreach_widget_load_module_common() returns before setting
-w->dobj.private =3D mod.  audioreach_widget_unload() bails out immediately
-when dobj->private is NULL, so if no other widget in sg triggers subgraph
-teardown (or if cont was already added to sg->container_list before the
-failure, keeping sg->container_list non-empty), the control links on
-sg->control_link_list are never removed from apm->control_links_idr or
-freed.
+Because wsa884x_probe() enables its tripless thermal zone before SoundWire
+attachment (while wsa884x->hw_init is false), wsa884x->temperature starts
+at 0 and is not polled.  If calibration runs before anything reads the
+thermal zone with the PA off, thermal_zone_get_temp() fails during
+audioreach_vi_calibration_event() and t0_cali_q6[i] is set to 0, which lies
+within [SP_VI_T0_MIN_Q6, SP_VI_T0_MAX_Q6] and is sent to the DSP as a 0 degC
+calibration reference on subsequent normal playback.  Sampling
+audioreach_get_sp_vi_t0() when arming calibration in DAI prepare (before
+DAPM powers on the PA) would prime the reading while the PA is still off.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261122161437.5994=
--1-srinivas.kandagatla@oss.qualcomm.com?part=3D9
+-1-srinivas.kandagatla@oss.qualcomm.com?part=3D18
