@@ -1,112 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795372963;
-	b=4GWmecHOQHojzHyQM8LS/q+WvEsw/PiwbsbKLxd/mocw6bATBRvmgSlXne4KXTTdkmPj
-	 lA99UckhbYCAmHatVKq6hEMFPTtYRNxrN0pFA9jWtQCLZj/FFHX/fE20Dw4eV6UuocafX
-	 FPuuaR1eVrM99o2W1zjO64V6k+fOvIEWmjPAB8Dypo/vg/u11Yb+3z3HW7HSpKyvbdlCR
-	 CwfvUks10OQCxsuc7TyqsLpailrTaCyVnyiWZ8gUP9s5AZiFoE/aSxJqrOQl6dCbgbY54
-	 NKH65vM6QLtxTLXVjK7ycpnSm4ueVYzVcDWgFrkcJV+LrVV+bL2c84yL9jr6Oinntrw==
+	t=1795373710;
+	b=xU7IH7DETrUDi0Rbvdd7tGOrbGkYTgphxkUVDlhm/oQsK3Oxxzuob+DMThHQ1P7GuM5p
+	 Ogr1Je23MI7HkT2MYGzswkiDv0t7uEtHOrNxYcilVVSZdH2P1rkrej0DnM1nyKMd0apJY
+	 dEgYIl4NUl/8SKLpvwZA1tVW8K20vDHVv4/N3JQ1TtjdCKPeKTBmTor1e8V+H53In1nFy
+	 9gXfNvlnX55eH0y+HF7tDJxRnrVJPk9F6N0PPIbr7qj5o14V85FkgMUw5/+7dYp2MQ/6g
+	 5YXF7I/Yk1+iN41Lf05nLTG5paedG/zf45eLLQrOjoc3C6Xt31hF+Qc/5jRDwqS9UxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795372963;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
-	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=kwivYQBNYMrJzWHFwYjM5RwFY9xg0TLCUyjircrlzqM=;
-	b=u/Y5mIQSzSbZ5HrAbDHV2VSEL/RU2p6y1+BzPTjttY1Tzto7UzsyY2Ft8Wy8zJoty0OF
-	 Vy3Xu9cBRAkNhlCcmZrMGmcXWCpbbxioubg82ekT8PpGldMtFHxgDEELJZ+NHcOcZ7K8I
-	 aFlJLnhIUB6B4xpDL8EdXNr4rAq5ZJqil7UEj9rvoS5GZxadSpS0aHiBoMZbOX+yChpBT
-	 v39D9aIPdH8wuXSSvryBBiE3r6dqFKLaVoYeX3S31sjIPrOULXC/Yw5CvNuCS90ae9t85
-	 OSVkSMe3sycURpjBxtx4f23YVGPbi0l4Al62XCFxY4FcZVIrBoMMvoaW4ppKpGo3/Cw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795373710;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Aovxc5dC+lR16isdk9O4n4VlgAuF5hG7BYT0Gzrios8=;
+	b=zxCyaH50+NtiO7bTRMWAMKDZz+VhxKT/fACwGhTuhgQDXBFFjXGztQ8ATrs16ooZ4lia
+	 KNUOQ6qUEA/OlYBgmniPyxNmzCF+xsVynMuASvt75CJb+L7qbUXcqQHUhPh2vBPa0Jpm7
+	 YwGH/NrUMPKIsoXN9Ild7tZISJDHNtSumHrDOpzHwQuE+EVrHxFmEfYL1YKPzOqu8KVrI
+	 WxPyE6FUqI1oYHzkmbzbprPDRrydfkOFNt4Rvbvb3U7P18/phnlc3gkRybMvSGYCQR3dR
+	 0Ilvq6caUhCxJo7USHPYbDUGE+gVV5g+Xp6XhsQ029/RYmsu4cgfNtBQ0/l51ySxPhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=MVqlfr0o;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=S3OHh6Pl;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eFKrLAjG;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A499A606A32C
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 18:42:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A499A606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D18606A331;
+	Sun, 22 Nov 2026 18:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=MVqlfr0o;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=S3OHh6Pl
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AMGUx3h412168
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 18:42:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kwivYQBNYMrJzWHFwYjM5RwFY9xg0TLCUyjircrlzqM=; b=MVqlfr0oT4+xkUQp
-	YXSsMxXYoUn4w0X3fy1b84sObMFyYFhpQw2Et2LUX75nwX7InOTdR4q4mdLOm9WT
-	G69yVUxn49q0mgl/FK8y3lmS6vCC+Bi9Ep1Ma5b6OmaHWlRl6e9HZxhj8bDD5c7z
-	Vd5pagggO+5GHTir83up3y64txpck0lUEbp1NcbkXTNZiY+eGWiA4KCHmTs2haNu
-	/vyIQbED3lZmTGaiPs3nXgI1Zdkyr+HqPS307BobJOFBVuge5eea7ZU/50FI4m2F
-	7uk52f1RrfogbfU8BQYGopx2d9AVsNZFMYMMOlayQMjt4Iq6K7UUpUWabXt9ng34
-	C1DhIg==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j32a6m36j-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 18:42:41 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3869865a304so4695556eec.0
-        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 10:42:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795372960; x=1795977760; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kwivYQBNYMrJzWHFwYjM5RwFY9xg0TLCUyjircrlzqM=;
-        b=S3OHh6PlnGJgPz2FyOdVuyyyM7EnY7yIM5QNE0aP/RrWPFWZc+LoCDxItJTeZW7JhE
-         s/yMRrmInaoaNlE5bFe/+GnuiIul2WfGsDzj4xm/q6Pa20deg+wukXLtaPapO90eQ5hs
-         aBLZtxwIkXGkuRkt14YunEBLTTYQd6xZOoxf15AnZphd6rCohgPzFW1sYqHBN2fDBJmI
-         N1/7pqHE18812zAy9pvJhOVF5/ircOgimm8HFzABzKWvMQHLfNXcxKZXorYCxAAGyj2B
-         mFVeyaEpDqil1aJZJARw2opmIhw1NHp68lmnp01/NnSPy+fkJpj/kASMhEmJhQlBeDVi
-         k8mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795372960; x=1795977760;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kwivYQBNYMrJzWHFwYjM5RwFY9xg0TLCUyjircrlzqM=;
-        b=Uz0Zsxcg6eICm7aWffpLJBGuDWbkNIZvJgwnuMRDQfbSCc3i4wmh1QQDqYpIAnTn5Z
-         /6N4IsV0jsvSW7HiliD6irodNSfhlmdheVOD36nc5aeQ8tLPatDDgZG3YTIRuk+kSEvr
-         ka5qDz9IKddxBgDLpZ/vB3YPacgrbdXrikbp1kMKj1CcrT748TYSSD3IECLYAp+PO9Mv
-         ngMTmPuFwzl1jsFPAKQ6qPbrPIix2WOrK0h5hNZL3aJuzAPEpC72XMpd9JUH2l+zOe5w
-         Fu1IEhb5n0idm8fW+DRQCFS9MOvlhHt14NyzbSRvfNfA8BgnJ0zav53dhbA2Ks+o6dga
-         WseQ==
-X-Forwarded-Encrypted: i=1; AL+hErEJM2Rot64T0gsPz0JQtHx7SN3p+rkMbYezI9f36XnHbT/yXzxkhmwz676QciJTI3QVAasDCKfaJHM1LQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8qFWvG8l5/cfcmniA/YVcTgjHD7XQBTLowXt306YXQxWnhaZKg
-	25I5J1k+wfWW/93CEq+xAWLmrxeFmpiwW0HEGgr/y8tyMRNWLLvDs9nIHR5HLYKthEczYmCQKyI
-	o9hRtQaYKZeoT1Kz0xrEtd2FELxDXadAmnODSbWogsdyWK0DiZnIL+NVKqaffbQ6rgQ==
-X-Gm-Gg: AZFdTZeJwWNMCu1T8TBnND29uLQkvJ3rkk8kmg7IBjl3UH51uabUDf8VK3/pQgU1uAy
-	IvSbrMqcZC7/cA1BirR1O7SswQwIjwkwZNnMwWFxomlf6RczQeSCwH2Go4GkNJSCVn59BpOiLg2
-	6M7pNm7Ap6zeC2Me9oFXxEOqJeLkVu47dtXr3jYa6rXIfd20FvgOw9IQz/4IgZP3JQkFx/kcx6L
-	6lw5yevLGeCFH4imm5GFhN5bkdl6cL/eaJtXpyW031d9KBcAhPHBrXA1aTyKOCFhIFiSc/gWVYg
-	fcfiIZwSvIepvVk6H53GrJjnueFX8WOPvdLFjvP91jjMxaSm6G2IeuLEfq1S1/hIHGKdvppULPp
-	8Q/gjF5+YyE6JzMlzBvb/fEq3HbRGrL5lWLeOc5uI93YoVwBMlDoMiH/ybUKf8UldVWOsqv8pQP
-	0DdDDfVegfcA==
-X-Received: by 2002:a05:693c:60d4:b0:360:5f7e:2eb9 with SMTP id 5a478bee46e88-3857111f65amr10851673eec.32.1795372960455;
-        Sun, 22 Nov 2026 10:42:40 -0800 (PST)
-X-Received: by 2002:a05:693c:60d4:b0:360:5f7e:2eb9 with SMTP id 5a478bee46e88-3857111f65amr10851628eec.32.1795372959922;
-        Sun, 22 Nov 2026 10:42:39 -0800 (PST)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385646633d0sm48497465eec.3.2026.11.22.10.42.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 10:42:39 -0800 (PST)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Date: Mon, 23 Nov 2026 00:11:39 +0530
-Subject: [PATCH v7 9/9] ASoC: qcom: lpass: Add support for Hawi
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eFKrLAjG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 365281F000C4;
+	Sun, 22 Nov 2026 18:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795373710;
+	bh=Aovxc5dC+lR16isdk9O4n4VlgAuF5hG7BYT0Gzrios8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eFKrLAjGinAUQ+4zMO3k+Ey4VCmyMBLWNeqZcFDUR+qFehU/zHbxHp1nt9k15z2FT
+	 s414/Zd1mkgPMDOdvz1gPtk/tdpjIX09BY4Ea75e6Q9OSo8SjuygSni1nhOaQxSiNz
+	 41ZMP1st7Fc9zRYNSGYLPG2f0DV9kfhmUd7+NdwZSjUuuWqGyPLtfmngf5t0hfxNuA
+	 shu50PI//FsNHk/H08iF9JGG9m7YJ0Lk6KKYtGtFh217AmwF5KrQDUUhrwl+xZ9t/e
+	 TJgI2AA4tfj8gIc6jtUTmlGLy02HompnKURtyXxp+gTEwaq3Q7Yh0NF7/ww8punLgD
+	 N9aBXZG1AQQAw==
+Message-ID: <sashiko-outbox-228210@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 5/9] ASoC: qcom: lpass-va-macro: Add SoundWire
+ microphone support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mohammad Rafi Shaik" <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261123-add_shikra_support-v7-5-7bf3aa089fc6@oss.qualcomm.com>
+References: <20261123-add_shikra_support-v7-0-7bf3aa089fc6@oss.qualcomm.com>
+ <20261123-add_shikra_support-v7-5-7bf3aa089fc6@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 22 Nov 2026 18:55:08 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,104 +60,100 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261123-add_shikra_support-v7-9-7bf3aa089fc6@oss.qualcomm.com>
-References: <20261123-add_shikra_support-v7-0-7bf3aa089fc6@oss.qualcomm.com>
-In-Reply-To: <20261123-add_shikra_support-v7-0-7bf3aa089fc6@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795372903; l=2073;
- i=mohammad.rafi.shaik@oss.qualcomm.com; s=20260424;
- h=from:subject:message-id; bh=b/4U84734Yc7dwWjoX+6MpWrZ4xVMl2EfGHGxrL/qPk=;
- b=gYUZRHtzpFBjr3/75J1gKwWp870vSe+Terlm7RWBInWuX0hsNcQq6BELS5GUPU6M8tPjOc2aL
- dNwwwObuDp1Bd9Ofr4v/oHSCwidkAtOfmNKqyAwrIBbJUIrfE62/wMf
-X-Developer-Key: i=mohammad.rafi.shaik@oss.qualcomm.com; a=ed25519;
- pk=KZedmYgMGYOzuTpLGv56tdrL+pTLDP8pdmfQ91xemiA=
-X-Proofpoint-GUID: Oz0S-I7FKiTyX43j8pvFsLY7AP-7_rfB
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIyMDA3NCBTYWx0ZWRfXwMGRtFUkIUUQ
- MbJwPFAW4LBzkMo4vYYFMMHnu1KIWJg8rTuV+ST+PuXlOgvKaTy77A3OSnOd9V5U9yDBHi+ObVj
- YXcdRFEBNT80JtXMsrGX/TajWiwe9GA=
-X-Proofpoint-ORIG-GUID: Oz0S-I7FKiTyX43j8pvFsLY7AP-7_rfB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIyMDA3NCBTYWx0ZWRfX17myAWSmPyJj
- q7KSj0wPV9E3uG0A5TPZC/90HYh/7bmh1qqjUnACXS0cveA2BWEc2luTV+xA1ePbI8sp9yqBgN6
- 27K9WmfiaBGOTh3cqdiANwf5JwowXd+w1sQm6JC2yhnwVzLT2TvVuy3Fx8ekqfGw2yLYIXW+ovt
- x8xDUoy4P360j7A4cVM/nOZRLkEEsM7+E1Tg6wMH7W/IRsaWxjoq3/22aulXIZWhzFXPe5qVcJD
- ZY4Jif7fDluPFCyHpvPH95JoiVsoCPQFi6VitH6jvi0FcXqgmQ2x2I1aHhEM9tCDrRhXGuqvYMi
- fKrBCWs5waf4DKza7TCQlSwXGvwoiIbt+upHEl+eNUOIj9t9r0E4jxKRhCVwzQdhiH8go0Wj4xY
- 1Nqb+NlKhnqxxkDfQOrTxbXOO3tK3oUb9cOHgSulHmLuUnTYMM9k+FLhjHW7QHmEa2rBnULAahg
- A8810xVXj0hoQIcZxfg==
-X-Authority-Analysis: v=2.4 cv=UbHE26SN c=1 sm=1 tr=0 ts=6b0337a1 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=bsY24OqhetQib-sbROEA:9 a=QEXdDO2ut3YA:10
- a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-22_04,2026-11-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 phishscore=0 malwarescore=0 impostorscore=0
- adultscore=0 lowpriorityscore=0 priorityscore=1501 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611220074
 
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ASoC: qcom: lpass-va-macro: stale ADC_DMIC_SEL on live VA
+  DECn MUX switch
+--
 
-Hawi and Maili use the LPASS codec v4.0, RX macro register layout
-of LPASS codec v4.0 matches the v2.5+ layout, so reuse the existing
-v2.5 register access helpers, controls, widgets and register defaults
-for it. Unlike Shikra, Hawi does not require FS counter bypass or
-adaptive filter blocks.
+commit 06032519fa34bd074b11bdad3a1dc60749b48edd
+Author: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 
-Add the "qcom,hawi-lpass-rx-macro" and "qcom,hawi-lpass-va-macro"
-compatibles, both pointing at the sm8550 match data, so the version is
-read back from the hardware at probe.
+ASoC: qcom: lpass-va-macro: Add SoundWire microphone support
 
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/codecs/lpass-rx-macro.c | 2 ++
- sound/soc/codecs/lpass-va-macro.c | 1 +
- 2 files changed, 3 insertions(+)
+This commit adds DAPM mux widgets, routes, and decimator configuration logic
+to allow VA decimators to capture audio from SoundWire microphone inputs in
+addition to DMIC inputs.
 
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index b3adb32f7d33..09ea4240196c 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -3997,6 +3997,8 @@ static const struct of_device_id rx_macro_dt_match[] = {
- 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
- 	}, {
- 		.compatible = "qcom,sm8550-lpass-rx-macro",
-+	}, {
-+		.compatible = "qcom,hawi-lpass-rx-macro",
- 	}, {
- 		.compatible = "qcom,sc8280xp-lpass-rx-macro",
- 		.data = (void *)LPASS_MACRO_FLAG_HAS_NPL_CLOCK,
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 8ed8420d7185..8e0c38517a5f 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -2195,6 +2195,7 @@ static const struct of_device_id va_macro_dt_match[] = {
- 	{ .compatible = "qcom,sm8250-lpass-va-macro", .data = &sm8250_va_data },
- 	{ .compatible = "qcom,sm8450-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,sm8550-lpass-va-macro", .data = &sm8550_va_data },
-+	{ .compatible = "qcom,hawi-lpass-va-macro", .data = &sm8550_va_data },
- 	{ .compatible = "qcom,sc8280xp-lpass-va-macro", .data = &sm8450_va_data },
- 	{ .compatible = "qcom,shikra-lpass-va-macro", .data = &shikra_va_data },
- 	{}
+> diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-v=
+a-macro.c
+> index 2401006387445..8ed8420d7185b 100644
+> --- a/sound/soc/codecs/lpass-va-macro.c
+> +++ b/sound/soc/codecs/lpass-va-macro.c
+[ ... ]
+> @@ -843,10 +859,24 @@ static int va_macro_put_dec_enum(struct snd_kcontro=
+l *kcontrol,
+>  		return -EINVAL;
+>  	}
+> =20
+> -	if (val !=3D 0)
+> +	/*
+> +	 * SMIC enums use shift 0 (lower nibble of CFG0), DMIC enums use
+> +	 * shift 4 (upper nibble of CFG0). Use e->shift_l to distinguish them
+> +	 * without relying on widget name comparisons.
+> +	 */
+> +	smic_mux =3D (e->shift_l =3D=3D 0);
+> +
+> +	/*
+> +	 * Both muxes feed the same decimator and share ADC_DMIC_SEL, so only
+> +	 * the one the decimator is routed through may program it. A write to
+> +	 * the mux that is not part of the active path would otherwise switch
+> +	 * the input domain of a running capture.
+> +	 */
+> +	if (val !=3D 0 && smic_mux =3D=3D is_amic_enabled(component, decimator))
+>  		snd_soc_component_update_bits(component, mic_sel_reg,
+>  					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
+> -					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
+> +					      smic_mux ? CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC :
+> +							 CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
+> =20
+>  	return snd_soc_dapm_put_enum_double(kcontrol, ucontrol);
+>  }
+> @@ -1036,7 +1066,6 @@ static int va_macro_enable_dec(struct snd_soc_dapm_=
+widget *w,
+>  	u16 tx_gain_ctl_reg;
+>  	u16 adpt_ctrl_reg;
+>  	u8 hpf_cut_off_freq;
+> -
+>  	struct va_macro *va =3D snd_soc_component_get_drvdata(comp);
+> =20
+>  	decimator =3D w->shift;
+> @@ -1053,6 +1082,18 @@ static int va_macro_enable_dec(struct snd_soc_dapm=
+_widget *w,
+> =20
+>  	switch (event) {
+>  	case SND_SOC_DAPM_PRE_PMU:
+> +		/*
+> +		 * ADC_DMIC_SEL is shared by the DMIC and the SoundWire mic
+> +		 * mux, so its value depends on the order in which userspace
+> +		 * restores the two controls. Program it from the resolved
+> +		 * mux state of this decimator, which is what selects the
+> +		 * input domain.
+> +		 */
+> +		snd_soc_component_update_bits(comp, dec_cfg_reg,
+> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK,
+> +					      is_amic_enabled(comp, decimator) ?
+> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_ADC :
+> +					      CDC_VA_TX_PATH_ADC_DMIC_SEL_DMIC);
 
--- 
-2.34.1
+[Severity: Medium]
+Can switching VA DEC0 MUX..VA DEC3 MUX between VA_DMIC and SWR_MIC during an
+active capture leave CDC_VA_TX_PATH_ADC_DMIC_SEL_MASK stale?
 
+If both VA DMIC MUXn and VA SMIC MUXn already have non-ZERO inputs selected
+(for example, when userspace pre-configures the target sub-mux before
+switching VA DECn MUX), va_macro_put_dec_enum() skips updating ADC_DMIC_SEL
+for the inactive sub-mux because smic_mux !=3D is_amic_enabled().  When VA =
+DECn
+MUX is then switched to that sub-mux while capture is running, both the old
+and new upstream paths have connected input endpoints, so VA DECn MUX stays
+powered and does not re-run SND_SOC_DAPM_PRE_PMU in va_macro_enable_dec().
+Because va_dec0_mux..va_dec3_mux use plain SOC_DAPM_ENUM() without a put
+callback or SND_SOC_DAPM_POST_REG event, ADC_DMIC_SEL remains stuck on the
+previous input domain until the stream restarts or the active sub-mux is
+written again.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123-add_shikra=
+_support-v7-0-7bf3aa089fc6@oss.qualcomm.com?part=3D5
