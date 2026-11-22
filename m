@@ -1,101 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795348980;
-	b=vkZXwlrRgH9nIa5c75StbRtmFZdTruz7zQKw1B76y9FMnlq0XB8lhL+3ZiqNQsCDav0e
-	 G+OnVKYlF17d98+KkNTvf/DZwX0CI91ZKMXfFuvINvEyYP0bUaDw15z+dTrchGVz8N3Iu
-	 VPm2JqF6OwJIRik2uCVOILtrHOkNPNwuHr8pOrcp6NUkd0dJ8OWGX2S+P14HgGP/5BF7F
-	 AkGzABvicFbCxvCOTH4VuwLAiCiQnRTBfLwkI39BQILoIg8/n0aa9tMEfSBTHj0U1E6ev
-	 yPEkD40+9I3V0Jb6pFBUTD39uYc4c43k5DMd26VSgmcY8RRrBLjwzyVPgPMQLRP2mHw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795348980;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795350809;
+	b=Xn+rOUWqwnpHR4QwlXeJqLvic+abJEY8c5xoVri2lbZ+zVg3XMXF5mPN9EnC2f2xSJuj
+	 Y4UGBPLnhnkw7bh5XgjTBH4sGVEJqo0tKvgeDTsraZG+jClR0GVRkqKtZLMFL8xizQ1jA
+	 2oYAqPSM8mrLOmksCjoa7M76r6JBrcSLSUtJlLP+K5JAT16UXMcTklTTF2ZJD/QAAMw0n
+	 1CtCVV+vgDt/JLHGL3NKC1KIdwTPy1t+MLpCwoHRpnxsSLJBmFiCCyBPUACaWYQsM7rLI
+	 eMS0EAPISUUrGUCg5AJ5bQljWSRroxg6NIk/S3bqwXWMi0n4cTVovn1GxT/PX843ZwQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795350809;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=dxKNiMftVupVb5om+wXy5zkYQQ2Gh2XoL0QWLFEag50=;
-	b=Uo0IvKJTdD3DW/xzU9fvuHm9pXsYt/d9YxtfwGnR1uja8QEIfyBpTfF1/8bKLw4F3rVF
-	 S0f301DPDeBdUzS7ddCe1v4iGYsY8vVicFOxkZKPQp/tsx9cOYbfXJSoW9w/AqfFgGscm
-	 3fPXtRORR7bvr/hAfjrrxoCNEp6yLZ/erGsxTYgWLV7JM9u+jpHVL99DDjKGsEJPZnxJ8
-	 DkQBLg+pHVdnkefjEjPGq1hT7ZU+kX8L25cxnajfIEfwXNRbwFetPvkIwj7jSGrf/Ygnm
-	 uXcN/JahSuh0LU/v/xZcTaEdoR0W5/+1n7M1cbVmERF5+iJrU8fT1RUbTGAHxeVVj0g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mgcrea.io;
-	spf=pass smtp.mailfrom=mg-crea.com;
-	dkim=pass header.d=mgcrea.io header.i=@mgcrea.io header.a=rsa-sha256 header.s=google header.b=h37WmvXl;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Content-Type;
+	bh=mQSjetySFxySrdFsQnf4hXL8mHfJwGrWJrGkJrf8wZI=;
+	b=bpwYnKWOta32lPlP2XauiR4RSfSvZnFWfOgCT9Z4umgJtQx0czC9eGLnWB993ScRO24E
+	 MAlW7KLSfKXtsoqKJE7Qc0uqCsyK0UxenFQaiogOkKqQeDwqPL1RrHSBKC3FetY0H3pe0
+	 CNeiUU7f0y5zjMqEyRzWIHMcRaW8Pau71lNNzkEd57HEP0xqLRHG2YWUuGRTcTjw0OBnz
+	 sSZwPzdqHE5D2GWS7v4eJJkKxsDtYGGlJ+327SO6TDyhWwRmdJFyZJEx3hhQmEu01XlBl
+	 D/jry9S8aylQ2L+h4QLh+efVZ352u/hDc9zz5kgcuv9GPDV1hraNAHV8IiVoC5cMGIw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cBARAejg;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DAD606A32C
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 12:02:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38DAD606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mgcrea.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mg-crea.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ABE606A320
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 12:33:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88ABE606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mgcrea.io header.i=@mgcrea.io header.a=rsa-sha256 header.s=google header.b=h37WmvXl
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso17784715e9.0
-        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 04:02:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cBARAejg
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2f02b9c1f6fso15712555ad.0
+        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 04:33:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795350808; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dK8nWtTgw7G60QwKpoNqTFmq3hcezRN64BX9A4Y1ijJNZ+Foep+tvYxdMgSz8VTa8B
+         0278G14zgabECouAyF5eDC0z/hL8W5mDEMOy2gM9wTAGPW4BCinQmM9+SCrGY0ZB7qAL
+         BJiseuz3uCSVylLKpF5u5c2h3VkAX7XVkc/q+o1VytBL4Z+tUe/3Ue24ankFeIxXRsrO
+         rfN8n3wxd+c6s4Oalf4HoMtJ//GP/Mj3KsV8SeE/D/oHItPoQtOIfWU6jTEs0jXfj9Fd
+         Sc3VuPDooJiueztcusap3uNa7SGbiVZC1OhmeIEL60k5accJgQYGI8e+szMCl5z77CpJ
+         7Udw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=mQSjetySFxySrdFsQnf4hXL8mHfJwGrWJrGkJrf8wZI=;
+        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
+        b=KdO/OXOnhGMVQi/75N5rg6XnqvSoUCi0Jg8Esbmmpk/50EoaVPOc3Is+s3Gs3MAeBK
+         s/zu8ckxSLHILEotKwa7uE9b8IIqMAH2d6d8zzQLLi5iQd5QX2HWeE2TvLm1tZinrey9
+         41GLA1J5YquAzCKiUFf8CoQqSyVpvQyGutSFKz2Fi1r+9SOgBfPsZrsCpXAdmbFbekNW
+         q2P5pmMebptp5FMgxw5U8hdUxVBo46OZah/b+KXYRKNnqHbBV6sZzznlMBZbzmaivnsw
+         A0PM3t2f0+mLedWpGRnMRp1MkRDPTt8yQ4CEH6cF67tDV5wkCzyFzSct5QNJAoOD/TWG
+         jH3Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mgcrea.io; s=google; t=1795348973; x=1795953773; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dxKNiMftVupVb5om+wXy5zkYQQ2Gh2XoL0QWLFEag50=;
-        b=h37WmvXlzeqJOg2skDXkuZ2+T7AUQHNgThGjgdFemHp3spzjs6KBY6eYQMLhocih+J
-         vdEYZeECN+/WBbybSUhmDji0q0kGhSN7f+RdRRtaFsNi9yWY1lNGJn7xuB1cn5i/8ScM
-         tk8BgynI/J3dvysUVS2moeOvYoAiSkA16sgDP4kNic15y1ifZ2XzRwI2fFI708nj/zbj
-         k4sb0gC4CgEJ8mxFEo/8xTtmnkXiveyBTOdD35D2PGlgGGZgfKF8JiO/OTZt4Ix5WVAr
-         GHqZITv4Qhv0YjEyHEL3stdQh8wMyhT/oJLoqFHi0za1Jcw0cgXO3wOQ8RQ8wuH5oSAQ
-         kDww==
+        d=gmail.com; s=20260707; t=1795350808; x=1795955608; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=mQSjetySFxySrdFsQnf4hXL8mHfJwGrWJrGkJrf8wZI=;
+        b=cBARAejgxOx6xXiqpE187jdVmpGKDGkp6/USGkDqWQunao29yY9TgMddtpuTMLoMp6
+         GBpXghwuDt+Q7ovz76cLHtLBp5ouo0K11LTqXeFuGLwKUWw3W4rYAVdtmpLC7+GCYWM1
+         0wwU1y3BrXK9+TpvyzADRAxqvFgz8OJhNxw7Dzdu9xdqw+6S25rOAyENueI7lw9FOLic
+         zjyfOOvLrmqVsAXoo2GMiXFZehUcRUzHT8QN96CmcsZMpelAm1gND0JAZeU62Nh4v4Hk
+         LRACKXpQjCUvsRZKsozRKmoaohdS+7QNconMsP6yQI3sD5s2VX2za98JvHi089HuE/ek
+         mXog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795348973; x=1795953773;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dxKNiMftVupVb5om+wXy5zkYQQ2Gh2XoL0QWLFEag50=;
-        b=oP32JArtUj5devxiy62huvJoXluJO5Gd3QFAzckqTB0L/yngC7te8u0J7FTkuzgPk3
-         s5frhTfVyz8YOGOYWepMfzJIihOJt8GyxjE+voTufcqxk9slZ56+xf7K8zZQURUd3lNd
-         vASG0mEuqPIeZDUXyMtbVoVOVe6dGMOBEe+rsEQyKIqioZozRkmzAsbtkL4/TiA6opBj
-         iWTmrEApZYraumk/a8fNrg4OxpZVQ/e2VWtco7aVI8FW1YcTlsggI1rmd7Wop5R/NWnT
-         141V+7UDdpiy4GxpvCw4ecQK78gQWPjq24pGDrWYFdBayQUOjoFIblWe1NBfbglr4C1W
-         r4FA==
-X-Forwarded-Encrypted: i=1; AL+hErGyUxcrHXdYR+TavW9VgOAG+XRqoEvXGPB2seUsK0CXDiQxI4q9vvwsw2LC/6cvzGE7FkCMYfqoZ+v+wQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+dq7McKN0pbewanLGovaHrIHlXOs5fxzYZvcU+NEhNh+ORoKne
-	B4MB45oIbnotFpe7J3JgeYzFl1dzEx4SvlQw1CbeV0jwhaIyksahJMPbjjUDdh7cqwE=
-X-Gm-Gg: AZFdTZdLW0knyyid2UQJoVwSNUj4UBM4p+GiiOzoZ97vqZbtjRMN97gnprPabkgcDa2
-	WzLHbVhU6aTwkooHjKFEz1UcJ3lhDVfxIRHz+VfPEX453KHaotJdZi3iJ2+TrkVZ+/tpbjWkiI/
-	Jp4d6XUTYhph672n1wmE9my8M53zgr4aPeagL8IBL2UO+xaJTPK7RQMFRWFnhQ3sL/5AYvvXLMT
-	xG2kj8d+zwcCvBWBqTqsjUlleMl+2OM6LR+fWkv2o3w7UybkODEiua7ecIK97xaf+Uq3KvjUUNR
-	Ofv4XZA2MSdFdktOu1h8OIU/Hivfz7rqTKAlLTGSLTkPg3a7++208J0P5TaVzrmyQaP/+Z6aUpR
-	2MMPUyKsZ3cwC6zUCDgXMHxHUCtOiSoyjhSwObQjqscAeBy0uvmZ+CqoArVv0fJwiz4atYOBYmY
-	vwPVnqYmFI8ggZAoO/sH9qJYW05o7vnQL/WZRKXhx1CAZUDmWoxnzYGuEJPOBH/M66i6y4n9Bl2
-	8NR+HRxyBV2j+0wzAnHSIaQuSU1apsvDlT1ietXWWRCYRYBLlBewDzPghcaLZZKcjMklGoUqXaI
-	KbHTLEZrzI4no3ybGXFXLLdbJ8zx/3WVJnf1Hino496DruCUM3dtxJAl7Bf0FpORd1s27q8LQHt
-	NhcTAF68=
-X-Received: by 2002:a05:600c:1c28:b0:4bb:867b:f0f0 with SMTP id 5b1f17b1804b1-4bb88810708mr212949495e9.15.1795348973238;
-        Sun, 22 Nov 2026 04:02:53 -0800 (PST)
-Received: from localhost.localdomain ([2a01:e0a:9d2:5a71:a5ac:a6f0:7687:6596])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8d4f9aa8sm209160435e9.4.2026.11.22.04.02.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 22 Nov 2026 04:02:52 -0800 (PST)
-From: Olivier Louvignes <olivier@mgcrea.io>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"H. Nikolaus Schaller" <hns@goldelico.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-mips@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] ASoC: jz4740-i2s: Add support for the X1600
-Date: Sun, 22 Nov 2026 13:02:51 +0100
-Message-ID: <20261122120251.2083-1-olivier@mgcrea.io>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <179495557744.2707353.8222109296948133350.b4-review@b4>
-References: <20261024214438.33342-1-olivier@mgcrea.io> <179495557744.2707353.8222109296948133350.b4-review@b4>
+        d=1e100.net; s=20260707; t=1795350808; x=1795955608;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mQSjetySFxySrdFsQnf4hXL8mHfJwGrWJrGkJrf8wZI=;
+        b=RMEnqg8numsWp+7/Nj0O+qdQAi2UenYy/lzFwLFshg0giUe0YqAWJKbzF6/T2klAIV
+         uWNmf8cQbjcPnuW5MMNd9JLRS1i8ykaN8u8MH2QfEbB6vpr3HWX+gzb+MWS/cLtKDdDQ
+         REeO6et2Welgv9ftYJZ+7HbzPcBGGhk5csSKtFH1cVslHlUpQnlo+sJAYWYghzqY3LXK
+         9S/4uSxSbzJcVTU3tYIU40zYoF8SB7FtcaU4sHk4BFhLLb/D4/eiup7rmQ+qbSSBJ1YD
+         +h3NGh2lVVXWmE1wPSoVsHhTZrxcEv098hyangKfy/xVnIxT8UKnGzkSza4y8f0lYGES
+         oJBA==
+X-Gm-Message-State: APuU4Z/o12GFTlzPe78avDc2wLYgi6GblCBm487fPa26M4pAekc6X54/
+	tR0oGBZZyOdyfrbtL4KQdiKSvHYX+S00oS7qJBb8d6f2NiQ3jUuVxYRmeGVuxMlaFVgOvQV5u4t
+	H/BRKkfW78lc5ljFzeb0hpEFCtZdjoJqlowvi35s=
+X-Gm-Gg: AZFdTZcYihYy9z8Gvwmz23dqrTRZORKj+FPEhwjGSiUW5nAF0ex85HC6R9sHQcB2nfB
+	iNE80gvQ+H6MCcdekxD5K4GQFtyIGwF/fFZVppxZweXqu5mMuYdo4kVzSui/MahVaHuuwuyJ0TJ
+	SWV5hU9AqijUT/gIZ8LG7oFob5JChJ7HegUSb/0V53quw8crCv+i+yPK8bVuvm1Fm3xluqV4VPp
+	jNLRf/Zn7oqcK1Ao7kN9sXXPMKZwmWHAxoiTE/Rwa0sNx68cVJKNw2K1X7pLCFPVF5AxzO/xxF1
+	SFMH638rlghF7GLNCP0J92K5mBNHp3k/yAhQlKuULxRUkFmKYa5qguDFc9ShPzo4+r6DRJFgbkG
+	sXUjWlDljq3zfdbxRXeu8Yoy+RqHKxKzFfu2HTz/3Qjw8u8aKSex3KeDgy7fm8NVSOZUM
+X-Received: by 2002:a17:902:e5c5:b0:2e9:528c:b9ea with SMTP id
+ d9443c01a7336-2f03f18ed69mr63272275ad.11.1795350807684; Sun, 22 Nov 2026
+ 04:33:27 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,29 +99,54 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Youngjun Joo <yjsimonj@gmail.com>
+Date: Sun, 22 Nov 2026 21:33:16 +0900
+X-Gm-Features: Aa3M54q8NAm0wI3bJgIbzziySQP_L0r1wNzDxJx6EvBaoTyxU3Q2WBvTTN5Uvwk
+Message-ID: <CA+sj2qJ4TtTpHC0HKuKwfTvJ0srHkC=YazSrOWJ7aRPpWB581Q@mail.gmail.com>
+Subject: [BUG] ALSA: hda/realtek: ALC298 headphone jack silent on LG gram Pro
+ 16 (16Z90TP, SSID 1854:055a)
+To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mark,
+Hi,
 
-On Tue, Nov 17, 2026 at 10:46:17PM +0000, Mark Brown wrote:
-> > +	.field_i2sdiv_capture	= REG_FIELD(JZ_REG_AIC_CLK_DIV, 0, 8),
->
-> In the v2 thread Nikolaus said that there are separate TX and RX
-> dividers, is that the case?
+The 3.5mm headphone jack produces no sound on an LG gram Pro 16
+(16Z90TP-KA5WK). Internal speakers work fine, and the headphone
+jack works on Windows on the same machine. It also used to work
+on this machine with an older Arch Linux kernel, but I don't know
+the exact version.
 
-Yes, I2SDIV has TDIV in bits 8:0 and RDIV in bits 24:16 (X1600
-programming manual, 9.7.2.6). RDIV is only used in independent clock
-mode though (AICFR.DMODE set, the "6line-mode" with its own RX_BCLK and
-RX_LRCLK).
+Hardware:
+- Laptop: LG gram Pro 16, 16Z90TP-KA5WK
+- Codec: Realtek ALC298, Subsystem ID 0x1854055a
+- Driver: SOF (sof-hda-dsp), Intel Meteor Lake HDMI codec
+- Kernel: 7.3.4-arch1-2 (Arch Linux)
 
-The driver writes AICFR in probe without that bit, so the AIC stays in
-share clock mode, where capture runs from the transmit clocks and so
-from TDIV. That is why both fields point at 8:0, as in the X1000 entry.
+Symptoms:
+- Plugging in headphones is detected ("Headphone Jack" = on) and
+  the speakers get auto-muted, but nothing comes out of the
+  headphones.
+- Also silent when playing directly via ALSA with PipeWire stopped:
+  speaker-test -c2 -t wav -D plughw:0,0
 
-I could not test capture, the R1 has no capture path.
+Codec state looks correct:
+- Pin 0x21: Pin Default 0x03211020 (HP Out at Ext Left),
+  Pin-ctls 0xc0 (OUT HP), connected to mixer 0x0c <- DAC 0x02
+- DAC 0x02 amp-out 0x7f, Master/Headphone at 100% and unmuted
 
-Would you like a comment in x1600_i2s_soc_info saying so, or is it fine
-as is?
+Things tried with hda-verb, none helped:
+- 0x1a SET_PIN_WIDGET_CONTROL 0xc5
+- 0x21 / 0x14 SET_EAPD_BTLENABLE 0x02
+- 0x21 SET_CONNECT_SEL 0 / 1
+- GPIO 0-3 set as output high (MASK/DIRECTION/DATA 0x0f)
 
-Thanks,
-Olivier
+alsa-info output:
+https://paste.rs/empRo
+
+I'm happy to test patches or provide more information.
+
+I'm really sorry for writing this with ai becuase I'm not good at
+English and linux. I did everything I can but I cannot find any ways
+so I'm writing email. Sorry...
+
+Thanks
