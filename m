@@ -1,75 +1,75 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795340402;
-	b=mkFiTQev3b6msPX/woPFZx4i9ZEE7xav1Sql20YKYyPs2/pUtdDbQl57oB6aJIs7eej3
-	 6Q36yRFyRIHLkCtSdLmSyj7YWaVDSgcfWRnF6H20OODVcEUV+QYFhqNGD500B/F6CCbYe
-	 M63wKchSdqeqgcLDHwPeHclftxltY4As7tuzWRGULRJ2LzL5ZEdUpEHYRi3aY67LLC9QD
-	 YHHZ7P0tWHIYHebYFhTK4kywWhZhvWcgOKFAzgjAscMf9GQg2m9i19RO0fZWZ+7m5JvK6
-	 8tcQ01dPkBwVoYJiIe87JH0ZMftDZyYSsH9oM5pymbJBVjOyM5ZFjL9+Lo7rfwJKujA==
+	t=1795340404;
+	b=klalOCffbXjnX4TfQTzJnlXHipWVFViPiOQDXUFUBdszF+ClDjqbnlyZIvVQWeBH/3Hi
+	 pmhvLydb6kiiZ/2T0gnk4QIgYI3U4WJalXMekIbnP2DJfiIUxPRysi8Xet2p2g6nyWYlO
+	 cNqPfGpp+3DRJPtWTyVoap5KzGuUvtsZW1iEiRwVJj0NCIasowMZxWcVI3342wFypA8fs
+	 /TJQcVOoOuwWqMeXp+Ke4oTi7xrjxzhg1vpECkTHRTje31EpocLy3qG/TKZO75SL5FxiO
+	 4Vod1Wd/HZ/9LEmoHtW6ZsS6gLOo8128RftQY39UdwCEc67h7zReLkjJB2tYi1z1MeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795340402;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795340404;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=CycmHxaCiJOvL4NPfH+Dez8s6lB2IWXlSQgqmVyveYg=;
-	b=R1zecuF2KZ1YTQBKktkxDdjjpoDO5CKeMK5AUmMReemVvICsp/Ik8r9sAibCyc6vaBzS
-	 hU2/5vHNY+7oUWv8USfX3RhOjc+T8xn/+LaxHHpZDeK9/EP5lRx5p8y0EgCe2Se/B8Fr5
-	 Qo+X5qB6oNOwaYN1qYpXuuKAwtTKNn7lPQlO5Ej4lUJW2DO88SDXe+N4PJSGrH1MV+FP0
-	 W587oW1MaxMNuFXJzlSuxYMMYmMC7M404GXsXE8LVVe5loRKVsPH9WX5I78LyaLOLjglJ
-	 anxFePkN6dM9tU7HVH+cFftdX72bdJ2qYDy+klKZdXlHNNruxopDgjGNJLiHbELHfsQ==
+	bh=JOUUdrLpItYmqcAoZQUhihWymH/+lw6CahS8AWycB6I=;
+	b=S+P8zRGkFL8IGooA8Ejm38gICPpNPHli7mQ2hOz8cC/xAA/ZFR0Z0aXyjPQa6KOZteYc
+	 Z6fJpvOONl2LakZzdfEtZ7Bdx1a3rSuJ0yWGhLuxddrCd2BN9pIzgkXXrTIeAmV0B9mz+
+	 zfO70hGNmcIvzsevgF7Jw7WldAOr07SMRqHfGZGMjPR6lSGHxf4pywc0AML38NpqGP6pA
+	 kYIierDOLJw8NVNx7JuDul3ZvcCk8IXg9wiuI7vnlK5UkrFY7BfNbGrtz1+Y4H5ra9+96
+	 PzGWzJjmmGk2CZCRO0MpA4Sb/JLGNuIAYm/K3E7nQsk7J1r9C9f1O9nISqVKJhC+jxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LRBx+pdt;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gqYUV52a;
 	arc=none smtp.remote-ip=198.175.65.12
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57369606A330
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 09:40:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57369606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92EF8606A32A
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 09:40:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92EF8606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=LRBx+pdt
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=gqYUV52a
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795340402; x=1826876402;
+  t=1795340404; x=1826876404;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=is4xAJZ9f5jWucS6/Dj9g5nYAHDxSOEyDfSzIi7Jk64=;
-  b=LRBx+pdtJhGaHquSq5IBCE25XOrYjc11kgdfbXLITMiqfDXRwFzNWAFU
-   z7bJDkLO1fN+4twf6qr7CycRD4DrMOZn2IJxxsqqTJhK4T4QLHv62hqU8
-   dvIiHt7tcxmCcldJbb6Gw7RDBay4lz4G42TWdZpC2xeYo6t+8Yakh6EI6
-   EGQihuhJdIHrQSxPZmJML/zbaWrcMCpLRfF83Q5kVSsULIhcPcaCFmMkW
-   j8wXy5NiWrOfLF1Uvz/+6dVCm8FTAbbAlABzDh7kDzw+gUExuSeNgJTUS
-   yFtG4nLADpslFmVl1J+Hqmfvo6TsCvH47zgBeYAJDQAc48Cyiwf3EgcS0
-   w==;
-X-CSE-ConnectionGUID: ntnv5fXISoi9aHvdGXygtQ==
-X-CSE-MsgGUID: FtAz1w1dSF+2zYibqlxtrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4051544"
+  bh=w4KJorzAZ3sytn1g2oy2Xzi9zhxITHlVZCZk+sJlTKU=;
+  b=gqYUV52aW+U4ZmpA0HBmEf5B4vU+2tV1vU4CGekAuix87hoNZXtoZhO+
+   4QzI1/HyHqLV8GvezwU0UIef0HffIsp3o+A3WTbRtc+VKYx2wl+ZBQkiV
+   soqYdtcngd3n4ubQfJyP5BENn09ieY5JdOWwPHjbgo0Sdta3n1t/m3XBm
+   PzqnbfTwwARf3B/Tzp14MkN+Qrdhyd7ZHdbM0DbkKFofbxRqZ3e0wo/P8
+   gj5dJNwpbY9iPz7tIPagco1Jt1FXYnm/Pd0BzBJyBtMyijd8SXEFmAVQm
+   jrhsJPnbs6bGp1zdydk2BD84yDdu3byr15yyA7bxYNZOZMSPJGqbybhx7
+   g==;
+X-CSE-ConnectionGUID: /d0yB+XsTBGFuXie2gSgvw==
+X-CSE-MsgGUID: JSbhCeReQPuWtelozxq3yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11973"; a="4051555"
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="4051544"
+   d="scan'208";a="4051555"
 Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 01:40:02 -0800
-X-CSE-ConnectionGUID: rmPFdMSaQRiQLrKKMPprIw==
-X-CSE-MsgGUID: 17UXEigBTxqum66mTTZHzg==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 01:40:03 -0800
+X-CSE-ConnectionGUID: KejWlex/SkSKnIHNF+eMpw==
+X-CSE-MsgGUID: NWz2Wi94QyaOPNZFBWr1Qg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,226,1787036400"; 
-   d="scan'208";a="12759947"
+   d="scan'208";a="12759955"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 01:40:00 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2026 01:40:02 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 2/3] ASoC: Intel: skl_hda_dsp_generic: Limit HDMI ignore to playback FE
-Date: Sun, 22 Nov 2026 17:39:44 +0800
-Message-ID: <20261122093945.2138118-3-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 3/3] ASoC: Intel: sof_sdw: Limit HDMI ignore to playback FE
+Date: Sun, 22 Nov 2026 17:39:45 +0800
+Message-ID: <20261122093945.2138118-4-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261122093945.2138118-1-yung-chuan.liao@linux.intel.com>
 References: <20261122093945.2138118-1-yung-chuan.liao@linux.intel.com>
@@ -94,20 +94,20 @@ HDMI-In capture link from being ignored.
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/boards/skl_hda_dsp_generic.c | 3 ++-
+ sound/soc/intel/boards/sof_sdw.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/boards/skl_hda_dsp_generic.c b/sound/soc/intel/boards/skl_hda_dsp_generic.c
-index e7f5869ff12e..3c86bb6546dc 100644
---- a/sound/soc/intel/boards/skl_hda_dsp_generic.c
-+++ b/sound/soc/intel/boards/skl_hda_dsp_generic.c
-@@ -92,7 +92,8 @@ static int skl_hda_add_dai_link(struct snd_soc_card *card,
- 	struct sof_card_private *ctx = snd_soc_card_get_drvdata(card);
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 1e5de71c0f21..b3e88dce0c25 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -1447,7 +1447,8 @@ static int sof_sdw_add_dai_link(struct snd_soc_card *card,
+ 	struct intel_mc_ctx *intel_ctx = (struct intel_mc_ctx *)ctx->private;
  
  	/* Ignore the HDMI PCM link if iDisp is not present */
--	if (strstr(link->stream_name, "HDMI") && !ctx->hdmi.idisp_codec)
+-	if (strstr(link->stream_name, "HDMI") && !intel_ctx->hdmi.idisp_codec)
 +	if (strstr(link->stream_name, "HDMI") && !link->no_pcm &&
-+	    !link->capture_only && !ctx->hdmi.idisp_codec)
++	    !link->capture_only && !intel_ctx->hdmi.idisp_codec)
  		link->ignore = true;
  
  	return 0;
