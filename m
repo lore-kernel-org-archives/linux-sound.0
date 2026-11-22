@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795364919;
-	b=UbGtNiB5hy7+FJWubL8SsGaUF+y/4mfkGy6EfLhPc82HU9XJIb113vH3yblg9xfMSCLQ
-	 Mu2h5NYlcxv1drY9umOQ9GKd1Aynx9OAqIwgfNrprXuWie6+SmyGKchZYtzkaBvPk+bA0
-	 SNq0LVp2Qo+gaULZ/pzkyUucAwDnS7UsAPo3J+3isz3wPxk6lLCwvyDJJ9fmr3mATmcwK
-	 le6yfNqE30BJGJRavw4SwtvRQ67ZgNVxEGeeM9DH5e71hVlqubYWGsqZg0rH51/LIw6JE
-	 bwP4/KthTu1aBiyRkgeVhnwKWRjz4LIr8loeGU28fqCldRxFeKmsAtrKJapU5aqlVWg==
+	t=1795364935;
+	b=fUId8WnkPy7ZpX+txaZwcowEwtcyugP/e9eWEKVr3yNF5Jm5YKv52OQlCn8uVWACreUN
+	 6D4XzNSBIaNtlHvtnMI7tejbAFhYeHo/uED6o1oAxXLS725xN9ie/VA+eViv+xiJAK4sN
+	 uL3EIfKkRz0l1tKcQ65hO7i61lF89fmm2mchU/1lj7WX25tu8Mz4OJaaR8VNB+ldh0Agg
+	 IpqWwdYvZtqWCk4ln68IxwNpjm3FpomouK8upHFxELgBOSk0VjadSTarLIlNsAelm97XK
+	 FUCWff7I5ZHmxkWwSuufBHkE2SsdP1/ErFtvxQHHnEb5CN7mu7XyuZkAheJhNDBOG1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795364919;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795364935;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=K5hfBAfQ+TfDFM334Dt7XFEzRdHF6M3MPfU3cdw3+ZA=;
-	b=QSsMa2orJcFhCoUvk37cJ1VND67Vn55fOsCmGIn7WIVI4nyACS9hzCqHBNiMCHN2dIHi
-	 0DZjggvrPljEr7r0K8M+pNnwisGHciA4TI8e4CQW5IXkQ+R8KJ+eMjjcy7kJIAL2BDYbb
-	 bK5tlCJevJe/3Oaqx2bt/3b4tldAG8xwt1j0OQCNe/hyMt8/XiQ8XFFnbbp6eZfJQCaRf
-	 svQLuOLFBXj/yeX7Sa4iCtKWfFQPSPPChbCBjCahVvyccIIQhuSJKNGkW3/i4MZowwYnB
-	 cXNAbZLGKXwxZpiMAXBlmBEXMDcdejwC+0QWNux2gpCs1d78uGY51FtQG50ZJMRFb/A==
+	bh=HejxjeR6y1AWUeMKdtQ38eSl5qYCvf2sETxJ5unCVbY=;
+	b=sUmQolTO781jrpyPef4IHcvdTa5XIfk3m9IBWfmb74Ps7eF6LXTS+xHMABhrHIi7n/A1
+	 FMf5H0EdqmDY0zUXiSF1b4ot5sDHMEjkqZpEFaWjhNdKdE2tKbcNqBU1zgSspn5Bk4Ka5
+	 Bddy7/AtQzUvH9y2KklfFMDbZzzG9bwdbRRDG7j2jXEp+vdMdBA8+p2ebEkIATqEqEgTu
+	 SKSFObQikV/7fiiPnPXZ5ea3TUT0X4Rh2ukbYtyVFk2plvQsNNyZxIM7CnIRZ6juY72oG
+	 r9KI4uT+MJwNLwjaD+YmVucbkRdsJLkeU+HaBJk6P8zVqqVPwXWYCifAskGbwKtmMyw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QhNtODL9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UWXAB5++;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85969606A32A;
-	Sun, 22 Nov 2026 16:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F78A606A320;
+	Sun, 22 Nov 2026 16:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QhNtODL9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AFDF1F000CF;
-	Sun, 22 Nov 2026 16:28:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UWXAB5++
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA3411F000C4;
+	Sun, 22 Nov 2026 16:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795364918;
-	bh=K5hfBAfQ+TfDFM334Dt7XFEzRdHF6M3MPfU3cdw3+ZA=;
+	s=k20260515; t=1795364935;
+	bh=HejxjeR6y1AWUeMKdtQ38eSl5qYCvf2sETxJ5unCVbY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=QhNtODL98eH1jY6+2L2AXID/zbytPugT0oqA1fCsSEbEIe/EMC55L9aWpwaTJiYu+
-	 jHSES0GcsSlVdBxFk24WA+/n6E9lVQStNYkJd0iyievTM8FYICdI85F0OmjqjPyc1T
-	 R4nsA+si5UJlrfakutqlx87VCQofdUmiGQoSA3agmOAIeMNixSs8h1fRwH/XpRkqxx
-	 ppmR7V4kuZuyIsV5Hk+m6dhRQvdh7MPxTZNZLJ+wm+98V2vA168buBPgPPfDSrUA7Q
-	 z/hiMZKfiEtpBksPBf2ZPyEVz0pr0EgB81pJIYFH/6EI38380buq3O/lFEr7qOxIPG
-	 BgWu3+9tVPgyw==
-Message-ID: <sashiko-outbox-228100@kernel.org>
+	b=UWXAB5++djcbFtJPmWcMmyca6ETgAM66I92CctNus4/clV3MuUcvaEAZp90LZb5+W
+	 0hH5YGMa6+YHUG6qoQGByGM5wP2ZdI5zQdwsyO/Gz+qgtlI36lIAH+jy3FV+EQUhMg
+	 nNd0heXvT1GPx51BRRgHXY3HKffl349fNSDFCB+ooJZA4dVmRWE3wjeoG9VEpbuzZ3
+	 gfDPs5PZo/pMT8pYsPtd2nxc7cDwph2y20nNjlyekg9Qwfa2LXNZAGzTShxGJ0MxyL
+	 2gvbYJv9q53NPTEDyFx2J70j8shOE11RwhtGVBhJJ90SLKfAy7xDIYFva5IIrJN6Le
+	 ++pnwbEwUzTxw==
+Message-ID: <sashiko-outbox-228101@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 08/24] ASoC: codecs: wsa884x: register the die
- temperature as a thermal zone
+Subject: Re: [PATCH v2 14/24] ASoC: qcom: audioreach: send cached R0/T0 to
+ the VI module in normal mode
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20261122161437.5994-15-srinivas.kandagatla@oss.qualcomm.com>
 References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261122161437.5994-9-srinivas.kandagatla@oss.qualcomm.com>
+ <20261122161437.5994-15-srinivas.kandagatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 22 Nov 2026 16:28:38 +0000
+Date: Sun, 22 Nov 2026 16:28:54 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,151 +61,151 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [High] ASoC: codecs: wsa884x: const ops mismatch in wsa884x_probe()
-  when THERMAL=3Dn
-- [Medium] ASoC: codecs: wsa884x: duplicate hwmon device registered in
-  wsa884x_probe()
-- [Medium] ASoC: codecs: wsa884x: missing hw_init check in
-  wsa884x_get_temp()
-- [Low] ASoC: codecs: wsa884x: 0 degC cache sentinel collision in
-  wsa884x_get_temp()
+- [Medium] ASoC: qcom: audioreach: inconsistent sp_operation_mode check
+  in audioreach_speaker_protection_vi()
+- [Medium] ASoC: qcom: audioreach: sp_vi_r0t0_cfg_lock held across
+  q6apm_send_cmd_sync()
+- [Low] ASoC: qcom: audioreach: zero-channel VI event wipes cached R0/T0
+  config
 --
 
-commit 504ad1ac146d2450131667d4fbd39ad8f105450a
-Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+commit ce72288538b86abb636ed31543702f6e5e7b7bc0
+Author: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
 
-ASoC: codecs: wsa884x: register the die temperature as a thermal zone
+ASoC: qcom: audioreach: send cached R0/T0 to the VI module in normal mode
 
-This commit registers a tripless thermal zone for the WSA884x codec die
-temperature sensor and returns -EAGAIN or THERMAL_TEMP_INVALID when a
-valid reading is not available.
+This commit caches per-speaker R0 and T0 calibration values, provides
+helpers to read and write them with range validation, and sends
+PARAM_ID_SP_TH_VI_R0T0_CFG to the VI module when configuring a graph in
+normal mode.
 
-> diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-> index 91aa004d7137b..e56c848cbfce6 100644
-> --- a/sound/soc/codecs/wsa884x.c
-> +++ b/sound/soc/codecs/wsa884x.c
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/aud=
+ioreach.c
+> index 130298a287496..0701006278094 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.c
+> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+
 [ ... ]
-> @@ -1935,8 +1936,10 @@ static int wsa884x_get_temp(struct wsa884x_priv *w=
-sa884x, long *temp)
->  	if (wsa884x->pa_on) {
->  		/*
->  		 * Reading temperature is possible only when Power Amplifier is
-> -		 * off. Report last cached data.
-> +		 * off. Report last cached data if we have one, -EAGAIN otherwise.
->  		 */
-> +		if (!wsa884x->temperature)
-> +			return -EAGAIN;
->  		*temp =3D wsa884x->temperature * 1000;
->  		return 0;
+
+> @@ -1632,6 +1730,14 @@ void audioreach_vi_calibration_event(struct device=
+ *dev,
+>  			 i, r0_int, r0_frac, sp_vi_r0.r0_cali_q24[i]);
 >  	}
-
-[Severity: Low]
-Can this treat a valid cached reading of 0 degC as uncached?
-
-wsa884x_get_temp() accepts measured temperatures in
-[WSA884X_LOW_TEMP_THRESHOLD, WSA884X_HIGH_TEMP_THRESHOLD] ([-10, 150]
-degC) and stores them in wsa884x->temperature.  If 0 degC is measured
-before the PA turns on, later reads while pa_on is true hit
-!wsa884x->temperature and return -EAGAIN (reporting THERMAL_TEMP_INVALID
-to the thermal zone).  Also, because wsa884x->temperature in struct
-wsa884x_priv is an unsigned int, negative readings in [-10, -1] degC wrap
-and are multiplied as unsigned 32-bit values before being widened to long.
-
-> @@ -2058,6 +2061,42 @@ static const struct hwmon_chip_info wsa884x_hwmon_=
-chip_info =3D {
->  	.info	=3D wsa884x_hwmon_info,
->  };
 > =20
-> +static int wsa884x_tz_get_temp(struct thermal_zone_device *tz, int *temp=
-_mdeg)
-> +{
-> +	struct wsa884x_priv *wsa884x =3D thermal_zone_device_priv(tz);
-> +	long mdeg;
-> +	int ret;
-> +
-> +	/*
-> +	 * OTP trims read back as zero until the codec is initialised. Report
-> +	 * no reading rather than -EAGAIN, which makes the core poll the zone.
-> +	 */
-> +	if (!wsa884x->hw_init) {
-> +		*temp_mdeg =3D THERMAL_TEMP_INVALID;
-> +		return 0;
+> +	/* Only a run where every speaker succeeded gives a usable R0/T0 set */
+> +	if (success) {
+> +		guard(mutex)(&sp_vi_r0t0_cfg_lock);
+> +		sp_vi_r0t0_cfg.num_ch =3D num_ch;
+> +		for (i =3D 0; i < num_ch; i++)
+> +			sp_vi_r0t0_cfg.r0_cali_q24[i] =3D cali->cali_param[i].r0_cali_q24;
 > +	}
 
-[Severity: Medium]
-Should the !wsa884x->hw_init check live inside wsa884x_get_temp() under
-wsa884x->sp_lock instead?
+[Severity: Low]
+Can a zero-channel EVENT_ID_VI_PER_SPKR_CALIBRATION event wipe a previously
+cached R0/T0 set?
 
-The commit message notes that before the codec is initialized, hwmon
-should receive -EAGAIN, but wsa884x_hwmon_read() calls wsa884x_get_temp()
-directly without this guard.  If userspace reads hwmon while hw_init is
-false, wsa884x_get_temp() calls pm_runtime_resume_and_get(), which takes
-the regmap out of cache-only mode in wsa884x_runtime_resume() if the
-device has autosuspended while still SDW_SLAVE_UNATTACHED.  On initial
-unattached reads the OTP registers read as zero, hitting d1 =3D=3D d2 and
-returning -EINVAL instead of -EAGAIN; if the codec was previously attached
-and later unattached, cached OTP values combined with a failed volatile
-dmeas read (0) compute a bogus temperature.  Checking !wsa884x->hw_init
-in wsa884x_get_temp() under sp_lock and returning -EAGAIN covers both
-hwmon and the thermal zone and avoids racing with wsa884x_update_status().
+q6apm_vi_calibration_event() accepts payloads with zero cali_param entries
+or cali->num_ch =3D=3D 0 and passes num_ch =3D=3D 0 here.  Because the per-=
+channel
+loop does not run, decisive and success stay true, setting
+sp_vi_r0t0_cfg.num_ch to 0.  audioreach_speaker_protection_vi() treats
+sp_vi_r0t0_cfg.num_ch =3D=3D 0 as unconfigured and silently skips sending
+PARAM_ID_SP_TH_VI_R0T0_CFG on subsequent normal-mode playback.
 
-[ ... ]
-
-> @@ -2194,6 +2233,35 @@ static int wsa884x_probe(struct sdw_slave *pdev,
->  	if (ret)
->  		return ret;
+> @@ -1776,6 +1882,70 @@ static int audioreach_speaker_protection_vi(struct=
+ q6apm_graph *graph,
 > =20
-> +	if (IS_REACHABLE(CONFIG_THERMAL)) {
-> +		char tz_name[THERMAL_NAME_LENGTH];
-> +		struct thermal_zone_device *tz;
+>  	kfree(pkt);
+> =20
+> +	if (rc)
+> +		return rc;
 > +
-> +		/*
-> +		 * Register after runtime PM is enabled, as the zone is read
-> +		 * right away. dev_name() is too long for a zone name.
-> +		 */
-> +		scnprintf(tz_name, sizeof(tz_name), "wsa-%d-%u",
-> +			  pdev->bus->id, pdev->id.unique_id);
-> +		tz =3D thermal_tripless_zone_device_register(tz_name,
-> +							   wsa884x,
-> +							   &wsa884x_tz_ops,
-> +							   NULL);
-
-[Severity: High]
-Does this fail to build when CONFIG_THERMAL is disabled (or when
-CONFIG_THERMAL=3Dm and CONFIG_SND_SOC_WSA884X=3Dy)?
-
-wsa884x_tz_ops is declared const, and IS_REACHABLE(CONFIG_THERMAL) is a C
-if condition, so the call is still type-checked when the !CONFIG_THERMAL
-stub in include/linux/thermal.h is active:
-
-include/linux/thermal.h:
-static inline struct thermal_zone_device *thermal_tripless_zone_device_regi=
-ster(
-					const char *type,
-					void *devdata,
-					struct thermal_zone_device_ops *ops,
-					const struct thermal_zone_params *tzp)
-{ return ERR_PTR(-ENODEV); }
-
-Because the stub's ops parameter is not const, passing &wsa884x_tz_ops
-triggers -Werror=3Ddiscarded-qualifiers.
+> +	if (sp_operation_mode =3D=3D PARAM_ID_SP_VI_OP_MODE_NORMAL) {
 
 [Severity: Medium]
-Does passing NULL for tzp in thermal_tripless_zone_device_register()
-register a duplicate hwmon device for this sensor?
+Should this check the local mode snapshot instead of re-reading
+sp_operation_mode?
 
-wsa884x_probe() already registers a dedicated hwmon device via
-devm_hwmon_device_register_with_info().  When tzp is NULL,
-thermal_zone_device_register_with_trips() sees !tz->tzp ||
-!tz->tzp->no_hwmon and calls thermal_add_hwmon_sysfs() under
-CONFIG_THERMAL_HWMON=3Dy, exposing two hwmon devices for the same die
-temperature sensor and causing userspace hwmon scanners to wake the codec
-and run the register sequence twice per scan.  Passing a struct
-thermal_zone_params with .no_hwmon =3D true (or .no_hwmon =3D
-IS_REACHABLE(CONFIG_HWMON)) avoids the duplicate registration.
+audioreach_speaker_protection_vi() snapshots mode =3D
+READ_ONCE(sp_operation_mode) at entry and sends op_cfg->cfg.operation_mode
+=3D mode in the first q6apm_send_cmd_sync() call.  If sp_operation_mode
+changes while that IPC blocks (for example via
+audioreach_trigger_sp_calibration() or the calibration watchdog), this
+second step disagrees with the mode just programmed on the DSP: a module
+configured for Normal mode can be left without PARAM_ID_SP_TH_VI_R0T0_CFG,
+or a module configured for Calibration mode can be sent Normal-mode R0/T0
+configuration.
+
+> +		struct apm_module_sp_th_vi_r0t0_cfg *r0t0_cfg;
+> +		int r0t0_sz;
+> +
+> +		guard(mutex)(&sp_vi_r0t0_cfg_lock);
+> +
+> +		if (!sp_vi_r0t0_cfg.num_ch)
+> +			return 0;
+> +
+> +		if (sp_vi_r0t0_cfg.num_ch !=3D num_speakers) {
+> +			dev_err(graph->dev,
+> +				"SP R0T0 is for %u speakers, graph has %u\n",
+> +				sp_vi_r0t0_cfg.num_ch, num_speakers);
+> +			return -EINVAL;
+> +		}
+> +
+> +		r0t0_sz =3D APM_SP_TH_VI_R0T0_CFG_PSIZE(sp_vi_r0t0_cfg.num_ch);
+> +		pkt =3D audioreach_alloc_apm_cmd_pkt(r0t0_sz, APM_CMD_SET_CFG, 0);
+> +		if (IS_ERR(pkt))
+> +			return PTR_ERR(pkt);
+> +
+> +		p =3D (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
+> +
+> +		r0t0_cfg =3D p;
+> +		param_data =3D &r0t0_cfg->param_data;
+> +		param_data->module_instance_id =3D module->instance_id;
+> +		param_data->error_code =3D 0;
+> +		param_data->param_id =3D PARAM_ID_SP_TH_VI_R0T0_CFG;
+> +		param_data->param_size =3D r0t0_sz - APM_MODULE_PARAM_DATA_SIZE;
+> +
+> +		r0t0_cfg->cfg.num_ch =3D sp_vi_r0t0_cfg.num_ch;
+> +		for (i =3D 0; i < sp_vi_r0t0_cfg.num_ch; i++) {
+> +			r0t0_cfg->cfg.r0t0_cfg[i].r0_cali_q24 =3D sp_vi_r0t0_cfg.r0_cali_q24[=
+i];
+> +			r0t0_cfg->cfg.r0t0_cfg[i].t0_cali_q6 =3D sp_vi_r0t0_cfg.t0_cali_q6[i];
+> +			r0t0_cfg->cfg.r0t0_cfg[i].reserved =3D 0;
+> +		}
+> +
+> +		rc =3D q6apm_send_cmd_sync(graph->apm, pkt, 0);
+
+[Severity: Medium]
+Can holding sp_vi_r0t0_cfg_lock across q6apm_send_cmd_sync() deadlock the
+APR RX workqueue until the 5-second command timeout expires?
+
+Both APM command responses (apm_callback()) and calibration events
+(graph_callback() -> q6apm_vi_calibration_event() ->
+audioreach_vi_calibration_event()) are dispatched sequentially on the
+single-threaded apr->rxwq workqueue:
+
+CPU0                                  apr->rxwq
+audioreach_speaker_protection_vi()
+  mutex_lock(&sp_vi_r0t0_cfg_lock)
+  q6apm_send_cmd_sync()
+    wait_event_timeout(apm->wait, ...)
+                                      apr_rxwq()
+                                        ...
+                                        audioreach_vi_calibration_event()
+                                          mutex_lock(&sp_vi_r0t0_cfg_lock)
+                                          <-- blocks apr->rxwq; apm_callbac=
+k()
+                                              cannot run to wake apm->wait
+
+If a decisive calibration event arrives ahead of the APM_CMD_SET_CFG
+response (for example after the calibration watchdog resets
+sp_operation_mode to Normal while calibration is still armed),
+q6apm_send_cmd_sync() times out with -ETIMEDOUT.  Snapshotting
+sp_vi_r0t0_cfg under sp_vi_r0t0_cfg_lock before sending the packet avoids
+holding the lock across the blocking IPC.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261122161437.5994=
--1-srinivas.kandagatla@oss.qualcomm.com?part=3D8
+-1-srinivas.kandagatla@oss.qualcomm.com?part=3D14
