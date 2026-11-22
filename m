@@ -1,86 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795361255;
-	b=DPDU9tU1KksB50CKMc+vU/AdzcydLGqz+p5Ipe8IhYiDvI8tYWwqoXYnAS1HAxDs61jC
-	 aqP3oKUbs5mEITMHwmQDeszVFY+TVRXeNPvPCFwNsh6sF6LfgPm4t0N6BfGlPUdurlebC
-	 w8cpikYHYoaN2yVN8KzF9TeKvNF9jYfwgGTvGs481phJAH+Rg5OpAYi9RF+i28rnIV7GZ
-	 Meu5NA3YWkQpc5moE5X+c1A6pseTne5SFmKYk73lla8yo47dhNniYolzYf5Cfhxk+qziS
-	 7CAizsT2EsHBwVJlvpOUB5D+tOaIOFfulM74xa4FxRXqk5o2p8+GqDiqh6uzG3AQyvg==
+	t=1795362070;
+	b=O9EYPdPC1jPYhV8ioOTQ4dnHkOie/tiQHxb/WwS3neb79FS1Aem6niO5xwKdMvaNAbDn
+	 UTRhn0r6GQGGnvmoNrJmVXZp4trsDR8FXxM1AkB/vcUIFhcZwsdTTYUXqMj+O4Yo3TnGs
+	 vBBDaUHL7yIdmqsyOuOZYpG9Gpiu+vq2zEMouUEP3ADikQnvYKlsjw+0+IZXRutHS7gwd
+	 m0q3RxLbDJs9NtYj6cMd7UbB/9n9cbm8X5JDuVjg1WY0Dc2cVUZvyBi/UR2cojgictlbc
+	 3KooKe9wWya5PXumSmwvtnYhloxfQCsumEEsx+zeH3VgmYsCf6xUueGQX5pURNVObcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795361255;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795362070;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=ot0zJlzFbVCe62Kvau5YPtTDd6GdHkdbEpE1vxuLRFc=;
-	b=ZCvEvzQAJlCQfBZjGxMKKcoOSF8dMlyQUXhrzC7UQDogg5zANdZhyqJLfoiVHkTJRZpV
-	 oHo0Q0luCI+GsoipMJGNzCJqPmVSulA4XCa78A+HdG81L9y0+Ysi7SdTPjan2Dli3xCS2
-	 sjUf9tPl1w1AbZyRznuNVjw6nAffJfZE1+U8ewBzEoM6lPLx/dHAdMMxybus7uDeD4ri6
-	 +tI3UIxx2PspHBNVobNr/8iyETm2G8G/C7jG1kATrUXFgnOVBZmH8tNK9HBb//ixwKOT7
-	 WcBQaO9PW370ipBins76JvvTUlDeZk3JlIVYD+i1i4JvdrlCHpsdQ2TXSzZCzBL+CxQ==
+	 Date:Content-Type:MIME-Version:Content-Transfer-Encoding:From:To:Cc:
+	 Subject:In-Reply-To:References:Message-ID;
+	bh=x0Gj7XdrXAPRpCwdyxefzNs9ruQYDHS6265gpVziOPI=;
+	b=BQHtDJJ0IGyS4QmLfhJwcirbTbJbrNwwGsQlCGH6uOfJ4eNiQIk18xYsABVYLiZbWIjZ
+	 AGZIUOnH0pGMBhZBuor8ZMLNbq2Gfzmj+p6XiNd7gsmMlTq4t3nL2IOgJV9edd2+lEcsD
+	 hw/jKS/BcfZtpptQQJ/HJ1O64jafgPQKx4vAJN8UbDMUV0K9MaiIYJYwuu73KBLuC7yZx
+	 uF/m1QI59rcExEKM4P2wMOeAW2iD6zWI/TZ7lNHYHkzIEt+ZmuqTRx/slogCSYF5cPIEa
+	 c07Ss7iL1X0EkpuxtReWYS+gmVE7nQJPo1a/EXLXtzsgO2f1Fd3XGWenU22p1ojNRYQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=PnH7L7Dn;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aF7PRWXc;
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC52A606A32A
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 15:27:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC52A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55AB606A32C
+	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 15:41:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D55AB606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=PnH7L7Dn
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso23644035e9.3
-        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 07:27:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aF7PRWXc
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso17166545e9.1
+        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 07:41:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795361253; x=1795966053; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
+        d=gmail.com; s=20260707; t=1795362068; x=1795966868; darn=vger.kernel.org;
+        h=message-id:references:in-reply-to:subject:cc:to:from
+         :content-transfer-encoding:mime-version:content-type:date:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=ot0zJlzFbVCe62Kvau5YPtTDd6GdHkdbEpE1vxuLRFc=;
-        b=PnH7L7DnBZ4AlNcEALOd6IOWa4irex/1Lm5oBthjpFyAhqmWwFFq8gIKqMkc4sqGoW
-         HZlmoeW9uEUJziypoQHvEs+htAfo14e0038YSI0qZcFUEN1YmHPo2vXvrwkwK0/ZRiIg
-         s60LnC3AzzZ2/EP3O7uMQZKYXOqKoHOBdcFDf5P4FZLhoE48mW8jrd0wcmXWBuzFmd5c
-         wGeJPggdzFaVNQgOgumC6ZRyP49nAyG1BTwikpiQ9hxPbH5n4Oo/ZF+Z884wMqNdlqpV
-         PUHG3ggKOybXoTSLMdvYgc/2CvGFHEAbBmDXfMlmMX02d1R551xSH7XAfBWi2jC+8ZLL
-         A6aw==
+        bh=x0Gj7XdrXAPRpCwdyxefzNs9ruQYDHS6265gpVziOPI=;
+        b=aF7PRWXc0cLKKbQEjH/NWrxHpk0VSt4Mb98W7lWcuTXny9UwbVQjWNgdaTnkALpRnk
+         ux/9n6buSQRz5KI+3QLBJxNTc6MUL/3Z8pukSMMvpI70jSCBmFOxhunBAjmFon5OUlw8
+         j8OPqHV2y3RIwcRGxnktk5JPhwVLXFh8TlC98YliUQXrUK7di3eUuwqTpBcyymRaglaG
+         xyyR8E5UJTiikMyV02fX9tHJ/uBmGGBQyfCCJYTXbaoVH0N1QFVz0kcVXdDY9vlJIm84
+         r77wwS/7ZPpbbrad9ITagWEzOdLJGFlIqjHs9bpxtCSxmtc21k6nmUljdxekl0bDq1gH
+         HOag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795361253; x=1795966053;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1795362068; x=1795966868;
+        h=message-id:references:in-reply-to:subject:cc:to:from
+         :content-transfer-encoding:mime-version:content-type:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ot0zJlzFbVCe62Kvau5YPtTDd6GdHkdbEpE1vxuLRFc=;
-        b=LkzQZWNvYKI+5CK5UXIolqWxJ4/DBdg1jU3uyvm+LVKZWMW/YIafa2VzVHT5bG5cjR
-         U4r8g1NUCSSPafCZxqKIXyRk8VJRt+ADzrUjGRzMOYrDCe72Fw/+/wEk6NaeGFqpKXW3
-         DP45Ua0jtxkWoOuh15Gl8HD0CuoDhvbXKAOopmwnFd0gcALm2ijlnE659q4wtf2PR4A7
-         XVlqWuQHUx7QC87nNAvkvze5BlIV1acgmWdWI6XO7Ky2q3JGrkOS87wWMDVC1xjw3vNe
-         MOw03o5Ptp3Hz3+/ZjxzSVzmdTeTaHikJWuoAs0UqCqsDJzh5lwh8W6Cwo+bQy7Ln5N0
-         VYhg==
-X-Forwarded-Encrypted: i=1; AL+hErEIaggZc6mMzbV6tW5F2L6mBD8GG7lPqJYIgl7wWOLBvXXdm+lDxyqohEqbjDbbTaNJWi3Ky0/jGfv6yA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8YEY2ux7RN+r7iKlUAa+XTS4J+c7lE3t9uTCLQrC6fxRmMJwyV
-	0Be86m5pAHOA1wtSiLTvUTmsswSBJ6tVu+IXoQrpgXwl0F02RzE3XcMUGy9ppNOmIS89i7uObSY
-	QaDesmgD8Xw==
-X-Gm-Gg: AZFdTZf2YrrmV7vg8MW9eBzy2vtItVr6G/IHFCr3+YZsxQM/aSiOYOFg1w3R2pcEnYa
-	RicQW7Jhd8eYpQvkYq5Ke+BwwpgSaDtfC7b8ykXNQyM9cm/AxN05wqfKKAoLzRJPXEGO5RT5X7/
-	5F8xJ3EvWP1yuvPLjN0dOEHvDPQ75zfgAiEc2b8C9XqJFlR37t9EGADlLCP7XQ2cRtswoaQsHUD
-	Y5Sksy35FZK2LE7+NUQFeOcNUkN73lVHKNkihtEyN1QyrISvbYUX1p/QuLD+JuOr95puEinMmUf
-	e/GND6JOm7gr/3aPwRZ7D1v6J80OHh5XSgHmYYksPW04zsPVXOctInDtTm0weFYedbtQCjO8RAs
-	HTwdPEnFF+frcuPLXMsGQBQlqDujq+n+2xc5f6yy/Dt5NSQRZlRPEjqIOC/pdP5jktnzQThHChg
-	eedAUjCtPimaL3eMRy+rlq14RJVJlgTDJ4UWx3dPzAnpYnkTI20ZdfRiDk3kzOmTOKzPmgYtYVA
-	TpFl0j4X9Az6XzTR5tZD3ZXnNKVUl10aECxVG0klzlQpn/wgZjfSAaeg7cFl+ildaNvjgcWDHUm
-	equ5GJt1BMxLJ1ikYvdp4myx2rc5h3z2ceduMVMy0X8HCMtNGw==
-X-Received: by 2002:a05:600c:3555:b0:4a1:f377:5c68 with SMTP id 5b1f17b1804b1-4bb8881da76mr187712165e9.34.1795361253164;
-        Sun, 22 Nov 2026 07:27:33 -0800 (PST)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853c9170sm324114005e9.14.2026.11.22.07.27.32
+        bh=x0Gj7XdrXAPRpCwdyxefzNs9ruQYDHS6265gpVziOPI=;
+        b=YRRQLMQruNQsxC9dG2wSK8vm7SzPVRGo7dxKoMR3OkrnwfzrH5/CY6SAiUIqCUjJfe
+         wwqjcrZVvt/xaLOzSl9byZWhh+ukSY50Lkbsc7pXzCGsr87zEXoOqfe6rr1V7k8/Fnt1
+         5rWr04+d3pjmy7kWHML/SmnFuCZ1hQ6k3Q9AVVwshIOKOxEE22HvCF6hM/VDDBdbIGsl
+         Duy7Od4SUaT5p89Q/jS+ztsV1NHfsq9ishJSH6j4rIBSM6dHOi0BCRZpb9BzHbpq/Tqb
+         vH1Iz1C+6I23SVdOuxWE24UXdlzTe3Dc6mGpsUKYNLlTiK3EtxekzIBZWMddKS6JP6N5
+         rkuQ==
+X-Forwarded-Encrypted: i=1; AL+hErFPH+wABzsq0ePTkRbiL84A/enF3ygcVqPZein1NerqJJubPMq2hMZH1EEXnNpSuPzRSS8kbtDAJ+8F1g==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8N1Ug26ENohQ1/r18kMgpFLLhYDiT/ZZLQ0hg0ygwFGKnkUwaH
+	2kmGGC3DSOPQsPWQpWr8UoUVzErjhmkaqdN7HKvqUmyw19RnROhMUBpo
+X-Gm-Gg: AZFdTZf8JERowp8leNJ0N0yQjY2lCHpfjMeIVzZeHevzjMIlxJSzyqouzuGBVOKWyMd
+	mg30hUbDEJzyHusNjURZdjVSOTzhfWknE4L9UkTkyMAw+bSRXGbctT1Mj4kZNBG4tJfS0BV4Q4S
+	tOl9BrN4cLA0+H1Ejkj26B92RUhE7ME37FJVgcOL3d4Sn+V06n+UwH12tBcw4daaM37ak6QLg/c
+	iJkM1PZKErFm7nd029QwJsACQXwdEfMc+r1GKufAibfztPAib+WjCo6GtykL24mKiRmvQRdRTHE
+	v7q8otov7RZNn1/Lf62Ta4qeT2lK4eF0PYTh0RE5I1LOauZhzlkAZuUfYTE9QMg3vwAKIYLrmlR
+	GP4TZf5zXsuy72RM62Kpbpa0jqlGQ7FKm3G1auMw9HMREIxYzDNRbeq36FNZYh1ApQbf6ytE0Vu
+	4VBkjvFjeY/n4qvXMvC9MLoutKKHh6O0vuyW5DTRcyqXjCappy483eVP1GZ1fMu1/nwhBEZRioe
+	CEa/e3UzH4YU1rX3Fh0gMl+Slug5LASW7dw5r43Nbrom532sD+n+IbB
+X-Received: by 2002:a05:600c:3113:b0:4a2:267:25b3 with SMTP id 5b1f17b1804b1-4bb8882a4b9mr201760365e9.35.1795362068140;
+        Sun, 22 Nov 2026 07:41:08 -0800 (PST)
+Received: from [127.0.1.1] ([196.237.227.176])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853ca452sm276634245e9.15.2026.11.22.07.41.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 07:27:32 -0800 (PST)
+        Sun, 22 Nov 2026 07:41:06 -0800 (PST)
+Date: Sun, 22 Nov 2026 07:41:06 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -90,57 +89,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v8 0/5] Add support for S4 audio
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jiebing Chen <jiebing.chen@amlogic.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-clk@vger.kernel.org, jian.xu@amlogic.com, shuai.li@amlogic.com, 
- zhe.wang@amlogic.com
-In-Reply-To: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
-References: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
-Date: Sun, 22 Nov 2026 16:27:28 +0100
-Message-Id: <179536124894.2728475.16240917993133855473.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=753; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=SakUBu+Tj3UYj69tUpTC/fsgrcNkMteoX+Lt2iuPgXc=;
- b=owGbwMvMwCW2VtK+WnvWU3HG02pJDNnMnE/+NymUzd4hva7CSmxX3dxLJ27tYynZy6qYorFaU
- uexikFzRykLgxgXg6yYIksNd7X4O0mtL7Om69yGmcPKBDKEgYtTACbCdIThv9fc1off4xQusP20
- lhVaw60es6lqQ/uRSbU8X05aMdusWMXwP980O55/ScYJq4WsZ3SZNh+93vxsmyBL/v8zj3qqwxS
- YuAE=
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Content-Transfer-Encoding: base64
+From: Daniel Carter <yass27106@gmail.com>
+To: vkoul@kernel.org
+Cc: srinivas.kandagatla@oss.qualcomm.com, andersson@kernel.org,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yass27106@gmail.com
+Subject: Re: [PATCH v5 3/3] soundwire: qcom: check clk_prepare_enable() return
+ values
+In-Reply-To: <c15d3417cda640aebc7bebff76b0448e@gmail.com>
+References: <45f11591823b4395aa19dd3a3ee6dc90@gmail.com>
+ <954a5e65e7424694ba29836fba08c802@gmail.com>
+ <6fc5be59b56e42728e33595d5415441f@gmail.com>
+ <c15d3417cda640aebc7bebff76b0448e@gmail.com>
+Message-ID: <b9a72d2ad40d4a8087acef99a7bd2fc8@gmail.com>
 
-> This series completes the end-to-end audio support
-> for S4 SoC from hardware bindings to driver implementation
-> and system integration.
-> 
-> 1 Device Tree Bindings Updates 
-> Added audio power domain and S4 audio clock support for S4 SoC.
-> Added S4 audio tocodec binding support.
-> 
-> 2 Driver Implementation
-> Implemented S4 tocodec driver for G12A architecture.
-> Added S4 audio clock support in AXG audio clock 
-> 
-> 3 Device Tree Integration
-> Add Amlogic S4 audio subsystem support in arm64 DTS.
-
-A clock immutable branch is going to be necessary to handle the dependencies
-in this series. Please re-submit with clock changes only and a proper cover letter
-so I can merge apply this and provide the IB. Thanks
-
--- 
-Jerome
-
+SGkgVmlub2QsCgpBIGZyaWVuZGx5IHBpbmcgb24gdGhpcyBvbmUgLSBpdCBhbHJlYWR5IGhhcyBT
+cmluaSdzIFJldmlld2VkLWJ5IGFuZCBjYXJyaWVzCkZpeGVzOiB0YWdzIHBsdXMgQ2M6IHN0YWJs
+ZS4KCk9uZSByZWJhc2Ugbm90ZTogdGhlIHBhdGNoIHdhcyB3cml0dGVuIGFnYWluc3QgdjcuNC1y
+YzIsIGFuZCB5b3VyIGZpeGVzCmJyYW5jaCBoYXMgc2luY2UgZ2FpbmVkICJzb3VuZHdpcmU6IHFj
+b206IGRpc2FibGUgdGhlIGludGVycnVwdCBiZWZvcmUKZ2F0aW5nIHRoZSBjbG9jayIsIHdoaWNo
+IHNoaWZ0cyB0aGUgcnVudGltZS1yZXN1bWUgaHVuay4gSSB2ZXJpZmllZCBpdAphcHBsaWVzIGNs
+ZWFubHkgb24gdG9wIG9mIHlvdXIgZml4ZXMgYnJhbmNoIChhcHBseSArIGJ1aWxkICsgY2hlY2tw
+YXRjaApjbGVhbiksIHdpdGggdGhlIGVycm9yIHBhdGggc3RpbGwgcmV0dXJuaW5nIGJlZm9yZSBl
+bmFibGVfaXJxKCk6CgoJLQljbGtfcHJlcGFyZV9lbmFibGUoY3RybC0+aGNsayk7CgkrCXJldCA9
+IGNsa19wcmVwYXJlX2VuYWJsZShjdHJsLT5oY2xrKTsKCSsJaWYgKHJldCkKCSsJCXJldHVybiBy
+ZXQ7CgkrCgkgCWVuYWJsZV9pcnEoY3RybC0+aXJxKTsKCklmIHlvdSB3b3VsZCBsaWtlIGl0IGZv
+ciB0aGUgY3VycmVudCAtcmMgY3ljbGUsIEkgY2FuIHJlc2VuZCBpdCByZWJhc2VkIG9uCnNvdW5k
+d2lyZS9maXhlczsgb3RoZXJ3aXNlIGl0IGNhbiB3YWl0IGZvciB0aGUgbmV4dCBtZXJnZSB3aW5k
+b3cuIEVpdGhlcgp3YXksIGxldCBtZSBrbm93IGlmIHlvdSB3YW50IGFueXRoaW5nIGNoYW5nZWQu
+CgpCZXN0IHJlZ2FyZHMsCkRhbmllbCBDYXJ0ZXIK
