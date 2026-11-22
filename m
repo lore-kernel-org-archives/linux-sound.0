@@ -1,122 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.148
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795353477;
-	b=B2o2sQHFGktbIkWgQHuoNDgvDNCRk733pGwHvJAZvnqprhfmiF/nOiJQHM5rV11sCiO4
-	 SnMG3t1/ZYhbam81SB2cPRNPi+ejqSj42IO5WFF1tLlihKNqykRhY4hGkjZQf1mtuLhQe
-	 cjPS1N/npMZOy9vy3kWDE31i8nT35US4FSk5+dO0XMoPfT59qLyKiYySaHQjwhSISQAOU
-	 INy3AAMhEo0fZ8OFoTWFTKbIaPdETUlQjvnr/xBafbaEp0ghcp+psVwPc3KxLrEeLNDqh
-	 gBfj0zssrdwSsl+A3R+hL4VNYgr4ufOUtPtjgaSZ/C8CWMLgoBbE1+12a7t4W5Bcbng==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795353477;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=fvlZSAhLg8bGLT8RqiJpA4DYdMhQ5TtKUqm0SgXDsp0=;
-	b=RSR9j3gF1r4SdYPIe9QEXdCHvQEVmDX9ADsabpqVHApSCFGsM0tsnzVSCyzkNEfeXd21
-	 7KdNZhhA2R/6IiF/NogSf3IwJTjAjwHG4Tq91uqW3R2I6K+vZeo1/P0heChgTBrCljMzt
-	 uYFGD7S3Ux2Oa6SFNLYdoxirx4RX2O4bBIzetCqIVd0jjIq+AHOhSjxh6+VZM9cYmDoPO
-	 b/lQKz1xQ7pshtPDe6S5eQ4/wRCQ+YAadDguxrjdiQCmw2WS4krojTJxWYoBCpBqatBE0
-	 LZSTKMTu0QG3y06AotMQ0gXf5IwMoK33V5NIhsJcRMXflRmz2+IreZTiwxHtPkuHX3Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sakamocchi.jp;
-	spf=pass smtp.mailfrom=sakamocchi.jp;
-	dkim=pass header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b=f+xuSQ1c;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=t1R0q+Sn;
-	arc=none smtp.remote-ip=202.12.124.148
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795353529;
+	b=ECDlpeNMuHF82pbq5ouInH/U6WjOvAGolCAmjrNi6BtluQmZniAyO0hGQtBqlTpja6fP
+	 G4mmV9iq8XfDZ1C0/056vHtNbjBW4a944n7r0NbSGYLGeqJORXTCPwLs3mDLzwwg+Majs
+	 EA+yeCN5T8vwgfUJD8Xgz86dRqpgHb7IoTsqKtgakx/p8hG8+KRtdG4bzC6y4A12ZoUtP
+	 gV3URCmfnmC/dtotXkishCQRyWbXPaFialDkP3LW+YBSVoEFpRS1oNw+jY+2bXSPnISr8
+	 OoU5l9d1ZS66CQ/Mdzz2IzZyMqyI0dHSa/6zNAOtGqzL53rYTn6b9OimueHken8QANw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795353529;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=RtffMgOxZLQ/JTkvXGecUIpw1wwHGGuG/3tZCv9f51I=;
+	b=5gPgjC191j3ljWyJSBIGzutHw5DDqGboq/IYJ7QjlOi4apDV1WueIANJfq9xxdJk9P5W
+	 ryFZGlOGy7aWWPZdpZN7vhTdItLQEDcD88rn9OZtecRKsK/iG5j719n69FfbL6ibtc6WV
+	 byhLD7/bcrdEOcXysGSiv9y1vFlnN8jvfr9B8+VkdJi2nqMR0HgCiy5ZA4gIQXhLIP+aF
+	 QInyj8mr1wtMjk5cSa4AJ8YYsuqC2VnK2NKTSAfR/F8f/QJx9pNoNeaBH4fWwY6nnTepf
+	 sphERjBWPnLbSIIqczI08Ur14KsuVAyJSwCGaZRXCrtB83vLKlchSRs8Y8Am/kGQVpg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NAq/q/R6";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A2F606A320;
+	Sun, 22 Nov 2026 13:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NAq/q/R6
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795353528;
+	b=xqU4gK+xLjvRYgpH3S8AN/F40tQaizlXODlZUFqe3DlF2pgKleBlkgDUaQWsWJSGse++
+	 MWVhHbxFpcgmKdHyaWGr+b+6h3gjxPazQE34DfOU1kZu3FVeRH0wif7nAYEaAZGBcF7eB
+	 D9ToPGf1/UBlxTTi30bd8Kihtw37HpKkCPLr+OgE0p/E6SiStBlmwbuvFg4WbYSXy/yPS
+	 ZxuEqPvPWvtwaz80psRJQx+OZCSK0nHngDLnNsRCMzW+1VCffKdVowlFPz/4xxJEd4mmM
+	 IR9znfwrVNP9yMpNedalA3gvTZwP0z8vvW8aE/aheqUhIkfbTeXYhMxkWBokBUNKEog==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795353528;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=RtffMgOxZLQ/JTkvXGecUIpw1wwHGGuG/3tZCv9f51I=;
+	b=BArQ1hQCVsZhEQFfVbtPkEdNGOsb5aw6TL32pikYgxoSeFWOmlXJr89kMWLYIoox5HSb
+	 DjI7E5Yi/Ans5oL2JfCiZi594xtJFN4pWUznIZ2SuRr/O92T6xI4cQxDR7hSgc8dRueOL
+	 hCW09qhd4/+XQT2A83txyRsJgoJbrLJ8mBoWafYRi6CRZgepbdq1AHHgKMFO9GLFfWpPS
+	 sYEUL0F0sqe44sZxrkWQl3GZZPck9nd6jsQhsIXfWP/5ShsAAKz/rWNhYZ2ZiJNC8Sby1
+	 5hnExVFlYVfcD35X3gDv9KCsaXemg9MkdDRZRJ559IoJDhUGPGhclVYMS+fYdSXFnCA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA54D606A320
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 13:17:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DA54D606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b=f+xuSQ1c;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=t1R0q+Sn
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 4B9DE1D00536
-	for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 08:17:56 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Sun, 22 Nov 2026 08:17:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1795353475; x=
-	1795439875; bh=fvlZSAhLg8bGLT8RqiJpA4DYdMhQ5TtKUqm0SgXDsp0=; b=f
-	+xuSQ1c/zfJNpkM2PsJBR96mc5ccqZghivv6GW/B+3dBoVevAWmiXWFbf09cOuHN
-	Q1AL2vMW7gh46AE+nYuv5h7l8cenmGYndBmHpg/VRblFNCsvRUhCXTol2vfhu2zS
-	JVi5k0Mpb1vOVg/wZbUrnoMWF7EJaAKr0gaN5wtL7Zqooa4wbzFbueUz8Ae4j6Jf
-	/YsYO1kr9u2GYWN0LgVBdgkoZr8Da7Qpxktd5xclALh7FR4diNOWzJMVvb9TDhUo
-	0aGQ5XEn/xtGUg6kLQ+1BHqgixeZFkMA+Gd3hHn8M0gfG7h029qcl3ZAGKXJrYA3
-	97LTUvu9w2yx/9Rpen/2Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1795353475; x=1795439875; bh=fvlZSAhLg8bGLT8RqiJpA4DYdMhQ5TtKUqm
-	0SgXDsp0=; b=t1R0q+SnMqTsR9ADrKfBQLIkaY1+am9wLODutoKOM6DZYtRY2YE
-	7MTLPrKzwXPruLcUEamcK86VbzwvIJOqeLgDVTIoNARoDYIDcgsGZTZ3jCMjvL3a
-	84MbmTYk/gC+P6ZJwaoVEJ+YSwvuSLhZDS+WxqL36mRh1P+8aG7W8naGMWG22aHG
-	6/smWNNJthK+JjEHuUtjGSKbwTbdfBzRuM140pkzDKIPWvMhD0zR90AkqDTOjkk4
-	zRzgLHMQBEISimLz6/t69G2/r6g7RwJsfpIZm+8ZgVTbJoQDcTT/gMahsNjgP5Nz
-	+H37Mmsm5wsS6Hu5iKFkH+5xeX/UmXX3CUg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=sakamocchi.jp a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795353475; d=sakamocchi.jp;
-	mf=PG8tdGFrYXNoaUBzYWthbW9jY2hpLmpwPg==;
-	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
-	s=fm3:rsa-sha256:jpRNMIDQaw9r+Pst0KgQ43mev8zcDWzsI1EOoK4qW4j5QNV
-	N9dux7Ycu+UlEgYoVpaC5fE7x8eCjs6RC6VYcVIf86mogmeOxsq0hF2vgiLf/8f8
-	1KSarzfDJi0W+MRKIyiXFN5ARlfxt/HvMSjuAtC4z727YKvIho6r/+TzX1hrE1Ft
-	RnlGa8FN7sdLL+Zadewhwx1xFDKdFqAnfGOixh7+eO947PjGgGZ5bOm1+6RT6QZc
-	B6kLaM3RF2ZHh07WL63OVmdwussnKvbxbN2YjCgDtHl9ORS7wBVu6+FTiDzN1VMI
-	zxWJM32lABK3T59qeirRRyOUxkHJp7RDFYt0AFQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,mail-followup-to,message-id,mime-version,references,
-	subject,to;
-Message-Instance: m=1; h=sha256:s6utCHA9jdJTqLDk2uXgtAer2yH44WFHm6vSz7F+G3I=:VS/nq5N4SzRG3f/8cSJVJJ+NZhA6DMRsT9d+DC4wnWQ=;
-X-ME-Sender: <xms:g-sCaxwAQ0CdU_e4mHZEsiGE2u10xsqHgCBzfV0oUqHf-yDICKTGCg>
-    <xme:g-sCayxeEXY1AYMX2_O-g3D0ek8Qb32P7r3XTpOLQ-MS8JiDTCltyltxYEuAKWFhY
-    JIO2ZOTWElKeqFK8gk5VNCDRfGoK32IPabOksxcKgr_thbtjSX3y1dn>
-X-ME-Received: <xmr:g-sCa7Zdpg1avQ6fAoapLhtALW9t2uSky6OR_dAdwZRepV1jBGix7ByH--AHhBvdNzWpMETniOhN4hp-6MFUOECXU6N95w>
-X-ME-Proxy-Cause: dmFkZTEYqN9yFjYv3FbVdjdtpM1yDm6I1a/l6r5fmpFrY3iRgh54NkgL1+D8AATMbs0sBn
-    tyYqSI2bp04DFSAx5ZZWVEqdM299z/7tcfDZJB/WX+tuMC42GQKkPw7IO/yjAXZ5WqX3rd
-    AOx+gq3iblDX1cVfV2AQzHHVUlhUOZHVh12fHPZLs9IPmdBZbA+2qM7VPW2Ab/7QeFrXDo
-    HRoLYinXvqeHxPqpoKAbAHWiHShtALGNPC0QyMIZTQd1LXeHeCBC2T3lqbPTKUT09EWt0A
-    Inf24KSfwsh7bvT2jXS5q4TlnE85+AnTcZlj20+es06FmrI4uLzrKY0Gb1brNeFaSFsjVP
-    aMyQeeGChO64xumarrSEY9/lZqE/2kfprBn87wGlg/P2zvKB1/yTyXhXPlAzrTxEji+Ogv
-    OouKoL9x/ItqsrzaynALrrpzCaWKDFF9o16McCrHJpL1QiGcBdXeDqHV0nTjFlo2hMJcEo
-    OzuK5RAjaej8n6UwRoqS2Q2xei91Xo1RwieYh+lFWktwUMv/96XIQZgKObteSZF5+ZAY7C
-    4fg0mh8dm3MAk/ewHNUODo+sxGM1iAqgJAKdNIhlfXOwwgIOtu5plPDB2yGtW9YUzvxa8U
-    SgFswWdwR03zGsjdmyKq4ZZFJmMXnFfHnpOc62XmvbnrIJtSco3B76MHcgsA
-X-ME-Proxy: <xmx:g-sCazXEy4NLSF15r4-ncUzfNFaiY4NRZVVox_6o6VnryEE6Rzyu1w>
-    <xmx:g-sCa5hwH12NFfREvURR32VSjpSkbDtC_frvmIudbCZXou9U7O9PLQ>
-    <xmx:g-sCaxvCHHmN4or9LX_SSNKJ6FZUSTjYrX26b4rzBuseqHf2TEqDlw>
-    <xmx:g-sCay5CSgsxo5HU3gHUnbn53GTU2ASSK4DILdplRl9IewNlUYQf-A>
-    <xmx:g-sCa_CyIt1aOyG0Qpz-vAf6tYy0p8kIauYUIXClU4S5Boz4ULGM_24b>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 22 Nov 2026 08:17:54 -0500 (EST)
-Date: Sun, 22 Nov 2026 22:17:51 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: shyckless@gmail.com
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org, perex@perex.cz,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: firewire: Don't loop forever after a bus reset
-Message-ID: <20261122131751.GA503983@sakamocchi.jp>
-Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	shyckless@gmail.com, tiwai@suse.com, linux-sound@vger.kernel.org,
-	perex@perex.cz, linux-kernel@vger.kernel.org
-References: <20261120-firewire-busreset-v1-0-8bb9079a2984@gmail.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id E3C0C1F000D1;
+	Sun, 22 Nov 2026 13:18:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795353528;
+	bh=RtffMgOxZLQ/JTkvXGecUIpw1wwHGGuG/3tZCv9f51I=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=NAq/q/R6twa+VpxvCUP64dd3tAz10Mffa9v1UtUirw0hkrbqLkkzRatXVuAExFdsu
+	 7Jj+c0giSQsjEnnjVSfHPvDOdSuNUIRB20tF3VgO4jR41TzM9CpNqRsUDVhaE/HYiE
+	 F8ahP5MpTsLlGrtCVYU0VL+9jgHrx/maPWK/c63H1+/Lk2pPC5zfPYqxOKqSz8ELZv
+	 qdOZ0QIBGfGBabb6w915ROX7ucp4uP4rq9V6mv0/+n6aHk7Fh7+vRN5hzsqaS5QOuN
+	 FvH9oMEHFsD620rqogtqm1TgPDMI4RECxowmlHQdbuKq+m7+u14GjqE3GeYSKO2oU+
+	 7T++UZ3yOFL7w==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 46C894C063;
+	Sun, 22 Nov 2026 13:18:38 +0000 (UTC)
+From: Oleg Antonyan via B4 Relay <devnull+oleg.b.antonyan.gmail.com@kernel.org>
+Date: Sun, 22 Nov 2026 14:18:37 +0100
+Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on ASUS Zenbook S 13
+ UX5304MA
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -126,63 +83,70 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261120-firewire-busreset-v1-0-8bb9079a2984@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261122-ux5304ma-headset-mic-v1-1-80589ae749a8@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAKzrAmsC/yXMQQ6CMBBG4auQWTtJO2KDXsWwqOVHxgQ0HTAkh
+ Ltbdfkt3tvIkBVGl2qjjLeaPqcCf6goDXG6g7UrJnESvBfhZT0dXT1GHhA7w8yjJoYATQh1484
+ 9lfSV0ev6217bv225PZDm74v2/QPbQQspeAAAAA==
+X-Change-ID: 20261122-ux5304ma-headset-mic-e2ee8664809f
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Stefan Binding <sbinding@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Oleg Antonyan <oleg.b.antonyan@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795353517; l=1835;
+ i=oleg.b.antonyan@gmail.com; s=20261122; h=from:subject:message-id;
+ bh=tTuD5gMzmbpXEeh4kAfA/ft27GJCym2dy3cdc5+lNNU=;
+ b=4TrP/nP+pzlrxDU+GUMC/J/I3G+a3TzxaR7aweX53XAOAUEl3sgzRbSnzwe7cltGJu2X5FKw4
+ CZxl6NTm/ZkDTdOUevh9EWvfhWv+T9HBSPAe+JwPj4PsWnEHc6Ks0my
+X-Developer-Key: i=oleg.b.antonyan@gmail.com; a=ed25519;
+ pk=AA4/X8a4Pvsu+cn8cLNZ3XDbM6VmZZJ57ZuDUycpXD0=
+X-Endpoint-Received: by B4 Relay for oleg.b.antonyan@gmail.com/20261122
+ with auth_id=1603
+X-Original-From: Oleg Antonyan <oleg.b.antonyan@gmail.com>
+Reply-To: oleg.b.antonyan@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Hi,
+From: Oleg Antonyan <oleg.b.antonyan@gmail.com>
 
-Thanks for the patch.
+The ASUS Zenbook S 13 UX5304MA (1043:1c33) uses an ALC294 codec with
+CS35L41 amplifiers over SPI. Its BIOS leaves pin 0x19 unconfigured, so
+the headset mic on the combo jack does not work.
 
-On Fri, Nov 20, 2026 at 05:38:04AM +0000, Suyuan Wang via B4 Relay wrote:
-> fcp_avc_transaction() and snd_efw_transaction_run() resend their
-> command after a bus reset but never move the transaction back to
-> STATE_PENDING. The response to the resent command is then ignored and
-> the wait returns immediately, so both loops keep resending the command
-> after each ERROR_DELAY_MS pause, without a retry limit, until sending
-> fails.
-> 
-> Each patch sets the state back to STATE_PENDING before resending.
-> 
-> Found with a static analysis tool and checked by hand. Compile tested
-> only (x86_64, W=1); I don't have FireWire audio hardware.
-> 
-> ---
-> Suyuan Wang (2):
->       ALSA: firewire-lib: Rearm the FCP transaction after a bus reset
->       ALSA: fireworks: Rearm the transaction after a bus reset
-> 
->  sound/firewire/fcp.c                             | 2 ++
->  sound/firewire/fireworks/fireworks_transaction.c | 2 ++
->  2 files changed, 4 insertions(+)
+Use ALC294_FIXUP_ASUS_SPI_HEADSET_MIC like the UX3405MA and UX3402VA.
+It configures the headset mic pin and chains to
+ALC245_FIXUP_CS35L41_SPI_2 to keep the speakers working.
 
-I had a look at IEC 61883-1, but it does not specify any particular
-requirements for handling bus resets during an FCP transaction.
+Tested on a UX5304MA: headset mic, internal mic and speakers work.
 
-However, I found the following statement in `AV/C Digital Interface
-Command Set General Specification Version 4.2 (1394 Trading Association,
-2004. Document number 200406)`:
+Fixes: 61cbc08fdb04 ("ALSA: hda/realtek: Add quirks for ASUS 2024 Zenbooks")
+Cc: stable@vger.kernel.org
+Signed-off-by: Oleg Antonyan <oleg.b.antonyan@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- * If the target detects a Serial Bus reset, it shall reset its state to
-   be able to accept AV/C command frames. In this case, any in progress
-   AV/C transactions shall be discarded without the return of a response
-   frame.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index a6b5e8987294..50bbb5b4529c 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8213,7 +8213,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1bbd, "ASUS Z550MA", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1c03, "ASUS UM3406HA", ALC294_FIXUP_ASUS_I2C_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1c23, "Asus X55U", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+-	SND_PCI_QUIRK(0x1043, 0x1c33, "ASUS UX5304MA", ALC245_FIXUP_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x1c33, "ASUS UX5304MA", ALC294_FIXUP_ASUS_SPI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1c43, "ASUS UX8406MA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1c62, "ASUS GU603", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x1c63, "ASUS GU605M", ALC285_FIXUP_ASUS_GU605_SPI_SPEAKER2_TO_DAC1),
 
-Although the function that issues fcp_avc_transaction() acts as a peer of
-the target, I think it would be safer to abort any pending transactions
-as well when a bus reset is detected. Since the bus reset would initialize
-the part of device state, the initiator should also restart the entire
-transaction sequence.
+---
+base-commit: 0dfd513a15573ffa21710f77c2926c3cbb81a7ed
+change-id: 20261122-ux5304ma-headset-mic-e2ee8664809f
 
-I would expect Echo Audio's Fireworks transactions to follow the behavior
-described in the above specification, since Fireworks also supports some
-AV/C commands
-
-Could you revise the patch to abort any pending transactions when a bus
-reset is detected? Returning -EAGAIN to the callers would be reasonable
-in this case.
+Best regards,
+--  
+Oleg Antonyan <oleg.b.antonyan@gmail.com>
 
 
-Thanks
-
-Takashi Sakamoto
