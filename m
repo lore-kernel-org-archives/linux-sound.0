@@ -1,82 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795445615;
-	b=by8CKvm92cq/UevF2+nUYotd/Y5h6oFJE7c+6Wz3zmCa5oIEpqsHJuaFX9BdWPLD1Blk
-	 FGZIHElVUewDKK/KCmndwPuOYIL5FNVI+5sX/h4lJpa46fSJUh9Psb3zNxrp1Rk+fc4A9
-	 lk5iC2u3LNFA1i06rKi0iQq6blpugcLaGjabUuHFHWsTbSg2tLLHjpt3VNR4HUzQ5I3Ak
-	 u1/DortZ3blo69z0ivxZoMwzJ5NhZkpSNPgfD6lvU043nnJC5F0aBxrwfDszI9kqnpmqB
-	 KjTeqDlzMQY5jvC2wqH1xhWMjw2vJfGRejx8x6dUAwPIvaiEbkfAzkfASDO1zoUxZfA==
+	t=1795445639;
+	b=0C+zmu4RtxrXSrB9/u8dV+TpwiyW+5Rq5vxQlzVHFDoFIAKlzjhxp8AXm7nCI6EfYD1p
+	 T597kEBUgoAAwPto+SGftFWmUNX3ligS+w/V7rHR/PmK5ME/E9tYY7vQzfa4m2F22IYcB
+	 GtQ0/1+D8fi4NkrvWC/72T/69NU01acXfd0WyUZ3s+Q/eL3fLgunNWxjsZ4/XeFZ0l8mX
+	 pcMRGlKDy7hgEHLcJSAPiRBhUxyY2Ee3VLsTJIei6XOV/68r+yG34RzrJrAvD+NsuZ/TV
+	 FaWx+pqv0KFoxIdd4z7iRaUhBlY3msFbVkcDLhChnpAfSvoF4LDPAXYEM4f+cZoCNgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795445615;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795445639;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=lA6oYuprAkHK4elm//iRd0jX7g4QWezwyzygSAeIMm4=;
-	b=w5I+lsAY2/yDqnRyQddxpW1PrA054xqLJWi0kPdrlNQcnOTSQMg3cfscfu7ZJQcpUie7
-	 k9xkHNEhVPKIEbY8rSFJFWmEoGh6ax7Wp0/GCYVoevOYAlFYtOh0e/OfRawkvahQMYWYC
-	 XkJ8RHEAknRfgXwTiQuavh2KxzDnckNktyIku05STPU3wL4oH8hHbY3+x1SN0oMobypLu
-	 81BFXxBIqeFJFO6wjZjLz+C0d9G0/pYZm4+f3qJyB1EgoAmXmRk6/PsibFqztEMJT9KiO
-	 ZoK6o45pEHpNNpNPB+52tawHmo3biGh0ihMfLinrn+0H3coej31Uqvp8+VoLrS2wZsQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=R4tDEGiURQM1Arylz9v3qFzT8K+oOXwhYEhcFQrcNqk=;
+	b=O5rZgndWT2R0IElHEkAS03ZL1H/TXqnwgsoQFYUYFaDV9vYPkPOawvJbbk4D9GmbVJ20
+	 DRwrSzmie8+eVRGgNw4Ez0Gx/0ZY9Syag27fBGxMvCgE0vSqt65O575/14RywgSn17wAw
+	 eU4xUtNTTB5NwzOsaQcjT0Dk9SHjlWpfJEeyyjiI5JG1uYA4A0MXKi7b0z1gqKF2H4AhM
+	 pFN5svb3onX6HEIvlOJ00/oMIOGKCum8ba1Q2L2NtnY77Srb00SRUHodrRE2NaIdFcoQo
+	 pyVBPt9Rd/P9Gu1RpaPZQsfg3QHzN2pfFBv7JmKOE7UWdEerVaBBGWjQ4B1GcQhoQ2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.com;
 	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=CB8Ph7HX;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=ZXg8n3IQ;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E27606A32A
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 14:53:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5E27606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F98A60A6F64
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 14:53:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F98A60A6F64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=CB8Ph7HX
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so31150405e9.2
-        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 06:53:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=ZXg8n3IQ
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-49a92144733so1636585f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 06:53:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795445613; x=1796050413; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lA6oYuprAkHK4elm//iRd0jX7g4QWezwyzygSAeIMm4=;
-        b=CB8Ph7HX5v4FLIDCkrhrAMiKlxsuMGiM4MlTI3b2rryQE0MyQaps9LzthZnMRqQbdK
-         mk1wyE7JLhlANoYCek8V70kIxf73baE7VAcMV32bVnBFJmf67wwZ7jJ95zbrLdQ/aIlN
-         5DJLAnHvMumwoyEpTaqOm/maBrQ3e5sh+XDsIoqMzAAMdCkh3zkVvYp3XJwaSTHx8zdC
-         GLBTSASgW5hqUY2+QITiDLGl055H0U48/vFd5Jf357+bdLmeLrLTUg54kefc+mvae1+5
-         2YzUUWa+8uitJwRYx0+MEV0JlJzDSmRwVQ90vCaGU9TetY5bRrqjC1JkFmRJmknq3VgE
-         dRdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795445613; x=1796050413;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=suse.com; s=google; t=1795445637; x=1796050437; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=lA6oYuprAkHK4elm//iRd0jX7g4QWezwyzygSAeIMm4=;
-        b=P0tg1lFcc4JW6M121uJDc0Y1DS1rRfyKdRa+3YGO3JeXeb1FjcPPXq0ISCqC96/JD4
-         j9TA4UTYZqe3PuntDApYxMQOvsA4SIRDKgyikus08yLfW5YG0e1VVO3OWkNzP/s6bYtg
-         gHbfH1V67BuTJJ2I27U3JYd32q/rpIFb5mYJfvjN++yTH8Gv/o3udeYAp+4+o4y6PUpD
-         xqBqWH5c6+o+8AZFC2U8M8V3gW4XOAGdIeblRwBdkfXP9NWGtRG4Hj2FCgV0deegFAAl
-         8ffIVLcMsHB1ciiGkiDCE3EEdsxAkuQzSTCLUbxBJ3TlIuaeS5jEkHAjn9d8rNAd9DzF
-         vsRw==
-X-Forwarded-Encrypted: i=1; AL+hErH4VIxETXwLnL5r3HvsT37nb8Gb/57F8jly/UiNsY33N3NHppI+pw5wHRIw8flUJna5f4O9S4spoC8NVw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9rq2LvSrBJxBeulLiBaT5y7C+kxI9b6L9FP/i1wDMKU3tSjrOb
-	MJDzoc7z4OvOEVKE9gyuMJcjmVfe55Y77e1m+6h/a4xnkmCuROdKQA6XSOlvcaD+crA=
-X-Gm-Gg: AZFdTZd/H4Z4p7fyDbZjVnqcTjlTM49aSG1a23ZDVxcyTT+UV+scJYfnVdakhsp9WNr
-	lV2kzyIKd7CqG4WMdKtKxBJzr0nRLL+qNTdnF6qG18xFw29JLHdpBF8DgHybfs5PpDLrCV3I938
-	WXfl9bXFoxwvfBhcG0GRxreDMuMu7AQ1ScNJiGe9Extx9B0W/kkd7gtK5qlDCFYiBUH4HASppbY
-	b3PhpDSHEMC//VhUsiha3YKAQ0f+FUKuhWEqLVWVlViFTtVpQpY/eFkqjyMwt7DT8TnhCcAkJTD
-	zRQgeKaVaW/LVHcuWSyP2Xon7dV4I2B3iD5rO7dBxgUyYWV0HWbqvq7JwZ14NU5soExjmyfRU78
-	OdyFkYzsbHYNR+Ue2ZAJINDBIJC5pbi7u/Ghlc4ump+bkA4/kJuspfv95WtkHmdUtdBBydiNKbt
-	zizYrcg67RlpXIyI2EzYsMLT9PLfTrOIOe1U996YW2u/Uqd4qdWGancgsnDl1bkHxkENmp8t3BM
-	WchxDnTmLcV9bM8qUVsFBc1XVedipvoJmmJBcwz78fj2p6NMFZ83v3F+Y/FikwlhP+eKCE7Xfq4
-	++cA+t8wY8pbEkdDn1N3jWHSOT2E
-X-Received: by 2002:a05:600c:4e4c:b0:4b6:5dac:b61e with SMTP id 5b1f17b1804b1-4bb88938d2dmr220141985e9.32.1795445613020;
-        Mon, 23 Nov 2026 06:53:33 -0800 (PST)
+        bh=R4tDEGiURQM1Arylz9v3qFzT8K+oOXwhYEhcFQrcNqk=;
+        b=ZXg8n3IQn27O0EAhb1QV0uH9WnWcXpQh9UD9Fvi2XTr2ASnA2yqy5YIIR0EGymdyk9
+         g7EAMbPzyM5DOd0ZgSgIkkAED/fKpca6LzxdnKBGE+EMIbOwm7Y8k9L8fpshjuWqU3iR
+         hWyi1JtgEKqmmEjZ7T4mZWKTcDiwAjKST/MmKcbhG7GHFy9PUYr3l4I8uu5doG0Rf+8h
+         Jv/Ja/9M7YI2u9z1sGUcRe58XaSmCFSWsjkJ8aV5PXNK/ARgkcE8azAKcvlAJdWZtKKo
+         3a3x+7CfZ0Cm9jx6aBVsHvAaXnRmugE0fMfySQmQUcyKwaoSaLwmt7mG6/Kzft3ZUXoq
+         LEpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795445637; x=1796050437;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=R4tDEGiURQM1Arylz9v3qFzT8K+oOXwhYEhcFQrcNqk=;
+        b=Z6essYphpb0Pkg0kM36csu8PTv01onHJ4MmNgP7gmd9t3g9TvyRrTWNtjOJhT9Bu96
+         dJaq3KMGVO3W8Vq9w5jDQ8nWI9Fmse+AhqC/S+fUHnzWkYV2dtg8sKz9CjsYGd10YJh2
+         g1tur+XjrztxxiGHF0gCTrf7phOgG9AR+/y7D1nhAC5C0IrFP4piZbZyod3swhjNcuBw
+         BNRBeMFk9IfT1LIFFkDgKqTxop/drNHR8cq40O4JLzz0vvmhQMstOewX2TgJPg8M7BM4
+         a3myXasY9tOYhVnAOhr/GyZdu7g4jj5U48onFUubvAnurZHgpv1RGxmQq5wJDnDd7MR9
+         n+Gw==
+X-Forwarded-Encrypted: i=1; AL+hErF8mKfssktMvVE5TLE9dgOhf2g4+ub0aUdHjPd87QJDN0ICdyh5kok06M/HIuGFn/8xIA1LrxPNJmJWNA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+vxkhR0Gxy+fzE6cfGOSbOaqS7rbqarSjQZ28uthBB2AKAoyVB
+	iAjCfsnt7MQpuHqrBbnF9wVBve4nzL26m+grn2H4K8kO7rc5seAqN1eSeQtlfWwkdFg=
+X-Gm-Gg: AZFdTZdDn0K77gfzwed1uZDwzPAxAY94oTG6IW9ZGbkfVfeqq8o63FTC9bfCfJuWjNA
+	06O1ydVaeoX53CGsSlw6j0b2I/aH5KqpzMQI5/iRaN9UiW9a3AP4rW91pBs/brCcuh66AEm5LUj
+	UDScwAZU9VXox9DXPyGpvzCBWDLhASTEUwdgKiXROIHuCPVeW3wfDMeX/WClS7C6FQSdTztTSQq
+	uZndl8Og8bMZxD5PxrUOqJl8B1C7YdQcvizgHdEBsm7v4ua9dCk2qkKyWBWf8UFV/IRjB8J5EjP
+	3dz/4WqFYPs6o0GuBGPZo+OwL8FkCQY3k14mpUHDQmXKJDIIw9r8HCSqZzMtjwhFNYz/nysKnS8
+	amCMShisPVFEA8gXJkziXIiwTUcLB6yA+RfXNU8RHveM1sg0UWOKqtE30zBKQO5vZ8f+bd2Mvlt
+	KrkdRR7TgZ2HeOiC3aSnX+D7kdVA4K/ntJhLdZUwYhlH1guVVJigTRWHJzJgKFGOO++FFNhb2ZX
+	Y/7Jast2rWqHjdz5HNn6ekX0XL8u78TY0OOOT3DAqmW4K03WA0VFIxEJxYy1bNV1zZhPebccVot
+	xPRAFARkEdQSyoFrVZIYi4e6/WjjYOBniEVRnSqa2qjDslv4
+X-Received: by 2002:a5d:5d82:0:b0:4ac:7595:6f68 with SMTP id ffacd0b85a97d-4ac75957253mr19069216f8f.36.1795445636715;
+        Mon, 23 Nov 2026 06:53:56 -0800 (PST)
 Received: from localhost ([82.192.120.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9066f6e6sm142773895e9.3.2026.11.23.06.53.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf6804sm22292067f8f.10.2026.11.23.06.53.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 06:53:32 -0800 (PST)
+        Mon, 23 Nov 2026 06:53:56 -0800 (PST)
 From: Andrea della Porta <andrea.porta@suse.com>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Frank Li <Frank.Li@kernel.org>,
@@ -99,25 +100,18 @@ Cc: Frank Li <Frank.Li@kernel.org>,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	David Airlie <airlied@gmail.com>,
-	dri-devel@lists.freedesktop.org,
-	Jaroslav Kysela <perex@perex.cz>,
+	Andrea della Porta <andrea.porta@suse.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-mmc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 	Mark Brown <broonie@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Simona Vetter <simona@ffwll.ch>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Ulf Hansson <ulfh@kernel.org>
-Subject: [PATCH v3 00/28] dmaengine: bcm2835: add BCM2711 and BCM2712 40-bit DMA support
-Date: Mon, 23 Nov 2026 15:56:38 +0100
-Message-ID: <20261123145728.29082-1-andrea.porta@suse.com>
+	linux-sound@vger.kernel.org
+Subject: [PATCH v3 17/28] ASoC: bcm2835-i2s: Pass the CPU physical address of the FIFO to the DMA engine
+Date: Mon, 23 Nov 2026 15:56:55 +0100
+Message-ID: <20261123145728.29082-18-andrea.porta@suse.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20261123145728.29082-1-andrea.porta@suse.com>
+References: <20261123145728.29082-1-andrea.porta@suse.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -129,192 +123,76 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The BCM2711 has 4 DMA channels with a 40-bit address range, allowing them
-to access the whole memory of a Pi 4, and the BCM2712 has 6 of them. This
-series adds support for them to the bcm2835-dma driver, on top of the
-platform abstraction from Stefan Wahren and some features from the
-downstream Raspberry Pi kernel.
+The address of the DMA slave is handed to the DMA engine through the
+dma_slave_config, where it is meant to be a CPU physical address that
+the DMA controller driver translates into its own view of the bus. The
+driver instead reads the untranslated address out of its reg property,
+which only happens to be what the BCM2835 DMA controller expects because
+the DMA engine driver used the address verbatim.
 
-The main change since v2 is the handling of the slave (peripheral)
-addresses, as requested in the v1/v2 discussions [1][2][3]: instead of
-hardcoding the 0x4_0000_0000 offset of the 40-bit channels and relying on
-clients passing pre-translated VideoCore bus addresses, the clients now
-pass CPU physical addresses and the DMA driver translates them with
-dma_map_resource(). Since the conversion of dma_map_resource() to
-dma_map_phys() with DMA_ATTR_MMIO, the dma-direct implementation honours
-the dma-ranges of the device, which was the open question raised by
-Robin in [1].
+Now that the DMA engine driver translates slave addresses itself, use the
+CPU physical address of the register resource, which also gets rid of
+the open coded parsing of the DT node.
 
-To keep old device trees working (they only describe the RAM in
-dma-ranges), the driver detects at probe time whether the peripheral
-window is described in dma-ranges, by looking up its own registers, and
-otherwise falls back to reverting the translation given by the ranges of
-the parent bus, as suggested by Dave in [3]. Addresses outside of the
-ranges are passed through, so that out of tree clients still providing
-bus addresses keep working with old device trees. The same fallback
-works for the BCM2712 40-bit channels, whose bus maps the peripherals
-1:1, while the BCM2711 40-bit channels see the peripherals 16 GiB above
-their VideoCore bus address, which cannot be derived from the ranges:
-they require dma-ranges, which all the device trees describing them
-(the downstream ones and the one added here) provide.
+Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
+---
+ sound/soc/bcm/bcm2835-i2s.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-Structure of the series:
-
-  1-5:   preparatory patches and features from downstream (per-channel
-         flags, wide accesses, bursts, abort fixes)
-  6-7:   generic dma-channel-mask property
-  8-13:  hardware abstraction (Stefan Wahren)
-  14-19: slave address translation with dma_map_resource(), conversion
-         of the clients (spi, mmc, ASoC, vc4 HDMI) and dma-ranges
-  20-23: BCM2711 40-bit channels
-  24-26: BCM2712 40-bit channels
-  27:    DMA flags for the HDMI audio of BCM283x
-  28:    HDMI audio on BCM2712 through the 40-bit channels
-
-Changes in v3:
-- Drop the hardcoded addr_offset, translate slave addresses with
-  dma_map_resource() in device_config() and unmap them on
-  reconfiguration and when freeing the channel.
-- Convert spi-bcm2835, mmc/bcm2835, bcm2835-i2s and vc4_hdmi to provide
-  CPU physical addresses, and describe the peripheral window in the
-  dma-ranges of the BCM283x/BCM2711 soc bus.
-- Put the BCM2711 40-bit controller in its own bus, whose dma-ranges map
-  the peripherals at 0x4_7c000000, instead of the scb bus, to not change
-  the DMA configuration of PCIe and GENET and to avoid refactoring the
-  entire DTS to fit the cell size.
-- Fix the abort sequences, which were swapped between the legacy and the
-  40-bit channels, breaking terminate_all on all the Raspberry Pis.
-- Fix the interrupt acknowledge of the 40-bit channels, which used the
-  INTEN bit of the TI register instead of the INT bit of CS.
-- Make the abort sequence a platform callback, drop the CS/TI masks only
-  used by it.
-- Keep the period handling of bcm2835_dma_create_cb_set_length(), which
-  v2 changed to flag every control block of cyclic transfers.
-- Use the platform cb_append_extra() callback for every control block,
-  and convert every control block address with to_cb_addr().
-- Preserve the width and burst settings of SRCI/DESTI when setting the
-  addresses of slave_sg transfers.
-- Fix the argument order of cb_init() in the patch introducing it, to
-  keep the series bisectable.
-- Fix the free_irq() cookie, which did not match the request_irq() one.
-- Derive the first channel of an instance from the physical register
-  address instead of the ioremap()ed one, initialize all the IRQ array
-  entries, and split this into its own patch.
-- Refuse to probe the 40-bit channels if dma_addr_t is 32-bit wide, and
-  avoid shifting dma_addr_t by 32 bits.
-- Include linux/bitfield.h, fixing COMPILE_TEST builds.
-- Drop the unused bcm2835_dma_count_frames_for_sg(), resurrected by a
-  rebase, and the dead code and duplicated defines of the 40-bit patch.
-- Split out the style changes from the 40-bit patch (Stefan), reword the
-  subject of the first patch (Florian).
-- dt-bindings: sort the compatibles (Krzysztof), document the flags in
-  the DREQ cell (Stefan), allow the generic dma-channel-mask, constrain
-  the interrupts of the new compatibles. The Acked-by of v2 has been
-  dropped because of the additional changes.
-- Use the generic dma-channel-mask in the new nodes (Krzysztof).
-- Use the DMA specifier flags for the HDMI audio channels of BCM283x,
-  so that patches 2-4 have in-tree users (Stefan)
-- Describe in the platform data which channels of the DMA block use its
-  programming model and ignore the others, so that nodes describing
-  channels with another model under the same compatible (as the
-  downstream BCM2712 device tree does) are not driven with the wrong one.
-- Add BCM2712 support.
-
-Backward compatibility with installed device trees:
-- Upstream device trees without the peripheral window in dma-ranges keep
-  working through the ranges fallback, which yields the same bus
-  addresses the clients used to provide.
-- Downstream Raspberry Pi device trees already describe the peripheral
-  window in dma-ranges (for both the soc and scb buses), and their
-  40-bit controllers are handled through dma_map_resource().
-- The node of the downstream BCM2712 device tree describing channels 0-5
-  is rejected instead of being driven with the wrong programming model.
-- The current upstream device trees do not describe any 40-bit DMA
-  controller, so the new compatibles have no legacy to support. A
-  brcm,bcm2711-dma node without dma-ranges makes the probe fail instead
-  of programming wrong addresses.
-- Older kernels booted with the new device trees are not affected: the
-  extra dma-ranges entries do not change the DMA limits of the existing
-  devices and the new nodes use compatibles unknown to them.
-
-Not supported yet: No device tree consumer is converted to the 40-bit
-channels either.
-
-This patchset has been tested on Rpi3/4/5 with both downstream and
-upstream DTBs. The upstream DTBs have been customized to allow for several
-peripherals (SPI, I2S, HDMI audio, mem2mem) to be tested against dma40,
-an example of which can be found in patch 28.
-Future patches will convert said consumer nodes to use the new dma
-controller.
-
-This version has been prepared with the help of an AI coding assistant
-(Claude Opus 5.5).
-
-[1] https://lore.kernel.org/linux-arm-kernel/ee19a95d-fe1e-4f3f-bc81-bdef38475469@arm.com/
-[2] https://lore.kernel.org/all/CAPY8ntCcz7ysTq_78Rb8ohLLETTYZeoZ3DXdPFvDLAkPc9jPWw@mail.gmail.com/
-[3] https://lore.kernel.org/all/CAPY8ntByJYzSv0kTAc1kY0Dp=vwrzcA0oWiPpyg7x7_BQwGSnA@mail.gmail.com/
-
-Previous versions:
-v2: https://lore.kernel.org/all/cover.1710226514.git.andrea.porta@suse.com/
-v1: https://lore.kernel.org/linux-arm-kernel/cover.1706948717.git.andrea.porta@suse.com/
-
-Andrea della Porta (24):
-  dmaengine: bcm2835: Fix coding style issues and a typo
-  dt-bindings: dma: brcm,bcm2835-dma: Document dma-channel-mask and DREQ
-    flags
-  dmaengine: bcm2835: Support common dma-channel-mask
-  dmaengine: bcm2835: move CB info generation into separate function
-  dmaengine: bcm2835: move CB final extra info generation into function
-  dmaengine: bcm2835: make address increment platform independent
-  dmaengine: bcm2835: drop info parameters
-  dmaengine: bcm2835: pass dma_chan to generic functions
-  dmaengine: bcm2835: introduce multi platform support
-  dmaengine: bcm2835: Use dma_map_resource() to translate slave
-    addresses
-  spi: bcm2835: Pass the CPU physical address of the FIFO to the DMA
-    engine
-  mmc: bcm2835: Pass the CPU physical address of SDDATA to the DMA
-    engine
-  ASoC: bcm2835-i2s: Pass the CPU physical address of the FIFO to the
-    DMA engine
-  drm/vc4: hdmi: Pass the CPU physical address of MAI_DATA to the DMA
-    engine
-  ARM: dts: broadcom: Describe the peripheral window in dma-ranges
-  dmaengine: bcm2835: Support channel subsets in a controller instance
-  dt-bindings: dma: brcm,bcm2835-dma: Add BCM2711 40-bit DMA
-  dmaengine: bcm2835: Add BCM2711 40-bit DMA support
-  ARM: dts: bcm2711: Add the 40-bit DMA controller
-  dt-bindings: dma: brcm,bcm2835-dma: Add BCM2712 40-bit DMA
-  dmaengine: bcm2835: Add BCM2712 40-bit DMA support
-  arm64: dts: broadcom: bcm2712: Add the 40-bit DMA controller
-  ARM: dts: broadcom: Set the DMA flags of the HDMI audio channel on
-    BCM283x
-  arm64: dts: broadcom: bcm2712: Enable HDMI audio
-
-Dom Cobley (2):
-  dmaengine: bcm2835: Support dma flags for multi-beat burst
-  dmaengine: bcm2835: Fixes for dma_abort
-
-Phil Elwell (2):
-  dmaengine: bcm2835: Add support for per-channel flags
-  dmaengine: bcm2835: Add NO_WAIT_RESP, DMA_WIDE_SOURCE and
-    DMA_WIDE_DEST flag
-
- .../bindings/dma/brcm,bcm2835-dma.yaml        |   88 +-
- arch/arm/boot/dts/broadcom/bcm2711.dtsi       |   40 +-
- .../arm/boot/dts/broadcom/bcm2835-common.dtsi |    3 +-
- arch/arm/boot/dts/broadcom/bcm2835.dtsi       |    3 +-
- arch/arm/boot/dts/broadcom/bcm2836.dtsi       |    3 +-
- arch/arm/boot/dts/broadcom/bcm2837.dtsi       |    3 +-
- .../boot/dts/broadcom/bcm2712-d-rpi-5-b.dts   |    9 +
- arch/arm64/boot/dts/broadcom/bcm2712.dtsi     |   26 +
- drivers/dma/bcm2835-dma.c                     | 1229 ++++++++++++++---
- drivers/gpu/drm/vc4/vc4_hdmi.c                |   16 +-
- drivers/mmc/host/bcm2835.c                    |   20 +-
- drivers/spi/spi-bcm2835.c                     |   27 +-
- sound/soc/bcm/bcm2835-i2s.c                   |   19 +-
- 13 files changed, 1229 insertions(+), 257 deletions(-)
-
+diff --git a/sound/soc/bcm/bcm2835-i2s.c b/sound/soc/bcm/bcm2835-i2s.c
+index 208977828254..ad95412cc8b5 100644
+--- a/sound/soc/bcm/bcm2835-i2s.c
++++ b/sound/soc/bcm/bcm2835-i2s.c
+@@ -30,7 +30,6 @@
+ #include <linux/init.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
+-#include <linux/of_address.h>
+ #include <linux/slab.h>
+ 
+ #include <sound/core.h>
+@@ -843,8 +842,7 @@ static int bcm2835_i2s_probe(struct platform_device *pdev)
+ 	struct bcm2835_i2s_dev *dev;
+ 	int ret;
+ 	void __iomem *base;
+-	const __be32 *addr;
+-	dma_addr_t dma_base;
++	struct resource *res;
+ 
+ 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev),
+ 			   GFP_KERNEL);
+@@ -859,7 +857,7 @@ static int bcm2835_i2s_probe(struct platform_device *pdev)
+ 				     "could not get clk\n");
+ 
+ 	/* Request ioarea */
+-	base = devm_platform_ioremap_resource(pdev, 0);
++	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(base))
+ 		return PTR_ERR(base);
+ 
+@@ -868,19 +866,12 @@ static int bcm2835_i2s_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dev->i2s_regmap))
+ 		return PTR_ERR(dev->i2s_regmap);
+ 
+-	/* Set the DMA address - we have to parse DT ourselves */
+-	addr = of_get_address(pdev->dev.of_node, 0, NULL, NULL);
+-	if (!addr) {
+-		dev_err(&pdev->dev, "could not get DMA-register address\n");
+-		return -EINVAL;
+-	}
+-	dma_base = be32_to_cpup(addr);
+-
++	/* Set the DMA address, the DMA engine translates it */
+ 	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr =
+-		dma_base + BCM2835_I2S_FIFO_A_REG;
++		res->start + BCM2835_I2S_FIFO_A_REG;
+ 
+ 	dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].addr =
+-		dma_base + BCM2835_I2S_FIFO_A_REG;
++		res->start + BCM2835_I2S_FIFO_A_REG;
+ 
+ 	/* Set the bus width */
+ 	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr_width =
 -- 
 2.51.0
 
