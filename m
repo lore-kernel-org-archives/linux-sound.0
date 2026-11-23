@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795420585;
-	b=2Asf4HP1scboAbCEp9D3ZMj+NtXYwIsJ+jl4nX4MfhZ1Gm5mFROoOebqILgqQtMfdGe7
-	 97SJ1jNWwjG5MT1+r1I8HwJ1WrMyhFX59gteSZ4fzztnU8jAAQYUU+b3LQeuLEzPo8DpH
-	 gzXlN9PORKHB0LK5uwl+sr7DVYb6BEEjnfOi3/qjilTQJnXCQq3gi+vP/iO7K6ydueJ4R
-	 G5wr/0mFcgpC6HVok80DtNLP/QDSdPeesDC5ypNPo3X8sZ++BTHWXDswbF4oZbFgFKTDS
-	 9pzZK+/JkelW8vI0ZjWPl9pHRrVdA9YzAJ1u+3diYxXwIoc0+mhW9JZ/XnKasYw666w==
+	t=1795420592;
+	b=FamFSg54alKUzQDgxJ3PfZPzqTinm/dUtWT2h+O/4XspKMiLGHJColh3rbwcnj91Fbq/
+	 G2Xpgb9BdfMCdHG0RqPN51XVyAj8784cd39HgWf7y3n5RTWyyNaFmr3PO0yrNGmYRCNDQ
+	 otO7ogkyQBhddTxi3zPpdUrr5wdGUFKvTzFX/PvMbcmLstOC/Rw746JNPoiH+rqQh6UfP
+	 Lup/UsY/FpwOdL6NIQ1wB7GVtv6CW7nINBEkJJDREdwHj31wxNgdDoIeczqAqx2WAchYL
+	 haUOgFjaHSG4kHZKFPOjYFinOjoue+9i5Cda7Ow1w3lfBVgxz2ZkBB4xAH3FIV6/Jfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795420585;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795420592;
 	h=Received:DKIM-Signature:From:To:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=NiYRB965QyMjahqN2h1lQRElGOPuwhMdnpU8Xt7TG2U=;
-	b=4mblYNPhZLZx4E8JWhBHb/KvLo18cKKyf0xLIw0FiVhOnGHoQF0LmzOEXlboXmIw/X9B
-	 yJbVuBEfC5wwTUPc4CsfaszjQahdjGj6pNwYFfYjzAvyp6V//GwSqezMjYS2PZv9jkkCS
-	 CxcaqGJGxyUXC+lrQTwChqnix1xGxfX/PxrEtd1X5H8c4xVe5HWN+DaNtSU4MMgPrws4D
-	 JgSt6/n0DKJLDgEYy6qZ7th7oMAnaeZIk9XwmnfVS6bsshhCKN+82yGv04zOLr2ycso3Q
-	 7fAXfd5XEH/zUgqHNaUnJEQgevE6RuHsMBQOY0ztpWx4ZEtytTwEmgBXHh5C7apVqUQ==
+	bh=45SnKidonl0igMhwvGCpmH47BH0cjr1RCjUuG6gYLho=;
+	b=yIFadMqp/BQmqWmQ0lhil0JHLFcCIeKjmt4AATlJYhBRJBmqA1Smp4hS7pEusjLTtwlJ
+	 DLq/ZHn/z2xvc5ygOP9UegWau7gtXhsRNUnQJ407sm+WfSWA19AFsALEe4aFLI8syj3nF
+	 opHB2DnEkNUMWHmdny9MbKdl2gY6PjNwLzJb6PnnVLPJl1Gem2x/GOwXItoq5cCI+jSBh
+	 jXELJCg/YvmfSZSi6Uc3U0oxH4GIaeviRlQFO1bf9yC92yGLq9tXHdUjlHzOcI5D0gTmr
+	 q5Deo/DvpwsCiupQbTyw5EyPgZgzK+z/FQ5ebwa86gAjvXbO8/6gvLon/tp2BSYlEPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nAqN5FFP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZTSVIXjN;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01067606A31F;
-	Mon, 23 Nov 2026 07:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF397606A693;
+	Mon, 23 Nov 2026 07:56:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nAqN5FFP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1161F000C6;
-	Mon, 23 Nov 2026 07:56:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZTSVIXjN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 106771F000C6;
+	Mon, 23 Nov 2026 07:56:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795420584;
-	bh=NiYRB965QyMjahqN2h1lQRElGOPuwhMdnpU8Xt7TG2U=;
+	s=k20260515; t=1795420591;
+	bh=45SnKidonl0igMhwvGCpmH47BH0cjr1RCjUuG6gYLho=;
 	h=From:To:Subject:Date:In-Reply-To:References;
-	b=nAqN5FFPZUeSNyPFGPJlQiZB6IhzuoA2HRqJyeWOVSn2w71SsiHJ2e/6nHwVYwsOp
-	 jUj2u6tm46+nERCwyC44mjwxCqPj2R1Y3iNPzq6wOCHej2Pe9SSmbCup8pxEtBqsxU
-	 XCfXLkKL3LvnbNq4LkwlOxxvr5KpoC3cy29jHCEydICYm/NyvCwaaKmquT62Yp9Wxc
-	 h0IUax4zkh5q9hzpachHQTArCQvh/DsP15NuY3T2y1HujgLVu1Qg7s64cbDnm3EIKg
-	 OjaaMfCGoWQzje15At0s/ZtN7zfzri1/hCHc8dPvydKWMEJRE1qgEGuHiVfVyyUnn7
-	 DHFQXrZPETUgA==
+	b=ZTSVIXjNbrI0MemaScNUkiOPe7LoFMR//oncNd0FNlrOfh68YagLHkJL/BoHlqQfw
+	 FmUYVdHLdCCYS7QH2L15OZs4PxNf2QXQ5TbffopRrOiYT0DfVCd9f+FNtMuoBLQEP3
+	 N9O3GemqLlq3cZoxTTe182bNZLiC72vNDuS0EPxMUgdu6yrP7fFyGmxpJ1LuABWYa2
+	 LdjC+0vLMRaNa+thZA5PQOYko5xcTbwLwsxaXmjCOiDuhlUclkl9ZER0TvQ7cDM41i
+	 rTf29/E10xvUErhkCxVtMC9S9YErZtYX8L8XqveLLvsxNn3UXx5o0vAswYUfTtxcUF
+	 rDQbOCIGgi7DQ==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	Srinivas Kandagatla <srini@kernel.org>,
 	Vinod Koul <vkoul@kernel.org>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 08/10] soundwire: qcom: Check clk_prepare_enable() return value
-Date: Mon, 23 Nov 2026 07:54:29 +0000
-Message-ID: <20261123075522.405347-9-lee@kernel.org>
+Subject: [PATCH v3 09/10] soundwire: qcom: Serialise ctrl->intr_mask updates
+Date: Mon, 23 Nov 2026 07:54:30 +0000
+Message-ID: <20261123075522.405347-10-lee@kernel.org>
 X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 In-Reply-To: <20261123075522.405347-1-lee@kernel.org>
 References: <20261123075522.405347-1-lee@kernel.org>
@@ -65,16 +65,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-qcom_swrm_probe(), qcom_swrm_irq_handler(), and swrm_runtime_resume()
-ignore the return value of clk_prepare_enable(ctrl->hclk) and proceed
-to access controller registers even when enabling the interface clock
-fails.  Also jump to err_clk when requesting the wake IRQ fails in
-qcom_swrm_probe() so ctrl->hclk is disabled on error.
+qcom_swrm_irq_handler(), swrm_runtime_suspend(), and
+swrm_runtime_resume() concurrently read, modify, and write
+ctrl->intr_mask and program the interrupt enable registers without
+synchronisation.  Overlapping read-modify-write updates can clobber
+interrupt mask bits and leave the hardware interrupt mask out of sync.
 
-Check the return value of clk_prepare_enable() in all three callers and
-abort register access on failure.
+Add ctrl->intr_lock to serialise accesses to ctrl->intr_mask and its
+associated interrupt mask register updates.
 
-Closes: https://sashiko.dev/#/bug/linux-f65cddc9-08ff-4531-9acf-76981d74d914
+Closes: https://sashiko.dev/#/bug/linux-ea523727-6467-42aa-850f-8f838e4b84a8
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
 
@@ -84,62 +84,147 @@ v2 => v3:
 v1 => v2:
  - Drop Fixes and Stable tags
 
- drivers/soundwire/qcom.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ drivers/soundwire/qcom.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 191f13a0bdc2..307be1ec3d68 100644
+index 307be1ec3d68..648260a1dac6 100644
 --- a/drivers/soundwire/qcom.c
 +++ b/drivers/soundwire/qcom.c
-@@ -778,7 +778,9 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, void *dev_id)
- 	u32 i;
- 	int devnum;
- 	int ret = IRQ_HANDLED;
--	clk_prepare_enable(ctrl->hclk);
-+
-+	if (clk_prepare_enable(ctrl->hclk))
-+		return IRQ_NONE;
+@@ -202,6 +202,8 @@ struct qcom_swrm_ctrl {
+ 	struct completion enumeration;
+ 	/* Port alloc/free lock */
+ 	struct mutex port_lock;
++	/* Interrupt mask and broadcast completion lock */
++	struct mutex intr_lock;
+ 	struct clk *hclk;
+ 	int irq;
+ 	u32 ee;
+@@ -784,7 +786,9 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, void *dev_id)
  
  	ctrl->reg_read(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_STATUS],
  		       &intr_sts);
-@@ -1677,7 +1679,9 @@ static int qcom_swrm_probe(struct platform_device *pdev)
- 		goto err_init;
- 	}
++	mutex_lock(&ctrl->intr_lock);
+ 	intr_sts_masked = intr_sts & ctrl->intr_mask;
++	mutex_unlock(&ctrl->intr_lock);
  
--	clk_prepare_enable(ctrl->hclk);
-+	ret = clk_prepare_enable(ctrl->hclk);
-+	if (ret)
-+		goto err_init;
+ 	do {
+ 		for (i = 0; i < SWRM_INTERRUPT_MAX; i++) {
+@@ -820,10 +824,12 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, void *dev_id)
+ 				dev_err_ratelimited(ctrl->dev,
+ 						"%s: SWR bus clsh detected\n",
+ 						__func__);
++				mutex_lock(&ctrl->intr_lock);
+ 				ctrl->intr_mask &= ~SWRM_INTERRUPT_STATUS_MASTER_CLASH_DET;
+ 				ctrl->reg_write(ctrl,
+ 						ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
+ 						ctrl->intr_mask);
++				mutex_unlock(&ctrl->intr_lock);
+ 				break;
+ 			case SWRM_INTERRUPT_STATUS_RD_FIFO_OVERFLOW:
+ 				ctrl->reg_read(ctrl,
+@@ -863,20 +869,24 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, void *dev_id)
+ 				dev_err_ratelimited(ctrl->dev,
+ 						"%s: SWR Port collision detected\n",
+ 						__func__);
++				mutex_lock(&ctrl->intr_lock);
+ 				ctrl->intr_mask &= ~SWRM_INTERRUPT_STATUS_DOUT_PORT_COLLISION;
+ 				ctrl->reg_write(ctrl,
+ 						ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
+ 						ctrl->intr_mask);
++				mutex_unlock(&ctrl->intr_lock);
+ 				break;
+ 			case SWRM_INTERRUPT_STATUS_READ_EN_RD_VALID_MISMATCH:
+ 				dev_err_ratelimited(ctrl->dev,
+ 					"%s: SWR read enable valid mismatch\n",
+ 					__func__);
++				mutex_lock(&ctrl->intr_lock);
+ 				ctrl->intr_mask &=
+ 					~SWRM_INTERRUPT_STATUS_READ_EN_RD_VALID_MISMATCH;
+ 				ctrl->reg_write(ctrl,
+ 						ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
+ 						ctrl->intr_mask);
++				mutex_unlock(&ctrl->intr_lock);
+ 				break;
+ 			case SWRM_INTERRUPT_STATUS_SPECIAL_CMD_ID_FINISHED:
+ 				complete(&ctrl->broadcast);
+@@ -910,7 +920,9 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, void *dev_id)
+ 				intr_sts);
+ 		ctrl->reg_read(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_STATUS],
+ 			       &intr_sts);
++		mutex_lock(&ctrl->intr_lock);
+ 		intr_sts_masked = intr_sts & ctrl->intr_mask;
++		mutex_unlock(&ctrl->intr_lock);
+ 	} while (intr_sts_masked);
  
+ 	clk_disable_unprepare(ctrl->hclk);
+@@ -952,11 +964,13 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *ctrl)
+ 	/* Enable Auto enumeration */
+ 	ctrl->reg_write(ctrl, SWRM_ENUMERATOR_CFG_ADDR, 1);
+ 
++	mutex_lock(&ctrl->intr_lock);
+ 	ctrl->intr_mask = SWRM_INTERRUPT_STATUS_RMSK;
+ 	/* Mask soundwire interrupts */
+ 	if (ctrl->version < SWRM_VERSION_2_0_0)
+ 		ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_MASK_ADDR],
+-				SWRM_INTERRUPT_STATUS_RMSK);
++				ctrl->intr_mask);
++	mutex_unlock(&ctrl->intr_lock);
+ 
+ 	/* Configure No pings */
+ 	ctrl->reg_read(ctrl, SWRM_MCP_CFG_ADDR, &val);
+@@ -997,8 +1011,10 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *ctrl)
+ 			0xFFFFFFFF);
+ 
+ 	/* enable CPU IRQs for the selected EE window */
++	mutex_lock(&ctrl->intr_lock);
+ 	ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
+-			SWRM_INTERRUPT_STATUS_RMSK);
++			ctrl->intr_mask);
++	mutex_unlock(&ctrl->intr_lock);
+ 
+ 	/* Set IRQ to PULSE */
+ 	ctrl->reg_write(ctrl, SWRM_COMP_CFG_ADDR,
+@@ -1686,6 +1702,7 @@ static int qcom_swrm_probe(struct platform_device *pdev)
  	ctrl->dev = dev;
  	dev_set_drvdata(&pdev->dev, ctrl);
-@@ -1733,7 +1737,7 @@ static int qcom_swrm_probe(struct platform_device *pdev)
- 						"swr_wake_irq", ctrl);
- 		if (ret) {
- 			dev_err(dev, "Failed to request soundwire wake irq\n");
--			goto err_init;
-+			goto err_clk;
- 		}
- 	}
+ 	mutex_init(&ctrl->port_lock);
++	mutex_init(&ctrl->intr_lock);
+ 	init_completion(&ctrl->broadcast);
+ 	init_completion(&ctrl->enumeration);
  
-@@ -1802,13 +1806,15 @@ static int __maybe_unused swrm_runtime_resume(struct device *dev)
- 	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(dev);
- 	int ret;
+@@ -1851,6 +1868,7 @@ static int __maybe_unused swrm_runtime_resume(struct device *dev)
+ 		ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CLEAR],
+ 			SWRM_INTERRUPT_STATUS_MASTER_CLASH_DET);
  
-+	ret = clk_prepare_enable(ctrl->hclk);
-+	if (ret)
-+		return ret;
-+
- 	if (ctrl->wake_irq > 0) {
- 		if (!irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
- 			disable_irq_nosync(ctrl->wake_irq);
- 	}
++		mutex_lock(&ctrl->intr_lock);
+ 		ctrl->intr_mask |= SWRM_INTERRUPT_STATUS_MASTER_CLASH_DET;
+ 		if (ctrl->version < SWRM_VERSION_2_0_0)
+ 			ctrl->reg_write(ctrl,
+@@ -1858,6 +1876,7 @@ static int __maybe_unused swrm_runtime_resume(struct device *dev)
+ 					ctrl->intr_mask);
+ 		ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
+ 				ctrl->intr_mask);
++		mutex_unlock(&ctrl->intr_lock);
  
--	clk_prepare_enable(ctrl->hclk);
--
- 	if (ctrl->clock_stop_not_supported) {
- 		reinit_completion(&ctrl->enumeration);
- 		ctrl->reg_write(ctrl, SWRM_COMP_SW_RESET, 0x01);
+ 		usleep_range(100, 105);
+ 		if (!swrm_wait_for_frame_gen_enabled(ctrl))
+@@ -1879,6 +1898,7 @@ static int __maybe_unused swrm_runtime_suspend(struct device *dev)
+ 	swrm_wait_for_wr_fifo_done(ctrl);
+ 	if (!ctrl->clock_stop_not_supported) {
+ 		/* Mask bus clash interrupt */
++		mutex_lock(&ctrl->intr_lock);
+ 		ctrl->intr_mask &= ~SWRM_INTERRUPT_STATUS_MASTER_CLASH_DET;
+ 		if (ctrl->version < SWRM_VERSION_2_0_0)
+ 			ctrl->reg_write(ctrl,
+@@ -1886,6 +1906,7 @@ static int __maybe_unused swrm_runtime_suspend(struct device *dev)
+ 					ctrl->intr_mask);
+ 		ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
+ 				ctrl->intr_mask);
++		mutex_unlock(&ctrl->intr_lock);
+ 		/* Prepare slaves for clock stop */
+ 		ret = sdw_bus_prep_clk_stop(&ctrl->bus);
+ 		if (ret < 0 && ret != -ENODATA) {
 -- 
 2.56.1.750.gf70dc682cf-goog
 
