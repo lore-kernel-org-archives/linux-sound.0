@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795420578;
-	b=U/qRaiw3kpxv25/ddYdLKsxPNyKDUG/S5ih1XMqe/m9/Btdkh8APQ5vEw6+ttgCu5RZP
-	 hcBGxWa9tddmZIiCiCmMMB/FFEukRSUWoxy4HoHHe5KQUK4+1z2bm9ZSz9OpoVlG6sEzL
-	 X/XRYIyZfP6MWkZ1V5HSJXi00mMepMP5ivoQ6/kHCUM15TNmcaF1os6UiFEugQfnJEVTZ
-	 SpoUTNt5U74gv+i3TSBbQy32iQBaTfEqmrj8/4gHkJxB2RzC6fRs6SYji0FgX4qmrcArf
-	 8b4tohoO+0n3iI/aaAw7iaTMAN/T+0XRTfIN0PrYLjzI2avMZP1xF51XEuh0p2ofxBQ==
+	t=1795420585;
+	b=2Asf4HP1scboAbCEp9D3ZMj+NtXYwIsJ+jl4nX4MfhZ1Gm5mFROoOebqILgqQtMfdGe7
+	 97SJ1jNWwjG5MT1+r1I8HwJ1WrMyhFX59gteSZ4fzztnU8jAAQYUU+b3LQeuLEzPo8DpH
+	 gzXlN9PORKHB0LK5uwl+sr7DVYb6BEEjnfOi3/qjilTQJnXCQq3gi+vP/iO7K6ydueJ4R
+	 G5wr/0mFcgpC6HVok80DtNLP/QDSdPeesDC5ypNPo3X8sZ++BTHWXDswbF4oZbFgFKTDS
+	 9pzZK+/JkelW8vI0ZjWPl9pHRrVdA9YzAJ1u+3diYxXwIoc0+mhW9JZ/XnKasYw666w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795420578;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795420585;
 	h=Received:DKIM-Signature:From:To:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=tADQcUo/DGMQZ18TrP+iUmd0GoRg61Zw9BPIor0kAWw=;
-	b=Xbe8glXTcuDqrriM29Dd09grbcPz3Qh9pGaOpG0retUhZrM+WjGkTVvx2fMsDdWACg/d
-	 kfA8ylAofiG3yEQG6lj7AVdzjexpkqcuRwT8lWAUfgA7rJuxYhoLDEF9zWzjLvjvKFPdL
-	 dKLvY2MiQlYDyUmogb41lOGHU9d5dnvChmVWIh8UV/t/QvUxTOaOlAI4+WkBU3GVqqC5Y
-	 Rn11qPmWmogyRIxKildG2LeeEF9PMlXx64KoA/IykvR1Z+lKjy/bkey3Rd//dBXPddv5W
-	 IQ31iiTNo+Kcu04eyEhztY2hjBos+/A9rv7rOUO5Xky9UQh81+LafTfMSDXK4XbDnqA==
+	bh=NiYRB965QyMjahqN2h1lQRElGOPuwhMdnpU8Xt7TG2U=;
+	b=4mblYNPhZLZx4E8JWhBHb/KvLo18cKKyf0xLIw0FiVhOnGHoQF0LmzOEXlboXmIw/X9B
+	 yJbVuBEfC5wwTUPc4CsfaszjQahdjGj6pNwYFfYjzAvyp6V//GwSqezMjYS2PZv9jkkCS
+	 CxcaqGJGxyUXC+lrQTwChqnix1xGxfX/PxrEtd1X5H8c4xVe5HWN+DaNtSU4MMgPrws4D
+	 JgSt6/n0DKJLDgEYy6qZ7th7oMAnaeZIk9XwmnfVS6bsshhCKN+82yGv04zOLr2ycso3Q
+	 7fAXfd5XEH/zUgqHNaUnJEQgevE6RuHsMBQOY0ztpWx4ZEtytTwEmgBXHh5C7apVqUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GExjsBX+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nAqN5FFP;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE48606A31A;
-	Mon, 23 Nov 2026 07:56:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01067606A31F;
+	Mon, 23 Nov 2026 07:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GExjsBX+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF481F000C4;
-	Mon, 23 Nov 2026 07:56:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nAqN5FFP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1161F000C6;
+	Mon, 23 Nov 2026 07:56:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795420577;
-	bh=tADQcUo/DGMQZ18TrP+iUmd0GoRg61Zw9BPIor0kAWw=;
+	s=k20260515; t=1795420584;
+	bh=NiYRB965QyMjahqN2h1lQRElGOPuwhMdnpU8Xt7TG2U=;
 	h=From:To:Subject:Date:In-Reply-To:References;
-	b=GExjsBX+gfSCvRn7qXP4nlEFz0S2942TyDJuiT+qGzGEHnEWjVrLyAYOgExbHg6Sp
-	 yttoP7CgzTRdUwAcp7PgPKs1XZInAmzYQpTjtV7/FdYyO3emnIxuwZwe4CWyOdQ2gt
-	 kafPgSsYJTTf0gdyXELhPpHcUWRzkaT+qjZ24EdzpkaaOCuAJVpqf1qeG3AT2C+3kp
-	 CEeuBCG+ZNWHOFFVH3JwPtQmJ8jpJ68rMMXz1TctNLIOpN11OOPJx/O2W49Es9ceOI
-	 hMtv87tQ1YTjPOG5PalMrhen8A60HSPiceTwylf5+4ZHvjHuz/nnIRc+DaZMm6WnUk
-	 BP7vArm8UByow==
+	b=nAqN5FFPZUeSNyPFGPJlQiZB6IhzuoA2HRqJyeWOVSn2w71SsiHJ2e/6nHwVYwsOp
+	 jUj2u6tm46+nERCwyC44mjwxCqPj2R1Y3iNPzq6wOCHej2Pe9SSmbCup8pxEtBqsxU
+	 XCfXLkKL3LvnbNq4LkwlOxxvr5KpoC3cy29jHCEydICYm/NyvCwaaKmquT62Yp9Wxc
+	 h0IUax4zkh5q9hzpachHQTArCQvh/DsP15NuY3T2y1HujgLVu1Qg7s64cbDnm3EIKg
+	 OjaaMfCGoWQzje15At0s/ZtN7zfzri1/hCHc8dPvydKWMEJRE1qgEGuHiVfVyyUnn7
+	 DHFQXrZPETUgA==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
 	Srinivas Kandagatla <srini@kernel.org>,
 	Vinod Koul <vkoul@kernel.org>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 07/10] soundwire: qcom: Disable runtime PM and avoid clock underflow in qcom_swrm_remove()
-Date: Mon, 23 Nov 2026 07:54:28 +0000
-Message-ID: <20261123075522.405347-8-lee@kernel.org>
+Subject: [PATCH v3 08/10] soundwire: qcom: Check clk_prepare_enable() return value
+Date: Mon, 23 Nov 2026 07:54:29 +0000
+Message-ID: <20261123075522.405347-9-lee@kernel.org>
 X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 In-Reply-To: <20261123075522.405347-1-lee@kernel.org>
 References: <20261123075522.405347-1-lee@kernel.org>
@@ -65,16 +65,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When the controller is runtime-suspended, swrm_runtime_suspend() has
-already disabled ctrl->hclk.  If the device is unbound in that state,
-qcom_swrm_remove() omits pm_runtime_disable() and unconditionally calls
-clk_disable_unprepare(), triggering a clock enable count underflow and
-leaving runtime PM enabled.
+qcom_swrm_probe(), qcom_swrm_irq_handler(), and swrm_runtime_resume()
+ignore the return value of clk_prepare_enable(ctrl->hclk) and proceed
+to access controller registers even when enabling the interface clock
+fails.  Also jump to err_clk when requesting the wake IRQ fails in
+qcom_swrm_probe() so ctrl->hclk is disabled on error.
 
-Resume the device before removing the bus master, disable runtime PM,
-and only disable ctrl->hclk if the device is not runtime-suspended.
+Check the return value of clk_prepare_enable() in all three callers and
+abort register access on failure.
 
-Closes: https://sashiko.dev/#/bug/linux-e26e04cd-3dec-4a3d-94e6-f45403c4bb57
+Closes: https://sashiko.dev/#/bug/linux-f65cddc9-08ff-4531-9acf-76981d74d914
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
 
@@ -84,28 +84,62 @@ v2 => v3:
 v1 => v2:
  - Drop Fixes and Stable tags
 
- drivers/soundwire/qcom.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/soundwire/qcom.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 16ad86912e51..191f13a0bdc2 100644
+index 191f13a0bdc2..307be1ec3d68 100644
 --- a/drivers/soundwire/qcom.c
 +++ b/drivers/soundwire/qcom.c
-@@ -1788,8 +1788,13 @@ static void qcom_swrm_remove(struct platform_device *pdev)
- {
- 	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(&pdev->dev);
+@@ -778,7 +778,9 @@ static irqreturn_t qcom_swrm_irq_handler(int irq, void *dev_id)
+ 	u32 i;
+ 	int devnum;
+ 	int ret = IRQ_HANDLED;
+-	clk_prepare_enable(ctrl->hclk);
++
++	if (clk_prepare_enable(ctrl->hclk))
++		return IRQ_NONE;
  
-+	pm_runtime_get_sync(&pdev->dev);
- 	sdw_bus_master_delete(&ctrl->bus);
--	clk_disable_unprepare(ctrl->hclk);
-+	pm_runtime_disable(&pdev->dev);
-+	pm_runtime_put_noidle(&pdev->dev);
-+	if (!pm_runtime_status_suspended(&pdev->dev))
-+		clk_disable_unprepare(ctrl->hclk);
-+	pm_runtime_set_suspended(&pdev->dev);
- }
+ 	ctrl->reg_read(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_STATUS],
+ 		       &intr_sts);
+@@ -1677,7 +1679,9 @@ static int qcom_swrm_probe(struct platform_device *pdev)
+ 		goto err_init;
+ 	}
  
- static int __maybe_unused swrm_runtime_resume(struct device *dev)
+-	clk_prepare_enable(ctrl->hclk);
++	ret = clk_prepare_enable(ctrl->hclk);
++	if (ret)
++		goto err_init;
+ 
+ 	ctrl->dev = dev;
+ 	dev_set_drvdata(&pdev->dev, ctrl);
+@@ -1733,7 +1737,7 @@ static int qcom_swrm_probe(struct platform_device *pdev)
+ 						"swr_wake_irq", ctrl);
+ 		if (ret) {
+ 			dev_err(dev, "Failed to request soundwire wake irq\n");
+-			goto err_init;
++			goto err_clk;
+ 		}
+ 	}
+ 
+@@ -1802,13 +1806,15 @@ static int __maybe_unused swrm_runtime_resume(struct device *dev)
+ 	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(dev);
+ 	int ret;
+ 
++	ret = clk_prepare_enable(ctrl->hclk);
++	if (ret)
++		return ret;
++
+ 	if (ctrl->wake_irq > 0) {
+ 		if (!irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
+ 			disable_irq_nosync(ctrl->wake_irq);
+ 	}
+ 
+-	clk_prepare_enable(ctrl->hclk);
+-
+ 	if (ctrl->clock_stop_not_supported) {
+ 		reinit_completion(&ctrl->enumeration);
+ 		ctrl->reg_write(ctrl, SWRM_COMP_SW_RESET, 0x01);
 -- 
 2.56.1.750.gf70dc682cf-goog
 
