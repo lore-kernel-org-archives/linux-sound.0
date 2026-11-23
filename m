@@ -1,106 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424411;
-	b=jlfVtGLkfz4ZLXfKxSwlGyr3TH4XkUjXggA9/UBD7ljm8GdfVOzdymCv+flXMAjOUyvH
-	 wj5JwcqfX1iR2CxuhkXsrtHZvxGYQ9BjXe69DVgttMK66Pv7vf6zwufybSmJ75eCEmt1c
-	 qnrUvvtEXu7bcAvGhAsU5k5UYp2Kv0jsWYnWb9d7Rlq2ZfHm4IN4PuPq0J5z8yNoOiWBU
-	 a9lLhHAxacgpD1yIAmFoTAI7Row3oOBVPTKnzRuXnFl13sqElVmDkE/Uu/GMoHPEA9yX9
-	 hIrUSqhp7uWiw2v+wJE4bVdHNTJy/w8oodLJ/MfBfo1YLDUIgsDTj1yyhKM5mCm/7mg==
+	t=1795424446;
+	b=Um/IvToKvrYiEh0s9FX52MJk08/G4Rhbu1EIDn4HnZsE424w8/Kb2NBcRySKgRGdNTFd
+	 LRdQHUMEiJr7cOZxvSVsOv/3te7X9Lyo0Gt2AYdzJhMsUlmUR7rAskMhg8836XpJm5Lrl
+	 k3OnBDuL93j0ehoEWDrWhirVYhpzS4KKJk/ULU4wV3Azgy0cva4EazUY9W7g0tZozpit9
+	 HJnWbNCNLenK6otZbrV/x8QyBTX2ds3lPaGj7CcIH/WDNvlb3k3FNrkfG+N05rGYbz2MZ
+	 4uISglBGupmhuzHwyfZBx+grpEIOq86r7FX0fkPqCsY4qQG5IL8/rAO4IpYi+0Hr/0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424411;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424446;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=hSDU2ETZOpMWI8JG14QMd7t9fQXc8qdSNxDUHUS44YI=;
-	b=n1XUEgIMyFtGar79Kkh4vdENjPZ9p3N+ku8YRfJO4WtYZFdhYcogZZflbtybQ6mBbH12
-	 UpkBnzVL3bmJSj8XfLGODKn2HjaTIxyX9Dv/C5ZjtriJukA/mV1XPuMDv6xvoIUUqaQSj
-	 fT6VqzO14C2QrZ8IjEz6fFqnftMJIz3PEZWmBXs0xJQagB454m0GGQbVla1uVNYirwUBK
-	 30Fn4cXtVpYNFcc2gA5qo2lBzqEypQr2b7ZsEBorVUItXTp3aodJ3Oq3sYeyxLcWS+c4T
-	 lQjPOyMf9uGeMY8ILG30nyDD6TS2d8m3lnyBPm6NqWILmfrmfd3CckReXSr62chZ2YQ==
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=NivKEz8a8pVq07v+YP4kvbe5IjDXt+db4hxVDYzCckI=;
+	b=kA22Z0LfGyih4y72HS96HT5ZJGSPULArFt7XukwYVJIMQmcN2KH2XHE4ICcesg/EzdJC
+	 cCcZBp1BCX6NYHfz/hfD02tbngrlMkwl29ytltvriNeygWe0WVUBn2sdf62ozCOCMxyQV
+	 rFYUAJrNWCFpv8pc5Mpfjr79KqtWYr0wRK4fI8sQFDb7fM6ZXbPeWM2G5xTR9xiWLRqE0
+	 D7hDchjl9ZpcLpf0DBbGLVXJuVF1/hUdDOhOBmNZazGUS+fveUnZtJq4q8OQdu6J+JU/t
+	 qUysXF43tYilRjbOHVKVUB+EDtCmPZG6GI4HUAg0br7thMlyEo5BXA83xNb1+Lj7rOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g5ttDieu;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/N9vsCNj";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Qo3N0+px;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=H7OEEz4W;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fCshL0Dt;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=81b2OGPr;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fCshL0Dt;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=81b2OGPr;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FBB606A31F;
-	Mon, 23 Nov 2026 09:00:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44FBB606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA0C606A31A
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 09:00:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FA0C606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g5ttDieu;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/N9vsCNj;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=Qo3N0+px;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=H7OEEz4W
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fCshL0Dt;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=81b2OGPr;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fCshL0Dt;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=81b2OGPr
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5282521BD0;
-	Mon, 23 Nov 2026 09:00:08 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 28AFE1F7EF;
+	Mon, 23 Nov 2026 09:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSDU2ETZOpMWI8JG14QMd7t9fQXc8qdSNxDUHUS44YI=;
-	b=g5ttDieu8ge/s+5eZhKDvuJM74ZuWcHoD0AwLxtRGlg3eqYz07QvEotH0O6ABIB2wXibR7
-	RY4in0OzfuyaI0FWKmMzV5nktILZz3F6FgXIxhiRzDTX0E0KFS344kHjHAtECtavF2v5jb
-	JhH7G7TuWUPRgzpS2Njt4OzxcTpZQ50=
+	bh=NivKEz8a8pVq07v+YP4kvbe5IjDXt+db4hxVDYzCckI=;
+	b=fCshL0DtSyUBeILvbkMp5KQjJ0b7rtMAp5x3RbSMeSRr3N+t8C4pes+RbL2Et/fcoM+DEY
+	2KhzTchxEMiZECOap/tzw8Q/3ZSS+OKwj5AhePbScx5mtdfXh/MyTN6GgyKYPf0vwOln8A
+	YPW0YQldojmDJT9OFSDehuCLau7dxe8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424409;
+	s=susede2_ed25519; t=1795424444;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSDU2ETZOpMWI8JG14QMd7t9fQXc8qdSNxDUHUS44YI=;
-	b=/N9vsCNjmvHLOHKid0jVaJp39fI7oCL3MtYQBXs9dRGysZZpO/ItIteNm+YeCo9eVy1vtq
-	2rzGAi1sq3aFReBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=NivKEz8a8pVq07v+YP4kvbe5IjDXt+db4hxVDYzCckI=;
+	b=81b2OGPrI4ZQjpY10VoBMoODP8q2yScy/9PDlRU2J9fnmlTne2/HqC30E8VgXzVbRfq1lq
+	ZQdu7fVlNsaWZmBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fCshL0Dt;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=81b2OGPr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424408; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSDU2ETZOpMWI8JG14QMd7t9fQXc8qdSNxDUHUS44YI=;
-	b=Qo3N0+pxy9OBzFrF9TsF4nE+CZKtUH8vRGM6DcuIEPzNFxtI+Mpww3lI9lhSJCUMXKgyVN
-	wZQsriFN4LeXeGoXHXagBRb9CfJG9bU9o4SIDgCRs4pi/7m4uYykH/YhLB+dyPyRsP2cP1
-	vye5AtoCXyzik7wn2FU09hp5YGqpgQw=
+	bh=NivKEz8a8pVq07v+YP4kvbe5IjDXt+db4hxVDYzCckI=;
+	b=fCshL0DtSyUBeILvbkMp5KQjJ0b7rtMAp5x3RbSMeSRr3N+t8C4pes+RbL2Et/fcoM+DEY
+	2KhzTchxEMiZECOap/tzw8Q/3ZSS+OKwj5AhePbScx5mtdfXh/MyTN6GgyKYPf0vwOln8A
+	YPW0YQldojmDJT9OFSDehuCLau7dxe8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424408;
+	s=susede2_ed25519; t=1795424444;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hSDU2ETZOpMWI8JG14QMd7t9fQXc8qdSNxDUHUS44YI=;
-	b=H7OEEz4W/5WQmZw3D8ZS9whjRuwfaAA99zAF3HJVIwOW9EupDbqt3DUqnN9hKgv8X4oXVo
-	CGPhU3DdfJVLCvBw==
+	bh=NivKEz8a8pVq07v+YP4kvbe5IjDXt+db4hxVDYzCckI=;
+	b=81b2OGPrI4ZQjpY10VoBMoODP8q2yScy/9PDlRU2J9fnmlTne2/HqC30E8VgXzVbRfq1lq
+	ZQdu7fVlNsaWZmBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07A751352B;
-	Mon, 23 Nov 2026 09:00:08 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAD391352B;
+	Mon, 23 Nov 2026 09:00:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mN1HNJcABGt8BQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:00:08 +0000
-Date: Mon, 23 Nov 2026 10:00:07 +0100
-Message-ID: <871p8bexd4.wl-tiwai@suse.de>
+	id H1FkLLsABGu9BgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:00:43 +0000
+Date: Mon, 23 Nov 2026 10:00:43 +0100
+Message-ID: <87zeuzdiro.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: shyckless@gmail.com
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: sis7019: Don't shift the voice IRQ status by 32
-In-Reply-To: <20261122-sis7019-voice-irq-v1-1-fa5d0cbecf62@gmail.com>
-References: <20261122-sis7019-voice-irq-v1-1-fa5d0cbecf62@gmail.com>
+To: James Barnette <calmasacow@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	perex@perex.cz
+Subject: Re: [PATCH v2] ALSA: usb-audio: Add generic implicit feedback quirk for Elgato XLR Dock
+In-Reply-To: <20261123081549.2237366-1-calmasacow@gmail.com>
+References: <20261123081549.2237366-1-calmasacow@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -112,62 +113,58 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 28AFE1F7EF
 X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[hust.edu.cn:email,imap1.dmz-prg2.suse.org:helo,ntu.edu.sg:email]
-X-Spam-Score: -12.30
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.51
 
-On Sun, 22 Nov 2026 11:08:16 +0100,
-Suyuan Wang via B4 Relay wrote:
+On Mon, 23 Nov 2026 09:15:49 +0100,
+James Barnette wrote:
 > 
-> From: Suyuan Wang <stevewong@hust.edu.cn>
+> The Elgato XLR Dock (0fd9:00a6) returns digital silence from its
+> microphone when the playback stream is started before the capture
+> stream. Starting capture first works.
 > 
-> sis_voice_irq() walks the set bits of a PISR_A or PISR_B status word:
+> Enforcing the generic implicit feedback mode
+> (quirk_flags=0fd9:00a6:0x20000) fixes it: with the flag set, capture
+> returned valid data in both start orders, while without it every
+> playback-first trial captured 0 nonzero samples.
 > 
-> 	bit = __ffs(status);
-> 	status >>= bit + 1;
+> Add a quirk entry for the device.
 > 
-> When voice 31 or 63 interrupts, bit is 31 and status is shifted by 32,
-> which is undefined for a u32. On x86 the shift count is masked to 0, so
-> status does not change, the loop never ends, and voice keeps moving 32
-> entries forward on every pass, past the end of sis->voices[], with
-> sis_update_voice() called on whatever is there. All of this runs in the
-> hard IRQ handler. Voices are handed out from 0 up, so voice 31 is in use
-> once enough playback streams are open.
-> 
-> Walk the bits with for_each_set_bit() and index the voice by bit number
-> instead. The voices are still updated in the same order.
-> 
-> Found with a static analysis tool and checked by hand.
-> 
-> Fixes: 175859bf1602 ("[ALSA] sis7019: support the SiS 7019 Audio Accelerator")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-> Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
-> Signed-off-by: Suyuan Wang <stevewong@hust.edu.cn>
+> Suggested-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: James Barnette <calmasacow@gmail.com>
 
-As this doesn't look like an urgent issue (for a legacy old code), I
-applied to for-next branch.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
