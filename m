@@ -1,82 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795419322;
-	b=YcnXl9SXTyAwtb4F5Zgt0NXRTeeInegiwUC5I9JfXpxV0kEfavrwaHeBfjMm7KluI0iH
-	 8mCVLb+kaztgN7OlJl32waxX+CxfkYU0lKjoVEgUmXK75a2MLRDFLr1S2iF76u+ag1ntB
-	 9xMD3d8XsNxqtmBhL6MVMLR4+z2YIJkQvNOYcaQa3YZ8PD/5EvmnYzoc6xXXG9QNjIs/1
-	 hZgYdOAzeGuxPkNIjKB6rmtb+1vkjkLnZ6mqHaQz31b9laUHbTufWdRIddulTq1mXtHGZ
-	 sK+XJo2eRONIMGWxExQcc0zqe8oPoKdA77hahK3kU3S+KV9lH1WHF2BQSUD8t78CIgw==
+	t=1795419671;
+	b=JqRWTznEHqQ4eN1mHF8BWJXi+KXBCIyOrjV79Q540VUC59R5sxs3uTPr6HgOESnOZlgF
+	 cQLfwAKVcllqCqJJEnL/KPnn/jsG7+VfaICLVh4/jvUsa1sYc+gTLvalvOJ3SuHZFJ0lI
+	 GrdR9FvZuAiyAWd3Qn7HjkM4kV+LuZ9n2dP2JWygEnUv7ZYHEyGt3SgEeL5e4+QiE9B4E
+	 XUaRT/TPo5kqZkwFtw7CPT+n05SnRT1pJgW9W5SYi6aIYuc/2LgX4aZMsk+YFDLZYbIn/
+	 1f9SstPC/zGK3sEsCcRFTpiuAvjxphvzWeQ1DGdpcQH7c3mPSSii3LZNurr2k0jkVDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795419322;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:
-	 X-Proofpoint-Reinject:X-QCInternal:X-QCInternal:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=jZrpa43n3VLPqbMJqtrElNjhsPZTUj63X6oMLNFJhX0=;
-	b=bvuOFLV0GqvVDM7XWba5hmVDK15JRKzHtaDX3jVuoT0xVs24C74pAFQZEVSUHMZTgyx/
-	 fzALsTars9WuILA4+d/ViWFaH11u0W10zkPO2qczq/MwsYPNtGIbtqHDoBUF22ZeQ8CV2
-	 aSAQcQNl3flAvkpEtrzZCHJazhNCkXkry5eHlNKPaalb50SpMq4EALfAdtcURyaJZ7kqo
-	 DMJwssl9cGDa2UNarLph6KHgtiJHPG1AUsG8kdygaSuomev/0k9teAXiNk+c/pOYw9Xvz
-	 hJddYU0/DU9EADa4XRhITvIrpRiZKzV8FLQ+tLFjRaiRGWphCTXNmR/6z8kMym+pRnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795419671;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=l/Pc2DCUBFyAS6tazwdq2rsCOqbWYdzdUOXxolyW3Sg=;
+	b=0mzVz6vGU3Srj/Sn1qvQsYOckCdHLQiHpEsx/QCB7db3KuL3B1ySgQR4LfFVrTB2vqoe
+	 g/QIXQxcjObJA8l4DfNHR4o5ussOWrFw/1UI8y2rllc4TLI391/S35zSJa5qYk4IsbTfG
+	 We9wXEpJ60qnUjDJEQG8WIXZ40ASDoWN9RUF3XskAaRVFTIvtT+wKZ5lxYw/zm5Pi64BY
+	 p+FbGH6l9Jh8o6/DOc6m/bY/GykBqMQZmH+2FaBBnblWQhUOEsHpeKUOnE8EthMJsExwY
+	 C363Rf8aLWtDgZX70Z/EUGvm4HqzIKyYw+rQn1H9vBLOBte6W1ojPDaaqoNf69Eodzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=JggkpNwG;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z8vX8WCH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6010D606A321;
-	Mon, 23 Nov 2026 07:35:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6010D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA04D606A31A;
+	Mon, 23 Nov 2026 07:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=JggkpNwG
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AN6832S1126608;
-	Mon, 23 Nov 2026 07:35:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=jZrpa43n3VL
-	PqbMJqtrElNjhsPZTUj63X6oMLNFJhX0=; b=JggkpNwGv6zadLW5BEX3IW/KOBD
-	nGitF/xcMVCMkeUcivikE682//7n0hMrxVx8loTm0U9HwebGBpHDd/m5jk0AwUnq
-	YJFWgV44qwelkGjW54INDqAA+pj+K+suVH7IoEAIdxzuyI3zuInF3yShVfc/YZBp
-	AdqxoZ0ionOI1b2ADFgLfOVckC6U8uOfIzygB/pz1AR+9G0A8Y/ZoRg2AltR5vZi
-	4TcOQ1WFJuWVcGUVdtdxnoJgGBNPA96fZ7tsfV0NH+xxS2DR/8s0pT87/nRmz7y+
-	qrQD/m/Ut+vzIvTGto45pVIYGX7Jae9lYV7Vek1EnTpktt3uzF+eLK29OoA==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4fy009p5-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 23 Nov 2026 07:35:05 +0000 (GMT)
-Received: from pps.filterd (apblrppmta02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AN7WYor1929369;
-	Mon, 23 Nov 2026 07:35:02 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-ks5-hyd.qualcomm.com [10.147.255.18])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 6AN7Z2LA1934151
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 23 Nov 2026 07:35:02 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4763723)
-	id 44A8A682; Mon, 23 Nov 2026 13:05:01 +0530 (+0530)
-From: Karthik S <karthik.s@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, Karthik S <karthik.s@oss.qualcomm.com>
-Subject: [PATCH v1 1/2] ASoC: qcom: sc8280xp: add support for monaco-draco
-Date: Mon, 23 Nov 2026 13:04:58 +0530
-Message-Id: <20261123073459.2361169-2-karthik.s@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261123073459.2361169-1-karthik.s@oss.qualcomm.com>
-References: <20261123073459.2361169-1-karthik.s@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z8vX8WCH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B241F000C0;
+	Mon, 23 Nov 2026 07:41:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795419671;
+	bh=l/Pc2DCUBFyAS6tazwdq2rsCOqbWYdzdUOXxolyW3Sg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Z8vX8WCHlaqlsh+8ELEhbThFKWLc9wm9zz52RUYCQ9QEMaBW7ZSNNmBpKXZFR8gUm
+	 j2VWKcsvpEqnj6Fwj+yz/LLmfCevthUS8E06zcb1dHm2iPqQqS4Zvn/+cIjPG4zU3v
+	 S9ucD4a6TM5TVQKFQ4fKC8Y2O2AEOUgGnwlGKGoHJ7vpD1QOU8A+D/hdMqBJoHB/m+
+	 V6qf38AYpbcn04RKcXEcOXW9w4D8fnTNbjvX+dQ26Yhu8UWFspm2Hru6/QYy2Mg2Vs
+	 H0of26p9CrxAH7qzsAlnanMpiTKaPDjQyE9JKpwi01gXZlVXvhY/xK20HFZaj5ULo9
+	 XO1eCi7V1XN8g==
+Date: Mon, 23 Nov 2026 09:41:05 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v3 06/31] USB: Release interface claims according to
+ binding state
+Message-ID: <20261123074105.GI14811@unreal>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-6-d655875c4bfb@nvidia.com>
+ <sashiko-outbox-223892@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -86,122 +60,120 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDAyOSBTYWx0ZWRfX3usRI7lYh5IG
- q9BW6EJuS6afY9GZ5jMbhrfm2fyVK5DTF3KB/aT5T5Do4JYLxk06UmFGFYBxC1RAWP/Qf1tmW17
- aAb0DpJASUzAg2EcRBXtJeMcolCDbhQ5vmyxIRrcB/3dCiwRassNQNVq/ZKB8Vwr7KW+RPxUw3Q
- SaNGNyXEYN115Eh9qGN0P7Mcc0fgrCgnkTTxXg2rjjq3Hk+/p3y3HEyeFK/o0Xv3exrLDwnuHFU
- YAurFQMaL8lE4VvBFEL8Hw+L7u6PGud4lhhYhPzsV7j4IEDee4xzJW96eLPeKDeEmJsnuPoNFNZ
- QRNl+0VeSGjxsRKzaIdB8dZyT2bTlrKpg4v1FSmQjQiP5vEE2XZAXQvt+i+JE1zfcKKjANt0BRn
- yCOA1+GUbZfej702/D4DPTv2e9wlIPVnSu4/mO2sES2eDErqe85oURbIv40u85rBlVe5K8bPrV1
- 0SXgZL/Wa5O/h70kCdQ==
-X-Proofpoint-ORIG-GUID: k90H7zOkAaU58tkzmmwhXn8s-YlUBrRw
-X-Authority-Analysis: v=2.4 cv=QrXLTlyd c=1 sm=1 tr=0 ts=6b03eca9 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=5wlQ8WN9U6JOc18lOXEA:9
-X-Proofpoint-GUID: k90H7zOkAaU58tkzmmwhXn8s-YlUBrRw
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDAyOSBTYWx0ZWRfXzfSl2HSsgeby
- hmaol3rZPvt1PsRgg0zpq++xr3uOjsd+6LUmfkx9PSBUiEO4qzoN2zDvQm9aHoohc/fucWg0Yk3
- oyIHyQ8ss7aTLn2mBfspaeHH2X2J5aI=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-23_01,2026-11-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0 spamscore=0
- lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611230029
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-223892@kernel.org>
 
-add machine driver support for monaco-draco platform
-which includes routes for playback and capture over
-max98091 and capture over va_macro Codec DMA.
+On Thu, Nov 19, 2026 at 07:29:25PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] usb: core: pre-claimed interface with autoprobe off crashes
+>   on core unbind
+> - [Medium] usb: core: NULL dereference in usb_driver_release_interface()
+>   when driver is NULL
+> --
+> 
+> commit 03347cb54cf6030265378e68aba157a23982255b
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> USB: Release interface claims according to binding state
+> 
+> This commit updates usb_driver_release_interface() to check
+> device_is_bound() instead of device_is_registered() before releasing an
+> interface through the driver core, and holds the device lock while
+> checking and unbinding unclaimed interfaces.
+> 
+> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> > index 735ae3310b45d..926f63cd2c834 100644
+> > --- a/drivers/usb/core/driver.c
+> > +++ b/drivers/usb/core/driver.c
+> > @@ -612,6 +612,15 @@ int usb_driver_claim_interface(struct usb_driver *driver,
+> >  }
+> >  EXPORT_SYMBOL_GPL(usb_driver_claim_interface);
+> >  
+> > +static void usb_unbind_claim(struct usb_interface *iface)
+> > +{
+> > +	struct device *dev = &iface->dev;
+> > +
+> > +	usb_unbind_interface(dev);
+> > +	dev_set_drvdata(dev, NULL);
+> > +	dev->driver = NULL;
+> > +}
+> > +
+> >  /**
+> >   * usb_driver_release_interface - unbind a driver from an interface
+> >   * @driver: the driver to be unbound
+> > @@ -631,27 +640,25 @@ void usb_driver_release_interface(struct usb_driver *driver,
+> >  {
+> >  	struct device *dev = &iface->dev;
+> >  
+> > -	/* this should never happen, don't release something that's not ours */
+> > -	if (!dev->driver || dev->driver != &driver->driver)
+> > -		return;
+> > -
+> > -	/* don't release from within disconnect() */
+> > +	/* Avoid recursive locking from disconnect(). */
+> >  	if (iface->condition != USB_INTERFACE_BOUND)
+> >  		return;
+> > +
+> > +	device_lock(dev);
+> > +	if (dev->driver != &driver->driver ||
+> > +	    iface->condition != USB_INTERFACE_BOUND)
+> > +		goto unlock;
+> 
+> [Severity: Medium]
+> Can dropping the !dev->driver check cause a NULL pointer dereference in
+> usb_unbind_interface()?
+> 
+> When intf->dev.driver is NULL, usb_forced_unbind_intf() passes driver =
+> to_usb_driver(NULL), whose &driver->driver member address evaluates back
+> to NULL, making dev->driver != &driver->driver false.  If an interface is
+> claimed before registration and registered while drivers_autoprobe is
+> disabled, device_add() succeeds with iface->condition ==
+> USB_INTERFACE_BOUND and device_is_bound(dev) == false (so the unwind in a
+> later commit "USB: Unwind interface claims after registration or binding
+> failure" does not run); if a subsequent __device_attach() fails in
+> device_bind_driver(), it clears dev->driver to NULL while leaving
+> iface->condition as USB_INTERFACE_BOUND.  Calling
+> usb_deauthorize_interface() -> usb_forced_unbind_intf() on that interface
+> then passes the guard and dereferences to_usb_driver(NULL) in
+> usb_unbind_claim() -> usb_unbind_interface().
 
-Signed-off-by: Karthik S <karthik.s@oss.qualcomm.com>
----
- sound/soc/qcom/sc8280xp.c | 38 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 37 insertions(+), 1 deletion(-)
+This path is already unreachable in the current code, and patch 11 removes that
+state entirely.
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index e136407c56bf..2b1804f3870c 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -44,8 +44,9 @@ static struct snd_soc_dapm_widget sc8280xp_dapm_widgets[] = {
- 
- static const struct snd_kcontrol_new max98090_controls[] = {
- 	SOC_DAPM_PIN_SWITCH("Headset Mic12"),
--	SOC_DAPM_PIN_SWITCH("Headphone"),
-+	SOC_DAPM_PIN_SWITCH("Headset Mic34"),
- 	SOC_DAPM_PIN_SWITCH("Headset Mic56"),
-+	SOC_DAPM_PIN_SWITCH("Headphone"),
- 	SOC_DAPM_PIN_SWITCH("Speaker"),
- 	SOC_DAPM_PIN_SWITCH("Receiver"),
- 	SOC_DAPM_PIN_SWITCH("Int Mic"),
-@@ -56,12 +57,34 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
- 	SND_SOC_DAPM_MIC("Mic Jack", NULL),
- 	SND_SOC_DAPM_HP("Headphone", NULL),
- 	SND_SOC_DAPM_MIC("Headset Mic12", NULL),
-+	SND_SOC_DAPM_MIC("Headset Mic34", NULL),
- 	SND_SOC_DAPM_MIC("Headset Mic56", NULL),
- 	SND_SOC_DAPM_MIC("Int Mic", NULL),
- 	SND_SOC_DAPM_SPK("Receiver", NULL),
- 	SND_SOC_DAPM_SPK("Speaker", NULL),
- };
- 
-+static const struct snd_soc_dapm_route draco_monaco_dapm_routes[] = {
-+	{"IN12", NULL, "Headset Mic12"},
-+	{"Headset Mic12", NULL, "MICBIAS"},
-+	{"IN34", NULL, "Headset Mic34"},
-+	{"Headset Mic34", NULL, "MICBIAS"},
-+	{"IN56", NULL, "Headset Mic56"},
-+	{"Headset Mic56", NULL, "MICBIAS"},
-+	{"Headphone", NULL, "HPL"},
-+	{"Headphone", NULL, "HPR"},
-+	{"Receiver", NULL, "RCVL"},
-+	{"Receiver", NULL, "RCVR"},
-+	{"Speaker", NULL, "SPKL"},
-+	{"Speaker", NULL, "SPKR"},
-+	{"VA DMIC0", NULL, "vdd-micb"},
-+	{"VA DMIC1", NULL, "vdd-micb"},
-+	{"VA DMIC2", NULL, "vdd-micb"},
-+	{"VA DMIC3", NULL, "vdd-micb"},
-+	{"VA DMIC4", NULL, "vdd-micb"},
-+	{"VA DMIC5", NULL, "vdd-micb"},
-+};
-+
- enum sc8280xp_jack_setup {
- 	SC8280XP_JACK_SETUP_NONE,
- 	SC8280XP_JACK_SETUP_CODEC,
-@@ -617,6 +640,18 @@ static const struct qcom_snd_soc_common qcs9100_priv_data = {
- 	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
- };
- 
-+static const struct qcom_snd_soc_common draco_monaco_priv_data = {
-+	.driver_name = "qcs8300",
-+	.dapm_widgets = max98090_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(max98090_dapm_widgets),
-+	.dapm_routes = draco_monaco_dapm_routes,
-+	.num_dapm_routes = ARRAY_SIZE(draco_monaco_dapm_routes),
-+	.controls = max98090_controls,
-+	.num_controls = ARRAY_SIZE(max98090_controls),
-+	.codec_dai_fmt = SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_BC_FC,
-+	.codec_sysclk_set = true,
-+};
-+
- static const struct qcom_snd_soc_common qcs615_priv_data = {
- 	.driver_name = "qcs615",
- 	.dapm_widgets = sc8280xp_dapm_widgets,
-@@ -742,6 +777,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
- 	{ .compatible = "qcom,qcs6490-rb3gen2-sndcard", .data = &qcs6490_priv_data },
- 	{ .compatible = "thundercomm,qcs6490-rubikpi3-sndcard", .data = &rubikpi3_priv_data },
- 	{ .compatible = "qcom,qcs8275-sndcard", .data = &qcs8275_priv_data },
-+	{ .compatible = "qcom,qcs8300-draco-sndcard", .data = &draco_monaco_priv_data },
- 	{ .compatible = "qcom,qcs9075-sndcard", .data = &qcs9100_priv_data },
- 	{ .compatible = "qcom,qcs9100-sndcard", .data = &qcs9100_priv_data },
- 	{ .compatible = "qcom,sc8280xp-sndcard", .data = &sc8280xp_priv_data },
--- 
-2.34.1
+> 
+> >  	iface->condition = USB_INTERFACE_UNBINDING;
+> >  
+> > -	/* Release via the driver core only if the interface
+> > -	 * has already been registered
+> > -	 */
+> > -	if (device_is_registered(dev)) {
+> > -		device_release_driver(dev);
+> > -	} else {
+> > -		device_lock(dev);
+> > -		usb_unbind_interface(dev);
+> > -		dev_set_drvdata(dev, NULL);
+> > -		dev->driver = NULL;
+> > +	if (device_is_bound(dev)) {
+> >  		device_unlock(dev);
+> > +		device_release_driver(dev);
+> > +		return;
+> >  	}
+> > +
+> > +	usb_unbind_claim(iface);
+> > +unlock:
+> > +	device_unlock(dev);
+> >  }
+> >  EXPORT_SYMBOL_GPL(usb_driver_release_interface);
+> 
+> [Severity: Medium]
+> What happens if a pre-claimed sibling interface registered with
+> drivers_autoprobe disabled is detached through the driver core rather
+> than usb_driver_release_interface()?
 
+This is a pre-existing issue, I didn't modify btusb_disconnect(). It
+appears that the "if (intf == data->intf) ..." checks can never be true
+for ISO in any leaf.
+
+Thanks
