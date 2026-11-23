@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795428907;
-	b=Cliha68fj6QJotxsCtLsan+bjhQ2Bja75zntWtlVg1PtjkGrdStBpZKypIaZ/LfE32kq
-	 i7BPMKnjTDfqNgEBfMTrkjNSkGSnWEIgSL6sHSqoV5qPs1fT8QTZD1UbP/8Cl7678NN5T
-	 oL7rGTRbhr/tubsAhR2++y0AKtJHFLXETGw0sbXYBT6RM9ofA9Cy0Czva15IVsJMbh2h4
-	 d4gcWtiqm56X3VMLyFAT+EqLf/2il5LNtE+LmbLYsGSzgqEyN1e7w5tqIpisuAqUE5uEh
-	 CWaD0SffKlSAKy9zMW5K21CgCVL10aTpoSIAQdPo+HRbf4OSO/QC0dWbnKq6VorkjyA==
+	t=1795429401;
+	b=OdrckiUQ+fQe6jndLt1L1X2bmedDEz0/m1uytpsjDXS6tq/KzjptnHRInd+2Wk6jSy4Z
+	 tXtUKh6z8GiQXzeIlg2d3t4N8sw4SKIkdnJ6XB4GO5EwBb4AL1AOQHNDrqxHQDmKC8uYz
+	 9xYaWrGMSwDV/WDN87jSZRArgBO+S8U4yxBC41qKgCGVDG0lbwfQ2FB492ysb+afWca58
+	 r/RjY2aIKSqZmeU4iTW6eOgz9BuNvtFwpQzDjGAusK5uNk1ZDC/RUP7WgNEKqL1ZqNDB/
+	 eWdL/NJJQXDZdv7Nfu+lCKFw6n2SyRDGRlTGaiiyzTeDlig9LS9hUEftQxXNS5YZ70g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795428907;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=z6TkMoT9MxgbWnHBzyuTC8V77L9Vpuu7tz1FcGVO7Wg=;
-	b=lqMgKBTQWZf5JceClyEFCJ9Rr+BaxQ7WqwFehQhmTXr14s0WkA6J0rnzMlkOMqWlEOT8
-	 yyW715/T6ZpEicBOxLO1e6gvkPF0VOr8VGB+SM7BSoWyuDOIc3DBIlivb5rNGxiRqa9RJ
-	 cHA2PBoKgOcmwFSzc0w3iTSb5JgYBiGMLcx3FiXazIicnE7MVn8A/Isw857FQo85Zx4uk
-	 8wvhHPkDSDpXxkNmjutwsTOzT49tBijWa+di0+Qnze0oCFSQV0+hVxDayEfYr5mFIPHyr
-	 ynqxlPpNhPI6qXUgAzKilo43yeBQscdic0oNPVxnm5gkPsQ5jOni5uN+eTFdYdT0Riw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795429401;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=hKyW16TrGvtgbhZDNXbrpddgARgHnk2XQ9Yh7duTpCg=;
+	b=lNwj+eVxwuLPnSWeHYudD5pZ6Bkj4MfP3d9P+mCZZ/+18Hu8dM5PNBHfV1FFWQNnSGHm
+	 u9Vg0K6P+/NtCYWMPHMjhMADbrNJbc574Twgvm3DQr51NnrQlGcIL95QehDx915TL/0TD
+	 fn9z3gt42hyCv0OcuA2m6gAbN5/iQntrxEtK8M0TJ4l9dGDgB9OJP2Flthd3iPxeepcfb
+	 FaGSYzzrw2WZOFyFrlLXtXCUCXADJoosxXpdkuZmy8s+ggNZOGuPtUt4m3f2uLdW3RjUA
+	 cvPRko2Y1BbnZSc7FkF04OBtE5xKaEp6hkuDEZwUjCU4uZX8YJ7JU/vIhpv8uZW+ORA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlLWLyeN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="mQOcOx/+";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE2D606A321;
-	Mon, 23 Nov 2026 10:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACFB606A32C
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 10:23:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlLWLyeN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3EC1F000CA;
-	Mon, 23 Nov 2026 10:15:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mQOcOx/+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C11F1F000CF;
+	Mon, 23 Nov 2026 10:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795428907;
-	bh=z6TkMoT9MxgbWnHBzyuTC8V77L9Vpuu7tz1FcGVO7Wg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YlLWLyeNc6sEMupR6z34DHfmP0V2UC2pVDdt/I0dtI5bHeA/tp7o1uXSqJHLZxI0b
-	 2sDToDo5rxBpaOV9HhzCuYX6O7j6jJa6dJm6CHA0wmA7ezUfs1uvVxiAaBvCxvm5NJ
-	 SvwSP7TIU8zI/yXXWJv4MrOGOdp3fU9wDvJFmBqEVFfWHSfDnGXhI1LLx6LN2BRccN
-	 N51BsiHoD+rDy+wvlSTSvoTT8AJacyNRt/0DXK/O3DT4WVHctZwS25hP3zXQ1Lvipx
-	 WP095TAVzmROt3gkFFH1tOZGj8J+JLrZHvJ/Tx9RQSBp+0bZi+43ldi/rQ/99JGQeG
-	 NCVmIQ8/lQU5A==
-Date: Mon, 23 Nov 2026 12:15:01 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	dmitry.torokhov@gmail.com
-Subject: Re: [PATCH v3 15/31] driver core: Add a compatibility API for manual
- driver attachment
-Message-ID: <20261123101501.GM14811@unreal>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-15-d655875c4bfb@nvidia.com>
- <sashiko-outbox-223901@kernel.org>
+	s=k20260515; t=1795429401;
+	bh=hKyW16TrGvtgbhZDNXbrpddgARgHnk2XQ9Yh7duTpCg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=mQOcOx/+iII42rwT7eag/DBQtRZ7d8Ushf0sVP29iOKdhSGA8ONwAv97Y9oFUPkJC
+	 FL5gsdqIllrtYwwcBlZkoD1ORAhhXukT942t7y8TWKYgyAC9QXMjx1P5s6kTBHHntf
+	 EyLJ9NW6TTf2hHq+JmV7WgtaU3mKKhuycP4Fr7UoarEmO7izzCkamvC4xGvCW20faq
+	 hOmgVeFEdwf7NZCF9H8ORvDgWkI1AkAJfGfx72UAJ7mcMR/0V2qZA1iPuS5KFzkYpJ
+	 oCPhQ2k0SOzihz9HUf4xXWtXHHmBlxJUECAnw/DYdN4Oq0/mWJrSg7nlwnDE1uF+Z3
+	 OzirV+jn0sihQ==
+Message-ID: <sashiko-outbox-229034@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v1] ASoC: tegra: Add support for mono channel to
+ Tegra20/Tegra30 I2S DAIs
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Svyatoslav Ryhel" <clamor95@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261123100228.77797-1-clamor95@gmail.com>
+References: <20261123100228.77797-1-clamor95@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 10:23:20 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,105 +59,141 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <sashiko-outbox-223901@kernel.org>
 
-On Thu, Nov 19, 2026 at 07:29:34PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] driver core: dev->p dereferenced before dev_ready_to_probe()
->   check
-> --
-> 
-> commit 25b9e856ab045cdfdef1969512d8e94dbd1559f4
-> Author: Leon Romanovsky <leon@kernel.org>
-> 
-> driver core: Add a compatibility API for manual driver attachment
-> 
-> This commit adds device_driver_attach_unrestricted() and a per-device
-> driver_lock mutex to serialize manual driver attachment, probing, removal,
-> and deletion without requiring callers to hold the device mutex.
-> 
-> > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> > index 52123251965de..6ac1486b9fbb5 100644
-> > --- a/drivers/base/dd.c
-> > +++ b/drivers/base/dd.c
-> [ ... ]
-> > @@ -545,16 +560,85 @@ int device_bind_driver(struct device *dev)
-> >  {
-> >  	int ret;
-> >  
-> > -	ret = driver_sysfs_add(dev);
-> > -	if (!ret) {
-> > -		device_links_force_bind(dev);
-> > -		driver_bound(dev);
-> > +	mutex_lock(&dev->p->driver_lock);
-> > +	ret = __device_bind_driver(dev);
-> > +	mutex_unlock(&dev->p->driver_lock);
-> > +	return ret;
-> > +}
-> > +EXPORT_SYMBOL_GPL(device_bind_driver);
-> > +
-> [ ... ]
-> > +int device_driver_attach_unrestricted(const struct device_driver *drv,
-> > +				      struct device *dev)
-> > +{
-> > +	int ret;
-> > +
-> > +	if (!device_is_registered(dev))
-> > +		return -ENODEV;
-> > +	if (!mutex_trylock(&dev->p->driver_lock))
-> > +		return -EBUSY;
-> > +	if (dev->p->dead) {
-> > +		ret = -ENODEV;
-> > +		goto unlock;
-> > +	}
-> > +	if (!dev_ready_to_probe(dev)) {
-> > +		ret = -EAGAIN;
-> > +		goto unlock;
-> > +	}
-> 
-> [Severity: Medium]
-> Can device_driver_attach_unrestricted() and device_bind_driver() hit a
-> use-after-free or NULL pointer dereference on dev->p when device_add()
-> fails?
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ASoC: tegra: mono LRCK divider halves frame rate in
+  i2s_hw_params()
+- [High] ASoC: tegra: I2S and APBIF CIF channel mismatch in
+  tegra30_i2s_hw_params()
+--
 
-The thing that it is pre-existing as well __driver_probe_device() has
-the same order.
+commit 7e2665c666f6776eab203c934282fc56f2dc5a17
+Author: Svyatoslav Ryhel <clamor95@gmail.com>
 
-Thanks
+ASoC: tegra: Add support for mono channel to Tegra20/Tegra30 I2S DAIs
 
-> 
-> In device_add(), kobject_add() sets dev->kobj.state_in_sysfs before the
-> remaining fallible registration steps run, while dev_set_ready_to_probe()
-> is only called after all of those steps succeed.  If any step in between
-> fails, device_add() unwinds through name_error and frees dev->p without
-> taking dev->p->driver_lock:
-> 
-> CPU0                                  CPU1
-> device_add(dev)
->   kobject_add(&dev->kobj, ...)
->   ...
->                                       device_driver_attach_unrestricted()
->                                         device_is_registered(dev) -> true
->   dpm_sysfs_add(dev) -> fails
->   ...
->   kobject_del(&dev->kobj)
->   kfree(dev->p)
->   dev->p = NULL
->                                         mutex_trylock(&dev->p->driver_lock)
->                                           <-- use-after-free / NULL deref
-> 
-> Unlike waiting_for_supplier_show() in this commit, which checks
-> dev_ready_to_probe(dev) (stored in dev->flags) before reading
-> dev->p->dead, device_driver_attach_unrestricted() touches
-> dev->p->driver_lock and dev->p->dead before checking
-> dev_ready_to_probe(dev).  device_bind_driver() similarly locks
-> dev->p->driver_lock without checking dev->p or dev_ready_to_probe(dev).
-> 
-> -- 
-> Sashiko AI review · https://sashiko.dev/#/patchset/20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com?part=15
-> 
+This commit enables 1-channel audio on Tegra20 and Tegra30+ I2S DAIs for
+non-DSP formats and updates the I2S clock, timing divider, and Tegra30 CIF
+channel calculations.
+
+> diff --git a/sound/soc/tegra/tegra20_i2s.c b/sound/soc/tegra/tegra20_i2s.c
+> index 2978c9d6f4839..285923e6aeffa 100644
+> --- a/sound/soc/tegra/tegra20_i2s.c
+> +++ b/sound/soc/tegra/tegra20_i2s.c
+> @@ -144,7 +144,12 @@ static int tegra20_i2s_hw_params(struct snd_pcm_subs=
+tream *substream,
+>  	struct device *dev =3D dai->dev;
+>  	struct tegra20_i2s *i2s =3D snd_soc_dai_get_drvdata(dai);
+>  	unsigned int mask, val;
+> -	int ret, sample_size, srate, i2sclock, bitcnt;
+> +	int ret, sample_size, srate, i2sclock, bitcnt, i2sclk_div, is_dsp;
+> +
+> +	is_dsp =3D regmap_test_bits(i2s->regmap, TEGRA20_I2S_CTRL,
+> +				  TEGRA20_I2S_CTRL_BIT_FORMAT_DSP);
+> +	if (is_dsp < 0)
+> +		return is_dsp;
+> =20
+>  	mask =3D TEGRA20_I2S_CTRL_BIT_SIZE_MASK;
+>  	switch (params_format(params)) {
+> @@ -174,18 +179,24 @@ static int tegra20_i2s_hw_params(struct snd_pcm_sub=
+stream *substream,
+>  	/* Final "* 2" required by Tegra hardware */
+>  	i2sclock =3D srate * params_channels(params) * sample_size * 2;
+> =20
+> +	/* Additional "* 2" is needed for DSP mode */
+> +	if (is_dsp)
+> +		i2sclock *=3D 2;
+> +
+>  	ret =3D clk_set_rate(i2s->clk_i2s, i2sclock);
+>  	if (ret) {
+>  		dev_err(dev, "Can't set I2S clock rate: %d\n", ret);
+>  		return ret;
+>  	}
+> =20
+> -	bitcnt =3D (i2sclock / (2 * srate)) - 1;
+> +	i2sclk_div =3D is_dsp ? srate : params_channels(params) * srate;
+> +
+> +	bitcnt =3D (i2sclock / i2sclk_div) - 1;
+>  	if (bitcnt < 0 || bitcnt > TEGRA20_I2S_TIMING_CHANNEL_BIT_COUNT_MASK_US)
+>  		return -EINVAL;
+>  	val =3D bitcnt << TEGRA20_I2S_TIMING_CHANNEL_BIT_COUNT_SHIFT;
+> =20
+> -	if (i2sclock % (2 * srate))
+> +	if (i2sclock % i2sclk_div)
+>  		val |=3D TEGRA20_I2S_TIMING_NON_SYM_ENABLE;
+
+[Severity: High]
+Does dividing i2sclock by params_channels(params) * srate in LRCK mode drive
+LRCK at srate / 2 for 1-channel streams (here and in tegra30_i2s_hw_params()
+below)?
+
+In LRCK formats, each sample frame always has two LRCK half-periods (Left a=
+nd
+Right), and CHANNEL_BIT_COUNT (bitcnt) sets the number of clocks per half-
+period minus 1 (see tegra210_i2s_set_timing_params(), which divides by
+srate * 2 in I2S_CTRL_FRAME_FMT_LRCK_MODE).  When params_channels(params) is
+1, scaling both i2sclock and i2sclk_div by params_channels(params) cancels
+out in i2sclock / i2sclk_div, leaving bitcnt identical to 2-channel stereo
+while clk_i2s is halved.  On Tegra20, TEGRA20_I2S_CTRL is also still set to
+TEGRA20_I2S_CTRL_FIFO_FORMAT_PACKED with no mono configuration, so two
+consecutive mono samples in each 32-bit FIFO word are unpacked and shifted
+out as Left and Right stereo channels at half the requested sample rate.
+
+[ ... ]
+
+> diff --git a/sound/soc/tegra/tegra30_i2s.c b/sound/soc/tegra/tegra30_i2s.c
+> index e5e648d00621b..433a7eb873b43 100644
+> --- a/sound/soc/tegra/tegra30_i2s.c
+> +++ b/sound/soc/tegra/tegra30_i2s.c
+
+[ ... ]
+
+> @@ -172,14 +183,14 @@ static int tegra30_i2s_hw_params(struct snd_pcm_sub=
+stream *substream,
+> =20
+>  	val =3D bitcnt << TEGRA30_I2S_TIMING_CHANNEL_BIT_COUNT_SHIFT;
+> =20
+> -	if (i2sclock % (2 * srate))
+> +	if (i2sclock % i2sclk_div)
+>  		val |=3D TEGRA30_I2S_TIMING_NON_SYM_ENABLE;
+> =20
+>  	regmap_write(i2s->regmap, TEGRA30_I2S_TIMING, val);
+> =20
+>  	cif_conf.threshold =3D 0;
+> -	cif_conf.audio_channels =3D 2;
+> -	cif_conf.client_channels =3D 2;
+> +	cif_conf.audio_channels =3D params_channels(params);
+> +	cif_conf.client_channels =3D params_channels(params);
+>  	cif_conf.audio_bits =3D TEGRA30_AUDIOCIF_BITS_16;
+>  	cif_conf.client_bits =3D TEGRA30_AUDIOCIF_BITS_16;
+
+[Severity: High]
+Does setting audio_channels and client_channels to 1 on the I2S CIF mismatch
+the paired AHUB APBIF FIFO CIF?
+
+tegra30_ahub_allocate_tx_fifo() and tegra30_ahub_allocate_rx_fifo() configu=
+re
+the APBIF CIF once at probe time with audio_channels =3D 2 and
+client_channels =3D 2:
+
+sound/soc/tegra/tegra30_ahub.c:tegra30_ahub_allocate_tx_fifo() {
+    ...
+	cif_conf.threshold =3D 0;
+	cif_conf.audio_channels =3D 2;
+	cif_conf.client_channels =3D 2;
+	cif_conf.audio_bits =3D TEGRA30_AUDIOCIF_BITS_16;
+	cif_conf.client_bits =3D TEGRA30_AUDIOCIF_BITS_16;
+    ...
+}
+
+When params_channels(params) is 1, the APBIF side of the AHUB crossbar stays
+configured for 2-channel frames while the I2S CIF is programmed for 1-chann=
+el
+frames with mono_conv =3D 0 and stereo_conv =3D 0, misframing mono playback=
+ and
+capture streams across the crossbar.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123100228.7779=
+7-1-clamor95@gmail.com?part=3D1
