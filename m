@@ -1,56 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795419671;
-	b=JqRWTznEHqQ4eN1mHF8BWJXi+KXBCIyOrjV79Q540VUC59R5sxs3uTPr6HgOESnOZlgF
-	 cQLfwAKVcllqCqJJEnL/KPnn/jsG7+VfaICLVh4/jvUsa1sYc+gTLvalvOJ3SuHZFJ0lI
-	 GrdR9FvZuAiyAWd3Qn7HjkM4kV+LuZ9n2dP2JWygEnUv7ZYHEyGt3SgEeL5e4+QiE9B4E
-	 XUaRT/TPo5kqZkwFtw7CPT+n05SnRT1pJgW9W5SYi6aIYuc/2LgX4aZMsk+YFDLZYbIn/
-	 1f9SstPC/zGK3sEsCcRFTpiuAvjxphvzWeQ1DGdpcQH7c3mPSSii3LZNurr2k0jkVDA==
+	t=1795419813;
+	b=WEXyqOQSaidgi5+RyFL9vvELglUCmWkNS0RITuUDA6B8jOAqx95FolZoeEIWybYJEMMo
+	 jeyFRTFJOuTHn//mLVgU5YW2WLbfE3Xr2ZbJDgYsKHc02TwMVE+EeqhPzCRnTPfEHL9wW
+	 c4+ghaviOj7MAxGD0SlOYIiiJqmgARRQ0VOZJpf7DqvJuquP8ESm/tBSpRuvXVOSZEbNz
+	 BDVOaCEI5pN4aVkY5g6v4WwOscdstO4EkqwkrC0HlxUHtay+3wxuxSskEsYW8A6iSoH/A
+	 q/IOzhuW37hTIsMel1xG8FI1sS7NSMdEU4ynSh8LM78jGyUof6Upvfo5+Mx9NH3mn+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795419671;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=l/Pc2DCUBFyAS6tazwdq2rsCOqbWYdzdUOXxolyW3Sg=;
-	b=0mzVz6vGU3Srj/Sn1qvQsYOckCdHLQiHpEsx/QCB7db3KuL3B1ySgQR4LfFVrTB2vqoe
-	 g/QIXQxcjObJA8l4DfNHR4o5ussOWrFw/1UI8y2rllc4TLI391/S35zSJa5qYk4IsbTfG
-	 We9wXEpJ60qnUjDJEQG8WIXZ40ASDoWN9RUF3XskAaRVFTIvtT+wKZ5lxYw/zm5Pi64BY
-	 p+FbGH6l9Jh8o6/DOc6m/bY/GykBqMQZmH+2FaBBnblWQhUOEsHpeKUOnE8EthMJsExwY
-	 C363Rf8aLWtDgZX70Z/EUGvm4HqzIKyYw+rQn1H9vBLOBte6W1ojPDaaqoNf69Eodzw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795419813;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=3s3oA+u0H6a4lKx+c9GboAwYFSdRKDU2CgYddA0tZCg=;
+	b=uoe3GuABDxR939ruR43rQiwcm/duZ4/TXM3PFLMxq9vpgIfDNVdfBrBgkaOI5E9Lj80D
+	 m9KNKFC6GWIE4jtIrGfx2Z/C5KFxYBvaHzpYPzFZFcLa/mlwiKR/XDSBhgQUYHYyOKlit
+	 jFaTZlS8q4DCM85uobmK9Kvhh8wWSwa12v73a6rPCRyBPAfVTHeAwi5YKxtZwHUsbNBCI
+	 1+JNz9YJCCmmFZ5RC6G6RAtmHUKTiS8nwEI7KHTAeYapsZtQCWiVz9MhMCllCeqzhXGve
+	 qhchcUNAhfNXplE/yNR14pJoMQdxofrRuEj6Wiux9FqsPwd5VYE3zVIGzbmINO1TycQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z8vX8WCH;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA04D606A31A;
-	Mon, 23 Nov 2026 07:41:11 +0000 (UTC)
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vuq3J68w;
+	arc=none smtp.remote-ip=111.22.67.139
+Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2F19606A31A;
+	Mon, 23 Nov 2026 07:43:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2F19606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Z8vX8WCH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B241F000C0;
-	Mon, 23 Nov 2026 07:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795419671;
-	bh=l/Pc2DCUBFyAS6tazwdq2rsCOqbWYdzdUOXxolyW3Sg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Z8vX8WCHlaqlsh+8ELEhbThFKWLc9wm9zz52RUYCQ9QEMaBW7ZSNNmBpKXZFR8gUm
-	 j2VWKcsvpEqnj6Fwj+yz/LLmfCevthUS8E06zcb1dHm2iPqQqS4Zvn/+cIjPG4zU3v
-	 S9ucD4a6TM5TVQKFQ4fKC8Y2O2AEOUgGnwlGKGoHJ7vpD1QOU8A+D/hdMqBJoHB/m+
-	 V6qf38AYpbcn04RKcXEcOXW9w4D8fnTNbjvX+dQ26Yhu8UWFspm2Hru6/QYy2Mg2Vs
-	 H0of26p9CrxAH7qzsAlnanMpiTKaPDjQyE9JKpwi01gXZlVXvhY/xK20HFZaj5ULo9
-	 XO1eCi7V1XN8g==
-Date: Mon, 23 Nov 2026 09:41:05 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	dmitry.torokhov@gmail.com
-Subject: Re: [PATCH v3 06/31] USB: Release interface claims according to
- binding state
-Message-ID: <20261123074105.GI14811@unreal>
-References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
- <20261118-device-trust-core-v3-6-d655875c4bfb@nvidia.com>
- <sashiko-outbox-223892@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=vuq3J68w
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=vuq3J68woXJgi7jG8hvgDNB5il+19wwqo0VgZtvjuSYTJZ5EDenuKLbRDYiOhzY7hH260UQT9l83s
+	 Ry07KWuJELHvSywmc7Vza7naoBg7x/HhS5b6tped1bJi8pcBazzjk3YGfHwyWjFMju6n/iNRxw1DHW
+	 5K2BsvFmbXY9By3k=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16b03ee9a65d-173a1;
+	Mon, 23 Nov 2026 15:43:27 +0800 (CST)
+X-RM-TRANSID:2ee16b03ee9a65d-173a1
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from devin-VMware-Virtual-Platform (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86b03ee9d78c-f4bec;
+	Mon, 23 Nov 2026 15:43:27 +0800 (CST)
+X-RM-TRANSID:2ee86b03ee9d78c-f4bec
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	kaichieh.chuang@mediatek.com,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhu Jun <zhujun2@cmss.chinamobile.com>
+Subject: [PATCH v2] ASoC: mediatek: mt6797: Fix runtime PM handling in probe
+Date: Mon, 23 Nov 2026 15:43:25 +0800
+Message-ID: <20261123074326.11494-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,120 +74,82 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <sashiko-outbox-223892@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 19, 2026 at 07:29:25PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential
-> issues to consider:
-> - [Medium] usb: core: pre-claimed interface with autoprobe off crashes
->   on core unbind
-> - [Medium] usb: core: NULL dereference in usb_driver_release_interface()
->   when driver is NULL
-> --
-> 
-> commit 03347cb54cf6030265378e68aba157a23982255b
-> Author: Leon Romanovsky <leon@kernel.org>
-> 
-> USB: Release interface claims according to binding state
-> 
-> This commit updates usb_driver_release_interface() to check
-> device_is_bound() instead of device_is_registered() before releasing an
-> interface through the driver core, and holds the device lock while
-> checking and unbinding unclaimed interfaces.
-> 
-> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> > index 735ae3310b45d..926f63cd2c834 100644
-> > --- a/drivers/usb/core/driver.c
-> > +++ b/drivers/usb/core/driver.c
-> > @@ -612,6 +612,15 @@ int usb_driver_claim_interface(struct usb_driver *driver,
-> >  }
-> >  EXPORT_SYMBOL_GPL(usb_driver_claim_interface);
-> >  
-> > +static void usb_unbind_claim(struct usb_interface *iface)
-> > +{
-> > +	struct device *dev = &iface->dev;
-> > +
-> > +	usb_unbind_interface(dev);
-> > +	dev_set_drvdata(dev, NULL);
-> > +	dev->driver = NULL;
-> > +}
-> > +
-> >  /**
-> >   * usb_driver_release_interface - unbind a driver from an interface
-> >   * @driver: the driver to be unbound
-> > @@ -631,27 +640,25 @@ void usb_driver_release_interface(struct usb_driver *driver,
-> >  {
-> >  	struct device *dev = &iface->dev;
-> >  
-> > -	/* this should never happen, don't release something that's not ours */
-> > -	if (!dev->driver || dev->driver != &driver->driver)
-> > -		return;
-> > -
-> > -	/* don't release from within disconnect() */
-> > +	/* Avoid recursive locking from disconnect(). */
-> >  	if (iface->condition != USB_INTERFACE_BOUND)
-> >  		return;
-> > +
-> > +	device_lock(dev);
-> > +	if (dev->driver != &driver->driver ||
-> > +	    iface->condition != USB_INTERFACE_BOUND)
-> > +		goto unlock;
-> 
-> [Severity: Medium]
-> Can dropping the !dev->driver check cause a NULL pointer dereference in
-> usb_unbind_interface()?
-> 
-> When intf->dev.driver is NULL, usb_forced_unbind_intf() passes driver =
-> to_usb_driver(NULL), whose &driver->driver member address evaluates back
-> to NULL, making dev->driver != &driver->driver false.  If an interface is
-> claimed before registration and registered while drivers_autoprobe is
-> disabled, device_add() succeeds with iface->condition ==
-> USB_INTERFACE_BOUND and device_is_bound(dev) == false (so the unwind in a
-> later commit "USB: Unwind interface claims after registration or binding
-> failure" does not run); if a subsequent __device_attach() fails in
-> device_bind_driver(), it clears dev->driver to NULL while leaving
-> iface->condition as USB_INTERFACE_BOUND.  Calling
-> usb_deauthorize_interface() -> usb_forced_unbind_intf() on that interface
-> then passes the guard and dereferences to_usb_driver(NULL) in
-> usb_unbind_claim() -> usb_unbind_interface().
+The MT6797 AFE probe registers its components even when the runtime
+resume fails to enable the clocks. If component registration fails
+after a successful resume, the probe disables runtime PM while still
+holding its usage reference. The runtime PM disabled path also
+returns the previous successful result without registering components.
 
-This path is already unreachable in the current code, and patch 11 removes that
-state entirely.
+Use pm_runtime_resume_and_get() and stop on a resume error. On a
+component registration failure, drop the probe's reference without
+idling, disable runtime PM and directly suspend the AFE if it is still
+active. This ensures the clocks are disabled even if userspace forces
+power/control to on or a resume races with probe cleanup.
 
-> 
-> >  	iface->condition = USB_INTERFACE_UNBINDING;
-> >  
-> > -	/* Release via the driver core only if the interface
-> > -	 * has already been registered
-> > -	 */
-> > -	if (device_is_registered(dev)) {
-> > -		device_release_driver(dev);
-> > -	} else {
-> > -		device_lock(dev);
-> > -		usb_unbind_interface(dev);
-> > -		dev_set_drvdata(dev, NULL);
-> > -		dev->driver = NULL;
-> > +	if (device_is_bound(dev)) {
-> >  		device_unlock(dev);
-> > +		device_release_driver(dev);
-> > +		return;
-> >  	}
-> > +
-> > +	usb_unbind_claim(iface);
-> > +unlock:
-> > +	device_unlock(dev);
-> >  }
-> >  EXPORT_SYMBOL_GPL(usb_driver_release_interface);
-> 
-> [Severity: Medium]
-> What happens if a pre-claimed sibling interface registered with
-> drivers_autoprobe disabled is detached through the driver core rather
-> than usb_driver_release_interface()?
+Keep failures before a successful resume on a disable-only path so
+cleanup does not disable clocks that were never enabled. Return an
+error when runtime PM is unavailable.
 
-This is a pre-existing issue, I didn't modify btusb_disconnect(). It
-appears that the "if (intf == data->intf) ..." checks can never be true
-for ISO in any leaf.
+Fixes: 3901b9fc0f0d ("ASoC: mt6797: add mt6797 platform driver")
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+---
+ sound/soc/mediatek/mt6797/mt6797-afe-pcm.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-Thanks
+diff --git a/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c b/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c
+index 2069c340ca39..cbe7c3a2eedb 100644
+--- a/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c
++++ b/sound/soc/mediatek/mt6797/mt6797-afe-pcm.c
+@@ -828,16 +828,21 @@ static int mt6797_afe_pcm_dev_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, afe);
+ 
+ 	pm_runtime_enable(dev);
+-	if (!pm_runtime_enabled(dev))
++	if (!pm_runtime_enabled(dev)) {
++		ret = -EOPNOTSUPP;
++		goto err_pm_disable;
++	}
++
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret)
+ 		goto err_pm_disable;
+-	pm_runtime_get_sync(&pdev->dev);
+ 
+ 	/* register component */
+ 	ret = devm_snd_soc_register_component(dev, &mtk_afe_pcm_platform,
+ 					      NULL, 0);
+ 	if (ret) {
+ 		dev_warn(dev, "err_platform\n");
+-		goto err_pm_disable;
++		goto err_pm_put;
+ 	}
+ 
+ 	ret = devm_snd_soc_register_component(afe->dev,
+@@ -846,11 +851,19 @@ static int mt6797_afe_pcm_dev_probe(struct platform_device *pdev)
+ 				     afe->num_dai_drivers);
+ 	if (ret) {
+ 		dev_warn(dev, "err_dai_component\n");
+-		goto err_pm_disable;
++		goto err_pm_put;
+ 	}
+ 
+ 	return 0;
+ 
++err_pm_put:
++	pm_runtime_put_noidle(dev);
++	pm_runtime_disable(dev);
++	if (!pm_runtime_status_suspended(dev))
++		mt6797_afe_runtime_suspend(dev);
++
++	return ret;
++
+ err_pm_disable:
+ 	pm_runtime_disable(dev);
+ 
+-- 
+2.51.0
+
+
+
