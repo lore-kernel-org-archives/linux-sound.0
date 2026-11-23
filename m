@@ -1,69 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.12
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795437168;
-	b=sPJZuyap4+y2+E/EEUwlvol0BIx6JOEbWeb3DJn72CkfrKQxALXcidzjtjkklS9wesfQ
-	 tg8GQ62Yxns/gdktKEpqmieNIIjmoXJUAadOyzZoXJEbPMzxqlZuzyDHh6XH+uhCuinaR
-	 R9HoZ8jw/nOAwsnR4iJSPoEwZzFzX2p2leR03cWTmlmriF1wDP8ZP1fDh5g1iuZ3LoxVY
-	 vqiTve5KXYewuJF3a250cWQpLY4Ns6aQWDIce4Fwj/9FTN/g0xdNGdGYbfkJMvKwxU2Ua
-	 D9p445kIFyhmIR2IyVeJ0CJim42tB+Hx8DGj3u6/gGFCSW/82JEaXVivlU/h+Ayfo5A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795437168;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:
-	 MIME-Version:User-Agent:X-ZohoMailClient;
-	bh=qyuSe2Ah94nWHwws+7naCYTuEU9gyyyQzrM16/IS6aA=;
-	b=sqRQAAcHMCzc7O6HsxKVXgRQFTTpgs/sd57L3LVpvPPpU3vpETfds0Kis+VABmB8bE2G
-	 eX+dNkhT7Phr9tiRrGgyCYtUNBdzxVU6W9xebjjhbNG1/H+CJLaizOUn/dEb8BQoIf1F1
-	 n4aSteuf62vy4LDCe/2zFeVhArCfMp6zlhuZgFZOsNrrNeu/uDPNyY06PNKONeoHo1Sur
-	 d834z5WP60vP42IZmdudLY6d8QEEscCSBCXPXwqkB/y9A3ot72sH8cGU+MR5Pr8IFmptN
-	 9JQD34fSwk2ZXI7ftAFAGHJGb6KHATfJLxIxNz6FmBTwJ4YtYver2on13Zbz3/lOTpQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rong.moe;
-	spf=pass smtp.mailfrom=rong.moe;
-	dkim=pass header.d=rong.moe header.i=@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=UvXAL8ln;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.12
-Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795437285;
+	b=PgqAqVtpRApfBiuylS3XRGx4y9Fcmgh5dS/4oqDoMAuhFceUUGRrbwS47e7S10vOFKch
+	 TV9eD0WFubiMGQAelv71Lvig3gW7HXd63j1gXSPwUogqadvGrKRE89NkDF5BkYefTUB5O
+	 hy89h3y2B1uKU66zcuZIkcrY8qU75iV2HBQXs/OYCMtezaCDf0YHMG6nRszrvlNDk0n0K
+	 gUwBWxMQwjxgnGvhQOfChC5V53vuW2I8+fOaizpGVBPAZ+CQDtyDpZOVSSzn4HIl2sGgM
+	 jL38dqD7zM3mwfvc1E32cFAUCoJfI0ys1lpGmKLAY2jrJVgkN3a85dWBUtUMZ7knGmQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795437285;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=pLuT8GLe4HwTCpvjQP/m+EwaJaKw1kg2kVuZ2QUXpM0=;
+	b=zNDLwt4GYaUBEUl82BV3tqS6i1NRS/ikohglIW4T1QkliOUWVit7pEXNfzoHvZF4ni4T
+	 JvBSqwIbGc7uaTNx5185uV7/Q2LhU0iraopbL3gZKZHZP4dSqn2Nyqyf8T0zgxINVq6B2
+	 Xwm97agl/gANWbR9vDzYGwuIjzp0OvUYEK4C5T/IDxKRjHqnLQdheKgyTU/iE4T74fZsC
+	 OI6ZxyH4hiC9e+iD5sNC2tFmyGCYZ89bIdaYPRSahq4TeFfrreATFZSXJieh1uisRLLNT
+	 onfGe9HoAg0xw1WzZ3T20dh/cMumeRRhJv2aN2GR5l3W3d0Mt9hNI+FdMDVM2GV4qFA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eAlWEAIt;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=AvYIAkT6;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE04F606A31A
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 12:32:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE04F606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A7E606A321
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 12:34:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2A7E606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=UvXAL8ln
-ARC-Seal: i=1; a=rsa-sha256; t=1795437130; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=BcwIHd2zM/P8VNN1HHF6H6IbYxFjZLQwS+u1UEwVP9URzEb9P7V+58mAXfJX+EGl7TO+1MlizSiK+zHk54EoGq3q7jGUdK3WmTz5hOhVm9O0Hk2jYJZziNy3QIiybudxMJC5SLjJWICL3B54wFIcNyrHdaSjVA+lzYL7DKOkH2E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795437130; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=qyuSe2Ah94nWHwws+7naCYTuEU9gyyyQzrM16/IS6aA=; 
-	b=TWrbd0wMwKDkyyaTaX4/Jx2rvDZhaobOaVfu/Df5WPGKOs8bYDF75Oz/G5g+hMvN3n9CZzk2/ljmlenced9EiTmxCgJ45w/3v2H/HSy/C2MYPkaGsACdos+hY8rArVh8cRvS8NdS1U2NrO5/l2DUS90p++FR/L9+aC3MrQFr7KY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: a=rsa-sha256; b=UvXAL8lnawZgY4GNxyPOBCWvMd14Vuf2v4ysRvymsw/7VWGiVX8KNXOxN+6GlK1DyVhRRtJDxjzuLq/5XkLeLm30rcaulIZEmAVE+91T5L8swzs/Nepsuk7j/k732UwUTx5n4DnBp2AKAc85kuPrwR6LO3nDTdMiGvbxavHcQGsEGOk9ZuhCod6Y9qwCdFVDT1V+/r3Su0qWaJAwX1jNEzgjtFtiitvyBcEFVbd2hxBYqWdvnUBJVVY7LX+dk00jQf+EQ+iITVTpUrc+vnmJUSJTeUcSvOwAsY+/1HsGKY5nOkAJ908pxp5Oi8IJcbMgy5TOIyPUgxrWL4kyacwW4Q==; c=relaxed/relaxed; s=zmail2048; d=rong.moe; v=1; bh=qyuSe2Ah94nWHwws+7naCYTuEU9gyyyQzrM16/IS6aA=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795437127098367.14842337195626;
-	Mon, 23 Nov 2026 04:32:07 -0800 (PST)
-Message-ID: <ffd7265cc3f3abeeae49a1fcaadc87be9aec0c7e.camel@rong.moe>
-Subject: Re: [REGRESSION] Logitech G733 USB audio volume issue since Linux
- 7.3
-From: Rong Zhang <i@rong.moe>
-To: Thorsten Leemhuis <regressions@leemhuis.info>, Lucas Cota
-	 <lucasbrunocota@live.com>, "linux-sound@vger.kernel.org"
-	 <linux-sound@vger.kernel.org>
-Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>, Takashi
- Iwai	 <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>
-In-Reply-To: <241085e8-cb69-4dbf-9375-e024fe658335@leemhuis.info>
-References: 
-	<SA3PR11MB87055423D68E21680C47BB55B4B67B2@SA3PR11MB870554.namprd11.prod.outlook.com>
-	 <SA3PR11MB870554D0B14BDBE05EC72B8B59B67B2@SA3PR11MB870554.namprd11.prod.outlook.com>
-	 <241085e8-cb69-4dbf-9375-e024fe658335@leemhuis.info>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 20:26:51 +0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eAlWEAIt;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=AvYIAkT6
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANCG0qm1317070
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 12:34:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	pLuT8GLe4HwTCpvjQP/m+EwaJaKw1kg2kVuZ2QUXpM0=; b=eAlWEAItlWqboMBz
+	ciU3eY1E/tLoITK5Te7/rhaxnoqWgCcZjMOp7WX82wKy7MBaPcgxEmujxuAVNEMo
+	nPUFTP5zeEkMwZb0z96CfZjgvWpjrq8CZUROIvviR8b3jdS5o8+xqNHv/92bTb4Z
+	Ieeh9bp/p+Mobxs4G5duNUn8oBNjFv7wJYMzgvLHnZZc30YNioaXnmVaW/Ryhoz9
+	U8GEIDX8/smIoUa9xwM5ACaKGUl5QzDevUAtsSsXDgAWC/2ypMvkJC4j3xgw2+3A
+	rxnFTAO1U8CAJ+J6vOZ+JNgmBnDUHDNWv67ZstdjJ/ivR7k5z1YqPw4lyiW6xKGf
+	XMjcfA==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4g9a1ap6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 12:34:44 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-949b0d322fbso473386185a.3
+        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 04:34:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795437283; x=1796042083; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pLuT8GLe4HwTCpvjQP/m+EwaJaKw1kg2kVuZ2QUXpM0=;
+        b=AvYIAkT6EmvKa84bvblmRoqN2zEXnr5evixmbno3916dFKkFtnZFuECgsbcnpbQGuw
+         Wm4IwMIHWiTxZgeCCB7NM2fNakAjRlnALskG0pZgfDNmHqk2YdyskB1oQ7H3PfmxIKKE
+         S/RCjLqhv0UvG+TgLNv7MPFc2sADFJjXZVlRgEt90Lx6uo4D4Z37Bs1+i0+mYXPc/ZnE
+         YSrnLcNkM/BoHefdmRLVd6EFgS7uiHpi3KpQdpAleLu99qQ1yMbaKhl+SlGkLJ3KFGVI
+         pHlj8KT0GIQFqP4PyzpebchhIXyWOajysiVqAVJSHkSl4c0lQRPe+TbgJfzznO334Sa9
+         AcvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795437283; x=1796042083;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pLuT8GLe4HwTCpvjQP/m+EwaJaKw1kg2kVuZ2QUXpM0=;
+        b=vEv58nKZuntbjQL16mIMDadB9wFy9oCg1iEIals2duLjUnjYjArV/iBLSARzudWAe/
+         HkEHLtOwX7Yp3rXYSfVfPq/nHE0yyKTqeXHgEAhU5rE2Qz1Zw/dqli5GVn80mPB1VMXQ
+         IzrQzWwwNYhnX1MwyNnoH3DmdlHhYKtfUcXK9yPwCinopyRWDU9vt/lq9ziUWCwd7nBi
+         VcbM76sd34vYvvMQmPpcAdwEhOxBDAQCDEaS8Iu3B16Z8+rFjf4JCytW3V0ce0PXcjMb
+         j1i/iHPKnn2C/DgqC9yydi5loiT7hCsS8lUZQPN9rIZRUHPEgqaZPYdAmQhRZtjw4Vdo
+         FAPg==
+X-Forwarded-Encrypted: i=1; AL+hErGPDPn3dJVCa8jaXWY3Y32sTKz7pKeyOhXpJks2tSIBXQYjLRkdNJN5poU4ELRAjcvVl2Zk+9sfq7nVHg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/CdHYbobctUcUwATOskLzS7K0qsFlc3wEMQtjRNkPdiLNWFY9
+	4Uk23uSLasn+H0Hh0CMCCPpbdcCyOyRxChMBi3YVJttK9aPD5ISnC3piSrexaBVQrZXNEsP+WCf
+	31mOYZji1Blg9PneVEDB0zslBhmIx8Rsqv3/1+mjdpa9BfXgdmp7JfZ+oS51e/HemNg==
+X-Gm-Gg: AZFdTZfG2Z8HpOWOpE26dyjquXiN8afaANcAFg4r9HeQaQybrubfKv4D6AtL/JhlZ8P
+	8Jb3wVDsPrRg3C8TVzRWMZAFWWkM6dPiVpdqITmBsbNCl96h15jm+PO2ha5Y2cWQoQPUBfF+O4I
+	R+PRLwSMkVZh/XZ1cr60qDXWkLOfwKxLBtcjgWqz1iUMHb5BcwGRZHseE11CdDz1sRuWgCAyVjp
+	q6DptYF+AFThybdJ98JclPXuwvGe2Vyg1mmvskR2lCrE5OwLDqo+apEPKhneJPiVezrhd6Rex4N
+	xboRoQSZX4PNmPzJpI1zZHegLV5+cmTrPuZSVbJyAUbDX1VnfDflHc04bMjuIgPt9gs1E+fyTor
+	lvyQtdlhmK0dI1+edb4NrDHat1czVTnv58dUS9AxXBjxiBmhpFTwV0FJmYmmZuQSTdVzcZoaslo
+	edyA==
+X-Received: by 2002:a05:620a:6493:b0:940:e34a:aead with SMTP id af79cd13be357-949ba80fa2fmr1754287485a.5.1795437283030;
+        Mon, 23 Nov 2026 04:34:43 -0800 (PST)
+X-Received: by 2002:a05:620a:6493:b0:940:e34a:aead with SMTP id af79cd13be357-949ba80fa2fmr1754280885a.5.1795437282514;
+        Mon, 23 Nov 2026 04:34:42 -0800 (PST)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm542505485e9.14.2026.11.23.04.34.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 04:34:41 -0800 (PST)
+Message-ID: <2ce99966-6813-47a6-8d0d-11f3f6f2f2f6@oss.qualcomm.com>
+Date: Mon, 23 Nov 2026 12:34:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -73,147 +114,102 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Evolution 3.62.1-4 
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] soundwire: qcom: add multi-master support
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org, srini@kernel.org,
+        yung-chuan.liao@linux.intel.com, prasad.kumpatla@oss.qualcomm.com,
+        jingyi.wang@oss.qualcomm.com, sibi.sankar@oss.qualcomm.com,
+        quic_srivasam@quicinc.com, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20261001093806.634862-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261001093806.634862-3-srinivas.kandagatla@oss.qualcomm.com>
+ <0ca6ee6a-020a-4705-8323-d524a813d3b5@linux.dev>
+ <586046f1-8439-4353-b60d-dab6356de3ba@oss.qualcomm.com>
+ <asCxoMbtsSfVcX_9@parshuram>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <asCxoMbtsSfVcX_9@parshuram>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDA0OSBTYWx0ZWRfX4BhAu2DIznqQ
+ m7RfU4kgEzDxAs03SUomW20ZsJ98ibsQ/tcQGjOuIojiiBsYXqLV5j5ORtfUv4CgRipq+6v+2PN
+ 9/K4PDhhnyDNheISZLmykT7C/9bVrmw=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDA0OSBTYWx0ZWRfX8YnUG9ecULGB
+ jcqg5i8JJnBTMmS+pdDx/nx286F+7UdpcMQcuheS6Sp01xLR14e5i4VUkVF95W381AKa6YZ/OTG
+ W4wcvaH2Jxq5ZUVwkL+SQSrAZAK4hVL54sm6FesB8wGNRykdX520tJ1x/jRS8yqWB2YQF2mpi3Z
+ kMsJwW/fVhFpTyLLCIQAxUI2pBnL6JqhTUMEIF3eTRIa/PXx58h9xlIiz8uc9V5p/gpqKthBKAC
+ m+EC4XvdxnUJJcm1z2woMX+3iNZwLDGj4nxousfup63dezFNSGlMEh5DfPII8WIPtPovqJbZI45
+ SrgF5/fTJ6sol+zmbDKLzq3y2F8NSll0IHakpHVQfKEylXjrsfZyWCgd9ixDWX8KnJRpzfSJtG2
+ /7LKiZZCKudJxFGY9P80p7gQDKQ0RzBX3Blj1a4yakFgA4M5MwOqdZMAxItlOlOKaybJzEto42l
+ U2jfZgz1Bevkiyph01A==
+X-Proofpoint-ORIG-GUID: LsMJ-2oCK_Z_NM8pACY70Q4sq4V3OxI5
+X-Authority-Analysis: v=2.4 cv=cYJHPXDM c=1 sm=1 tr=0 ts=6b0432e4 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=TNgizOjfnv4wsRTjD10A:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: LsMJ-2oCK_Z_NM8pACY70Q4sq4V3OxI5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-23_02,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 malwarescore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611230049
 
-Hi Thorsten, Lucas,
+On 10/3/26 8:41 AM, Vinod Koul wrote:
+> On 01-10-26, 12:06, Srinivas Kandagatla wrote:
+>>
+>>
+>> On 10/1/26 11:53 AM, Pierre-Louis Bossart wrote:
+>>>
+>>>> @@ -192,6 +194,13 @@ struct qcom_swrm_ctrl {
+>>>>  	const unsigned int *reg_layout;
+>>>>  	void __iomem *mmio;
+>>>>  	struct reset_control *audio_cgcr;
+>>>> +	u8 num_lanes;
+>>>> +	bool is_dependent;
+>>>> +	struct qcom_swrm_ctrl *peer_ctrl;
+>>>> +	u8 peer_first_lane;
+>>>> +	u8 num_peer_lanes;
+>>>> +	bool is_primary;
+>>>> +	u32 peer_dpn_offset;
+>>>
+>>> nit-pick: do you need both is_dependent and is_primary? One would think
+>>> that a single variable would be enough, no?
+>> I did try to do that which made the code bit confusing to read.
+> 
+> I am viewing it that both should be set always for this mode. Do you
+> have a case where it wont be the case..?
+these are mutually exclusive, will add an enum with in v3 along with
+role member.
 
-Thanks for reaching out to me.
+> 
+>>> also without context it's hard to understand if lanes are independent in
+>>> terms of transport or not, not sure what 'peer' means in a multi-master
+>>> setup with a primary controller and N dependent ones? Code like this
+>> For now its one, but Yes, technically we could have more dependent ones,
+>> I wanted to keep the patchset simple and right now the only have one
+>> peer and i dont know if we have other setups with more dependent
+>> controrllers.
+> 
+> Lets add the logic when we have such scenarios and keep now for one peer.
+> Does Qualcomm roadmap envision more controllers?
 
-On Mon, 2026-11-23 at 10:10 +0100, Thorsten Leemhuis wrote:
-> On 11/17/26 22:17, Lucas Cota wrote:
-> >=20
-> > I have some additional findings regarding the Logitech G733
-> > (USB ID 046d:0b1f) volume issue.
->=20
-> FWIW, details for that issue can be found below in a mail that didn't
-> make it to the lists or something.
-> > I confirmed that the physical volume wheel can also cause abnormal
-> > volume attenuation on Linux 7.2.15, so the issue is not exclusive
-> > to Linux 7.3.
->=20
-> Thx for the update. I CCed three people, maybe one of them might have an
-> idea what's wrong here.
->=20
-> Side note: If (a) there really is something that works on 7.2.y, but
-> does not on 7.3 and (b) nobody comes up with an idea what's wrong,
-> please run a "git bisection" to find the change that broke things:
-> https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.ht=
-ml
->=20
-> Ciao, Thorsten
->=20
-> > On Linux 7.3.x, the hardware PCM mixer sometimes initializes at
-> > 51/74 (-23 dB), even though ALSA has 74/74 saved in asound.state.
-> >=20
-> > I found two workarounds that together resolve the issue:
-> >=20
-> > 1. Enable "api.alsa.soft-mixer =3D true" for the G733 in WirePlumber.
-> >    This prevents the physical volume wheel from causing excessive
-> >    attenuation or loss of audio.
+There is only one dependent per master that is supported as part of this
+series, there is no platform that i am aware of would allow me to test
+or support the multiple dependents.
 
-Could you please confirm if the "physical volume wheel" is a dumb HID
-device that only emits Volume Up/Down events without actually tuning the
-volume itself? Or does it tune the volume itself and notify the USB host
-via UAC?
+I can add a defensive check to not support multiple dependents if that
+helps.
 
-> >=20
-> > 2. At session startup, explicitly change the hardware PCM volume
-> >    from 38/74 to 74/74 using:
-> >=20
-> >    amixer -c Headset cset 'name=3DPCM Playback Volume' 38,38
+We can always extend this as an when we have that usecase which can be
+tested.
 
-Is there anything special about 38? Or was it randomly chosen?
-
-> >    amixer -c Headset cset 'name=3DPCM Playback Volume' 74,74
-> >=20
-> >    Setting 74/74 directly is not always sufficient. Forcing an
-> >    actual volume transition restores the expected hardware gain.
-> >=20
-> > I currently apply the second workaround using a systemd user
-> > oneshot service after WirePlumber starts.
-> >=20
-> > Both workarounds have been tested successfully after reboot on
-> > Fedora 45 with Linux 7.3.x. The headset now starts at the expected
-> > volume, and the physical volume wheel works without abnormal
-> > attenuation.
-> >=20
-> > The root cause remains unclear, but the findings suggest an
-> > interaction with the USB audio hardware mixer controls.
-> >=20
-> > Best regards,
-> > Lucas
-> > ________________________________________
-> > From: Lucas Cota <lucasbrunocota@live.com>
-> > Sent: Tuesday, November 17, 2026 16:47
-> > To: linux-sound@vger.kernel.org <linux-sound@vger.kernel.org>
-> > Cc: regressions@lists.linux.dev <regressions@lists.linux.dev>
-> > Subject: [REGRESSION] Logitech G733 USB audio volume issue since Linux =
-7.3
-> > =C2=A0
-> > Hi,
-> >=20
-> > I'm experiencing an audio volume regression with my Logitech G733 wirel=
-ess headset (USB ID 046d:0b1f) on Fedora 45.
-> >=20
-> > Kernels tested:
-> > - 7.2.15: Everything works normally, including the physical volume whee=
-l, without any custom ALSA or WirePlumber configuration.
-> > - 7.3.3 and 7.3.4: Audio volume is significantly lower, and using the p=
-hysical volume wheel causes further issues.
-> >=20
-> > On 7.2.15, the kernel reports:
-> > sticky mixer values (...), disabling
-
-7.2.x sets the mixer value to the maximum and skips the mixer
-registration (which also disables GET_CUR).
-
-> >=20
-> > On 7.3.x, it reports:
-> > broken mixer GET_CUR
-
-While 7.3.x sets the mixer value to the minimum, disables subsequent
-GET_CUR, but otherwise registers the mixer as normal.
-
-Your userspace audio stack should always set the mixer value to the
-stored volume value once opening the ALSA device. I guess the stored
-value is 74, right? In this case the difference between the two versions
-is insignificant, as the hardware should always see a SET_CUR(74).
-
-Considering that you could also reproduce the physical volume wheel issue
-on 7.2.15, I guess the behavior actually depends on the initial state of
-the mixer when the device is plugged in. So far it's hard to tell if snd-
-usb-audio is broken or not...
-
-Could you please provide all the relevant logs? Please also enable dyndbg
-on snd-usb-audio before any testing.
-
-Please try setting the MIXER_GET_CUR_OK quirk flag and see if it helps.
-
-Furthermore, please also test with 6.18.x.
-
-Thanks,
-Rong
-
-> >=20
-> > Unlike 7.2.15, the newer kernels expose a hardware PCM volume control (=
-0-74).
-> >=20
-> > I can temporarily restore the expected volume using:
-> >=20
-> > amixer -c Headset cset name=3D'PCM Playback Volume' 38,38
-> > amixer -c Headset cset name=3D'PCM Playback Volume' 74,74
-> >=20
-> > However, turning the headset's physical volume wheel makes the audio qu=
-iet again, even though ALSA still reports PCM at 74/74.
-> >=20
-> > Enabling WirePlumber's api.alsa.soft-mixer =3D true helps with software=
- volume control but doesn't fix the physical wheel issue.
-> >=20
-> > This seems related to the USB mixer behavior change between Linux 7.2 a=
-nd 7.3.
-> >=20
-> > Could you please investigate whether the G733 needs a device-specific f=
-ix?
-> >=20
-> > Thanks!
+--srini
+> 
