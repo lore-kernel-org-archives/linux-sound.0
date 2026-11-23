@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795474871;
-	b=qeE7MK08biEtgjXNSPPZ3X1w93QvcYu08vbLRvlP+eh5dlaUbPUsPxDnk2zp8ATK5ll3
-	 EwPsybdVhSXBOB3XJ1CSHn+vq6uds55v1Q9TQ1QapCAlFowBjvKgXb/S/AwkBIJuth/NL
-	 mlaO65f2zAjXI5JHPrB0hBZZDluhEHr25mPS3sgpb2bCMqQtog6C5aDWaOoMLO1zwGMlP
-	 SolqyxzoEN8ckdMb/pI5/+ilVU4FUdZ0989lLaElAfxxrwOKNR7p1spMld78POVa4RyJk
-	 Wi0fmCdrzuBA9VfDEkCa3fK26ThcXm7pGHd0csrc5+dIGpt2ysebC9p7y9eU144KdAQ==
+	t=1795474876;
+	b=nxOlK3RWW/3f+gTHITcK6wyp4D0CxUHbR9k9KCoGTS7Df5VJ6mwquZTWonQApYDx6dhz
+	 dZECW05cxnDCAb9umxMXzP43BwFA/GS0CaJp+lC4g5r0mnAE0GcSRrDgawaoOVlw9snmi
+	 meYojiTJsYMWDsmkzYnJB4GxxZ6wHTCLgcn8ZpgD1hHWCPT1k6O0OZTg7OewPJ0DHHvC5
+	 2WfeO0y3D+v4Kj7dVhXjo7JSdjA+DTzZV9+bTrbg7b6LN8D6d/HB0HKi2sQI48VmrvquE
+	 Mo8cOmxC78jF5pluI4bNG1oOps5zthVrJFplT8cJ55AccrZVDi44TjjJtM9i+0ob4HA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795474871;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795474876;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=dgtdwwb3WutHlhNR2d7t/1yGsgE+Dr/udMHlhEjkers=;
-	b=zt8CRRpuwshoCFiBYKwWMJueImDK9mCMJ7wUzQnqDVcJ7kCAnzMeLGsbLjJNfen8RLqp
-	 REY8Dbw7K0FXTjTMqfpA3Rfla9At5bRlkjb/rvhuVxKUgFDrtMaQVH8waz/1so0G4FrAG
-	 IcSINrRsDrihFIrygHf9ketZ/B3EjnsAGNzrznO3O3RcAdpEfbCHIl6MvJqWbgY7d17Ua
-	 /FKJgJ2KPf6wYQCN3KenUo0ibL1+u8OJey2JmER5wseyMIxy63g5RFsz8suepCkamHe9y
-	 nuWs1C2Sc4T4mmYGyek7GVEA8Lsd8zUMhbiHNXqJd8pHQtLIsNvs+I0EAqJDITHFJdw==
+	bh=LVj/2IPCO/rsyUxwejJA/YKSv8ccPTCCNt+bis0ReOA=;
+	b=fMK2hqB8OB5jOw6ie4ONs5RZfiT6ezRbBk6MlgSDFHM+RxXyvuebct9HXRS9+MWAm6E6
+	 IJXdvZbiOtHHFKPrfuRU9aKa2Y7407UcqwCO3zwH4jzSSgEuev7WaDAvL0hTSlR23dafo
+	 8gP+Mu9PScHddav8X/iIt0116OYPUbSpkjUlGgbIoqqvOgJCEUFcMjKmtDhHHqq4gJfmt
+	 y8DxW4pKXjJFSWfoqY/WD61D+f8hiP1DHivLeqgQ7FmcW0tibKAgiBfQ920TyXP9ZCWIb
+	 ihWVndKZx8baLNc+0MEnxU4ZQ4/ZfqwXVG/KY8iS8FftCnfARZLWdvMMi1ULp/i8CUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zuu9fJi3;
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xd5bYdvc;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03991606A32D
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 23:01:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03991606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96425606A321
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 23:01:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96425606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zuu9fJi3
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-3863db981d4so5193163eec.0
-        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 15:01:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xd5bYdvc
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-38644aedba1so5878730eec.0
+        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 15:01:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795474870; x=1796079670; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795474875; x=1796079675; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dgtdwwb3WutHlhNR2d7t/1yGsgE+Dr/udMHlhEjkers=;
-        b=zuu9fJi3ojsWgSJ7IQ5NfUB1RcpcooJkDn6vtm610PNIoInxtvl9w3dpUG5yPD5L4R
-         60AENY5G39R1Xk4qRqXGXSyAivxSKB3xacH88suw7yZRwv+wp/I/L02k43RCwrSJF6Rm
-         vMrMLTEUima0NyFOiQtEtREoUbFAwZWMi9mjLtXWPaATHpMYa9rqa4b/BIP77Kg10Jdf
-         IEqX8RIkV76fMkHWwIjuNWf25ZcvOVlGCfhmDwrpzNPaEp5c0Md85z4YB56lQhgQJH0V
-         fnHA5+h9qpKQpogo6uo+v7wm1Q7/W49T4nHVH0AyhlxwAAoVww74qv0VwJS74y83o9MA
-         /fFw==
+        bh=LVj/2IPCO/rsyUxwejJA/YKSv8ccPTCCNt+bis0ReOA=;
+        b=Xd5bYdvciTl/1qz8UZ1QOXbSQdBrlICShYBqauUGhYrTHHz5f41WXibn7/296E6+M+
+         j3MReR9mRuNvKQJ6D2U2vjqFSjID7ekBJoNExKNZURzmpGHUqr9llB5PC437+gW+7p/A
+         69QwbTUjejPo7FvpmZPHrBgP7MdPNv6xxY6cPKqTp9ISLN4AE1tFQRQU0gPJjRWx8eNZ
+         /gh5ycvAR9qz6Qvy3TE1wnQnXYhxWtqNHzPqrIVjyOc1p1OQEttmR/HMdSrjLfEf4skC
+         vAf5qdoh2dKnLwWs3rSwuExHd37G/DC+twUe+ggm+QjkGn9/RSHkp+h+DqeGTcq4uqWL
+         IDlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795474870; x=1796079670;
+        d=1e100.net; s=20260707; t=1795474875; x=1796079675;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dgtdwwb3WutHlhNR2d7t/1yGsgE+Dr/udMHlhEjkers=;
-        b=EIpRYHDvxx0XnM9uKZb6ACOOZAbS5V8KpDz6PuukzKwqgSEp8PqQIlw97fV4GLa1uk
-         49MV1QOzgU6etcVlnWBofqPMPb+5ZUtGGqesrDwsM5nGjPoQ3lfst6Zpd1ne5ET1mpW3
-         DOjHLeJe7Ukowf08TheOJqd3+P2sWQIzg43hnQMRdmpnP2dI+72TEqqcuKXPNp5SOexi
-         HUrLiz03b1X+t7dBGFz4QWU0ynQXO5zT8uCmxWpWKruHO+ABQHHnYKlCg+S7sFhZcH0F
-         2l2yLebLXBPuHPdWitE8lo7jSn0BVvUBcmtoPMJ0Zx7vUTFH/02a8yF2jpZyvyPLdFuB
-         kVww==
-X-Forwarded-Encrypted: i=1; AL+hErFFTh8D2o5WXCcbiaGqqsrgd/9atXeZKgY6vxWZXDIAi6q44JSJ5PrkvebGYPaLHVWJKzXcIViIIwapig==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ijQGAAOEIZ//IoYGrMOj+VEVEpdZ3SdfFY1cWjKMk86wpqHZ/
-	W9k95zEOn3Ydyn5v+7dhLERB8SYcEoHUMIndEjWudj45oylOz2N/tXQ3
-X-Gm-Gg: AZFdTZfAWcyleeAUzj3LzP+zKrsB7397lez1kcTMoU+Gf50w4Zmv0KzwfzoeMlfloSM
-	l9Pj/neJrBwY8Nu0UBxBYs3hu+pIxwEZvwzP8E/sS1Y9oCtriL7OC55aYTFV92F15QVNy1JoMYa
-	03SpVRdiT8dT3PsKcfJ6CYtrLenTfDQCepUujjZ2kFUcyiZadioLD7MX2YRl2+292KXGwSP9xMn
-	+H44ft8TlT1JLzBSS8geoygmutV5CeyT+JihMJMY5NKByvni+CNtme7enqLzvIDN0dc/CuKNivU
-	0Y0MqcSG44w++fbCarLVeeDVTOfxO0eI6iLMAo2I0wiaLIN/2BluCgbYR5XHbX9XeeAlNEIEgrL
-	/C5TwFRmk5BpyPaav7tGEbF2CFp0W3J9vh2jHVqAdYv0vrUt7XJjSCTVc7TUk3sAf2DHMQKKxBV
-	npik0hKeE2Hs3Vj3ZGB9IQAoKVJVauDbqsAAo/ldP+tM6Dn+yf0sg+vFw2hyCqv1PZStaPa/B92
-	GVbT/KXAe7earTH8NlfpFN8iBCfzieXNj7KV3R1tct7faeWUyjlqLr+vgeTRuBrWjO/UF9dsXTO
-	2bQziYp+ApCU368VO8FLx6Fz7/hMVhAjJY8c02wFb5rc9h5UbEu8qYALcVHSbooT6Rcf3zq+7sg
-	B4iYC59GVdvlZ1AaLig==
-X-Received: by 2002:a05:7300:2202:b0:36a:1e9e:ae61 with SMTP id 5a478bee46e88-3857170afa1mr19311351eec.38.1795474869816;
-        Mon, 23 Nov 2026 15:01:09 -0800 (PST)
+        bh=LVj/2IPCO/rsyUxwejJA/YKSv8ccPTCCNt+bis0ReOA=;
+        b=vFZdJbPZ22efA2Cou9s4egyVFeN89TpLnc0APBeKBKjgbEw7i93HGBp/9U+MoV1k/v
+         L6ZqM9KdjxDDkqEdLMS3+M59RlGjnuVIN8ZkivrCHdBi+sPyfNe0gR70ouKyxrsD2cvj
+         afXI02ZHgAy6GTzzrn91xufKvDqjdNDb3a7NaXK5jztbN8xhhZ/VwmL7DgKuXEcN3Uqa
+         19IVbMAI/f8X2mTMYZJ4pxBtIjV4yppLV/qVr0fwiJpVunSIDwXxekQ7YyYbc05ezmfe
+         JykpFXQkU5vukRTIiehivvJE/uvD25kaLURMfOXL3oN0XJlF4AcAdYwVtibMOmjpOqCY
+         pVWg==
+X-Forwarded-Encrypted: i=1; AL+hErEcMH3hMI/W1ENCbHr/t2cKc++J2tUQ8t3w7lmPrWc6K6i1nlpTyReddALQkMtpytpR4E1wgTzxKJMSLA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8XZS/tPgY1WbHJwSB+9D3k6rkuXmXhXf6E5MUJpG6bEcR9J5Ja
+	QWyhvODg4Hhm0GAooEiK7RwXqmCqCr61pq6IjdzXQLm0w7jR1S41wBoI
+X-Gm-Gg: AZFdTZe+mejq0ZkENm5fCDyT7cpkKyOAGIY1PO0d/ihiSRZf9wRQ8Im+Z5XmQZG7bnw
+	/93Hhxpl5anNKgBQmNZVtt6K0hoDjr+z5u5ulxA9icCV2/SIAHgiShC9HL1t+8YS0sF/keZBOXj
+	/tVwScrIlZufaWVqgoVxQaE7mtgaglBsswaJoQ2wioGAm5aFCZaR6AES1VKXjyBhbnWLD4oUI1L
+	cM7W9vKVzvzf8JqypapWGj657haE29/S5jRrSc8lXiXEzOZvkqWt9s6vLlz5hfQfkrqtBnrmO7w
+	D+k3NOX0FIf8QaAC+B5sxGMf8lnx55jTb4CilcSeNEaOgaVS5UysxgQIRSvBC2sr6sovS+KTl1C
+	931zjdR667UVkP72ElGoZlIrr5VBlSpdIqr5eXAjf1ErD19F+Ucns3X+g6S3AiXS/gjm5dPT760
+	qWwWWCUq5ozqbpHS3ZOU8zxVAVnJ0sKmyIrAiTyC0RaEGRqF88E1cblRm0Ov67JxtwhBewrxB/D
+	kJGwTOOpxKXArcJ5gzdPjw61cnd4wN9C8KnCcjDoqa5KEl5yHasGwhvkEFHuQfS53Q1cHKvVrHU
+	tuRmGhvbeInr714XmIleWC6ipCPhaqWnAa7iGDRV0AWNeBeEpwDa2CmQkOm/tJRW7PXAJYfYGQU
+	1F7BGhN/f7aXvSD/V2w==
+X-Received: by 2002:a05:693c:88d4:20b0:386:a8de:2bfc with SMTP id 5a478bee46e88-386a8de2f67mr5900155eec.6.1795474874471;
+        Mon, 23 Nov 2026 15:01:14 -0800 (PST)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:4121:d698:201c:9274])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385677c349csm41359262eec.22.2026.11.23.15.01.07
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385677c349csm41359262eec.22.2026.11.23.15.01.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 15:01:08 -0800 (PST)
+        Mon, 23 Nov 2026 15:01:11 -0800 (PST)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date: Mon, 23 Nov 2026 15:00:55 -0800
-Subject: [PATCH v2 2/4] ASoC: arizona: always parse device properties
- regardless of platform data
+Date: Mon, 23 Nov 2026 15:00:56 -0800
+Subject: [PATCH v2 3/4] ASoC: arizona: drop unused HPDET accessory ID
+ support
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -95,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261123-arizona-asoc-v2-2-6323d3c0961a@gmail.com>
+Message-Id: <20261123-arizona-asoc-v2-3-6323d3c0961a@gmail.com>
 References: <20261123-arizona-asoc-v2-0-6323d3c0961a@gmail.com>
 In-Reply-To: <20261123-arizona-asoc-v2-0-6323d3c0961a@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -107,192 +107,369 @@ Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, mfd@lists.linux.dev
 X-Mailer: b4 0.17-dev-dd645
 
-Always parse device properties in the Arizona jack detection driver and
-codec drivers even when platform data is provided, allowing DT, ACPI,
-or software node properties to augment platform data configurations.
+Nothing in the kernel sets hpdet_acc_id or hpdet_acc_id_line in
+struct arizona_pdata, and neither has any Device Tree or ACPI bindings.
 
-In the jack detection driver, only validate and apply the
-wlf,hpdet-channel property when it is present, leaving any existing
-platform data value untouched when the property is absent or invalid,
-and preserve existing boolean flags using bitwise OR assignments.
-
-Default an unset headphone detection channel (0, corresponding to
-ARIZONA_ACCDET_MODE_MIC and invalid for headphone impedance polling) to
-ARIZONA_ACCDET_MODE_HPL during jack probe.
-Commit 9e86b2ad4c11 ("extcon: arizona: Add support for select
-accessory detect mode when headphone detection") originally placed this
-default only in the OF property parser, inadvertently leaving
-platform-data boards that omit the channel setting at 0.
+Remove both platform data fields and all exclusively connected HPDET
+accessory identification logic, work items, GPIO lookup, and state from
+the Arizona jack detection driver.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- sound/soc/codecs/arizona-jack.c | 50 +++++++++++++++++++++++------------------
- sound/soc/codecs/cs47l24.c      |  3 +--
- sound/soc/codecs/wm5102.c       |  3 +--
- sound/soc/codecs/wm5110.c       |  3 +--
- sound/soc/codecs/wm8997.c       |  3 +--
- sound/soc/codecs/wm8998.c       |  3 +--
- 6 files changed, 33 insertions(+), 32 deletions(-)
+ include/linux/mfd/arizona/pdata.h |   6 --
+ sound/soc/codecs/arizona-jack.c   | 181 +-------------------------------------
+ sound/soc/codecs/arizona.h        |   6 --
+ 3 files changed, 4 insertions(+), 189 deletions(-)
 
+diff --git a/include/linux/mfd/arizona/pdata.h b/include/linux/mfd/arizona/pdata.h
+index 984b2edfec07..96ef9c97d4cc 100644
+--- a/include/linux/mfd/arizona/pdata.h
++++ b/include/linux/mfd/arizona/pdata.h
+@@ -112,12 +112,6 @@ struct arizona_pdata {
+ 	/** set to true if jackdet contact opens on insert */
+ 	bool jd_invert;
+ 
+-	/** Use the headphone detect circuit to identify the accessory */
+-	bool hpdet_acc_id;
+-
+-	/** Check for line output with HPDET method */
+-	bool hpdet_acc_id_line;
+-
+ 	/** Channel to use for headphone detection */
+ 	unsigned int hpdet_channel;
+ 
 diff --git a/sound/soc/codecs/arizona-jack.c b/sound/soc/codecs/arizona-jack.c
-index db60ea1aaec8..f36d314a6a54 100644
+index f36d314a6a54..5650a7f47ede 100644
 --- a/sound/soc/codecs/arizona-jack.c
 +++ b/sound/soc/codecs/arizona-jack.c
-@@ -1183,18 +1183,20 @@ static int arizona_extcon_device_get_pdata(struct device *dev,
- 					   struct arizona *arizona)
+@@ -45,7 +45,6 @@
+ 
+ #define ARIZONA_HPDET_MAX 10000
+ 
+-#define HPDET_DEBOUNCE 500
+ #define DEFAULT_MICD_TIMEOUT 2000
+ 
+ #define ARIZONA_HPDET_WAIT_COUNT 15
+@@ -92,8 +91,6 @@ static const int arizona_micd_levels[] = {
+ 	1257, 30000,
+ };
+ 
+-static void arizona_start_hpdet_acc_id(struct arizona_priv *info);
+-
+ static void arizona_extcon_hp_clamp(struct arizona_priv *info,
+ 				    bool clamp)
  {
- 	struct arizona_pdata *pdata = &arizona->pdata;
--	unsigned int val = ARIZONA_ACCDET_MODE_HPL;
-+	unsigned int val;
- 	int ret;
+@@ -455,79 +452,11 @@ static int arizona_hpdet_read(struct arizona_priv *info)
+ 	return val;
+ }
  
--	device_property_read_u32(arizona->dev, "wlf,hpdet-channel", &val);
--	switch (val) {
--	case ARIZONA_ACCDET_MODE_HPL:
--	case ARIZONA_ACCDET_MODE_HPR:
--		pdata->hpdet_channel = val;
--		break;
--	default:
--		dev_err(arizona->dev, "Wrong wlf,hpdet-channel DT value %d\n", val);
--		pdata->hpdet_channel = ARIZONA_ACCDET_MODE_HPL;
-+	if (!device_property_read_u32(arizona->dev, "wlf,hpdet-channel", &val)) {
-+		switch (val) {
-+		case ARIZONA_ACCDET_MODE_HPL:
-+		case ARIZONA_ACCDET_MODE_HPR:
-+			pdata->hpdet_channel = val;
-+			break;
-+		default:
-+			dev_err(arizona->dev,
-+				"Wrong wlf,hpdet-channel DT value %d\n", val);
-+			break;
-+		}
+-static int arizona_hpdet_do_id(struct arizona_priv *info, int *reading,
+-			       bool *mic)
+-{
+-	struct arizona *arizona = info->arizona;
+-
+-	if (!arizona->pdata.hpdet_acc_id)
+-		return 0;
+-
+-	/*
+-	 * If we're using HPDET for accessory identification we need
+-	 * to take multiple measurements, step through them in sequence.
+-	 */
+-	info->hpdet_res[info->num_hpdet_res++] = *reading;
+-
+-	/* Only check the mic directly if we didn't already ID it */
+-	if (info->hpdet_id_gpio && info->num_hpdet_res == 1) {
+-		dev_dbg(arizona->dev, "Measuring mic\n");
+-
+-		regmap_update_bits(arizona->regmap,
+-				   ARIZONA_ACCESSORY_DETECT_MODE_1,
+-				   ARIZONA_ACCDET_MODE_MASK |
+-				   ARIZONA_ACCDET_SRC,
+-				   ARIZONA_ACCDET_MODE_HPR |
+-				   info->micd_modes[0].src);
+-
+-		gpiod_set_value_cansleep(info->hpdet_id_gpio, 1);
+-
+-		regmap_update_bits(arizona->regmap, ARIZONA_HEADPHONE_DETECT_1,
+-				   ARIZONA_HP_POLL, ARIZONA_HP_POLL);
+-		return -EAGAIN;
+-	}
+-
+-	/* OK, got both.  Now, compare... */
+-	dev_dbg(arizona->dev, "HPDET measured %d %d\n",
+-		info->hpdet_res[0], info->hpdet_res[1]);
+-
+-	/* Take the headphone impedance for the main report */
+-	*reading = info->hpdet_res[0];
+-
+-	/* Sometimes we get false readings due to slow insert */
+-	if (*reading >= ARIZONA_HPDET_MAX && !info->hpdet_retried) {
+-		dev_dbg(arizona->dev, "Retrying high impedance\n");
+-		info->num_hpdet_res = 0;
+-		info->hpdet_retried = true;
+-		arizona_start_hpdet_acc_id(info);
+-		pm_runtime_put(arizona->dev);
+-		return -EAGAIN;
+-	}
+-
+-	/*
+-	 * If we measure the mic as high impedance
+-	 */
+-	if (!info->hpdet_id_gpio || info->hpdet_res[1] > 50) {
+-		dev_dbg(arizona->dev, "Detected mic\n");
+-		*mic = true;
+-		info->detecting = true;
+-	} else {
+-		dev_dbg(arizona->dev, "Detected headphone\n");
+-	}
+-
+-	/* Make sure everything is reset back to the real polarity */
+-	regmap_update_bits(arizona->regmap, ARIZONA_ACCESSORY_DETECT_MODE_1,
+-			   ARIZONA_ACCDET_SRC, info->micd_modes[0].src);
+-
+-	return 0;
+-}
+-
+ static irqreturn_t arizona_hpdet_irq(int irq, void *data)
+ {
+ 	struct arizona_priv *info = data;
+ 	struct arizona *arizona = info->arizona;
+ 	int ret, reading, state, report;
+-	bool mic = false;
+ 
+ 	mutex_lock(&info->lock);
+ 
+@@ -552,18 +481,6 @@ static irqreturn_t arizona_hpdet_irq(int irq, void *data)
+ 		goto done;
+ 	reading = ret;
+ 
+-	/* Reset back to starting range */
+-	regmap_update_bits(arizona->regmap,
+-			   ARIZONA_HEADPHONE_DETECT_1,
+-			   ARIZONA_HP_IMPEDANCE_RANGE_MASK | ARIZONA_HP_POLL,
+-			   0);
+-
+-	ret = arizona_hpdet_do_id(info, &reading, &mic);
+-	if (ret == -EAGAIN)
+-		goto out;
+-	else if (ret < 0)
+-		goto done;
+-
+ 	/* Report high impedence cables as line outputs */
+ 	if (reading >= 5000)
+ 		report = SND_JACK_LINEOUT;
+@@ -581,11 +498,8 @@ static irqreturn_t arizona_hpdet_irq(int irq, void *data)
+ 
+ 	arizona_extcon_hp_clamp(info, false);
+ 
+-	if (info->hpdet_id_gpio)
+-		gpiod_set_value_cansleep(info->hpdet_id_gpio, 0);
+-
+ 	/* If we have a mic then reenable MICDET */
+-	if (state && (mic || info->mic))
++	if (state && info->mic)
+ 		arizona_start_mic(info);
+ 
+ 	if (info->hpdet_active) {
+@@ -654,55 +568,6 @@ static void arizona_identify_headphone(struct arizona_priv *info)
+ 	info->hpdet_active = false;
+ }
+ 
+-static void arizona_start_hpdet_acc_id(struct arizona_priv *info)
+-{
+-	struct arizona *arizona = info->arizona;
+-	int hp_reading = 32;
+-	bool mic;
+-	int ret;
+-
+-	dev_dbg(arizona->dev, "Starting identification via HPDET\n");
+-
+-	/* Make sure we keep the device enabled during the measurement */
+-	pm_runtime_get_sync(arizona->dev);
+-
+-	info->hpdet_active = true;
+-
+-	arizona_extcon_hp_clamp(info, true);
+-
+-	ret = regmap_update_bits(arizona->regmap,
+-				 ARIZONA_ACCESSORY_DETECT_MODE_1,
+-				 ARIZONA_ACCDET_SRC | ARIZONA_ACCDET_MODE_MASK,
+-				 info->micd_modes[0].src |
+-				 arizona->pdata.hpdet_channel);
+-	if (ret != 0) {
+-		dev_err(arizona->dev, "Failed to set HPDET mode: %d\n", ret);
+-		goto err;
+-	}
+-
+-	if (arizona->pdata.hpdet_acc_id_line) {
+-		ret = regmap_update_bits(arizona->regmap,
+-					 ARIZONA_HEADPHONE_DETECT_1,
+-					 ARIZONA_HP_POLL, ARIZONA_HP_POLL);
+-		if (ret) {
+-			dev_err(arizona->dev, "Can't start HPDETL measurement: %d\n", ret);
+-			goto err;
+-		}
+-	} else {
+-		arizona_hpdet_do_id(info, &hp_reading, &mic);
+-	}
+-
+-	return;
+-
+-err:
+-	/* Just report headphone */
+-	snd_soc_jack_report(info->jack, SND_JACK_HEADPHONE,
+-			    SND_JACK_LINEOUT | SND_JACK_HEADPHONE);
+-
+-	pm_runtime_put_autosuspend(arizona->dev);
+-	info->hpdet_active = false;
+-}
+-
+ static void arizona_micd_timeout_work(struct work_struct *work)
+ {
+ 	struct arizona_priv *info = container_of(work,
+@@ -961,16 +826,6 @@ static irqreturn_t arizona_micdet(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void arizona_hpdet_work(struct work_struct *work)
+-{
+-	struct arizona_priv *info = container_of(work,
+-						struct arizona_priv,
+-						hpdet_work.work);
+-
+-	guard(mutex)(&info->lock);
+-	arizona_start_hpdet_acc_id(info);
+-}
+-
+ static int arizona_hpdet_wait(struct arizona_priv *info)
+ {
+ 	struct arizona *arizona = info->arizona;
+@@ -1009,10 +864,9 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
+ 	struct arizona_priv *info = data;
+ 	struct arizona *arizona = info->arizona;
+ 	unsigned int val, present, mask;
+-	bool cancelled_hp, cancelled_mic;
+-	int ret, i;
++	bool cancelled_mic;
++	int ret;
+ 
+-	cancelled_hp = cancel_delayed_work_sync(&info->hpdet_work);
+ 	cancelled_mic = cancel_delayed_work_sync(&info->micd_timeout_work);
+ 
+ 	guard(pm_runtime_active_auto)(arizona->dev);
+@@ -1039,11 +893,6 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
+ 	val &= mask;
+ 	if (val == info->last_jackdet) {
+ 		dev_dbg(arizona->dev, "Suppressing duplicate JACKDET\n");
+-		if (cancelled_hp)
+-			queue_delayed_work(system_power_efficient_wq,
+-					   &info->hpdet_work,
+-					   msecs_to_jiffies(HPDET_DEBOUNCE));
+-
+ 		if (cancelled_mic) {
+ 			int micd_timeout = arizona->pdata.micd_timeout;
+ 
+@@ -1062,13 +911,7 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
+ 			info->mic = false;
+ 			info->jack_flips = 0;
+ 
+-			if (!arizona->pdata.hpdet_acc_id) {
+-				arizona_start_mic(info);
+-			} else {
+-				queue_delayed_work(system_power_efficient_wq,
+-						   &info->hpdet_work,
+-						   msecs_to_jiffies(HPDET_DEBOUNCE));
+-			}
++			arizona_start_mic(info);
+ 
+ 			if (info->micd_clamp || !arizona->pdata.jd_invert)
+ 				regmap_update_bits(arizona->regmap,
+@@ -1080,12 +923,8 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
+ 
+ 			arizona_stop_mic(info);
+ 
+-			info->num_hpdet_res = 0;
+-			for (i = 0; i < ARRAY_SIZE(info->hpdet_res); i++)
+-				info->hpdet_res[i] = 0;
+ 			info->mic = false;
+ 			info->hpdet_done = false;
+-			info->hpdet_retried = false;
+ 
+ 			snd_soc_jack_report(info->jack, 0,
+ 					    ARIZONA_JACK_MASK | info->micd_button_mask);
+@@ -1253,7 +1092,6 @@ int arizona_jack_codec_dev_probe(struct arizona_priv *info, struct device *dev)
+ 
+ 	mutex_init(&info->lock);
+ 	info->last_jackdet = ~(ARIZONA_MICD_CLAMP_STS | ARIZONA_JD1_STS);
+-	INIT_DELAYED_WORK(&info->hpdet_work, arizona_hpdet_work);
+ 	INIT_DELAYED_WORK(&info->micd_detect_work, arizona_micd_detect);
+ 	INIT_DELAYED_WORK(&info->micd_timeout_work, arizona_micd_timeout_work);
+ 
+@@ -1326,15 +1164,6 @@ int arizona_jack_codec_dev_probe(struct arizona_priv *info, struct device *dev)
+ 		return ret;
  	}
  
- 	device_property_read_u32(arizona->dev, "wlf,micd-detect-debounce",
-@@ -1212,21 +1214,23 @@ static int arizona_extcon_device_get_pdata(struct device *dev,
- 	device_property_read_u32(arizona->dev, "wlf,micd-timeout-ms",
- 				 &pdata->micd_timeout);
+-	info->hpdet_id_gpio = gpiod_get_optional(arizona->dev,
+-						 "wlf,hpdet-id-gpio",
+-						 mode);
+-	if (IS_ERR(info->hpdet_id_gpio)) {
+-		ret = PTR_ERR(info->hpdet_id_gpio);
+-		dev_err_probe(arizona->dev, ret, "getting headphone detect ID GPIO\n");
+-		return ret;
+-	}
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(arizona_jack_codec_dev_probe);
+@@ -1342,7 +1171,6 @@ EXPORT_SYMBOL_GPL(arizona_jack_codec_dev_probe);
+ int arizona_jack_codec_dev_remove(struct arizona_priv *info)
+ {
+ 	gpiod_put(info->micd_pol_gpio);
+-	gpiod_put(info->hpdet_id_gpio);
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(arizona_jack_codec_dev_remove);
+@@ -1588,7 +1416,6 @@ static int arizona_jack_disable_jack_detect(struct arizona_priv *info)
+ 	arizona_free_irq(arizona, ARIZONA_IRQ_MICDET, info);
+ 	arizona_free_irq(arizona, jack_irq_rise, info);
+ 	arizona_free_irq(arizona, jack_irq_fall, info);
+-	cancel_delayed_work_sync(&info->hpdet_work);
+ 	cancel_delayed_work_sync(&info->micd_detect_work);
+ 	cancel_delayed_work_sync(&info->micd_timeout_work);
  
--	pdata->micd_force_micbias = device_property_read_bool(arizona->dev,
--						"wlf,micd-force-micbias");
-+	pdata->micd_force_micbias |=
-+		device_property_read_bool(arizona->dev,
-+					  "wlf,micd-force-micbias");
+diff --git a/sound/soc/codecs/arizona.h b/sound/soc/codecs/arizona.h
+index 499891e62183..766a29a23893 100644
+--- a/sound/soc/codecs/arizona.h
++++ b/sound/soc/codecs/arizona.h
+@@ -94,13 +94,11 @@ struct arizona_priv {
  
--	pdata->micd_software_compare = device_property_read_bool(arizona->dev,
--						"wlf,micd-software-compare");
-+	pdata->micd_software_compare |=
-+		device_property_read_bool(arizona->dev,
-+					  "wlf,micd-software-compare");
+ 	/* Variables used by arizona-jack.c code */
+ 	struct mutex lock;
+-	struct delayed_work hpdet_work;
+ 	struct delayed_work micd_detect_work;
+ 	struct delayed_work micd_timeout_work;
+ 	struct snd_soc_jack *jack;
+ 	struct regulator *micvdd;
+ 	struct gpio_desc *micd_pol_gpio;
+-	struct gpio_desc *hpdet_id_gpio;
  
--	pdata->jd_invert = device_property_read_bool(arizona->dev,
--						     "wlf,jd-invert");
-+	pdata->jd_invert |= device_property_read_bool(arizona->dev,
-+						      "wlf,jd-invert");
+ 	u16 last_jackdet;
  
- 	device_property_read_u32(arizona->dev, "wlf,gpsw", &pdata->gpsw);
+@@ -117,14 +115,10 @@ struct arizona_priv {
  
--	pdata->jd_gpio5 = device_property_read_bool(arizona->dev,
--						    "wlf,use-jd2");
--	pdata->jd_gpio5_nopull = device_property_read_bool(arizona->dev,
--						"wlf,use-jd2-nopull");
-+	pdata->jd_gpio5 |= device_property_read_bool(arizona->dev,
-+						     "wlf,use-jd2");
-+	pdata->jd_gpio5_nopull |=
-+		device_property_read_bool(arizona->dev, "wlf,use-jd2-nopull");
+ 	bool hpdet_active;
+ 	bool hpdet_done;
+-	bool hpdet_retried;
  
- 	ret = arizona_extcon_get_micd_configs(dev, arizona);
- 	if (ret < 0)
-@@ -1241,8 +1245,7 @@ int arizona_jack_codec_dev_probe(struct arizona_priv *info, struct device *dev)
- 	struct arizona_pdata *pdata = &arizona->pdata;
- 	int ret, mode;
+ 	bool mic;
+ 	bool detecting;
  
--	if (!dev_get_platdata(arizona->dev))
--		arizona_extcon_device_get_pdata(dev, arizona);
-+	arizona_extcon_device_get_pdata(dev, arizona);
- 
- 	info->micvdd = devm_regulator_get(dev, "MICVDD");
- 	if (IS_ERR(info->micvdd))
-@@ -1286,6 +1289,9 @@ int arizona_jack_codec_dev_probe(struct arizona_priv *info, struct device *dev)
- 		break;
- 	}
- 
-+	if (!pdata->hpdet_channel)
-+		pdata->hpdet_channel = ARIZONA_ACCDET_MODE_HPL;
-+
- 	if (!pdata->micd_timeout)
- 		pdata->micd_timeout = DEFAULT_MICD_TIMEOUT;
- 
-diff --git a/sound/soc/codecs/cs47l24.c b/sound/soc/codecs/cs47l24.c
-index 4c09b476b77a..744a610cd1af 100644
---- a/sound/soc/codecs/cs47l24.c
-+++ b/sound/soc/codecs/cs47l24.c
-@@ -1221,8 +1221,7 @@ static int cs47l24_probe(struct platform_device *pdev)
- 	if (!cs47l24)
- 		return -ENOMEM;
- 
--	if (!dev_get_platdata(arizona->dev))
--		arizona_get_audio_pdata(arizona);
-+	arizona_get_audio_pdata(arizona);
- 
- 	platform_set_drvdata(pdev, cs47l24);
- 
-diff --git a/sound/soc/codecs/wm5102.c b/sound/soc/codecs/wm5102.c
-index 35b7c034b517..b52f1d30c3c0 100644
---- a/sound/soc/codecs/wm5102.c
-+++ b/sound/soc/codecs/wm5102.c
-@@ -2040,8 +2040,7 @@ static int wm5102_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, wm5102);
- 
--	if (!dev_get_platdata(arizona->dev))
--		arizona_get_audio_pdata(arizona);
-+	arizona_get_audio_pdata(arizona);
- 
- 	mutex_init(&arizona->dac_comp_lock);
- 
-diff --git a/sound/soc/codecs/wm5110.c b/sound/soc/codecs/wm5110.c
-index 312c55ab7cd5..34a6ef555530 100644
---- a/sound/soc/codecs/wm5110.c
-+++ b/sound/soc/codecs/wm5110.c
-@@ -2402,8 +2402,7 @@ static int wm5110_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, wm5110);
- 
--	if (!dev_get_platdata(arizona->dev))
--		arizona_get_audio_pdata(arizona);
-+	arizona_get_audio_pdata(arizona);
- 
- 	wm5110->core.arizona = arizona;
- 	wm5110->core.num_inputs = 8;
-diff --git a/sound/soc/codecs/wm8997.c b/sound/soc/codecs/wm8997.c
-index 4d0c3a54bd16..f4608c1f16bb 100644
---- a/sound/soc/codecs/wm8997.c
-+++ b/sound/soc/codecs/wm8997.c
-@@ -1118,8 +1118,7 @@ static int wm8997_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, wm8997);
- 
--	if (!dev_get_platdata(arizona->dev))
--		arizona_get_audio_pdata(arizona);
-+	arizona_get_audio_pdata(arizona);
- 
- 	wm8997->core.arizona = arizona;
- 	wm8997->core.num_inputs = 4;
-diff --git a/sound/soc/codecs/wm8998.c b/sound/soc/codecs/wm8998.c
-index 3ae19f03f29a..9eb82d46346c 100644
---- a/sound/soc/codecs/wm8998.c
-+++ b/sound/soc/codecs/wm8998.c
-@@ -1345,8 +1345,7 @@ static int wm8998_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 	platform_set_drvdata(pdev, wm8998);
- 
--	if (!dev_get_platdata(arizona->dev))
--		arizona_get_audio_pdata(arizona);
-+	arizona_get_audio_pdata(arizona);
- 
- 	wm8998->core.arizona = arizona;
- 	wm8998->core.num_inputs = 3;	/* IN1L, IN1R, IN2 */
+-	int num_hpdet_res;
+-	unsigned int hpdet_res[3];
+-
+ 	int jack_flips;
+ 	int hpdet_ip_version;
+ };
 
 -- 
 2.56.1.809.ga0b61035b5-goog
