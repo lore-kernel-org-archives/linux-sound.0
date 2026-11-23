@@ -1,110 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396454;
-	b=zi5CmbsyWWIP6YcQ/4Fam+GvM7peZZwKt/YIGlQtl/6OKgHMFyzsT15Agz7Vx8bqtkbM
-	 GAq3PTSrvx6U84peo4eUzpgskES8ERlNgm48wOYmNlP6DdI05KxPqn4HVh3h9BIAjslP5
-	 9F/AEk173YcK4hPNj4w7MqeoYvLqQzWfCpMcXtjAvNE8DjnOPnZNjaYteMW7ToVdmwb9K
-	 vFNh63HZdgszbwnqP3GQhw5U3SAqBbUUoYcNeYyp/DR+5S8tTg0UKWqahvnpXXtzztHwQ
-	 O9ZJGDKJY3J/3f0NdVbUCqonjBwR6P0lwAYDanVSSxl/X3i7SI6Uk7gmnyConHSfTVg==
+	t=1795396464;
+	b=hNLc9KR2nZ8NyUEJzFsrLog4wN7RzSWGOyFJWy7ylZBohYjB4BvvtUR0wV3wgOB+YZiR
+	 kiBLR/4ThXpZaSieGG0xHNKUc6tYeZAUykgOFJe3zYmQpvycFrF2AAZBlHOF9mUjvM/BA
+	 Z/Ep76/tBiiPnU9Lja64D0jZnyBp1j5PF9s42BgFeNLenwMNr/UeI2xTvS8L3oGeRrPCZ
+	 hdeC4se9QzX5f3bvU9RH+jRH/cGN4AM2LmowTqc2OC0X0GRGv2Iulxo6Vl4s0DJ2B+RgX
+	 tk//dOqx89SrbY+VBDcBBX2HT8f4YJAiqT6R0xYnCiZOJFBiIOUF243stPzX9kiIqSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396454;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=1nAFz1rE2Zgq0kT2UJ5pKEhQqcU8lxqQXw2MrFx+Nfc=;
-	b=pYZrMBTfNg/tmd5x+6LlDdoeixZlNJ55dAWeRxY8ztf03HR0s7/UdHR9gNKc9N/uWePj
-	 4CkIGVm9AcUqiXxBqwnrsZb+cPSGX6GMJevdtDz5+Ovu5QxGWCZENhHVJp23xUYqrtls0
-	 WiCfI/oIN+MLF2RqmZsp2raJBZnwj1VGeEe8iwJ+o8MrsqTpq+5f3RFNf8mmgpDYOOGnG
-	 pmishOdd7aYSQGCApUZyOAiwFORtgvvtqfZafCILuLUB4GraLHtu4L5eaypgZ1P+Rge2X
-	 6ZhW1/QNp0FrcTvIJ/w0UhpauL/DmjKewRbsub40ZyTUp5IqRzi42cJpfvrkBkDp5QA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795396464;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=CHXXmkVwlU35isuKQoqN5mwPu5Ltu0MHi54EypRJlu0=;
+	b=FNFafeotVGfk71bOPIiH3X6JtuWfvf/oAH4seBHSViUJak4C04kGX7MSZAT1WFndGnx5
+	 T9/lpXskP6m9m6p8mV2knqTodRfC97HYaw9yiZ5+LZwwEgfl/2DhR6ekMJLr2ieV3wO3M
+	 fjfJjN6hSBUMaeyBh8Sj0f9Dlq6h7iGsHGd5wQdlocpQ73i4SvGr2IJedEG/14fQbm2Rv
+	 WDVkwGRZbeOyNm4RcOOvFLlDc+E57UH+XHSVNDCGrhcariPjn1ZCggUyscvCVLs17TJjL
+	 n2w9KQG40X8GuSHVPJwoazIz31ERSvZjZi+kiuG4wzzfu5WCI207/ayfuN2v2LhezEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5brb9u8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lLYfZxYM;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE13606A332;
-	Mon, 23 Nov 2026 01:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA11606A33A
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 01:14:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3BA11606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m5brb9u8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6C351F000C0;
-	Mon, 23 Nov 2026 01:14:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795396453;
-	bh=1nAFz1rE2Zgq0kT2UJ5pKEhQqcU8lxqQXw2MrFx+Nfc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=m5brb9u8foWKbi7SrlcdW6nE2yWIS8IEGVU5QHSZYMih+9IEkmiqaNM0lLx2EYbPE
-	 Ene3Ka2hJ1BAvW2vOWqYEoxo49rMX/8KuHKgTHWJQeFE3NrlIrAf3xeYL6VLmMY+/l
-	 ekFXnTI29+zSfV1Cj1JiY8g0iM3LpoM2wMrgHM/4k71UbfvjD94MuJKD4cUZLqKZBp
-	 tapIlLzsw5cg25rKFRJ3Wy6OzHRx9WFNJ4Dy/E+S8IHUzJbf1ziPCMSD/LFgujVS+y
-	 I6gkNfNt8+7zFmlY0xlcmT0RV+dcWLazJhMGzWNLJfBLUPxJ9MdE0Cw4N9AumibzJ+
-	 +Zbi9zcgZuE0w==
-Date: Mon, 23 Nov 2026 01:13:59 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
-	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v2 11/12] docs: ioctl-number: update platform entries
-Message-ID: <awOTV4kbshpi_cxp@google.com>
-References: <20261119053514.255348-1-rdunlap@infradead.org>
- <20261119053514.255348-12-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lLYfZxYM
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a358881793so1334019f8f.0
+        for <linux-sound@vger.kernel.org>; Sun, 22 Nov 2026 17:14:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795396462; x=1796001262; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CHXXmkVwlU35isuKQoqN5mwPu5Ltu0MHi54EypRJlu0=;
+        b=lLYfZxYMSWmA1kHYYVmuloqDhwWyKpx9LPpB+YnK6yqlB4mSQb+5Hcpwr3kS5Rhzbn
+         qISBeMDJC0bUkBW6N1b3qVISFlGRiAeSHrxg3qSnGKzIRAayoEFzuw6zw3z5SZ3IUZCO
+         Cxb7SEcv6Zbqy3KF1ctTkGA8MmIB3MgaNPZIflb+43G/b0jAblyNdwvWt7fW1ycS6OiC
+         cJ9ULSCo4wW8wmN2sE6o6CUVYbsUavY9pB3coDVMEHG4JIQw83wWyK1AqokgK6GqjtQz
+         ESRspAsHGyGiRCDu6cDyR1DV1JOs1wows42eauZ5Z7f5QToolN1t7kNBfNxfJTnUGPuM
+         hqmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795396462; x=1796001262;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CHXXmkVwlU35isuKQoqN5mwPu5Ltu0MHi54EypRJlu0=;
+        b=AhjNVlM+iC9xJAdB8ya6L79BVg14dqtCnCHUgJxBy4ek1WiL4Eaf9SgwkCk58DncAD
+         LRd1a9QI+ovPbrwFpsBiMbGD73mj8Xk6ZvJM7CysyFnmzpszMxxovhYqIkTaMGQ1fBDA
+         veqbJRKl109DFJp4tcpob+Mj3VU1NSgM1n5LU6Zu7B/L8XJK9nsS6zyPB2EWxEHssmvq
+         UmKquSCFCtCjTvJxMvTrghEvgcrcePD7Oya+j6Gfk2EA8A1A/Ywv/v9dE6zL1eIILFjF
+         MfzOM2S6InkO/2dSgVFOX0zKdDN1ueWZJ1fksi3WDWb5t90BZzsiKeykge35QrVn/hCR
+         ja7w==
+X-Forwarded-Encrypted: i=1; AL+hErFDfehMroJxwNW9U92pmQ+cSYTd0XTlv4vIlKH0LIDgAAqmytMB62pmDDiAMlrMPrD57gMfXe/P5WbhBA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+AramBdjbrDzre533hXyXE04WFC2zSyb9ii9bRVFArp46zvxoT
+	MpuNJUH1isDOobxPypqWDokJFWoipHDNMUCZWpWoCUuG/dwvNfDJUjO4z+W43w==
+X-Gm-Gg: AZFdTZc1SoKOxonsg2G20lKHyer02aw3OVTdBUdaI2xPY1XcTonw6ZwFt06OJKuw1Jl
+	z7kSnQcv6xo7omN7I77bI0gVPfFqDN3OF4PPIOjoKD5uBk0Ova1eGDdco9d+hB/kzD3D1Yzy2Pc
+	cK8Hj+tmQjS9bxgq8tAjRJVhtk05VparG+6XmPSPR+TTTrvEY4E3nrkElrmPl2tWG4j2nUcr6QN
+	0ftInCaO6q4JZLJpKU6EVDyMKtmOcI2AXV33YV5QPSrRW6U0A5n1xeh+QV+vI5Nnpu7lmyIfuuz
+	6AIaf7CJU562T+WNVCMtnamUw0kpKKpIGhwbjn93Tc6gUiJR9OpXbos22GDpzb7NR9p1fRKda6n
+	OvqwIl6lbAwX4dT5/HWOGY+Oj2CzIInAhnqEEsZJ98PvG0u642+vqMLjcnFicivyrVcla94FGFC
+	Pq/SsgokI43kaUIZ1ZnKFlWNU1r/JRM+SKkrQibibosWMl0nV58uoQj4a7IPCAqqQt4BA83WzFv
+	gl1m9LWN0R3duZU92T6QIB3BTb/6d9uCWjVFAF8vTfNFsB9YSqzctYj6JlIIUZUGHqNMwhMQkBl
+	ufw2VMWpkFdIwb0MUQLlmGznApOJ/GhJ+zb8HA==
+X-Received: by 2002:adf:e009:0:10b0:4a9:2728:fdfc with SMTP id ffacd0b85a97d-4abb4c7af34mr12900963f8f.28.1795396462348;
+        Sun, 22 Nov 2026 17:14:22 -0800 (PST)
+Received: from unknown.m0rf30.ray ([2a02:b027:11:deba:33a1:e72c:924d:d172])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4ab6a67f281sm18046903f8f.22.2026.11.22.17.14.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2026 17:14:21 -0800 (PST)
+From: Gianluca Boiano <morf3089@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Enable native DSD for Fosi Audio DS2
+Date: Mon, 23 Nov 2026 02:14:01 +0100
+Message-ID: <20261123011401.1545242-1-morf3089@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -114,20 +95,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261119053514.255348-12-rdunlap@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 18, 2026 at 09:35:12PM -0800, Randy Dunlap wrote:
-> Update the list of platform/ files where ioctls are defined and update
-> the ranges of function numbers that are used.
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> v2: no change
-> 
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
+The Fosi Audio DS2 (USB ID 262a:0001, Savitech controller with a
+Cirrus Logic CS43131 DAC) exposes a UAC2 RAW_DATA playback altsetting
+(altset 4, bmFormats 0x80000000, 32-bit subslot), but ALSA reports it
+as SPECIAL without the DSD_RAW quirk, preventing native DSD playback.
 
-Acked-by: Tzung-Bi Shih <tzungbi@kernel.org> # cros_ec
+Add the device to the quirk flags table with QUIRK_FLAG_DSD_RAW, as
+already done for the ddHiFi TC44C (262a:9302) using the same vendor's
+controller. With the quirk enabled, altset 4 is exposed as DSD_U32_BE
+and stereo DSD64, DSD128 and DSD256 streams (88200, 176400 and 352800
+frames/s) play through it.
+
+Tested using snd-usb-audio quirk_flags=262a:0001:DSD_RAW on
+Linux 7.3.5.
+
+Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index a4eb0d0cd..7b359a568 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2801,6 +2801,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_SET_IFACE_FIRST),
+ 	DEVICE_FLG(0x25aa, 0x600b, /* TAE1159 */
+ 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
++	DEVICE_FLG(0x262a, 0x0001, /* Fosi Audio DS2 */
++		   QUIRK_FLAG_DSD_RAW),
+ 	DEVICE_FLG(0x262a, 0x9302, /* ddHiFi TC44C */
+ 		   QUIRK_FLAG_DSD_RAW),
+ 	DEVICE_FLG(0x2772, 0x0502, /* Musical Fidelity M6s DAC */
+-- 
+2.56.1
+
