@@ -1,87 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795469557;
-	b=JYnZp/EWQI51IkWTkvytQB3OaRIJgO7XDQP4eOuWFT2NK94gP/9rkr7hxJkC+T5d0+Hr
-	 PqUN3rGGgnaFg0GGT/wboD6xU201wnrlsCfz8zKKAr3q4MMMZohfT9C0VE0/Nh1DRQK7g
-	 eiub6pCwSBq1Qdxswl47S2o2GqJrg0rVI0CMrOwbZgYqpxxThZQlwQRrRCfw7X5nP3WgY
-	 kEdcK4r5Ig+YnDhcerZjFukXmrv5raJovNzn0LXF/9c51cqBvzHNLHhLp5OMfKZrIwF9Q
-	 z7xJq9TgX+7nPi1CTohfeH55jZuOwi4oaNcMaiCAAumeBnuZvylNGGD+J6wCd1BSrNw==
+	t=1795469908;
+	b=LVZAu5GZHqtlDxRkNPhfFKVvdK8biRFf0bvUJ4Fj+aajfDFxshFpF9rlScevJ8VZQ+s4
+	 zTEHQ5FgT5DfGJUG5PCMPgePj6N1GER1lNnxl9IaXTUX/6cBmfScTy+/bOA1mnxdInbJA
+	 606yfS7FukpWY4B5snn0+zeCqVhlVJA2/sEaAO/I4N39f/cjy9PDpHmXncRxpkYuiKMuU
+	 FnxgTWPP5/A3TbqwRGb/OLlEER1DLy/0ZZYxYomggmo1uQQY7XvAxF3RW0h14YokGKVSa
+	 q7QSePpN7aPq4eBVAvnwAE2AF1xFpaOc5iVjiX/G8irty+KrCENeY0DQisZqlZy1fnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795469557;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Provags-ID:
-	 X-Spam-Flag:UI-OutboundReport;
-	bh=gonwIiEtA58Dq5m49AUGorsOuHj8HMCAUzTMZMjB0vE=;
-	b=KC4atJyM4jdQq/nA0HmebVygMvxIZvUx3F7F4H/uP7Crinb9oDeCql9w6+tiXNGSBW+Z
-	 uLBhrac0cbrX3g1UhRMYpuy8IZeU7XRpgEJxXHP1CWPm8qWFqzIK0cyJnt80u0xwZ7VWv
-	 eo03R9ykECnB5omHs5YLTsDHX7nln8XIszcFUYDHUYvL7m3/9o476dzf9+l8iIMDMyKtf
-	 DxxcHl5u6O1FzN9vF3rox8qGqEVzDs/WdzPRjLDcUVJN1hlfTB+m8/5gzusLTDwLzxtOC
-	 ENt52wjNxqu8xNW+GwfX0nkKr3xgYCmTSbNFFniFreaWthsR+sfkIR3wRDyCAr1uI5w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795469908;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=uOChf5ei6tKRsrDOrdmMbxP5In6X9pQ9ViAmnYuG8k0=;
+	b=PxQGLR9i9n/XBDKuzP40lwPHX2NivdFP35jYAJCXGN93An6LTLOyvA+bDfUodOD8diwE
+	 DMFyWVud881jOZcCn6fKuDnVDOzb7cgyOC3N1MGapS2C6NQ9ubfxqddJSWSF4/1YC8/a8
+	 zGbzjfwlum5B3kLlNKNK7VbHRQNWEaqRg6bT+Mc62VkeLMVprEE3vkPf/sxj5uaIlNhe+
+	 NqBpkIabel4Q33k090v6lR8DK9Ru4YcO+O4eYp2BlAv5r73iB3e4dhkkp1b36wAR+Uh96
+	 LWzq+CT3N5Rg7Bdf6Ob0ZSATKBknPOc0+B+kfQ5La+NgShMfl0hI0NMI1JYbG8VLdMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmx.de;
-	spf=pass smtp.mailfrom=gmx.de;
-	dkim=pass header.d=gmx.de header.i=paltian@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=HnX99wur;
-	arc=none smtp.remote-ip=212.227.17.21
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FsuiRv9o;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=D8oq38co;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818A6606A326
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 21:32:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 818A6606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8151606A32C
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 21:38:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8151606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=paltian@gmx.de header.a=rsa-sha256 header.s=s31663417 header.b=HnX99wur
-DKIM2-Signature:  i=1; m=1; t=1795469554;
- mf=PHBhbHRpYW5AZ214LmRlPg==;
- rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
- d=gmx.de;
- s=s31663417:rsa-sha256:kelEZZ2IPvE1UbLy8lprAKEvk60O
-   iCglHes6BEfJgSR8JXRB3RsPt++nMbagh9zq+jz86AgppndxNDWq8hqMnL/3TtDjxsGTJcL0s+g
-   q5nV2s8rs48E9rwcfmTe2auZRtmxgRT5tIvxZWiiT7tTDVl/wQfJilyRLCb7QfxxvjH1jCV5jLc
-   m1AwDi7zZnbvnZXmEPBdzoIX+dohfZ35nBDOsBZxIulq/oh8cS7Vfo7wxTp0w5T9r0h1WFfRI7g
-   xMpGYLgooM291XaBRJQtRPyygU3DUrDnWozlAlgx7QOtgl+2tHEoTa2ojTkcWX77Uoy7dAOHaeM
-   UNm9VQW94WHehQ==;
-Message-Instance:  m=1;
- h=sha256:
-   7Rht88oY2r6A3Vn20tp/RWBLWkRfxpbT1kpxOXHG6Xs=:
-   IrQQ3H2Mmr80KTKQj3NGz6g3bsFehEPlNi+B8XTD/sQ=,
-  sha512:
-   3fyJHNE1C/+Uw/1QF21kAT6MG9gUAIAitQhAnLbfFsuDC6sd3HUMY8O3eBegGoJBiZgScJHDrRYcAnJtLoqthQ==:
-   w25Unq5Vl7LMK4JUGdWhvYoYmH+4iW1hBcHxwjsn9lomCtKo6UBfmhT00ltoD9cFz3SRn2JkNGiNW9lxFbD9+w==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1795469550; x=1796074350; i=paltian@gmx.de;
-	bh=gonwIiEtA58Dq5m49AUGorsOuHj8HMCAUzTMZMjB0vE=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=HnX99wur5KvA4GYw8vDmqUsbg/QRuK1J8JIdK18XFhpBTjM4KSKVN9tLPtaxMGbx
-	 2CAhuEchvoJdI2zR+SwaqcOucDrcx0EnuGiqyVKisyIQqp2NOOGyU/MCHG+Yjfhok
-	 7AraSdCzIGDypKuvu5TaHCnps2NrleX36smLOao0FrBZsN2+6md2RDV0bgwYTiaQT
-	 3CZ5uSbSexDQwEV7bGEPeY+pdwTzPbSluANeZF5CIQFOLXXTmon3mbhkNoBpoC8AY
-	 ZmhdcB7tqFSbLW4COL+aqCC7wTCj7zwp1P8Ht/CazWfnQsSVEBt/+L0D6M6HcObqF
-	 MbEt7wOYX7w/gEZ9Sw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McpJq-1y5Da82762-00qix9; Mon, 23
- Nov 2026 22:32:30 +0100
-From: Markus Paltian <paltian@gmx.de>
-To: Mark Brown <broonie@kernel.org>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Markus Paltian <paltian@gmx.de>
-Subject: [PATCH] ASoC: amd: acp: Add Lenovo IdeaPad Slim 5 16AKP10 to ACP70 override table
-Date: Mon, 23 Nov 2026 22:31:53 +0100
-Message-ID: <20261123213153.51026-1-paltian@gmx.de>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FsuiRv9o;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=D8oq38co
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANLH2Hb3502830
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 21:38:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	uOChf5ei6tKRsrDOrdmMbxP5In6X9pQ9ViAmnYuG8k0=; b=FsuiRv9o4rhbb/eZ
+	HTPrneLisp2RJQ85EXK03rswce86Q4Be6kd1F4XCcmeT6DHwdJzB9XsWeecROHPx
+	xmoLR/ZJHKGrq18HJmoQ/Vs+9oVt/3awl44teU4CR/k2NyAPkoXPhemZ97gziAcq
+	ZfrsAtVicPbiX89pKR9eXpCZKlPNtodlTs1cs+LSPYpqg7N6+2kiHhKdpL5EoM0S
+	oW0CCYnu0ki202EbslNhFb251Gpz4EI/bQGbXZtPhgv1T9hy2Hh4owtQ7M8bLJ6E
+	eu76rb1r7Phzb5tf8XwxiP8w/rn9lwK8+38707ZLdwB8fWdWjIf3YWoAjeoa+z2/
+	+IAT6A==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4u9nrjbu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 21:38:26 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93f2373e9b4so413383585a.1
+        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 13:38:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795469906; x=1796074706; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uOChf5ei6tKRsrDOrdmMbxP5In6X9pQ9ViAmnYuG8k0=;
+        b=D8oq38coSHRufd1WNPxgFyTGlyy/6xCyRV18IKo3vJ3sYSAFK1X00+7+5SYsQaZgwE
+         H5RPQZiNd0zW6mzELCX9l8cdWiHQqi61SscsV+DGWD2YFhyjHi+JxW0mUbj1/K4FsT9U
+         reWqKgQRu8Xu+SvpaUoLQBWBvHr9UBqpN7aSlRce3ZQ1UuSQR+mmerht+iI8RyTfK+J3
+         XhyvRfIwkvxR7ctQSd4sXczkbnAUA9tork/nz3IxAuWEmv7qVd5bCL4QxNwNGoKBh5aQ
+         UKRmOVHX0CYJAP/gZtEtPOwSiSAvKcalQ9s+eKQ0We+qntgNHPSsSixiQBQX2g8tR4m5
+         5t1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795469906; x=1796074706;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uOChf5ei6tKRsrDOrdmMbxP5In6X9pQ9ViAmnYuG8k0=;
+        b=Sfq6bn3JNRbeh0eFgpWXW7dAuRtBbHcPYyy8UxEY5K/9+8lLhQMxY/kP+z1WwQwcR8
+         48oYDFjiC1qQpX+eScLQm+kihcEQdkrmbYrNqBYeYDDJdbASl3zj992xcdL4NA6lwycE
+         mgrdP4um/6KdbG4qeAi9byOT7gnK3oRiezhU3w4Q9ev+uD2gr2bgFhznAK/QOcI5DD1c
+         dy6m3mn23atV0ctWmxBTEimUQvUJMpvNwoOU4wmLw715TCjbXo2tuXnIcrExW7mmOiFx
+         zu7tfQV6e6kAc4/qcBqBCKNYX9bobkVMXLtxjhP51eliVwk1vuVkjrN0K+ih/YAZ0A3x
+         W1jw==
+X-Forwarded-Encrypted: i=1; AL+hErGNYDTAq4mpoMYJzDzS5ClO67OmYcjQYIns3D2kBSY877c0cST1GPKk9IctVhVln3OgicNUomH0zyaiUQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/OS2iv1bTCfuHOdfD2UYv/fJ6E56Fdk7ocSuD/EmacGtK6eFC5
+	pR4vO1lB6+FMEMSBu0af6IqlbxGdUPPu5z3aO91W+Yq3ES8Xa/bZhnenF+CwjMSYRRPG12DV4AZ
+	5x2C7W3swNyxMyb6cFxL/mFv4P3KgkE7ziKEx2UCvEjAQZxlRJUSshcMT34JkAB/LP/6gZheeYQ
+	==
+X-Gm-Gg: AZFdTZfdGOcTyc5BGlM4g+9mEPiEtswG7nh5bQojW3efSVWeTd5tTT+X1IuKSTbVVAh
+	yb5SPCWb1uj7Sia6WJaUP1WTv7zNc7HV2jONZjlO/MgvkjXV2HhJbOfE5BMGot89Ubc55ISC92/
+	hpK2Vc4pr22OK5ZqzuIRu6cx1HdCtnzwCyRFcIqDrgQwcF6Nijfzc1QrLF1DtlEF3yB+HY92Yc0
+	yq3EtDbIaykTYdOxAnH0lD5PvgHSex4zCH9IfsFiiZNyG7VoQeH5yZGxScKUAn2De4LN/5WhCWg
+	iFMzXpuEBr5i6aXVYZKk9WNjGFyfOIrRz1LsxSgw9Ghej7bP4DxF4XgDzusRMjNykXXBgzmt7yr
+	bxRewEiQiMLVmgu4WLJ4DmNZBYrW9yeYP/jTC3tizYtWahcPQ333cTGjBcd6PZwgiiPL11GNtlH
+	zV7g==
+X-Received: by 2002:a05:620a:4714:b0:949:60f3:1cdc with SMTP id af79cd13be357-949ba8260e7mr2404865785a.10.1795469905812;
+        Mon, 23 Nov 2026 13:38:25 -0800 (PST)
+X-Received: by 2002:a05:620a:4714:b0:949:60f3:1cdc with SMTP id af79cd13be357-949ba8260e7mr2404861085a.10.1795469905307;
+        Mon, 23 Nov 2026 13:38:25 -0800 (PST)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4ab6c43563esm25478791f8f.57.2026.11.23.13.38.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 13:38:24 -0800 (PST)
+Message-ID: <f7de8841-1345-4360-838e-d2b67e9a4b6e@oss.qualcomm.com>
+Date: Mon, 23 Nov 2026 21:38:23 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -91,159 +115,132 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:hMXr040ciBNy+gVzVdVLIJN9vk2ZKLG11nyZOER/jByMOJq0ieE
- 4mmCkb6JLnzDRhFZDQPbTqYCNezyI+1Xw2hzZaRJ7pFyBIejjajj7w1VNplkm18B8ZmsvS1
- rMMqHhO/wsgEDVIDmxME7wIxYncW71SHiCyE9lx14DCbCeoVayq1EaMJw4oLm9R4YtUGwPj
- 6F74h3QAGkToJCcAC9PPA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:RLfWVfSIOII=;b9po0nzj4Id31S94l9hsRb8W2X2
- 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
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/24] ASoC: soc-pcm: add multi_direction_codecs link
+ flag
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261122161437.5994-3-srinivas.kandagatla@oss.qualcomm.com>
+ <b3df76ad-e002-4ec0-a1a6-812d22b51432@linux.dev>
+ <e10e701e-b478-4fe5-a62a-2365507e5d8c@oss.qualcomm.com>
+ <062359fb-c169-4253-aade-07cba63a279e@linux.dev>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <062359fb-c169-4253-aade-07cba63a279e@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDA4NiBTYWx0ZWRfX3yf2w1iRe+2c
+ sHSDdaqaujvdgiYcZ59lXjsGnjIC8elrYWWUv5zRvzzrEAVsAXjQRskpkFbrLacMhxK9SWElhNc
+ BHF0ivjBVYUT5dAkzgb7SBdlF3KQOUOBP3VvKOb0vyRlHgDtwH7drmrQOD/ytJwsexZDazqIcCH
+ w3ePFp6jyTllcPoMiYyjUm9VJdRrxKgQztFRgSGgEbpEgsmk91+lUevKqqoNrRkZRDY0Q/I99Qj
+ T85WrFdxodhPNU1ru65vhWqeGU9BzLEZhflE+LHXziLp+GpLXh+WlZsFsQxTdekRUxPn0BxY+B6
+ g9E7zwySpkiTbkMLQ1kI+ufLHEdbmonUCq2XYiBI2hG50ZiX9J1te7R94JutUFh9My3fLbwwU0V
+ erf1LopqbKydgr6ESKYKx68ZrrA94ra7eX2kvvkrUqxsmx0/fCU456bvlOX8jFHytkUsLh0sun+
+ rW2CMslYMDGBtzUbUPA==
+X-Proofpoint-GUID: oVdnGRUejgGpHh4mD2OqfDTPoFfZ5KRi
+X-Authority-Analysis: v=2.4 cv=f4ndl+yM c=1 sm=1 tr=0 ts=6b04b252 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=0Tsbpnv760q_-0Te3r8A:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: oVdnGRUejgGpHh4mD2OqfDTPoFfZ5KRi
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDA4NiBTYWx0ZWRfX8emf0Pe9e46h
+ dUC0EmVd2XtJPfZcL13Xf2qCQPESgUY6/9UKXwhvj6JyXaUYQ3X7S8v/jOTIxLJvGhTwMhv1jW+
+ kWMvqGHDx4sx4ay6b4UXcFWjnCLDHcc=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-23_05,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611230086
 
-The internal mic of the Lenovo IdeaPad Slim 5 16AKP10 (83HY) is wired to
-the Conexant SN6140 HDA codec, but the BIOS still sets the ACP ACPI config
-flag. Add 83HY to the override table, as for the Lenovo models 83W5, 83V9,
-83HN and 83Q6.
+On 11/23/26 1:58 PM, Pierre-Louis Bossart wrote:
+> 
+>>>> +Typical use case: a smart-amp speaker protection link where the CPU
+>>>> +side is a playback-only DMA (e.g. ``WSA_CODEC_DMA_RX_0`` on Qualcomm
+>>>> +AudioReach), but the codec side exposes both a playback SPKR DAI and a
+>>>> +companion capture V/I-sense DAI on the same SoundWire bus.  Opening the
+>>>> +playback FE should bring up both the amplifier output chain *and* its
+>>>> +V/I feedback capture chain atomically, without userspace having to open
+>>>> +a secondary PCM.
+>>>
+>>> This is a valid use case that has been problematic for some time on
+>>> other platform as well.
+>>>
+>>> What puzzles me in your approach is that the codec-side will be
+>>> configured/started, but *something* will need to grab/process the
+>>> feedback IV data generated by the codec DAI. That part seems to be
+>>> completely hidden in your approach, is this intentional? How would a
+>>> capture DAI be configured on the CPU side so that the data is provided
+>>
+>> In this setup there is no capture codec cpu dai. The capture data is
+>> never seen by the userspace. VI Feeback data is directly feed into
+>> Speaker Protection module within the DSP using the codec-to-codec setup.
+> 
+> Humm, even if there's no user-space visibility, don't you have a
+> SoundWire capture port? How would that be configured? At the very least
+> it should be prepared and enabled.
+> 
+>> Host only drives the playback data and the VI feedback path is entirely
+>> with-in the DSP.
+>>
+>>> to a DSP? Some of the patches, e.g. 11/24, mention a capture dai but I
+>>> can't connect the dots with the suggested codec-dai changes.
+>>>
+>>> In addition the feedback loop can be made of not only I/V sense but may
+>>> also carry an echo reference, and that may have to go all the way to
+>>> userspace depending on where the processing is handled, possibly with a
+>>> split between IV sense and echo reference making the topology even more
+>>> complex.
+>>
+>> multi_direction_flag is really agnostic to driving data(VI or echo
+>> reference)
+>> All this flag is doing is setting up the codec which are configured in
+>> opposite direction.
+> 
+> but the configuration of the capture part is missing entirely, no?
+> 
+>>> And last the SoundWire core exposes a concept of 'stream' that is single
+>>> direction, and so far we've used a 1:1 mapping between dailinks and
+>>> streams. If part of the dailink is dual-direction, don't we have a
+>>> problem on the SoundWire side?
+>>
+>> 04 patch addresses this, we create two separate runtime streams per
+>> direction instead of one.
+> ok, that should be made clearer in the introduction, which mentions
+> codec dais but omits the gory details of SoundWire management.
+> 
+> I have mixed feelings about having 2 streams. It 'works' but it's not
+> optimal. Maybe it's time to revisit and extend this concept to deal with
+> data that's closely related to the regular PCM data but flowing to
+> another direction and used for a specific purpose.
+> 
+> There's the case of the IV sense, but also the companion amp which may
+> require a device-to-device communication scheme. It would be much better
+> if all the prepare was done in one shot for all the direction/ports used
+> for a given use case, and likewise the enable should be done with a
+> single bank switch. Not to mention that this sort of solution should be
+> handled at the SoundWire core level, so that we don't have to implement
+> this dual-stream implementation for every platform.
+I agree, with the Idea, I can send some RFC this week. However this
+series is already a 24 patch series and I do not want to keep adding
+dependencies to it. This series can get reviewed as it is. In the mean
+time I will send out some patches for this new soundwire multi stream
+api for discussion which might need broader discussion.
 
-Signed-off-by: Markus Paltian <paltian@gmx.de>
-=2D--
-Tested on an IdeaPad Slim 5 16AKP10 (83HY) by loading the patched
-snd-acp-config module on 7.2.12: snd_acp_pci no longer binds to the ACP,
-the dead acppdmmach card is gone and the internal microphone on the
-SN6140 codec works without blacklisting snd_acp_pci.
-
- sound/soc/amd/acp-config.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
-index 93c9a11..e2cb6e6 100644
-=2D-- a/sound/soc/amd/acp-config.c
-+++ b/sound/soc/amd/acp-config.c
-@@ -72,6 +72,13 @@ static const struct dmi_system_id acp70_acpi_flag_overr=
-ide_table[] =3D {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "83Q6"),
- 		},
- 	},
-+	{
-+		/* Lenovo IdeaPad Slim 5 16AKP10 (Krackan Point, ACP 7.0) */
-+		.matches =3D {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83HY"),
-+		},
-+	},
- 	{
- 		.matches =3D {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
-=2D-=20
-2.53.0
-
+--srini
