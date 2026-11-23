@@ -1,111 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424737;
-	b=QfgEqhpDoZ/+pHnQ6Sl/eIeUTIUIiHMNvB+tRyK/SqFQViYJ5LjvZFk51dhb0k8nBwer
-	 9wD9tUlqIsRLyVxULMHpZE2M6A/elUCQkR1GEcs7qAbxNYJarlKr6ZXbAhwrYVGQ3hClK
-	 3ik4DkN4R6pA/fxWId+tSA+FyL2bd5PG/y5n2DyDvgaLIV+lHH3N/ZGlcyXmuaWuj6DNH
-	 aNfVpHJwK+29hnuSDqoAeif2WaXxbOsbt4ZzFtpzNKoGzd+OON86vAGTkY51h+ZYc8cJ9
-	 snJcp4h2wUtAT4SRdGSCy6/7bDTIeiXBUzHnvOe9ojWvfnkR5HAI9/SVTYygROfe22Q==
+	t=1795424803;
+	b=dlf4I7GEHM/oQS9D5ExGRBye9lcKYKaEG2seS0QS+Odt8/QJxDXQDDmy28THtJD3PzVo
+	 UvFZdn2J46DBIERYPs1zzrTpUyP6cIYerUo2PcMQ3LIP8KV3vZYa5Unyc9gsFzBn8Zh27
+	 EbrHvZXBpIaabCj1xqZuQpe4fbFvdU9u4Z9lRegb9InahlQ5k7BsCrRXb8CD77yvUPmvS
+	 RVhqQ51GvdmbYo4Q8JM/NLaz/DquWrG3Of0/jmIu6+KWWmohcIJg+HoNwAfdbyG8ofH1W
+	 XnZe+pRw4Ep9ZP/9UXcV2lG9d5otvxg4EMx8xsI8hW1uEV/cQXtazITo3TFPe9H3wXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424737;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424803;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=JuTnYMVy7K7gz8a7hQGh72S+A+o8EMceIj6KlWzynk8=;
-	b=fZ715CHCUZKXFrKV2OyMpTsB2DvczxuiEmqblVpSXARYY6dziS4zxYPx2ZYpzxroX3Ye
-	 kOCSOutauANP2zZLbGkobjkYXUnnLIeBYGgXw8wLPDk2l7yyxbscx/W+BsDLQJuSGQ/9o
-	 39bu2zvXb7AWYWCm1s3PcTMcfaVKv/NBTwP+k1csUtMpFQvgteQ5Tlod+5S8WjGuHHbIa
-	 Gv2Nn822tDCg/LErHhLjRiPCYDd2LIQRhE/7nhYdi2zgJMEdieeCu+jqtv2gD/APem0OM
-	 lyu7zjagxg7niOZAoDhygWzNFAFRHXgnO9hM/5AnvmgqDzO2k1MMNzBB9VIRooqkOtw==
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=15Ht46g1Fi4jbVj8JCWcJmUreEdiS3C7u0Rehkt5Jo8=;
+	b=HvnOuIPISKM1Zj1gPeRHAnyi2+4BGV2IU1J0wkDEUNdiZYaetRJHPgDGwVO8OGV/M66X
+	 5o+WsSLO73OOZKyUuq07EV8R/5bV31pBa91Vn6ld3FqY6vmeKLe1TMT/xvY0Ydl8GO087
+	 DAKewDdd0aGposi2bKbXda6/tN/yCiyVXz4jY+lRzgXuhthnDn+YVvzDbmjn1yt3ko5qd
+	 JXpe1oliSJKXBiCeAL5cW5GfXT3XBSTcKr9zH+2ZsFDcBjdccBAMo8O7fFXvowXWm86nb
+	 mzt0RNTAJA6zCHvDLIDsedDtKyb7oaguZ2a9bxJ4T0WY42QH/pv0uBTQEQQkIgVVpkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="fro/+voB";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=H3i2JASh;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="fro/+voB";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=H3i2JASh;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=UYkdOdWm;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Loj1Wq1q;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wXQMwfa+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zYZ0mDRE;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F395606A31F;
-	Mon, 23 Nov 2026 09:05:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F395606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3FF606A31A
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 09:06:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B3FF606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fro/+voB;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=H3i2JASh;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=fro/+voB;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=H3i2JASh
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=UYkdOdWm;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Loj1Wq1q;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=wXQMwfa+;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=zYZ0mDRE
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 743411F7F9;
-	Mon, 23 Nov 2026 09:05:35 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BF84D2202D;
+	Mon, 23 Nov 2026 09:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JuTnYMVy7K7gz8a7hQGh72S+A+o8EMceIj6KlWzynk8=;
-	b=fro/+voBBoj8xFqBWXUoPAVkFtnn6UMiBApW7Go1ZIQlMVhvOuLqv7H1slV+L8AA8Aqod+
-	IYN1qEb2S2oIG0tXNUs6HRRPBDjI+hsucM5uKpOy9it0TOAfvJTOu4k96/g/2V02qCcUNz
-	8K7Js+nAB1tFNWU4WTx+Xw5goAmml3g=
+	bh=15Ht46g1Fi4jbVj8JCWcJmUreEdiS3C7u0Rehkt5Jo8=;
+	b=UYkdOdWm5DVMqIBoabCMneMs/9fc0q22E7PrhHFWwYD+plWFnuYeUmsoUCaGCizRttdTgE
+	RgiHZGN2WIY36dHPde1NipXUxLqE1iiSHzDVTu/DELHtxhJL6C7PrVLDe/WsWShfMEPvSS
+	xUKhll+vAWkGK9vswCMg5ImXiB3ipBg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424735;
+	s=susede2_ed25519; t=1795424793;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JuTnYMVy7K7gz8a7hQGh72S+A+o8EMceIj6KlWzynk8=;
-	b=H3i2JASh39J0wNDvW+DW1gzuFO+qFjCFGyl0w4F+BTHuSQyVXHddS2wLscS+nRCKgfPKzO
-	B0B+jPBgd57TSQDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="fro/+voB";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=H3i2JASh
+	bh=15Ht46g1Fi4jbVj8JCWcJmUreEdiS3C7u0Rehkt5Jo8=;
+	b=Loj1Wq1q5CJ2ZMC24+O7a//o1TdpL9FERsJ0Mj+jK7yP85MHCFFevjmN4QdYfl5aq8mwya
+	XY8bU5ieXL/zIdBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424735; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JuTnYMVy7K7gz8a7hQGh72S+A+o8EMceIj6KlWzynk8=;
-	b=fro/+voBBoj8xFqBWXUoPAVkFtnn6UMiBApW7Go1ZIQlMVhvOuLqv7H1slV+L8AA8Aqod+
-	IYN1qEb2S2oIG0tXNUs6HRRPBDjI+hsucM5uKpOy9it0TOAfvJTOu4k96/g/2V02qCcUNz
-	8K7Js+nAB1tFNWU4WTx+Xw5goAmml3g=
+	bh=15Ht46g1Fi4jbVj8JCWcJmUreEdiS3C7u0Rehkt5Jo8=;
+	b=wXQMwfa+rOsy0CL49zSxGW5rYxSe5oXzJUsjnFzrkIUda/78Y5XTbZAKvUmESpflGU39R+
+	vLd6vCDkEPc3LhlySJk1unes4C/VauERrKlvULvaPpwzVZyimJcZ5ND/SENnomlnMXEQDZ
+	ofb0WtnDbVZQVcqsUIRFKAjSSwhMBEY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424735;
+	s=susede2_ed25519; t=1795424792;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JuTnYMVy7K7gz8a7hQGh72S+A+o8EMceIj6KlWzynk8=;
-	b=H3i2JASh39J0wNDvW+DW1gzuFO+qFjCFGyl0w4F+BTHuSQyVXHddS2wLscS+nRCKgfPKzO
-	B0B+jPBgd57TSQDA==
+	bh=15Ht46g1Fi4jbVj8JCWcJmUreEdiS3C7u0Rehkt5Jo8=;
+	b=zYZ0mDREy3zRaJ8AQrhDDcimAh9NGWGOC7IwcJQuspcBLfBvUiJ7OfWaWUcBlXAAtyiC4f
+	jqryDnc+SBnrAnAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0ECCD1352B;
-	Mon, 23 Nov 2026 09:05:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 659F313532;
+	Mon, 23 Nov 2026 09:06:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4kU7NN4BBGs9CwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:05:35 +0000
-Date: Mon, 23 Nov 2026 10:05:34 +0100
-Message-ID: <87o6bfdijl.wl-tiwai@suse.de>
+	id fHbIDRgCBGs5DAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:06:32 +0000
+Date: Mon, 23 Nov 2026 10:06:31 +0100
+Message-ID: <87mrqzdii0.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: oleg.b.antonyan@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Takashi Iwai <tiwai@suse.de>,
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix headset mic on ASUS Zenbook S 13 UX5304MA
-In-Reply-To: <20261122-ux5304ma-headset-mic-v1-1-80589ae749a8@gmail.com>
-References: <20261122-ux5304ma-headset-mic-v1-1-80589ae749a8@gmail.com>
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] ALSA: seq: ump: Convert MIDI 2.0 RPN and NRPN for MIDI 1.0 clients
+In-Reply-To: <20261122103611.3264343-1-sammiee5311@gmail.com>
+References: <20261122103611.3264343-1-sammiee5311@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -117,59 +115,55 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 743411F7F9
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.01 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -11.01
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
 
-On Sun, 22 Nov 2026 14:18:37 +0100,
-Oleg Antonyan via B4 Relay wrote:
+On Sun, 22 Nov 2026 11:36:09 +0100,
+HyeongJun An wrote:
 > 
-> From: Oleg Antonyan <oleg.b.antonyan@gmail.com>
+> A UMP MIDI 1.0 client gets nothing when a UMP MIDI 2.0 client sends an
+> RPN or NRPN. Patch 1 converts them to CCs the way the core converter
+> does, and patch 2 adds a test.
 > 
-> The ASUS Zenbook S 13 UX5304MA (1043:1c33) uses an ALC294 codec with
-> CS35L41 amplifiers over SPI. Its BIOS leaves pin 0x19 unconfigured, so
-> the headset mic on the combo jack does not work.
+> A related question. In the other direction, CC 101, 100, 6 and 38 from
+> a UMP MIDI 1.0 client reach a MIDI 2.0 client as four MIDI 2.0 CC
+> messages. The same CCs from a legacy client are combined into one RPN
+> message by cc_ev_to_ump_midi2(). Should cvt_ump_midi1_to_midi2() do
+> that too? I can send it if you want it.
 > 
-> Use ALC294_FIXUP_ASUS_SPI_HEADSET_MIC like the UX3405MA and UX3402VA.
-> It configures the headset mic pin and chains to
-> ALC245_FIXUP_CS35L41_SPI_2 to keep the speakers working.
+> Tested in QEMU (x86_64) on sound/for-next 1afd6b7547b2. seq-ump-test
+> passes 28 of 29 without patch 1, where the new test gets no packets,
+> and 29 of 29 with it.
 > 
-> Tested on a UX5304MA: headset mic, internal mic and speakers work.
+> Prepared with Claude Code (Claude Opus 5.5).
 > 
-> Fixes: 61cbc08fdb04 ("ALSA: hda/realtek: Add quirks for ASUS 2024 Zenbooks")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Oleg Antonyan <oleg.b.antonyan@gmail.com>
+> HyeongJun An (2):
+>   ALSA: seq: ump: Don't drop MIDI 2.0 RPN and NRPN for MIDI 1.0 clients
+>   selftests/alsa: Test the sequencer UMP MIDI 2.0 RPN conversion
 
-Applied now.  Thanks.
+Applied both patches to for-next branch.  Thanks.
 
 
 Takashi
