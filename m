@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795423745;
-	b=jIqua4+OJzi9rTP6aoJ9j2X6mAg3BI9n3blZTwfd0eUONv80h700NwxcmFD53UQFdUlO
-	 abQHm7c8ptEsu1q0/v24igbkBqpWtQwFHU2lRfEodIJkjcyeGAiO6M08PO0GPKIWb3sOL
-	 IhGLhJJNS/13N65HGZanxTu0KgRFvs+ukKWjwG5QJlCy801yB5LIWt49cDHJypRwaVnZM
-	 Y6L+Xe9qOXFFRC1kNO4DHmrlq7DnvlbUNjmTmE45aL5hO9X4lMg4aIQBuruNcgz7odXx9
-	 C07j/pxMajRgxbeslNR6m2C7Kk2dR6f64FU15l6jj+fWplBAyMxL1jy6gExOrgkC5lQ==
+	t=1795424190;
+	b=2uKl0yFYk8ywJUB0VgFdkAdPFRmfHxK4pPRGs9VABX8Dh2CgJKFLzmgrmT7UbyOjLT64
+	 v4wLPZalcDoYB5keGz7T5/Hwtf0Fc8sCYvX2A9KBoC/XO0zXWrNGeLQ55cgeJ8tLjlCR2
+	 qei85fkixEmiZHAHkN7urcKwa+HMG+YCklB5zW1ztDWrk8EPeqcHqr5PH+77RJsGRsLu9
+	 vv6R2SunH5eDBpCdmPVR6Fjk2tK1qi+tBkDWyXdovLx6pQvbJ0gtQHbGMwJ7//6ji0B0E
+	 GRq4Zm+z7PN2U7S3Q3FuDKXRlz2usifAAHxcvyB1v9xxUR57FVbj0rtfu+QboazON/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795423745;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=5UC5NqbAgeY8hJ5v/pqmINB4KiOCUEtYaS0Huh0Opio=;
-	b=eucaIhETcWcH2WxhFQQWCWqnUtk0qCUhiLZ1rLThheIendivdbf9vMPGNcMbMUAGfXZh
-	 RX8hPA9jQcKsDX8TfhAwxhoP+wTkyL78DPxw69AYyc39JncG8PC2GfvAgMRdizpYbGZrg
-	 JBB2XOgDiuPA3ahDXKxDPbs5OTK1vGuq7TI6HXbsRTkn33QVfhEJTynK3vM6Z4DGEZR6k
-	 KMz+8v18l6a6Fu9DgyCljQwulI4IW8LDBX4MY/iAVWUYRSI32P5el2DtQoUVXCy7a5+BK
-	 b2LUX4Mk2g7NSr01G0IfBmcpCkpkzPXL07mHcDXnDCMa3VoNaOaom4ugtEbE0r6sgnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424190;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=rU/hwjUMOH2CmEX8Wobn0fbNPt1MtW8gAwRD4Wq+9wc=;
+	b=kjDNIY254TgPdGhUtaELOgHsVXWzpm8U/GmC7cNG0tFdf5Su6GOMguPZgXrfcQgilToF
+	 qKBFkQ4n5gUYutLTRZKkDQ4FcqIMWUyQRy8YJL0y4x1hYJcbcbYrjKq1Pnu4nLq4/1dOx
+	 srelc0vv1rR7H4N7nnfeL7ODviR7iJ65MxiXFfGRaa157FquzSKlpqzfIc5IKR5MPPc9k
+	 vMUqevEIgTZTAyNfyUNW4GaG794hdGVkaiirBMzWB1W1Q798kYzPUEsGw8/Rd/qZ961JW
+	 1PQCfEI9Ef9JBPKbxCrjQGo0wX5U4oDYnrz5lo7oBY959esqXhcjavfKHuy3vM/ZRMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71CAF606A31A;
-	Mon, 23 Nov 2026 08:49:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71CAF606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=5UC5NqbAgeY8hJ5v/pqmINB4KiOCUEtYaS
-	0Huh0Opio=; b=ISqkBow+ZmSGfP3mIAi60Azn1OczWKkttt6bmRk+YNC/LRFscV
-	K2Mps/EueXhVsdTnNsQIxI87glAj5Dr2jUlSzk5qvMSu+NFtWK2r77sFig0UQJAU
-	KaY3DxamnMCNjNC91W0q0GiTfTLlYv19V5obRlXohWMD3k06TFyQ46W1M=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.33])
-	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkC2ufzv_QNrKK0aAg--.14474S4;
-	Mon, 23 Nov 2026 16:48:58 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH 2/2] ALSA: 6fire: Don't resubmit an active PCM out URB
-Date: Mon, 23 Nov 2026 16:48:46 +0800
-Message-Id: <20261123084846.7700-3-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261123084846.7700-1-25031212351@stu.xidian.edu.cn>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KE+R1Uac;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CB2606A31A
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 08:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KE+R1Uac
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 232741F000CA;
+	Mon, 23 Nov 2026 08:56:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795424189;
+	bh=rU/hwjUMOH2CmEX8Wobn0fbNPt1MtW8gAwRD4Wq+9wc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KE+R1UacCRJUoTVIjK+JhgZZA4hhS7zI88dpJLBUdGTB/ib5aDaDcwoEaigwl6I6J
+	 thBFVJSjvKATc04alwumZOLNhAj2ukna7qZFaSMnGuSkpoe4w+5fVFrQEOR8JLAoAr
+	 uPkdBIeBIivxLjxJt1LQOvGIys0T+x9xiimXQ6XBB1TZb6HsDEFSVNaKH/ZJbPWcOC
+	 NER6K2yBPeyTB7iOuRpAB4oLWW5DSJO9t1rjgmqdREindb/hCLnk9MGuqzzLNNwPs5
+	 eeWE2+uH9sBKeIq3nhRyHJTwyCLcPyc95/cuFsX60JIIShGyNdFNTvYgfP2dqAx2Qj
+	 0EcWxNYspncMw==
+Message-ID: <sashiko-outbox-228920@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] ALSA: 6fire: Don't resubmit an active MIDI URB
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261123084846.7700-2-25031212351@stu.xidian.edu.cn>
 References: <20261123084846.7700-1-25031212351@stu.xidian.edu.cn>
+ <20261123084846.7700-2-25031212351@stu.xidian.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Nov 2026 08:56:28 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,117 +59,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BbQMCkC2ufzv_QNrKK0aAg--.14474S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxuF4kurWrWFWUWr4Uur17ZFb_yoW5uFWDpF
-	Z5W3Z8GFykJan0ywsrJr4vva1rAan3Cay3Kw4fX3yYkr13Jw1SvasI9FW5KrWrAFykZFy7
-	JF4jvrW5Gr45C37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPlb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUXwA2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv
-	6xkF7I0E14v26r4UJVWxJr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcV
-	AaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0E
-	x4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x
-	0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC2
-	0s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI
-	0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv2
-	0xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2js
-	IE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZF
-	pf9x07jsl1kUUUUU=
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUFD2sDBVgdigAHsr
 
-usb6fire_pcm_in_urb_handler() refills the playback URB paired with the
-capture URB that has just completed and submits it unconditionally,
-although the comment right above expects "a free out urb was found".
-Both URBs carry the same number of isochronous packets and are rearmed
-at the same time, so the playback URB can still be queued when the next
-capture completion arrives.  The handler then rewrites a transfer buffer
-that is still owned by the host controller and submits the active URB
-again:
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ALSA: 6fire: stale rt->out on submit failure in
+  usb6fire_midi_out_handler()
+--
 
-  URB 000000003ec29e65 submitted while active
-  WARNING: drivers/usb/core/urb.c:379 at usb_submit_urb
-  ...
-  usb6fire_pcm_in_urb_handler
-  __usb_hcd_giveback_urb
-  ...
+commit e7fc7882a7e28efff90554bb8dc1de23ef94bfe7
+Author: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-The resubmission fails and the playback data of that period is lost.
-This is observed when the completion of the playback URB is delayed, for
-example by missed isochronous services on the host controller.
+ALSA: 6fire: Don't resubmit an active MIDI URB
 
-Check whether the out URB has completed and skip it for the period
-otherwise; the next capture completion retries.
+This commit adds an out_urb_active flag to struct midi_runtime so
+usb6fire_midi_out_trigger() defers URB submission to the completion
+handler when the output URB is still in flight after a stream stop and
+restart.
 
-Fixes: c6d43ba816d1 ("ALSA: usb/6fire - Driver for TerraTec DMX 6Fire USB")
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
- sound/usb/6fire/pcm.c | 16 +++++++++++++++-
- sound/usb/6fire/pcm.h |  2 ++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+> diff --git a/sound/usb/6fire/midi.c b/sound/usb/6fire/midi.c
+> index 279b449936e75..ae8a0d48eb410 100644
+> --- a/sound/usb/6fire/midi.c
+> +++ b/sound/usb/6fire/midi.c
+> @@ -25,6 +25,7 @@ static void usb6fire_midi_out_handler(struct urb *urb)
+>  	int ret;
+> =20
+>  	guard(spinlock_irqsave)(&rt->out_lock);
+> +	rt->out_urb_active =3D false;
+> =20
+>  	if (rt->out) {
+>  		ret =3D snd_rawmidi_transmit(rt->out, rt->out_buffer + 4,
+> @@ -39,6 +40,8 @@ static void usb6fire_midi_out_handler(struct urb *urb)
+>  				dev_err(&urb->dev->dev,
+>  					"midi out urb submit failed: %d\n",
+>  					ret);
+> +			else
+> +				rt->out_urb_active =3D true;
+>  		} else /* no more data to transmit */
+>  			rt->out =3D NULL;
+>  	}
 
-diff --git a/sound/usb/6fire/pcm.c b/sound/usb/6fire/pcm.c
-index f5dfb8c3096a..d6ef8ffa97a9 100644
---- a/sound/usb/6fire/pcm.c
-+++ b/sound/usb/6fire/pcm.c
-@@ -460,6 +460,15 @@ static void usb6fire_pcm_in_urb_handler(struct urb *usb_urb)
- 	if (period_elapsed)
- 		snd_pcm_period_elapsed(sub->instance);
- 
-+	/*
-+	 * The out urb is submitted again from here, but the previous one may
-+	 * still be queued in the HCD.  Its transfer buffer is owned by the
-+	 * HCD until it completes, so skip it for this period and retry at
-+	 * the next capture completion.
-+	 */
-+	if (atomic_xchg(&out_urb->active, 1))
-+		goto submit_in;
-+
- 	/* setup out urb structure */
- 	for (i = 0; i < PCM_N_PACKETS_PER_URB; i++) {
- 		unsigned int frames = 0;
-@@ -525,8 +534,11 @@ static void usb6fire_pcm_in_urb_handler(struct urb *usb_urb)
- 	 * the frames of an out urb that was not submitted never reach the
- 	 * transmitter; the next urb continues the block at the same position
- 	 */
--	if (usb_submit_urb(out_urb->instance, GFP_ATOMIC) < 0)
-+	if (usb_submit_urb(out_urb->instance, GFP_ATOMIC) < 0) {
- 		rt->spdif_frame = spdif_frame;
-+		atomic_set(&out_urb->active, 0);
-+	}
-+submit_in:
- 	usb_submit_urb(in_urb->instance, GFP_ATOMIC);
- }
- 
-@@ -535,6 +547,8 @@ static void usb6fire_pcm_out_urb_handler(struct urb *usb_urb)
- 	struct pcm_urb *urb = usb_urb->context;
- 	struct pcm_runtime *rt = urb->chip->pcm;
- 
-+	atomic_set(&urb->active, 0);
-+
- 	if (rt->stream_state == STREAM_STARTING) {
- 		rt->stream_wait_cond = true;
- 		wake_up(&rt->stream_wait_queue);
-diff --git a/sound/usb/6fire/pcm.h b/sound/usb/6fire/pcm.h
-index f1b867b9c468..b5d1f5106d2c 100644
---- a/sound/usb/6fire/pcm.h
-+++ b/sound/usb/6fire/pcm.h
-@@ -28,6 +28,8 @@ struct pcm_urb {
- 	u8 *buffer;
- 
- 	struct pcm_urb *peer;
-+
-+	atomic_t active; /* urb is queued in the HCD */
- };
- 
- struct pcm_substream {
--- 
-2.34.1
+[Severity: Medium]
+Should usb6fire_midi_out_handler() also clear rt->out =3D NULL when
+usb_submit_urb() fails, the way usb6fire_midi_out_trigger() does?
 
+When usb6fire_midi_out_trigger() defers a restarted stream to the
+completion handler, it sets rt->out =3D alsa_sub and returns while
+rt->out_urb_active is true.  If usb_submit_urb() then fails in
+usb6fire_midi_out_handler(), rt->out_urb_active remains false with no URB
+in flight, but rt->out stays non-NULL, causing subsequent trigger(1) calls
+to return early at the if (rt->out) check without submitting the URB.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123084846.7700=
+-1-25031212351@stu.xidian.edu.cn?part=3D1
