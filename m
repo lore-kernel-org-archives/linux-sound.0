@@ -1,54 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795420565;
-	b=T4WuLlvzKxbyBbtulQsiDx++gZ7P63EsqFJ4n5ypg7oEVD6+JrYz1rA0sS496vKs3Ien
-	 J3755JEhqRtYBl1RYtXok1mfy54pwPtmGSPqKiRHVeacr//081eQCl2SMqS15N6/UNe/2
-	 2vGcni28qJdfdYyhiuNWJq1fWuOEqU5oqpvLJsbRk30IXXJ2qufmJym95x4/C3kElRX0Y
-	 HHNHxNAjKdTO3dPVy9MU8nr+wMM+0nnHOFWWALew3athCveLxGmn8W38FRqtbLEk23Sqh
-	 dZDseDwgTcnT4BBFyB3Qz2+xXJNoRvyDQ1JlsDCrWqKzGF6N0JM1+7JJHhPlo7yairg==
+	t=1795420571;
+	b=T0U4hmzfnqEabQQQaGeCpW2vvfRtQqa5Q6mFQqYmmPrFxcT8IsjCZvI/hyE5v20PefIF
+	 G0FmX7MdQkFDaTp2d06j00paSYm6waaZKewbF1VvlQmz++m610zTuUzwyINdVDlXZHjjl
+	 M+AR8mpjSsii7pIOYF4B7+LHFjjhcg6jIvhxHAIS6jN05tZdKtgbiDPrLtpL3NOXDliVp
+	 zakYsPKSTrjG7TDC9Wl/bYhFoE12WamuLlwJnA+sGCS5SgBAOd+ghQUV/dBHZu+pj50hJ
+	 QIxyq/4fDwjg3FYZqWguzUGJSpC4TAewnj5T0CNqZR6e2t0pbbadZ6WUNCkLXBFxdEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795420565;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795420571;
 	h=Received:DKIM-Signature:From:To:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=vSa7V0w03YeIxuDl0FkbVYGdaVLs+QISsPdU2Ujwh88=;
-	b=xhDQEYKCD8qjdhS4kytlwLtvwagwDp1Uel4Y0SMKhgSgBgQDDU+tY76YBSrhc5whW1nI
-	 DI5kvf3eAIf3ZpBE4KYV2n4Bq0bqcTRoeJx08kcA4xAVzb1ufGDrtTOSuswMFL9BzjKNZ
-	 MqnRC+CnLFPmK4eBurjxa3JvAqx0V6G23qhj12BA7yxCZoZlXL0JqTZJXvUom48EPr5No
-	 G8XyxLA1emBxIrwdTXL4Bv8MgE7G+xb0jZZDtrE/hCc+omZy5pKKv0dZkLcKxzzACUt6g
-	 e4y/dHR92mlCUIV/IhQVVlGrrKREWjHRyqcnz94iGSkw3MdSitNOtFwhgUiRPMGm/yg==
+	bh=xIvWT2gnfP5T3OT4//6KuPbQPQynD1bwik32TvuqPnY=;
+	b=NRT9kkzuA+/1INl3UoAg90WpybghkNirkyiAZwuKcIwj9r5fCa4FKg9k3M6uyCi08erm
+	 pT/YWVndKcA7iHCvb6As9llSh4jCXWEQRi/wYtCJcT9c3nxoTQqg6ka7pWEHhitNzpILg
+	 S+kuaG8+I32SGesyvgPJ3tUw5uHz3HvbHGYREJoi+D6f3xw7uS99U/3QMzu7vrzUkTeIf
+	 9ReK0x3F4m7TtJXhxB+AiZ4GNvcNGRghCumQ4bU4vyPFyJaa1P7iFr6acEqgNGoof6z7I
+	 toWGne6B63sVeNJ8xHGATMN7hrHg4NhKUD+qqTlUkyS0WbJda6k4eYzWXhotVsZ1ZCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hjYKmMN2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DaR6jJVS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AB8606A31A;
-	Mon, 23 Nov 2026 07:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E2D606A31A;
+	Mon, 23 Nov 2026 07:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hjYKmMN2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D8E1F000C4;
-	Mon, 23 Nov 2026 07:56:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DaR6jJVS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A671F000C6;
+	Mon, 23 Nov 2026 07:56:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795420564;
-	bh=vSa7V0w03YeIxuDl0FkbVYGdaVLs+QISsPdU2Ujwh88=;
+	s=k20260515; t=1795420571;
+	bh=xIvWT2gnfP5T3OT4//6KuPbQPQynD1bwik32TvuqPnY=;
 	h=From:To:Subject:Date:In-Reply-To:References;
-	b=hjYKmMN2YpeP3RPgh9cHokfhAz8Tl048W8LpOydcioZsXmL7LUpSEfWjEeDmsD8Eb
-	 X9EKuEIGdzfvQ12Xxl3Gg5twer9HQtPvZUUDSa/r8uzwmxcMDpEmBAIWjnrOQrh1WD
-	 tdODhMyPAtSTjg5wDzP4OhOpUl/mdomwHIFLbj8AeocM/wSW4kwrWTPXayZ1Pd0pAc
-	 Z13sVdZwOyGgyvv9xyEkfYjENpu8kR1TcXeRsFmrcj4gM5o3U8ST+tLHKf20VqCg9b
-	 XVhRV7H8pRwGkJt5xgZpib+EyZ/NVBaf7YoC+K8sTGeOikZxXQ2gDVZvHgqSpNrlTh
-	 CbC4VmKPpi4cQ==
+	b=DaR6jJVSlhvlluCZ6HZ5F5Jbkd3To/Xw6Qp0fcm9VVGWVVPN4L+LmO71W6PGLNI3y
+	 dO1Kt0lM9d5ueKWesK+X0jfSQoayJy5hFKaHDn3Zwu/gGHoPYTbRQI5BeM6X8SUDfu
+	 ga84xD4VLghXV60REhiK/dqr1xndfkrGW5m16Vgf48fhnK94xFUAiYQFi39gI9Bl8/
+	 uottdR+MgQWMqVJYjIXUVHDMW1f5eo6bc0XwSBX9GhxrgfBwG4QFvK+TvOhaXBggcI
+	 0Pi+onJNBG1kf3YVd9olz1ve5OKbe2Fd1uKb5sMVjXnulJ2ytLDIdZgCrSeUAS9/ys
+	 wyl4bbFrZ+jvw==
 From: Lee Jones <lee@kernel.org>
 To: lee@kernel.org,
+	Srinivas Kandagatla <srini@kernel.org>,
 	Vinod Koul <vkoul@kernel.org>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 05/10] soundwire: intel_ace2x: Protect bus.bpt_stream with bus_lock
-Date: Mon, 23 Nov 2026 07:54:26 +0000
-Message-ID: <20261123075522.405347-6-lee@kernel.org>
+Subject: [PATCH v3 06/10] soundwire: qcom: Prevent pconfig buffer overflow in qcom_swrm_stream_alloc_ports()
+Date: Mon, 23 Nov 2026 07:54:27 +0000
+Message-ID: <20261123075522.405347-7-lee@kernel.org>
 X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 In-Reply-To: <20261123075522.405347-1-lee@kernel.org>
 References: <20261123075522.405347-1-lee@kernel.org>
@@ -63,123 +65,60 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-intel_ace2x_bpt_open_stream() checks and assigns cdns->bus.bpt_stream
-without holding cdns->bus.bus_lock.  Concurrent BPT open requests can
-both observe a NULL cdns->bus.bpt_stream pointer, allocate separate
-streams, and overwrite cdns->bus.bpt_stream, leaking the first stream.
-In addition, failures after sdw_slave_bpt_stream_add() jump past
-sdw_stream_remove_master(), leaving the master runtime allocated by
-sdw_stream_add_slave() on the bus list.
+qcom_swrm_stream_alloc_ports() allocates the pconfig array with
+ctrl->nports elements, but only checks that the assigned port number pn
+is below maxport.  When multiple slave ports map to the same master port
+via m_port_map or the stream requests more slave ports than
+ctrl->nports, nports increments past ctrl->nports and writes out of
+bounds of pconfig.
 
-Hold cdns->bus.bus_lock when checking, assigning, and clearing
-cdns->bus.bpt_stream, and remove both slave and master stream runtimes
-on open failure.
+Verify that nports is less than maxport before writing to
+pconfig[nports], and clear only the port_mask bits newly allocated
+during the loop before returning -EBUSY.
 
-Closes: https://sashiko.dev/#/bug/linux-88535ed9-b7e9-4ede-93c7-59950c524c0b
+Closes: https://sashiko.dev/#/bug/linux-543ea0c0-a6e5-4b03-a041-ea0a760802c1
 Signed-off-by: Lee Jones <lee@kernel.org>
 ---
 
 v2 => v3:
- - Rebase onto soundwire/next
+ - Track newly allocated port_mask bits in a local bitmap so error
+   rollback never clears pre-existing ports
 
 v1 => v2:
  - Drop Fixes and Stable tags
 
- drivers/soundwire/intel_ace2x.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ drivers/soundwire/qcom.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/soundwire/intel_ace2x.c b/drivers/soundwire/intel_ace2x.c
-index 642b33ab5526..c964dd4a7c22 100644
---- a/drivers/soundwire/intel_ace2x.c
-+++ b/drivers/soundwire/intel_ace2x.c
-@@ -83,16 +83,21 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	int len;
- 	int i;
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 6e0c5fb10efa..16ad86912e51 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -1306,7 +1306,7 @@ static int qcom_swrm_stream_alloc_ports(struct qcom_swrm_ctrl *ctrl,
+ 	struct sdw_slave_runtime *s_rt;
+ 	struct sdw_port_runtime *p_rt;
+ 	struct sdw_slave *slave;
+-	unsigned long *port_mask;
++	unsigned long *port_mask, allocated = 0;
+ 	int maxport, pn, nports = 0;
+ 	unsigned int m_port;
+ 	struct sdw_port_config *pconfig __free(kfree) = kzalloc_objs(*pconfig,
+@@ -1350,11 +1350,13 @@ static int qcom_swrm_stream_alloc_ports(struct qcom_swrm_ctrl *ctrl,
+ 				else
+ 					pn = find_first_zero_bit(port_mask, maxport);
  
-+	mutex_lock(&cdns->bus.bus_lock);
- 	if (cdns->bus.bpt_stream) {
-+		mutex_unlock(&cdns->bus.bus_lock);
- 		dev_err(cdns->dev, "%s: BPT stream already exists\n", __func__);
- 		return -EAGAIN;
- 	}
- 
- 	stream = sdw_alloc_stream("BPT", SDW_STREAM_BPT);
--	if (!stream)
-+	if (!stream) {
-+		mutex_unlock(&cdns->bus.bus_lock);
- 		return -ENOMEM;
-+	}
- 
- 	cdns->bus.bpt_stream = stream;
-+	mutex_unlock(&cdns->bus.bus_lock);
- 
- 	ret = sdw_slave_bpt_stream_add(slave, stream);
- 	if (ret < 0)
-@@ -105,7 +110,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	if (!pdi0) {
- 		dev_err(cdns->dev, "%s: sdw_cdns_alloc_pdi0 failed\n", __func__);
- 		ret = -EINVAL;
--		goto remove_slave;
-+		goto remove_master;
- 	}
- 
- 	sdw_cdns_config_stream(cdns, 1, dir, pdi0);
-@@ -117,7 +122,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	if (!pdi1) {
- 		dev_err(cdns->dev, "%s: sdw_cdns_alloc_pdi1 failed\n", __func__);
- 		ret = -EINVAL;
--		goto remove_slave;
-+		goto remove_master;
- 	}
- 
- 	sdw_cdns_config_stream(cdns, 1, dir, pdi1);
-@@ -136,7 +141,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 	pconfig = kzalloc_objs(*pconfig, 2);
- 	if (!pconfig) {
- 		ret =  -ENOMEM;
--		goto remove_slave;
-+		goto remove_master;
- 	}
- 
- 	for (i = 0; i < 2 /* num_pdi */; i++) {
-@@ -149,7 +154,7 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 
- 	if (ret < 0) {
- 		dev_err(cdns->dev, "add master to stream failed:%d\n", ret);
--		goto remove_slave;
-+		goto remove_master;
- 	}
- 
- 	ret = sdw_prepare_stream(cdns->bus.bpt_stream);
-@@ -293,15 +298,16 @@ static int intel_ace2x_bpt_open_stream(struct sdw_intel *sdw, struct sdw_slave *
- 		dev_err(cdns->dev, "%s: remove master failed: %d\n",
- 			__func__, ret1);
- 
--remove_slave:
- 	ret1 = sdw_stream_remove_slave(slave, cdns->bus.bpt_stream);
- 	if (ret1 < 0)
- 		dev_err(cdns->dev, "%s: remove slave failed: %d\n",
- 			__func__, ret1);
- 
- release_stream:
-+	mutex_lock(&cdns->bus.bus_lock);
- 	sdw_release_stream(cdns->bus.bpt_stream);
- 	cdns->bus.bpt_stream = NULL;
-+	mutex_unlock(&cdns->bus.bus_lock);
- 
- 	return ret;
- }
-@@ -335,8 +341,10 @@ static void intel_ace2x_bpt_close_stream(struct sdw_intel *sdw, struct sdw_slave
- 		dev_err(cdns->dev, "%s: remove slave failed: %d\n",
- 			__func__, ret);
- 
-+	mutex_lock(&cdns->bus.bus_lock);
- 	sdw_release_stream(cdns->bus.bpt_stream);
- 	cdns->bus.bpt_stream = NULL;
-+	mutex_unlock(&cdns->bus.bus_lock);
- }
- 
- #define INTEL_BPT_MSG_BYTE_MIN 16
+-				if (pn >= maxport) {
++				if (pn >= maxport || nports >= maxport) {
+ 					dev_err(ctrl->dev, "All ports busy\n");
++					*port_mask &= ~allocated;
+ 					return -EBUSY;
+ 				}
+-				set_bit(pn, port_mask);
++				if (!test_and_set_bit(pn, port_mask))
++					__set_bit(pn, &allocated);
+ 				pconfig[nports].num = pn;
+ 				pconfig[nports].ch_mask = p_rt->ch_mask;
+ 				nports++;
 -- 
 2.56.1.750.gf70dc682cf-goog
 
