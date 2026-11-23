@@ -1,75 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.68.63.98
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795425068;
-	b=oLfq2niye7x3U04KD67MGQl3e68tqeI+/46/3WPhJSdGQw32SUlMrw1WnvVODKktRaZD
-	 EEmp4VQBKjbnt+zJyAexW8UYA03VGwK/NZK1esz5fmvienCllRvxZzPhspAf/rwXb0o5v
-	 QzVOxyhDm2HpFxVrKRMs53Z7dzNMBxzaTFo9Srq/CHI+cSxEOLlnw8QamTrTF5HkeA8A+
-	 EPxVAfpfsquwQ3di834/+axgESQnZG1zqeA3wMnPLZwB282bocx7fOrIoVdyUXZDGAHmH
-	 fAsAX5U08T7BVtyx8D0wRt2ldrrGsWakpd7+kSt6u1rA4hBfaBBhAuMdv4XnFiM0+Qg==
+	t=1795425756;
+	b=mV0zUD+IW1odUyDHqx4KNeJayr5h0sHCX9BW1c9VRCyE2eHKbn4WCbd4bLiT3DGOb972
+	 0xqbatX2VB5+sKoL9w4xSnJ/AeEqY62A8nQth0QLNBOJZu44EkKueuJ5xOIzEmw2OQaZZ
+	 yKbaTZ7kA1UYJMyMnRWDKdUEOxpVo+37u+UEKCco0GSGrCf/RQw8Um8KHRfpPEfioCqZf
+	 LvaiA/t+wp2ztMVsK/xuXCMdCeBn8nLG4QWV83YS+vcvxLTbsGjS2KARN7Hcj5M853CCW
+	 SuAALhohXBZuFoCxzzjzZ9yR/WtnCyWQphOwOKP2IbMqAkPhAOg1NnfIenWCxfsTBvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795425068;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:X-Virus-Scanned:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Spam-Status:Received:Received:
-	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-PPP-Message-ID:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-NC-CID;
-	bh=9/FaXEod2ixG06LMAORRyt35ukaqyRic/FlEHLSyurY=;
-	b=kHjdY9NZ+FYDXyjVwEb6FtG+bgSNtiWPx+xuya0R+4Do4vkOp6w93x50pkA0yLHLyXnQ
-	 1ZfU9VzBem4YtIDP3t7zobubMpAyC73xLKGayaH2V0aVstLuShK3a3WqnDSJ4ZCjNAcrb
-	 JDDnuNq6bDywHYGJ3gvjkJZhJzi3vd72KWxf/w7BVeN0TNKOUTY5dFgpm5XKxt1YPbuvI
-	 LvJPVxLy7sdEUPNhIRSBEMcpp4dS1BwnU+s0S9u7WgmLtAPY1rXyBY1pp170Mgz2244IB
-	 ilE10ts+MDCuSf6vfH0WCOcwdi37Htt4jqqzYJnr7ILFiGu0j9FIRkdlUzAKi3kUDJg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795425756;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=+YqP0VPIZaqejn7zGmUTDDm9+wSwQPjiEk9xfXfIWnE=;
+	b=HVuYhuJCwfCVK0Mg5STYlYDKHOa3UZzhxMnHa3XU+89Qot5fvDMaw+EB7WwLZ2MIJuqn
+	 s5evdo6qFql6eA/Mp2gzkhujvOYzcM0ayDgfBrcaa35RxZja8PqNsFxVLy4qEe1Ygrfrp
+	 ddkupb2YLMmm8wEzNOxxXKdYGwHyTAax1tHvTwuFtdtsoOLnrtbX3hBWqlCg+hPUOMNbj
+	 GoIZ5R6u0qwuT3wTTtZXsAQ5jP10Qzx0z3pN3GXvpKWL87hjy/H1b1F9jVdaaFsLU9/ND
+	 w5SM07KIZKLkARUa/YZszVf4C+6izODFDafF9TP4IU5pZlKZMyT8/EvSYWkRGy6h6OA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=leemhuis.info;
-	spf=pass smtp.mailfrom=leemhuis.info;
-	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=FNKyuXvs;
-	arc=none smtp.remote-ip=188.68.63.98
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.98])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="N8/2hWLQ";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B668606A31E
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 09:11:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B668606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83015606A31F;
+	Mon, 23 Nov 2026 09:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=FNKyuXvs
-Received: from mors-relay-2501.netcup.net (localhost [127.0.0.1])
-	by mors-relay-2501.netcup.net (Postfix) with ESMTPS id 4jY0XP6KQfz6QG2;
-	Mon, 23 Nov 2026 10:10:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1795425029;
-	bh=9P6t4W1hAzSJiynme1yqoi4YwIyP9mVZ6rIrsRK1X/Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FNKyuXvsmv6ggcYzsJUK20Om/TRjAVovg9Bf6T5HxNBfrfNxoYHkS3wxtn4niOzaN
-	 9gsdX5Hs2Q45LV6mF2p5nqGi2vFaihWlDYqpBLiBiuOtlFnAl34hYo3cMs1Z2SsSU6
-	 dB8rTr0yzQAZtqLEM8TeYqjYp54Q1a0Brqx37OAsuvZXlIP4EAjREGxlGo+3KtgCi1
-	 oj7eVK4tDi1P1ZJURt1vAR5PPyXFaQY7OuI5VoWpfaFnOjEkXtcf27M1XmP2O1v4wK
-	 TeEhzoLv3MxaUA4YqVjCQxFxagWeYxhntpExt6zlNKtC3igytq7rwzSbLYl3MXzZxp
-	 mEriOtEp2HE4A==
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-2501.netcup.net (Postfix) with ESMTPS id 4jY0XP5WL8z4y5P;
-	Mon, 23 Nov 2026 10:10:29 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-X-Spam-Flag: NO
-X-Spam-Score: -2.898
-X-Spam-Level: 
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4jY0XN22R1z8vJT;
-	Mon, 23 Nov 2026 10:10:28 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 0D4DB5FAB2;
-	Mon, 23 Nov 2026 10:10:13 +0100 (CET)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <241085e8-cb69-4dbf-9375-e024fe658335@leemhuis.info>
-Date: Mon, 23 Nov 2026 10:10:12 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N8/2hWLQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139A21F000C0;
+	Mon, 23 Nov 2026 09:22:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795425755;
+	bh=+YqP0VPIZaqejn7zGmUTDDm9+wSwQPjiEk9xfXfIWnE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=N8/2hWLQXF3Tz0DxjD59Gbri4SwGVHJ216vpug58t4irfv8+mrjF5xzBNq+C35x+P
+	 bODMqKM7CBfY9UJOKzGBGmAhn1s5xCmQ5Eh/JIAfExZ9H2K6PHWKSi+ZqodV1LQHzY
+	 3Uuj2D5YhvXpIKwr7penjZBqZ0d/cwmauzmVO1uk11l9A1yrwJ7+/WeNOCKUgkailw
+	 oNzhbBUQ46R9F+okFKligmxxuA9VJxKDAIJlV87PgplVO1G2gzg2/SxD+AQHTrR5SS
+	 /KkKsLiaRB3l5QgW2b60BRw1cQNavX2io3nFPrd+eULRwrxTzEwCKYNkZ88pkd2JJQ
+	 mTBV+JgiNTRfw==
+Date: Mon, 23 Nov 2026 11:22:31 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v3 11/31] USB: Unwind interface claims after registration
+ or binding failure
+Message-ID: <20261123092231.GL14811@unreal>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-11-d655875c4bfb@nvidia.com>
+ <sashiko-outbox-223897@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -79,115 +61,127 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Logitech G733 USB audio volume issue since Linux 7.3
-To: Lucas Cota <lucasbrunocota@live.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Cc: "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- Rong Zhang <i@rong.moe>, Takashi Iwai <tiwai@suse.de>,
- Jaroslav Kysela <perex@perex.cz>
-References: 
- <SA3PR11MB87055423D68E21680C47BB55B4B67B2@SA3PR11MB870554.namprd11.prod.outlook.com>
- <SA3PR11MB870554D0B14BDBE05EC72B8B59B67B2@SA3PR11MB870554.namprd11.prod.outlook.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: 
- <SA3PR11MB870554D0B14BDBE05EC72B8B59B67B2@SA3PR11MB870554.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <179542501344.1169179.16639057523463222476@mxe9fb.netcup.net>
-X-Rspamd-Server: rspamd-worker-8404
-X-Rspamd-Queue-Id: 0D4DB5FAB2
-X-NC-CID: Tz9ng+2zipavYseCsq5eqIDGQT9WzAuUMRaIs2ysRomlc9Xo2a8=
+In-Reply-To: <sashiko-outbox-223897@kernel.org>
 
-On 11/17/26 22:17, Lucas Cota wrote:
+On Thu, Nov 19, 2026 at 07:29:29PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] USB: unbound claim missed in usb_set_configuration() when
+>   autoprobe is off
+> - [Medium] usb: core: failed interface claim unwind skips altsetting 0
+>   reset
+> --
 > 
-> I have some additional findings regarding the Logitech G733
-> (USB ID 046d:0b1f) volume issue.
+> commit 5e9d278c3fe83635c408aabb0f7fdb4a22c1316b
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> USB: Unwind interface claims after registration or binding failure
+> 
+> This commit unwinds pre-claimed USB interfaces when device_add() fails or
+> driver binding does not complete during usb_set_configuration(), and releases
+> remaining unregistered interface claims in usb_disable_device().
+> 
+> > diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> > index 306978caaf1ef..b2e5ed35a4a59 100644
+> > --- a/drivers/usb/core/message.c
+> > +++ b/drivers/usb/core/message.c
+> 
+> [ ... ]
+> 
+> > @@ -2270,6 +2292,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  	 */
+> >  	for (i = 0; i < nintf; ++i) {
+> >  		struct usb_interface *intf = cp->interface[i];
+> > +		struct device_driver *claimant;
+> >  		struct module *claim_owner;
+> >  
+> >  		if (intf->dev.of_node &&
+> > @@ -2285,6 +2308,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  			intf->cur_altsetting->desc.bInterfaceNumber);
+> >  		device_enable_async_suspend(&intf->dev);
+> >  		device_lock(&intf->dev);
+> > +		claimant = intf->dev.driver;
+> >  		claim_owner = xchg(&intf->claim_owner, NULL);
+> >  		device_unlock(&intf->dev);
+> >  		ret = device_add(&intf->dev);
+> > @@ -2293,7 +2317,22 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  			intf->unregistering = 1;
+> >  			device_unlock(&intf->dev);
+> >  		}
+> 
+> [Severity: Medium]
+> Does setting intf->unregistering = 1 before calling
+> usb_driver_release_refused_claim() prevent usb_unbind_interface() from
+> resetting the interface back to altsetting 0?
+> 
+> When a driver such as cdc_ncm claims a sibling data interface and switches it
+> to a non-zero alternate setting during probe(), a later device_add() failure
+> on that sibling sets intf->unregistering = 1 before
+> usb_driver_release_refused_claim() runs usb_unbind_interface().  Inside
+> usb_unbind_interface(), driver->disconnect() releases the control interface
+> and usb_set_interface() is called to restore altsetting 0, but
+> usb_set_interface() rejects the request with -ENODEV because
+> iface->unregistering is already set.  Since disconnect() released the sibling
+> claim, usb_has_claimant() returns false and the device stays configured with
+> the failed interface and its HCD bandwidth stuck on the non-zero altsetting.
 
-FWIW, details for that issue can be found below in a mail that didn't
-make it to the lists or something.
-> I confirmed that the physical volume wheel can also cause abnormal
-> volume attenuation on Linux 7.2.15, so the issue is not exclusive
-> to Linux 7.3.
+This is worth fixing, but the race is difficult to trigger, it requires
+device_add() for a sibling device to fail at just the right time.
 
-Thx for the update. I CCed three people, maybe one of them might have an
-idea what's wrong here.
+> 
+> > -		module_put(claim_owner);
+> > +		if (claimant && (ret || !intf->dev.driver) &&
+> > +		    usb_driver_release_refused_claim(intf, claimant)) {
+> > +			bool unconfigure = usb_has_claimant(dev, claimant);
+> > +
+> > +			get_device(&intf->dev);
+> > +			if (unconfigure)
+> > +				usb_set_configuration(dev, -1);
+> > +			module_put(claim_owner);
+> > +			put_device(&intf->dev);
+> > +			if (unconfigure) {
+> > +				usb_autosuspend_device(dev);
+> > +				return ret ? ret : -ENODEV;
+> > +			}
+> > +		} else {
+> > +			module_put(claim_owner);
+> > +		}
+> 
+> [Severity: Medium]
+> Can checking (ret || !intf->dev.driver) without device_lock(&intf->dev) miss
+> an unbound claim when drivers_autoprobe is disabled?
 
-Side note: If (a) there really is something that works on 7.2.y, but
-does not on 7.3 and (b) nobody comes up with an idea what's wrong,
-please run a "git bisection" to find the change that broke things:
-https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.html
+This is same pre-existing issue as in patch 6.
 
-Ciao, Thorsten
-
-> On Linux 7.3.x, the hardware PCM mixer sometimes initializes at
-> 51/74 (-23 dB), even though ALSA has 74/74 saved in asound.state.
 > 
-> I found two workarounds that together resolve the issue:
+> If an unregistered sibling interface was claimed during an earlier probe() and
+> bus autoprobing is disabled before device_add() runs device_initial_probe(),
+> __device_attach() is skipped:
 > 
-> 1. Enable "api.alsa.soft-mixer = true" for the G733 in WirePlumber.
->    This prevents the physical volume wheel from causing excessive
->    attenuation or loss of audio.
+> drivers/base/dd.c:device_initial_probe() {
+> 	if (sp->drivers_autoprobe) {
+> 		ret = __device_attach(dev, true);
+> 		if (ret == 2)
+> 			__device_attach(dev, false);
+> 	}
+> }
 > 
-> 2. At session startup, explicitly change the hardware PCM volume
->    from 38/74 to 74/74 using:
+> device_add() then returns 0 with intf->dev.driver still pointing to claimant
+> while device_is_bound(&intf->dev) is false.  Because (ret ||
+> !intf->dev.driver) is false, usb_set_configuration() skips
+> usb_driver_release_refused_claim() and drops claim_owner in the else branch.
+> When usb_disable_device() later runs, device_is_registered(&interface->dev) is
+> true, so device_del() is called before usb_release_unregistered_interface()
+> and __device_release_driver() calls klist_remove(&dev->p->knode_driver) on an
+> unattached klist_node, causing a NULL pointer dereference in klist_put().
 > 
->    amixer -c Headset cset 'name=PCM Playback Volume' 38,38
->    amixer -c Headset cset 'name=PCM Playback Volume' 74,74
+> Checking !device_is_bound(&intf->dev) under device_lock(&intf->dev) inside
+> usb_driver_release_refused_claim() instead of the unlocked !intf->dev.driver
+> check would catch this case.
 > 
->    Setting 74/74 directly is not always sufficient. Forcing an
->    actual volume transition restores the expected hardware gain.
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com?part=11
 > 
-> I currently apply the second workaround using a systemd user
-> oneshot service after WirePlumber starts.
-> 
-> Both workarounds have been tested successfully after reboot on
-> Fedora 45 with Linux 7.3.x. The headset now starts at the expected
-> volume, and the physical volume wheel works without abnormal
-> attenuation.
-> 
-> The root cause remains unclear, but the findings suggest an
-> interaction with the USB audio hardware mixer controls.
-> 
-> Best regards,
-> Lucas
-> ________________________________________
-> From: Lucas Cota <lucasbrunocota@live.com>
-> Sent: Tuesday, November 17, 2026 16:47
-> To: linux-sound@vger.kernel.org <linux-sound@vger.kernel.org>
-> Cc: regressions@lists.linux.dev <regressions@lists.linux.dev>
-> Subject: [REGRESSION] Logitech G733 USB audio volume issue since Linux 7.3
-> Â 
-> Hi,
-> 
-> I'm experiencing an audio volume regression with my Logitech G733 wireless headset (USB ID 046d:0b1f) on Fedora 45.
-> 
-> Kernels tested:
-> - 7.2.15: Everything works normally, including the physical volume wheel, without any custom ALSA or WirePlumber configuration.
-> - 7.3.3 and 7.3.4: Audio volume is significantly lower, and using the physical volume wheel causes further issues.
-> 
-> On 7.2.15, the kernel reports:
-> sticky mixer values (...), disabling
-> 
-> On 7.3.x, it reports:
-> broken mixer GET_CUR
-> 
-> Unlike 7.2.15, the newer kernels expose a hardware PCM volume control (0-74).
-> 
-> I can temporarily restore the expected volume using:
-> 
-> amixer -c Headset cset name='PCM Playback Volume' 38,38
-> amixer -c Headset cset name='PCM Playback Volume' 74,74
-> 
-> However, turning the headset's physical volume wheel makes the audio quiet again, even though ALSA still reports PCM at 74/74.
-> 
-> Enabling WirePlumber's api.alsa.soft-mixer = true helps with software volume control but doesn't fix the physical wheel issue.
-> 
-> This seems related to the USB mixer behavior change between Linux 7.2 and 7.3.
-> 
-> Could you please investigate whether the G733 needs a device-specific fix?
-> 
-> Thanks!
-
