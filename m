@@ -1,106 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424495;
-	b=xlatluFbXTY5oXjoMZy3VjuO2RfX5K7wUv0XlfebWrcj1e8RbP91dHXaOPJYA5ffGuSO
-	 WTRQ0JVtyGAo5mIEss2LceryQAuairyuJ5B5L36YfJ17d1A/WMXgJki4RngQ7gmJg8tg6
-	 dXu/0mVxljOLCCJ0458CAImzXwEqyr2kXXoOUHr+eKhQH0HyBekZF5j0g5zPKVdmZti9n
-	 HC3N8idtovf9HuD4udMcVGHRHsWzNNNknzm8wWMAjxYC4kdoRXHBgafoiFhuJHhRbdw4R
-	 2GmMxRr2ZI7T77YSIVZBqJwB7YumFrdon6S5XuZtIswjBZ8tuOUuHj89vqWltYMQtuw==
+	t=1795424587;
+	b=CqgOBoYPJTzyDH0OdtTu2N2RIN3yk8Xxbl0Ms6av2teo0iDwYaa47JRO8MyrR6tMqtgY
+	 vsiREj0cBYtzN1Va3jQ6zKfrhM/aWAQDRJvHadijZPalAbfW+dRVaISn2LaXxrl/P22DJ
+	 eLn0ms79go2hfbzDy3IaMBvE22qy5krYdmUdxtyDeujGLk9a1J/6Fl3Vc8pHzW48/UAEO
+	 a35sct5JIdNOocRoqYm4VZM0NIzvasxmftsKkhskCeMaklTJFZ44VnDmEdiB/pNiaryPR
+	 /TippmZIkfkksfykkrt0GU7oyrCl1qlUep7rBrV01zgjwk2A2tYcAxzX+9hShk3HKEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424495;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424587;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=8IaUYIQEtbwaKxpNvH1tQqcdy0I8wU+cHele+MHmUG8=;
-	b=lRliI7/5sLWSMvTfCSNqTBx327aC+4eN6g+xCG7TRYwOrotOMSb7ocPMRG3PGnxP+zeo
-	 WFdEvQp5ZHLMQjIRwLz8sLjh9lBgr1Zsl6WKO35PEhlAwyLxvFBrGZzroviXi0GG6x4k4
-	 SDoK5F2jXos49t9Bc1jKteNzoTDYh8JshB/MfbT6o/cZcNqby0exJZFKiQ/F2xrtui41p
-	 GmDbmMdXw/qOpgE1M8EpKxE7ESUVIBY+fJfxH1JN+N9kakcT/hYlzogPkH1yxjzNFM+gG
-	 pfdUezJlwYeo2IT7WB/WWgx6h+qYbcEEgDYDi+WNimSefVDVSJ3fSi1j5vRt+0v/wzg==
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=cIH97X8UXW0rRrMtUujdb87OCK5+AyePt7eIPmnRob8=;
+	b=2+LEdhHoJAPFz+TtFVMy/hKDPeZm70jWpfCVyVg9ry2qZficLIpRnohHlfNlrxIbNIsR
+	 P+Ynx5JslrqEKlrg9nFS3CzRYV0SObEeuaksOoG9ULmKqP3kMOKQLwO6+SzZaELQBui3M
+	 Fiw1wsowBXq5d8bC9dnBbJ7odKTCUWwOIw74dkTELXh1EFut/x/CXj/rPqFkoETEqbZIp
+	 nNEcCLmisGtvgKI8vJJvJVDKk0GT7JiS6D9MrS/0MPHAMgOCfFePA5MDlrbQy+Ow2lCq2
+	 7/LBJtCM8gGZB+Kq0QjZnAicNKgeuXHH9n8gLcnddvDEt2r53kpD9iMFevyJGZ1joJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rQSslSAF;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/oeXy7Af";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rQSslSAF;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/oeXy7Af";
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rvg7vokS;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CWGparYQ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rvg7vokS;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CWGparYQ;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C661A606A31A;
-	Mon, 23 Nov 2026 09:01:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C661A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C83A606A31A;
+	Mon, 23 Nov 2026 09:03:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C83A606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rQSslSAF;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/oeXy7Af;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rQSslSAF;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/oeXy7Af
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rvg7vokS;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CWGparYQ;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rvg7vokS;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CWGparYQ
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0FE9B2202C;
-	Mon, 23 Nov 2026 09:01:33 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 85D9A1F7E5;
+	Mon, 23 Nov 2026 09:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8IaUYIQEtbwaKxpNvH1tQqcdy0I8wU+cHele+MHmUG8=;
-	b=rQSslSAFrHraMwSrYavXTOWRU6br7ne0hV3AkkTcX59SS/iVb9ZjNnHVgDVLnH6joiLaxT
-	SMljyxdMb4b+gbTCGep6XMhs+AxYGX1uNH0ALlwkZVhtEFtfP+Qiwd6Xh23p1fvkDyZGFm
-	alHcK/4K83iQ7VoR22T7TJFl0AI58fU=
+	bh=cIH97X8UXW0rRrMtUujdb87OCK5+AyePt7eIPmnRob8=;
+	b=rvg7vokSjd3dODkkeg9srkOQTIZ/xb9FYojTPp0/3euWtqkYSPxzPYfQTR2ds8mX/cX7wj
+	Zn9YgVcmp+zbNOM9UXUQojF7Yl3Ctj+xrDnBAlwwvOvVVfk1Is1iokOaYmChBDRh6vyFJy
+	j5Vdv10w2mqh/q/UNSP6N9m0+0mZM9c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424493;
+	s=susede2_ed25519; t=1795424584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8IaUYIQEtbwaKxpNvH1tQqcdy0I8wU+cHele+MHmUG8=;
-	b=/oeXy7AfvsoCis5PSfrwuih2EeRu/aAAcVbSBrCJTKZ0toVqCA+kGbUo7NR/fDhGg3irvO
-	t/ZO38UH836b/RCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=cIH97X8UXW0rRrMtUujdb87OCK5+AyePt7eIPmnRob8=;
+	b=CWGparYQfYzXka4Gp40GaiSeqO7ryjiu5/U1Jpek3r6u7zzyYFePVqWEisPGtRfHi8viPc
+	aSUv+9nOTUhsEbDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rvg7vokS;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CWGparYQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424584; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8IaUYIQEtbwaKxpNvH1tQqcdy0I8wU+cHele+MHmUG8=;
-	b=rQSslSAFrHraMwSrYavXTOWRU6br7ne0hV3AkkTcX59SS/iVb9ZjNnHVgDVLnH6joiLaxT
-	SMljyxdMb4b+gbTCGep6XMhs+AxYGX1uNH0ALlwkZVhtEFtfP+Qiwd6Xh23p1fvkDyZGFm
-	alHcK/4K83iQ7VoR22T7TJFl0AI58fU=
+	bh=cIH97X8UXW0rRrMtUujdb87OCK5+AyePt7eIPmnRob8=;
+	b=rvg7vokSjd3dODkkeg9srkOQTIZ/xb9FYojTPp0/3euWtqkYSPxzPYfQTR2ds8mX/cX7wj
+	Zn9YgVcmp+zbNOM9UXUQojF7Yl3Ctj+xrDnBAlwwvOvVVfk1Is1iokOaYmChBDRh6vyFJy
+	j5Vdv10w2mqh/q/UNSP6N9m0+0mZM9c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424493;
+	s=susede2_ed25519; t=1795424584;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=8IaUYIQEtbwaKxpNvH1tQqcdy0I8wU+cHele+MHmUG8=;
-	b=/oeXy7AfvsoCis5PSfrwuih2EeRu/aAAcVbSBrCJTKZ0toVqCA+kGbUo7NR/fDhGg3irvO
-	t/ZO38UH836b/RCQ==
+	bh=cIH97X8UXW0rRrMtUujdb87OCK5+AyePt7eIPmnRob8=;
+	b=CWGparYQfYzXka4Gp40GaiSeqO7ryjiu5/U1Jpek3r6u7zzyYFePVqWEisPGtRfHi8viPc
+	aSUv+9nOTUhsEbDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BAC001352B;
-	Mon, 23 Nov 2026 09:01:32 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 384451352B;
+	Mon, 23 Nov 2026 09:03:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H09qJOwABGs8BwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:01:32 +0000
-Date: Mon, 23 Nov 2026 10:01:32 +0100
-Message-ID: <87wlq3diqb.wl-tiwai@suse.de>
+	id STu9BEgBBGvMCAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:03:04 +0000
+Date: Mon, 23 Nov 2026 10:03:03 +0100
+Message-ID: <87tsl7dins.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Gianluca Boiano <morf3089@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: abhirajdutta7@gmail.com
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Enable native DSD for Fosi Audio DS2
-In-Reply-To: <20261123011401.1545242-1-morf3089@gmail.com>
-References: <20261123011401.1545242-1-morf3089@gmail.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Spectre x360 2-in-1 Laptop 16-f2xxx
+In-Reply-To: <20261122-hp-spectre-16-f2-quirk-v1-1-2011ef8986fb@gmail.com>
+References: <20261122-hp-spectre-16-f2-quirk-v1-1-2011ef8986fb@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -112,49 +115,66 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
+	MX_GOOD(-0.01)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 85D9A1F7E5
 
-On Mon, 23 Nov 2026 02:14:01 +0100,
-Gianluca Boiano wrote:
+On Sun, 22 Nov 2026 23:02:47 +0100,
+Abhiraj Dutta via B4 Relay wrote:
 > 
-> The Fosi Audio DS2 (USB ID 262a:0001, Savitech controller with a
-> Cirrus Logic CS43131 DAC) exposes a UAC2 RAW_DATA playback altsetting
-> (altset 4, bmFormats 0x80000000, 32-bit subslot), but ALSA reports it
-> as SPECIAL without the DSD_RAW quirk, preventing native DSD playback.
+> From: Abhiraj Dutta <abhirajdutta7@gmail.com>
 > 
-> Add the device to the quirk flags table with QUIRK_FLAG_DSD_RAW, as
-> already done for the ddHiFi TC44C (262a:9302) using the same vendor's
-> controller. With the quirk enabled, altset 4 is exposed as DSD_U32_BE
-> and stereo DSD64, DSD128 and DSD256 streams (88200, 176400 and 352800
-> frames/s) play through it.
+> The HP Spectre x360 16-f2xxx (SSID 103c:891e) has the same speaker
+> problem as the 14-eu0xxx and 16-aa0xxx: the BIOS marks the treble
+> speaker pin 0x14 as unconnected, so only the bass speakers on 0x17
+> play. The mute and mic-mute LEDs don't work either.
 > 
-> Tested using snd-usb-audio quirk_flags=262a:0001:DSD_RAW on
-> Linux 7.3.5.
+> Use the existing EU0XXX pin fixup and chain ALC245_FIXUP_HP_X360_MUTE_LEDS.
+> The mute LED is on COEF 0x0b bits 2-3 and the mic-mute LED on GPIO2
+> (active low), which is what that fixup already handles. Unlike the
+> 16-aa0xxx, the bass speaker amp works without toggling GPIO0, so the
+> EU0XXX variant is enough.
 > 
-> Signed-off-by: Gianluca Boiano <morf3089@gmail.com>
+> Under SOF the PCI SSID on this machine reads as 103c:0000, so the entry
+> is matched against the codec SSID.
+> 
+> Tested on a 16-f2xxx: all four speakers play and both LEDs follow the
+> mute state.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Abhiraj Dutta <abhirajdutta7@gmail.com>
 
 Applied now.  Thanks.
 
