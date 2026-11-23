@@ -1,111 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424263;
-	b=oozqNWUffY2fzfR4J/stDW3QPuFVj0o61OY/K3A0e2CURSGbWv7oLEIVzxxklLwfXW+i
-	 S7zGcCDt5I6N+sJ+3t5g9lwOVpY+67n0mVWKHyR2P5g4KgA1s+Gn5fB/n2vlK2XkGH4ox
-	 w341qd2rj4ESUufgNkbBwgPaAkVrGbw6dcPoiRWeJ+o2wEl9JyHiqGJCGWMCVnqqvvhiW
-	 A3QWbyJJsH1zZIYz7rN6NUPPBJf8JtUyTaJsts1AYwhiJGLBj1HxQzVQ6lwfPEyyWEQX3
-	 lrYUZW2SMEIPmSgszNYsNHV99yZus8v/ufeGPPf262TEoI/fZDRr5/SL727NVkpNhGQ==
+	t=1795424338;
+	b=XrTy2eCXLIr+M0j0TfG/gZ3SJk2Ce2SLSvCo5a8b5+zNB1DekrchgqeyIn4E799JKy5h
+	 7Sko1YCjYGUs6ptbT5M/L8vcREGER84P8aD+G/WLdJfnCj7XgZzmaoG9FpWpqZqwfMPBY
+	 GEM4GiS4Px2u+uNhIdVOm0u6WKH1WwhuSFCt4S+Mzx9lvRVgnVsGxy8zSsAGiJHU8JVws
+	 A9fsqJ96lRL2dtQ+vFNilJhqBkQFMqMQcqU4VEZvlBGpog/GCBuox6OXyxkIs8Jwlw3oz
+	 p9jb5TxvwgGbIk61dpnzI/FWvHTKKYhC60Sta9CkE8td11qSdvU3lPT3XJzV15a4lOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424263;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424338;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
 	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=97L5FdV4LjZSM+ya3zic+y5X9JdtVKSVVEwdBTZDztY=;
-	b=iwu98jY3pPgMe/VCUy7ZOFyfGWqF8KTSxMhcftWGsh0FAuJwjDE5J8HITtA4LmICE0Xd
-	 ZW6FxE1W4WASPG7pYJA6o1WiyVOKMdN022iydVbs7mRuk8zWLPSeugqZD3Escz9r28keI
-	 clhm3DGeDW3hqxHMs0IKfaz/1kBwhZo/FdfyeKgAdnHAVRDfsrOsUmGR0AWOTgKzZO15E
-	 4LQdwJpHN8J/exPH52wB7gEKHN6VIQgW/bAYJfvKH+SV8IzTI5HscqD/H4bXO4Wm0yU+t
-	 auNixDptOvDbYaJiiJCHs+cthpQKUJdPbWjb9NtrJdUjM9nn8jMvsVi3u2Z8/XJmFDw==
+	bh=tEOyxuEsk0JOC4PDA4fd08/KnLW7AODcfbwN/MrfZis=;
+	b=alAdIZZfR3qbstppztgD8QriUZ76JaUp47qXf1NCHHOucn7uY0yNBusyfMeLg10fN82S
+	 dSyDmF4pLnppFhkvb4BreOKdWsLVApp5EAw9B71AgztkZ8EU+zu21npu589fCsU/5F+0r
+	 3IH8hraa99fwt1UYGxW9y1NZnoiY9vA5zTS5fkGULGVh5fq1W5IVlvnYWui8tZcsJPiPH
+	 FB5A8yqBaDiZ5/uHVGbzM/GYhobok63Bq5cWbrJ856FnxvTL8ZtPLHQBWfMxSjTYCOosv
+	 6+jWA0U01reu2xfMw1rzPy1LqoS4JMl6OmHXrkgwuehEu7O6wOoAyX/t8Wt0RObCNUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aAICWo4f;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tkaylyGC;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aAICWo4f;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tkaylyGC;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=dyPrjSEF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dpe+g8yd;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=dwAbpBhI;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+KDTEgj0;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B06606A32C;
-	Mon, 23 Nov 2026 08:57:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33B06606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46907606A32E;
+	Mon, 23 Nov 2026 08:58:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46907606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aAICWo4f;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tkaylyGC;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=aAICWo4f;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tkaylyGC
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=dyPrjSEF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=dpe+g8yd;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=dwAbpBhI;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+KDTEgj0
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2208B21BD0;
-	Mon, 23 Nov 2026 08:57:41 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 831D721BD0;
+	Mon, 23 Nov 2026 08:58:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=97L5FdV4LjZSM+ya3zic+y5X9JdtVKSVVEwdBTZDztY=;
-	b=aAICWo4fvpUAUp3JFrhV6R3xiQ3pJTQ4ytMPOay7zx3E3ws1S73ttJOE3ONzgZQjBdN36V
-	hcil4pnMFmTaZJ7BX1ERaBC+vQ6fRQbOe9N87G5w7irvZqSUH1Cuh4d5NTFWYp41eHyr23
-	2fSuQKc02bg/KrYzPHGy7fCWZ+7N+Xg=
+	bh=tEOyxuEsk0JOC4PDA4fd08/KnLW7AODcfbwN/MrfZis=;
+	b=dyPrjSEFdQ690ptE3kkO5BDGRPw/uCdmya/lTY2yR7XmEcqW0eWLLTfaEKu8TY6ZLzN8Ap
+	Z728unwL1IGaioE+7AFzjmSI9V8z2ZcXSbaKZHxzECzfKxXauWSleiSvJ4LC4sgANCOLCS
+	JEW/a/7c7OIV/HOFyPMbKkbGrA6zmek=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424261;
+	s=susede2_ed25519; t=1795424336;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=97L5FdV4LjZSM+ya3zic+y5X9JdtVKSVVEwdBTZDztY=;
-	b=tkaylyGCghp4J7rbyxu3aj27QboXw7D2b5J9NvSqkIJc41l4Xa+h7YauleOZVu2Rm/qlI9
-	3/KYRGC3D4qEXDBQ==
+	bh=tEOyxuEsk0JOC4PDA4fd08/KnLW7AODcfbwN/MrfZis=;
+	b=dpe+g8yds6TOQIp0DDKiM0TMmkUy7NYCBYl7x8n0jws+oPw+HTlwg5uZXH4inokAqbNZ2Q
+	se1anG/j8J331yBA==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795424261; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795424335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=97L5FdV4LjZSM+ya3zic+y5X9JdtVKSVVEwdBTZDztY=;
-	b=aAICWo4fvpUAUp3JFrhV6R3xiQ3pJTQ4ytMPOay7zx3E3ws1S73ttJOE3ONzgZQjBdN36V
-	hcil4pnMFmTaZJ7BX1ERaBC+vQ6fRQbOe9N87G5w7irvZqSUH1Cuh4d5NTFWYp41eHyr23
-	2fSuQKc02bg/KrYzPHGy7fCWZ+7N+Xg=
+	bh=tEOyxuEsk0JOC4PDA4fd08/KnLW7AODcfbwN/MrfZis=;
+	b=dwAbpBhIVqCSGI4GavOf8JJwiSsUeAuVgNrB8SnAUFT7kSZkMb6K3KFHYXrTsAA+NX+vq6
+	g6UnXh2XLHzqK1i5QAtSa49UCR/VMAkSwLlDgduGqouA560bLwmHuuNH5sdoSjUPPyxcUt
+	/RjoOijUHRE/EGjQPYUdnZkElAU8SH0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795424261;
+	s=susede2_ed25519; t=1795424335;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=97L5FdV4LjZSM+ya3zic+y5X9JdtVKSVVEwdBTZDztY=;
-	b=tkaylyGCghp4J7rbyxu3aj27QboXw7D2b5J9NvSqkIJc41l4Xa+h7YauleOZVu2Rm/qlI9
-	3/KYRGC3D4qEXDBQ==
+	bh=tEOyxuEsk0JOC4PDA4fd08/KnLW7AODcfbwN/MrfZis=;
+	b=+KDTEgj0Qtp4uw0kKIubHexu+9b7TQuRaJ9TAKOde7uEaR27YOT0tci/ppWD4OJiR6SMCj
+	vBDDVciPZfSbV4Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AFE9C1352B;
-	Mon, 23 Nov 2026 08:57:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F4F61352B;
+	Mon, 23 Nov 2026 08:58:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jBzwIAQABGsAAwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 08:57:40 +0000
-Date: Mon, 23 Nov 2026 09:57:40 +0100
-Message-ID: <875wxnexh7.wl-tiwai@suse.de>
+	id 3yPhNU4ABGuDBAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 08:58:55 +0000
+Date: Mon, 23 Nov 2026 09:58:54 +0100
+Message-ID: <874id7exf5.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Alexandre Becholey <alex@becholey.ch>
-Cc: Daniel Mack <zonque@gmail.com>,
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Karsten Wiese <fzu@wemgehoertderstaat.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
-	Daniel Mack <daniel@caiaq.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@suse.cz>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: caiaq: stop the iso packet parsers before a partial block
-In-Reply-To: <20261119131632.650637-1-alex@becholey.ch>
-References: <20261119131632.650637-1-alex@becholey.ch>
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH v6] ALSA: line6: Stop URBs synchronously via sync_stop callback
+In-Reply-To: <20261122104039.7160-1-25031212351@stu.xidian.edu.cn>
+References: <87a4n1702t.wl-tiwai@suse.de>
+	<20261122104039.7160-1-25031212351@stu.xidian.edu.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -124,58 +123,81 @@ X-Spamd-Result: default: False [-12.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,wemgehoertderstaat.de,vger.kernel.org,caiaq.org,suse.de,suse.cz];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[xidian.edu.cn:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -12.30
 X-Spam-Level: 
 X-Spam-Flag: NO
 
-On Thu, 19 Nov 2026 14:16:55 +0100,
-Alexandre Becholey wrote:
+On Sun, 22 Nov 2026 11:40:39 +0100,
+YuanZhe Liu wrote:
 > 
-> The iso packet parsers in audio.c walk a packet in blocks of one sample
-> per stream, but only compare the start of each block with the packet
-> length. The block size follows from the channel counts the device
-> reports, so it need not divide the packet length, and the last block of
-> a packet runs past its end. A device reporting e.g. 62 channels can make
-> the driver read and write up to 232 bytes past the capture and playback
-> URB buffers in URB completion context.
+> line6_buffer_release() frees the stream buffer after
+> line6_wait_clear_audio_urbs() gave up waiting for the URBs that are still
+> active.  The buffer is still referenced by those URBs, and the completion
+> callback of such an URB resubmits it from submit_audio_out_urb() with
+> line6pcm->out.buffer already set to NULL, which ends up in a NULL pointer
+> dereference in the memset() in submit_audio_out_urb().
 > 
-> Make each parser round the packet length down to a multiple of its own
-> block size, which depends only on n_streams and not on
-> spec.data_alignment (the device can change that at any time), and zero
-> the unused tail of a playback packet.
+> While the URBs remain queued, the host controller can also write the
+> received isochronous data into the freed buffer.  Such a write does not go
+> through the KASAN checks, so it silently corrupts the freed slab object;
+> the corruption was observed as a bogus KASAN quarantine entry that later
+> led to a general protection fault in qlist_free_all().
 > 
-> The bug was found, and the reproducer and this fix were written, by AI
-> agents (Claude Mythos and Claude Opus models). The analysis and the
-> patch were reviewed by a human.
+> The active_urbs bitmap cannot prove that the URBs are gone:
+> line6_unlink_audio_urbs() is called outside the stream lock and only marks
+> the URBs that are active at that moment, so an URB resubmitted by a
+> completion callback right after the scan is never unlinked and keeps being
+> resubmitted after the stream was stopped.
 > 
-> Fixes: 523f1dce3743 ("[ALSA] Add Native Instrument usb audio device support")
+> Stop the URBs synchronously instead of polling for them: mark the URBs
+> that are currently active under the stream lock, so that the completion
+> callbacks cannot resubmit them, and kill them with usb_kill_urb(), which
+> waits for the giveback.  Expose this through the sync_stop PCM op, which
+> ALSA core invokes before hw_free(), hw_params() and prepare() once the
+> stream was stopped, so the buffer is guaranteed to be unused when it is
+> released.
+> 
+> The URBs are marked and killed only while no stream is running on that
+> stream, and only those that are active at that moment, so neither a
+> stream started concurrently nor another stream type still running
+> (software monitoring, impulse or the capture helper) is stopped.
+> Unlink marks left on already completed URBs are dropped afterwards, while
+> those of still active URBs are kept, so that a later stream start can
+> submit the URBs again.
+> 
+> line6_pcm_acquire() and snd_line6_prepare() keep a synchronous stop for
+> an idle stream as well: sync_stop() is invoked only when the substream
+> itself was stopped, while the other stream types sharing the same stream
+> never set that, and their unlinking URBs would make
+> line6_stream_start() skip the submission.  line6_pcm_disconnect() and
+> line6_buffer_release() stop the URBs unconditionally, as the device may
+> be gone already and the buffer is about to be freed.
+> 
+> The helper skips the loop when the URBs were not created, as
+> line6_pcm_disconnect() may run after a failed probe.
+> 
+> Fixes: 63e20df1e5b2 ("ALSA: line6: Reorganize PCM stream handling")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Alexandre Becholey <alex@becholey.ch>
-> ---
-> An emulated caiaq device on QEMU xHCI reporting 62 channels and sending
-> 512-byte iso packets triggers KASAN slab-out-of-bounds in
-> read_completed() on v7.3.1 and master 9d66f26fefac, as do 3- and
-> 12-stream variants in modes 0, 2 and 3, also with the device switching
-> data_alignment mid-stream. With the fix: no report in 85 boots (20 on
-> master); a well-behaved 4-stream device streams as before in modes 0, 2
-> and 3. Not tested on real hardware. Reproducer available on request.
+> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-OK, I applied now to for-next branch, and let's hope this works on the
-actual device, too.
+Applied to for-next branch now.  If you have further fix, please give
+an incremental fix.
 
 
 thanks,
