@@ -1,55 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795454773;
-	b=yaAFvmdT+mvspcP6wqMhgc17EUlpKzic4jBs09S8StfEmZ4o2bZNcKj4YC16ili7mOEM
-	 49NakNlvc/0IW5xs5JAnRRqCPOpE7KJpGLlnh4k8SBU8WQfPUVK5NflUu/chgYXFdBSpr
-	 Wf8qWA55Ydw2Zjo3wWQaVBLw4mcsI0t63sBWsVWdcHUpjflWp7/48IVdCxGkKmgt3NGLF
-	 J/q8deGuFH5sNeq7mNnzVpb8Qrs4mXaJ9xC7ETDtwB77jxoyCr4yDuLpRDJyYfm9nJhDN
-	 UTOsgLllnttwXKcC4y1pvOQU/e7MP7qficPiKZ/GVADyFGyHiWwq9V5t5t+rzsA+afw==
+	t=1795454836;
+	b=0VhB6fjV5CZa0SJhRMr5HOY5PGAKkObe9ubrk+ZsNhH8ehe37nw9YiSjiwvi/kjpL2aX
+	 2obP4opw4tmYRq65BYUEYX5HrrXf+9pX/pE+0pmmlUBLI76qDsj/Vfm5Uc0ltrtmexxVt
+	 iWCPWkTpKgNHIuUAdST2R2y4MrT2Q38cZepgecNfY4K5arBZZLAA4Vp514qVXktdutzw2
+	 6dK2CtejDTwmTx+oYfptbXbfjgsjlCZ/sxUtSs07+6o2T6oZQQSHpLMUUamc+jiooCMpM
+	 1nEvmWouIpEa8ZbFwWSfjK6P2w8MMy8lBZlerMf4N9SZuC4w5jQWDDF0KWd6gMsQKQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795454773;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795454836;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=nwyEfY5aRu6ya42hZkQYSi5D/mRQAowxPPDkUtFyWWY=;
-	b=Sm5NUtAkZ/2Zwj+GZp+i6B0sBhBNfonlBWKZ0ZPpHOgx/ScZTXLx2qIpYvJ8xEyyFs61
-	 U1iiLrxJI71QOu5BsaHzkFBi4LZXRxbpKrk4R9Y36a02y1GI661u/kDEVV+0yOypMYOk9
-	 TyOwHaBYZU0yk1NZLPTOr2k35Q28ucA9On+twlJf97YktDy5Q3cpJjLilhZtqE+jzcq0X
-	 VOh+WhQkYzXX3MaE755/Wq55e5u36e8l9k7vUUBnG6mKKDpZb57tLA3vtoKtx4M+xhtKc
-	 H58vAFZipZVtqlwqVlOoa4cWBKe+4wSwSSvhUjL08rhd+JanGTDWHBQgX/6o5PCHVCA==
+	bh=A4Q4tMrcXUJbeWRhvb4s2YCLtE9sZ9S+n9E2tFD96WE=;
+	b=rBlrjHR4XUHBXe7O9W3+Q0ruFgdg1w3heHnQcHdG8b8IY7+bygUxAModx9cA2eGW4yQr
+	 KPQjSg93OS1PVPwvt5d5qHqGgp1wqAU7xrXwULLdRBDdBTWbBhybcBz/+jY6Vu/6WQyFp
+	 6UlPjYu5hxX5F861XpWIpOa0ucHRt0yNi48h3iw/n/V+dgY0TWpvijk0YUw4Ca7kiO91A
+	 iwnO44mV4cfHTC9c37jfrduzEOVk4fpCRoscTaXxyPqx5n3FjaQmKTVClWOnQ1JmJgVZE
+	 0rQR2v/vtfAWicY2Z6IsqEBzI68l2m4nlobaQV+hVWYnda29dIChNsk7PTbM8gMP+XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i1KFYUQf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tt4auPmH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7983606A31A
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 17:26:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD076606A32E
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 17:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i1KFYUQf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B011F000C0;
-	Mon, 23 Nov 2026 17:26:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tt4auPmH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E3CC1F000EE;
+	Mon, 23 Nov 2026 17:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795454773;
-	bh=nwyEfY5aRu6ya42hZkQYSi5D/mRQAowxPPDkUtFyWWY=;
+	s=k20260515; t=1795454836;
+	bh=A4Q4tMrcXUJbeWRhvb4s2YCLtE9sZ9S+n9E2tFD96WE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=i1KFYUQfIyvQVsvLX6BOFv/oAw/tp7uKJlpX28VylpvrQeJU4eJULgPP8++FCer/G
-	 63FBStO84o7S6SowrIK9ric19H4mJtfCyXcMh6IuvQRBVePE33xmHZrEkQllRqE1Z0
-	 /CaphWiUpxEU3PXbSyvvtcChKu4yBMChXNMZcMK42ESQ2ZeHXQ8G6YJlPnVCsCjHKg
-	 2Fg1f5C8ca/vekCzMlDuT88yKzw/XiDH1xJI3/Y20G4/7L3HhBog1SWcfaey55two4
-	 1xYjDJJxtB0FdkIgG+Y6XjN1eBQOhOlfSiPjewZ5gRmJHe/32QiD3DEK+yjMfzptCa
-	 ZZjsXMeNIqhsA==
-Message-ID: <sashiko-outbox-229735@kernel.org>
+	b=Tt4auPmHMxg4nE8FxQbbSovAFgrt0twSzcQFD14IEVIjNcPGztYqqQNhJ2ixTi6ru
+	 ecUYGNA3fW+n5VUIi8lVgntoy3lL28eulujoKpDwSFtq5LanWM/SPNwvRzyYbCsFHj
+	 UtUjKQuzlh1gybmXt3bqvaTvleXggylSkOD3taP8ACzup1f04GNbjwtFq5AJ0cQ/7b
+	 p0gZVlX/gO7xmaSvX+TffE5gRObEmt0+fUi0G3JDasDSg/TpiPi0C4q3EktUHb/F9t
+	 Y42DeXnSl4uO2uyTfUhLlE8+JU0NRFIw2SQMJ5YuSYkyq5M8hLFhJrUEq2pJbT/xsL
+	 wRVAU4f6e2e0g==
+Message-ID: <sashiko-outbox-229743@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] ASoC: SDCA: skip port channel mask for Output Terminals
+Subject: Re: [PATCH v8 12/24] soundwire: amd: fix work drain ordering in
+ remove path
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
+To: "Vijendar Mukunda" <Vijendar.Mukunda@amd.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261123165612.440542-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20261123165612.440542-1-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20261123170520.1380924-13-Vijendar.Mukunda@amd.com>
+References: <20261123170520.1380924-1-Vijendar.Mukunda@amd.com>
+ <20261123170520.1380924-13-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 17:26:12 +0000
+Date: Mon, 23 Nov 2026 17:27:15 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,75 +63,70 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] ASoC: SDCA: broken OT channel constraints in
-  sdca_asoc_set_constraints()
+- [Medium] soundwire: amd: unsynchronized in-flight IRQ in
+  amd_sdw_manager_remove()
 --
 
-commit 635257264d5313aa7d4b4104f59cbc1b9c469fe5
-Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+commit a1b902c580b9ecf41d510f5e3161a9e0ef33c879
+Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-ASoC: SDCA: skip port channel mask for Output Terminals
+soundwire: amd: fix work drain ordering in remove path
 
-This commit skips intersecting the channel constraint mask with port_ch_mask
-for Output Terminals in sdca_asoc_set_constraints() so that DPCM front-end
-capture streams are not restricted to the SoundWire port's channel count.
+This commit updates amd_sdw_manager_remove() to disable SoundWire
+interrupts before cancelling amd_sdw_irq_thread and amd_sdw_work.
 
-> diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
-> index aaa84156f20a8..6e42f5262aa77 100644
-> --- a/sound/soc/sdca/sdca_asoc.c
-> +++ b/sound/soc/sdca/sdca_asoc.c
-> @@ -1645,7 +1645,14 @@ int sdca_asoc_set_constraints(struct device *dev, =
-struct sdw_slave *sdw,
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_mana=
+ger.c
+> index 9715e2eb22498..44ef45ba943bc 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -1265,8 +1265,9 @@ static void amd_sdw_manager_remove(struct platform_=
+device *pdev)
+>  	int ret;
 > =20
->  	constraints->channels.count =3D ARRAY_SIZE(channel_list);
->  	constraints->channels.list =3D channel_list;
-> -	constraints->channels.mask =3D cluster_ch_mask & port_ch_mask;
-> +	/*
-> +	 * OT paths may re-channelize downstream of the port, so only
-> +	 * narrow with port_ch_mask for Input Terminals.
-> +	 */
-> +	if (entity->type =3D=3D SDCA_ENTITY_TYPE_IT)
-> +		constraints->channels.mask =3D cluster_ch_mask & port_ch_mask;
-> +	else
-> +		constraints->channels.mask =3D cluster_ch_mask;
+>  	pm_runtime_disable(&pdev->dev);
+> -	cancel_work_sync(&amd_manager->amd_sdw_work);
+>  	amd_disable_sdw_interrupts(amd_manager);
+> +	cancel_work_sync(&amd_manager->amd_sdw_irq_thread);
+> +	cancel_work_sync(&amd_manager->amd_sdw_work);
 
 [Severity: Medium]
-Does dropping port_ch_mask unconditionally for all Output Terminals leave
-capture DAIs completely unconstrained on links that do not fix up back-end
-channels?
+Can an in-flight parent ACP hard IRQ handler queue amd_sdw_irq_thread
+after cancel_work_sync() returns, causing a use-after-free of
+amd_manager?
 
-sdca_asoc_populate_dais() advertises 1..32 channels and relies on
-sdca_asoc_set_constraints() to narrow them, while cluster_ch_mask is
-currently hardcoded to UINT_MAX for non-IT entities right above this block:
+The commit message notes that synchronize_irq() is skipped because
+cancel_work_sync() will drain work queued by an IRQ handler already in
+flight.  However, cancel_work_sync() only drains work that is already
+pending or running at the moment it checks, and leaves the work item
+enabled on return.  If the platform device is unbound while the parent
+ACP PCI IRQ is active, an IRQ asserted just before
+amd_disable_sdw_interrupts() masks ACP_EXTERNAL_INTR_CNTL can race with
+removal:
 
-sound/soc/sdca/sdca_asoc.c:sdca_asoc_set_constraints() {
-	...
-	/* FIXME: OTs should inherit cluster information */
-	if (entity->type =3D=3D SDCA_ENTITY_TYPE_IT) {
-		ret =3D get_cluster_mask(dev, function, entity, &cluster_ch_mask);
-		if (ret)
-			return ret;
-	} else {
-		cluster_ch_mask =3D UINT_MAX;
-	}
-	...
-}
+CPU0                                  CPU1 (<hardirq>)
+amd_sdw_manager_remove()              acp63_irq_handler()
+                                        readl(... + ACP_EXTERNAL_INTR_STAT)
+                                        amd_manager =3D dev_get_drvdata(...)
+  amd_disable_sdw_interrupts()
+  cancel_work_sync(&...->amd_sdw_irq_thread)
+  cancel_work_sync(&...->amd_sdw_work)
+                                        schedule_work(&...->amd_sdw_irq_thr=
+ead)
+device_unbind_cleanup()
+  devres_release_all()
+                                      amd_sdw_irq_thread()
+                                        amd_manager->... <-- use-after-free
 
-On non-DPCM links, DPCM links with dpcm_merged_chan, or DSPless links
-without be_hw_params_fixup, userspace can now request more channels than
-the SoundWire source DataPort supports, causing
-class_function_sdw_add_peripheral() to pass unsupported channel bits in
-pconfig.ch_mask to sdw_stream_add_slave().
+Even with the interrupt_enabled check added in the later commit
+"soundwire: amd: guard IRQ work with interrupt_enabled and clear STATUS",
+amd_sdw_irq_thread() still reads amd_manager->interrupt_enabled after
+devres_release_all() has freed amd_manager.
 
-Even on DPCM links with a DSP graph, falling back to cluster_ch_mask only
-avoids restricting fe_substream->runtime because OT cluster inheritance is
-not implemented yet: an Output Terminal's cluster describes the internal
-SDCA Function channels upstream of the SoundWire port (for WCD9378 OT 36,
-the upstream IT 33 cluster is also mono, 0x1), not the host DSP output.
-Meanwhile, dpcm_be_dai_startup() aliasing fe_substream->runtime still leaks
-back-end wire constraints onto the front-end for Input Terminal channels
-and for constraints->width on both terminal types.
+Using disable_work_sync() instead of cancel_work_sync() (or synchronizing
+with the parent IRQ after masking interrupts) would prevent new enqueues
+after draining finishes.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123165612.4405=
-42-1-srinivas.kandagatla@oss.qualcomm.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123170520.1380=
+924-1-Vijendar.Mukunda@amd.com?part=3D12
