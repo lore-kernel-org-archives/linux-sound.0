@@ -1,92 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795428384;
-	b=VauqIKVeXI1kWPYeOKEURkOPExH3uPk0Mly+Iszv9o5zOyvDowSdyF0ZZ/hrBtNMQpxH
-	 JY0x1TxAliosZj3G3OkK6Vqas/hFbDXA2823oOTfHzU+c5hja8Ew3yV+YJvjeAhdXRcRK
-	 AsHCjJ5zvRbq/0zdvM6S1ayG3mn0g8Rs1FT4RP05scAVfVcVKGKUS5bQbaq8H8rCnrZ3m
-	 5Yk0moYOAycqW1zE3s/4LomyyWwbUxwmtgim2QsNearEZZNFNy5Xi/6/t6S1UwJQjuS+f
-	 6QJ8W1jpw7cuydMNHFMC2LioBPbJkrul7IPjxWfGo0ZapPzB0/7vFNlwPox64Cgp6+A==
+	t=1795428907;
+	b=Cliha68fj6QJotxsCtLsan+bjhQ2Bja75zntWtlVg1PtjkGrdStBpZKypIaZ/LfE32kq
+	 i7BPMKnjTDfqNgEBfMTrkjNSkGSnWEIgSL6sHSqoV5qPs1fT8QTZD1UbP/8Cl7678NN5T
+	 oL7rGTRbhr/tubsAhR2++y0AKtJHFLXETGw0sbXYBT6RM9ofA9Cy0Czva15IVsJMbh2h4
+	 d4gcWtiqm56X3VMLyFAT+EqLf/2il5LNtE+LmbLYsGSzgqEyN1e7w5tqIpisuAqUE5uEh
+	 CWaD0SffKlSAKy9zMW5K21CgCVL10aTpoSIAQdPo+HRbf4OSO/QC0dWbnKq6VorkjyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795428384;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Qb/A1/BMTIlaDj0IlRnc07XWwEZCqGHcxjA0/m3yjJo=;
-	b=dlJ/zgCVVmLYfW4JN9VUb8eMAqsZU+cpSjGop5BtjRreBpHwx6Wv26jy8FZbACE7+WcF
-	 VMR3lO2QvQIQ4PIR6NEfTg+LEQlTivGCEQNtSFyqakckT4qjPUeZybAP+h2PIg4zqayTV
-	 e+foainti8/rREFpLn348w0queOUhRsfuU9ALXqWx+H+0H9yrEe1ziDSdV5vXY6wIyQZS
-	 LHjDc/L/I+PkzgJyY7EJylZXlpDYqb+FO2MSXF/9X3NwiL5GksZA9yocb93Nnc8CwNV1J
-	 6WjtlXE/JI/Hrvzzwwkun2r3RgCOrmWrXciLqYJaXTJ1IKnxAW5u23tWO2URofwlpOg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795428907;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=z6TkMoT9MxgbWnHBzyuTC8V77L9Vpuu7tz1FcGVO7Wg=;
+	b=lqMgKBTQWZf5JceClyEFCJ9Rr+BaxQ7WqwFehQhmTXr14s0WkA6J0rnzMlkOMqWlEOT8
+	 yyW715/T6ZpEicBOxLO1e6gvkPF0VOr8VGB+SM7BSoWyuDOIc3DBIlivb5rNGxiRqa9RJ
+	 cHA2PBoKgOcmwFSzc0w3iTSb5JgYBiGMLcx3FiXazIicnE7MVn8A/Isw857FQo85Zx4uk
+	 8wvhHPkDSDpXxkNmjutwsTOzT49tBijWa+di0+Qnze0oCFSQV0+hVxDayEfYr5mFIPHyr
+	 ynqxlPpNhPI6qXUgAzKilo43yeBQscdic0oNPVxnm5gkPsQ5jOni5uN+eTFdYdT0Riw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Kl02Oyz/";
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlLWLyeN;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4B4606A31A
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 10:06:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C4B4606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE2D606A321;
+	Mon, 23 Nov 2026 10:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Kl02Oyz/
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-386b8f2f671so140906eec.1
-        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 02:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795428383; x=1796033183; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qb/A1/BMTIlaDj0IlRnc07XWwEZCqGHcxjA0/m3yjJo=;
-        b=Kl02Oyz/tOz3/lYmGLFclT4PQJtcIO7vfdI/lCFYgd0ZDiZRMS+qmNZ3VDCJA4TYNG
-         WdmPbfAGA9Oz22cmUhOQjvmvLeApqaBUJGtVUj7srTVi6xstDMePu6zpyji2ztOHy/WR
-         al+/hCMJbCJMsrJyfjstNuLJvM7tx/bIRhXe1dyw/Pu/x6B1YNdu4OV+VN65fSjuZfhq
-         2Q87zzBWRNPTdxjXAyFviDIgfX/hjlwCbIhBYlIVT1+XZjajY/sbHq+EQJEt6g5krGf3
-         qunL7OuobmTN0pGHcYFmrWQn2oswyNQA9njpDP5weonBKRedl+nsiJVwXcpFNFZ9R17s
-         2oxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795428383; x=1796033183;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Qb/A1/BMTIlaDj0IlRnc07XWwEZCqGHcxjA0/m3yjJo=;
-        b=Rdh6ICCtGPSv+BUbWwooMIAP098QzZKmlR3WkPAqf67uCXdJF9PGVaowY5BTubwpX4
-         Nc66FWH+FdrGp/PCpLkF1SfajwMsLKSQc0gL8+GEe0OCRPg0ucwQSjG5PDgqtppK2HCF
-         warIQMd5tsqVkzrybhdt/r9/6I8PjpRhGY/to86oMLvHB53I65NcOgJc5ZXAJ0bHJnBJ
-         PS8BTvZHKLpgJr69taJ0R/vK5r019XSeGmwJDpb8+jy6fCDWXla6jlyLCc7mEyel9ANp
-         9JPFXDN4rTJzkoUnpMh85+KW+8Cy+K8ZTbOK7eQO+opI4Y0RgUb+C49JIvanmgC/IPXA
-         EkaQ==
-X-Forwarded-Encrypted: i=1; AL+hErEaBsk3nSpy3dmPxGy2Cde4LkphoYI175dVIjkJ486Uyu5TvQqyA3f4XCyii+ZBn0ANm2LCRflfCx9A4g==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8lGIulXUiqmthFV1fdke77xf/PbIppACf+gNFe9whutVeC9gYL
-	y88sBAbhkDdBCn5EFcOD6+yigr+3Nqvlg3c8tQZTsnYqpidES5Sf2aiA
-X-Gm-Gg: AZFdTZd72NRzSOERSnsykM7sROf9bfkwiTMOuHTIjErEZYebTTKYpELd1zKd9rUgbq7
-	CWyKFHbmlVIMhaKFxSlcNWZo+XjJ+ALPvyH6qnIX5LIlCowc3o9tVZms5rNvUG+il8IDBgI1hqQ
-	jTQ7pDzsNrQpmlkjNQOFNHHrgx3e4AqTr4c98r+Fqp8SFiIDMOnLWctf6YguWeiGVMW7dyG1cxw
-	05YTaJQJTUjS/lgavBxK+d5SA32oSASayTeX/giwOtlCf48N6LA+t5alCggfAJgJdtRamprRDfD
-	LkfHiiyG0idlCUjAkIG3XG5yY5bLOWit9MTIyJ0V11/Q5KvIRW8WfEbSGBSnyScMV/L/dhzICi7
-	gme5lxgo9j0ZQzdivOYeq/G5pBnXvYUJGHh0aFtDEQAmGi1+mqc4xnhcWWElaqPHREbGUW9/vqi
-	TmTVHsrNKpCI7x1K7SNaAmniQI7Yr7rSA0DMo8+q1iRGc+WZQ8RES6K2T9YEU2kJMUciNGiJlOw
-	iIo3JWv+W82mNxaSBB9mznb3Jl8MfYVU0qkgc2gOmjgxkqcCU1ls2eLZp0TxDF69Ah9+XVF6xO/
-	SEwLnboHOUyutO2bwtwHdjHHFvvKaXhfdmcOCXEbLkSTEItRvEk=
-X-Received: by 2002:a05:693c:6390:10b0:386:ac97:f670 with SMTP id 5a478bee46e88-386ac97f867mr3232917eec.12.1795428383429;
-        Mon, 23 Nov 2026 02:06:23 -0800 (PST)
-Received: from localhost.localdomain ([103.179.231.88])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38566cd4efesm35968437eec.12.2026.11.23.02.06.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 02:06:22 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] sound: core: Check return value of device_create()
-Date: Mon, 23 Nov 2026 10:05:35 +0000
-Message-ID: <20261123100535.3025-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YlLWLyeN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3EC1F000CA;
+	Mon, 23 Nov 2026 10:15:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795428907;
+	bh=z6TkMoT9MxgbWnHBzyuTC8V77L9Vpuu7tz1FcGVO7Wg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YlLWLyeNc6sEMupR6z34DHfmP0V2UC2pVDdt/I0dtI5bHeA/tp7o1uXSqJHLZxI0b
+	 2sDToDo5rxBpaOV9HhzCuYX6O7j6jJa6dJm6CHA0wmA7ezUfs1uvVxiAaBvCxvm5NJ
+	 SvwSP7TIU8zI/yXXWJv4MrOGOdp3fU9wDvJFmBqEVFfWHSfDnGXhI1LLx6LN2BRccN
+	 N51BsiHoD+rDy+wvlSTSvoTT8AJacyNRt/0DXK/O3DT4WVHctZwS25hP3zXQ1Lvipx
+	 WP095TAVzmROt3gkFFH1tOZGj8J+JLrZHvJ/Tx9RQSBp+0bZi+43ldi/rQ/99JGQeG
+	 NCVmIQ8/lQU5A==
+Date: Mon, 23 Nov 2026 12:15:01 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v3 15/31] driver core: Add a compatibility API for manual
+ driver attachment
+Message-ID: <20261123101501.GM14811@unreal>
+References: <20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com>
+ <20261118-device-trust-core-v3-15-d655875c4bfb@nvidia.com>
+ <sashiko-outbox-223901@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,76 +61,104 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <sashiko-outbox-223901@kernel.org>
 
-The sound_insert_unit() function ignores the return value of
-device_create(). If device creation fails, the function still
-returns the allocated minor number as if registration succeeded.
+On Thu, Nov 19, 2026 at 07:29:34PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] driver core: dev->p dereferenced before dev_ready_to_probe()
+>   check
+> --
+> 
+> commit 25b9e856ab045cdfdef1969512d8e94dbd1559f4
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> driver core: Add a compatibility API for manual driver attachment
+> 
+> This commit adds device_driver_attach_unrestricted() and a per-device
+> driver_lock mutex to serialize manual driver attachment, probing, removal,
+> and deletion without requiring callers to hold the device mutex.
+> 
+> > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+> > index 52123251965de..6ac1486b9fbb5 100644
+> > --- a/drivers/base/dd.c
+> > +++ b/drivers/base/dd.c
+> [ ... ]
+> > @@ -545,16 +560,85 @@ int device_bind_driver(struct device *dev)
+> >  {
+> >  	int ret;
+> >  
+> > -	ret = driver_sysfs_add(dev);
+> > -	if (!ret) {
+> > -		device_links_force_bind(dev);
+> > -		driver_bound(dev);
+> > +	mutex_lock(&dev->p->driver_lock);
+> > +	ret = __device_bind_driver(dev);
+> > +	mutex_unlock(&dev->p->driver_lock);
+> > +	return ret;
+> > +}
+> > +EXPORT_SYMBOL_GPL(device_bind_driver);
+> > +
+> [ ... ]
+> > +int device_driver_attach_unrestricted(const struct device_driver *drv,
+> > +				      struct device *dev)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!device_is_registered(dev))
+> > +		return -ENODEV;
+> > +	if (!mutex_trylock(&dev->p->driver_lock))
+> > +		return -EBUSY;
+> > +	if (dev->p->dead) {
+> > +		ret = -ENODEV;
+> > +		goto unlock;
+> > +	}
+> > +	if (!dev_ready_to_probe(dev)) {
+> > +		ret = -EAGAIN;
+> > +		goto unlock;
+> > +	}
+> 
+> [Severity: Medium]
+> Can device_driver_attach_unrestricted() and device_bind_driver() hit a
+> use-after-free or NULL pointer dereference on dev->p when device_add()
+> fails?
 
-Add a helper function, sound_device_create(), to create the sound
-device and check the return value using PTR_ERR_OR_ZERO().
+The thing that it is pre-existing as well __driver_probe_device() has
+the same order.
 
-If device creation fails, remove the allocated sound unit from
-the sound loader list, unregister the character device when
-preclaim_oss is disabled, and free the allocated memory.
+Thanks
 
-Return the original error code to the caller instead of reporting
-successful registration.
-
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- sound/sound_core.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
-
-diff --git a/sound/sound_core.c b/sound/sound_core.c
-index 10db8c699630..90d59b14245d 100644
---- a/sound/sound_core.c
-+++ b/sound/sound_core.c
-@@ -231,6 +231,21 @@ static struct sound_unit *__sound_remove_unit(struct sound_unit **list, int unit
- 
- static DEFINE_SPINLOCK(sound_loader_lock);
- 
-+/*
-+ * Create the sound device and return an error if device creation fails.
-+ */
-+
-+static int sound_device_create(struct sound_unit *s, struct device *dev)
-+{
-+	struct device *device;
-+
-+	device = device_create(&sound_class, dev,
-+			       MKDEV(SOUND_MAJOR, s->unit_minor),
-+			       NULL, "%s", s->name + 6);
-+
-+	return PTR_ERR_OR_ZERO(device);
-+}
-+
- /*
-  *	Allocate the controlling structure and add it to the sound driver
-  *	list. Acquires locks as needed
-@@ -277,10 +292,20 @@ static int sound_insert_unit(struct sound_unit **list, const struct file_operati
- 		}
- 	}
- 
--	device_create(&sound_class, dev, MKDEV(SOUND_MAJOR, s->unit_minor),
--		      NULL, "%s", s->name+6);
-+	r = sound_device_create(s, dev);
-+	if (r)
-+		goto err_remove_unit;
-+
- 	return s->unit_minor;
- 
-+err_remove_unit:
-+	if (!preclaim_oss)
-+		__unregister_chrdev(SOUND_MAJOR, s->unit_minor, 1, s->name);
-+
-+	spin_lock(&sound_loader_lock);
-+	__sound_remove_unit(list, s->unit_minor);
-+	spin_unlock(&sound_loader_lock);
-+
- fail:
- 	kfree(s);
- 	return r;
--- 
-2.55.0
-
+> 
+> In device_add(), kobject_add() sets dev->kobj.state_in_sysfs before the
+> remaining fallible registration steps run, while dev_set_ready_to_probe()
+> is only called after all of those steps succeed.  If any step in between
+> fails, device_add() unwinds through name_error and frees dev->p without
+> taking dev->p->driver_lock:
+> 
+> CPU0                                  CPU1
+> device_add(dev)
+>   kobject_add(&dev->kobj, ...)
+>   ...
+>                                       device_driver_attach_unrestricted()
+>                                         device_is_registered(dev) -> true
+>   dpm_sysfs_add(dev) -> fails
+>   ...
+>   kobject_del(&dev->kobj)
+>   kfree(dev->p)
+>   dev->p = NULL
+>                                         mutex_trylock(&dev->p->driver_lock)
+>                                           <-- use-after-free / NULL deref
+> 
+> Unlike waiting_for_supplier_show() in this commit, which checks
+> dev_ready_to_probe(dev) (stored in dev->flags) before reading
+> dev->p->dead, device_driver_attach_unrestricted() touches
+> dev->p->driver_lock and dev->p->dead before checking
+> dev_ready_to_probe(dev).  device_bind_driver() similarly locks
+> dev->p->driver_lock without checking dev->p or dev_ready_to_probe(dev).
+> 
+> -- 
+> Sashiko AI review · https://sashiko.dev/#/patchset/20261118-device-trust-core-v3-0-d655875c4bfb@nvidia.com?part=15
+> 
