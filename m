@@ -1,105 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.235
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795426779;
-	b=cImY0GVy/gBUbU94IN1snh981bkB1S0ivReYWiD51cmkogZBdOS2dv7mjna7gLVwwAIh
-	 AOirdaaAvwsCtpA3hvTyLDTVNPInwmMMKpaReFFegRhS3gwqQ5DZMsGfX4qF70beXcjBW
-	 eL+UyzW+RzpMsQd5PJH0Y2fbiU5uL0n8HtiHH82mOWMG1Qt5gIgWpErcmVGhM04/SLLzd
-	 QbrF8AK5Hh3CoX0Klzh9nkDOiE5/whwOTnRWDY1R/kknaGIMijrSr3oQ57G/qivDTJCOv
-	 MR0voqAU2Fvs+1XLjbUw+PQvTnUqolEbns05nUI7jcUn/UQaRhlMKNaLjs1sLzCQlnA==
+	t=1795426829;
+	b=PxUJwJaWHSIEKEkO7uXzMYHsPFDio+mgabusDj0D2SPSZAb0ZxWmRoB8pLWxRmSbPBSo
+	 5cuDfnCYImS0F3V92kcX8HdG/vaIvxD/l9/18KH2BMyCkkO+qr2hk2R84cS8yqsOhh12B
+	 Aesbiih9q6S/Zqil1Ol/6qvJ8nxkTOskPfqXSK2ZBkGoP+tcK9Yl1qQ3kX0aGBh/I4mPA
+	 YyTkbQpQT0xF0j5ye4FbczCmZMePCXlon4/svNH4M74iCN5MJD6AcVD066llfhQf+M/zO
+	 5JpbcPqGDlNArUL18FGTe8G4yrm3ToEfhhnACtjUs7KMr9zT4RbBZ0v3x3kClYXoAHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795426779;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=iSRINwxrhfauzic1WTm+CJJOkHB44ffIUlgyBaYGwAc=;
-	b=GL72hMiblBPgKrmFQkoWAgYBPUSACakgJdS75JaLF7yUGIWZ6qsn2x7Gb5M1rjO3cK2W
-	 yNnNddRcPhJg8Iivz+rDxBSITznj3Bi/hu8HJo3wABABLUOfSJ3RrYnHGlykjLjCzWy+f
-	 6vz1N/D3zy/r8QZU9Q44bZNSzSgVFS7DgTxBsHorV22x8BBTlYN9rCh6Q0Rm3u9Ido5GH
-	 K78m9NcnSh5HqOHNXtYzCTNlj+WGbeeGNB1LWh0CBD/f9TDQ8KLLGYUfPED2Ru5kVrCAt
-	 aVajePwSjiPgrqwqObeOI8hfenuDkTHy7O9lTS42vVWkwlwZEtWuhBYaV0tb6SJV6Bg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795426829;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=iKskzoKZj9NRVAxwFO2tBMPVCpXNejSJ46PRl9iGtdA=;
+	b=3S0cNP0pu1Ait/JlhHhxph6xbD7doRYB7+DhlgfwfpJXjz8rAJbxoUbq452mgS6D+73E
+	 BKVEMuArheIwal1/AwJMJkiaHVkPiPgXmpoLt925xAgYojAnDPK0OB3CIoAKT/XflOmL9
+	 9uQqNDAkFErTXojZ6isJ52T+waQog6zeaquRpiKGGDRpuVboZsAgwsi6Avi/a1dYPmsB8
+	 O1vpfjryQhQPD8b7NL3dTtFa6sOeI0Y3SjhIUFAwMr/Yxqj47uPEUOSuys+qVDwuQnK9W
+	 alP1YxifBYSasuToTFV4TuEBA/+5d2KigJ4CyTz794/cAKJ4oAJhuY71q7QBbC533bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GRTzFWS+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="bqlRw/sX";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GRTzFWS+;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="bqlRw/sX";
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XL206UDw;
+	arc=none smtp.remote-ip=95.215.58.235
+Received: from mta1.migadu.com (out-235.mta1.migadu.com [95.215.58.235])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2AB606A31A
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 09:39:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9A2AB606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1812606A31A
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 09:40:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1812606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GRTzFWS+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bqlRw/sX;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=GRTzFWS+;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=bqlRw/sX
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C2F5F1F7E5;
-	Mon, 23 Nov 2026 09:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795426776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSRINwxrhfauzic1WTm+CJJOkHB44ffIUlgyBaYGwAc=;
-	b=GRTzFWS+Apv6IQCSbAY0qt50g7N5ZswdcuxDWaAeZPRfu8g3unsvQH/MIF6ujfgOyO4Ilw
-	GgHBxHRSjMgeQ69dLhClb0cptaA2ENGfZI6VpXWz8/C35F3aZNciF/UzcAku/g/gNBeOMB
-	+Dvcc4mgn0oZhF5vNhaWo2W3Vloc6Uo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795426776;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSRINwxrhfauzic1WTm+CJJOkHB44ffIUlgyBaYGwAc=;
-	b=bqlRw/sXsG1sPfiU36AVvjsM4hvYmXdEM/xdCQC6qBwjoLfg/QpWlj1dpc5Nvb4EBlLnH7
-	TkhOGwF55d7SG5BQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795426776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSRINwxrhfauzic1WTm+CJJOkHB44ffIUlgyBaYGwAc=;
-	b=GRTzFWS+Apv6IQCSbAY0qt50g7N5ZswdcuxDWaAeZPRfu8g3unsvQH/MIF6ujfgOyO4Ilw
-	GgHBxHRSjMgeQ69dLhClb0cptaA2ENGfZI6VpXWz8/C35F3aZNciF/UzcAku/g/gNBeOMB
-	+Dvcc4mgn0oZhF5vNhaWo2W3Vloc6Uo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795426776;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSRINwxrhfauzic1WTm+CJJOkHB44ffIUlgyBaYGwAc=;
-	b=bqlRw/sXsG1sPfiU36AVvjsM4hvYmXdEM/xdCQC6qBwjoLfg/QpWlj1dpc5Nvb4EBlLnH7
-	TkhOGwF55d7SG5BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8530F1352B;
-	Mon, 23 Nov 2026 09:39:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +E4YF9gJBGsSLgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 23 Nov 2026 09:39:36 +0000
-Date: Mon, 23 Nov 2026 10:39:36 +0100
-Message-ID: <87jym3dgyv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Edward Bentall <bentallea@gmail.com>
-Cc: tiwai@suse.de,
-	linux-sound@vger.kernel.org
-Subject: Re: [REGRESSION] Lenovo Legion Pro 7 16IRX9H: codec SSID 17aa:38cb also affected by speaker regression
-In-Reply-To: <CACw1+JLf_0i+GvJ4POkFUrPo_AWNHp9X2aCxyQVFRcdrKbKVxQ@mail.gmail.com>
-References: <CACw1+JLf_0i+GvJ4POkFUrPo_AWNHp9X2aCxyQVFRcdrKbKVxQ@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XL206UDw
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=XrjFy0RnNK1OlKeHfhVMc79i/VFdZ8uvcsGtDK2aGoc=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795426826; v=1; x=1796031626;
+ b=XL206UDw9MRA5FYNUmu1g9jy3eZIDOUVeLkFjtxkHsPX+psN2F8Tyo6FcWV0CLDIZ6cDcKLg
+ NUL6SKPxx9vjmYABOuscwtKFLdOEcb9yB9ZIXLWaqkvSHT1dLzHNZ8tuUmjen2Re3n/aTCfhsSO
+ qtQNxv/GJkjdbKZ8/d2PzB68=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id f269c79cfa28cc5b;
+	Mon, 23 Nov 2026 09:40:26 +0000
+X-Mizu-Trace-ID: f269c79cfa28cc5b
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <a965bf35-5735-4ff4-90f5-9a85edf42a98@linux.dev>
+Date: Mon, 23 Nov 2026 10:11:35 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -108,110 +57,173 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] sof_sdw Xiaomi Book Pro 14 TM2424 speakers randomly silent
+ - SoundWire link 3 rt721+rt1320 bus clash
+To: wqy <qianywu@gmail.com>, linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org, Bard Liao <yung-chuan.liao@linux.intel.com>
+References: <59a8eaf5-d406-4996-8834-e45a8c45516f@gmail.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <59a8eaf5-d406-4996-8834-e45a8c45516f@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Nov 2026 16:17:48 +0100,
-Edward Bentall wrote:
+On 11/23/26 07:37, wqy wrote:
+> [BUG] sof_sdw: Xiaomi Book Pro 14 (TM2424, PTL) internal speakers randomly
+>  go silent; SoundWire link 3 rt721+rt1320 reports bus clash / parity error
 > 
+> TL;DR
+> -----
+> Internal speakers on the Xiaomi Book Pro 14 2026 (TM2424, Panther Lake)
+> randomly stop producing sound while PipeWire still reports RUNNING and
+> the mixer state is untouched. dmesg shows Bus clash / Parity error on
+> SoundWire link 3 (RT721 + RT1320). A card profile toggle (bus reset)
+> restores audio without a reboot. No board match entry or DMI quirk
+> exists for this machine, so the generic machine driver with function
+> topologies is used.
 > 
-> Hi Takashi,
+> Environment
+> -----------
+>   Machine   : XIAOMI Xiaomi Book Pro 14, board TM2424 V14E1,
+>               SKU TM2424-77079
+>   BIOS      : XMAPT4B0P0A0A (2026-06-17)
+>   CPU       : Intel Core Ultra X7 358H (Panther Lake)
+>   Audio PCI : 8086:e428
+>   Kernel    : 7.3.5-2-cachyos (distro build, no external audio patches)
+>   Userspace : PipeWire 1.6.11, WirePlumber, alsa-ucm-conf
+>   Codecs link 3: 025d:0721:01 RT721, 025d:1320:01 RT1320
 > 
-> I'm reporting another codec subsystem ID affected by the speaker
-> regression discussed here:
+> Boot log:
 > 
-> https://lore.kernel.org/CAFjFWEjt+DPJ_gM1uTBZ_NoV6-3mi57ArjZ_Qdah2DqY-GCD1w@mail.gmail.com
+>   sof-audio-pci-intel-ptl 0000:00:1f.3: No SoundWire machine driver found
+>     for the ACPI-reported configuration:
+>   sof-audio-pci-intel-ptl 0000:00:1f.3: link 3 mfg_id 0x025d part_id 0x0721
+>     version 0x3
+>   sof-audio-pci-intel-ptl 0000:00:1f.3: link 3 mfg_id 0x025d part_id 0x1320
+>     version 0x3
+>   sof-audio-pci-intel-ptl 0000:00:1f.3: Use SoundWire default machine driver
+>     with function topologies
 > 
-> My laptop is a Lenovo Legion Pro 7 16IRX9H, product 83DE.
+> Loaded topologies: sof-sdca-jack-id0.tplg, sof-sdca-mic-id4.tplg,
+> sof-sdca-1amp-id2.tplg.
 > 
-> Hardware:
-> - Codec: Realtek ALC287
-> - Codec subsystem ID: 0x17aa38cb
-> - PCI subsystem ID shown in the kernel fixup log: 17aa:3842
+> Symptom
+> -------
+> Playback to the internal speakers works after boot, then at some point
+> stops producing sound. Userspace sees nothing wrong:
 > 
-> Kernels:
-> - Works: 6.18.60-3-cachyos-lts
-> - Internal speakers silent: 7.3.5-2-cachyos
+>   pactl:  State: RUNNING, Mute: no, volume 70%
+>   amixer: 'Speaker' [on], 'rt1320-1 FU21' 87/87 (100%)
 > 
-> On the affected kernel, the log showed:
-> ALC287: picked fixup for PCI SSID 17aa:3842
+> aplay / speaker-test also open the PCM and "play" without error.
 > 
-> Setting the following module option appears to restore the speakers:
-> options snd_hda_intel model=17aa:38cb
+> Recovery (no reboot)
+> --------------------
+>   pactl set-card-profile alsa_card.pci-0000_00_1f.3-platform-sof_sdw off
+>   sleep 1
+>   pactl set-card-profile alsa_card.pci-0000_00_1f.3-platform-sof_sdw HiFi
 > 
-> The patch shown in the existing thread covers codec SSID 17aa:38cd.
-> Could you check whether codec SSID 17aa:38cb also needs to be covered?
+> Sound comes back immediately and no further link errors are logged. This
+> is consistent with the bus reset described in
+> Documentation/driver-api/soundwire/error_handling.rst ("after a number
+> of such errors are detected the bus might be reset").
 > 
-> I have tested the model option workaround, not the proposed kernel
-> patch itself.
+> dmesg around the failure
+> ------------------------
+> Suspend/resume in the same boot: 01:46, 01:48, 01:50, 01:51, 10:28,
+> 15:35, 20:27, 20:42.
 > 
-> Thanks!
-> 
-> --
-> ~Edward Bentall
+>   Nov 22 17:55:48 soundwire_intel.link.3: Bus clash for control word
+>   Nov 22 17:55:48 soundwire_intel.link.3: Bus clash for data word
+>   Nov 22 17:55:48 rt1320-sdca sdw:0:3:025d:1320:01: Bus clash detected
+>   Nov 22 18:00:06 soundwire_intel.link.3: Bus clash for control word
+>   Nov 22 18:00:06 soundwire_intel.link.3: Bus clash for data word
+>   Nov 22 18:11:10 soundwire_intel.link.3: Bus clash for control word
+>   Nov 22 18:11:10 soundwire_intel.link.3: Bus clash for data word
+>   Nov 22 18:19:36 soundwire_intel.link.3: Bus clash for control word
+>   Nov 22 18:19:36 soundwire_intel.link.3: Bus clash for data word
+>   Nov 22 20:42:15 rt721-sdca sdw:0:3:025d:0721:01: Bus clash detected before
+>     INT mask is enabled
+>   Nov 22 22:01:22 soundwire_intel.link.3: Bus clash for data word
+>   Nov 22 22:05:50 soundwire_intel.link.3: Parity error
+>   Nov 22 22:05:50 soundwire_intel.link.3: Bus clash for control word
+>   Nov 22 22:05:50 soundwire_intel.link.3: Bus clash for data word
+>   Nov 22 22:05:50 rt721-sdca sdw:0:3:025d:0721:01: Parity error detected
+>   Nov 22 22:09:50 soundwire_intel.link.3: Bus clash for control word
+>   Nov 22 22:09:50 soundwire_intel.link.3: Bus clash for data word
 
-Thanks for the report.  Below is a quick fix patch.
-Could you check it?
+best to file an issue here: https://github.com/thesofproject/linux/issues
 
+This bus clash is a low-level electrical issue, so either the hardware
+timings are borderline or the initialization sequence isn't done right.
 
-Takashi
-
--- 8< --
-Subject: [PATCH] ALSA: hda/realtek: Fix regression on another Lenovo Legion
- 16IRX9H model
-
-There is yet another Lenovo Legion 16IRX9H model with the codec SSID
-17aa:38cb that suffers from the same regression as stated in the
-commit 0b4d69e8d2b5 ("ALSA: hda/realtek: Fix regression on Lenovo
-Legion 16IRX9H").
-
-Cover this device in the same way, too.
-
-Fixes: f2293e7b2ddd ("ALSA: hda/realtek: Enable all four speaker amps on Lenovo ThinkBook X G2 IAH")
-Cc: <stable@vger.kernel.org>
-Reported-by: Edward Bentall <bentallea@gmail.com>
-Closes: https://lore.kernel.org/CACw1+JLf_0i+GvJ4POkFUrPo_AWNHp9X2aCxyQVFRcdrKbKVxQ@mail.gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index dfdcf8b98c9e..f8bcdba23a07 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -8592,6 +8592,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3834, "Lenovo IdeaPad Slim 9i 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x383d, "Legion Y9000X 2019", ALC285_FIXUP_LEGION_Y9000X_SPEAKERS),
- 	/* Legion 16IRX9H shares PCI SSID 17aa:3842 with Thinkpad X G2 below */
-+	HDA_CODEC_QUIRK(0x17aa, 0x38cb, "Lenovo Legion 16IRX9H", ALC287_FIXUP_TAS2781_I2C),
- 	HDA_CODEC_QUIRK(0x17aa, 0x38cd, "Lenovo Legion 16IRX9H", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3842, "ThinkBook X G2 IAH", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_4_THINKPAD),
- 	/* IdeaPad Pro 5 14IAH10 shares PCI SSID 17aa:3843 with Yoga Book 9i;
--- 
-2.53.0
+> Notes:
+> - The clashes at 17:55-18:19 have no suspend nearby, so this is not only
+>   a resume path problem.
+> - 20:42:15 is the resume instant; that one matches the known spurious
+>   "clash before INT mask is enabled" pattern.
+> - At 22:05 / 22:09 both master and slave report errors, i.e. actual data
+>   word corruption on the wire.
+> 
+> Extra observation: -61 on the RT721 endpoints after the bus reset
+> ----------------------------------------------------------------
+> Right after re-initialising the card, the speaker path comes back but
+> the jack/mic endpoints fail with -ENODEV:
+> 
+>   rt721-sdca sdw:0:3:025d:0721:01: ASoC error (-61): at
+>     snd_soc_pcm_component_pm_runtime_get() on sdw:0:3:025d:0721:01
+>    SDW3-Playback-SimpleJack: ASoC error (-61): at __soc_pcm_open()
+>    Jack Out: ASoC error (-61): at dpcm_be_dai_startup()
+>    SDW3-Capture-SmartMic: ASoC error (-61): at __soc_pcm_open()
+> 
+> Runtime PM state of link 3
+> --------------------------
+>   sdw:0:3:025d:0721:01: control=auto status=suspended
+>   sdw:0:3:025d:1320:01: control=auto status=suspended
+> 
+> Both peripherals autosuspend (SoundWire clock stop) when idle; the
+> silence occurs on the idle -> streaming transition.
+> 
+> Why I think it is not a hardware fault
+> --------------------------------------
+> - The same RT1320 plays fine right after a bus reset, no reboot, same
+>   mixer values.
+> - Both peripherals stay Attached; their controls remain readable.
+> - No error is surfaced to userspace, which is the main annoyance.
+> 
+> Related reports on other PTL machines (same codec family, generic fallback)
+> --------------------------------------------------------------------------
+> - Lenovo Yoga Slim 7i 14IPH11 (83QM): rt721 + rt1320 on link 3, a ghost
+>   RT722 in ACPI makes the default machine driver misbuild the card, -61
+>   and silence; DMI quirk proposed (ptl_sdw_rt721_l3_rt1320_l3, and the
+>   ghost must be dropped).
+> - MSI Prestige 16 AI+ C3MG: RT1320 + RT713, silent internal speakers with
+>   the generic fallback.
+> - Surface Pro 11 (Intel): DMI quirk for a ghost RT1320.
+> 
+> On TM2424 there is no ghost RT722 - only 0721 and 1320 are enumerated on
+> link 3 - so the Lenovo quirk does not directly apply.
+> 
+> Questions
+> ---------
+> 1. Is this a known SoundWire clock-stop/restart race on PTL with
+>    RT721 + RT1320, or should TM2424 get its own soc-acpi match entry /
+>    DMI quirk so the machine driver knows the two-peripheral layout?
+> 2. Is -61 from snd_soc_pcm_component_pm_runtime_get() on the RT721
+>    endpoints after a bus reset expected, or a second issue?
+> 3. Would setting power/control = on for the link 3 peripherals be a
+>    valid way to confirm the clock-stop theory? I am happy to test
+>    patches, module parameters, or debugfs changes on this hardware.
+> 
+> Attachments
+> -----------
+> - alsa-info.txt     full alsa-info.sh dump
+> - dmesg-audio.txt   filtered sof/sdw/rt1320/rt721 log
+> - hardware.txt      DMI, kernel, lspci, aplay -l
+> - card-info.txt     /proc/asound cards and pcm
+> 
+> Thanks,
+> wqy <qianywu@gmail.com>
 
