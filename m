@@ -1,54 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795522458;
-	b=j+6wNeNfhOqX77bgC0IhgAVMFcXeiAomKiPUsP8jgWvlmGzsJnv0yBgMkq09P9+he4oH
-	 xf3+B7jZc2kIpLxf2cGQApZjWuwWkxU9ASwjS33m3fZjumpW2AxjCIW6pHP8iSRXKIBJ8
-	 RdvcXSnyrqohJL7eHif9hk+srozsk6k+UqgbXNx5sJA/FqhRm0eYOFNHUqdG4SXLoVpKB
-	 YU0uSXnDlsL5ZzZ1m7DutIMGZQHWt5AIXvQKb6K3E1nusndoEDH000ZFjfqzcNpek7UKi
-	 DJ9X+LE4DVe1kubhnX+/WwNvJCTo45/cnDdbCYVrT6XMrLAQrBkVKHeKI7NCb3FW9Gw==
+	t=1795522453;
+	b=5FuiHZZCjhYPTKnPnKWVtbVxQkfOAXwijA+LQWlovOrOHOUzcEl6pQs3eYkwjdiOW6SI
+	 UZczEqLmjOiLjEwCJ9T4O4RTih97pEmfu/PlKIiyiRJlGA8Evo5ucv0QblLRh21ykabue
+	 AGwk9CfVYSXO2nd0n4cR+9mnC79Vj47u1J1t0qBiws8ZJJYMMcBcSd/zPFAmWHrRrcNv+
+	 HbRidNmtftMFt210QMD6J+a/N68BEzFk3EDFDu9dWx6L5mQinzHrBxQ9X5Y+PgiD9QE3e
+	 K0GuARciqMHFoislcVrNdxJoWbIcnBKmKJLk/18a90kku7MY+i1GuUa1veQKzoRmuIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795522458;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795522453;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=m929f4/a2hsmlAlH3httPfzyS1EzHTFZBejxuumAn2k=;
-	b=e6RhTVSqgXBB0Ti6wYu8K917tzZ4V5li7Cf8EMC4RYL14gR1YPE5+qHxNO6i/lqzc2/l
-	 0ZTQMK+Xu8N5lwiotPzEpFtLLxJJXYvFxB1mehUh7I3NU/reQvC4CANZxTszUda+dwHPR
-	 ddamtIGjYe72Nj8K7rUWgu3U07+Hl3sLG+ais3fujjo4EZAq4BzHzlkyNme7uVxBdgE1o
-	 1Vtldx728uEnsMQQMWK2sN0N4HORr0rZ3tL7fMisrexRTn69EkyeVO+Xdjnt8O6ui8tGa
-	 u4Bhml8T/FAGdtWd3SJrBpP9xTvOUK55mfp1g2W29m+zFH86Clu3gQD+FiOECzkdRyQ==
+	bh=rCFII6oo86vIdq1LVcbevRfZTvtQd+XmVF7qbvAbR/4=;
+	b=5hhrCX9rSd1/87FHoVDnuDr3eabALz4tFhaI6YeyAKiCMWiJ6hsIa3EB6O9bXcR8zEzR
+	 0phag0mD6Kq5/MY8WQ7JVpC1Q0NlLX4fWP0RoK5IRkin0kW4O5e4mTX7gxauJXVmuHYd8
+	 gYDvWw9DH5wWZC2aUlFXnom0UUmmC4cO6gyYeV7JQPIQd2MhJnHJtXN0JjvV7jeXOUcZg
+	 0F60XGRoZv1t7TxmqBp1GIQpZNat7CYB/6nGfh9K6vtwo4SdOSQPfaj9cFQoZ2jwPlAUB
+	 pH8xr9mbUUBFPdy/g9P7uqQys3O8D8RKu4mbaCguKKESmFpWPRSNQ3yHkxcQOzro5hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChJGsJ4w;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j2jf+7nI;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18787606A327;
-	Tue, 24 Nov 2026 12:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB42D606A31E;
+	Tue, 24 Nov 2026 12:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ChJGsJ4w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 683301F0089E;
-	Tue, 24 Nov 2026 12:14:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j2jf+7nI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB191F000E1;
+	Tue, 24 Nov 2026 12:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795522457;
-	bh=m929f4/a2hsmlAlH3httPfzyS1EzHTFZBejxuumAn2k=;
+	s=k20260515; t=1795522453;
+	bh=rCFII6oo86vIdq1LVcbevRfZTvtQd+XmVF7qbvAbR/4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ChJGsJ4wJ08DTCS6U3GaeIZTeAXuYvmzfUHcVVz0oafoEVOeK8bCuzuwzSBRwYigG
-	 G5eDqkLGJ0OrzWzXO3p5iJ8MweHuVer07oy+xLJ+2YrBSbZQUOmDJdFazmQL2lyFMn
-	 ncrT3aCwNfCHAPjSWKa0obURlrarjgpeIEkTFrRbnT1aqCfgWotZbOOJn54iLhMFIz
-	 rKo5Wpe2e70HH/WnuxNVUsbrx5XOvqhPcmCVIVZ+3vBLf40TTQCs/c6NWuBA3jFtmj
-	 cWupWhiP9RTZ6Yg8c72Hmw1GMbdsRPlm1HLlKOJeJI2gQu4B7l3bjCXgISlVseqTw2
-	 kHWqSlxtheSYQ==
+	b=j2jf+7nIHfPiTJViGYxlvNuGiTUXieT1ndjeGIQ9HMUtfI7DL8Nw+iD+zydrsYnNz
+	 StPQ5scBgZJizWvjSyxQCKu1bxlmq0R1efsFS4ok90jZXYefG59g5/8w6cv2MLIIhw
+	 vqrHtLJAhuKuJD9Yrus6ztkz3APIMzf/Wl0L3/UFf0mJMupFZYdfDHAnDu4maFOssF
+	 PGU9D03uemPyiTQ/Hyj1Lu4BPdZfMIFQw3STITauJq4Acmp1J9nBrKuClWURNfX6bS
+	 WU8NA/z+95EnOKHC9S7Rht/xsA2ytkygtL9l69M7lLp2HKKtSimKJMYT4ht27ZHHo/
+	 QHGbcmLueHlxA==
 From: Mark Brown <broonie@kernel.org>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: lgirdwood@gmail.com, arnaud.pouliquen@foss.st.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261119075859.50201-1-zhujun2@cmss.chinamobile.com>
-References: <20261119075859.50201-1-zhujun2@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: sti: uniperif: Propagate the IRQ lookup error
-Message-Id: <179545915744.25092.2318364807146963731.b4-ty@b4>
-Date: Mon, 23 Nov 2026 18:39:17 +0000
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: support.opensource@diasemi.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <0D45FEC273BAD5EF+20261118021134.3827729-1-tuhaowen@uniontech.com>
+References: <0D45FEC273BAD5EF+20261118021134.3827729-1-tuhaowen@uniontech.com>
+Subject: Re: [PATCH] ASoC: da7213: Disable runtime PM on component
+ registration failure
+Message-Id: <179546054110.25092.12023244729326576501.b4-ty@b4>
+Date: Mon, 23 Nov 2026 19:02:21 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,17 +62,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
- h=from:subject:message-id; bh=z61NxEvI8ET4WCLWvmneBZXDE0I2Nak2xn0p7zCiHEg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZ66dVmfFam51b5d+8K25+kv+dM15eIQzWLE+ubNf4m
- GWkG7u9o5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABNhVmX4xfT3nlGq4n/xv08+
- T/e6Mnenh73/7H9GZYsvvb6/tf71QzZGhmsBB+MNc04G/soT4myu5lNn/3fyUMT+V10Pc/cFGuR
- kMwAA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1147; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=f5RzvjBn+O5QMC2DL+F/6WIFTUQxESMJHaFFkUbi2Qk=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZ6yc1PfjFXCbmOPGcekiY2fFVCtx7/kusUbCqkTXbI
+ /xNy3x9RykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTAC6ygeGf0fyghR9e1Qmv3vd1
+ ydQFl2tkl/0UydvUtmW63tuoyss96YwMB4JKuc9NmyQycUuG80XXkp69b/4xHTNc2pjjaKOZ6Ov
+ KBQA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 19 Nov 2026 15:58:59 +0800, Zhu Jun wrote:
-> ASoC: sti: uniperif: Propagate the IRQ lookup error
+On Wed, 18 Nov 2026 10:11:34 +0800, Haowen Tu wrote:
+> ASoC: da7213: Disable runtime PM on component registration failure
 
 Applied to
 
@@ -79,8 +80,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sti: uniperif: Propagate the IRQ lookup error
-      https://git.kernel.org/broonie/sound/c/ed1e119c2781
+[1/1] ASoC: da7213: Disable runtime PM on component registration failure
+      https://git.kernel.org/broonie/sound/c/9af3cacff4ad
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
