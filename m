@@ -1,56 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795455525;
-	b=1Q7ARRa115u2lXtAifj1pk5KCk+QBcez+ViGUvu/XkBAPyPUM6q4G9kB16DYlgE7O0Fw
-	 gCceOL1+RVUuzVbyzbeHywpYH7d17WYtVsMxtRsL3H9IaJbU/LFsqrllAesnonXCVqe/C
-	 E9R9EDm6dG3Lwn+W/L2gZHnnFDBKeSHhZcZMoFyQas2Pqnv/m2OyDQSLG3kpOpHGLsot5
-	 +cTNajU1IgSqLyEb41otfyyTPVCYxZIptC4zv2n2S5F4RhYOK8tSmonbZqoWPyc58tOo8
-	 LxQVS0F8K4k9mQuoADqJiiIKpa31UanlK7ODkrZ60tA7ew4h0tFKHhrLsMNc6yMwmaw==
+	t=1795455758;
+	b=BcSnJQUq0H24AVVqubNqyrqThJOBDGy5rYk4sd68FcHNs8Y3AHgewZ75nJiBtPtf87DM
+	 T4L6QIiAauDIqBQKJCKHKDUTttKfEnE09f1tTZArUNU3bcuw1MXpA7oun/gLCKRqZOejf
+	 EVVHykDmzQpyod44qWqLi4AJYoXunGK3+ri6Nf82q4kqXKkWtL0F/Rnqi/OP7+D3Z5HHO
+	 tEiQ7mBZEMUSd083mJh9ueAgiuf99xM6dL70zaF4aCpHri56F6IG6fpCm6z4XLeK+Bz2D
+	 NlwAUfN+B+sMLNpP9D9QwsSThcs0/VA+Z8bmtzPKHkjoXjbvRjlSppRWL0JscJBUK3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795455525;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=9qc1yKk+s8UvyJspfChBLI/+g2nCbxMm3s3EwGgcNxg=;
-	b=KT1BhPl1LlRNI2W5w3oA06NOC9u/Ivf/1r1f125xCfkVe8o60Uy2RstXzzLikrpelEIv
-	 Hl3tDsX9QGqpY4IjPecuwEtGy0xpX26XEchJjMNA7Sw566107tghuUhFJIy3+VnGKTadc
-	 ByV7QQNqlaKkVG896N1t3pmZUrPEMuD1ZUh4T25fY2C+aZ6TUKvEUAvNK4N7nMt65x490
-	 Qw6eZl+EMd/xAtnpsC91JgRw9G+5wSt4iNrTQIEPSPLkFf+B3U+AOzi2qsezlvoBIF9VV
-	 Mg88jzSCatkb61sV24wAye3YVfXUetJkKi8WiQ7SUam275HvsRK0KnTee1Ihwblo4Ng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795455758;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=cUF4c82QplpbbwUXkP9CtVUunhZgMQzSeX+rMdmCNJA=;
+	b=g84M3YPtF72OUnhK9WMw6vW+26jyxjL23y3HUo9Kx8hMvm/5/3QICveN5/6Q0HttViG6
+	 O/g8la/S/S1h0zNCVas3Ir3pRX7iptygMN1d2gc8E3u+VYFLM2kIozUcr7s5VOLP+Yazr
+	 67Sgm4nfP0rFofi+ewy6jTt2C5I6mR/mNP2bsBsht83X/20yXfZvCPz3pflHWU1pdaXtB
+	 EB9cGdR9MGhffHLVjVT3f9i7dSGiDBLT2ux5pF/hBfN8e93/uuKVmQ0tNNxI6vyjS1mSK
+	 PXwWhr6NNe+sjnE5JFuML3TqHlHiW0SYPhC/ZvHjTf06Kd2sWkfC6YrY3oWY1D5HtdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MepdvLoB;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=H8UhHcfP;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dKq3uA4z;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A434A606A31F;
-	Mon, 23 Nov 2026 17:38:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B60606A333
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 17:42:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68B60606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MepdvLoB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30B8C1F000D4;
-	Mon, 23 Nov 2026 17:38:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795455525;
-	bh=9qc1yKk+s8UvyJspfChBLI/+g2nCbxMm3s3EwGgcNxg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MepdvLoBUWtYb0c9aF2qO56z39oFW3ETU/kZmxRBZ5r2wMQ7kMO2mFmke/sHM8BoX
-	 8FMKTK6NaLYqczOjRZa5ufFhT1pXgQ3g3PYsxt2JZlWpVqGe7sI/LfhkQQpceNNjDN
-	 OizIp/vue1jqlFqajJkrbLJmhKI67CLF5HEPDmIy3VvinRtxx4A+sWyyeXFjJJ0fHp
-	 ThxXWD4Zw8DwJKy5O2KHTpYLXN5USm6+OkWbgRVPVc4q2EAnq2eWfEQUU+yW7LfGQ3
-	 dOsHuJKtKy7tRIJ9igEWCKMhBJRBwURazhOvQ89srjM92U8RcLuHT+toQc+Y5iWPmb
-	 1MRIUTi7f1ZhA==
-Message-ID: <sashiko-outbox-229770@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/3] soundwire: qcom: add multi-master support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261123171411.444381-3-srinivas.kandagatla@oss.qualcomm.com>
-References: <20261123171411.444381-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261123171411.444381-3-srinivas.kandagatla@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 17:38:44 +0000
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=H8UhHcfP;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=dKq3uA4z
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ANGGuI62486557
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 17:42:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cUF4c82QplpbbwUXkP9CtVUunhZgMQzSeX+rMdmCNJA=; b=H8UhHcfP5snrnlu6
+	IDzJWEkY70MtOBqbSg1CCjdIAd7fiLaAdD9K5ckQk06NVI4RchodtCMAt3Oyng1Z
+	uWElkVQW76hWmgnwkYQnYLnEbJKLe2vCdsOO+RiA5Ovt/YiyJB9JKgKip6eytamJ
+	7mkE3YGVo0AvV5v1ZxI5cFai66Ebngp/ifAynHWAzF24ET6dv6twLhSLvlwa/5uu
+	Ke2lMsJnXn4wMtdTgpHkvtEnanAEVu1uZh93acpUqeYV0KrBCgPiniz8/dRLbzgD
+	Fn5oClkrxpBqxEkDF9r1BJFLLl7Zj10aHPf6ExGuzX/oaChXhI8scQdKemvJmDUx
+	4UElJg==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4fy02nm6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 17:42:36 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-94970ad532bso52857585a.0
+        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 09:42:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795455755; x=1796060555; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cUF4c82QplpbbwUXkP9CtVUunhZgMQzSeX+rMdmCNJA=;
+        b=dKq3uA4zHwehrbrm+pi6IlngEGQ5JmPiqQQAEkX3z0asFkmNJFWjIVMefpRY4oFjal
+         JYvP1xvX2eUf7TDvPRX1+lBssTC8LbfWey9/xJK52lCaF8v2Hp+vJ6+XCTK1D0GY+H/B
+         x77nyrhWVz2sW9GdEqhrdaAkqfzC7zRbxkh5HxDH3ZYv/KGRr5qG2zmYaSOyTqG+T7bc
+         wO7f4CzQl8I2Ss5SbhTaX+xJlNpNdiLEM2xJnDGwKc5/hh5rai0kHwxexfludDM+KrXJ
+         4U15k0/amNIblfUS7V/PqOBi6PJ1BA0cxoLnD4yu3zvT3W2EMXEDn9ctSh0fIoJJnEXR
+         W6Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795455755; x=1796060555;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cUF4c82QplpbbwUXkP9CtVUunhZgMQzSeX+rMdmCNJA=;
+        b=O0/vo7wmqRci5zs5LQXGENS3az/HO/MsmtB3dB4QFyRcGsCWBuUIUldM8PhDYWUFsw
+         cA45wOkFgeyFoAzZs7OhdxYtxBs4zd2RUJJB6gfS1IemxQVZokFSwP1MZZ3QDR02diEx
+         JH94atABw1XLuWOpLq/ogEgyyOvD8/tlZ7DXH9Y93JyoRiWVFRkWHd3PGWedYg0fCo8r
+         28/HTVUbwF9aq1v8qE8rRlpgbXRQzNLczBSYOzD0snxGIJTP3CRN2jM4HXrnF7Gzzgsz
+         ZDpd/j5Qh+sXT3Bsm2eh5QHvn4OUWHTjRy8mL8tBRe+tbsDL97K9mEypS4TS2u2oxUSN
+         oYaA==
+X-Forwarded-Encrypted: i=1; AL+hErEloXALDTREVUTN0xyvZcGebIcHJEsQiAwP5KUcB9Hh+wvnT+BJ45DisNWYPJ6gljnL6nEiJF+EhqUHwA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/CgqfHbIYLkYFbaWwcercJnXCesDldo4M3cNkHUKgd+mK7ghM+
+	ICNyjukgccfz+C64ECGcaH/jdkbUlxgjuH2xUbLXiKopQM6Jht991s44emqsTvFUzYtP5jVkyWj
+	vSG/EEPMML52nQJMxyzSgvkN/58U2jq+QvCYy48kN7JhzA2iboOp7V/Wj05A5U0XVMA==
+X-Gm-Gg: AZFdTZcke53YOFCyN0M39S6VmJjVu6hLVmQ2+O37AQRvC4CI7PZE+q7eSav6t1MnHWB
+	ii7X/XzBYlRN2cPB6E0SKBl9ZOah1hmyFVdAF9mUAKr1w+WkRptqAB7cX6S1TAm419RhrRhcZI0
+	U0IeTPLrgGXH1bHVtbKfzcik5ykIZ9deHwTjFXlFVGes2LIUm21hpd4Fzeriqmfswf2zc5WsLZx
+	3HS6badHrvtTDCrHM0+zlt3VhD+QgfAn+Xl+RqmtymPmza780KxRSW9tlkvkqyOCYZGa8pLxeMZ
+	MBbcmAXojmFchX5EKwtWHmq5yd7E7WGDNhb3YwwCYNe52kN+U5ieYBEDjzBHTcjthHDOtThMuXN
+	OQbB9GuzVxPyI42zh2O/6l5yxTL76MBXUCWxchUf+Th1oGxAzvkT6Fz2VeKmc1M0xpDAKLz37pB
+	isGA==
+X-Received: by 2002:a05:620a:4485:b0:93e:c12c:9b6f with SMTP id af79cd13be357-949bab5bbddmr1937653985a.74.1795455755367;
+        Mon, 23 Nov 2026 09:42:35 -0800 (PST)
+X-Received: by 2002:a05:620a:4485:b0:93e:c12c:9b6f with SMTP id af79cd13be357-949bab5bbddmr1937649685a.74.1795455754714;
+        Mon, 23 Nov 2026 09:42:34 -0800 (PST)
+Received: from [192.168.68.120] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm571943555e9.14.2026.11.23.09.42.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 09:42:33 -0800 (PST)
+Message-ID: <90f6a16a-2d50-4453-bb3e-b4c60f4d2d82@oss.qualcomm.com>
+Date: Mon, 23 Nov 2026 17:42:33 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,126 +113,167 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SDCA: Combine width_find_mask() and get_word_mask()
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20261123115205.3498244-1-ckeepax@opensource.cirrus.com>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <20261123115205.3498244-1-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIzMDA3MCBTYWx0ZWRfX36tFGkdDC+QX
+ 0T5eUY1fhAv2G7xoZzoQ2jCA6oj8u1qicnBefuDeQVQ+PtM9aJ6/TNA4npYsPaX/BsjR85+IHT3
+ FYRPYQDj6ywzna1bAo4PeWvc+pjGFDaS+Qn63cBI67BKs40WRpCZ+HR8wq9RWJ8iqcZkFcR3zF2
+ o1x9Kv7+wJ6cPCJW7X4e2mIWlqwm6Hs+e6m8svTZuF6h04MDuhn91mnRYxokcj/c3me9D3DYHJv
+ WvxCjOf9rPb5c9oeCNJpQHyEor3XfLxB3OnpZzgFF472i5nSmBX+h2pCImza8ALlpovmiTf1f9i
+ 1NyUzEtoHY5CZw0BFaQ8yH7AAbXcTURL2kfuPN5BCPQKD5bMmbq+0aYbmTTdtMGoJb8IVbV+aV/
+ Ag6wldvmtWtHkrfN4+sTWJf3ea8aQ0k43u9ijDq3SkRbICKthF8Ge/1yQRcft3r5mjJHDsot5M2
+ ey4v27T8vtWO4jJ/f9w==
+X-Proofpoint-ORIG-GUID: 9PWya2HV7CZY2KdcS3SH1FCVlKFO6udU
+X-Authority-Analysis: v=2.4 cv=QrXLTlyd c=1 sm=1 tr=0 ts=6b047b0c cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=w1d2syhTAAAA:8 a=EUspDBNiAAAA:8 a=eLmm6ZdPJpfIBFh7QgUA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: 9PWya2HV7CZY2KdcS3SH1FCVlKFO6udU
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIzMDA3MCBTYWx0ZWRfX4vX6RNc4QceO
+ i0C1CqbwkNJv3vRWfbX1rPudmazqHVjSN6RBP1hSwKx8Ja+dpTWLZWg1jJZO85A2b/vh46pZOmm
+ mhGEpgdLlNUW7WgphykFxLzo1DSJjz8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-23_04,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0 spamscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611230070
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] soundwire: qcom: missing peer reset and init in
-  swrm_runtime_resume()
-- [Medium] soundwire: qcom: broken peer DPn offset check in
-  qcom_swrm_port_target()
---
+On 11/23/26 11:52 AM, Charles Keepax wrote:
+> Both of these functions take a bit width and return the ALSA mask
+> bits for that width. Remove get_word_mask() and use width_find_mask()
+> in all cases.
+> 
+> As part of this the function is expanded with a few additional
+> formats. The big endian versions are added to the mask, for
+> the original dai driver users of width_find_mask() these would
+> be added by the ASoC core, however that isn't true when used for
+> ALSA constraint users of get_word_mask(). The 3LE versions are also
+> added as the memory size shouldn't be a factor once on the SoundWire
+> bus. Finally, support for the unsigned formats is removed relative
+> to get_word_mask(), these are not commonly used and the SoundWire
+> specification has no obvious mechanism to indicate if they are
+> supported. So better these are only added once a user comes forward.
+> 
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+Tested on Snapdragon T14s Gen7.
 
-commit 246740e00d8bf63dfe08723ccdaf279410a75753
-Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Tested-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-soundwire: qcom: add multi-master support
+--srini
 
-This commit adds multi-master support for Qualcomm v3.1.0+ SoundWire
-controllers, allowing a primary controller to pair with a dependent
-controller that contributes additional DATA lanes and routes port register
-accesses across the two instances.
-
-> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index a4cb62897192e..396b57d8eb0e9 100644
-> --- a/drivers/soundwire/qcom.c
-> +++ b/drivers/soundwire/qcom.c
-[ ... ]
-> @@ -1091,9 +1109,48 @@ static int qcom_swrm_pre_bank_switch(struct sdw_bu=
-s *bus)
->  	u32p_replace_bits(&val, ctrl->cols_index, SWRM_MCP_FRAME_CTRL_BANK_COL_=
-CTRL_BMSK);
->  	u32p_replace_bits(&val, ctrl->rows_index, SWRM_MCP_FRAME_CTRL_BANK_ROW_=
-CTRL_BMSK);
-> =20
-> +	if (ctrl->peer_ctrl)
-> +		ctrl->peer_ctrl->reg_write(ctrl->peer_ctrl, reg, val);
-> +
->  	return ctrl->reg_write(ctrl, reg, val);
+>  sound/soc/sdca/sdca_asoc.c | 56 ++++++++++++--------------------------
+>  1 file changed, 18 insertions(+), 38 deletions(-)
+> 
+> diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+> index aaa84156f20a8..d58be660ced7f 100644
+> --- a/sound/soc/sdca/sdca_asoc.c
+> +++ b/sound/soc/sdca/sdca_asoc.c
+> @@ -1214,19 +1214,28 @@ static u64 width_find_mask(unsigned int bits)
+>  {
+>  	switch (bits) {
+>  	case 0:
+> -		return SNDRV_PCM_FMTBIT_S8 | SNDRV_PCM_FMTBIT_S16_LE |
+> -		       SNDRV_PCM_FMTBIT_S20_LE | SNDRV_PCM_FMTBIT_S24_LE |
+> -		       SNDRV_PCM_FMTBIT_S32_LE;
+> +		return SNDRV_PCM_FMTBIT_S8 |
+> +		       SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE |
+> +		       SNDRV_PCM_FMTBIT_S18_3LE | SNDRV_PCM_FMTBIT_S18_3BE |
+> +		       SNDRV_PCM_FMTBIT_S20_LE | SNDRV_PCM_FMTBIT_S20_BE |
+> +		       SNDRV_PCM_FMTBIT_S20_3LE | SNDRV_PCM_FMTBIT_S20_3BE |
+> +		       SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
+> +		       SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_3BE |
+> +		       SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE;
+>  	case 8:
+>  		return SNDRV_PCM_FMTBIT_S8;
+>  	case 16:
+> -		return SNDRV_PCM_FMTBIT_S16_LE;
+> +		return SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE;
+> +	case 18:
+> +		return SNDRV_PCM_FMTBIT_S18_3LE | SNDRV_PCM_FMTBIT_S18_3BE;
+>  	case 20:
+> -		return SNDRV_PCM_FMTBIT_S20_LE;
+> +		return SNDRV_PCM_FMTBIT_S20_LE | SNDRV_PCM_FMTBIT_S20_BE |
+> +		       SNDRV_PCM_FMTBIT_S20_3LE | SNDRV_PCM_FMTBIT_S20_3BE;
+>  	case 24:
+> -		return SNDRV_PCM_FMTBIT_S24_LE;
+> +		return SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
+> +		       SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_S24_3BE;
+>  	case 32:
+> -		return SNDRV_PCM_FMTBIT_S32_LE;
+> +		return SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE;
+>  	default:
+>  		return 0;
+>  	}
+> @@ -1510,35 +1519,6 @@ static int get_cluster_mask(struct device *dev, struct sdca_function_data *funct
+>  	return 0;
 >  }
-> =20
-> +static struct qcom_swrm_ctrl *
-> +qcom_swrm_port_target(struct qcom_swrm_ctrl *ctrl, u8 port_num, u32 *reg)
-> +{
-> +	u8 lane;
-> +
-> +	if (WARN_ON_ONCE(!port_num || port_num > ctrl->nports))
-> +		return ctrl;
-> +
-> +	lane =3D ctrl->pconfig[port_num].lane_control;
-> +
-> +	if (ctrl->peer_ctrl && lane >=3D ctrl->peer_first_lane &&
-> +	    lane < ctrl->peer_first_lane + ctrl->num_peer_lanes) {
-> +		if (WARN_ON_ONCE(*reg < ctrl->peer_dpn_offset))
-> +			return ctrl;
-> +		*reg -=3D ctrl->peer_dpn_offset;
-> +		return ctrl->peer_ctrl;
-> +	}
-> +	return ctrl;
-> +}
+>  
+> -static u64 get_word_mask(unsigned int width)
+> -{
+> -	switch (width) {
+> -	case 8:
+> -		return SNDRV_PCM_FMTBIT_S8 | SNDRV_PCM_FMTBIT_U8;
+> -	case 16:
+> -		return SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S16_BE |
+> -		       SNDRV_PCM_FMTBIT_U16_LE | SNDRV_PCM_FMTBIT_U16_BE;
+> -	case 18:
+> -		return SNDRV_PCM_FMTBIT_S18_3LE | SNDRV_PCM_FMTBIT_U18_3LE |
+> -		       SNDRV_PCM_FMTBIT_S18_3BE | SNDRV_PCM_FMTBIT_U18_3BE;
+> -	case 20:
+> -		return SNDRV_PCM_FMTBIT_S20_LE | SNDRV_PCM_FMTBIT_U20_LE |
+> -		       SNDRV_PCM_FMTBIT_S20_BE | SNDRV_PCM_FMTBIT_U20_BE |
+> -		       SNDRV_PCM_FMTBIT_S20_3LE | SNDRV_PCM_FMTBIT_U20_3LE |
+> -		       SNDRV_PCM_FMTBIT_S20_3BE | SNDRV_PCM_FMTBIT_U20_3BE;
+> -	case 24:
+> -		return SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S24_BE |
+> -		       SNDRV_PCM_FMTBIT_U24_LE | SNDRV_PCM_FMTBIT_U24_BE |
+> -		       SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_U24_3LE |
+> -		       SNDRV_PCM_FMTBIT_S24_3BE | SNDRV_PCM_FMTBIT_U24_3BE;
+> -	case 32:
+> -		return SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_S32_BE |
+> -		       SNDRV_PCM_FMTBIT_U32_LE | SNDRV_PCM_FMTBIT_U32_BE;
+> -	default:
+> -		return 0;
+> -	}
+> -}
+> -
+>  static int get_port_masks(struct sdw_slave *sdw, unsigned int port,
+>  			  struct snd_pcm_substream *substream,
+>  			  u64 *word_mask, unsigned int *ch_mask)
+> @@ -1564,7 +1544,7 @@ static int get_port_masks(struct sdw_slave *sdw, unsigned int port,
+>  
+>  		if (prop[i].num_words) {
+>  			for (j = 0; j < prop[i].num_words; j++)
+> -				*word_mask |= get_word_mask(prop[i].words[j]);
+> +				*word_mask |= width_find_mask(prop[i].words[j]);
+>  		} else {
+>  			unsigned int max = prop[i].max_word;
+>  
+> @@ -1572,7 +1552,7 @@ static int get_port_masks(struct sdw_slave *sdw, unsigned int port,
+>  				max = 32;
+>  
+>  			for (j = MAX(1, prop[i].min_word); j <= max; j++)
+> -				*word_mask |= get_word_mask(j);
+> +				*word_mask |= width_find_mask(j);
+>  		}
+>  
+>  		/* Only handle the number of channels for constraints. */
 
-[Severity: Medium]
-Can *reg -=3D ctrl->peer_dpn_offset underflow below the dependent
-controller's DP1 register base when port_num <=3D offset?
-
-Callers compute *reg with the SWRM_DPn_* macros as base_offset + 0x100 *
-(port_num - 1) (+ 0x40 * bank), where base_offset is 0x1224..0x123c, while
-qcom_swrm_multi_master_setup() sets ctrl->peer_dpn_offset to offset *
-0x100 without that base address.  As a result, *reg < ctrl->peer_dpn_offset
-does not catch port_num <=3D offset, and subtracting ctrl->peer_dpn_offset
-produces an offset below DP1 (0x1224) that reads or writes non-DPn
-registers on ctrl->peer_ctrl.
-
-Also, qcom_swrm_transport_params() subtracts ctrl->peer_first_lane from
-value before calling qcom_swrm_port_reg_write(), so if the WARN_ON_ONCE
-fallback returns ctrl, the peer-shifted lane number is written to the
-primary controller, and qcom_swrm_multi_master_setup() only checks offset
-against ctrl->num_lanes rather than bounding the port offset against
-ctrl->nports.
-
-[ ... ]
-> @@ -1795,6 +2028,10 @@ static int __maybe_unused swrm_runtime_resume(stru=
-ct device *dev)
->  	struct qcom_swrm_ctrl *ctrl =3D dev_get_drvdata(dev);
->  	int ret;
-> =20
-> +	/* no bus of its own; the primary restarts the link */
-> +	if (ctrl->mm_role =3D=3D QCOM_SWRM_MM_DEPENDENT)
-> +		return clk_prepare_enable(ctrl->hclk);
-> +
->  	if (ctrl->wake_irq > 0) {
->  		if (!irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
->  			disable_irq_nosync(ctrl->wake_irq);
-
-[Severity: High]
-Does swrm_runtime_resume() leave the dependent controller's audio_cgcr
-unreset and skip re-initializing ctrl->peer_ctrl when
-clock_stop_not_supported is set?
-
-For QCOM_SWRM_MM_DEPENDENT, swrm_runtime_resume() enables ctrl->hclk and
-returns without calling reset_control_reset(ctrl->audio_cgcr).  In the
-primary controller's resume path, the clock_stop_not_supported branch soft
-resets and calls qcom_swrm_init(ctrl) on the primary alone:
-
-drivers/soundwire/qcom.c:swrm_runtime_resume() {
-    ...
-	if (ctrl->clock_stop_not_supported) {
-		reinit_completion(&ctrl->enumeration);
-		ctrl->reg_write(ctrl, SWRM_COMP_SW_RESET, 0x01);
-		usleep_range(100, 105);
-
-		qcom_swrm_init(ctrl);
-    ...
-	} else {
-		reset_control_reset(ctrl->audio_cgcr);
-    ...
-}
-
-Unlike qcom_swrm_probe(), which initializes both ctrl and ctrl->peer_ctrl,
-a runtime suspend and resume leaves the dependent controller without an
-audio_cgcr reset and out of sync with the primary (such as on the old
-frame control bank after a primary reset back to bank 0), breaking data
-transport on the dependent lanes.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261123171411.4443=
-81-1-srinivas.kandagatla@oss.qualcomm.com?part=3D2
