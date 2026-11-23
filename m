@@ -1,89 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795443990;
-	b=b1L95xzxUEm9KkZ6snSFzG8KPXShubRXSMtDPU9rVULuDENj6nd14SwJmo4D87sWKZhj
-	 tlYNGJCQWp3DFr/dmfpaYDEs4FjvX258Qkoq+ZpsFtJpqxYe4PwSp0dE/IvR31LrS9tei
-	 tWtktAW88awSScOn6S02C4XtjuYq4L0JJwWsbJs8naiWMQYfuQm+hu2G96k1yLGn41hMM
-	 LbyS7mzLxETYuEcHWV6+EjOJg3UFjkv15RlUU+7udr9Olm7AdKtKABYNlnZQ7EGmkHhDd
-	 EXkOqiPysY9c258q+6U+PGZARuuF/eOcJ7yfIWFOjttZy8p7XXsaT3xBFLk8Wk+jY3g==
+	t=1795444717;
+	b=hwfAeNiziUAjJmA5llirMPSZAgaZtPwDWUbhHdekRmmTeQvU4TMGs8hT5ZUSOX2yoVeo
+	 j727QXZAqfkCbwzN6UIvUclEBm2AWN/ii+bpvDMERypbdD9ayyYLZ20LHiJIw29TRn37x
+	 DzLJaz1kSoc6dGDDsajZuq4MsrJmfYPuTMQmc38ix5APbUA4iPROFTuz6ZLK8qJgYHWiW
+	 f/olJJWNGXlxgfB2uFnl5G7MoPWfHHSwM4/eHXpFiV8VmIgtU+BsnmtIXaKiR4PNU0zZK
+	 atgVF3gBjTwtlEwg2avzRGaVfNllBoJFuCwTiXuvxycCq+CLaJn697LxuOnYbO6Dv9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795443990;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=MpBy4DQUeAY3YB4hP8JJP2A0Pzqf+41bgmSv+sbuZU8=;
-	b=cUX7DdCmLkBDDhOhGa0k47dWvF5+NEjIruuqUGjTB2YedokkTPU1aOeFR3vjgp6pNmU/
-	 FcVaHIwFyjQNXA9u/v8Z+gehNmdH8AR2yv8Fvw9/x/oiU+NvFOaRK9vkOgG4239LmeIMe
-	 syNuUz1uclakKVn73XUFkSLMD5rkt0SMYOAucHbtgb6H/vczsq4dnX+UJdOz0qhUHNvm6
-	 Tb41c34yuYWCFgjAB+GRMbQIjDRLzsYbemmXRJtnB60kdMetS9Afoa+YGzpXWlKX409p/
-	 yIY1E5yWKDkEQyyMk+eJRZX7uPTfrpLpfaeKkvmssYm0I2FNrjf6m3febJrXse6yIAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795444717;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=sg7tdXVTl6CBr93/kEJcagyPTR5mqpB+pSl9U13IANw=;
+	b=YnsT0GXD5XGUyoynoccN8bHOzkUM+oxgICaqvUXI2Yl4QdvSjdkPpy/vKNv4eFBycGiy
+	 8vRTx570ujVU40+d8KPdpQf4lh2/tKCddZtboGFSGKsH3LUrMw3OJebw224xMpSVimZtw
+	 S7DyoSZM+/MBNaQuLZLPnL3K6Vv/XH1u/3OPhX76lc1ELBi9fypWDOyU3ndTlcqiHtA0i
+	 yoSNpUSmLjJLwJ5b/JYq31ey/gC0oOqnT50nxRVewVQujRv5ZsU5M8+ooTJYOYXqou0vg
+	 +gBHT/IRkIhBM8YMYLMvG0ukjBzQE32Yb5e/9OkmWsW6IAlPSQ+15DYrtXpheiC71sw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RUIY67PM;
-	arc=none smtp.remote-ip=209.85.208.170
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QcnW+c9B;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E59606A327
-	for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 14:26:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38E59606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CBD606A31A;
+	Mon, 23 Nov 2026 14:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RUIY67PM
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae854fd0f5so23522221fa.3
-        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 06:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795443988; x=1796048788; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MpBy4DQUeAY3YB4hP8JJP2A0Pzqf+41bgmSv+sbuZU8=;
-        b=RUIY67PMq1SQpC96Na5nTl3jAyRwEebw/mDWGod9yXt8IsGlmlTbbsyWn7X2cSb73L
-         dB/FORW/5mTkaB2haIysp91S+cFrM2WzVocyIJDpnJKRCsMAZh+2AMPv+Cb9qzJmnN/p
-         xVhtvboIzZKmLZuxYSV+bp9jXmGt/XGLsa3NkwIEjKhmnT/FmPcIYkZmo9USpV0+DVld
-         +T7wajOC1ZKDFwX45AVhUhuQXPjUbPPbDrQCtLMD5NyK6n3BloDQGZVPITo+qylDu4KF
-         qxWCPUIvWmu9AImsOgfgoOsXo6JqMQLDHrQeoNb3vm5Ivrwtz3Ew4LzO8OTKYYbraeQ+
-         bbhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795443988; x=1796048788;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MpBy4DQUeAY3YB4hP8JJP2A0Pzqf+41bgmSv+sbuZU8=;
-        b=krMfLv3rIaxnQGPDGAQSs/7iPUvYWeU3LjwYQsaJrPgqO5Swjzk1+kgO4zs4ZOilkG
-         PNIDM+ljKWlbR9PHwqF6eMdWXOSfxrAQ0JlaejeJg0vs37aAxq1kemSfrpV4BUsImLJs
-         4yfsAF/7ImesiIA5rL8crwuYYrAU1OyCrjhmrZWB3RV7UsjmHqmE0bMwdkra+9W2V4LM
-         EFf9YRTU6rhbA6kCoKtAYsBOHfCtz5nT29kMSFpDOGsNHMKWTnM3Tlbxzp/qc/chUw1o
-         v+d0XDjjzx23afTGHouUQNoW1BfnuoDb5FaDT1pHGr3SMEPpIYfOO9LoVCZHkzEn+NiU
-         DnZg==
-X-Forwarded-Encrypted: i=1; AL+hErFekKeSksQLhzKq4oKUWE+nmVYKMrRJ1m1bxo+8n0DRhFGjxrCChwD3R8+PjgIWwcvNr0RjYXvtmV9PNQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/gzG+9UI2D4JRfvawFuB3sbSpoOLsJjELg3DcBk0FSszXhNFLt
-	kbYiHefq/HN8wYjt1OV29VFArhnfxXsnUaWMfRVnUEQehxSKFKrsLnZL
-X-Gm-Gg: AZFdTZegucf6RluB8mVN3FFMeHri9dozORl7PR+402wDnl4v2KqngSMfZ2nMOo1vSo0
-	JGzJUmG4bji+p4zzX0NOFM79N8fF5v5JqIMZ0icMxugMAcvvABTslh5mpOXCzBk9ThDBK+FnGZC
-	72nNqLenOJx5YAnjo9CRwl8bwhgxjVU9bvYaM3j3Aw/B8DXrELalP5cqKrsUpsknzR19v01zIyt
-	9sZBgxRMVcoAOx4NNOceskSrlo6TJPmd4UI92siqBUofMIgLNzyw4mNifP8bj4jeBnlXZyM6TXV
-	nZO0UHGgnrIN7SPGLO54/e53lt2zLMO4aQLNhu4gsedvM6VbMoOUFoPjiob6rx985zO0wU8IWEh
-	0sLAqBIyFjCcaiRnT7RWkKs2b0fFKXBQPOl2R5jpgy5YhGoDRr44cBf3ar3q8Mrx+7zg+nz8jFO
-	6AzM8VexT8TWOXUFUSlIjcB0e6rBfDT+q077QASjnRf3tivInEoiveHxorKc/wRcsSBWtGlzHS8
-	jzcBsSer2ZoEHGqn0Ku48rSqiCBr99h+G1c3vMDa5XArIaPFHp4ecOgTDCu+qh24tAqiITGXnXY
-	BKZ/uerYwL/gx4CSNxt8CE5ioZHTvcU9RNYl83uRV1i5RM8osC8QSDWvhfKyiwxNIfJGqPPascO
-	f0O5s9CEAHw==
-X-Received: by 2002:a2e:ab0a:0:b0:3ac:e4b6:b93d with SMTP id 38308e7fff4ca-3ae7f9a072fmr31420641fa.8.1795443988058;
-        Mon, 23 Nov 2026 06:26:28 -0800 (PST)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ae80536529sm33679491fa.27.2026.11.23.06.26.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 06:26:27 -0800 (PST)
-Message-ID: <bc178673-54dd-4811-acdf-cb6327ec2417@gmail.com>
-Date: Mon, 23 Nov 2026 16:26:25 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QcnW+c9B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C447A1F000C0;
+	Mon, 23 Nov 2026 14:38:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795444716;
+	bh=sg7tdXVTl6CBr93/kEJcagyPTR5mqpB+pSl9U13IANw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=QcnW+c9BSbtwhDTvUNRVqGAbVeeg6J71gOqx9Vr9xBkxypM/qg3dKPC14X8fTW96p
+	 5TLkXTUJq3Z6ULTI/LvLd2NaWFcmXCsHix9/NG1LgvdaUJHVzwAas2Njfif8gxn7+o
+	 58EJRy7efQHSyidO3crIr3NL6qoesXoluYvHdDFTSxudyr6EpbzlC3NgUU5uLkMBMi
+	 VSGNmTqVYPZ/R7s8no/G+4EsMQ47iX2tiWgpaVyqWPy6C/dBTnjBH8kkuLdnxC6rl5
+	 st4pubhuIB2VHZiHzV8CG3SkCr9dnbgrbSSnwZHBW0ryDsCkb1OAtopHN4bZaYv3/U
+	 Qay15zQx3N0fw==
+From: Mark Brown <broonie@kernel.org>
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>
+Cc: lgirdwood@gmail.com, zhangyi@everest-semi.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261119075906.50214-1-zhujun2@cmss.chinamobile.com>
+References: <20261119075906.50214-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: es9356: Handle register cache sync failures on
+ resume
+Message-Id: <179544131326.25092.3924634854884572179.b4-ty@b4>
+Date: Mon, 23 Nov 2026 13:41:53 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -93,99 +59,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 16/17] mfd: Unify style of of_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Lee Jones <lee@kernel.org>
-Cc: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>,
- Linus Walleij <linusw@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Chen-Yu Tsai <wens@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- James Ogletree <jogletre@opensource.cirrus.com>,
- Fred Treven <fred.treven@cirrus.com>, Ben Bright <ben.bright@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Tim Harvey <tharvey@gateworks.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter
- <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Saravanan Sekar <sravanhome@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
- <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- mfd@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
- linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org
-References: <cover.1795431460.git.u.kleine-koenig@baylibre.com>
- <b69bcdcc394e46e0eb60947f23923e6241d24ff4.1795431460.git.u.kleine-koenig@baylibre.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <b69bcdcc394e46e0eb60947f23923e6241d24ff4.1795431460.git.u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=gNT1t9oj4bQoyXInP0nEW3505DKyxa8VFd0iMahsAwA=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZ/F+1785P5vqRGTt9/6rA6yEn7jcdO2z+UPO1toPEx
+ 9e/DVf/6ShlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBEYo0Y/sod17HbpfTB2GJF
+ tlvMysAP/XOfTig/rsH0+kq3BPuNJVwM/9RL/wk3m84VuL1yLfOqaVsW+0p75Fz/ePnPqfX8mm7
+ p6/kB
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 23/11/2026 13:18, Uwe Kleine-König wrote:
-> From: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
-> 
-> These arrays already mostly match the most used and generally
-> recommended coding style. That is:
-> 
->   - no comma after the list terminator;
->   - a comma after an initializer if (and only if) the closing } is not
->     directly following;
->   - no explicit zeros in the list terminator;
->   - a space after an opening { and before a closing }, a single space in
->     the list terminator;
-> 
-> Adapt the offenders accordingly.
-> 
-> Reviewed-by: André Draszik <andre.draszik@linaro.org> # for Maxim MAX77759
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
-> Reviewed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> # max7360
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+On Thu, 19 Nov 2026 15:59:06 +0800, Zhu Jun wrote:
+> ASoC: es9356: Handle register cache sync failures on resume
 
-Reviewed-by: Matti Vaittinen <mazziesaccountw@gmail.com> # rohm
+Applied to
 
--- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductor
-Oulu Finland
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-~~ When things go utterly wrong vim users can always type :help! ~~
+Thanks!
+
+[1/1] ASoC: es9356: Handle register cache sync failures on resume
+      https://git.kernel.org/broonie/sound/c/04573b260599
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
