@@ -1,80 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795560420;
-	b=XlZUkbY19J/jxKTa4CX5jARv1CbpU8FrV+/UvrrZOUHdE6b6aS8LlUDEPCsLrh3ohyWg
-	 e5wjELJny8cKiU5gA5gXtYB4Wz9kAWlGP/So+UrpmTdHHzp56RKBIGaHc3U2K9IpAKz10
-	 WGzzMCa037pAVgnlVx5j/rKL1h+nrQvpXETkbNc+HrXGwSCwRBN1RP/qNpwWdfJjfDyqt
-	 L2ckMFCZRaQVszcfcpPK9ukbFU8EbcU4Jv6H6i+cwP81EbCE/FCZw7etlKfBXThEcU2Hu
-	 6GFB/s/RN7cnEVqYmQ2UnrfEyND/MUX5iD2qsLhFsy9+4N5nb9uBt98go5rF1I3ccvw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795560420;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=6QBH+QyIPuZ5eESry9czXmbEjy+pBjEUYZUBFcAeLBs=;
-	b=20qSmPweMb3CRGOyrrIqZJUT14D12eJnTmgM/YTbBFSHc2BpJCn1w8ScYUHEszaFBi5z
-	 T1jRfaCbXzbSlzwehv8wzYHgKCXuyqw3wSWw3bUXhLVHCcu0XVYmfz92oBsPu5DAzWCk6
-	 Ez6EIMge4i/5qbFxEoDYCzmWdnKxDmOwSQ0hE8gy0d0vZvJTGnUgXhgG7FdSQKhhynS79
-	 2scH9t3YblarRpEbekRs4RdMRLtJ1+cp/4MqKpW96jJIOcQzKqQGrWDWd4tjI678cNCKB
-	 ea+7vDCG+rq9N6m8H3sGRqgsDUOtgm6gpGq9pHkqL46nMHrxJpPMMtjV8/DcaxenTIg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j1QuoGpB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795560842;
+	b=Ehiqb7YHAjfOi9MR6XjPAmnEI6w4W2+RPdcDOtxhd9LVugieg+F2NnzagczSGhoXkLLe
+	 g64qHTT2SM5+TkZMJALPzQaGrRhuggiYX6r515DWPDvGCSVB6fTlJ/wN82y3Y2Vyzi8DE
+	 Z5J5M2V9bsoDs1Z/BoF8j9zz7aw8jfhc73XMTzJJNyPsAoq+p7o5vz5upRLbNuF3Ms1w3
+	 NpBAAndodpVRf27DE6PMbnW6T86C8sAgWLiAfOSYr2g1lfvQiXK0zc8mh5pLab8eDWcVW
+	 fZ7iwY5Fru9oc0ED+BD+W+tU1/J6T05leZjHDXZukCT3it1gheLtWTp4z1Zwih7qrsw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795560842;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=VsHFV8y18PL9XMgxBPz2XTqdzz1+Dzpsma3NK/rAyN8=;
+	b=3kP3YwDskECa9z+wG/LbGMnDBa1O+T7JcHcLR8z6unC5T5OLij7V9rTFu3S8nVpIwqpI
+	 tMAAu210lmV0dUxVBBCsWGe0WDAaNav44Wpor4kI6GmDkJBco9N+mZLmE5IvBe3Np7k4d
+	 28H/M+/5LQ3WZlpylRcoHTFOMtbs74pRxM2vNfOZfwMwHuFbminh1pFxMy4+FxdCoLNPb
+	 b2W9d2EIFyAg3c3eSXJ8xGyv8iTF3DxkBIgWL7bbQqV1wS6XAmi3FR9jkM3QdJPQR3GEs
+	 TMduJSCXl23UpGLeXL5D5vphH7XJjkj9v2kuyC7j9yh3EPjkUHEWqdhEzlbdPpH0Sgg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CkvOGlsd;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEDF606A321;
-	Tue, 24 Nov 2026 22:46:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A919606A31E
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 22:54:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j1QuoGpB
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795560419;
-	b=zSHbf6NU3aq6GVMCuacm/ybpO6O++QtUhEHytBbj9sS66i4YxWSByWtLqZe6mEyXpVcC
-	 6pR7f8MMkmThhaMcFDyDfcR3fGPsYr2f5hxOS665AhmzSjnYdrkvAIovChZVhuSFCUqSB
-	 aNIth3CNIJNlGaBNyTHzb7yiS7P6nBxbtkVJy0mUs2nxQLwU1lniUSJ3Pk24uJLDaDmYk
-	 A67uQnIaK08ywNi9ErZzypJM1jyWT4lzRI4mzsVXzYQ0NpphjiI7XGTQvTlA4oM0CNRX1
-	 3HJHF5YXl94DKJbjkUKw3J4vzquD+y6ERQF5b6PZTCobf0snnK4UFMSkzgSeXlrGuvg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795560419;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=6QBH+QyIPuZ5eESry9czXmbEjy+pBjEUYZUBFcAeLBs=;
-	b=vIK6z47ev+PAoXYtQV2FlLGttZYvwGKf9TaWLvMhOic9RWW/0eUFeO2hslwBfyZp+miR
-	 do7yGPkMSq3TTU5x0uR+nsCZj1MiFQ7ehLtMzt/XD04hDWUl0p6rUDFM3JTNPoMsu9/3A
-	 0aZge6zwdc1iXMUPcv1Pgg/S6VBX5lhshaCjuLP7QB07pQ9aW2ZxxwlNK+LKAAyDxtKra
-	 M+AHTUDvn7At9vnuAp8+6rvl0xShzFtEaC3d0lH8yeBHGPY9YEewzSWFHEhIbRheYURAA
-	 as2+WtM0icgxGEKztTFfBtEX6+Hw/lCjXiepcfVJy/DCdjpRjOMp1HgL21LN1R5zu0Q==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id CEAFE1F000C4;
-	Tue, 24 Nov 2026 22:46:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CkvOGlsd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFF791F000CF;
+	Tue, 24 Nov 2026 22:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795560419;
-	bh=6QBH+QyIPuZ5eESry9czXmbEjy+pBjEUYZUBFcAeLBs=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=j1QuoGpBrqwsrjvoJ+YmrzhFLIUmcvFFFfbAOaRKkJo6FGGjE42PYoNSWr8licwpE
-	 fINy6/GVkU5PNMm2evhDnfQD/FgM5dMiASVcFrCoiCyRg+lDIHa49z2X9w6yuIqK8J
-	 0NlQzJdAqaRL9sVGeZ2FZcuMeKfP43tKMoSeamhp/wNnOy76Qjo9Xk5lnxJ8EOcGBs
-	 7nTF564yVlO9Y/2cL0O75vfHzOz+hJx8KxXBUgSlppeJK3sTdqOJLI16yV3gVC8G/5
-	 sPAvSI4JLN0dKTJ6zh28u3f0PRWqlC86f7vmpt+NdgpWBamK8mVt/7f6dksQgSz1vq
-	 n79Krk39KanhQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 339514CBE9;
-	Tue, 24 Nov 2026 22:46:47 +0000 (UTC)
-From: Robert Ijtsma via B4 Relay <devnull+robertijtsma.gmail.com@kernel.org>
-Subject: [PATCH 0/2] soundwire: qcom: fix WCD AHB serialization and
- wr_fifo_depth init order
-Date: Tue, 24 Nov 2026 23:46:45 +0100
-Message-Id: <20261124-qcom-soundwire-fixes-v1-0-8ca94d60ddd6@gmail.com>
+	s=k20260515; t=1795560841;
+	bh=VsHFV8y18PL9XMgxBPz2XTqdzz1+Dzpsma3NK/rAyN8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=CkvOGlsdyiGRgOm8Am9p13ECh5QxNRCxsqr4eFk0CRpa+IvuhrDnEl5nzKC944cX0
+	 D4BJNrsQUxrY1E4ySuYc1Vv0v2IPyPUqccn/v185bG6o7d+Q8urS+CLWqtfbWTKvsj
+	 WTtDhbsmonNiNcM1vu+W9n+Uyw5sB4obew3rh8dxM3l52mKEZ6z9CgHV2QBHc7brtx
+	 KoDYkBeRneizkyjZkurJBSFFpR6c3+bAa7wugqi9Es+BSfErkPKlzjOu7F4BdimtT+
+	 avl9Yxi8+GBTrmrjgPGrpdhQvhTHOpDL5GSFpuoX6pTBQxALugFaD9ifg+rngHJ3Mz
+	 jDIsCzCj9ONjA==
+Message-ID: <sashiko-outbox-232167@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/2] soundwire: qcom: populate wr_fifo_depth before
+ enabling interrupts
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Robert Ijtsma" <robertijtsma@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261124-qcom-soundwire-fixes-v1-2-8ca94d60ddd6@gmail.com>
+References: <20261124-qcom-soundwire-fixes-v1-0-8ca94d60ddd6@gmail.com>
+ <20261124-qcom-soundwire-fixes-v1-2-8ca94d60ddd6@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Nov 2026 22:54:01 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,59 +60,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBCF4auQWTsJbZWAVzEsdDrKkNBKh6oJ4
- e5WXH55+d8KyklY4VytkPglKjEUmEMFNFzDg1F8MdjaNsbYI84UJ9SYg39LYrzLhxU77wy1nk6
- udlDSZ+J9KOWl/1vzbWRafl+wbV/o6jpEeAAAAA==
-X-Change-ID: 20261124-qcom-soundwire-fixes-9d31c8dc5303
-To: Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- Robert Ijtsma <robertijtsma@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795560406; l=1208;
- i=robertijtsma@gmail.com; s=20261122; h=from:subject:message-id;
- bh=nRQ81G0pOHjTe19q0T04n8A6t3fPhnAHDBRobILJgfU=;
- b=Cgl9VQw+aZpzc2uVyo9Pn37RN8cCRaw9l4qgsxkUnFWGZrCsVHjqaYH4a9fuPeSGLUKMQZJJC
- tTwJmyKlJS8BNPqmwSb7fn5+dhMqDk89ZIg5YCKNqW4S/qb9mAaW5wK
-X-Developer-Key: i=robertijtsma@gmail.com; a=ed25519;
- pk=qiDyKVqFicxFIR5sB5m+p9SWPKL2/+mMoiQnUx0C9P0=
-X-Endpoint-Received: by B4 Relay for robertijtsma@gmail.com/20261122 with
- auth_id=1604
-X-Original-From: Robert Ijtsma <robertijtsma@gmail.com>
-Reply-To: robertijtsma@gmail.com
 
-Fix two race conditions observed on WCD934x-hosted Qualcomm SoundWire
-controllers (such as on Microsoft Surface Pro X / SC8180X):
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Low] soundwire: qcom: Fixes trailer cites 02efb49aa805 instead of
+  a661308c34de
+- [Low] soundwire: qcom: redundant unchecked SWRM_COMP_PARAMS read in
+  qcom_swrm_init()
+--
 
-1. Serialize each two-step WCD AHB bridge register access (RD_ADDR +
-   RD_DATA or WR_DATA + WR_ADDR) with a controller mutex so concurrent
-   IRQ and init/bus accesses cannot interleave on the shared bridge
-   registers.
-2. Read and validate SWRM_COMP_PARAMS write FIFO depth before
-   registering the threaded IRQ in probe and before enabling CPU
-   interrupts in qcom_swrm_init(), avoiding false write-FIFO overflow
-   errors while wr_fifo_depth is still zero.
+commit 6cb5da021ef8535ab5b5f9bfc4e8100a46f9d35b
+Author: Robert Ijtsma <robertijtsma@gmail.com>
 
-Tested on Microsoft Surface Pro X SQ2 (SC8180X, WCD934x + WSA881x).
+> soundwire: qcom: populate wr_fifo_depth before enabling interrupts
+>
+> ctrl->wr_fifo_depth is currently populated at the end of
+> qcom_swrm_init(), after devm_request_threaded_irq() in qcom_swrm_probe()
+> and after enabling CPU interrupts in qcom_swrm_init().
+>
+> If a SoundWire interrupt fires before SWRM_COMP_PARAMS has been read,
+> qcom_swrm_cmd_fifo_wr_cmd() observes ctrl->wr_fifo_depth =3D=3D 0 and fai=
+ls
+> with -EIO ("err write overflow").
+>
+> Read and validate SWRM_COMP_PARAMS in qcom_swrm_probe() prior to
+> requesting the threaded IRQ, and read SWRM_COMP_PARAMS before enabling
+> CPU interrupts in qcom_swrm_init().
+>
+> Fixes: 02efb49aa805 ("soundwire: qcom: add support for SoundWire controll=
+er")
+> Signed-off-by: Robert Ijtsma <robertijtsma@gmail.com>
 
-Signed-off-by: Robert Ijtsma <robertijtsma@gmail.com>
----
-Robert Ijtsma (2):
-      soundwire: qcom: serialize WCD AHB bridge transactions
-      soundwire: qcom: populate wr_fifo_depth before enabling interrupts
+[Severity: Low]
+Should the Fixes: tag point to a661308c34de ("soundwire: qcom: wait for
+fifo space to be available before read/write") instead of 02efb49aa805
+("soundwire: qcom: add support for SoundWire controller")?
 
- drivers/soundwire/qcom.c | 57 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 38 insertions(+), 19 deletions(-)
----
-base-commit: 4843f6873f7c4835e62f2c73ba0fd538e57a2f22
-change-id: 20261124-qcom-soundwire-fixes-9d31c8dc5303
+Commit a661308c34de ("soundwire: qcom: wait for fifo space to be available
+before read/write") introduced ctrl->wr_fifo_depth, the SWRM_COMP_PARAMS
+read at the end of qcom_swrm_init(), and swrm_wait_for_wr_fifo_avail() in
+qcom_swrm_cmd_fifo_wr_cmd().
 
-Best regards,
---  
-Robert Ijtsma <robertijtsma@gmail.com>
+> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+> index 368f511867835..3a42ab85be7c6 100644
+> --- a/drivers/soundwire/qcom.c
+> +++ b/drivers/soundwire/qcom.c
+> @@ -997,6 +997,12 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *ctr=
+l)
+>  	ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CLEAR],
+>  			0xFFFFFFFF);
+> =20
+> +	ctrl->reg_read(ctrl, SWRM_COMP_PARAMS, &val);
+> +	if (ctrl->version >=3D SWRM_VERSION_3_1_0)
+> +		ctrl->wr_fifo_depth =3D FIELD_GET(SWRM_V3_COMP_PARAMS_WR_FIFO_DEPTH, v=
+al);
+> +	else
+> +		ctrl->wr_fifo_depth =3D FIELD_GET(SWRM_COMP_PARAMS_WR_FIFO_DEPTH, val);
+> +
 
+[Severity: Low]
+Is re-reading SWRM_COMP_PARAMS in qcom_swrm_init() needed now that
+qcom_swrm_probe() reads and validates ctrl->wr_fifo_depth before requesting
+the IRQ or calling qcom_swrm_init()?
 
+SWRM_COMP_PARAMS is a static capability register, and this second read does
+not check the return status of ctrl->reg_read().  If a transient regmap
+read error occurs during controller initialization or runtime resume, val
+retains the value previously read from SWRM_MCP_CFG_ADDR and overwrites the
+validated ctrl->wr_fifo_depth with 0, causing later command FIFO writes to
+fail with -EIO.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-qcom-sound=
+wire-fixes-v1-0-8ca94d60ddd6@gmail.com?part=3D2
