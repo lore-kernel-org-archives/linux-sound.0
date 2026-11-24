@@ -1,65 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.128.243.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795550241;
-	b=e2cEnRQPLbm1340FtedDh70dUgOK9wp+BNIdgfFFKknjCErvlv9hOZZE1jtyvEgAPql2
-	 XMZPUWZ9VRRgRVc1droMSWkqOeeEOrtVtYaompjp5bGFCI5bImQK7riKHz8PKjfx7B0fP
-	 HP9SBukGUOTT9O8enZ+GrTZW5yaOv4AxzAWkq6dvTaDH5CgclOc+hOphtBc8I9/RGxdEL
-	 vpGon3rMO1ThdAp5ox+/S3bJSt2TNzugdccDrxBYaSFiNOK4axt3qi8Lv2+u4tMZSRbAt
-	 7Myh4A3HmUtdpRucLpio6NOWxt5b1IIurUjW1yBqJnK/dxh+CUBgq/LCDd+r2x4wF3g==
+	t=1795550245;
+	b=x1CFiYAwdFrS1Mixxpk6ZDLHpIGoq+lymLHpZBxcMMw4HyKFNkMItsOj8NA8766QJDVr
+	 h/E+XTN2QAdF7y44tc50s7kFa0ZfKny3YzLMCw7AEx0J5+TmJs2/TdPu1WMwICnX2KYU8
+	 /3DnDFE4RS/R5MXJ31XqwT5HTMMSWt+ohkv91bH89lGirJUTSZlpmqy/F8rnnlcRM74uc
+	 U1n8UXqidFNh1Wb5+6efvynKAYq3Wg1rCdV4FLtHwuvTTjMClEDbciBuG5xCZR4+Lu7Oi
+	 pWB1IhG3Hy9grbHLQ6/Drg5U/cV5pxRFhcw0VnPaq0SIl6CZDOn1Efg1f59l67QcuAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795550241;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795550245;
 	h=DMARC-Filter:X-Virus-Scanned:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
 	 X-Spam-Status:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=zNz8lFaJHMduKJe09IyLfcNQ325aacH7F2sVzuh6mC8=;
-	b=HXWjqihFJRZnZ+AahAqpVFTZe+UkbbkIM9tPnWcFr4oMyA47aFrQx0Tg7y0D6jGlrJ1w
-	 7mpUSG32blXWOL3ws4s1T1ir1JlosEROGBd6hoV4sf2u1xPWoH+TtLa+XfKLCgdYy21wc
-	 yA8qirVyOJwiU3WMTMJSShV8WEIMrUXiP+x14Xracfb5EO2sEqtHE6m3Lyt1P7LcMJtz8
-	 vVLpXhV8sv1c609BEStURfPtgZjyKDFhdk3nUd8SV1ZjIbUvlD1e2SOFMUC1GleEYUYq3
-	 ggYtSSh+NMEA4Ye23CpdkleNSaAXv2T25DCikN+zi9MdTsH3Vs8R87id6tBKmX9i/dg==
+	bh=tjsRfHAMpyvSs74xFOVOQqIbTIQc0o7lGWQgrdJETlk=;
+	b=n6m8nq+9hjPdchsvbvm93S3DQndaUjrwTALO97vSkA+fK8ixj2633uep7yDHhfe2l3cg
+	 MFQbyyO0JJqULnrot37Z3SDgSBWxwQ9C+j+pUhOJmYYNtvX4aQ6p+YxcvtIpEXLT3Fwd6
+	 AyEW9Ogwj5VpHjtXSTIR04It1oPwJna+ugU9fo6jjeyTAYQPvrhUMyRpY9ZRPVNORrLVq
+	 HRJYCxCK/sgTsQjrBeuBD7VnrtaHrknX0vVJQvu2lVNKMGUVYSFWl/8wzkAj77RS2zbP3
+	 pnGmhkpb3b97qLTBl1Tn9HEE7kNqx9gBOyzjE/yNWbMr+jXXC8ycPIvHX/W4EJciOrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=asmblr.net;
 	spf=pass smtp.mailfrom=asmblr.net;
-	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=bUNQlo6Y;
+	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=sxQlW5oj;
 	arc=none smtp.remote-ip=85.128.243.59
 Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06161606A32A
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 19:57:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06161606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA3D606A32D
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 19:57:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FA3D606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=bUNQlo6Y
-X-Virus-Scanned: by amavisd-new using ClamAV (16)
+	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=sxQlW5oj
+X-Virus-Scanned: by amavisd-new using ClamAV (2)
 X-Spam-Flag: NO
-X-Spam-Score: 3.401
-X-Spam-Level: ***
+X-Spam-Score: -0.625
+X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
-	s=1706450368.internal; t=1795550231;
-	bh=zNz8lFaJHMduKJe09IyLfcNQ325aacH7F2sVzuh6mC8=;
-	h=From:To:Cc:Subject:Date;
-	b=bUNQlo6YgiyYbMl/hHzZcK+Bi/wxX5CD6aQtk+nLHaYUaIrrxlK3qpYda5pnKuz9y
-	 lnMGqaiGvXZILP26ykbXLcKikAG6CJS1y/QnDPsc3/xKwgQPpyP7aIbVNcd1uhkpXh
-	 iMmtja68PCO6jUtd64g5dqjB2xZEA0KyHwmiQd/oKBYnmNVb2Cc88fMt1asCLV4CC0
-	 NHaKHDkGJRPzFleLUWLTX46dG751VfHQGcMOne6LKStgo7Auegp+5yfrtjIidpmQGb
-	 q9gg9nHRIklXlbORtkxCpPEIgCGSfK3IFLF1N7VOTtDL08fScO0N8poSJwBeWnNCg8
-	 mPCtufeR/Z9Dg==
+	s=1706450368.internal; t=1795550237;
+	bh=tjsRfHAMpyvSs74xFOVOQqIbTIQc0o7lGWQgrdJETlk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=sxQlW5oj5m49Boj6fRpGimLIlvUlSzDBGZODy8/XCxNZi5Garr00KMsD3hChA79sr
+	 wzO0YljCf9mx1NwwupgQTx8BfpK59yBOHJN+lCqssTzeFa7n2ph+cQYDiAm8dMFunA
+	 wgTnELvmecIrjP7RC8B3MQstdH0WGgOwu+3fVSkYo6lb/YtcWCC5p+W3gOJylexuZF
+	 ZxzFVJq42iE1YcPyR8TluNTsOHQAaUgHrIJKEtm2M3L0da6tXa/04b2L523vGqeN1K
+	 S4Iak3tf4XX+1874eZqkVRIAuNypjpnMhL2+6p29LCEk1reVSmjHYUcwlQ0SoWlIIy
+	 iINYW+fbe8mQA==
 Received: from milkyway (91-150-220-230.dynamic.play.pl [91.150.220.230])
-	by server753313.nazwa.pl (Postfix) with ESMTP id 697871BC925;
-	Tue, 24 Nov 2026 20:57:11 +0100 (CET)
+	by server753313.nazwa.pl (Postfix) with ESMTP id E876D1BCAE4;
+	Tue, 24 Nov 2026 20:57:16 +0100 (CET)
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-Subject: [PATCH 0/5] ALSA: Remove orphaned prototypes
-Date: Tue, 24 Nov 2026 20:56:59 +0100
-Message-ID: <20261124195704.41649-1-amade@asmblr.net>
+Subject: [PATCH 1/5] ALSA: hda: Remove orphaned function prototypes from hda_local.h
+Date: Tue, 24 Nov 2026 20:57:00 +0100
+Message-ID: <20261124195704.41649-2-amade@asmblr.net>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261124195704.41649-1-amade@asmblr.net>
+References: <20261124195704.41649-1-amade@asmblr.net>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,27 +74,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Some of the ALSA code either declares functions that were never
-implemented or at some point were removed leaving orphaned declarations.
+snd_hda_schedule_power_save() was never implemented, and
+snd_print_channel_allocation() was renamed to
+snd_hdac_print_channel_allocation() in commit bb63f726f98b ("ALSA: hda -
+Use snd_hdac namespace prefix for chmap exported APIs"). Remove both
+orphaned prototypes from hda_local.h.
 
-Clean up by removing them. Build tested with make allyesconfig.
+Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
+---
+ sound/hda/common/hda_local.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Amadeusz Sławiński (5):
-  ALSA: hda: Remove orphaned function prototypes from hda_local.h
-  ALSA: hda: Remove orphaned snd_hda_get_codec_name() prototype
-  ALSA: gus: Remove orphaned snd_gf1_mem_free_owner() prototype
-  ALSA: sb8: Remove orphaned PCM open/close function prototypes
-  ALSA: emu10k1: Remove orphaned snd_emu10k1_memhdr_init() prototype
-
- include/sound/gus.h                     | 1 -
- include/sound/hda_codec.h               | 1 -
- include/sound/sb.h                      | 4 ----
- sound/hda/common/hda_local.h            | 3 ---
- sound/pci/emu10k1/emu10k1_synth_local.h | 1 -
- 5 files changed, 10 deletions(-)
-
-
-base-commit: 2321b0b895394124f25b40ab91681c5639e3e1fe
+diff --git a/sound/hda/common/hda_local.h b/sound/hda/common/hda_local.h
+index 8bd4497a6b09..61998cc35a44 100644
+--- a/sound/hda/common/hda_local.h
++++ b/sound/hda/common/hda_local.h
+@@ -616,8 +616,6 @@ int snd_hda_get_int_hint(struct hda_codec *codec, const char *key, int *valp)
+  * power-management
+  */
+ 
+-void snd_hda_schedule_power_save(struct hda_codec *codec);
+-
+ struct hda_amp_list {
+ 	hda_nid_t nid;
+ 	unsigned char dir;
+@@ -708,7 +706,6 @@ void snd_hdmi_write_eld_info(struct hdmi_eld *eld,
+ #endif
+ 
+ #define SND_PRINT_CHANNEL_ALLOCATION_ADVISED_BUFSIZE 80
+-void snd_print_channel_allocation(int spk_alloc, char *buf, int buflen);
+ 
+ void snd_hda_codec_display_power(struct hda_codec *codec, bool enable);
+ 
 -- 
 2.56.1
 
