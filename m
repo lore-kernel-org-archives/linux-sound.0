@@ -1,64 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.128.243.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1795550245;
-	b=x1CFiYAwdFrS1Mixxpk6ZDLHpIGoq+lymLHpZBxcMMw4HyKFNkMItsOj8NA8766QJDVr
-	 h/E+XTN2QAdF7y44tc50s7kFa0ZfKny3YzLMCw7AEx0J5+TmJs2/TdPu1WMwICnX2KYU8
-	 /3DnDFE4RS/R5MXJ31XqwT5HTMMSWt+ohkv91bH89lGirJUTSZlpmqy/F8rnnlcRM74uc
-	 U1n8UXqidFNh1Wb5+6efvynKAYq3Wg1rCdV4FLtHwuvTTjMClEDbciBuG5xCZR4+Lu7Oi
-	 pWB1IhG3Hy9grbHLQ6/Drg5U/cV5pxRFhcw0VnPaq0SIl6CZDOn1Efg1f59l67QcuAg==
+	b=Q3S608shkWaJ8oTFqN1iTaH3XhsJ65RqPilzw9xgX2MRbZwfJqNavFACxCXxdgvtisQw
+	 uVmHWR/zLXC4xshutCQOMT0L7KHyT685tve+cDl8VXz343dyx+J5fZRf1zIdNS6x0J/cd
+	 IwH/7rF4Q4pWQgxz5K7FTNc/pno9aAE/tyUQ9xNhiFEvWUqhtIuX1rP5qn/kghVVxgx58
+	 GeZV/88c93zbiRsf8Nef/qKHRAZ5WEvJh/dfJWu/TKg8Yvt1AhbMoob+rg0QFP5PpBTjE
+	 niqJfYy0+9fs0pLyS3MDZvVJo1dNSdW0nWPKwZu7bIGnt68wU2vm0ySTnGMFngPm40w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795550245;
 	h=DMARC-Filter:X-Virus-Scanned:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
 	 X-Spam-Status:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=tjsRfHAMpyvSs74xFOVOQqIbTIQc0o7lGWQgrdJETlk=;
-	b=n6m8nq+9hjPdchsvbvm93S3DQndaUjrwTALO97vSkA+fK8ixj2633uep7yDHhfe2l3cg
-	 MFQbyyO0JJqULnrot37Z3SDgSBWxwQ9C+j+pUhOJmYYNtvX4aQ6p+YxcvtIpEXLT3Fwd6
-	 AyEW9Ogwj5VpHjtXSTIR04It1oPwJna+ugU9fo6jjeyTAYQPvrhUMyRpY9ZRPVNORrLVq
-	 HRJYCxCK/sgTsQjrBeuBD7VnrtaHrknX0vVJQvu2lVNKMGUVYSFWl/8wzkAj77RS2zbP3
-	 pnGmhkpb3b97qLTBl1Tn9HEE7kNqx9gBOyzjE/yNWbMr+jXXC8ycPIvHX/W4EJciOrA==
+	bh=a/1aRVFfXrk4XHDK49g903zIytRh8k/Pb/SPKnjKhpk=;
+	b=y848p6OCqa86CrO4UnxVxv0SUbcWIsIl8bMJIcP3yp7PIW0pRkUld6RfuzMrpF8gd9/X
+	 0R9IuPJ8KanORodpE8hyXZmqcxp1uqE7/n4RT9amFpqoSff/QiDTSsQ5zhR6LTH+oUmaf
+	 l+RaqLAUs2t5CyeG7WTNcAYZl6xpzKRsBXx8fi2SlL9vN5UhpjfsctRZ+6q2CDYG5i/Yw
+	 pngIKvAy6Yh8ig3rcu/uInlGUmYT70Y1rA7prI4VUmdk3xHsRHS3hfv6/i066hX+uEV7V
+	 czmV3WefoyMDcVm/r4ZFmAYVwP2EGE0w87UwHtsf+qw3HTohyktNyz70RCkGuS06wfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=asmblr.net;
 	spf=pass smtp.mailfrom=asmblr.net;
-	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=sxQlW5oj;
+	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=SCKFj3Pr;
 	arc=none smtp.remote-ip=85.128.243.59
 Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA3D606A32D
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 19:57:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FA3D606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553DE606A321
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 19:57:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 553DE606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=sxQlW5oj
-X-Virus-Scanned: by amavisd-new using ClamAV (2)
+	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=SCKFj3Pr
+X-Virus-Scanned: by amavisd-new using ClamAV (17)
 X-Spam-Flag: NO
 X-Spam-Score: -0.625
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
-	s=1706450368.internal; t=1795550237;
-	bh=tjsRfHAMpyvSs74xFOVOQqIbTIQc0o7lGWQgrdJETlk=;
+	s=1706450368.internal; t=1795550242;
+	bh=a/1aRVFfXrk4XHDK49g903zIytRh8k/Pb/SPKnjKhpk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=sxQlW5oj5m49Boj6fRpGimLIlvUlSzDBGZODy8/XCxNZi5Garr00KMsD3hChA79sr
-	 wzO0YljCf9mx1NwwupgQTx8BfpK59yBOHJN+lCqssTzeFa7n2ph+cQYDiAm8dMFunA
-	 wgTnELvmecIrjP7RC8B3MQstdH0WGgOwu+3fVSkYo6lb/YtcWCC5p+W3gOJylexuZF
-	 ZxzFVJq42iE1YcPyR8TluNTsOHQAaUgHrIJKEtm2M3L0da6tXa/04b2L523vGqeN1K
-	 S4Iak3tf4XX+1874eZqkVRIAuNypjpnMhL2+6p29LCEk1reVSmjHYUcwlQ0SoWlIIy
-	 iINYW+fbe8mQA==
+	b=SCKFj3PrSFVs1BPxjsfzz/VOhUIx7D7JUac2Z4rT09Lgd0SP3i4MReiFawhbSQINc
+	 t7fKI4SJHkYXj2c8SWbHvm2TVUnnDul2FBB1swRl9s6eWNbMxwsjiR4lZOLxJM4oUT
+	 t1Gn8K/3F7LhBOQX6OeZHZoMP/1zvl5E/h4mHSG1IgPYsD5WAJWD/sF6IMb3730dvg
+	 DuHrwhwccbJV8YqMNLeJOUhN5bOX2Om/L1F3DiwzA2YjUbctnDe6iCFMRO4bWKqZ/6
+	 vifIW63wQZSrPeSGpf9s42qaTEpSutYSdaW90qs1AepH1/MetWJpLZlc6TeIdfO+j4
+	 euIwtkchhfQOg==
 Received: from milkyway (91-150-220-230.dynamic.play.pl [91.150.220.230])
-	by server753313.nazwa.pl (Postfix) with ESMTP id E876D1BCAE4;
-	Tue, 24 Nov 2026 20:57:16 +0100 (CET)
+	by server753313.nazwa.pl (Postfix) with ESMTP id 711EE1BE90A;
+	Tue, 24 Nov 2026 20:57:22 +0100 (CET)
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-Subject: [PATCH 1/5] ALSA: hda: Remove orphaned function prototypes from hda_local.h
-Date: Tue, 24 Nov 2026 20:57:00 +0100
-Message-ID: <20261124195704.41649-2-amade@asmblr.net>
+Subject: [PATCH 2/5] ALSA: hda: Remove orphaned snd_hda_get_codec_name() prototype
+Date: Tue, 24 Nov 2026 20:57:01 +0100
+Message-ID: <20261124195704.41649-3-amade@asmblr.net>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261124195704.41649-1-amade@asmblr.net>
 References: <20261124195704.41649-1-amade@asmblr.net>
@@ -74,37 +74,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-snd_hda_schedule_power_save() was never implemented, and
-snd_print_channel_allocation() was renamed to
-snd_hdac_print_channel_allocation() in commit bb63f726f98b ("ALSA: hda -
-Use snd_hdac namespace prefix for chmap exported APIs"). Remove both
-orphaned prototypes from hda_local.h.
+snd_hda_get_codec_name() was replaced by static get_codec_name() in
+commit f44ac8378d3d ("ALSA: hda - Allocate name string of each codec"),
+leaving behind an unused prototype in hda_codec.h. Remove it.
 
 Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
 ---
- sound/hda/common/hda_local.h | 3 ---
- 1 file changed, 3 deletions(-)
+ include/sound/hda_codec.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/hda/common/hda_local.h b/sound/hda/common/hda_local.h
-index 8bd4497a6b09..61998cc35a44 100644
---- a/sound/hda/common/hda_local.h
-+++ b/sound/hda/common/hda_local.h
-@@ -616,8 +616,6 @@ int snd_hda_get_int_hint(struct hda_codec *codec, const char *key, int *valp)
-  * power-management
+diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
+index 084f06488a95..c68a0076d42c 100644
+--- a/include/sound/hda_codec.h
++++ b/include/sound/hda_codec.h
+@@ -479,7 +479,6 @@ int snd_hda_attach_pcm_stream(struct hda_bus *_bus, struct hda_codec *codec,
+ /*
+  * Misc
   */
- 
--void snd_hda_schedule_power_save(struct hda_codec *codec);
--
- struct hda_amp_list {
- 	hda_nid_t nid;
- 	unsigned char dir;
-@@ -708,7 +706,6 @@ void snd_hdmi_write_eld_info(struct hdmi_eld *eld,
- #endif
- 
- #define SND_PRINT_CHANNEL_ALLOCATION_ADVISED_BUFSIZE 80
--void snd_print_channel_allocation(int spk_alloc, char *buf, int buflen);
- 
- void snd_hda_codec_display_power(struct hda_codec *codec, bool enable);
+-void snd_hda_get_codec_name(struct hda_codec *codec, char *name, int namelen);
+ void snd_hda_codec_set_power_to_all(struct hda_codec *codec, hda_nid_t fg,
+ 				    unsigned int power_state);
  
 -- 
 2.56.1
