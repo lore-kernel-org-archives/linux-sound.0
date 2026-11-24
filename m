@@ -1,100 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.40
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795514905;
-	b=CYWdMZM8Q0qH0wtnZNPRCVng95P7BV6Hrx0Fn8DQW87C0yuw1Zv8TfvDFKmEb2qLUJrl
-	 IRp7WtUbhvCdNlgML1nbflBLh/rCs/thSJavx5lyBa5jS247VeC/FY82XTGxJu4kg5uit
-	 zfcmTa1MPa7QgAF8qydJodUqF32LvUH7mOosFfCuvTXB/kX9EOZpT8Fcn+2dwNKXsIO85
-	 VqLBN+l1+m2mvCg9Q7M4Cw3yq/IFl3VTD4gUb9di5UcEqwdOyfKD5w1uJAogt1TVLOueX
-	 FyS50MA9nkzFwCJPwyFZhpH/HrzoTtSFBlfeJ9jndtsmoR/hK3/qVuXXxyYEgNvaljA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795514905;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=ydAkCzQVW3vxcVNGFXdG1l7FB0M6jVcB3e6F3muEVnE=;
-	b=DD5XY5WDhr5PtI2YyHdYSAf2QZD1YyCq+BNqetYa01nZ3OP9i5WGdfxplPVj/i8lzxAs
-	 MT1Rf1JxtKp9eyX/7hnUYp4zFhXRbOtFbeshXVP4buzALr/viUsXoqX1crIWimKABP7Lb
-	 m2VD2EgaLj2g1qlTV3IkYwqsudmFbfl/6gJUv5zOvA3VJMX9ioJWQHQDBp0+bNug5M4rx
-	 TLAjpEe1sZhBgDyN4GkA67t6UGx7x25rU2lahc1xqBRd+EUf9wq3UJr2o7FfEtDxPJ1w1
-	 P2NI7xKO/rcwUoiSNV+T0YVEpX1/Glf2Y1NG08dyMQ/0lvKnz5y7evejRXB0f/nqkJQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Qa0Ctc6m;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.40
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010040.outbound.protection.outlook.com [52.101.85.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795516788;
+	b=Dx82du9ZbaZzDaQP8JJfkm+CJxe8iBcCRCc6XySyuNk6AfqvfJkBC8na0yCjrp3FKQCj
+	 kafPJkOJXENxQZ9zQhc6LAzQIUNIPt3kGfZIhrfYO8f+6FuASE/0eDS9LaA40T4kGbUbM
+	 sQk2n/Jcq4ZTt85xQSo5p9mt77tPo4diNcR3GzPTLCtubxvFqxX7Zc2fyuAFhxY2so9v8
+	 YkiA2tjjKwI5IZ9R1OJYbvlVCxH0kpjDBaQPWY4CSMEZqx/gGBLyBluQQ7tVpcRXnRusZ
+	 3wyAdwB6xoF7Z3wZh9pYpu33G7Da1YeQBz6vMo18TT3gSSNfFbTR1hBrItjDEdRGyAg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795516788;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=i67A04/jloiIm4Idm3ymNHqESyF+RQsVbnS4UKmnxA8=;
+	b=XBW7dLcSaAUE1oE+r/pmPtzM8xpL81vSj+d9U1n2IupHpO3g8oMR+SqmLU2fPHFwyQ4d
+	 PC2ymfzuoQFK5BbEVESn9AWt2p0MVAHu1PYEzXPyj0I7St48S8vpvqfVxghi7JDLI503h
+	 r0PNpAgzljH9f2VfK+xxWKFtvYL9RTgdQzwd2i1Qbr9QKjDLyms/wPHumVO3Sa4K5xKpf
+	 5aLDaTeJccyOZE0UVX32cokpiegWVv9IyIjpZXO+Gfu38fzcC+JZHuHsM1J3hL8p43thG
+	 m/HGgQaNTJK0wl3OMFCfr6Pq4ZB0kGzVzyl0PfdFhi6BP5AD1R5S9cUYPO/3nKMaVew==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=KjiX7YWe;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3A1606A681
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 10:08:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C3A1606A681
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D25606A32D
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 10:39:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28D25606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Qa0Ctc6m
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FJtpmm4CYt09D4+xobH9r4muL/1tiarn5U5wKsbk2oCqJFkmxx4HSe7oREkJZl4Ro2hEOg17sHdiZEGv0AM18gs3/Ke4QvBK15A2EiXWFgdPhfQU+wGTb/HI+RIB3z1KlyVr6rYIOfk5s78dEtuKvso+HBVIoWhIF3p8yMroXRMvxW+tqlA066Ir3ffrg9ND1jW3tFiTSgTUdg5rdk9oHFTkt8UiwEYXS/aGMqTiFa+CXMIBXzwfP+RuXw8DHxnqyBohBlmUeBhFQ0f61x8g0bEn+Uk/ajBa9Xmi5xZKn8n0IL3bKlbgvWR5GKA+Zx6hRnP7LcnUKn9E0qiGJn/nvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ydAkCzQVW3vxcVNGFXdG1l7FB0M6jVcB3e6F3muEVnE=;
- b=FIFm44bh1srzma4Z2uyDggt8AX1X9drF+G6tao/PibRcKA4b+hRmYqpXZB+XLYM0kkyVLuN/V3GFAOx4Wf+/TlXzkgdiLktVcSxRYJrYQ/XdbQPjGPBQ1N/gfw+B3JFOVQnQDc6egzWoijRXh++zauoT2og5OPS2cg0xL8iO06yheJyVUvvuTdlKted62FqvUdWLzf5VX1j0XF4OQ1CoSFxxTigijEN847lV4lYfeb3jpi2e/9fmp+19HEqgJ1f+++xG8yxMgM2fouvyrDLvbv4vwsgQSgDkHehwrQSZu8h5Qp+As0CUJ9wqsEHCwq9qLOTxZUiClr/8vp0PaeXzVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ydAkCzQVW3vxcVNGFXdG1l7FB0M6jVcB3e6F3muEVnE=;
- b=Qa0Ctc6m4XCySk+x/533J1PMPeQBAhLgjCk0hxjKwukMf6DwzJ/qjvt99LnW27zGDh6UoEyQFbNlR8MclRnxVc1ObUMVBo0SdlOQQaqAXDG48InQldGaVmTPf26lDDcszssgJUSNctBoU/uFN0q2xoQvK6O4YO//Ie83lphBepM=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by LV2PR12MB5752.namprd12.prod.outlook.com (2603:10b6:408:177::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
- 2026 10:08:18 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 10:08:17 +0000
-Message-ID: <ed163b17-37c4-4dbc-9f1b-40fde4192206@amd.com>
-Date: Tue, 24 Nov 2026 15:41:11 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 16/24] soundwire: amd: fix *sdw_ctx leak when
- sdw_amd_startup() fails
-Content-Language: en-US
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, "vkoul@kernel.org" <vkoul@kernel.org>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Venkata prasad Potturu <venkataprasad.potturu@amd.com>,
- Syed Saba Kareem <Syed.SabaKareem@amd.com>, Poojitha.N@amd.com
-References: <20261124085033.682755-1-Vijendar.Mukunda@amd.com>
- <20261124085033.682755-17-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-230792@kernel.org>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <sashiko-outbox-230792@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5PR01CA0285.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:21b::6) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=KjiX7YWe
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb61185057so28148675e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 02:39:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1795516786; x=1796121586; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=i67A04/jloiIm4Idm3ymNHqESyF+RQsVbnS4UKmnxA8=;
+        b=KjiX7YWeSkA9Dw0WA5xjWaOqnyEHCedD00sUzMhE3sKEAvQ2TPIHmIyS+enWPn9hqU
+         UHnNtz+vsI9HdnLLJLRNEHpW3n0qDPjDGGb+MMmUEkY4+DtknEToZAEEAwd6ErlDRM4U
+         sl6ks9V8P+KgBQBXge6XtIwqjU1IX32GeqDZpfsQ5053CJLA98ICyRMFUcjrF7GwSx6y
+         mLBhDMnek6X1+TiwUBOkVQB80sS1Z2oue9zDTiR4H+wlMmpVb+6EJ+EZoBBfGsOtxa1G
+         85CHt1w3B0RFKCYDolOV20zywTKINPHyMkeAAvRZwyufXjasNY7vVq1oJTMaEgpAJPJ9
+         588Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795516786; x=1796121586;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=i67A04/jloiIm4Idm3ymNHqESyF+RQsVbnS4UKmnxA8=;
+        b=km/Zu2h4H+y5HM6yZLgytiF0w/6inC04LDTG9hSMcnEt7A3us3VZ/U29bVyN92RoYs
+         hygA7E/xjBitgYZIl9irvkJ+L0He6UO4h4vLSmszvIqGIRM0UHyGZiytv5P8dt+yDFLk
+         dB6h005vMXT+QdYAJBz/Zl7l8jS0Lnd+d5pLr2fz4UN6Xp99p4YyQHQfOSKfsDpSXlgj
+         HQcZLC+DZmVK8kKQ6wsGUS+gtNHPdNvKz9I0MXjcU5goNHKyxEs6C4Jw+iQMvI/C3wu4
+         SISA/9oYe07JRohCpu/nLfkE9zN+e/kizo192+7JzJ/jA8+sIs+eVfK6jnAMLfYBYu2e
+         6pag==
+X-Forwarded-Encrypted: i=1; AL+hErEsAUwauwTIABNTrGgQmUsINrKnJqkFP8G796iw5g5fBJ408ZtrLXKWc38El374yZTqMmsFB7wcTVYTLA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/U0bnPFaGvw4Qb/GcFRhlzPZgOEWXmfclzdNXI2L/A18n5N6+N
+	zxvr2KTweWUcP4nfTz/JklTT+uweAbOwGEpoyuXXCBuHkwAp3Xa7wxJiFYbg66ctPwk=
+X-Gm-Gg: AZFdTZd7pLL2My/6kUSqAJ+z44l37OLcB+a1bgxTX4bjWnkXAbnHKOplMK/rG7WYq+W
+	/MVePQgdhGSR5eFKcOAysnylIKVsn/4fpwuvTgmsd3xQXzO4CnldKl5qecjJIG62WJ8wmhV3rZo
+	05NC0SRyMSHtusbEeak0JUpV6TuX0MhdHaG31/4suCfMJeQJxjNxb05EqMnuZgCpQO6nMfiwISM
+	JBttLuDWcsX6cSioSy92l8PkBNNV2mF5qhF+vpq6h8DAqIC1NBDGT5EVEMjeQEFhJxK7dDqcCJg
+	K3lh+keK93OdkTeryw7Clnn/rEGnuTuCnOseS5Td6/YCyA8IL4CK+b6rHxXpTUlpprMHNT21QP6
+	45kri5WOrqvgmka3dDcQrXlkcl8UPXaiC8TDOWBpwHXbyQiDeprHfao6ZBL6NW3/YOlzPSKEjl7
+	y4g8K8ww85gicnS+0Bm/r6CJEKWykjcbiKENZud7KDDLQivtgISrPcQxnULx1BW0usbT5QlkA6+
+	Ia/xMYhAZ1DLxPytl9imihQTVUZcV+hRHMdKAgaDo7CtFwwNxM1YutlwCF3uFM/ZnE+AJS9SLEK
+	yZPaX46rASdgSLTvcIYZiwrss5klbHf2hguRYqdXLiOoxXAafX0ZoytiBZckbehsjYFf
+X-Received: by 2002:a05:600c:64c8:b0:4bb:6848:d433 with SMTP id 5b1f17b1804b1-4bb8881d141mr281064655e9.26.1795516786433;
+        Tue, 24 Nov 2026 02:39:46 -0800 (PST)
+Received: from ?IPV6:2001:a61:132b:a401:6cb8:7c28:11e1:499? ([2001:a61:132b:a401:6cb8:7c28:11e1:499])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b2c5sm425218335e9.5.2026.11.24.02.39.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 02:39:46 -0800 (PST)
+Message-ID: <65749362-927a-492d-8bff-573c277fe456@suse.com>
+Date: Tue, 24 Nov 2026 11:39:40 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,174 +92,67 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|LV2PR12MB5752:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffe866ab-2de2-4fb4-47ae-08df4a12dc37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|10067099003|261021121427099003|261026121527099003|4143699003|11063799006|56012099006|261022105027099003|261022075727099003|261026140227099003|261102123227099003|261028144727099003|261102130727099003|261009223027099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	FSEiJSohr4iMVAJdDARkOfhrAu/rhye3JIa4xXFD0UkJf7rI4Acj6FmXg94WB+9tH2we+tFFSXeZYIjSLB2NB95oozTt8+9Qz5AOPcXQ+AEwnIiMsWaWfGg2Dqqzedc3u6acnlbmyJU73qCA/gJzdbSTIaOy1z2bPlBSaYzLn+HzAGHsW2XKRPaA5MiWCfrZiO8U1hJ/2Z+HcsITokJ7W+pSHIycFhd61zvc+pLP40w5ifm/vWXYmzCdIMXyrvOwoS+yg3nYOHiB780uAEKyxB6MGR3AsDzYrh4jFYRvwnlPLa4qsqr770YYqmpHZXYTAyQXvclSV6piy32bDSBOozbJ/xIb4boBjPA2c01rO9ZTzypEtiLmvAUdAdTxwVm9mdf/cXHhQZBFqPUGeTe37f+zG+yRlXxUF+eZfy95WY8Hn0MNXgbvuXFO05vlCIESXW63jNzpeh5uilzwXqfdtMLcjDRFBQJwXCs4DNaxrNpyhx2PFzLvflZ5hufvxNwG7jvQSABzWzS91WSqBxf0L6rogMf+UZvsPzmUudMk7L9BZWttrg0UIS9TBhZBdu6l9AlSttCzH9QZ0m7//RNNE+YtxE7s+ilBm8EO1krEExGNSLTVMvALOW2oxxcB9Kgs/cud0XScO15D+p4wpYQxrEU/DwIsqQ+qJZcUfLjbebU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(10067099003)(261021121427099003)(261026121527099003)(4143699003)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261026140227099003)(261102123227099003)(261028144727099003)(261102130727099003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K0tQQnJGNzZZM2VSWHhVMnhJWXUzaHZ6L2FQYXRNQUoydm9RK2xyZkQ2ZVRQ?=
- =?utf-8?B?bUo0QVZDYjQwUllJY05wTStDWUZoZHFGZHhWTWJreTVPZjBtcExJR1hjbVBE?=
- =?utf-8?B?UUJ0c1J5NHJudEhjTCtQbEZoRWpPcS9HbW5OdFd4Y3JVS0diMFZnN2VOWEI2?=
- =?utf-8?B?N2VyVS9sUExUVnhRTzJUZmZmYTF2d3JiZVBzNTI2WGJUSEYvU0lSVXRXZDBi?=
- =?utf-8?B?dlBOSkkwWFJqMVVPZ29XeURnS0k3S0xHL2VxSThVUGVqRG9UcjJtenhVMXpv?=
- =?utf-8?B?M2ZRSlNXNExvS25Jb1VHLzN5MEY0WHh2L3F5aUwxdFRRdFNXOUxjc2xoZ1Nr?=
- =?utf-8?B?aEpmODlSMC9FOXZlYUswUjlJazdreFF6aTIyRHhST0I2V2VaTHJWRjRhYUVP?=
- =?utf-8?B?bjVwRTVCTm9wL3kvUFJDQitNdTZ2MFN2WkFNZkVzZGV0eTFmRUd1eEV4N1JM?=
- =?utf-8?B?VzFqdFFpUThqb0FKTEw4L2V0YlB5UWFBR1I0cWhEc2xCYVZXMk9SUEhjaGhX?=
- =?utf-8?B?Z0Q5RW9KQ3JiRUNSa3BLZ2xuT085Rmt5c05HSHBTWDJEVlRLaGF6bm1xL3ND?=
- =?utf-8?B?dDArUTAyYmpSdk1rRVdYaDlKZlZVZzN5RkhUN2FPa2FHOE50dGVralRaMWJu?=
- =?utf-8?B?d0pRcUk2aGJHQUN0ZnlKYXNPOVBLQ0tjRFJKRkY5QVE2M01RS09zcnllNURx?=
- =?utf-8?B?eDNkUGJTSks3K1RiaU95VHNxV0RHdDh2Y3BsOGJyaVVNeForMVdiNUUyM1V3?=
- =?utf-8?B?QkpHZkZuY0xrVVZkR1RTTDcwamF4N1EvZHAwNUVKN0NiUFU4SWl1MDhPT0dU?=
- =?utf-8?B?b2o2Z3RFeXJJNGtyUlF1OEpJbS9WNzZmVm44bm1PbXFLT3ZiNXl3Z0kxYlJ2?=
- =?utf-8?B?WmwvZUNHNVhmblkxelRYYVdLV1JrTWtXbEpjR1JMbnkrY1dubWt1bDdjZXRT?=
- =?utf-8?B?K2FPWENFN2JGcUY1RHF0VGo3eTF6K3VkK2ZHNkZmUkF3NEJaUE94cWFJSW5Q?=
- =?utf-8?B?NFJYaG44a0ZKaVdXK01INWN6bERYRUljN1d5VkcrTW15eE4xMngvNlJvVGR0?=
- =?utf-8?B?eFN5WXVRajBKamp1NmUvcWJXQTdYUHlPM2hCOEEwVmhhaVArYmNqMkl4WXEz?=
- =?utf-8?B?ZWs4bkMzYmo3T0FBSkNSTTJxTzhTWjEvUWlpYkV1aWkrVWdwbVFiLzZVYWF2?=
- =?utf-8?B?M21ZRm1NdFZONTlSRUJDeVZ6eitOS3Jpb2sva0xXQ1dqVlFEZHBSQ0VTOFdp?=
- =?utf-8?B?WWRaWmlCcVF0aGg4U1hVTGFVZVVMWkpkQUZ6akcwMlp3cVNmc0QyRzMwRWJN?=
- =?utf-8?B?YXg2bEEyZHgzZWp1aTFDbVBuVE96WU5MdVFxV1dHV0tYUk5ZeHY5S1dGZVJh?=
- =?utf-8?B?anBqR1pXcXFrNUtoTVBqOEJDR1FEYXFaamxaSHhLSXdtc0s4ajViN0JiWmdp?=
- =?utf-8?B?NkkzUVNSVStaRlFXam1tM1JQd05tMHhjYUFXR0F2UzFhcjhNLy9BU2xEWXp0?=
- =?utf-8?B?eDhYTjBxemc3R1FhbEJCaGVnRWJ6czNncngySFhyU25aaEZBLys1UDVhQ0VX?=
- =?utf-8?B?MkdnMkJrN1VpQkphN1lrSms4d2tFdmM5WmZ4aUY3M3hqWmp6V3FtRzlERTRP?=
- =?utf-8?B?NnIxYWwzMEtRZmVEcXFtcnU2RElpWmUyWFB3YjRxV2hrRGZ3R1ovVDZONWhU?=
- =?utf-8?B?clpKdUc0d2QyQmtvVW5KR0pEdkFFRVQ0ZFZLVnV5Rzh4enkzUG5CY01XTHM3?=
- =?utf-8?B?S2VBZVhCU3BMWkF1N3BNbllpeEZJSHpLdlBHV2F3ZnYrY3A0RjkrQkdMVTJ3?=
- =?utf-8?B?N3FrS1pVc3hVZmozNjdzbytNNGlCK2p5QzZNS0M5U1ZBY1VQeFpCVHZwa0Jp?=
- =?utf-8?B?YnZ5elJwbWQ0NktxUXM1V29oQUdnQTZkUXNnRGY1b0NTVmlLOG52U3hra0Ir?=
- =?utf-8?B?eXZHYmNld0FHbStPUGZjczV5ZFI1YmthTEtGRFZYakF6cXlWeGNFUUFaejBP?=
- =?utf-8?B?cWlqS3E4SkRQQVB5eWJHM1VtWUdaeFlzSGJWOWk1KysvSEFjWVd6UFlsNWpF?=
- =?utf-8?B?cXEweVZ0R21hYmNKNnFuTjlWRkJTbWw5SlB3MldsbUUyWkFxN2JFek9NRU00?=
- =?utf-8?B?THYwLzZDWEttN2tWejB3Q0w2MVBrelk2RWw1SzhnVkVCQ3JUYW9yNkNPV20y?=
- =?utf-8?B?dHI0Z2hVR0hGRTI2MnZodDNxODUyVHVncmtXQTVtLzFrQ0cvUnpoaEY2TTFI?=
- =?utf-8?B?QUxma3BtcUswT0R5WkNvbEkvQndFdXo3ZGNPek0yWXF5Q2dPemZjUVZoNTRN?=
- =?utf-8?B?a0tuaEpyZUVMdzhIZGl6MFk0K0lhK1hmU2E4ejV0Q2NFbllad0I0UT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffe866ab-2de2-4fb4-47ae-08df4a12dc37
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 10:08:17.8475
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vQyJFyrDk1QNb1KHj4JciDxrnjstBlVyPC1z2TnuyOIpFBZwBN9VEbvng16HvCBAcUhtDM5v9SxBZLL3MLgmww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5752
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/33] Bluetooth: btusb: Fix MediaTek ISO claim locking
+To: Leon Romanovsky <leon@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
+ Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+ Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Cornelia Huck <cornelia.huck@de.ibm.com>, Andrew Morton <akpm@osdl.org>,
+ Jeff Garzik <jeff@garzik.org>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, Bart Van Assche <bvanassche@acm.org>,
+ Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+ Dan Williams <djbw@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+ linux-coco@lists.linux.dev, Alexey Kardashevskiy <aik@amd.com>,
+ Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+ Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+ <20261124-device-trust-core-v4-2-037eb0d17b1f@nvidia.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261124-device-trust-core-v4-2-037eb0d17b1f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 24/11/26 14:41, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] soundwire: amd: race with hardirq handlers on
->   sdw_amd_startup() failure
-> --
->
-> commit fb658db6de398fb5ff736ed8e17029fdf853a4c4
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
-> soundwire: amd: fix *sdw_ctx leak when sdw_amd_startup() fails
->
-> This commit cleans up the allocated SoundWire context and resets *sdw_ctx
-> to NULL if sdw_amd_startup() fails during sdw_amd_probe().
->
->> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
->> index 8019a4faeae5b..50e487e409a9b 100644
->> --- a/drivers/soundwire/amd_init.c
->> +++ b/drivers/soundwire/amd_init.c
->> @@ -182,11 +182,21 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
->>  
->>  int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
->>  {
->> -	*sdw_ctx = sdw_amd_probe_controller(res);
->> -	if (!*sdw_ctx)
->> +	struct sdw_amd_ctx *ctx;
->> +	int ret;
->> +
->> +	ctx = sdw_amd_probe_controller(res);
->> +	if (!ctx)
->>  		return -ENODEV;
->>  
->> -	return sdw_amd_startup(*sdw_ctx);
->> +	*sdw_ctx = ctx;
->> +	ret = sdw_amd_startup(ctx);
->> +	if (ret) {
->> +		*sdw_ctx = NULL;
->> +		sdw_amd_exit(ctx);
->> +		return ret;
->> +	}
->> +	return 0;
->>  }
->>  EXPORT_SYMBOL_NS(sdw_amd_probe, "SOUNDWIRE_AMD_INIT");
-> [Severity: Medium]
-> Can clearing *sdw_ctx and tearing down ctx here race with the parent ACP
-> hardirq handler?
-No code change required; marking as false positive.
-The specific NULL pointer dereference concern — acp_irq_handler()
-(sound/soc/sof/amd/acp.c) accessing adata->sdw->pdev[i]->dev when
-adata->sdw is NULL — is directly addressed by companion patches already
-merged in Mark Brown's ASoC tree:
-  34ea81a7f284 ("ASoC: SOF: amd: guard adata->sdw dereferences with
-                 NULL check in IRQ handler")
-  41e06aaef9c0 ("ASoC: amd: ps: guard adata->sdw dereferences with
-                 NULL check in IRQ handler")
-These patches add a NULL check for adata->sdw in acp_irq_handler()
-before accessing ->pdev[0]->dev and ->pdev[1]->dev. The interrupt
-status register write (snd_sof_dsp_write() clearing ACP_SDW0_IRQ_MASK
-in ACP_EXTERNAL_INTR_STAT) is moved outside the guard, so the ACP
-interrupt bit is always acknowledged regardless of adata->sdw state.
-This prevents the hardware from re-asserting the interrupt when
-adata->sdw is NULL.
-This patch sets *sdw_ctx = NULL before calling
-sdw_amd_exit(ctx). After *sdw_ctx = NULL, acp_irq_handler() sees
-adata->sdw == NULL, acknowledges the IRQ, and returns without
-scheduling any work. sdw_amd_exit() then frees ctx safely because
-no IRQ handler can access it after the NULL check.
-The STATUS-register pre-clear argument applies to the sub-case where
-acp_enable_sdw_manager() itself fails: STATUS was cleared at gate-open,
-the manager hardware never started, no PING frames were sent, and no
-peripheral can set STATUS bits. The companion patches cover the case
-where manager 0 fully started before manager 1 failed.
->
-> The callers of sdw_amd_probe() register their PCI IRQ handler before
-> probing SoundWire, and amd_sdw_manager_start() unmasks manager interrupts
-> in hardware via amd_enable_sdw_interrupts() before
-> amd_enable_sdw_manager() and before subsequent managers in
-> sdw_amd_startup() are started.  If startup fails after interrupts are
-> unmasked on a manager, the IRQ handler can fire while sdw_amd_probe()
-> clears *sdw_ctx (adata->sdw) and runs sdw_amd_exit():
->
-> CPU0                                  CPU1 (<hardirq>)
-> sdw_amd_probe()
->   *sdw_ctx = ctx
->   sdw_amd_startup(ctx)
->     amd_sdw_manager_start()
->       amd_enable_sdw_interrupts()
->       /* startup fails */
->                                       acp7x_irq_handler()
->                                         if (adata->sdw)
->                                           sof_acp7x_handle_sdw_manager_irq()
->                                             snd_sof_dsp_write(...)
->   *sdw_ctx = NULL
->                                             if (!adata->sdw->pdev[instance])
->                                               <-- NULL pointer dereference
->
-> If the hardirq handler instead loads adata->sdw->pdev[instance] right
-> before *sdw_ctx = NULL, it runs unsynchronized with sdw_amd_exit(ctx),
-> which unregisters the platform devices (freeing amd_manager without
-> waiting for in-flight hardirqs) and frees ctx, allowing a use-after-free
-> or scheduling amd_sdw_irq_thread after cancel_work_sync().  In addition,
-> because *sdw_ctx is cleared before amd_sdw_manager_remove() calls
-> amd_disable_sdw_interrupts(), any SoundWire interrupt arriving on ACP7x
-> in that window sees adata->sdw == NULL and returns IRQ_NONE without
-> acknowledging the status registers.
->
 
+
+On 24.11.26 10:43, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
+> 
+> MediaTek ISO claims are performed from HCI setup work outside USB probe.
+> Locking only the interface does not protect the claim against teardown
+> of the parent device. Unconditionally waiting for the parent lock can
+> deadlock with disconnect while it drains the setup work.
+Hi,
+
+your patch raises a question. Can usb_claim_interface() ever be
+used safely outside probe() without this kind of locking?
+If the answer to that is negative, should the locking be integrated into
+usbcore?
+
+	Regards
+		Oliver
