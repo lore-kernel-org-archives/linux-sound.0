@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620160;
-	b=dg9cSaT+DuR3weG4sgStvMeuYkaFM234w1Zr5EBbud2LS1tNmSjnjrD+Hff++6d/r6W6
-	 rPgMieAqab2cC2+kwUeTaNn6sOPgb1+Gprt9NJeVbJufYPTsigUYEXR84t+cbocoz9NdK
-	 jV1s1T60o1QKWa7h+KQX65eloIC766t20UCeC8JvIJRgwLTe8M7aihjr4SgqmkyLiDkyD
-	 JM+eZfDGhmi9ELR+bQHImIndKQJe8DclTuvMdyLRykGVYXG7x7WF/r72Mu2S0N0TzAWyM
-	 nFLvWGP+CRfCeJBXkD0NG32O3PesW39ttQILXp8IcFXRV5UYccETlU78vr/5iTXJ2lA==
+	t=1795620165;
+	b=09HnmNJbenxDmIEJ+hj1wxldF4o8lEsp09Y0Iqudp5VH4FzII4LcyPn6km71o+YNLSwX
+	 hW1gLAOyL+b15D7C3myZf4Hgiz/2jinS1OfYEnCdtOnaKHLQqfCORYnG2V7YLGJjaNQwG
+	 p6mN84eD+Q0KkwLDnngtGET60b1Jbj6nXnG3FBDvozxrNP4EM5K9cpfco3il+3MPzrBtx
+	 G+bOXnIDNQifMcvcepu0GbUKaKZo67enLjrU+tGcXPgWuXp/f/2+dX5G65IcnrhhkHUm8
+	 MxWl/fxRay6b43yqQeOQmtGtMqoSubd+40WuhOmMIAf/JsKDjaEEd0fYULMGURoBgmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620160;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620165;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=wUq6hcM8zVmXTFc7T2Nnf9ayAnge5KW3rxW3QDe76Go=;
-	b=h4FyZAfjVhho//4kBjFX49K/BFm18hMkV8MUDNfUnJFVta4ngfve5yPlrzxvqoseJ6Lt
-	 +WqDsUcIdBCByTW+OYYb8eCnKgjn+z7CGFnYLtQwrs1LbfB3/6AUSMCBNrfUyfFzTgsz+
-	 H+RXutmh1PQV4hrqGld8soASvWGNMfgFw7H4SRaswr59Y6OKhEDWX6SZVrnE05U3qtl3V
-	 hOl6b559f1eTZzma990NMEw7EF7WcukXPbJWXG5feYKB3qKLa9z9LO4DXJgGQ9TsNPUX0
-	 1EWF/+zkAFpMQ9ZG5rbrFe/U4/yzDr7ux7dNmUrlaYVzGaauD7evamnebtqV7KjRS6A==
+	bh=6GSg/jLsN29tre5kcZSyHYsaS369WhKvfnM4vNbmqC4=;
+	b=x1pZy6iP6Tlbr0iuH2+fj26H4U9R3MBXQamzXDb7h6zid5oNLsFrSZMKKkD7CRpcAH6C
+	 shQtvudZ2XGbx68pR2AgOQUCTRfVRIx/TrPV3dyG4T8XtuvKwhsyA+V+Kit+ywG0Px4xm
+	 ZvYUcdJ6oNH5TxN/x5FyRqCVZhU8cKq05WwCyr0Px668MzyEJ9QSLldEzaoFwOc/J5E99
+	 uRJDzxZKXDVc3+HZuP+mmhV6VMU1aeS8Q3mUbScsLgpRKN+7QamO+7kWIFdT/6ihl25+B
+	 jW9MENL7Q/by9fCFatJyqZN/uNV7fyvZ7zoFGSPeBxJ6X6xkF6Q6DoBfHko8AKJ/Kaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G4y0Ev9g;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f/qK01bz";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAAE606A331;
-	Wed, 25 Nov 2026 15:22:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE819606A688;
+	Wed, 25 Nov 2026 15:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G4y0Ev9g
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88AA01F00A01;
-	Wed, 25 Nov 2026 15:22:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f/qK01bz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BA31F00A01;
+	Wed, 25 Nov 2026 15:22:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795620160;
-	bh=wUq6hcM8zVmXTFc7T2Nnf9ayAnge5KW3rxW3QDe76Go=;
+	s=k20260515; t=1795620165;
+	bh=6GSg/jLsN29tre5kcZSyHYsaS369WhKvfnM4vNbmqC4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=G4y0Ev9gG1fRbAc5kNADvXAcD+WG6UmKQmvxrcaXvPuz+VngH5dg7M90vEzlVArey
-	 StMRwmcVQwxcJLCp7NQr81TARs48et6rT8nkrPkntwGTcZNYXT2H0oa+pTVcKcYiZ8
-	 ejwtKCc4E98YxnuhlEp0bDJzBZUEjSb334OXbW3P+0RgOhZAAQJb6qKkm2hk2cSGVv
-	 0wsSbYhF1d5XVTMKkM+uNRSEPjjfxPtWXaSrNdvy9oJUWeRJOVoQqX8POEEWrMkui2
-	 cwsBQLkO2Wt0U+mpU++uPuoJauTxPAyJDAWk8fWw/EU02b3o82eDE9553QDVK9Ejid
-	 e7DkfIkf7jzaw==
+	b=f/qK01bzHUyDDeiTBo/kJ+oJc+8tLLn5lqj3TMdelkNMNfVQnR77kanE7SRbUYD0X
+	 cgDZoWOIUWs0RG2dA9fuRwCyo0ObFwsvclvJIcIGwT4WX2XsiAAAClh+zfJWwLVCgI
+	 TjurB0ntDfya+a5LXXvrCWIu+CllDbGwMa1dddBXgUJpFFMXfjgZCwL/xD8OptuUeW
+	 4X2r/hmpPCGZVpH32quxqByqLthhk6uNruY6gykvkJcJ8S/JCcmbI7o4us5WbTjleS
+	 Uv5QAjawlUWR28mIhTL8F0A7lDaIHuFYvm0h67xvHYsFP5Lpe9hmbJvgCUptnH83pr
+	 pxW6lDjfu7g7A==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- doloers@hotmail.com
-Cc: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <TYWP301MB008701733619289BE5A87111A37A2@TYWP301MB0087.JPNP301.PROD.OUTLOOK.COM>
-References: <TYWP301MB008701733619289BE5A87111A37A2@TYWP301MB0087.JPNP301.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH 1/2] ASoC: codecs: wcd934x: capture needs the codec
- sysclk
-Message-Id: <179554445314.947306.14903395165984953700.b4-ty@b4>
-Date: Tue, 24 Nov 2026 18:20:53 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Ian Rogers <irogers@google.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>
+In-Reply-To: <20261119171059.1537658-1-irogers@google.com>
+References: <20261119171059.1537658-1-irogers@google.com>
+Subject: Re: [PATCH] ASoC: codecs: aw88395: Validate 4-byte alignment and
+ init ret in reg update
+Message-Id: <179554902677.947306.15693529746115817043.b4-ty@b4>
+Date: Tue, 24 Nov 2026 19:37:06 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,17 +63,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1263; i=broonie@kernel.org;
- h=from:subject:message-id; bh=i0b9Hbh1+Nwmk+pPqW+Kj/yEAVUK2yE1pPN/ZhVBWxg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/trOinZMKHDITbnx2jqf/9Y21+P8BV/PCyU/q4zoa
- ena/v5ERykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACYy4ysjw7+3Jnu1w9877Eu5
- +e6fR6HTqVqnVzMZlSsLLPrm+hl/3snI8OO18Kd9K/8+vRK/JmehR8qUQzkGgiWCszZNdbr94HO
- gOwMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1166; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0hTnNHG4RTo/uFcq2aIwcu+mFLSWwLBMdCg+YvkFGjw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/jrdfjDR4EaI6iTzj+77qqZ3xbXv8lx8UtJ9khBfU
+ 4HaJs/GjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzEIozhf8K2NzMSqhVX9gT+
+ FdlatfEba2bakdsrbln9rNWYdG7RhRsM/8uVl5+UbjTnEpp25+XJ1ERxli9NzzfNnWFivTjwZ++
+ 8VHYA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 18 Nov 2026 08:09:32 +0800, doloers@hotmail.com wrote:
-> ASoC: codecs: wcd934x: capture needs the codec sysclk
+On Thu, 19 Nov 2026 09:10:59 -0800, Ian Rogers wrote:
+> ASoC: codecs: aw88395: Validate 4-byte alignment and init ret in reg update
 
 Applied to
 
@@ -80,10 +81,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: wcd934x: capture needs the codec sysclk
-      https://git.kernel.org/broonie/sound/c/9c57b993ba3e
-[2/2] ASoC: codecs: wcd934x: do not leak SLIM channel bits across ports
-      https://git.kernel.org/broonie/sound/c/519d0ed450c9
+[1/1] ASoC: codecs: aw88395: Validate 4-byte alignment and init ret in reg update
+      https://git.kernel.org/broonie/sound/c/e5c608dbb738
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
