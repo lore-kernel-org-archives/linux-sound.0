@@ -1,119 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795524985;
-	b=Qxkh3hT842ZCWl9Qt3z0+8NOmaHASziFg0C8VtOWwo1M21V1ouEMTA6T1vxQJ9MbzSiL
-	 Y3GMcPQcpNbyGswYCGVHLn7FkdsMhHEwiZMAxGyXHv3tZGyQwJQvO8m7iLRXEdhGcGoWv
-	 z2QjOOgZ89HPTns1QoZDSVPkWkTUe9QGHuuba+SnRyCBzOapsmXGLFoXKlFKcGfW8kyI+
-	 ycaIVvEM41nxlu8kdYzNbMsLzkupz96Wy3w9wIzDkTzXXw6aEP4CchUaWjOrq9wBsx+aO
-	 LqGO7TjS8Y6DrEKqHQMwTcwb1ViIrnJHCHigsAZNFXUgDhyABKeOmnLxxV1BrnF5mhA==
+	t=1795525239;
+	b=rexwrL/MW3StmK2+BMggyCXUD41oFMkePqUF8iovL8OodfnM8GV3rdnTxeUmCSCYWjsf
+	 TVQn8FF9q4Vem0Y2iKqzh613i8Z5SRvi+RuOpF6QEeSV+3YKjKflUQToP2Mx218OkQTbq
+	 LlJMo/j3vAskNThXyC9DKGCvF6q3S7E3p2GO+qR9aSP6b+g0poFCmAaQzCbBVMsFhtY/D
+	 WlFo9oeBxA9aJw3UkJdLiXX8oQPXVN2uuC+1u+8LpevedwBt6MsuaaKZ+2QDbQNWWz5Zd
+	 KxmNqBLC87EOCddAh7DaBX2FaVhRNqsYWl052wWet6BWyGXb5nsxA5sKIuN6cViyL4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795524985;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ilSc/fGp7IrXQ5CYiNzRyue3FTRzaiLPQas5DwVLbCM=;
-	b=CfAqliWPs28NlaBMeJ7+7Ml2RrN3oM4iHtV+EoqkfWH6lU61qLJ/1LT5VVCK1qbRLt7m
-	 ZD8QZj/x00UoRNSND1S8VMxggLoGXZBlfxCB45EWReYwLbvdte9UKwmckB2gRV2L/p8E/
-	 GEj5i5cavLOzO0dJnheACycZ/+OMXXb55ti+rE8l/pb6/oUQHFfygIhWwuCBx/z8UdutA
-	 nJyt+rz0bsK2hNrPrFaw+Nygii4Ftvw7Moexoa27SJDJwcX4RUcscbKKtdJ9IzDg9h1So
-	 CdcjHHpZnuSsEtHSiXTKrsUDHTNFGXuWlUGo/XVz7+YvrkNUB+7tohegfipu6aVOC+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795525239;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id;
+	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
+	b=AqG3hwLORR2qyxbzcl5B8reKItEC/ISst61i2Zml7nCyV9e/+hzNLg7d4VZ5vgCQWyQ6
+	 4Q4FYCtLB5UCp0SEskepOrNhG8Fg3CtnsLBQlqjITA1NVQ9IUKziwILh8mwPxxnrWsBvk
+	 AUxBdwgCA7MN28VNI59OLq2vqwxcLQlRGZomv5b0ANBJuW7jMKry4zbbLmj1t847K8AMv
+	 Okh+zIlFKGxLsXXnzxljjzF1toM1fADP6oN5DaKsNkWjqfb3OVOFRCocs/CjO/7aSw69p
+	 77WTbL174ug8fcHKrnnlxhD3ZRc30CtG8805Qpn18zTyt/0Fa4Q/4zE+pFc09OsvXKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pobox.com;
-	spf=pass smtp.mailfrom=pobox.com;
-	dkim=pass header.d=pobox.com header.i=@pobox.com header.a=rsa-sha256 header.s=fm2 header.b="O2n/qciG";
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=lACXS5aH;
-	arc=none smtp.remote-ip=202.12.124.153
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c2f3UeyE;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y2ETfHKr;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t7vNny9c;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l0uMeA7c;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D1A606A334
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 12:56:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8D1A606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=pobox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pobox.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4716D606A321
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 13:00:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4716D606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pobox.com header.i=@pobox.com header.a=rsa-sha256 header.s=fm2 header.b=O2n/qciG;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=lACXS5aH
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 11D737A057E
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 07:56:24 -0500 (EST)
-Received: from phl-frontend-01 ([10.202.2.160])
-  by phl-compute-03.internal (MEProxy); Tue, 24 Nov 2026 07:56:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pobox.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795524983;
-	 x=1795611383; bh=ilSc/fGp7IrXQ5CYiNzRyue3FTRzaiLPQas5DwVLbCM=; b=
-	O2n/qciGIMSdQhb4pbJghEepnydB68frJ2m3KeqOr1IYmOHHwrSm9X1xVO0gWEUi
-	/K+r7jG7vaTe+oruOEDRHSbeywCJRZFa4rDNSoTB/dXDBszk4fLrC5T1/cvPnr91
-	DEAjwx49xnXZKhrNu5Uf2fZdQDVZjUXnhg3AFuSb4TFRikPIs0KC24G603+LoR6K
-	CPx4fluxaTZS97bcrBf70yxyZyUw+d8CSBFNkxgB6vF7SDTN7XbLHepv0T03oLPb
-	Ta1o8HFofvuma2FoS5GVEjxkT0nBObCsAWh12jZtg/yUJ7tEtiL07siQY1jDOli3
-	YLNniBa2gt7Dby2ibVLYZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795524983; x=
-	1795611383; bh=ilSc/fGp7IrXQ5CYiNzRyue3FTRzaiLPQas5DwVLbCM=; b=l
-	ACXS5aHA4YkCbOp1U6Qq1z+KjpJIed5XlLP+Voam8mSlWOlrWCjcJH/nToGDOULy
-	xV/Nc6crku8scrh23+G2FXwpw19QcLavMMPxJ0eRKUR2NR6ky/xnPa35XGoS0cCN
-	5qS4l17wCGu839YGF3ZquMhB72i6NhM1XZOLN5qlLGkJmpGafcswuh6LlUSKWyVC
-	l+HVrY/fcgNtox2bcqSXh4h4M7gHf8UoBXMXXSF0PO8DF8T+PtpVAcxQKvBN9iMn
-	7Rxi/ci3cctdJv7c3Hoa63JmSyinivX4+uICZI2H9hhWwjzuaXuFE8VX2Ehgy51i
-	GPZbbuA6EvpBaYYtbD3Fw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=pobox.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795524983; d=pobox.com;
-	mf=PG1sb3JkQHBvYm94LmNvbT4=;
-	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
-	s=fm2:rsa-sha256:Q8eHqRfRl0qyRN8omaSsJFqUpXHs02I4/hIQ/We6Zt7cuq0
-	QA+vo0zomG4gTEQz0PALyA+wO98zdjJ5xLy+DRru8xVi/9Ncp1255nW8f9COGTug
-	qcLKO+dhK2gtixBsIH6hqBsOa6/xuZi6kjCA/I+5RfrytkrEwdrUXLIaVjsREu/7
-	YRskSgZDcB3U3CTIgK8qgdZJ9UVnRdUSnpI0xj5hFWo9+Urp7JyKo9BZdb293/Po
-	ESlvk5wsXlG1FdGl1lTVgTz4ss7EH5pK9TKWTbGrF2Jni331vxNMtuYG6vFFz/2T
-	OzerQFtC5z0YHbvSzKDLRqLwMaeETCMJFsre0PQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:oiO7dE2cDwXnN38t0FpgxJEM8IVX8Uhh5ybPV5sCfwg=:ozc9SIgO3znuFCSf0aYg1EXzbzecYthivwoR9dGX4/Q=;
-X-ME-Sender: <xms:d4kFaz9JNZPmF5QN92_sgUlXDRkt46Kwm3GBM_WKAaXHanFcbI2BVg>
-    <xme:d4kFa3LBZGfczF4QiAWaMcGo-aQlJg9533FKdihn9avljUCJPDZ68Zgt4t-3FxJ-e
-    JSv68pzpjztpa4B7iLxVtEZM1_4KaqJjqogzz2CSjR3_hD8VBKNhD_l>
-X-ME-Received: <xmr:d4kFa-bRSPGaX56NTxwvhVkv6iAItCgV7qt5k1czqOzT9oBkk4JxM8n4IC5JZMx4y5W77vWH>
-X-ME-Proxy-Cause: dmFkZTGqad0uasDzgQHLHaVh4vbviInq754AzLXvBmHiJ56sWFjdJ+sDxOs3XaTpwuhW0X
-    LZD8xQB3apZjtViH3zOi8mi1947iZHKQuohCPoNnzMMY2+TajVnUMLo/pg3b3DgBjgJGy0
-    B9K8uUJuCHR87Bzfrb0+iIGuLiTKJbk6w50z25nCRHgPdF3EEq+ZVTR1Qex1Tsvmh3AHj5
-    H08rbeNUd6eqVBaRY+0k3dAodK2tFv2Yhmy2yVH8NoVYKM0d12a7LOdMwrcLuTJtykKr2w
-    Tg3H/yyTtEwv1Mm4btCKQz69D9nVYhNaDSAviDWnCaRV0nCIYDLHLoUbZPGWnzC1b1OnM/
-    l6I99nGv9tonQ2DSNUcLlP5LqRUdoxWDy04ECLMWS1U49jy6MhLIXkXTv5LBONG1ZbUX/B
-    k0YHafBNc1WgBgw4lrFrYj4leZ8n9BxT9c2SnCo4QRMmLYQ/bZdoXvIXOj08PYu4KFy0JG
-    YVhkiEIrcAxWuQOih3NtooVsodHyqqZRNMaDpAyE9JUj81IWb9FTonhWyN6uDN50KivLFX
-    7GpcBDbJb5zn9vnJX7k61k2oSudW2P/KLoJ0+CMPJh3p9vqbKyX46K2Qm5haOGoj3Te92A
-    DagEzbLktdAsbupPXxniU+hVxTJhUqrviktixixidZfN4XVjpfEFaAM0p4Vg
-X-ME-Proxy: <xmx:d4kFa5KGaAXW4XM1_ZS7s4g2IzeAZQ0_HLvjMqjEs1PEJBUDpjoCgA>
-    <xmx:d4kFa8DzYUuyxJwPZV2lJBdwRDm9HJNyKlEaaExEFoHb2iMMov23kw>
-    <xmx:d4kFa-rJRFnDMpV8CSbt2y77MswiqoyLZfWal_GMn6UP4LWKwI260Q>
-    <xmx:d4kFa3g-PU1ZxuRP5g8aokTBvY3xZOF9LW4Bo73-ALOIwoHItc-GPQ>
-    <xmx:d4kFa_Bh2hh3lypqJRQ0xNOknw5wGbysL060lOb81D9dlD52Rag83vJI>
-Feedback-ID: i55d94976:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Nov 2026 07:56:23 -0500 (EST)
-Date: Tue, 24 Nov 2026 12:56:23 +0000
-From: Mark Lord <mlord@pobox.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: Cen Zhang <zzzccc427@gmail.com>, linux-sound@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c2f3UeyE;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y2ETfHKr;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t7vNny9c;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l0uMeA7c
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 15C2B1F7BA;
+	Tue, 24 Nov 2026 13:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795525237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
+	b=c2f3UeyET5vYmEOrtNVzB6kU/2S462tqG8T7UVb6AaHkI7OUgsSWA73ayiBLCJVzmXdkfx
+	YrInxRlI5mEPJyKlCzj3n8LuN1epApA4ezWgg1iN4e4TW/gwsaNe+7HCmuWzQOS4XY4V3Z
+	xnP4Heidj60REWZXG43qLXVIRK8SNSE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795525237;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
+	b=y2ETfHKr4C857go9/YhtmvDIgSyZkjY7Uvc3Qwh8nWDLHhSPUmy1TQtez4qe/Yj+zqflY0
+	KjjbsICKdP4CARBA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=t7vNny9c;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=l0uMeA7c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795525236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
+	b=t7vNny9caL8eCvySiJFsM6RSr5sZO01N4f4ibZ+Fl/vAkh67bOwMUwSxBjXmWFCRuFoB5G
+	regzk4eoMnZB3VGsVxrWxvtojJ7PQ5NHkWheihe75ZuLylIULHKgnRnQyuNJdj1j9A9y83
+	7d9SgeaGTklx+Wd+CB4LqueRtzCPwlc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795525236;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
+	b=l0uMeA7cYf9ThjvTB5e5ngLIJDU3wjht2T/Qa+ZfVindlWqzwTA+bpr+T5OAA8gqHSHrK5
+	VwidtG3vzG/L3wBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA74C13505;
+	Tue, 24 Nov 2026 13:00:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4U6sLnOKBWtIJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 24 Nov 2026 13:00:35 +0000
+Date: Tue, 24 Nov 2026 14:00:31 +0100
+Message-ID: <87mrqy9yfk.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Lord <mlord@pobox.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	linux-sound@vger.kernel.org
 Subject: Re: ALSA: pcm: Unlink substreams before releasing them
-In-Reply-To: <874id6bdsx.wl-tiwai@suse.de>
-References: <c8132c27-b7d0-4867-a17d-89e4cf869c0e@pobox.com> <b8d3168a-b829-46d0-84fb-f964d116bae5@pobox.com> <c8bd572b-d5fb-4db8-a3ce-f9fc3e8153b0@pobox.com> <87ik1ndgkp.wl-tiwai@suse.de> <0D01CA13-AAF6-43B0-88E3-FA8B60DD77A3@pobox.com> <874id7d336.wl-tiwai@suse.de> <64ed6659-2a04-42d3-9f79-7abdf6b6dd13@pobox.com> <874id6bdsx.wl-tiwai@suse.de>
-Message-ID: <E1C6473D-4008-405F-88B9-A5BE65D3B1C2@pobox.com>
+In-Reply-To: <E1C6473D-4008-405F-88B9-A5BE65D3B1C2@pobox.com>
+References: <c8132c27-b7d0-4867-a17d-89e4cf869c0e@pobox.com>
+	<b8d3168a-b829-46d0-84fb-f964d116bae5@pobox.com>
+	<c8bd572b-d5fb-4db8-a3ce-f9fc3e8153b0@pobox.com>
+	<87ik1ndgkp.wl-tiwai@suse.de>
+	<0D01CA13-AAF6-43B0-88E3-FA8B60DD77A3@pobox.com>
+	<874id7d336.wl-tiwai@suse.de>
+	<64ed6659-2a04-42d3-9f79-7abdf6b6dd13@pobox.com>
+	<874id6bdsx.wl-tiwai@suse.de>
+	<E1C6473D-4008-405F-88B9-A5BE65D3B1C2@pobox.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -122,60 +124,108 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,pobox.com:email];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim,pobox.com:email]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 15C2B1F7BA
 
-You will have to be more specific about exactly what you want=2E  What comm=
-ands to run, which files to view/return, etc=2E  I don't have time to guess=
-=2E=20
+On Tue, 24 Nov 2026 13:56:23 +0100,
+Mark Lord wrote:
+> 
+> You will have to be more specific about exactly what you want.  What commands to run, which files to view/return, etc.  I don't have time to guess. 
 
-Cheers=20
+I also have no time to guess your system, either.
+It's your system, and you're responsible for checking.
 
-On November 24, 2026 12:43:10=E2=80=AFp=2Em=2E UTC, Takashi Iwai <tiwai@su=
-se=2Ede> wrote:
->On Mon, 23 Nov 2026 18:51:47 +0100,
->Mark Lord wrote:
->>=20
->> On 2026-11-23 09:39, Takashi Iwai wrote:
->> >=20
->> > Are *all* devices including both HD-audio and USB-audio gone in the
->> > broken state?  You should look deeper and compare in more details
->> > between working and non-working cases=2E
->>=20
->>=20
->> I am using the Kubuntu Desktop, and the Sound Settings in the GUI
->> show no devices whatsoever when it fails,
->> and many devices when it works normally=2E
->
->When this happens again, check what fails actually in details=2E  Were
->all kernel drivers probed?  You can compare the kernel logs between
->working and non-working cases=2E  If they have been probed, have they
->appeared in the device files?  Were permissions OK?  etc=2E
->
->
->Takashi
->
->> That includes each of these:
->>=20
->> HDMI/DisplayPort 1 Output (Meteor Lake-P HD Audio Controller
->> Speaker (Meteor Lake-P HD Audio Controller Speaker + Headphones
->> Digital Output (S/PDIF)(USB PnP Audio Device Digital Stereo
->> Headphones Stereo Microphone (Meteor Lake-P HD Audio Controller
->> Digital Microphone (Meteor Lake-P HD Audio Controller
->>=20
->> Since none of those appear with the culprit patch in place,
->> to me this suggest something is locking out the rest of the probing=2E
->>=20
->> There's probably a better place to look for more clues,
->> and I await instructions=2E
->>=20
->> Cheers
->> --=20
->> Mark Lord
->> mlord@pobox=2Ecom
->>=20
+As said, the kernel logs are something interesting at first.
+Get the kernel logs from both working and non-working cases -- at best
+at closer versions.  If you have bisect result and last good and last
+bad results, get the dmesg outputs from both, so that we can compare
+1:1.
 
-Mark Lord
-mlord@pobox=2Ecom
+
+Takashi
+
+
+
+> 
+> Cheers 
+> 
+> On November 24, 2026 12:43:10 p.m. UTC, Takashi Iwai <tiwai@suse.de> wrote:
+> >On Mon, 23 Nov 2026 18:51:47 +0100,
+> >Mark Lord wrote:
+> >> 
+> >> On 2026-11-23 09:39, Takashi Iwai wrote:
+> >> > 
+> >> > Are *all* devices including both HD-audio and USB-audio gone in the
+> >> > broken state?  You should look deeper and compare in more details
+> >> > between working and non-working cases.
+> >> 
+> >> 
+> >> I am using the Kubuntu Desktop, and the Sound Settings in the GUI
+> >> show no devices whatsoever when it fails,
+> >> and many devices when it works normally.
+> >
+> >When this happens again, check what fails actually in details.  Were
+> >all kernel drivers probed?  You can compare the kernel logs between
+> >working and non-working cases.  If they have been probed, have they
+> >appeared in the device files?  Were permissions OK?  etc.
+> >
+> >
+> >Takashi
+> >
+> >> That includes each of these:
+> >> 
+> >> HDMI/DisplayPort 1 Output (Meteor Lake-P HD Audio Controller
+> >> Speaker (Meteor Lake-P HD Audio Controller Speaker + Headphones
+> >> Digital Output (S/PDIF)(USB PnP Audio Device Digital Stereo
+> >> Headphones Stereo Microphone (Meteor Lake-P HD Audio Controller
+> >> Digital Microphone (Meteor Lake-P HD Audio Controller
+> >> 
+> >> Since none of those appear with the culprit patch in place,
+> >> to me this suggest something is locking out the rest of the probing.
+> >> 
+> >> There's probably a better place to look for more clues,
+> >> and I await instructions.
+> >> 
+> >> Cheers
+> >> -- 
+> >> Mark Lord
+> >> mlord@pobox.com
+> >> 
+> 
+> Mark Lord
+> mlord@pobox.com
