@@ -1,121 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795525239;
-	b=rexwrL/MW3StmK2+BMggyCXUD41oFMkePqUF8iovL8OodfnM8GV3rdnTxeUmCSCYWjsf
-	 TVQn8FF9q4Vem0Y2iKqzh613i8Z5SRvi+RuOpF6QEeSV+3YKjKflUQToP2Mx218OkQTbq
-	 LlJMo/j3vAskNThXyC9DKGCvF6q3S7E3p2GO+qR9aSP6b+g0poFCmAaQzCbBVMsFhtY/D
-	 WlFo9oeBxA9aJw3UkJdLiXX8oQPXVN2uuC+1u+8LpevedwBt6MsuaaKZ+2QDbQNWWz5Zd
-	 KxmNqBLC87EOCddAh7DaBX2FaVhRNqsYWl052wWet6BWyGXb5nsxA5sKIuN6cViyL4Q==
+	t=1795526464;
+	b=jMmgV1j8E5Y99pBXdkGzSrU+ITDn49ZAdGlIkVK4XPJ9pdwMMMzZyXn9FkmW7H9I//fh
+	 PjWiqYSmgI54FT4tm2E/O67qZ8oRW26cWgTrtWtttVBIUpDDQ0zUsKgFkLpMnuui3UgkR
+	 pAt6TPnKBptpmpfQ/RYNUDZDSkwXqhU2latvlKSru9U7bQyezbhagDCeh2TjnlxQOf5Z/
+	 MjadvRAZxOnjM4ozzLHCgAjzfbLn4AJ5DHTdIM0sGcfYG3dZG/9Ixac14z37gB9pyaaZV
+	 mew3sScTx5wk+AaDYkeBcuslpaGPoev4Wk0KL74+BO/98CXH+UR6S9Y9A6kLUjAUUkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795525239;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
-	b=AqG3hwLORR2qyxbzcl5B8reKItEC/ISst61i2Zml7nCyV9e/+hzNLg7d4VZ5vgCQWyQ6
-	 4Q4FYCtLB5UCp0SEskepOrNhG8Fg3CtnsLBQlqjITA1NVQ9IUKziwILh8mwPxxnrWsBvk
-	 AUxBdwgCA7MN28VNI59OLq2vqwxcLQlRGZomv5b0ANBJuW7jMKry4zbbLmj1t847K8AMv
-	 Okh+zIlFKGxLsXXnzxljjzF1toM1fADP6oN5DaKsNkWjqfb3OVOFRCocs/CjO/7aSw69p
-	 77WTbL174ug8fcHKrnnlxhD3ZRc30CtG8805Qpn18zTyt/0Fa4Q/4zE+pFc09OsvXKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795526464;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=4dS73s0RNBwQWtJKgOmGopns0VxsPPRrDus6J8zeb6Q=;
+	b=4AxyNviflzbkpfYpkZCHYquWlAua4loXloK1xvmove9SSgLGF8YvD4H94Lk2hDRh0rtW
+	 KCGBAVOfmUW/GxkQSRRDtGW//3AWX0lMwtMRginqPwOlGa9Nt/Zh+od6cSP7NvNFehK0A
+	 u7VfUwLI25RQdQ1cFFY8398E+NiuC50JvgK0ahpvTEDf0/OzN1saNpxhg+EXwrI2gjFtO
+	 idNgkF9gxhhPXNG08IhcCNVD+DOrNY5/Ycwoinu0qmT/95am/x19qhdlVGLrkgeqhQ/S+
+	 Qp70xHqalroUqTAeuB8UEpOmwYG6f2l9rfPfIuF5vJxYcSURSGkKFvuIFTJSlK/F2kg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c2f3UeyE;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y2ETfHKr;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t7vNny9c;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l0uMeA7c;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="DLXp/EvN";
+	arc=none smtp.remote-ip=209.85.215.171
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4716D606A321
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 13:00:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4716D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC30606A332
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 13:21:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FC30606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=c2f3UeyE;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=y2ETfHKr;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=t7vNny9c;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=l0uMeA7c
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 15C2B1F7BA;
-	Tue, 24 Nov 2026 13:00:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795525237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
-	b=c2f3UeyET5vYmEOrtNVzB6kU/2S462tqG8T7UVb6AaHkI7OUgsSWA73ayiBLCJVzmXdkfx
-	YrInxRlI5mEPJyKlCzj3n8LuN1epApA4ezWgg1iN4e4TW/gwsaNe+7HCmuWzQOS4XY4V3Z
-	xnP4Heidj60REWZXG43qLXVIRK8SNSE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795525237;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
-	b=y2ETfHKr4C857go9/YhtmvDIgSyZkjY7Uvc3Qwh8nWDLHhSPUmy1TQtez4qe/Yj+zqflY0
-	KjjbsICKdP4CARBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=t7vNny9c;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=l0uMeA7c
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795525236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
-	b=t7vNny9caL8eCvySiJFsM6RSr5sZO01N4f4ibZ+Fl/vAkh67bOwMUwSxBjXmWFCRuFoB5G
-	regzk4eoMnZB3VGsVxrWxvtojJ7PQ5NHkWheihe75ZuLylIULHKgnRnQyuNJdj1j9A9y83
-	7d9SgeaGTklx+Wd+CB4LqueRtzCPwlc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795525236;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nkzhIlVWQN04iJowL4EshHbpM0IM+62UlPsuLLuJjUI=;
-	b=l0uMeA7cYf9ThjvTB5e5ngLIJDU3wjht2T/Qa+ZfVindlWqzwTA+bpr+T5OAA8gqHSHrK5
-	VwidtG3vzG/L3wBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA74C13505;
-	Tue, 24 Nov 2026 13:00:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4U6sLnOKBWtIJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 24 Nov 2026 13:00:35 +0000
-Date: Tue, 24 Nov 2026 14:00:31 +0100
-Message-ID: <87mrqy9yfk.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Lord <mlord@pobox.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Cen Zhang <zzzccc427@gmail.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: ALSA: pcm: Unlink substreams before releasing them
-In-Reply-To: <E1C6473D-4008-405F-88B9-A5BE65D3B1C2@pobox.com>
-References: <c8132c27-b7d0-4867-a17d-89e4cf869c0e@pobox.com>
-	<b8d3168a-b829-46d0-84fb-f964d116bae5@pobox.com>
-	<c8bd572b-d5fb-4db8-a3ce-f9fc3e8153b0@pobox.com>
-	<87ik1ndgkp.wl-tiwai@suse.de>
-	<0D01CA13-AAF6-43B0-88E3-FA8B60DD77A3@pobox.com>
-	<874id7d336.wl-tiwai@suse.de>
-	<64ed6659-2a04-42d3-9f79-7abdf6b6dd13@pobox.com>
-	<874id6bdsx.wl-tiwai@suse.de>
-	<E1C6473D-4008-405F-88B9-A5BE65D3B1C2@pobox.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DLXp/EvN
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdb2dfcca94so1877150a12.1
+        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 05:21:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795526463; x=1796131263; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4dS73s0RNBwQWtJKgOmGopns0VxsPPRrDus6J8zeb6Q=;
+        b=DLXp/EvNuPGuj2+h4sUiMmjZgjb4JJ4XKMfjlNl3Zvty6aMzCJID8AttAmR6UMs1at
+         LarNW+D5s7o51wQ+9lOXA80jOXnp8FgwlgKFjClVTsXBYkFKybrhGGnbzpeDoKyiT7cx
+         W/cYG7m3ziGLJbEJNmamp3oGSEc7BCQGS+NKHoN8jZVkLy2gNdwYoBn/RirsKkjd4/rd
+         fDAFpEJyarnc+aEdc3tzFkb3iHCPaY/0TtSmIPDzVVUJDfPKz65JfPMzFHWRg9IA3QA5
+         tnQ3xBZcA7kA+TrZ6yVFPJRXsrpSgrndZXs+RhO1Nnsac/0zvYihPJTqg3YLMWjsis5j
+         BIPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795526463; x=1796131263;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4dS73s0RNBwQWtJKgOmGopns0VxsPPRrDus6J8zeb6Q=;
+        b=ENvQ6T3Ao1NjYW2JVkBpBlvWWhuaHpx1IYlxhRtXCJ5JQPCcUKcShRLay0UD0cFxsh
+         9/Z4h/LsDA0KLECGhFT3b3TPFIqV9K2VCx3Knv7k7AvHf9TVGQWbkSwtoEKEiHDJPVqQ
+         xQzjR6luTLla4RMTbn7tyjODU/oagZfh+PBlYQV+u9tJIudZWV/j0gfy7M9vub8RiaH9
+         b1x7lGruiuN10JVvLtA10C+tG0+spDl41dd7PlcE7lAir1b2oEvhIFur0zgPueU90vfA
+         kB3N6KqE6bu9NP1ZE9yNTocs6/J+gQl55zmb1tS9xM+eo43jfrK2YiAyiEy3bXHskf0Q
+         F6Nw==
+X-Forwarded-Encrypted: i=1; AL+hErEcUIfjYt6reTTSKQZgwY7XESSmM2ujHLU0MQBqitLyPmsznylD83Av+CuCaTz+829fpAhiV0w4Wzoy9w==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/JhURjDgWpJgdM7mPWPsRHsbJrYpcomVN7SCLX078buJxCe8Ut
+	JWxivN2WnL+xDVGMDKWWMmIok8ZRtevZlH8e6HzqifEdnL70CpCqju35
+X-Gm-Gg: AZFdTZdt3RwZK0t9OtjIndKlA02qOpmgW45Uzcl24uReCQhWo5AMPC1cc3M5BnoWUkK
+	Oha0sXt730Rd55/zUsfGG43uYpSWYDl6ZAwGmxAeJBCz69S+GwAKYHKNbjQwJEg/RDitpNmBLEh
+	MB4kSTOfk75VhN3mqC0ZGqsUyN78AZnsz8EhskWmjoAXwQu2C+M+ePSXTeB4zUu5eWc47JiDi6N
+	a3pl/Jq3KCO5rorY5Nh3LgQhPqUB1IR2/UY13xcu7oCYsVawsF6PRpyIUWSeYHVapFBH7D2UkZ1
+	tkr3Xkfq6BRTouBXdOcA2mmw1Nu+Wsz5mdIz5IKCR0/CleQFCT0BQqZQ/8v6kSnwXvPLPJZ3kB0
+	2dAnc6Kgj2ZYRuLrKz2tB5zW7ZlYJaSBVajhZ/C4OQfeif79hm8xJs2iyw8Tn1WuW3HFj0ZEqRv
+	zxtDrx0n085i39hBwPmE9/pJyIo98B8LgvSIiTcarZVfD3tMC9OgLqrB4Oqx1fcolFkCV77GMw3
+	9kGYM6bUxDYlpe9zp4YpCYpi0rCNbZEFSY6o2YBcRg2Y3zPIfKhu4J12JBhdWFxEpfEijhBz4Dv
+	5fDgXUAy5w0TK4JviZF0W82KyswqWzYA95Bjv+NrNMSLoerBsGfkEA==
+X-Received: by 2002:a17:90a:d2cf:b0:3b0:92b2:2e74 with SMTP id 98e67ed59e1d1-3b41c994355mr11715156a91.62.1795526463470;
+        Tue, 24 Nov 2026 05:21:03 -0800 (PST)
+Received: from fedora.tail41c118.ts.net ([2404:7c80:6c:6dfb:223f:1b1d:3633:124d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b48b41928esm12556863a91.9.2026.11.24.05.21.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 05:21:03 -0800 (PST)
+From: Arshdeep Singh <chahalarsh342@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arshdeep Singh <chahalarsh342@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP Pavilion 15-cs3xxx
+Date: Tue, 24 Nov 2026 18:50:56 +0530
+Message-ID: <20261124132056.57345-1-chahalarsh342@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -124,108 +95,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,pobox.com:email];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim,pobox.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 15C2B1F7BA
 
-On Tue, 24 Nov 2026 13:56:23 +0100,
-Mark Lord wrote:
-> 
-> You will have to be more specific about exactly what you want.  What commands to run, which files to view/return, etc.  I don't have time to guess. 
+The HP Pavilion 15-cs3006tx (ALC295, subsystem 103c:86e2) has no
+working mute LED by default. Booting with model=hp-mute-led-mic3
+makes the LED work on this machine, so add a quirk entry for this
+SSID that applies the same fixup,
+ALC269_FIXUP_HP_MUTE_LED_MIC3.
 
-I also have no time to guess your system, either.
-It's your system, and you're responsible for checking.
+Testing: verified on the hardware with model=hp-mute-led-mic3, which
+selects the same fixup as this entry. alc269.o builds and
+checkpatch.pl --strict is clean. I have not booted a kernel built
+with this patch.
 
-As said, the kernel logs are something interesting at first.
-Get the kernel logs from both working and non-working cases -- at best
-at closer versions.  If you have bisect result and last good and last
-bad results, get the dmesg outputs from both, so that we can compare
-1:1.
+Tooling: the working model option was found by manual testing,
+guided by an AI chat assistant (Claude). The table entry and this
+changelog were prepared with a coding agent (OpenAI Codex); I
+reviewed both.
 
+Signed-off-by: Arshdeep Singh <chahalarsh342@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Takashi
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index f49021d01..2212e6027 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7837,6 +7837,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x86c1, "HP Laptop 15-da3001TU", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x86c7, "HP Envy AiO 32", ALC274_FIXUP_HP_ENVY_GPIO),
+ 	SND_PCI_QUIRK(0x103c, 0x86c8, "HP Laptop 14s-dr1xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
++	SND_PCI_QUIRK(0x103c, 0x86e2, "HP Pavilion 15-cs3xxx", ALC269_FIXUP_HP_MUTE_LED_MIC3),
+ 	SND_PCI_QUIRK(0x103c, 0x86e7, "HP Spectre x360 15-eb0xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+ 	SND_PCI_QUIRK(0x103c, 0x863e, "HP Spectre x360 15-df1xxx", ALC285_FIXUP_HP_SPECTRE_X360_DF1),
+ 	SND_PCI_QUIRK(0x103c, 0x86e8, "HP Spectre x360 15-eb0xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+-- 
+2.56.1
 
-
-
-> 
-> Cheers 
-> 
-> On November 24, 2026 12:43:10 p.m. UTC, Takashi Iwai <tiwai@suse.de> wrote:
-> >On Mon, 23 Nov 2026 18:51:47 +0100,
-> >Mark Lord wrote:
-> >> 
-> >> On 2026-11-23 09:39, Takashi Iwai wrote:
-> >> > 
-> >> > Are *all* devices including both HD-audio and USB-audio gone in the
-> >> > broken state?  You should look deeper and compare in more details
-> >> > between working and non-working cases.
-> >> 
-> >> 
-> >> I am using the Kubuntu Desktop, and the Sound Settings in the GUI
-> >> show no devices whatsoever when it fails,
-> >> and many devices when it works normally.
-> >
-> >When this happens again, check what fails actually in details.  Were
-> >all kernel drivers probed?  You can compare the kernel logs between
-> >working and non-working cases.  If they have been probed, have they
-> >appeared in the device files?  Were permissions OK?  etc.
-> >
-> >
-> >Takashi
-> >
-> >> That includes each of these:
-> >> 
-> >> HDMI/DisplayPort 1 Output (Meteor Lake-P HD Audio Controller
-> >> Speaker (Meteor Lake-P HD Audio Controller Speaker + Headphones
-> >> Digital Output (S/PDIF)(USB PnP Audio Device Digital Stereo
-> >> Headphones Stereo Microphone (Meteor Lake-P HD Audio Controller
-> >> Digital Microphone (Meteor Lake-P HD Audio Controller
-> >> 
-> >> Since none of those appear with the culprit patch in place,
-> >> to me this suggest something is locking out the rest of the probing.
-> >> 
-> >> There's probably a better place to look for more clues,
-> >> and I await instructions.
-> >> 
-> >> Cheers
-> >> -- 
-> >> Mark Lord
-> >> mlord@pobox.com
-> >> 
-> 
-> Mark Lord
-> mlord@pobox.com
