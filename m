@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795489521;
-	b=qljsk1nSqls9u6r5g1tJwGTEf2x5TzSKIrvi9Hh6VoOhKD323+xDsYQg9iCzMoE8lOsp
-	 ct/G4k2zAOFOa10owk6O6soaXAMapTYekTRRWZiOa/RnuZ+GjLvM7hzUUK6NzV9JNlRse
-	 AyGzCB89UhuuFawzi/FwFeLNyqCxPve1vWJcX4KO9RdoRBnKL7qN1P8fkj8zJntGiv8gP
-	 GPDZF7mpJjX0dAkgY5opMN0i5wQOuJOSVINS377GQp9xFGIqJAaxMDqn2pA6rnn2wFNP+
-	 KBGTUt/EFmN6xTNX4wxYUFsPmXxmj4IWUI1tdNwjrz45cI9qJYYgn/tDU+0HMVNjiSg==
+	t=1795489514;
+	b=sjJrlTtFPNWS216AriYqmHqxVzYHP/i/v3p45yZx89A2673+kk0lsgbok9DXwIvRycXR
+	 S0Dc2xXTbWhm5RB839uzkh46eXGLhMgFVJhIExh6zCDcCysgyrHHpKddlOyydDvJQz8pA
+	 2mGaNy0lEIH3qp+kS4xe71rR2i6xEJqPQC7uDsyJtp8NdTyb1p77eZp/ndpxHuM/8g6lp
+	 bKEAxDcK9hNVWU14KeAjyrcYM4GSFYDD09x5TPf2laHCYpDksgvmeTy3r80TADPUyxIL7
+	 b/vggLcMYF/z9MJCeP+paGOuDDKwVk5G8nP7Gsm6DlRg5WLfyoTUZvM6ZrOZtmSODxQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795489521;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795489514;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Mqlgsq/0gNI0SAnZqOmpQVrR5kBkM5B8oSZ/hn/LhS8=;
-	b=waNCljsguADnL3GYUjzwLT0RmSToP/kCAfJk+SQohU5OvCQqNcBpgRARnLXQY+LeWVyJ
-	 0tVF6N5sNdrCpSsGoRLqeJboaHyDihp0Hri9joDZdoWiTiAJaEuB6lQObitdAlCzKTfK9
-	 C+c8Dlcq0Qh6YF1XIvMPuupVS3bssDpCyI5VBEGq4+dH0FSr2SAIU8KQ9tZY24xARGNIL
-	 MDZ0JC+XB6rJIFmVsBJqwcmDkZg3ED5s51CKJQeP6UwLotvgOKDaJkx2G9E5GvxqQI2C4
-	 xBaeK5eryAoB728qDgHUPb43PlD9KjPYmVTmvEjVk9dlNHMStQllcGs4bJXQWBxfnjw==
+	bh=2dK7mDkn61ry6ttF+pU42hfzol8M/U6YWXu80p0q3EA=;
+	b=Up6t+x6XucryekM1+UZOzuoF/Ibs5qaJcl0ADpOZqYCtB5zSSDvKzHNvTXCDNvWHQ7qp
+	 TQHbDWKh/KOnDAO35fe5aXR1GH/5I7NiXhyZq6aaAuw/w3IY1opVLEeO19HIdBsggB2a2
+	 ATNkRC+nG/TTAFJvQBqZ89+u7Eb4vBT/XLL3W0WwhGTp5jvFDZTDk59hVgcgKEMo0QuJ3
+	 8NGHqIHpyj8wC+L2xMRhjDUyRS7PAUod0CM6RDfsTO2xfugQ8ZipjtY0aHmPB6LOS4IbE
+	 Naadq23BZ3g/foAlQR7FOZ/rMb3lgOeehwOS9Pu3FL9rUzIrrBpajuCkOA4av1bbvqw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Rz/3uFYX";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gQFN9RBB;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84338606A32A;
-	Tue, 24 Nov 2026 03:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0B4606A31E;
+	Tue, 24 Nov 2026 03:05:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rz/3uFYX
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gQFN9RBB
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795489520;
-	b=k432tn16ORtQFllp/mIb8yH7nuJKm7XTxhPyy4NhDBhz/nHlj+R4t+bX0p5VtIbsM4vl
-	 ibZpnQPKgyTOFtxumC8CY66pIzvZJC3YC1vwNCGvTc0oZzuXULdAgGUPLsHIatqzx79nW
-	 jN7xGaQt5k3K2Tlvi1lLNpzbOucTyr/HjerziySsmzGol9S1rvsGmm3YKttOR5pb6VhQy
-	 eOkzyNtAzCjaf7U9mWuAamtcpSRq2rloSHNndH0xrVXXV/dxIG6x8GWm9aYgyIk8340MM
-	 zhLhrdeikcf+eJJcx5wahQBE1R3aglIIE+PnkHqfCBPx5el0ihgjPyuPEP/zS8+rz2g==
+	t=1795489513;
+	b=KePpPDVBSPK8rsnR8qn/3mcWleyow1c74VGtPEcQKTYQTQw1lsFhK9EiCVfQ28FwQI+W
+	 ZBtQblxSaqS8BBK1NgZ6Eg08Bm8BROizTyOlUta4l7IDF2xBAsdPDGpgBsQR6hxoqNt+S
+	 RZjNhTEXCKARxhL4ZOuL7u+4JUPrdUN9m3Ojw0kjx3eYtCqj4o518xu9cl9lTPzRU+Zby
+	 ONr7+QXR1kXjPIrfw577u0UbI4JSoiCUdp1+TbaQBjfaBsSccSUKxRPMATkFn4WqL/+U3
+	 HUEdIpROauG4ii/PPqCB59xY1B4sXNqv0sypY9FopNBIEKvahskFkcnLGAaqajzrFXw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795489520;
+	c=relaxed/relaxed; t=1795489513;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Mqlgsq/0gNI0SAnZqOmpQVrR5kBkM5B8oSZ/hn/LhS8=;
-	b=JTonsQKOabAzM0EpBSGH4rcHXnW5YlbWJUsMtwmXiTOc7HWsthFToZmePXIjtHwP1Hji
-	 6KwzhDT/HxFg93c8smvyYiBuLZH0OMWDXxz1aU6fthtjYoQvvfkg28nRSabFQhi67bxF8
-	 YZq5sw3ftOzcK1HJd/+eTMDMEvkG2LfTGTieQSnLDGtF5jyPTgnnYsU0B3/BeDeyp+BYe
-	 55zAeHu0P78fxbf0EGIhxNrRBks8yxPTv3dhlMg9b0e84OGp901k6AWciDuEaMguNXRnv
-	 FOZpv7drMAzGIHL2vj1uw+uejglknVvnf4EZNP3yqZoXAvAzwDec2xCjyhbuFXZZ+mg==
+	bh=2dK7mDkn61ry6ttF+pU42hfzol8M/U6YWXu80p0q3EA=;
+	b=wsD+ERMtjVuHR16oykqzfyYIUbvTOztx1Z3S8PhHduJkUS/hBn22msRbCr9m2/Hlg0LU
+	 HHcaB2dFqm/evXqBeMmWjrH2iLhxBY5Scf+ooeOmhdFIEV1OyHu8w9fraw9FWymUu9ffa
+	 dvaIHRRGUv28kmgwtRd1KlzKeA105IWpojJrtVF4pIyIlX0kZ23AWameIalIm4tqJBTkj
+	 z9ULDQLdJ6o4xsdFOfegnxhVFaI49b8ecP89vI1r9XicmGPraU00RSeoZLhxtxMFC7nrC
+	 KWfV0GLbeBAr/TvdA2jW74JOKF0MR1NtRyQFOnvJYidHOkrAabOL4iAb5tNBmXJnXng==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 5ECBD1F000D0;
+	by smtp.kernel.org (Postfix) with ESMTPS id 2C3E51F000CA;
 	Tue, 24 Nov 2026 03:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795489520;
-	bh=Mqlgsq/0gNI0SAnZqOmpQVrR5kBkM5B8oSZ/hn/LhS8=;
+	s=k20260515; t=1795489513;
+	bh=2dK7mDkn61ry6ttF+pU42hfzol8M/U6YWXu80p0q3EA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Rz/3uFYXw3h6JBu0ZFBsXPBlZ+YEvR3OhFmpMJgRs9E1+7H+D3ORLe09TCXcX9aJ1
-	 0ppGZfYBvmgOXDn8MYEgTmxdjo5KevIFgCqryf/gT45RM2K1Xq5vXRuS6qAnZz42P7
-	 N6uKGVx0xUs/r5jIQ2LV/N6ejvuOjB0f2fZbf00bGQMjRgBCIm7nV+jeyh8Q/ZJwuf
-	 UHNRZxue9IjFME/Y0vcSZp2XjEdHYe9nT5p4LBRFBy8FjgXGm254AQS2q3d/Sq2vaj
-	 6VHeosLxnrOidnMX5NA+PPWkzRrJ6Hmj2N7nFz3HxDIYipWjIvQM9LuP2Eo2RbBVvJ
-	 WEnWHdgeT5zDg==
+	b=gQFN9RBBhrJ87xTotR/hcQm9AtVmsJ+JPHcBGdUhxPsSH8hsf2EWHv1OYQ0I8n1Br
+	 h3huRevEnWJ6ZLIRaRpSwsWRy1K0iM6O4G6RM+TZVm8u84m5V4VL1P60hhnj+Y/R/v
+	 IchL5oHf1QIh9+5gVbaeM6ORv0tr6yGEB0dmj/gKO/O4QbnBO5W6mdnaEbGyPfO+qb
+	 0qA6jLA3q/2WIuaR4JDQokXWV/bxGxOsZhN1dJmBYY7H3elnHKiPsqaLwxoaQWnm5q
+	 dhIQ5Z9YU0SbuokBql6ku1cJ0IgDqUp9wX3/pWeLtK1PUKXHhuE/q4VLpdyDMQu1kU
+	 ye7GG4683rgZg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id DEEDA4C863;
+	by lkml.kernel.org (Postfix) with ESMTP id A47F64C846;
 	Tue, 24 Nov 2026 03:05:08 +0000 (UTC)
 From: Hermes Wu via B4 Relay <devnull+Hermes.wu.ite.com.tw@kernel.org>
-Date: Tue, 24 Nov 2026 11:04:40 +0800
-Subject: [PATCH v2 3/9] media: i2c: tc358743: also report the standard
- audio controls
+Date: Tue, 24 Nov 2026 11:04:38 +0800
+Subject: [PATCH v2 1/9] media: v4l2-ctrls: add DV RX audio sampling rate
+ and present controls
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-upstream-it6625-alsa-i2s-v2-3-a154685f6989@ite.com.tw>
+Message-Id: <20261124-upstream-it6625-alsa-i2s-v2-1-a154685f6989@ite.com.tw>
 References: <20261124-upstream-it6625-alsa-i2s-v2-0-a154685f6989@ite.com.tw>
 In-Reply-To: <20261124-upstream-it6625-alsa-i2s-v2-0-a154685f6989@ite.com.tw>
 To: Hermes Wu <Hermes.Wu@ite.com.tw>, 
@@ -98,11 +98,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
  linux-api@vger.kernel.org, Hermes Wu <Hermes.wu@ite.com.tw>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795489507; l=2928;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795489507; l=4280;
  i=Hermes.wu@ite.com.tw; s=20241230; h=from:subject:message-id;
- bh=ytAWsRiTLVmmRHZAGjnaMocH6hwobSFfACvLY218tdQ=;
- b=BnHBczbCbD+LslyqMcoasYmBx2keRAWAlGqCe6IkPyA5Hc7lHHNsvbu5vepYBiXKS1Qxnz8pB
- RktmPmNFtXACZLYLpscicbJDFrfQMARx+bAXMYDDB+R+25Qee4YWGo3
+ bh=uONLhvOawBsUyg64gstD6rmmzirFK6ytrgkdbVqwlM8=;
+ b=t+GfKiFThuL8fWNAo3CF4Yrm8Ek3DT75KcBZ23nXzADx+NpigbJNn9U/HfLF/R+Ap0r7Nw4Rz
+ CXPqRhjD+1qBc3NEVOzboThjWh5VSHbIzhCGZF1vFnfMmszkqHlvhuj
 X-Developer-Key: i=Hermes.wu@ite.com.tw; a=ed25519;
  pk=qho5Dawp2WWj9CGyjtJ6/Y10xH8odjRdS6SXDaDAerU=
 X-Endpoint-Received: by B4 Relay for Hermes.wu@ite.com.tw/20241230 with
@@ -113,85 +113,83 @@ Content-Transfer-Encoding: 7bit
 
 From: Hermes Wu <Hermes.wu@ite.com.tw>
 
-The driver reports the HDMI audio sampling rate and whether audio is
-present through its custom controls TC358743_CID_AUDIO_SAMPLING_RATE and
-TC358743_CID_AUDIO_PRESENT. There are now standard controls for both:
-V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE and V4L2_CID_DV_RX_AUDIO_PRESENT.
+HDMI and DisplayPort receivers can report whether the source sends audio
+and at which sampling rate. Drivers expose this today through
+driver-specific controls (tc358743 and IT6625 each define their own pair),
+so userspace has to know every driver to find it.
 
-Add the standard controls and set them together with the custom ones,
-from the same values. The custom controls are kept, since userspace may
-already use them.
+Add two standard read-only controls to the DV control class:
+V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE, the sampling rate in Hz, 0 when no
+audio is received or the rate is not known, and
+V4L2_CID_DV_RX_AUDIO_PRESENT, whether audio is received. Drivers set
+the range of the sampling rate control.
 ---
- drivers/media/i2c/tc358743.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+ Documentation/userspace-api/media/v4l/ext-ctrls-dv.rst | 10 ++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  5 +++++
+ include/uapi/linux/v4l2-controls.h                     |  2 ++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index d9cd0563d50b62e90387397210e80a8b10f0988f..873fc22d030a3cc87c79e35eb57579eba902432f 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -95,6 +95,8 @@ struct tc358743_state {
- 	struct v4l2_ctrl *detect_tx_5v_ctrl;
- 	struct v4l2_ctrl *audio_sampling_rate_ctrl;
- 	struct v4l2_ctrl *audio_present_ctrl;
-+	struct v4l2_ctrl *audio_sampling_rate_std_ctrl;
-+	struct v4l2_ctrl *audio_present_std_ctrl;
- 
- 	struct delayed_work delayed_work_enable_hotplug;
- 
-@@ -589,17 +591,27 @@ static int tc358743_s_ctrl_detect_tx_5v(struct v4l2_subdev *sd)
- static int tc358743_s_ctrl_audio_sampling_rate(struct v4l2_subdev *sd)
- {
- 	struct tc358743_state *state = to_state(sd);
-+	int rate = get_audio_sampling_rate(sd);
-+	int ret;
- 
--	return v4l2_ctrl_s_ctrl(state->audio_sampling_rate_ctrl,
--			get_audio_sampling_rate(sd));
-+	ret = v4l2_ctrl_s_ctrl(state->audio_sampling_rate_ctrl, rate);
-+	if (ret)
-+		return ret;
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-dv.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-dv.rst
+index 5918dde83efb324cd27cc4c771245cd2c38d0b0e..a9117912e9cb255a2ce452147858d927e9e3c27a 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-dv.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-dv.rst
+@@ -158,3 +158,13 @@ enum v4l2_dv_it_content_type -
+     from a computer as opposed to content from a TV broadcast or an
+     analog source. See ``V4L2_CID_DV_TX_IT_CONTENT_TYPE`` for the
+     available content types.
 +
-+	return v4l2_ctrl_s_ctrl(state->audio_sampling_rate_std_ctrl, rate);
- }
- 
- static int tc358743_s_ctrl_audio_present(struct v4l2_subdev *sd)
- {
- 	struct tc358743_state *state = to_state(sd);
-+	bool present = audio_present(sd);
-+	int ret;
- 
--	return v4l2_ctrl_s_ctrl(state->audio_present_ctrl,
--			audio_present(sd));
-+	ret = v4l2_ctrl_s_ctrl(state->audio_present_ctrl, present);
-+	if (ret)
-+		return ret;
++``V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE (integer)``
++    Reads the sampling rate, in Hz, of the audio that the receiver
++    receives from the source. It is 0 if no audio is received, or if the
++    receiver cannot determine the sampling rate. This read-only control
++    is applicable to HDMI and DisplayPort connectors.
 +
-+	return v4l2_ctrl_s_ctrl(state->audio_present_std_ctrl, present);
- }
++``V4L2_CID_DV_RX_AUDIO_PRESENT (boolean)``
++    Detects whether the receiver receives audio from the source. This
++    read-only control is applicable to HDMI and DisplayPort connectors.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+index e062f2088490470c42d6c579ff7675be454a29b0..579b2d297cc8246dddb4e8d4ab74aed1e6084744 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+@@ -1180,6 +1180,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_DV_RX_POWER_PRESENT:	return "Power Present";
+ 	case V4L2_CID_DV_RX_RGB_RANGE:		return "Rx RGB Quantization Range";
+ 	case V4L2_CID_DV_RX_IT_CONTENT_TYPE:	return "Rx IT Content Type";
++	case V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE: return "Rx Audio Sampling Rate";
++	case V4L2_CID_DV_RX_AUDIO_PRESENT:	return "Rx Audio Present";
  
- static int tc358743_update_controls(struct v4l2_subdev *sd)
-@@ -2217,11 +2229,20 @@ static int tc358743_probe(struct i2c_client *client)
- 	}
+ 	case V4L2_CID_FM_RX_CLASS:		return "FM Radio Receiver Controls";
+ 	case V4L2_CID_TUNE_DEEMPHASIS:		return "De-Emphasis";
+@@ -1317,6 +1319,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_RDS_RX_TRAFFIC_ANNOUNCEMENT:
+ 	case V4L2_CID_RDS_RX_TRAFFIC_PROGRAM:
+ 	case V4L2_CID_RDS_RX_MUSIC_SPEECH:
++	case V4L2_CID_DV_RX_AUDIO_PRESENT:
+ 		*type = V4L2_CTRL_TYPE_BOOLEAN;
+ 		*min = 0;
+ 		*max = *step = 1;
+@@ -1682,6 +1685,8 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_DV_TX_EDID_PRESENT:
+ 	case V4L2_CID_DV_RX_POWER_PRESENT:
+ 	case V4L2_CID_DV_RX_IT_CONTENT_TYPE:
++	case V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE:
++	case V4L2_CID_DV_RX_AUDIO_PRESENT:
+ 	case V4L2_CID_RDS_RX_PTY:
+ 	case V4L2_CID_RDS_RX_PS_NAME:
+ 	case V4L2_CID_RDS_RX_RADIO_TEXT:
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index d17e41d51d2ec1ccb9e8ceb3ccc89ebc4381a4cd..52124b7acdeab787978029aa49ea75d0ad4cc534 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -1301,6 +1301,8 @@ enum v4l2_dv_it_content_type {
+ #define V4L2_CID_DV_RX_POWER_PRESENT		(V4L2_CID_DV_CLASS_BASE + 100)
+ #define V4L2_CID_DV_RX_RGB_RANGE		(V4L2_CID_DV_CLASS_BASE + 101)
+ #define V4L2_CID_DV_RX_IT_CONTENT_TYPE		(V4L2_CID_DV_CLASS_BASE + 102)
++#define V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE	(V4L2_CID_DV_CLASS_BASE + 103)
++#define V4L2_CID_DV_RX_AUDIO_PRESENT		(V4L2_CID_DV_CLASS_BASE + 104)
  
- 	/* control handlers */
--	v4l2_ctrl_handler_init(&state->hdl, 3);
-+	v4l2_ctrl_handler_init(&state->hdl, 5);
- 
- 	state->detect_tx_5v_ctrl = v4l2_ctrl_new_std(&state->hdl, NULL,
- 			V4L2_CID_DV_RX_POWER_PRESENT, 0, 1, 0, 0);
- 
-+	state->audio_sampling_rate_std_ctrl =
-+		v4l2_ctrl_new_std(&state->hdl, NULL,
-+				  V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE,
-+				  0, 768000, 1, 0);
-+
-+	state->audio_present_std_ctrl =
-+		v4l2_ctrl_new_std(&state->hdl, NULL,
-+				  V4L2_CID_DV_RX_AUDIO_PRESENT, 0, 1, 1, 0);
-+
- 	/* custom controls */
- 	state->audio_sampling_rate_ctrl = v4l2_ctrl_new_custom(&state->hdl,
- 			&tc358743_ctrl_audio_sampling_rate, NULL);
+ #define V4L2_CID_FM_RX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_RX | 0x900)
+ #define V4L2_CID_FM_RX_CLASS			(V4L2_CTRL_CLASS_FM_RX | 1)
 
 -- 
 2.34.1
