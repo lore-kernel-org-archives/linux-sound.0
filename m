@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795540662;
-	b=0ZNI+mS8ik81ZYUV+thJ8ni+UOmPkzhHsr4Kbm1g2b6Rts47V0n83csT7GehmtF4VCE7
-	 ALWp+k0AIy9A1T6u6+K0XzvkJhGDXYY0GtKndEcMx96v2rFOMwag631EOd9ENhSJofmGK
-	 dhiE0Oin3V0U/WJ769QSVZ64bbgHmHQESNoaZuWuTq83jd6Zf8+qTE821fgJEl0chUT3V
-	 FXKplXoNjbj/SK7EwHfY7syp+QuuUC+eP/S7ZeDJxLguRQ63Z3I4TNSEKcE4DQjBNCmW1
-	 GYrlqGW2H0H2K8+f0DrX6n8JDAugRtZ9OyAFtk4eF950UaIeDOs4CbGDKY/AfMLJUsA==
+	t=1795540667;
+	b=PU+P8XxFXLeAIBZTgsPiM7zioelPSlwyznSjaQWvuZ59B6L3bu8C9EKEzFS28n/cetYg
+	 hX/gmjLuJfqJFOq4Mdf6BMJO3ppRNc0mEzLIpSGvGrNcownNx2iWeUDAcuFhM1GrNvDqw
+	 jRHy6cCLBdveRj38HN8a0Z/VjZOipMoijLRPZh45QX5O04UrfIT8RhFIHjZ0NeWeWNZLl
+	 pwUBu1B5YIBgxn28btEdIyTxib6KWoGTpdRNbwdLEbcKoBeAuXHmTv+G6/Oeh2Zo1GWLO
+	 n4+hamdWmqGJAoCYdeetYLj9Vrglk22V94gNSxd8dAlHg7fQ8yMoQUkPb09OwwGokgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795540662;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795540667;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=xx14778ekaPvlXPkdQ/6EQ5XfnTILF6S2y1VFMUAVVI=;
-	b=qYfUOdFZHHBQZdjhdK6vm0jJbSH9IPEDkWsEty2jgT3cik6Z+TJijvAD0Gca5kmOnKIG
-	 lfOXMuTnr5nlYFzUPgE5WU2hDRwJwPoChJxjFBLclqMn2mt+n/w3JuVVTg32fW9QUPm3c
-	 85nEgVdxE3zhstIjAipokmshwaY4UlRBYyTdvirX/jnUquWEtn5w9UfxRcmCSVfqDUrZ8
-	 OmKGM7Xden/MGQgIYCxelA+IqLSd31UcxuvAIc9B8wwPkC6K0l4Wniy06W3UYOEWNAzcR
-	 Nswc1RWOvt2D4Wb4tFLuISeGuQJRahuhYA6FPsMQwMWu+z9VLxAWJURUdz0cYLrHHaA==
+	bh=8g/Vm4O1rEWsEjj5TW0V+S131Vo2iWAqlSkIzIpnpdk=;
+	b=NAOm8ES97xxYqDARMN73g3r2oj7efs82gYgm4T8tpZ7Pi9Ajb5gc34qSPTuz96WE2aB7
+	 +lt7biYOPG1cCC0WBEX3OF/GeDjxNyWU2d3l4/kmEU/ghYZVMI40ZLDNSpM7TrsThr5il
+	 GkYLNx4qCqFNxE95nTSe/SSYtCU45j/ziIJ6Bczc5+8G4KNHhP32OobTEHz+XbKe9UiFb
+	 qAcknpY5tuckcWAiEoPh89ljhcQf+18IMdj/jN/UOGYi+BB2NdFuyCINkkW+BYMdOuvyJ
+	 hqsLpQOKk9eHwmzyBBn9UM1zgY94WxgaEo7GqeD51fxC3d1b3qfN5YH1uygixxKh+hA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hKCsQRE6;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LNqnjne5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B38606A321;
-	Tue, 24 Nov 2026 17:17:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354E9606A321;
+	Tue, 24 Nov 2026 17:17:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hKCsQRE6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0177B1F000C0;
-	Tue, 24 Nov 2026 17:17:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LNqnjne5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3EBC1F000EB;
+	Tue, 24 Nov 2026 17:17:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795540662;
-	bh=xx14778ekaPvlXPkdQ/6EQ5XfnTILF6S2y1VFMUAVVI=;
+	s=k20260515; t=1795540666;
+	bh=8g/Vm4O1rEWsEjj5TW0V+S131Vo2iWAqlSkIzIpnpdk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=hKCsQRE69owzKioEPaOendnj8oynVHfJAjgRU/7AxBKqu4/I1SXUh1nutfmjITfPl
-	 i8lfWVHRBMJy9BuQzFOgFFdtrzRPvRH5gupq1ylI7AL9Lu73vnrlgw9s+fnqxl3u/E
-	 YbeQdVPyvMEou6nWXE0SFe7Dm+EczekA6OMRjrasXUB9zBZGclgWefC5etVnTZOkT/
-	 a2fEtQcvMV8H5vb7MewhsJDToOz2zre7fzIi4korB/zSvSz1PffI6zXROP3sbk2N+n
-	 zHtmL2W0cadGqDvhBt7KnzvaluziP+FX4vYK1t4sgWDWxLGp9Wqn0pCQgpbqlvonaN
-	 KRNxZsiWysNQA==
+	b=LNqnjne5/f65lSTK2EHGuwMzt9Q5apk0gatGUe3I1rUBe7pT7mqHIb8nfd7mbqbw5
+	 6EehB5xeTVdT48q7RjeChj6k1rdci86f1pavdzAioG3yTNBFSAmvGdGsk9OhpgZfUz
+	 ADJlnVzyD4utQAZ2zhaXjCYXMUlxihAmLYwK6rRuFSEQTu2pjiw7hvkgnJ72wvXTb8
+	 MnGe2J6+j/Ti48JvM9aMo1zeL6asTw5Ej9uTQIoJjeSICQgGNBkGyy4MQM21OfZLcA
+	 5LkmU/b4HvW89P/3OqXMkKoRnoW3v2C33CWwrGyJiJ8P+pXqKiz19epfKLYsiarvrq
+	 h6UCGc8K7x/Cw==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+To: Binbin Zhou <zhoubb.aaron@gmail.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Ian Rogers <irogers@google.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>
-In-Reply-To: <20261119171105.1538194-1-irogers@google.com>
-References: <20261119171105.1538194-1-irogers@google.com>
-Subject: Re: [PATCH] ASoC: tas2781: Initialize subblk_offset in
- tasdevice_process_block()
-Message-Id: <179552987357.264265.5488292379151147418.b4-ty@b4>
-Date: Tue, 24 Nov 2026 14:17:53 +0000
+ Takashi Iwai <tiwai@suse.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>, 
+ loongarch@lists.linux.dev, linux-sound@vger.kernel.org
+In-Reply-To: <20261124072413.3282851-1-zhoubinbin@loongson.cn>
+References: <20261124072413.3282851-1-zhoubinbin@loongson.cn>
+Subject: Re: [PATCH] ASoC: loongson: Set dai_fmt for auto format selection
+Message-Id: <179553036944.264265.14453578369983572823.b4-ty@b4>
+Date: Tue, 24 Nov 2026 14:26:09 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1152; i=broonie@kernel.org;
- h=from:subject:message-id; bh=nGEyVfz/co3h9KTwLtkLoTtGf3Aic4alZxuPJX3stac=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZj23SlTAIO81/tKi5cZLpvs9iOuovpBiO7LnK63nKs
- 3zh5NkdHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjI3FJGhhfb59z8J6XybnWG
- 2sRVggf+Lo6cMbedZyXD886729QnfopjZOgVamYRj582/6HSG+2tkRctFq46+O/j2l137D6b80n
- VCfIBAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1123; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=W5mecpkLSmd6cJfRbUgrBak2oNQOqMfqUpqEzESQHPg=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZj21fsmxp26HmWkfn9+/Z/hTfTlo5yU0wr+ygyN170
+ xhcVAtyO0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRhhmMDHfj9hike/o/6dh+
+ 5HGiU1ynyaWsSYZ1Z/0K/y+1m51yu5mR4VJPaL9FpZ9+6pqbL48KHLZyMxaeKOL7S9Q6nmPyrQo
+ hBgA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 19 Nov 2026 09:11:05 -0800, Ian Rogers wrote:
-> ASoC: tas2781: Initialize subblk_offset in tasdevice_process_block()
+On Tue, 24 Nov 2026 15:24:13 +0800, Binbin Zhou wrote:
+> ASoC: loongson: Set dai_fmt for auto format selection
 
 Applied to
 
@@ -83,8 +82,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: tas2781: Initialize subblk_offset in tasdevice_process_block()
-      https://git.kernel.org/broonie/sound/c/e68e710ecc89
+[1/1] ASoC: loongson: Set dai_fmt for auto format selection
+      https://git.kernel.org/broonie/sound/c/279cd42031ae
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
