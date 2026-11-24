@@ -1,73 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795494865;
-	b=T8sg/BoaUEhvk97s4UruTGvdhCqIskQMvU6qWXPAbV05oF18sO0g1IdXcnsbh6sBMy6o
-	 ntRjCxbKE+4CAD1CbQKbunPxupYNSsb3zMy9pLPDuwy7DUHwr87B/KRVrLlbfqof4UG46
-	 aQ5arRHHZmO2iHbYmFTRYNPINEhKurLOh0Uf595Th5J8egejeCSyql2z8guLK6lWxPTdN
-	 yvsOgQM7d4+xC2ScodzWY1m9oewAr1BIZWSWSMmGZkAAuPfThuWfks7ME1gpf2VPYxNSF
-	 55sImHRk1AHkD3YdD1GC89RAnMwe7Tik7ORa8f0Yad4WpnO/ifjh9YyRViaf5BooOGA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795494865;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer;
-	bh=/e6yF19zcnnSZ5kweRiKxTKNHNpF97qUwlGZCKVgLTI=;
-	b=3Eik5i1XOXSKY4ak32gxuwVPOi/fciDrfsY678QyvH+g+XGH8e3xlo9bqvW3WeeFPzZ9
-	 /Hzy26X8xNGfXW4XAsMxu1btfMCb5PBehPEJN9OLjkK6lZaIdSl0UXNnOpzleXVZvBK/o
-	 YVhwQPGViXNABrQqCXDr3O/rXO5JsZI5HoQ/bsaXx8acmGi05KgeSoTkCMsy/6uschJl7
-	 sbloQzCAu4wk4tv48pl/v80DkOHy7y66zgI73FkAOxCn2byFgoM/cfoyCBXHCjWqsJjFF
-	 +R3fw3pIPbXszrIkuDdtIQ/lmkt+G7kgitDQUFkqsQcAolNJn8MK1VBAUGYu0CzqSFQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=telaak.dev;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=74.125.224.44
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795495632;
+	b=1FBVMzJysaN02ijVPz+eOx8Ax/UIskBg5zHC/6dnNqZiff9p0PBr9QBgip2Dg8UCH/mR
+	 rxYNgOSvpyvEqcOSPeGarzeFgsIxhCYy+aXTgL2JTJ7GMkos9WWyNDQK0x7EHpYSBz3a1
+	 C3jM+qvZkCyLZtpfbBcZ8dpteQLRNwAxSxQ18DebkHPFBszUHmnvjFa0jvLtzSXvUZ/iK
+	 udiYM5m5cLL86k2vp2O0fmNlOI2Y+vwc4jazrcaeGTynY2PeQDHgk44ASwkv6rznFfXZ5
+	 hYPQVjKZ+A8po0Hf6BLYrfKnNC5aooXexItcSvgcFI0/rXK0O+u3anDs4ORQywW8G9Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795495632;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=1Q9Idu/BDrRLsyvIqbFJ0rTBe43Ed9KRtwgCLPenha8=;
+	b=gm2xv4ijvKsumRqArsGklOePybMA6IDwnKKnUKZnIeTqDa76w9g/BGTRLB8YdWYJAE4L
+	 wf1Q5zSiELZtVkJXWeO1y7RzQTGXHV2g6QRMZLHN2c228yxZkpPSJajd59WsIvVORKxe0
+	 RxNPnVI5RDHa2fjBa90JnbMa8KjolYIQc9pBg9WL7SN+/xDHK1tadO4s0wYOWQ/IXzbhQ
+	 DMgB4j4qAx+i1O7/mlUhbcHNMstP7F+AOPW67JfgZ+4NEVQmxFqQSRfPkf/2yRtDknjmZ
+	 8I1XgQ/fl5G319/WspMII54tQB/8fergyAIX6ABL4UCPq+97HrwcHNkhPzSch/BZ30w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rh+Oi7CZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45632606A31E;
+	Tue, 24 Nov 2026 04:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rh+Oi7CZ
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795495632;
+	b=ZJ3tGrpePXgpEd1q0UGwUOF961+OGVn2SLLGfHkrO032O/l61CeQ6zn3Cgskkbpp7Rwp
+	 iXT4K+bObp0aJYYdTGSSZRwWtgq5EensJVQBFKeUMX6b/khPKJgZMtj+SwXvUXjbYhDfk
+	 BcR5PhohpepMAIqjX420YbevwbzZLCfDr2LuLa3b9ztFwL2bfUhVpFqkodWeb1aAqgTKU
+	 VpPh6gRB5Q82/PYIUa5sAVen+OzNDLopT6o8WL5Ldb15xr+VUJM+dELxhILJA9PiPjC29
+	 rJDCbj3gim2GU2FUyN710QE6cUGysgtyDzHFka3VuRlxuZgPxkwRovm41l18z54zvPw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795495632;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=1Q9Idu/BDrRLsyvIqbFJ0rTBe43Ed9KRtwgCLPenha8=;
+	b=pfciPBv4JbhFTJJjTI5Lm0PEsXmSCN7xTAY0ecS1VLpLyWWZ4iBz+niduwPbab7IQOFU
+	 SO+/abRQc100cY9eoQb5nP85BGDKpSgv/Pk1VsFnLSG6sqcIGwYZ0lgRvNsLKJliQPUt6
+	 cqnHuHIkBLjALa14BVcKwHRC5OCmDpPRoB33BN5cYWOX4/s5eo4roNE85HsyBUVaEG74t
+	 yKvdWh3tNVg+R9xt4S5FRINbe3t5NQqph9HgH2Cm8TChti7SXQq2Iv0pVqf2jtDXY2T+6
+	 3OYpwWEerKgO5pv8mmdpg5m+2OCBeSEW7p3y64lkrTUYfNLMFf/55szP6nthgzsz6dA==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655BA606A322
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 04:34:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 655BA606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-67c0ffaae1dso4219494d50.1
-        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 20:34:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795494864; x=1796099664;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/e6yF19zcnnSZ5kweRiKxTKNHNpF97qUwlGZCKVgLTI=;
-        b=FxKDdvbZw5tyBT5iESMNXg6oRHCkObRJNK4lZFE56LqGpTmnOVRe+VjX+R3fN+mV+J
-         5RwORqHfaivJFaQrMBYw3wPi3xD1ITdOZufkK5zHdmhgapRjiUUPD3tnjFxRwGX6x9N9
-         PdDhOhT2zJ9A1+vHd5u9ndF33BsYbKQjxbFaSWvOj1y1JUsmnqvHyLTggfQFzkhmBZnV
-         gOMpJsMC6fh8ObNpvxpuzA3mZVoPtTRsRjudE0AJxbfija7zEk7mo1JiDFQvxcKPQpnd
-         ZNh63h4zbT7DjhhdGoKeVtpL36UZUMi/EoUnc56+n6deEHn3dzx9moeXtuTtReNQCxPl
-         UTjA==
-X-Gm-Message-State: APuU4Z/JmP1QiH/+QyXPCCLlYIApHKsttFWTE160y9A3T+NLju6pPW4I
-	hiSnL/oEy3t+lKeFHayYFcfGgwWVv7iyUjdvlfHxgMlj/BMgljI3G/Gf
-X-Gm-Gg: AZFdTZd9lxuPlbWlGUAnE0B49ia2oymVrg9sqilTS7gFPzTQhZPgbTVFZFbD965y4r3
-	EVfeoZ4lu6/Y8cnYLKoxGyT5L0ODmaxz38wAmgGzNgu/EO99u7nvJlrqVRblM6LPbJQYSogsDVl
-	LfjFCeMnaxUkPbUk+G7QleqwI1Nfr5z1sr+/mGAL9HUeQCtu1Jid7K0LJJ4gN7PhbKWHEf8610P
-	QoW+AA8IcvOpCTxi8BpPiEEGfleoBks/Y58toop6j+nvaHWHyECvr+5L3JTVXv8qMfJQ5c0PhGR
-	Y9DKiYivn0Ol1EpWpgFqJgBD9jt+z+TRtYZbbogr94Lb3DDCT6kaMPdm5t04+Kik47q/0rn8fz9
-	AzIUpHd3fNrzcAuOVe0d5MZid7lLj3gnkj3ZHADfE2f/AynlEQSvdiRz3BERJsZQdZh5CbxQ2Qp
-	d9XsHIp9tvVJkhE03UwbF8uD96peTuNYJvw2GJ033YaEVoH4vohrHu1fb0Yo6a/PA1+ONUcidGr
-	K3gajuf9zcuZ0QxDLooJ8KnQUy/cHfw2aO2mt4ZBGwN1TZk30k9p0GmoLucUc530IfTJi44iF1e
-	pGl+7J/83R6pYfYWTrl48gNfaoHwFDW6wY9mYKruGb6pLDnzlP+Ak5NrwHPBC7A2WRy4jntLxHt
-	2BjPd7K3+9L3Oa0c9osUZwUaBZEd5PdAHCuMrvUKpmekaX6oEvE4pzKwgsBgbOWCf7PFyUCaW2L
-	qlUWVOVfJTveWwXBrrH1CDig9VxV8=
-X-Received: by 2002:a05:690c:f16:b0:8b0:a01e:2ce2 with SMTP id 00721157ae682-8b518ec3105mr54040937b3.15.1795494864418;
-        Mon, 23 Nov 2026 20:34:24 -0800 (PST)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([71.68.170.161])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5202fb0a2sm53106397b3.27.2026.11.23.20.34.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 20:34:24 -0800 (PST)
-From: Joseph Telaak <joseph@telaak.dev>
-Subject: [PATCH v2 0/2] ASoC: ti: omap-mcbsp: TDM slots for generic cards
-Date: Mon, 23 Nov 2026 23:34:19 -0500
-Message-Id: <20261123-omap-mcbsp-tdm-slot-v2-0-3e3aae215952@telaak.dev>
+	by smtp.kernel.org (Postfix) with ESMTPS id B09241F000C0;
+	Tue, 24 Nov 2026 04:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795495632;
+	bh=1Q9Idu/BDrRLsyvIqbFJ0rTBe43Ed9KRtwgCLPenha8=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=Rh+Oi7CZ5Sl0gly4Hr0bfUqNsokxEBt3ui97bpJSIWywmBfVzmXg+6xsGhWHqO5Vv
+	 1b4v3bxtRInZwdSTTMPrQI/TDQF79UtEasYBvL4QDtWUHGOSyceZ3O7bFexvh9ldOD
+	 GrhPuDv/qoJjlxxRnjiXVJCGghOFDPvROdmAuO+HVXOr/2ABHUit2cmsHI3Siice90
+	 FDLlHcekcDgF61lHfvi+NumHD0diQzfOZduaUXu1SCfMbSPaCDhFtTT/Uahr2tb1UU
+	 L0ucgoj3DH9A5dhr1Rj+IOjE9K/8nCXfp6LOIiz4WnFqO91NIjNzInZYbvbemS+DMp
+	 DR4OQlF+PVUDA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 158044C88A;
+	Tue, 24 Nov 2026 04:47:08 +0000 (UTC)
+From: Suyuan Wang via B4 Relay <devnull+shyckless.gmail.com@kernel.org>
+Date: Tue, 24 Nov 2026 04:47:07 +0000
+Subject: [PATCH] ALSA: mixart: Don't touch the mailbox when the BAR mapping
+ failed
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -79,61 +85,73 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/22NQQ6CMBBFr0Jm7RhaoYgr72FYlDJIVSjp1EZDu
- LuAcefyJf+/NwGTt8RwSibwFC1bNywgdwmYTg9XQtssDDKVSgiRo+v1iL2pecTQ9MgPF7AgUuK
- QHaVUNSzP0VNrX5v1Un2Zn/WNTFhV66KzHJx/b9ko1t2voP4WosAUlSnbQuss17I8B3pofd83F
- KGa5/kDEdJeA8kAAAA=
-X-Change-ID: 20261115-omap-mcbsp-tdm-slot-7ee61348226b
-To: Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
-X-Mailer: b4 0.16.0
+Message-Id: <20261124-mixart-free-v1-1-13765d8d445b@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAMoWBWsC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQyMT3dzMisSiEt20otRUXQuTNEvz1GTDJDMLEyWgjoKi1LTMCrBp0bE
+ QfnFpUlZqcgnICKXaWgBdPnQNbwAAAA==
+X-Change-ID: 20261124-mixart-free-84f97ec1b684
+To: tiwai@suse.com, perex@perex.cz
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795495627; l=1657;
+ i=shyckless@gmail.com; s=default; h=from:subject:message-id;
+ bh=KroNMBNLmqXWTwC1spkNnjxXDnIiXoTFsmYu+3KeonU=;
+ b=GAspBgd8YPw6ltv7qrF8nA9eRiO3UmTQ86OaVDcOYWUL9OEtz7qm3/FnRkjgzwyP1GrQWhvdI
+ CQD7uD8ekRuDKHyPBA5WVmjASfUJe4xJ9jw1zXLq/4Q8f4QbCulLwug
+X-Developer-Key: i=shyckless@gmail.com; a=ed25519;
+ pk=pMtccVGiWES3bV+7YBFuBclkvq2n2HBHQ5azaBrK2lY=
+X-Endpoint-Received: by B4 Relay for shyckless@gmail.com/default with
+ auth_id=1498
+X-Original-From: Suyuan Wang <shyckless@gmail.com>
+Reply-To: shyckless@gmail.com
 
-With simple-audio-card or audio-graph-card, McBSP as clock provider runs
-its bit clock at the full SRG input, since only a machine driver can set
-its divider. Patch 2 adds set_tdm_slot() so these cards can ask for a
-frame of slots x slot_width bit clocks; patch 1 lets the divider use all
-8 bits of CLKGDV.
+From: Suyuan Wang <stevewong@hust.edu.cn>
 
-The ADV7513 in the test takes S32_LE only with a companion adv7511
-patch:
-https://lore.kernel.org/r/20261116-adv7511-s32-v1-1-40ae8228db42@telaak.dev
+snd_mixart_probe() calls snd_mixart_free() when pci_ioremap_bar() fails
+for either BAR. snd_mixart_free() then unconditionally calls
 
+	snd_mixart_exit_mailbox(mgr);
+
+which masks the outbound mailbox interrupts by writing to
+MIXART_REG(mgr, MIXART_PCI_OMIMR_OFFSET), i.e. through mgr->mem[1].virt.
+mem[1].virt is still NULL if either BAR mapping fails, so the error
+path oopses on a write near address 0 instead of returning -EBUSY.
+
+Only call snd_mixart_exit_mailbox() when the register BAR is mapped. The
+rest of snd_mixart_free() already copes with a partly set up manager:
+iounmap() accepts NULL, and the IRQ and DMA buffers are checked before
+release.
+
+Found with a static analysis tool and checked by hand.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Co-developed-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+Signed-off-by: Kaixuan Li <kaixuan.li@ntu.edu.sg>
+Signed-off-by: Suyuan Wang <stevewong@hust.edu.cn>
 ---
-Changes in v2:
-- 2/2: hw_params() checks the stream against the slots and the sysclk
-  (Mark).
-- 2/2: rates are limited at open only for a sysclk set outside a stream,
-  as simple-audio-card does at init; a sysclk a card sets in hw_params()
-  is checked there (Mark).
-- 2/2: both directions share the SRG, so the second is held to the
-  first's rate and sysclk until the first's hw_free().
-- 2/2: channels are pinned to the active slots, non-empty TX and RX masks
-  need the same weight, and unsupported slots are reported.
-- 2/2: a sysclk from the internal fclk must be that clock's rate, so
-  simple-card's mclk-fs (rate x fs) is refused instead of misprogrammed.
-- 2/2: dropped Jarkko's Acked-by since the patch changed.
-- 1/2: commit message wording only; keeps Jarkko's Acked-by.
-- Not supported: dai-tdm-slot-width-map switching.
-- Not tested on hardware: full duplex and a sysclk set in hw_params();
-  the test board has playback only.
-- Link to v1: https://patch.msgid.link/20261116-omap-mcbsp-tdm-slot-v1-0-6c9f7aa45a29@telaak.dev
-
+Compile tested on x86_64 (W=1, no new warnings). I don't have a miXart board.
 ---
-Joseph Telaak (2):
-      ASoC: ti: omap-mcbsp: Use all 8 bits of CLKGDV
-      ASoC: ti: omap-mcbsp: Implement set_tdm_slot
+ sound/pci/mixart/mixart.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- sound/soc/ti/omap-mcbsp-priv.h |  15 +-
- sound/soc/ti/omap-mcbsp.c      | 334 ++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 345 insertions(+), 4 deletions(-)
----
-base-commit: 2c0f21bfcda98db49f6476ff9b042402e5f20d3e
-change-id: 20261115-omap-mcbsp-tdm-slot-7ee61348226b
+diff --git a/sound/pci/mixart/mixart.c b/sound/pci/mixart/mixart.c
+index f451554cff5f..0266467734ca 100644
+--- a/sound/pci/mixart/mixart.c
++++ b/sound/pci/mixart/mixart.c
+@@ -1066,8 +1066,9 @@ static int snd_mixart_free(struct mixart_mgr *mgr)
+ 			snd_card_free(mgr->chip[i]->card);
+ 	}
+ 
+-	/* stop mailbox */
+-	snd_mixart_exit_mailbox(mgr);
++	/* stop mailbox, unless the register BAR was never mapped */
++	if (mgr->mem[1].virt)
++		snd_mixart_exit_mailbox(mgr);
+ 
+ 	/* release irq  */
+ 	if (mgr->irq >= 0)
 
-Best regards,
---  
-Joseph Telaak <joseph@telaak.dev>
+
+
 
