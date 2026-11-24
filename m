@@ -1,61 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795510874;
-	b=FbppV49TG59J4OfFNF0VCNE854mStzbj79nvQJiapiVuC3bFpzY8iebd4mdD0x142EOJ
-	 X9Tt3C3zKHPyqwvm3AxfVKQ2scY6f+kZqKSbWl5P7SIftUbnp1OKjR6d58HyES/1SX5PQ
-	 s2xlGdipwf657laV4pm5ojqo8Ae56ouQoyN0eS4s8ezXqRoNNarXSOdSFDBBrJhY2cK11
-	 lyitcCy136b+Z0Wd7I4LxmHdpvcdKAQPJqpahRRpEK4odaIM20JAXOWZuD7EFjF8QKWdw
-	 /QCxzPsfxKbEGx/YwmHeDtJ/XTUEDpEFFIhtHNLL6J9INN/DC6L5sJqbrZzUvrCTJ+A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795510874;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-ZohoMailClient;
-	bh=zMVxwEjKcwx0mwrBToKXrqt1zvVrJphj50TpbJderG8=;
-	b=fnhg0PQ8NkfG6Shm3QWgH4IScBSl+tuJ3LunpXD6BPuBdn/bCyYe59TVsnGhnQL3a7O3
-	 fDM11D/wAit2TEyqlbqyJEEytih2Zow6FOCm9LnbJKiCHDAsDI1NYSHMqq0JCmpoeflKP
-	 q08klVZfWNCxPV+rF8Cw/LgnXl8Veme+9SOGVof4WV4qpz8wxoHX1ELQS1DMRNrnu8o1S
-	 yEMBxU0nnVFXTu63sxE7GoPmm2knIj6gVtL/HrcxVNu7aKfPXLZF7VlqF4JYMUCHbuCqI
-	 sdilNSQc7clbdvaE4zZriWp+y63Zk9ZJWfM+KanwfDzJfPjhpFGfwnIjtqzRuLpN2Bg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=zzy040330.moe;
-	spf=pass smtp.mailfrom=zzy040330.moe;
-	dkim=pass header.d=zzy040330.moe header.i=@zzy040330.moe header.a=rsa-sha256 header.s=zmail header.b=RSyRRVdI;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.15
-Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795511265;
+	b=TbMO8Ih3HlnyJshUznyh+d137Tkm8t061I7hBbxx1jgBXdLua0AHfQMBy4onJDqtKhfJ
+	 elGPxZp4KytJKHP3TVd4B5dwEFBPZsKF0Pxh4Wc5WkDQsWOSC6hMV5wrzvqmxN6BAT7nA
+	 4sskUqLxYTezHbtCDnf0jkLv7++kkfQXsKWMYOCom5UFnbbW0lV3evZDqlZ5ABvyy2v3W
+	 2aHk7BilFVV40fRGTRd2CBjoxnKFyGiyR4VCD5rz8QcdJNLqIHlE8DC22VcsVIcN+cpjE
+	 +jGzuSOBGxKH287Oj9boHLrrS2FlBBG/t3vGXmLETMnXzKhNNaZBEzWXmDdUbX1aUzA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795511265;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=yeEqsaROwk1F1+IA2zrAlIhQx6+rnGnMld2/SEXU8x0=;
+	b=DINz85LWramLajRjlh/JSmjf9FDkuecFt4Kgk+7rQzFsY0UrAzIfRGM0lP4G4ddZBrdh
+	 Sl8rnpF3xNGfxDh3SH7TsdL3VKkZ7ImJEVAkeyo1DML2Dw3ev4TLXNdHk8aLlEvAYUHU9
+	 Ldcy3RQfP8dtVv7Fuyia86GQZIG8hH6PkCxGz49Zp5wmJI+JHxxJ9oV9+lk9O+osY5296
+	 tgqDSt3fDJCMwDfos8QAjO6SAhF/VeFcwHSwZyhtEdaGFGYzkx04rAzNiCV1QAQNlRSo8
+	 34bek1uYOua0mS15t9zIKUw1kTXUCJO4wGiAapmiuW/UacpiJND05yMjbgqgpzWHmHQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wzm7EBAx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04591606A31E
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 09:01:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04591606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=zzy040330.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zzy040330.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F1B606A31E;
+	Tue, 24 Nov 2026 09:07:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=zzy040330.moe header.i=@zzy040330.moe header.a=rsa-sha256 header.s=zmail header.b=RSyRRVdI
-ARC-Seal: i=1; a=rsa-sha256; t=1795510870; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=GLlXxCcYOhe5ZgHDO2hwVdbxRpka0p33k59AO8kMm75ulbiX5LTf8MFH2unIYh42feGSycfWQFxfbHNM9zAbL4p0YKHd8ltlo/EumODwFMsnGIKkSXoy6wqrqvBgyIonOY7ZHpB3Mari1kkuR54MniD5lVhFMicwIulcvhz59sU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795510870; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zMVxwEjKcwx0mwrBToKXrqt1zvVrJphj50TpbJderG8=; 
-	b=HQx/PJ+E7Y2tgi8AOYN4XGtVkXwFxEHbv+1aRD/bZtD80x7VMHSxiQHA8ISa2AzXbN2vDoJZ5FbjdaVKiv/xfcsiHvPO6E7jd+bO0dtnru25LMrXhbL8oLr/IrFNoffOhsoYZajx5Occj8JpAwv5938G6KmOiQ/KB3s3t9WG1/E=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zzy040330.moe;
-	spf=pass  smtp.mailfrom=sophiel@zzy040330.moe;
-	dmarc=pass header.from=<sophiel@zzy040330.moe>
-DKIM-Signature: a=rsa-sha256; b=RSyRRVdIxcaTN/4+HOQLXTgSWzzKuwgZRtm4E0ijZ7L2hcEFM9VM1PQYeD4GWJ5JslI7lEB5wHHoAEif3HBUw7YDii139/xLGRdKYPha/jhsiDEb878c8QVXVguadKO4GO5vveSuxen5IJZuhmB+4Wm+MbFKGmxc7ue4e5Yx9sE=; c=relaxed/relaxed; s=zmail; d=zzy040330.moe; v=1; bh=zMVxwEjKcwx0mwrBToKXrqt1zvVrJphj50TpbJderG8=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795510868366356.293636797782;
-	Tue, 24 Nov 2026 01:01:08 -0800 (PST)
-From: Sophiel Zhou <sophiel@zzy040330.moe>
-To: linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sophiel Zhou <sophiel@zzy040330.moe>
-Subject: [PATCH] ALSA: usb-audio: Enable native DSD for iBasso Macaron
-Date: Tue, 24 Nov 2026 17:00:51 +0800
-Message-ID: <20261124090051.37375-1-sophiel@zzy040330.moe>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wzm7EBAx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C2A61F000D2;
+	Tue, 24 Nov 2026 09:07:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795511265;
+	bh=yeEqsaROwk1F1+IA2zrAlIhQx6+rnGnMld2/SEXU8x0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Wzm7EBAx7ESbGdwKlGjx3MTlAHdammph0LHbLCqAZ7VhcvRk3BQHHTihQHJbgKzwR
+	 UezsYiC481n2arg+LD2PZZLFp5mP+IQZofqs+Bfw6zU3dccKInFRHn/IH9seIlMVBe
+	 R/61d1JbY06gVI/muXjjEfk3wCAUW5HyEZ3+roGSpbei+2lUutE/9jkfbPW4vugjVM
+	 REnagmUgdEZ04g8UvqY9iLL8YU5KyuYapAaDdsnHnFoEVAdGxnlx8U3k3eCujnsH8O
+	 w70327++JOUMjcBYJrUTQr3RysgEK57DSKbm01Jd2gn7F0KWy07cb3p0hr1c7JvnIZ
+	 T9Gl0jXh7v6KQ==
+Date: Tue, 24 Nov 2026 14:37:40 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Xiangwu Lai <laixiangwu@cmss.chinamobile.com>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] soundwire: mipi_disco: Put fwnode on property array
+ read errors
+Message-ID: <awVT3MHdgD3MAxt3@parshuram>
+References: <20261112060943.1916-1-laixiangwu@cmss.chinamobile.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,38 +57,23 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112060943.1916-1-laixiangwu@cmss.chinamobile.com>
 
-The iBasso Macaron (USB ID 262a:1a0b) exposes a UAC2 RAW_DATA
-playback altsetting (altset 4, bmFormats 0x80000000, 32-bit
-subslot), but ALSA reports it as SPECIAL without the DSD_RAW
-quirk, preventing native DSD playback.
+On 12-11-26, 14:09, Xiangwu Lai wrote:
+> sdw_master_read_prop() and sdw_slave_read_dpn() take a fwnode
+> reference with device_get_named_child_node() and already release it
+> on the -ENOMEM and success paths.  However, the error paths added
+> for the property array reads jump straight out without dropping the
+> reference, leaking it on every failed read.  The lane-list support
+> in sdw_slave_read_dpn() is even missing the put on its -ENOMEM path,
+> unlike the other array allocations in the same function.
+> 
+> Release the reference on those error paths as well, matching the
+> existing -ENOMEM handling in the same functions.
 
-Add the device to the quirk flags table with QUIRK_FLAG_DSD_RAW.
-This makes the altsetting available as DSD_U32_BE.
+This fails for me on on the current code - sdw/next. Please rebase
 
-Tested with quirk_flags=262a:1a0b:dsd_raw and with the quirk
-enabled through the device table entry. DSD256 playback works.
-
-Signed-off-by: Sophiel Zhou <sophiel@zzy040330.moe>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index a4eb0d0cd..36d5ed028 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2803,6 +2803,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
- 	DEVICE_FLG(0x262a, 0x9302, /* ddHiFi TC44C */
- 		   QUIRK_FLAG_DSD_RAW),
-+	DEVICE_FLG(0x262a, 0x1a0b, /* iBasso Macaron */
-+		   QUIRK_FLAG_DSD_RAW),
- 	DEVICE_FLG(0x2772, 0x0502, /* Musical Fidelity M6s DAC */
- 		   0), /* for avoiding QUIRK_FLAG_DSD_RAW with vendor match */
- 	DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
 -- 
-2.56.0
-
+~Vinod
