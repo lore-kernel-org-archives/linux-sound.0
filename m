@@ -1,111 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795508755;
-	b=chPttJpLBL7r7X3q8ei5ypKQ2bIDkE6qNLCwd2omzSoQKbvtfi/waAJ1w/3+FkmcJPQg
-	 fsZI4+r3s5tq7T7UuS8Ug/a8YQGn4K5XiCPrA/0J38EIVGQMHiq6rVPCMGOg6NAftc88L
-	 aa8Cbn/Aci5kO9OMQuFN85pa57QqXkPmGw7SM5QhS+tlgYY5VKJlhCH5wO5/jtyOiTche
-	 B/cJ0RkzsnitWDIn0323AmI7TTcN7fEW5bSqwXEYxv6yLKHYXtKWGYZChtXhTVAyHCCsw
-	 DbDY6R8nguet7AmY/786ZhtFKy/4LGxoXRgyvAMuluoPNj/6XstATqTmSMLHrH9n92Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508755;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=CCEmSfJwCaNOoRbQ5GYphEUxAwNcUzHWoWJbLEdk9Tc=;
-	b=hb/VudAWR65Bs11gtd/uG+MAkxstVOg3CSi0bxpPejZdkYCZmqdcpgv6t7HApZmZkKC2
-	 +5oSikzewNjHmI2Eg/Qasu35uw3pjqKuSxsoOp2cr5OQmZhyZhCrirwwgYGWlU/YOw8nO
-	 9XdLN2bovPqKH3jWeywxk2Q2Wzx+hh5dWDLFJiUosJLLiA2BN3GFidtXwrX9SrtC+MeVP
-	 3jj2KJ45p2jnQG1vc4uPs6DD3ULkmtWizNdTKxTe5y9kPV9jTSSB/o8ipbzDX2yJXrM5m
-	 qQHdpytO+Pk2ihfz8NstREbAhhZWCKbSi6nNL8+wEUbxDrO5bxFaKLWFmblWQxsjgGA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=oNZA+q8f;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GCw7tqzg;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.6
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795510311;
+	b=gCvm02x2bO1ubOVxMtrvyU3kHTSApGlRQ7Th3dN1YwPjZN2ItoA//QKj13ZSvkVIh77s
+	 DcBVjfn2uM+F9OsE3sPXcvf4CorS8aR+7NpAZx9DEErcvd6s6w9W71HsgH1we/a8pblvE
+	 gJGhVmyIr+t4jpxRmfgBy2LUlLvVcTo1N60gdyCt1w7wk3dj6pnoNrwPHoHUQQPULulRR
+	 4O7f9Cm/pStiLu2BGbih0ws1dQ+fvHHfYd2uakcuRnIX44WpspmPTubuKVbu4wKtU//Kx
+	 yeztJDXUUTIHEC8+lAuv8RhnYBBq4whdjsBdWrSjjlCmd/Ip0/KhIRHmqiz/ESC0h/Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795510311;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=gCb5h2va7SGjg6thRA1k+3PW7vPIfI0LQkXFqS+gdPo=;
+	b=L1wBOznZY1t0NTxnVXs4bD7/tDCH/hVa9qErjoPv9Z/wqyG4KrG4nRBygrvNxkl3XmEJ
+	 ej4wHeXk0+ecfgk/XFXrhK0JH0vjlfv6i7ZSuea3BbQ7ABQPtyTo4rIWl522TR1WHwYxv
+	 kWYHKQT4ADmWhrKTwl83+jPqNRTrJrUtZi3TiYuVEAbouIo4EonzxVv/5eSL5ptL302xJ
+	 d5rtfkl6a29NwNxAjDKmjcZkqRo7XCJIpTYHsiF9CRgUNMTvUsV2uoYCEM1qsMuvriZQu
+	 veJUiUKx1I7m8OYxISNk9ajPs8pR+KC2ztd3P2QD6L9vH4TmJ/m/dA8nd25qy+/OJhg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=zohUdQ2w;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.6
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012006.outbound.protection.outlook.com [52.101.48.6])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC731606A31E
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:25:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BC731606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35F6606A327;
+	Tue, 24 Nov 2026 08:51:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B35F6606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=oNZA+q8f;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=GCw7tqzg
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AO2k4UT4129094
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:25:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	CCEmSfJwCaNOoRbQ5GYphEUxAwNcUzHWoWJbLEdk9Tc=; b=oNZA+q8fXJTa2NPb
-	azkxlMkxsljvJPWDCOZUMq+Az1tLG6C9fN1uq02ZcgFlMkUYp9YNLe8P2S9OkVrn
-	Esi9uE3+NBTpMPxqLCEpq/JOswyVRDWZaJaMuUmGShcRxozs7tqhGQmhXP4quTH6
-	+KtVUSyUEdm2aa23c678MTB1646te/3JiIZmdHtghVKYEI9JMm0xRk4QND6EvXaP
-	SBA+E3OScVz/QIUNW2mTGc1xu0XCZkTvEPbT9FYLAYq3P3rtFTi6hxQaaIkQes6Y
-	lUyslgFa4WvQ5kvSmPwp2vpiXwdLXiKGF+YeNQLi2U5dbKfvdxZw202GolOFvZK2
-	D0/wHA==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4yyt1mh5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:25:53 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-3854627c1c8so6307126eec.1
-        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 00:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795508753; x=1796113553; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CCEmSfJwCaNOoRbQ5GYphEUxAwNcUzHWoWJbLEdk9Tc=;
-        b=GCw7tqzgJiE9DuLZSN5Vhpps1euwcQhpyuv+EKoDbfg+cU2/SpQ7lfsFp/LufJQKCs
-         lUfepUyJF4Nc15dUKi+NXKWUxTLZje6uBIy/QbUHkZPdy2O3YFfNSC5IUj81q1+3VQRQ
-         bdyEnx8hrZWywulAx2U31P3qZsrYFKlum3CLMa9xL2b2scCKh+34i1ebcGrRJOhXgxwh
-         e5hfF5Lu4Y7l4SpLvWUujEzPqO5KMiZc0taVJCvfu+SXP9SYdzITxIiWPlcwZSqoU0Nv
-         YYf/I7EsZCerfX+40gHx9jFYQQOevveIafvENTq9NhuVXfbT8CGqUG3edb9YjVn33y+N
-         j+sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795508753; x=1796113553;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CCEmSfJwCaNOoRbQ5GYphEUxAwNcUzHWoWJbLEdk9Tc=;
-        b=1Nn9NRY5hrlvezoECI55x0zDfQzCK+muEKoZ8uY8VAMeB31SwNG5Y4gi3xDHQ0bEOg
-         dCaFtNMQWDf0Ow6u/XWDL3OaRQ10au0vHkmPTVhsslsERgCxcpAk+A0YwJ9gM2HLr6Si
-         1adaN/g6PHSJcg+WYDSXPX4P7kX85KlBILA+lhWKJ+6qBaoJJLNXrkQlqBQuzFjnr1EY
-         x5SsgOyzaBLRFKnJvleF7nnO+YO/w/BYXgJl44O6WXccWImiwHX+ATjaSdTNndpAeM4i
-         1IcIKn8Nw2vlV98GgCPAWHu4eVdYWyiQAwFNsKxj49jciluvktSJd/OBrjrknKPXem5R
-         Fkrg==
-X-Gm-Message-State: APuU4Z+8ibNcnBNzPPiXOGMGTheKb9pTVcs+J95dQMjgfa8p1DsKN/9F
-	YUYArzSVGsgZwIGddtg1m3oQAli6J5GTn2vc9Y0hr7lYgG2/AiBLMP5P6gvj9LzxrpecyzeRoCG
-	YSAQ+0Jz7P/M/pvf+qDpY85EbDBf00BsNeetJFQmb3tRCSpYvqkx9gRN9xm/jJVPWLYKhaxT3cQ
-	==
-X-Gm-Gg: AZFdTZfBqfTCB3b1YRAnfDJn3/QKnAUjTprFFND7nPXQqPWOZe6OAinrg7AtetwL1lC
-	J+UcLCDVapkryZ9DC8VUVLH9CPggVBktiN64iioZg+negOEGxhq0iZCavu1usKIBefuxEhOgC72
-	km1vJmJAtQogPGP8EaDTSCs3gi8gMaeB4JSUB7cP45Uo18z6pcgHBHqga4/yC39dpi9uPkrP8cz
-	j/JfPJ8nODL+IGBT2u5fYO0smanwsB2GNMzofWfFrZaEIN7jYMdflLlo3Z2nnbsOPiKH2gOdif0
-	Uun1QMZD0uiG1HGfWBhhtvPboVQwvoleWzHUUubq3nJvOVA+Prsy+/UvvYF/lWNt41QcBQ5v0nx
-	rVYt0VGmYkHYL734e90Xc1wTd529ImBCQEgjjwZv4xCma5TeuZlQStVV7DcbzXmvGH5i4YU3hN/
-	3sv9vMPJPbUjAi
-X-Received: by 2002:a05:693c:37c8:b0:386:a0d1:1b41 with SMTP id 5a478bee46e88-386a0d136aemr14448008eec.34.1795508753140;
-        Tue, 24 Nov 2026 00:25:53 -0800 (PST)
-X-Received: by 2002:a05:693c:37c8:b0:386:a0d1:1b41 with SMTP id 5a478bee46e88-386a0d136aemr14447980eec.34.1795508752512;
-        Tue, 24 Nov 2026 00:25:52 -0800 (PST)
-Received: from [10.218.21.154] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e7fc3sm37866957eec.8.2026.11.24.00.25.51
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 00:25:52 -0800 (PST)
-Message-ID: <b15a6000-5c65-47b9-a26c-fed54a14c1c5@oss.qualcomm.com>
-Date: Tue, 24 Nov 2026 13:55:49 +0530
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=zohUdQ2w
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f0kqJyFfnGO3XJL3dhGC/QtGivaRdFPgVmOmb9jAXqb1P63J+mdoVGde2AYXBhuTZ/yh1DPahnEs0mgjIhYZuIrLaENQy5U9/grbc7UCkj7H+QBBUgqvJApA1FnnaF2uXB1kFKidHClsFQ4wuZD/piQ0ntkd2X1aLXjpAYg14Tu+MPWfU0CzN6da97f5ZMn66qOBh3G9On6X2YWenyh+zkQRE2eXDe6ayogCm0O85f2YeCCzmOrni/7liTR+BaWY8LPEPchkiv2rq0Qmr0YjjXvlr/LOo7aHB48qzjy381Aua3g4cu+y/+r/p7qVJIoudhndpwDSepW8LuyJNYa0WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gCb5h2va7SGjg6thRA1k+3PW7vPIfI0LQkXFqS+gdPo=;
+ b=o8jt4jgJD+o+VXWGhI9yqqqKeevos8yu/9r9lQXWtq9wlUlxcrsf3GxTDZkEtygLvdSiNJ8j+u9Wj0H+mgzEB1/FZB7coATKm5CLcwEjgCBxc9s9QgdIUj3uscUNsB8WY4+vXZvQj2NZaO8oYMiY4y0Wf7o2JGuJF8TXT9V5xbMdiX+ktJN5OuYG+1ls0P6DYziP4psnr6ihY7M6vG5G1WGVVDXS+7osfQ2lHecKPwaQREac8W8VuMVV8ADU8bZn/MByHP15lU2TbsYY6Hss69sKo+7s+csIwLePTESMqbFclnB8rVRmt9Q4C8LHXvQq23oSkoPc+0sWgLYj0vD4Lw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gCb5h2va7SGjg6thRA1k+3PW7vPIfI0LQkXFqS+gdPo=;
+ b=zohUdQ2wqS7hpXhL5HhnJiZW5DxyAovNWuwYWRD29lH3fsQOqg7k2HnzgZAMBoie3fDow5tWfb5aot30vrCsfCfYOO/WLve2Fp6Mr+xFQ0+g83R+W9upECe7bCjC/PyuHg4+qJ+IF7ARNMP+6n7iNUll+QMh5lyoeFeQj/gDJWU=
+Received: from PH1PEPF000132E9.NAMP220.PROD.OUTLOOK.COM (2603:10b6:518:1::30)
+ by IA1PR12MB7662.namprd12.prod.outlook.com (2603:10b6:208:425::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Tue, 24 Nov
+ 2026 08:51:45 +0000
+Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
+ (2a01:111:f403:c902::5) by PH1PEPF000132E9.outlook.office365.com
+ (2603:1036:903:47::3) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.6 via Frontend Transport; Tue, 24
+ Nov 2026 08:51:44 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.662.3 via Frontend Transport; Tue, 24 Nov 2026 08:51:44 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.57; Tue, 24 Nov
+ 2026 02:51:43 -0600
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.57
+ via Frontend Transport; Tue, 24 Nov 2026 02:51:40 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <Syed.SabaKareem@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>, <Poojitha.N@amd.com>,
+	<lee@kernel.org>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH v9 01/24] soundwire: amd: consolidate pad register macros into amd_init.h
+Date: Tue, 24 Nov 2026 14:18:07 +0530
+Message-ID: <20261124085033.682755-2-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261124085033.682755-1-Vijendar.Mukunda@amd.com>
+References: <20261124085033.682755-1-Vijendar.Mukunda@amd.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,137 +113,106 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] ASoC: qcom: sc8280xp: add support for monaco-draco
-To: linux-sound@vger.kernel.org
-References: <20261123073459.2361169-1-karthik.s@oss.qualcomm.com>
- <20261123073459.2361169-2-karthik.s@oss.qualcomm.com>
-Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <20261123073459.2361169-2-karthik.s@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDAzMiBTYWx0ZWRfX1OmF7NeSHCYx
- dXHKwPvHNEgq1qXVBWnl036Q8lkygs9iamVWE3OVBjy1T/uI+MiEm65eb4Fs5IxKtFx72zqA8zn
- W3Xd8gpCIdqfmFbx5j4H4UuqZENPm04=
-X-Proofpoint-GUID: 80Hm8KxRPJJi1K3zPkzM3ynk6bDHNv7u
-X-Proofpoint-ORIG-GUID: 80Hm8KxRPJJi1K3zPkzM3ynk6bDHNv7u
-X-Authority-Analysis: v=2.4 cv=W9OtxhWk c=1 sm=1 tr=0 ts=6b054a11 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=zYGhswiE34W4Y21q3IsA:9 a=QEXdDO2ut3YA:10
- a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDAzMiBTYWx0ZWRfX5SMAFFTbTaYH
- IaIRcLOj6k4r0hAOCpz/owV7riXZxfYeBVCc509wvk8/M6x+Yrr6ogPUAecGPUa4bt/SjT9juun
- SEPrWe2CEztA3Clc2c5wv8J2o7K2AHuWABOhm2pTiXiGBMYD+393BJdiqsH1g811ZiIsORlUZ9e
- 8M/BIdv2GoV5FCNE3XqeWltcsOf8LzdtrDqxr73sO5CU6WM/o3C1M0mgGqTiGaNbVKu3adLzuVl
- RRY0x5/awIio7yMI7Jp1F0kb1sPFwynskIdUFvu09LyfHgpew7fVnu20DsUjtf5poUjIwxVqcen
- VgKR8eljO5lEIxGdC29696i1Q1NRa7DKcEMbBDxgaPFDqn4oPztipp2wQzAmoepUelhFdJC6ABA
- TTuW3MEHuzy9+DJh1+xcWhBvYTrDP/PxNb9q2ceHbIs2kPIGjNtVz4VLcLdau4z4GsljFiDaKBB
- y5ARYzj099JT3iktiNg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-24_01,2026-11-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 priorityscore=1501 spamscore=0
- malwarescore=0 bulkscore=0 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611240032
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|IA1PR12MB7662:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8da6a424-2100-460b-baeb-08df4a082abf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|23010399003|36860700016|376014|18002099003|22082099003|11063799006|56012099006|261022075727099003|261026121527099003|261021135927099003|261009223027099003|261021123027099003|10067099003|261021121427099003|261102123227099003;
+X-Microsoft-Antispam-Message-Info:
+	iHCQbbPITiQ088QDxcLnElWNLVi+186g4oxvG0yV6oPFXxVm+VQqQmZZcuMg9AJVDTbnnmVVBRNDZbeXg68yUN5GD15Fe41CnJXovbdN7oVhoC7KS76bHhlr0hjCUIL6fh0537FH1oDbyosCbO6u2rvoho6fTog0VMeNBrqvddqVoivWgQDK35Bltthn98cYaeVIIsa4NN1UyIMbqF1uXOh0EtrpWTyirElFi2wBY9Zq2x9TQYT2QxGZUHCQSAY6NU8z4FHXv28FIqJ32CVIc5MSXTy3OQw73sPrb9y6aksG0XNPImu7hTgzeQcvjm86hV7OwQ3mhZ0+EPt+januoR3pWTlqIES1Qut8H2/ZefwDyi0dYgu2yc3Hf7kc0AqWtvZoQeYosz1+D4pCXfKrlk3+JsO8GZewN+NFVf50BBEiN/czFvA1zzui/SZsIrj3vdgStJUxypUFNn3xCZfbA8n/2MKb4mDCBtgpQ/pT43w+mW0y5nSahBdLV5CTo5VscdFmRwSOX5c7W5uknBSVUs1RBaKe+kzI5gCknls9f6Z4jzrg0DkJrk7t/DuV2YbrSd6HnR8lKDZXtf6gTn9U/ziWXqsbHyqjhB9tUgBbydrUH5ZJGyCtsBc9uFDRD3nneU2aSRSbAXiJ2Rwz2G9KdBVN5BLpFqcR9utZpNB3uz6QROQtpYQ2iUgn8CygnV4XAdKubqg8pkebMrs3JmeuUQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(23010399003)(36860700016)(376014)(18002099003)(22082099003)(11063799006)(56012099006)(261022075727099003)(261026121527099003)(261021135927099003)(261009223027099003)(261021123027099003)(10067099003)(261021121427099003)(261102123227099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	v78ffMXLOCbPD2ol9QBd9qLMIcloEUdRBEGE1cfe4w/LzJs4WAvc4Yu90nAV4qYV+SwkQb7gHpVe/vN1WIBQzdievVObHkkCCuFnlfJNL0sNlf5+zMRxVI9Q49VM5gXt8JvLzasAKO741h0YDko81MjD0gX1r1R642U494WkvO0syjQqlKevrdjrJ2WUqUzPE66J5GC1fRsgdcAiUZYnTlYJZT8WnykvRwfPouqv6O/DIRVa3WGLUlGwzHqGoNDwIRr/ZrRPfULZkzheDdbY5/nPPU88LHhGVo9mZhiV1L6jp+Ujkkom5d7hgqtluVDKAKxHxibnc0Nt676ptFl3fJM9XD3EdrZPy1gLO/HvNex0fviJcZMYhvTxJhPvdC1R7aUH8EzPKgTEcXJd1XSQu+jB3vzK7/wl5oteEadteNOZrBqr4IL7yY7ZjrvffnNB
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 08:51:44.6049
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8da6a424-2100-460b-baeb-08df4a082abf
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF00000204.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7662
 
+Move ACP_PAD_PULLDOWN_CTRL and ACP_SW_PAD_KEEPER_EN from their duplicate
+definitions in amd_init.c and amd_manager.h into amd_init.h, so a single
+canonical definition is shared by both translation units.
 
+Drop the eight stale AMD_SDW{0,1}_PAD_*_{ENABLE,DISABLE}_MASK definitions
+from amd_manager.h; they are no longer referenced anywhere.
 
-On 11/23/2026 1:04 PM, Karthik S wrote:
-> add machine driver support for monaco-draco platform
-> which includes routes for playback and capture over
-> max98091 and capture over va_macro Codec DMA.
-> 
-> Signed-off-by: Karthik S <karthik.s@oss.qualcomm.com>
-> ---
->   sound/soc/qcom/sc8280xp.c | 38 +++++++++++++++++++++++++++++++++++++-
->   1 file changed, 37 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-> index e136407c56bf..2b1804f3870c 100644
-> --- a/sound/soc/qcom/sc8280xp.c
-> +++ b/sound/soc/qcom/sc8280xp.c
-> @@ -44,8 +44,9 @@ static struct snd_soc_dapm_widget sc8280xp_dapm_widgets[] = {
->   
->   static const struct snd_kcontrol_new max98090_controls[] = {
->   	SOC_DAPM_PIN_SWITCH("Headset Mic12"),
-> -	SOC_DAPM_PIN_SWITCH("Headphone"),
-> +	SOC_DAPM_PIN_SWITCH("Headset Mic34"),
->   	SOC_DAPM_PIN_SWITCH("Headset Mic56"),
-> +	SOC_DAPM_PIN_SWITCH("Headphone"),
->   	SOC_DAPM_PIN_SWITCH("Speaker"),
->   	SOC_DAPM_PIN_SWITCH("Receiver"),
->   	SOC_DAPM_PIN_SWITCH("Int Mic"),
-> @@ -56,12 +57,34 @@ static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
->   	SND_SOC_DAPM_MIC("Mic Jack", NULL),
->   	SND_SOC_DAPM_HP("Headphone", NULL),
->   	SND_SOC_DAPM_MIC("Headset Mic12", NULL),
-> +	SND_SOC_DAPM_MIC("Headset Mic34", NULL),
->   	SND_SOC_DAPM_MIC("Headset Mic56", NULL),
->   	SND_SOC_DAPM_MIC("Int Mic", NULL),
->   	SND_SOC_DAPM_SPK("Receiver", NULL),
->   	SND_SOC_DAPM_SPK("Speaker", NULL),
->   };
->   
-> +static const struct snd_soc_dapm_route draco_monaco_dapm_routes[] = {
+No functional change.
 
-Move the audio routes to the Device Tree.
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+ drivers/soundwire/amd_init.c    |  2 --
+ drivers/soundwire/amd_init.h    |  3 +++
+ drivers/soundwire/amd_manager.h | 10 ----------
+ 3 files changed, 3 insertions(+), 12 deletions(-)
 
-Best Regards,
-Rafi.
-
-> +	{"IN12", NULL, "Headset Mic12"},
-> +	{"Headset Mic12", NULL, "MICBIAS"},
-> +	{"IN34", NULL, "Headset Mic34"},
-> +	{"Headset Mic34", NULL, "MICBIAS"},
-> +	{"IN56", NULL, "Headset Mic56"},
-> +	{"Headset Mic56", NULL, "MICBIAS"},
-> +	{"Headphone", NULL, "HPL"},
-> +	{"Headphone", NULL, "HPR"},
-> +	{"Receiver", NULL, "RCVL"},
-> +	{"Receiver", NULL, "RCVR"},
-> +	{"Speaker", NULL, "SPKL"},
-> +	{"Speaker", NULL, "SPKR"},
-> +	{"VA DMIC0", NULL, "vdd-micb"},
-> +	{"VA DMIC1", NULL, "vdd-micb"},
-> +	{"VA DMIC2", NULL, "vdd-micb"},
-> +	{"VA DMIC3", NULL, "vdd-micb"},
-> +	{"VA DMIC4", NULL, "vdd-micb"},
-> +	{"VA DMIC5", NULL, "vdd-micb"},
-> +};
-> +
->   enum sc8280xp_jack_setup {
->   	SC8280XP_JACK_SETUP_NONE,
->   	SC8280XP_JACK_SETUP_CODEC,
-> @@ -617,6 +640,18 @@ static const struct qcom_snd_soc_common qcs9100_priv_data = {
->   	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
->   };
->   
-> +static const struct qcom_snd_soc_common draco_monaco_priv_data = {
-> +	.driver_name = "qcs8300",
-> +	.dapm_widgets = max98090_dapm_widgets,
-> +	.num_dapm_widgets = ARRAY_SIZE(max98090_dapm_widgets),
-> +	.dapm_routes = draco_monaco_dapm_routes,
-> +	.num_dapm_routes = ARRAY_SIZE(draco_monaco_dapm_routes),
-> +	.controls = max98090_controls,
-> +	.num_controls = ARRAY_SIZE(max98090_controls),
-> +	.codec_dai_fmt = SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_BC_FC,
-> +	.codec_sysclk_set = true,
-> +};
-> +
->   static const struct qcom_snd_soc_common qcs615_priv_data = {
->   	.driver_name = "qcs615",
->   	.dapm_widgets = sc8280xp_dapm_widgets,
-> @@ -742,6 +777,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
->   	{ .compatible = "qcom,qcs6490-rb3gen2-sndcard", .data = &qcs6490_priv_data },
->   	{ .compatible = "thundercomm,qcs6490-rubikpi3-sndcard", .data = &rubikpi3_priv_data },
->   	{ .compatible = "qcom,qcs8275-sndcard", .data = &qcs8275_priv_data },
-> +	{ .compatible = "qcom,qcs8300-draco-sndcard", .data = &draco_monaco_priv_data },
->   	{ .compatible = "qcom,qcs9075-sndcard", .data = &qcs9100_priv_data },
->   	{ .compatible = "qcom,qcs9100-sndcard", .data = &qcs9100_priv_data },
->   	{ .compatible = "qcom,sc8280xp-sndcard", .data = &sc8280xp_priv_data },
+diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
+index 8e419ddfa516..b4f45bdf3c17 100644
+--- a/drivers/soundwire/amd_init.c
++++ b/drivers/soundwire/amd_init.c
+@@ -16,8 +16,6 @@
+ 
+ #include "amd_init.h"
+ 
+-#define ACP_PAD_PULLDOWN_CTRL				0x0001448
+-#define ACP_SW_PAD_KEEPER_EN				0x0001454
+ #define AMD_SDW0_PAD_CTRL_MASK				0x60
+ #define AMD_SDW1_PAD_CTRL_MASK				5
+ #define AMD_SDW_PAD_CTRL_MASK		(AMD_SDW0_PAD_CTRL_MASK | AMD_SDW1_PAD_CTRL_MASK)
+diff --git a/drivers/soundwire/amd_init.h b/drivers/soundwire/amd_init.h
+index 5e7b43836a37..106852464dc7 100644
+--- a/drivers/soundwire/amd_init.h
++++ b/drivers/soundwire/amd_init.h
+@@ -8,6 +8,9 @@
+ 
+ #include <linux/soundwire/sdw_amd.h>
+ 
++#define ACP_PAD_PULLDOWN_CTRL				0x0001448
++#define ACP_SW_PAD_KEEPER_EN				0x0001454
++
+ int amd_sdw_manager_start(struct amd_sdw_manager *amd_manager);
+ 
+ static inline void amd_updatel(void __iomem *mmio, int offset, u32 mask, u32 val)
+diff --git a/drivers/soundwire/amd_manager.h b/drivers/soundwire/amd_manager.h
+index 88cf8a426a0c..98c814d5d7cd 100644
+--- a/drivers/soundwire/amd_manager.h
++++ b/drivers/soundwire/amd_manager.h
+@@ -11,8 +11,6 @@
+ #define SDW_MANAGER_REG_OFFSET				0xc00
+ #define AMD_SDW_DEFAULT_ROWS				50
+ #define AMD_SDW_DEFAULT_COLUMNS				10
+-#define ACP_PAD_PULLDOWN_CTRL				0x0001448
+-#define ACP_SW_PAD_KEEPER_EN				0x0001454
+ #define ACP_SW0_WAKE_EN					0x0001458
+ #define ACP_EXTERNAL_INTR_CNTL0				0x0001a04
+ #define ACP_EXTERNAL_INTR_STAT0				0x0001a0c
+@@ -180,14 +178,6 @@
+ #define AMD_DPN_CH_EN_LCTRL				GENMASK(2, 0)
+ #define AMD_DPN_CH_EN_CHMASK				GENMASK(10, 3)
+ #define AMD_SDW_STAT_MAX_RETRY_COUNT			100
+-#define AMD_SDW0_PAD_PULLDOWN_CTRL_ENABLE_MASK		0x7f9f
+-#define AMD_SDW1_PAD_PULLDOWN_CTRL_ENABLE_MASK		0x7ffa
+-#define AMD_SDW0_PAD_PULLDOWN_CTRL_DISABLE_MASK		0x60
+-#define AMD_SDW1_PAD_PULLDOWN_CTRL_DISABLE_MASK		5
+-#define AMD_SDW0_PAD_KEEPER_EN_MASK			1
+-#define AMD_SDW1_PAD_KEEPER_EN_MASK			0x10
+-#define AMD_SDW0_PAD_KEEPER_DISABLE_MASK		0x1e
+-#define AMD_SDW1_PAD_KEEPER_DISABLE_MASK		0xf
+ #define AMD_SDW_PREQ_INTR_STAT				BIT(19)
+ #define AMD_SDW_CLK_STOP_DONE				1
+ #define AMD_SDW_CLK_RESUME_REQ				2
+-- 
+2.53.0
 
