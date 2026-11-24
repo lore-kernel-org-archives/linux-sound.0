@@ -1,60 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541615;
-	b=afk5AwbQeoBVp9mhnF+0aqruoCFCsjzJ4DKm7AYRh8KzxK4olFPhXKZUtnKsJSp8nnIi
-	 zdD8hu/nB5JEEAa+ppVRJHt3yqgwWALT31QrX6l2K2H2R1qq3j0Nqw+TN5GgE5ZxNnyL6
-	 KvFyGdVZghqW+qVmcBOTGvTMRwjgpoPLAfCNuFQD36Qb71wJ6aa0byJHlGSy765tC1y7t
-	 Ei7kN3f/+BQ2hiu46cNkZP3Hvp8E0YIRXgvxF2G9Z+TvtoGnwo8mTMVAZuLzIj86Gff7R
-	 75tZqRjOHjiWocm0tqfHE2Zvp+i7uskO1iobcEUqtDxP/UtlxnjM3mcIOWwb8KzXLPg==
+	t=1795542254;
+	b=QLTCikP1GRY/gRzhSCt7eS7BaU2TFzMPniMnR/q+MdoK9g5UjeE8l4yKRRFdBfLNPg3v
+	 8UNDDewg7f9ikQFT6Gxth+GnsyC0tEHcLi0HkOQqDQP0MlLg1kj5hv3MjH7pPywY84sj6
+	 T94bVmt02ULNv6tdQxgNYctEZrMIwe/h3Q1u0PcebNnAtMJLsJtgbbK2Iz21CG0DcF1Hp
+	 40rnROclvXhmJGHcFtcEZTZtcM8CEybd/VKn+rhtS3chs4SsyjHQpyQvFowGZ2nZthVry
+	 Fe4GAT5MHGKGH6omTW8qVMg2ytSxY6Woy5mjciyKQy4/A4a+jn0l+jtNdPrMznjHNvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541615;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=pEuF4UXdvuOAlixC85PRtyQwE7CW1r+JuVMVWrFv2yA=;
-	b=s38G7kAN3bnj9Dditu7HfrUXhmqIs9HLSASYY99Rf56duUTZQ8mJcl0zLiZ6BiURYs3g
-	 UIgoN6OUiLDsfg9/pLSW2XebGIrkVXMg9KpDZU5C6h+I+7wi42gN/B52bsz9LpKTgnYv9
-	 JhKfcYUp2Jadhp8w3cJLLJPsKJRsCNwaY5gOxEmGS4XpcOhzm2pZVJ9OdSEAWnigW0T44
-	 A8pKRL6f6QGwpaz9XWuFmU80jfW9pSIPciJ1KgSH3Y/r6qwJQ4Fa+0XmWqr3mPaNZqUbS
-	 anXfUIHvtQcM+6mUWJXJbW0aKG0RTjODm8n24vLyLMr0OcBIlaMHPBJBhXDEyisEjIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795542254;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=HKhR6OHiklx1bX+p3KGyuPjKjODk61dLp6EanlfmzcE=;
+	b=l591FawwbQWXHE7fMCL3XGSOU1e57Fcc1/7G1y1JgOsp0gHqRuz8AdMM9sycVH+doS0+
+	 KNqIXGZFQqfUkxhqvfEm0W4NsiB3bamP5xm/VggU9Gji25LPSrtQIM4eLNGWza+DXTUFy
+	 BRs8RQ/yAyb4f7Fr/4hx2wCt+HJNP1YCmbLt6xAJo1UsEgLaM/qgIw0ICcustIvTWYqdC
+	 W//p7hFefAto1B5VMZw9PYarqJvvaphHsUXaSQamClZnMmD7YUCoeNOvU/prso2KU8AsU
+	 v4gdUH8Whs0Znqek76WhJbOMp8ROkIdrN3S1nZp1Q4YqIGn82MyWFZClyMzZvanBCTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AGBBiw76;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NJ29cXaY;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A036606A688;
-	Tue, 24 Nov 2026 17:33:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443D6606A339;
+	Tue, 24 Nov 2026 17:44:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AGBBiw76
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B3CE1F00A3E;
-	Tue, 24 Nov 2026 17:33:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NJ29cXaY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6D61F000C0;
+	Tue, 24 Nov 2026 17:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795541614;
-	bh=pEuF4UXdvuOAlixC85PRtyQwE7CW1r+JuVMVWrFv2yA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=AGBBiw76bODRsuyoba/o6wZYt7FGGBiCRpBG9PdHYHwkXomfNiRqJudM9UdN73Bog
-	 wN6wbpmo5iPTJAu4t555S0VpxjpP3Y3rNzKpsMSRoyEym+0vrnGaCr+EMI/lJLh+M2
-	 jw9SJWUeiP2Ml+Zpp468oybRSFmZ3UDR+2vUMgIM8gj4vhLF1aZRwZi4iwlZJVDzsr
-	 eD1OhsTqpNg9x9iIpBfz8Ms2y3shT6dRc0I5/e7As5yPhyRHsZDyMudrfdD/F1DxNB
-	 EjPZP6dPzqIDF5WS6puIfwyGTaUBbO6yh1SYMk+MZiwW2wn1w49zeDizcFti7tJ3qq
-	 vyzPzhQHAb9dw==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, Lee Jones <lee@kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, mfd@lists.linux.dev
-In-Reply-To: <20261123-arizona-asoc-v2-0-6323d3c0961a@gmail.com>
-References: <20261123-arizona-asoc-v2-0-6323d3c0961a@gmail.com>
-Subject: Re: [PATCH v2 0/4] ASoC: arizona: switch to generic device
- properties and clean up
-Message-Id: <179553350367.264265.622212709195339744.b4-ty@b4>
-Date: Tue, 24 Nov 2026 15:18:23 +0000
+	s=k20260515; t=1795542253;
+	bh=HKhR6OHiklx1bX+p3KGyuPjKjODk61dLp6EanlfmzcE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NJ29cXaYv6HUliyjiizrk23flhFKv4V1ZKP9Qv+KxAlkx6hkDeO6wja/roc+Z0eD9
+	 HI71wQ0tVYL/v2nQ9MVdP/TLhnQjj7ZW+M6tTe4Nl0sUutKDLE4is7Ik+suHSPoRR9
+	 wsJK//vBZ2RP2x/8UdJhNP1ruxqAWt+ET22Efr8PjIDJOZEKLwjypvYmahfIlaKHIP
+	 4q/gcafpsoomrEod6DTpCRKgThrLFXVUd20pcambSXhKB4nqM/MR6wdoClYQa0/zBN
+	 D/AGI7amPhsVuMkBDD/UcRZtwb8T81iIRqbNUNPPA1tmdknPBjRhpwbxvMiAPuj3I8
+	 F3HIHhfj75CBQ==
+Message-ID: <sashiko-outbox-231736@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 10/19] ASoC: qcom: lpass-cdc-dma: add support for WSA
+ codec DMA
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Neil Armstrong" <neil.armstrong@linaro.org>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261124-topic-sm8650-el2-v2-10-174e159f0f69@linaro.org>
+References: <20261124-topic-sm8650-el2-v2-0-174e159f0f69@linaro.org>
+ <20261124-topic-sm8650-el2-v2-10-174e159f0f69@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Nov 2026 17:44:13 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,69 +60,68 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2295; i=broonie@kernel.org;
- h=from:subject:message-id; bh=AAwwm4kVkDk6Y8/0C98PPgTZBZCFethq14/7w3Cowyc=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZT2Xt/ZXHvCJOjbHubv99n/SaVd0HVE8xGFQERL2Z3
- ipa8Vmxo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABPZ9ZCR4WHN56+LquXKz96X
- vchqdMNS7lLtn0krG6oanBdPWrVr1mlGhm0yMXKbejiPHnct+WQ/3U6s8J3zHqY8G56GWd/sOVI
- 6OAA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 23 Nov 2026 15:00:53 -0800, Dmitry Torokhov wrote:
-> ASoC: arizona: switch to generic device properties and clean up
-> 
-> This series converts Arizona ASoC drivers to generic device properties
-> and cleans up dead code and formatting issues:
-> 
-> - Convert audio platform data parsing from OF-only APIs to generic
->   device property helpers and drop CONFIG_OF guards across the codec
->   drivers.
-> - Parse device properties unconditionally in the jack detection and codec
->   drivers even when platform data is supplied, preserving existing
->   channel settings and boolean flags when properties are absent.
-> - Drop unused hpdet_acc_id and hpdet_acc_id_line fields from struct
->   arizona_pdata along with the unreachable HPDET accessory ID logic in
->   the jack detection driver.
-> - Clean up coding style and argument alignment in arizona-jack.c.
-> 
-> [...]
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ASoC: qcom: unchecked clk_prepare_enable() in
+  lpass_cdc_dma_daiops_startup()
+--
 
-Applied to
+commit b77682a3d9ba3fc802985eb7a7f2cb05c5db3350
+Author: Neil Armstrong <neil.armstrong@linaro.org>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+ASoC: qcom: lpass-cdc-dma: add support for WSA codec DMA
 
-Thanks!
+This commit adds WSA codec DMA interface handling to the LPASS codec DMA
+driver, wiring up the WSA DMA control handles, interface types, and
+codec_mem1 clock in DAI startup and shutdown.
 
-[1/4] ASoC: arizona: convert audio pdata parsing to generic device properties
-      https://git.kernel.org/broonie/sound/c/e479ed6b6ccf
-[2/4] ASoC: arizona: always parse device properties regardless of platform data
-      https://git.kernel.org/broonie/sound/c/53136aa2d64d
-[3/4] ASoC: arizona: drop unused HPDET accessory ID support
-      https://git.kernel.org/broonie/sound/c/a516c1f40ea4
-[4/4] ASoC: arizona: clean up coding style and formatting
-      https://git.kernel.org/broonie/sound/c/ce694590177a
+> diff --git a/sound/soc/qcom/lpass-cdc-dma.c b/sound/soc/qcom/lpass-cdc-dm=
+a.c
+> index 2dc8c75c4bf08..d7f85a4f9d999 100644
+> --- a/sound/soc/qcom/lpass-cdc-dma.c
+> +++ b/sound/soc/qcom/lpass-cdc-dma.c
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+[ ... ]
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> @@ -184,6 +211,11 @@ static int lpass_cdc_dma_daiops_startup(struct snd_p=
+cm_substream *substream,
+>  		clk_set_rate(drvdata->va_mem0, CODEC_MEM_HZ_NORMAL);
+>  		clk_prepare_enable(drvdata->va_mem0);
+>  		break;
+> +	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
+> +	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
+> +		clk_set_rate(drvdata->codec_mem1, CODEC_MEM_HZ_NORMAL);
+> +		clk_prepare_enable(drvdata->codec_mem1);
+> +		break;
+>  	default:
+>  		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, da=
+i->id);
+>  		break;
+> @@ -205,6 +237,10 @@ static void lpass_cdc_dma_daiops_shutdown(struct snd=
+_pcm_substream *substream,
+>  	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
+>  		clk_disable_unprepare(drvdata->va_mem0);
+>  		break;
+> +	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
+> +	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
+> +		clk_disable_unprepare(drvdata->codec_mem1);
+> +		break;
+>  	default:
+>  		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, da=
+i->id);
+>  		break;
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+[Severity: Medium]
+Should lpass_cdc_dma_daiops_startup() check and return errors from
+clk_set_rate() and clk_prepare_enable() on drvdata->codec_mem1?
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+If clk_prepare_enable() fails and startup returns 0, the substream opens
+with an unclocked LPM memory bank, and lpass_cdc_dma_daiops_shutdown() will
+later call clk_disable_unprepare(drvdata->codec_mem1) on close, either
+underflowing the clock refcounts or disabling the shared clock while
+another WSA stream is using it.
 
-Thanks,
-Mark
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-topic-sm86=
+50-el2-v2-0-174e159f0f69@linaro.org?part=3D10
