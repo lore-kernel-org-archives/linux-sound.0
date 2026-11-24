@@ -1,90 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.124
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795531949;
-	b=a3Ge0v3ERkYmWbzG+oxR4937HLP5jPszztLGWr1coG3vU/3HsC+ewWKe0NaoS3olb0cX
-	 isZDOZHOiySJtZnDu2hUP7l4+VTAyeM+om6vC8dnNk2UiJOYOuz4ySxrtzwV71til8Xt0
-	 fQrcBPMT1+zqyrpJlDSnIRp1dSh5KxG4yhqtjcofCL8m8qDXkr+VVZj85yPH2FrdslVMs
-	 NSNQ6mgC/r0Aq57tsG/onskf7mQtZIHJ9oyg5K15YnH8mdAZEYm2QdNj92SZu6dptzAEA
-	 zrKmJlaQoR1ztugVgh5Jpnj1p6kuDkMjDn9sm4gWuHHRJ9ycKMFejHZJT4aivUd0Npg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795531949;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Content-Transfer-Encoding:Message-Id:References:To:X-Mailer;
-	bh=sDNNJ2qecfiNiBlu/HoIFSrNzNgDneS/Z9HnceIVm4k=;
-	b=vy+FhdVradjToSoI8xyHn+rcJQ7rLJWjgbiJdhv3UG9TV7mKFs1Yjm5qGcu3cLfLV3rA
-	 NJfvlp0pc0du9uDh0aBMEJ410tu6AgcuuMxtvPymoZ+alvgrD04MSpUyt4I7Va7hYtbDH
-	 r6OijfR+vIlwMzvY69ys4t9/e5nMXw1qM6P40jvCaawO5gXryYTj7xqpWTlWt0twT6qbk
-	 IOT88IrPS9YrHZg4J7A0DVS9BeYFF3b6FUa5swY3QPz0Esnx7aLIt/57gl+rU1bT/KUNk
-	 6ckmrBPFwyXqRGLzQrVxikDeVFvOFZwv0+MDW4l6gwtolrH9ZpodNaNvMpeTkm7A5TA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goldelico.com;
-	spf=pass smtp.mailfrom=goldelico.com;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=DUO9ZTB0;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b="FO/KgIrr";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.124
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de [85.215.255.124])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795531983;
+	b=N+FRscTni2jfaMVxZ0RAbee9NFNcQLvihcsV8NxDW1whNlPevj+tXo39LFNBC4uNWpsF
+	 beBpLF23wcJXeJCMlFWmnEdtInbOk/cYG9kVJGZIoyYrH6nTjEdTMrqP4oQ6jhaUvHyuC
+	 2EyWuhLd49rj6TsRWk2L8P/xizgjshi0xM6fHCDemYRAyA3PZ+o9ScI5br+pzp948iDJk
+	 k9xJ0MDPycv7CtTaPdqPqBaDpUPPldMLpLpC0x2QYioMimR7c3tgFVdFCxxEozII5sFlU
+	 sV8LDeF9JIKx09hXjsPsom6+RShHVs3uDHgGTREjsNNvzpSYY6gJHOHvUmJ45TwvxNQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795531983;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=gMzKYkiaB2L0T3QJSdGN9b5TXntXCsFvRZ6uCtTbGqE=;
+	b=2gG6f9bhK64K1ryNEJu1uLpylUaEP+KCAcropZ3k6djn1fuvt2gYMkWvX29lUi1grOeK
+	 dzDgaz4X/3iIEQByTjbY4Qdwwx069j+ZiWbGUc103Lr+ueBcUAHFTsI4vwCuAWf/F5P48
+	 ScE3V/OJyIXEdMgWn9aZUMyE1g1zHXTaGM+miS2kks+kE/33nwLfr36mwO5HVZfz2M3BJ
+	 pYionCKV1usEYjc1/KjQyAAKvpue6wHepq0klnLshX9yBl5sOBbt5qNoA2uFXsLEDEkNd
+	 tfumX4YW0J6QQjcf5LD7vJkJ3Fcg8xnq2W8Na895pTAFA69aAul/zmh0VoFMHaVzuzA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eKrRp7bz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1152C606A31E;
-	Tue, 24 Nov 2026 14:52:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1152C606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30B9606A321;
+	Tue, 24 Nov 2026 14:53:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=DUO9ZTB0;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=FO/KgIrr
-ARC-Seal: i=1; a=rsa-sha256; t=1795531887; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=AGAUuV+AGkt1Lti0/74vBNAl6v1mYRSgS9ZK1Y0cTbTjphH1D0HXcMTgf8pqsoUEDu
-    8FgYs/qxh/zZFr8XGUGGLADQDNhdd0+cGQL7S4m/eZecUUDpZR1Vz7pgefqNCNAUxMPI
-    zqZc+CkAIltyjLl6TOcoqVV1W3WVdDgaUtabB0kK+ayTlDwJ1XG4qXojbcWbkuZ9j+15
-    qm8c/Z8i6YTfl7H1Ph4UC7kiCGJUUDBZ0oNNIe7+rJY/gUsTaxZjcm0RFt6jZvHHTM3G
-    dvWg/XzNqXh0JijNEgHYmDcboACCf3mAHD6+uEJSpewSpXR4jxBbyYdzqNF+Nr2Z1ybE
-    WAFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1795531887;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=sDNNJ2qecfiNiBlu/HoIFSrNzNgDneS/Z9HnceIVm4k=;
-    b=BbpCALDKiFdjr2IXHXhTrvnFayjbVaoOVu1F22gYhVvwZgh6hUhmV5tfbPmNBFpN89
-    n3NrnAQrfRTcDwApr1B7aBzgWAKGOB3AIshooaIFNSCG97/tIlPMe0rpswPg0UszJnsl
-    a76uqzllhdHL/n2yKgBks5O2yvbDrhuOJXWr6PflTDy60UgD508Zun1aU54RtgTSUtfH
-    5YUNgWizlgwuxifKuWfMRFdP4Jv3PV3Sd4Zg6PmdVOqvrAVdkjwDAORQ4/Boms8IZ0bU
-    mSaNDLgahuLYQE8HqIzDAJgGxILCqHU6im2GW+kDpmw0v4q3joKKVKjM/+Jbdl+ZKjw8
-    Jpcw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo04
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1795531887;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=sDNNJ2qecfiNiBlu/HoIFSrNzNgDneS/Z9HnceIVm4k=;
-    b=DUO9ZTB0i+350z/oV/HSI6YtPl55Mm1vcXtCZYtOcvJJVRTAhm9YM5Rny8uipAc+wZ
-    7cF1MUtY17VtraVF/9VdJ4iipUFTf/bplgoWExNxfFg69n2omukEALULRNO6PT6agEF9
-    VNLBGN2BmAFuUsztZCIT/mw/XPxi+ypjKKVJv8CpC9HSCOb011lWuLizRXYGXJxkHV66
-    xjD6U+ACC4qtzrFNyy8b8IfaMosv3DGTgdtuCysJ2TnBEcsNFa9O9rR1gzezfSgWbqyQ
-    wr9l/3vfqTnjLV93CDMVfF9bWqU2DL0GmgFk2rfOL0bqJFB9/x7RG6wbEqT9g20Zqrt1
-    qwLQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1795531887;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=sDNNJ2qecfiNiBlu/HoIFSrNzNgDneS/Z9HnceIVm4k=;
-    b=FO/KgIrrZ6O+NJg7CHtRSQvroq+XUsSTTFco+O/8Wf8UDLLq5C5KnE+pc0NKwvZbiZ
-    Us58QBEHkfGTvLrLgLDQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrV3poLlciNVWUgMvoVkTTR2P7jtjQyY2AeEP/F"
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id Qb56a22AOEpQ3g3
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Tue, 24 Nov 2026 15:51:26 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eKrRp7bz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E4801F000CA;
+	Tue, 24 Nov 2026 14:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795531983;
+	bh=gMzKYkiaB2L0T3QJSdGN9b5TXntXCsFvRZ6uCtTbGqE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=eKrRp7bzNavsfgO+71AkvddPKZ6d5HWcHbr1Ek7njfSgxBK+Viwvfm8JQ47N/JP+W
+	 VjAjLeaB9XFj+78MTOBlGSTmRC2Piwfkcd20LHesoH2IlEbBnlp5NbH0CwWDnZc1cG
+	 76FCR9wdrfsrPD6CZWiG8nyaF4FkEsPHr4+5PG1TRl/bEcc4ZEPqQ9Ba86uHvZBQjq
+	 70o+qNqUk8U4AnTwJJTc8P6s/JRei41B46G3HJo95ZbptxP6kveVmtxELatcK6uE1N
+	 9tG2hwh1MygX8ez9HtvcKWAgn2IeKU7lgx4UPibEjU0VQmCCnXdpdcFnr2dgOCUrXP
+	 NtJfdzBsQdu3Q==
+Message-ID: <c53ccf5f-7973-4b11-b7ea-7972bc87df97@kernel.org>
+Date: Tue, 24 Nov 2026 15:52:58 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -93,172 +50,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.11\))
-Subject: Re: [PATCH v2 06/20] dt-bindings: sound: Document OpenPandora sound
- card
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20261124-crocodile-of-marvelous-essence-ee7b3c@quoll>
-Date: Tue, 24 Nov 2026 15:50:55 +0100
-Cc: linux-fbdev@vger.kernel.org,
- Lee Jones <lee@kernel.org>,
- linux-pwm@vger.kernel.org,
- Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- David Airlie <airlied@gmail.com>,
- linux-leds@vger.kernel.org,
- Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>,
- Aaro Koskinen <aaro.koskinen@iki.fi>,
- Kevin Hilman <khilman@baylibre.com>,
- Helge Deller <deller@gmx.de>,
- Bartosz Golaszewski <brgl@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Daniel Thompson <danielt@kernel.org>,
- devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Roger Quadros <rogerq@kernel.org>,
- linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>,
- linux-sound@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>,
- linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- kernel@pyra-handheld.com,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jarkko Nikula <jarkko.nikula@bitmer.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4E342D73-FAC6-4D8E-9A4F-D9E81DC5D8C2@goldelico.com>
-References: <cover.1795505160.git.hns@goldelico.com>
- <5c6f7deca16f70f1f19cb40c57d70e30068d6000.1795505160.git.hns@goldelico.com>
- <20261124-crocodile-of-marvelous-essence-ee7b3c@quoll>
-To: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
-X-Mailer: Apple Mail (2.3826.700.81.1.11)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: sound: core: rawmidi input close can re-queue event_work after
+ cancel_work_sync() (UAF)
+To: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>, perex@perex.cz,
+ tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
+ <2026102727-data-sequel-ce41@gregkh>
+ <2033d529.2ad1b.1a2023ca712.Coremail.xuhx@hust.edu.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <2033d529.2ad1b.1a2023ca712.Coremail.xuhx@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+On 22/11/2026 08:50, 徐晗翔 wrote:
+> 
+>   Please keep me in Cc; I am not subscribed to the lists.
 
-> Am 24.11.2026 um 15:45 schrieb Krzysztof Kozlowski <krzk@kernel.org>:
->=20
-> On Tue, Nov 24, 2026 at 08:25:46AM +0100, H. Nikolaus Schaller wrote:
->> +description:
->> +  The OpenPandora audio subsystem describes the routing links =
-between the
->> +  OMAP3 McBSP interface, the external PCM1773 DAC, and the TWL4030 =
-audio codec,
->> +  alongside amplifiers and power supplies.
->> +
->> +properties:
->> +  compatible:
->> +    const: openpandora,omap3pandora-sound
->=20
-> openpandora,omap3-pandora-sound
->=20
-> (add hyphen) to match other style?
 
-Yes, that is a good idea.
+Why? You never responded to any other query we asked for the last month!
 
->=20
->> +
->> +  label:
->> +    $ref: /schemas/types.yaml#/definitions/string
->> +    description: User-visible name for this sound card.
->> +
->> +  amp-gpios:
->> +    maxItems: 1
->> +    description: GPIO pin controlling the amplifier power state.
->> +
->> +  amp-supply:
->> +    description: Regulator supplying power to the amplifier.
->> +
->> +  sound-dai:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->> +    minItems: 2
->> +    maxItems: 2
->> +    description:
->> +      Phandles to the audio CPU DAI (OMAP3 McBSP) and the codec DAI.
->> +
->> +  routing:
->> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
->> +    description:
->> +      A list of the connections between audio components.
->> +      Each entry is a pair of strings, the first being the =
-connection's sink,
->> +      the second being the connection's source.
->> +
->> +  widgets:
->> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
->> +    description:
->> +      User-specified audio sound widgets.
->> +      Each entry is a pair of strings, the first being the widget =
-type
->> +      (e.g., "Speaker", "Headphone", "Microphone", "Line") and the =
-second being its name.
->> +
->> +required:
->> +  - compatible
->> +  - sound-dai
->> +
->=20
-> allOf with $ref to sound-card-common.yaml and you can drop routing =
-property.
 
-Ok.
-
->=20
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    sound {
->> +        compatible =3D "openpandora,omap3pandora-sound";
->> +        status =3D "okay";
->=20
-> Drop
-
-Ok.
-
->=20
->> +
->> +        label =3D "OpenPandora";
->> +
->> +        amp-gpios =3D <&gpio1 14 GPIO_ACTIVE_HIGH>;
->> +        amp-supply =3D <&aux_5v>;
->> +
->> +        widgets =3D
->> +            "Line", "Line Out",
->=20
-> Join these two lines
-
-Ok, increases readability.
-
->=20
->> +            "Line", "Line In",
->> +            "Headphone", "Headphone Jack",
->> +            "Microphone", "Mic (internal)",
->> +            "Microphone", "Mic (external)";
->> +
->> +        routing =3D
->> +            "DAC1", "APLL Enable",
->=20
-> As well
->=20
->=20
-> Best regards,
-> Krzysztof
-
-BR and thanks,
-Nikolaus=
+Best regards,
+Krzysztof
