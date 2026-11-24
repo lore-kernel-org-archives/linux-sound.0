@@ -1,63 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539688;
-	b=D5hR98RlVIRRy2XyLBJeWCXQ+2kYKssBvmAzWEPsB0Q/LMBck9qmrXe8S+0zLhlaKLDR
-	 Yku4+8G2w26N+m8t7VMdWitueuNKhFdqYkqqMWG4W5ljlcKxbdxRh7YIRTkZFMupcFYPY
-	 JdKLgFyv7vBtLTwjn5dIZYfcrQ4SGHH+uyatmbN6i0qI3/LJkG+7mkiOPTc6F13q628qR
-	 QyC9b2+B7SN11dhOURLnM3rymx8g6UzxnRNXXaW4nK2OnE5lCQXL1rFAfywBIPLZ1jx/P
-	 lJMYON9GrDSFtuxOakzD5Rx63jydEqfs0groXKRJA5/irW58fKFcmTXbRs8tA7f1e4A==
+	t=1795539692;
+	b=FBAX6KLp4NIZQqdlXFBpmzeKXyF6N4FXuT6j8Ggzmq0OgLPn0o5bMPBai6FCxL4t/HpU
+	 vB5Jw/TqcbRoAx7Nmwi2QBSFl20brWmUpTKjfr9AQFCxoccBs4I5cP3UmbdHPIxRD4Pxs
+	 2yVc/UlBqviUq2B8+1EovHK5iFzvT/6MEsVGBuq/wOGI423txQU8v3Yi8rPV2KC0zSiN5
+	 L636vHocQtDzZ53d31UjFAMyN/dNFyow+BwqmysVSswCbcOY/U6GTLg2WkJ+I8aw6UHmd
+	 uXBO0F89wGVRDc6XTYi1a2Liu4AOgYpd9qVy9onY/y6PqIkUH5qWnSt0MhYfQ20SXTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539688;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795539692;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=IDzclnct8WA8a6C78MYePSDwkn2DldpsvUxqm75JnPg=;
-	b=MCgL30X5pJYLzBvSziGq2fbLt2zCp0TfjTk6pjPFE/axs0+YNH/8ycYWP8vMW784fY39
-	 z9xKQ/OdO1unYJfvZKv1N24ASw97RUSTdQQxd1SQ3PYsjhNROmULvNyGvrp/5atT87qN4
-	 yxsJcws8TI0M+/tbGKo7q4mvBXQ9OJ9Xu8ISxA7EYD5za8HIwFRDsWVy00J/tdQ7fHEYB
-	 qukAkt2duw/iOr9EzgGreUiMJDNiH5sV0bEG/NdTxOL8jOQJnaG/WYW7+0kl/J/5Xw4BB
-	 39cZeGPdbQN2m/gvy37+UcM2LSoSF8eTbx5bA2z8qAHCDOhE/y+7VUDflez8Fc8sbGQ==
+	bh=azlOkdFXepgocaL3C6iTHZtW2T8WACubyNNLMtTAchk=;
+	b=EFtPX7ltQqB4xsMUO7wCYmTryLF2SDyMPQZUCUXdVM4iLTom2vzYAwXNciw82oR9bHV6
+	 ZyVeFbvGn3axeWkOueXX5B3ziko0YU2Oe4M/VtI9zLfK6rbmVXexHHhoKBFxxhgn1KcCH
+	 14r1DG3eDxXI1jH1r2wXiTLtzFCXvIYiw2lUHo3Rdsr4EzdbdLxsnQsbzjnhLqPxSmgAG
+	 6WyOmLKpatW34SkXoc6xurRLdNsggCK7KTYH1RfsG4KCdYDvvpLYsAEuEwtWZpclVOFet
+	 6RG38VmJA9qIz1HqcbHBaSciQq/hNwpmjvcmxrb2UeDFOzKPY/OQ/n4egcgxD+V7QLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bd+0mX+b;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m1O0iaaM;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42417606A321;
-	Tue, 24 Nov 2026 17:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B67606A31E;
+	Tue, 24 Nov 2026 17:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bd+0mX+b
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD981F000C0;
-	Tue, 24 Nov 2026 17:01:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m1O0iaaM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE5C1F000D0;
+	Tue, 24 Nov 2026 17:01:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795539688;
-	bh=IDzclnct8WA8a6C78MYePSDwkn2DldpsvUxqm75JnPg=;
+	s=k20260515; t=1795539692;
+	bh=azlOkdFXepgocaL3C6iTHZtW2T8WACubyNNLMtTAchk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=bd+0mX+bTVWMLTn4CQSE46+nfqgd0ABeNiCzAm0TxnwofXmJ0w5usxsHQ7qSOFKIi
-	 pEO0DMzttBu+4SkrXcjDFOzQmJJga2PNIxM+q06wR9BA+Ocedl5ODmEmkple1At4pA
-	 7ch5dTLl3RWrDRSnPZmogHayUFuAWBmy2kiRnQC19a7qyZOE2g3BMXGgt+vHNCXITq
-	 mFgo5Taxav0ADHcEsJbrveTLWlcm/tuo+tcEkbdO8+1s3dzH4vZcRpsBe7I0ywXDjr
-	 a+ok95WVND4sJaJ9QOrQkgS6T73TlyGAbexJNkpQDEOrql3j19NtYQmeryOA6bazjY
-	 Da2NpjC89U/hg==
+	b=m1O0iaaMHjDBhIUHMgoy70FQu2sejXgJ8bnmWEjVLoa1uvEk1mVTNdjndF4etXLwA
+	 rBiHZCFVQfbvfSHYs7F1uCVAnS+BbvkCNugeWDSxmH3Ect7ga9P8zAEyFkABa3WqAI
+	 /7bggdB3Zi7sTAzV4A93c66VzMMNvsuDfFpHcaDhzGcG4n6pyUBr4UAmOYHT++VanM
+	 1z5Wso0KtavHm/xdgRjigsKgzHweXUQL9whV570Me6nXuw1NzEkWH7Nc4H1dQ/aX3o
+	 66h+g171WxTnHrQ1iXUuYTn6vYvhyAdL2+uggrm5JKPqs5ktg3xyCb1AEfZ7GUiQId
+	 81n5t+bDlV+VA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Brian Norris <briannorris@chromium.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, linux-pm@vger.kernel.org, 
- linux-sound@vger.kernel.org, Srinivas Kandagatla <srini@kernel.org>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- linux-arm-msm@vger.kernel.org
-In-Reply-To: <20261112111937.RESEND.1.I5cd238b1d4516d4d6980565e0a4e1b83d9abce63@changeid>
-References: <20261112111937.RESEND.1.I5cd238b1d4516d4d6980565e0a4e1b83d9abce63@changeid>
-Subject: Re: [RESEND PATCH 1/3] ASoC: codecs: lpass: Discard
- pm_runtime_put_autosuspend() return values
-Message-Id: <179552812780.264265.5289486114789888312.b4-ty@b4>
-Date: Tue, 24 Nov 2026 13:48:47 +0000
+To: linux-sound@vger.kernel.org, Chen Liu <2508871010@qq.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <tencent_4D458B8B4F511E5B0F06C5C858627990C306@qq.com>
+References: <tencent_4D458B8B4F511E5B0F06C5C858627990C306@qq.com>
+Subject: Re: [PATCH v2] ASoC: wcd937x: bound the DT channel mapping to the
+ channel tables
+Message-Id: <179552842099.264265.14882655118397090525.b4-ty@b4>
+Date: Tue, 24 Nov 2026 13:53:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -70,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1423; i=broonie@kernel.org;
- h=from:subject:message-id; bh=OQ/VGJF3rBrOALX3r/NGNh5X7pkoGJ8oI9D2vpyqMPo=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZDz0+fmtOU+naSTd2xzFtnv7Dhs3/6aNaaXXPh4EqX
- VPnqudO6ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBELixgZFh8VmmtT9STiOnM
- 8+ceDnC3WfVK59x3pmk1V/vkvqVHfuBhZPiouT2+xs029/6/+UvmSL3z1WKK3LA9/ZDAh889Sxp
- naDICAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1144; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=2VkXjhsuHtc518/r4rctTqOgFBo3plOdxFfAeVIEsT8=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZD724HBUntEFm0qm/sfwWV27fPVWtyxv3gvv3PZGJO
+ 7KstZcu6yhlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBETC0ZGS5ttZ2YuMeOR+bd
+ wYNiR34s4a1SMtlV3X385aOTQRoPuD8w/OHTUZRyUb8+46Pi1WYB7Yla0ieuJf4vXZJ+5jxnzZP
+ /VawA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 12 Nov 2026 11:19:37 -0800, Brian Norris wrote:
-> ASoC: codecs: lpass: Discard pm_runtime_put_autosuspend() return values
+On Mon, 16 Nov 2026 16:10:52 +0800, Chen Liu wrote:
+> ASoC: wcd937x: bound the DT channel mapping to the channel tables
 
 Applied to
 
@@ -88,12 +82,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: codecs: lpass: Discard pm_runtime_put_autosuspend() return values
-      https://git.kernel.org/broonie/sound/c/673701e1c6bb
-[2/3] ASoC: intel: atom: Discard pm_runtime_put_autosuspend() return value
-      https://git.kernel.org/broonie/sound/c/ed3284607d65
-[3/3] ASoC: SOF: Discard pm_runtime_put_autosuspend() return values
-      https://git.kernel.org/broonie/sound/c/cbe3a1192e7c
+[1/1] ASoC: wcd937x: bound the DT channel mapping to the channel tables
+      https://git.kernel.org/broonie/sound/c/533adbe092ca
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
