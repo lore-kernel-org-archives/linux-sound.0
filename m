@@ -1,100 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795486476;
-	b=Jh4jag6etg/WUi5tGD6fi0Ug3yauqxzSMFnwfaDjYOwJ2GdMPKWGox50c59TvrNPGNkQ
-	 ac/M4D69k16c3k2SkboSG4TJg1lE0fwe4a0CzMA81a2jkq6R0he/kPeXAV+ZEhHwwOo2x
-	 f6/L8o7iKY2jxR+DXg9JM8wPLS3RWiGK46Ksb0i7KLqBbhtNYCqsv/WxKU12ThaLrAFj1
-	 7Xq5G+Ho1LRCPaDY0bzky+JNdiGzFQCziHgMS+XuiXHZVLhFiV11PkFwtWdcoR+UGchaW
-	 x19TzHcqk0d4AT2l9iTI9ey6eubs+BC+a2Q4u6ZxsDrxo3LmM8qZ9OodzeYogQtVMUA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795486476;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=t7lyZV/WXo9tIwR+kw6JoK9M2RVjX/WsSh8N1G2nxmI=;
-	b=Egl6F4ZMR1r25587wIQ/+T+9LRo8xbSEF+3GS9SasxGgyAyhE8OTNy2AewyIWBTP3uFm
-	 5vgbkFz9RTyO7akCndfz4+0k5z0rZ8c/R+NXwwoRN/z4FGjKV8ajO6vjl4q7pk/pGdK/h
-	 NOkv7KJf0gRjPqe7zq/d0VZu2T8G3/zcbW51Sly2YHyc+Jp9nJWpcwpi+DzEli3f7ZQf4
-	 UC7amMJFHoKZECXrED9GWxGdVJ2gL6PnrT7SG9TxMS21kiRQWTJ71KnNNrvq8fcRp+NpT
-	 7mlBS1OOq8a2hNmH8vixfMYnwvaS8YdXGu2P3nDBsquM3VFBzJ3+FC1z2XVbEOnomXg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ot2wQrSG;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795486746;
+	b=lmGhre6b6dN39tjhtlruWbTYTWw9zkZnCMjvBNxAJw8u2gfJba8bOpO5cQSz1hlpD4u2
+	 TsNyCupWCTysunOVsz+Nsb3RKct80DVzsyO9NWY0idyKsiSDnE9J8LDpfCUr470ur+env
+	 WTc/6/RKYapUNhhLekRbDkcuQVKEdmoSMtEsnhS7m5cjT7NVwOdOI7nsjZPdbYh8ZpPpM
+	 XqGVr+B8JDLjYnDDzPn8sY+74Ty41eDgiWfiCIOE7e452cXuAvQoazET8dJ/ShlhGBlE5
+	 YvC9qSmoJ0rdTJY9wB9HIiehIWgPWIRbSoqyDNu9zAGmJfFLM4vg9zWW3v/vGxDV2cg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795486746;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=p373wFfzA+j6Ni2LpTmcRnqyjI5yYrAPkxO3l73XycI=;
+	b=gC5QBIkM9Rhlqa4HI0c8SlsCQ23njNSgdTny6QUhT2TeTk8Ri+jgbK0/hf9TGdYKVsqE
+	 NPtKsJYAEHB84ispjnMEhFYB5twsKQygcKNu6Z5kMvC2yutGHoug2j3X1dQ9d1GYFtr6u
+	 uAlaLNyJJiR25gTjZr9sk8rjIZVpck4cguEy22pf9KrEVBtTiUK38ESfz/haezqcbGYJZ
+	 PLWXtoMGOTaPpNfdxknDblGcpFMTyAvyNPBHNi0EoDbTLV6Ty7ZNO+x7exihCw0NJGvEn
+	 rrwVvF5Zh1Muyu/ZT4S8c0ywNMCq21ZBbm1ghmjlEvZ5PwwssooE8UWuajjPtDOLZIQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BVJa3vyX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD66606A31E;
+	Tue, 24 Nov 2026 02:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BVJa3vyX
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795486745;
+	b=bwq642YGBAu7fO7B6vQLveEZ+qCvgZXjnYDe4UHIPg4EgbOngmC1S3zGib3inn8EIgM1
+	 zJxjw5dZoEcT9gKj8hCvUERJGusMa4LsYXKV2B9gj1iKL9CyiE531EkXOLH089B3brJYE
+	 CxARFQig8Doje7geMaw2TNxcIl8hl8Dz+i+U5ROsm8y+WrkRt0D+kwh4Md0uApxkSHOzL
+	 80wkPvtofJmzNOiqsKIbfSsGq1hcp8ASnJWGpevljiN6sIT6/kdsyjKLECXkbm/rnOQmK
+	 nHCKdYdlBSBw6WSSduR7ewtZWESqmZGd/csn1/mHq7y6lFO99NyKzcu1sKQsxV46FJQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795486745;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=p373wFfzA+j6Ni2LpTmcRnqyjI5yYrAPkxO3l73XycI=;
+	b=qY/HomEa19YVaQoCqZHeTsCKwpTzl8S4OS4XmH0DD6A/0dlJ/NyxlX9lMgQ1aHU3WiaJ
+	 1R28kl4wLsqxqskRKsH5uBHvPOcuj6gG/1U44QXH5X+4jHVF5ApkOCUOpVdngJkQ2H6jU
+	 2R67X0/YI7rAciAnffrCvycEKRCZ1kO9P+DixyHyicn6c7Hsjl/PIodHPix34cbAO1H/W
+	 uC0gae08tswvZsvEEPu6tjoNTgqXEpBm+KL9sezn13ELoDhaiWJB8Wwo9+44MwVYlLPig
+	 YikYQTkSAN2LHFKtGptmapyjWzO5RGCatH1N4taERgxI/C/Qw5WfloCOceC+sWZRRHQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B38F606A31E
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 02:14:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B38F606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ot2wQrSG
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1b50a4bd2f3so588872c88.1
-        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 18:14:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795486475; x=1796091275; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t7lyZV/WXo9tIwR+kw6JoK9M2RVjX/WsSh8N1G2nxmI=;
-        b=ot2wQrSGFD8iogfnt/LhoxykZjMmduMu9KyaK1KctW8UKVQj20x7lGeqU8ktCEPsxo
-         lItLIetEAnuQkcTX5N8IOzwLoyaIRXSWtcycb04MRpgYLqi7Zknza1dRrSjLZ2c/oBkd
-         HTIJDaDpk5UO4wMCL/WpLKe5vwMooOeaIEXr5RUm6gVMGe9/DXWnvxCgOjcCbRqnxYLj
-         CwOUnA9lDL/Ck8AOriHQe4YvcrqQp1ZiOg8beBR08hjNbjXAtNvvl7h0W6KG90ITd20H
-         gsu7jCSKRAkgFL3CRmqPoGO8095u7fejklOtpNfivmEfKZL4Tr/XZCOAE3gBSegsPAAi
-         8sgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795486475; x=1796091275;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t7lyZV/WXo9tIwR+kw6JoK9M2RVjX/WsSh8N1G2nxmI=;
-        b=BJQ7QGwWoOVQbUs7aNwwKgEvUu7lrWQVR5x1OyuAtqgSX4Ic9xQfvrUGQq2R7N+zSK
-         LmxDTsft8L1buLw5FjStOtUPK3Mm9zRpiPOAXRif2dJvIwtkevMlpuYbWc7/Oq0+IPpT
-         DlOOjnyBhu5Bn5fGojadu9vwsw80uN38kINY9eMR3JWOZ5Zknonnbio1agc8LDHs/twb
-         rXEiFjlbk0nkQPASXfGR2Ag1Q1TykzJp6VslTB9ucUV4hGGLcVvHRH+HTsBkfCXZzK+R
-         rR8kMVa/952HinfUHt2HambgCAgm/25+hsiKQrQgo1T34H6s4RPZTH7QAQHEbdYc3xh4
-         ByCw==
-X-Forwarded-Encrypted: i=1; AL+hErG6RFxX6pQLQk09dIEQKc6LFyvn7gkIPBQjIIju2va2Zno2YhKLaQGSiOp5XLcGxsR1RqA7bMul0a/uGA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Ck6A3t2gopMJ4M6vdhRO84ZcXS0oDpTpXhtP7wsKUBExYvYLW
-	VA2bOLSpBZjcJoHJqvhRJzdf3qR2PsNQhsHLMNGfm+xMFliuyrcT/t42
-X-Gm-Gg: AZFdTZfYiZEnc3YmWeQLF3X5UlySfPkhC9G4XhdftaSRtRBh0lZ3FnODdeQhtze2+z5
-	2hAFtS/mCovdC84Np9DZClOyjuoqw3qI2A5J3MQMuAc8qSY0/v+v/RVzsieoqUHnQpfzAWNSUfB
-	rYxEU4ktgQiWrx+fBNTe/W/nQgfSWW1BUOrAugzJwk/oKrPgz4WkJs0QeinSLkaGTOBRz5qlzSe
-	iX97EidMQEAm0YRWx866W1rk1nJteRRHtty9qy9CFbDfp10MukItBHege6wcJ+l4YJr2gdWDmI7
-	AvZ8zWrtXOL1JfK3nPYwvV4mgFqR9cvHwrVa/ubbFHFNcRLLugR1KMmzabc/BfCerf0wgfNww7/
-	nC7NLB4EjFWFxPC6khlVew+9RuWHRY6oJXrA7rSrt8YMMqWz3XnnAxQecWRDPQYdBYeV5T+CTtv
-	ASWLrcqhjuDm62JgwjV2uz9ymgfrdhTYDqYmwPtW1yjYLjjFZJpkIwqg5IE9Le+F538YKtR/nMi
-	grcKvC5BbmFEzc3WMs6jxjv9gP+39SJjFH1Yky9li7NuLuJCCma0+goDX9gqulbzSVrSXwYXZ0y
-	wj9/x9a8WMTLNxmOQ0UdydT1fXVrfUj9FY4IDPMgepyvz2vgdr8Z3ug9eKKHsHnhDEGIShTu32B
-	bptJCOmEKgXJyoUCGLUR0Qzeh4zG6KIGPIUvolLXq
-X-Received: by 2002:a05:7022:1583:b0:1b3:a9c6:b293 with SMTP id a92af1059eb24-1b5568c0198mr14437633c88.25.1795486474639;
-        Mon, 23 Nov 2026 18:14:34 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b56ef9fd16sm18872921c88.4.2026.11.23.18.14.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 18:14:34 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: HyeongJun An <sammiee5311@gmail.com>,
-	linux-sound@vger.kernel.org,
-	vkoul@kernel.org,
-	vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	bard.liao@intel.com
-Subject: Re: [PATCH v3 0/5] soundwire: Fix bandwidth leak in multi-link aggregation failure
-Date: Tue, 24 Nov 2026 11:14:26 +0900
-Message-ID: <20261124021426.424452-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
-References: <20261112141905.1372770-1-yung-chuan.liao@linux.intel.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id CABF31F000C4;
+	Tue, 24 Nov 2026 02:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795486745;
+	bh=p373wFfzA+j6Ni2LpTmcRnqyjI5yYrAPkxO3l73XycI=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=BVJa3vyXswhFAxMFuBUgP1F832waWYO713yAUY4Vio0Q0J+co3GyKnIOIGwx0T5rw
+	 BCkfX3H08F0DKbSU53g6VrkzSAKOHO/FVSis2dimF3VKfZ9hf9omEXASWbqKV9Fqrv
+	 pz2uEyuOi8fiJTqaIOo7afRnaiWCngFDAB9Sd75jbQzU4OSFGxdxqXNr+URtZANjRQ
+	 +7zqyGUMVg97Y7JTN04NCXoQ3mnKD3OMk6gusgL5AqIZDAHElr2Cgp8FdCX9TU1Tdj
+	 6Cx53S3qPI+/NtzUZqc17MJaETJ8r6fbIGWkD23U8FxJxCLp7Lb3kCyUQe3l65S+Sh
+	 ZzRwHQ1o0J+Jg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 23CA34C83D;
+	Tue, 24 Nov 2026 02:18:55 +0000 (UTC)
+From: Abhiraj Dutta via B4 Relay <devnull+abhirajdutta7.gmail.com@kernel.org>
+Date: Mon, 23 Nov 2026 21:17:57 -0500
+Subject: [PATCH] ALSA: hda/realtek: Fix duplicate LEDs on HP Spectre x360
+ 16-f2xxx
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,20 +83,87 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261123-hp-spectre-16-f2-led-fix-v1-1-a2a333dceeb5@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/x3MQQqEMAwF0KuEvzZgqnTRqwyz0DbVgGhph0EQ7
+ y74DvAuNK2mDYEuVP1bs2NHIOkIcZ32RdkSAsH1zou4gdfCrWj8VWXxnB1vmjjbydOoMswp+jQ
+ LOkKpmu1868/3vh9jGemaagAAAA==
+X-Change-ID: 20261123-hp-spectre-16-f2-led-fix-a4e13bdc6db1
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Abhiraj Dutta <abhirajdutta7@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795486735; l=2648;
+ i=abhirajdutta7@gmail.com; s=20261122; h=from:subject:message-id;
+ bh=2fGkl4MnRAFoBN/vsCmVD26p7qRSOwU1KzcdavldMmo=;
+ b=1kMFy9uWM5jo+LSPu7W7mproAH6ITaAgaCkQSMjHlRjCut1TZfqS/EwqzfP6rCT9h0mnMH33E
+ pC7f44DbUH+CV0kLKjDvBwBp2dihoZSs/kA5niqvab8+rugJT80i1f6
+X-Developer-Key: i=abhirajdutta7@gmail.com; a=ed25519;
+ pk=3ETcWPbWUjdsP3Pv+/VwZOZKPt9O4SvxqiXNMNNY4gc=
+X-Endpoint-Received: by B4 Relay for abhirajdutta7@gmail.com/20261122 with
+ auth_id=1610
+X-Original-From: Abhiraj Dutta <abhirajdutta7@gmail.com>
+Reply-To: abhirajdutta7@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Hello Bard,
+From: Abhiraj Dutta <abhirajdutta7@gmail.com>
 
-Tested on a Dell Latitude 9420 (Tiger Lake, SOF IPC3, Speaker
-aggregated over links 1 and 2) on soundwire next afd88e7ad781. With and
-without the series, all peripherals attach, playback and capture work
-on every endpoint, 40 start/stop cycles of the multi-link Speaker
-stream pass, and pcm-test shows 24 pass and 0 fail. The aggregation
-failure that patch 5 handles was not hit.
+The EU0XXX fixup already sets up the mute and mic-mute LEDs, so chaining
+ALC245_FIXUP_HP_X360_MUTE_LEDS after it registers both LEDs twice
+(hda::mute_1 and hda::micmute_1 appear). Use the EU0XXX fixup directly.
 
-Tested-by: HyeongJun An <sammiee5311@gmail.com>
+The original commit message also got the SSID wrong: under SOF the PCI
+SSID is 103c:891e, not 103c:0000.
 
-I ran these with Claude Code (Claude Opus 5.5) on the laptop.
+Fixes: e30ec632e1f0 ("ALSA: hda/realtek: Add quirk for HP Spectre x360 2-in-1 Laptop 16-f2xxx")
+Cc: stable@vger.kernel.org
+Signed-off-by: Abhiraj Dutta <abhirajdutta7@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index dfdcf8b98..406524178 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -4524,7 +4524,6 @@ enum {
+ 	ALC256_FIXUP_HEADPHONE_AMP_VOL,
+ 	ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX,
+ 	ALC245_FIXUP_HP_SPECTRE_X360_16_AA0XXX,
+-	ALC245_FIXUP_HP_SPECTRE_X360_16_F2XXX,
+ 	ALC245_FIXUP_HP_ZBOOK_FIREFLY_G12A,
+ 	ALC285_FIXUP_ASUS_GA403U,
+ 	ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC,
+@@ -7227,12 +7226,6 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_spectre_x360_16_aa0xxx,
+ 	},
+-	[ALC245_FIXUP_HP_SPECTRE_X360_16_F2XXX] = {
+-		.type = HDA_FIXUP_FUNC,
+-		.v.func = alc245_fixup_hp_spectre_x360_eu0xxx,
+-		.chained = true,
+-		.chain_id = ALC245_FIXUP_HP_X360_MUTE_LEDS
+-	},
+ 	[ALC245_FIXUP_HP_ZBOOK_FIREFLY_G12A] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_zbook_firefly_g12a,
+@@ -7876,7 +7869,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8902, "HP OMEN 16", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x890e, "HP 255 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8919, "HP Pavilion Aero Laptop 13-be0xxx", ALC287_FIXUP_HP_GPIO_LED),
+-	SND_PCI_QUIRK(0x103c, 0x891e, "HP Spectre x360 2-in-1 Laptop 16-f2xxx", ALC245_FIXUP_HP_SPECTRE_X360_16_F2XXX),
++	SND_PCI_QUIRK(0x103c, 0x891e, "HP Spectre x360 2-in-1 Laptop 16-f2xxx", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x896d, "HP ZBook Firefly 16 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x896e, "HP EliteBook x360 830 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8971, "HP EliteBook 830 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+
+---
+base-commit: 896ec6bbe7dd2f29aff1a12eb318a6828be1edd8
+change-id: 20261123-hp-spectre-16-f2-led-fix-a4e13bdc6db1
 
 Best regards,
-HyeongJun An
+-- 
+Abhiraj Dutta <abhirajdutta7@gmail.com>
+
+
