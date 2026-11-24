@@ -1,56 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539703;
-	b=rW3ADdBDzEJX9YdObNJFdffuAcJpjw/bkAcxpDHT5lpgj4KreNvtp2LhEX+UWNMUICP9
-	 yfUP5G3UTCbpmigwWULFYGZ/9kFZti8Z/onwRIQNehgdBnHgt81Dmn2cZmka9RHdiWYDB
-	 qrtFKIi4lP80mAqlsZxthDZHJR0oz9lAIvNksQ7nIVtrok/HoYjoKL1Nzh7ZyitrZHALq
-	 nlyhTbhr/Y6Fb4qTxsSoou2r4fhMZTcqmLGEJt7BsC9stSwC7H/rzvR/h9A39r0FADStx
-	 lEDUQRa5N0YhWiW/dCkDKEZhx8VAhS19uQI1SY8ymezTtFfOf1eqCE5dOrvHmBwbOqQ==
+	t=1795539924;
+	b=wsOsMh0hHOqBCxn8vZxtkIks3+LmMm85JZpFD08HO18LjzI7a6Y5zapATlWDLJkzXhYJ
+	 Q55Nz0jAQanCJ5hgeHtYgssasPLAwmvX2mCX+gA1H2rmrnN23sG4GoksPbBhUqcFJ89l/
+	 1IBYTRS+GK39jwjkzDgnegvDiReNgfUwQWJyyJ7kKQsDq1qe6+K+u6zHU5qkJCNLTn1tY
+	 1Uap4kymRxDA0QZU/t8Z0Nj1B2imuRbVttDNmjyfV8kJCRj6Qlyb/qNa2hr5IgYgN4jiK
+	 0eGJOC7wIDdryYJ66bEwoKpmRH0JCqiWCnggkEi9IzvC4PiF3HMGXO7aSQyFKMt/Ytw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539703;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=AQ4DhJAAcBh5o76+pZn3QR/SSi9s3+u0dv0YNCcAqSU=;
-	b=U0f9zwcgn/hLgWq++kK/GFtbOiioV/C29DOS8L1HEqNpL79g75WuHoaB0ktXkYPcd6XZ
-	 DWzXD5sju6EYWFhYgD9S3QkGu/StbDbVW3O3SCfwf3U3PzzXc4j2a2erBcSL2Ym5MVZDT
-	 DLcPrc2atTJI+l8e/hWoUpTYJG/wEAH49T9rtLMjbys5XVxot+aO9OiInSMfWxzBvev9q
-	 IAtF2ns+qnePSr2HNEWG/XnbpckTxknRMhBmCqnjfxTRN0BZvBD/IuWuST/70FZeoyWaM
-	 RCYk9XfBu5g36QiOpqdZKjKkuG1wzzWTiVtjKEZO+mljytX8/8boAsUH7NfUq4aOzcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795539924;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Content-Type:MIME-Version:Content-Transfer-Encoding:From:To:Cc:
+	 Subject:Message-ID;
+	bh=ffk4YQzeNnCAs3ZskrsO2BWcOw3Pl3rB7ma4V38WJp0=;
+	b=zUcrlpvIHWd0ytCJQN3/KPtuaGIHLiMXqVZ5nYR6tLX5vFWLYlBU4s/oJYtulB1C3/hD
+	 NZXiMtuLi6mMpKlArwW0ZIxihXPuxNgT0S5NssnVIqaXS8GvE6bNk8m8Wo9qgP7uC4y3T
+	 m5QsrV2uzdSNHDoidAxzvz6ED2HS+ii7l7GzjcjPNfcQAMapl5vq+DHzcd2pJ2eqHCjLC
+	 oLpJOU+R0iTNC5u/5d1njRp2Rul0aZRbSKKDJWOrfILP34ie7x/wxv24Wx6rkkeTrBXey
+	 OHRAtxuw5tfI2pyD9sOjXg0ut4vKDZjNFT6SOcBel4bkUfwQJne4W0cQG2jZMihfz1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lRoK7Qxz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Hrg19vq/";
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CB8606A321;
-	Tue, 24 Nov 2026 17:01:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88023606A330
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 17:05:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88023606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lRoK7Qxz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B90F1F000E1;
-	Tue, 24 Nov 2026 17:01:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795539702;
-	bh=AQ4DhJAAcBh5o76+pZn3QR/SSi9s3+u0dv0YNCcAqSU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=lRoK7Qxz0FkhHmvFm7FiUrAgcy9q6hWgvlc8elmfIhkruSdaAA4MBWhMOwLyg02vG
-	 HZjyTBovUj951ghyKDmBCNzajA/gm3jPuO2yO3NlAq6bqwq7fvrlNyTc2sYPWV3Xuh
-	 QxGg36X4t4ormxKZYYesBzeWb5GTGomxhAFnoxloolpjlS6lsAY//1ss7BDydaQOOL
-	 agsraoHcRC2l6tooCsNKWBhHQdxvqvz/LkhcZOuCBtaVb/JnnGJ/mZ6plOGZdw0K7a
-	 w2sxO4GWQhOWgHcZWq3w/1IHchRNi0DrUEvQLva6pn4SutYqZ5tmPkC3POb5UowxFG
-	 q4TJq3h1ptztg==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20261123115205.3498244-1-ckeepax@opensource.cirrus.com>
-References: <20261123115205.3498244-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: SDCA: Combine width_find_mask() and
- get_word_mask()
-Message-Id: <179552887992.264265.1451906115514371756.b4-ty@b4>
-Date: Tue, 24 Nov 2026 14:01:19 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Hrg19vq/
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dee593f18so4519535f8f.3
+        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 09:05:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795539922; x=1796144722; darn=vger.kernel.org;
+        h=message-id:subject:cc:to:from:content-transfer-encoding
+         :mime-version:content-type:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ffk4YQzeNnCAs3ZskrsO2BWcOw3Pl3rB7ma4V38WJp0=;
+        b=Hrg19vq/nmpSkshYEQFNnq4MLH9pMGwVNXUeMCELtxzVyGYYj29mgWksjtcFIbDwLs
+         AbJr0FbAGIj+OAuwkYGhJtjtlr84P51ClxGM12lnimBaq5nZjaUo6XVrgSqlCu45b6gs
+         pn99ahpQAypu7stapx4vvOj5QU4mJAK+RitHmpV9YiPOZa6J0blVCNu62ImeQEjWQpQw
+         r36sH8i/APTE1TatM001bN5TFmc2F6mKrGE9qpuEXnBngCCHUflgS8ih70GW9HHwfAPL
+         ghi+s2geL8FoIke3QBdPkgdEQpCphhQKV7E7z9Kgsn3s8vc1uUvB1HgMvM/ZudeKtE6f
+         SWJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795539922; x=1796144722;
+        h=message-id:subject:cc:to:from:content-transfer-encoding
+         :mime-version:content-type:date:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ffk4YQzeNnCAs3ZskrsO2BWcOw3Pl3rB7ma4V38WJp0=;
+        b=Jf69UvxLMESh6zxXi4Owl4oQZSfp/TiMENuOQGYp91WDRGr92+i5y472p0DDeW5jPd
+         Q26Mqc1SQCewV6n5eE3DRYqX/DsNXkkQPfgjaF9P+DFNqI74hocJ22dYmmY/zVVuO/cy
+         Y/Q4YuEfrR/CcVgHbrmcK2gHK2FFLplc97J3CoJJ7E9Y1gW0pCZqDOh3xtaHOVcda4DZ
+         DmRABlhwx4T9CRSIEnrFtGphgoRDn4lP3K6a83Hz4MDc+kqglh51cbWy1y1vzIeJxe+3
+         pfeSlSkaZPb+3BNcN+wjguOO+2ZrCTYQ34pIEOmlbw9kkn9OOeRnCox3b9Bv+88sBRBJ
+         WRdA==
+X-Forwarded-Encrypted: i=1; AL+hErHHZ1LF7DHeAjVIo5fTWaXgG0OJL0qTSCCgvlsZyIWZ9IaljKo6W3abZWZeTRWJmGSttD+o1S7sf/V7MA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Yo+M3N5zJ31ExkNaamWD2RGdECZnh5WgkMyleoSdLWFy/h4sQ
+	RxwVf1jNXutOpfypn4J2TUU2S/scTM8dwEjBwu0F9GCrXMBekU7vkOR1
+X-Gm-Gg: AZFdTZd7xE1flUD+uoS6WUAD/w+CS6K1HKWLrgBippVQAqKLJms9rahf18QmmvDiI0g
+	1v+VdEw0kvGwq0TkFSfyf1nWjkr8wYJBg4VgXfPOGzJs6kWU+xeIsKTycFpQrELv7PyGx8OB0UJ
+	Qhhj0/mT2UJP/Q7X+T2tHk9cII6hu/8afzhCOM+Ai55mVolnqKiIgX+bE0XejQrawxh7QFAwWyl
+	Up6LA+2ER23mUJtqZ8+Go/0Jjz2V95YcA9uOtuewGU8fM4GBpkU6b1RfFGqrr9qKDKLp3C/z+EM
+	w28zFLhNmaSjPx8S3wEfYEpFLLXwJoNCutZ2l3UKKTzzdfa8e5hZq6PwYK3lpcqd4IKksfZXj3m
+	4zWpbckNgJD8ucC9nLMy8Q0UpuRhcSS14MRAuJ4pbIMftA07Znfi0dLVU/il9lC6sMUwhW/T6FV
+	d+yiTwIWD5yNqWedCgKhmqFmmmUOKpXfLyjxavRoipxR6oqCM7Q5eBeYKabc3TXg48csqUjxmDC
+	NdQ+uAX2ue7xOg0GF8uDfJumcu9v6regY0VUZywVaFkR8dQvoqrGPpJ
+X-Received: by 2002:a05:600c:37c9:b0:4a6:eca1:7d5c with SMTP id 5b1f17b1804b1-4bb888251b4mr276173155e9.32.1795539921735;
+        Tue, 24 Nov 2026 09:05:21 -0800 (PST)
+Received: from [127.0.1.1] ([196.237.227.176])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865a2sm458176075e9.3.2026.11.24.09.05.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 09:05:21 -0800 (PST)
+Date: Tue, 24 Nov 2026 09:05:21 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,46 +88,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=broonie@kernel.org;
- h=from:subject:message-id; bh=cTH2NDUympp0VO0mpqg76snS3/pIrUE1bWivaJu/Ils=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZD32+pvXYrO31E872nykbS34rNRgwHpWz69+byWD71
- /Dz/RcSHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZgIgxwjw9XzYTuZAt//ucTa
- rWa71ys8/FVMzxru+Q3PTV/8/WAmcpHhf7rB82vikwJ/LLhxd9nsoOyHl5SF+1ef8Q6SnM52YZZ
- cEBMA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: base64
+From: Daniel Carter <yass27106@gmail.com>
+To: vkoul@kernel.org
+Cc: srinivas.kandagatla@oss.qualcomm.com, andersson@kernel.org,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yass27106@gmail.com
+Subject: [PATCH v6] soundwire: qcom: check clk_prepare_enable() return values
+Message-ID: <e5fda000d0dc4f168120c8ec91a752d5@gmail.com>
 
-On Mon, 23 Nov 2026 11:52:05 +0000, Charles Keepax wrote:
-> ASoC: SDCA: Combine width_find_mask() and get_word_mask()
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
-
-Thanks!
-
-[1/1] ASoC: SDCA: Combine width_find_mask() and get_word_mask()
-      https://git.kernel.org/broonie/sound/c/aff174aab7db
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Y2xrX3ByZXBhcmVfZW5hYmxlKCkgY2FuIGZhaWw7IHVuY2hlY2tlZCwgdGhlIGRyaXZlciBwcm9j
+ZWVkcyB0bwp0b3VjaCByZWdpc3RlcnMgd2l0aCB0aGUgaW50ZXJmYWNlIGNsb2NrIG9mZiwgd2hp
+Y2ggYWJvcnRzIG9uIGFybTY0LgpDaGVjayB0aGUgcmV0dXJuIHZhbHVlIGluIHRoZSBpbnRlcnJ1
+cHQgaGFuZGxlciAocmV0dXJuaW5nIElSUV9OT05FLAphcyB0aGUgaW50ZXJydXB0IHN0YXR1cyBp
+cyBub3QgcmVhZCBvciBjbGVhcmVkIG9uIHRoYXQgcGF0aCksIGluCnByb2JlLCBhbmQgaW4gdGhl
+IHJ1bnRpbWUgcmVzdW1lIHBhdGggKHJldHVybmluZyB0aGUgZXJyb3Igd2l0aG91dAp1bm1hc2tp
+bmcgdGhlIGxldmVsLWhpZ2ggd2FrZSBJUlEsIHdoaWNoIHdvdWxkIHN0b3JtIHdoaWxlIHRoZSBz
+bGF2ZQprZWVwcyBkcml2aW5nIHRoZSBsaW5lKS4KCkZpeGVzOiAwMmVmYjQ5YWE4MDUgKCJzb3Vu
+ZHdpcmU6IHFjb206IGFkZCBzdXBwb3J0IGZvciBTb3VuZFdpcmUgY29udHJvbGxlciIpCkZpeGVz
+OiA3NGU3OWRhOWZkNDYgKCJzb3VuZHdpcmU6IHFjb206IGFkZCBydW50aW1lIHBtIHN1cHBvcnQi
+KQpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgQ2FydGVy
+IDx5YXNzMjcxMDZAZ21haWwuY29tPgpSZXZpZXdlZC1ieTogU3Jpbml2YXMgS2FuZGFnYXRsYSA8
+c3Jpbml2YXMua2FuZGFnYXRsYUBvc3MucXVhbGNvbW0uY29tPgotLS0KUmViYXNlZCBvbiBzb3Vu
+ZHdpcmUgZml4ZXMgKHNkdy9maXhlcykgYXMgcmVxdWVzdGVkOyB0aGUgcnVudGltZS1yZXN1bWUg
+aHVuawpub3cgc2l0cyBvbiB0b3Agb2YgInNvdW5kd2lyZTogcWNvbTogZGlzYWJsZSB0aGUgaW50
+ZXJydXB0IGJlZm9yZSBnYXRpbmcKdGhlIGNsb2NrIi4gTm8gZnVuY3Rpb25hbCBjaGFuZ2UuCgog
+ZHJpdmVycy9zb3VuZHdpcmUvcWNvbS5jIHwgMTUgKysrKysrKysrKysrLS0tCiAxIGZpbGUgY2hh
+bmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL3NvdW5kd2lyZS9xY29tLmMgYi9kcml2ZXJzL3NvdW5kd2lyZS9xY29tLmMKaW5kZXggMTQ3
+ZTU1YjdhNjAuLmNhMzEyYzE4OTc5IDEwMDY0NAotLS0gYS9kcml2ZXJzL3NvdW5kd2lyZS9xY29t
+LmMKKysrIGIvZHJpdmVycy9zb3VuZHdpcmUvcWNvbS5jCkBAIC03NzgsNyArNzc4LDkgQEAgc3Rh
+dGljIGlycXJldHVybl90IHFjb21fc3dybV9pcnFfaGFuZGxlcihpbnQgaXJxLCB2b2lkICpkZXZf
+aWQpCiAJdTMyIGk7CiAJaW50IGRldm51bTsKIAlpbnQgcmV0ID0gSVJRX0hBTkRMRUQ7Ci0JY2xr
+X3ByZXBhcmVfZW5hYmxlKGN0cmwtPmhjbGspOworCisJaWYgKGNsa19wcmVwYXJlX2VuYWJsZShj
+dHJsLT5oY2xrKSkKKwkJcmV0dXJuIElSUV9OT05FOwogCiAJY3RybC0+cmVnX3JlYWQoY3RybCwg
+Y3RybC0+cmVnX2xheW91dFtTV1JNX1JFR19JTlRFUlJVUFRfU1RBVFVTXSwKIAkJICAgICAgICZp
+bnRyX3N0cyk7CkBAIC0xNjc1LDcgKzE2NzcsMTEgQEAgc3RhdGljIGludCBxY29tX3N3cm1fcHJv
+YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikKIAkJZ290byBlcnJfaW5pdDsKIAl9CiAK
+LQljbGtfcHJlcGFyZV9lbmFibGUoY3RybC0+aGNsayk7CisJcmV0ID0gY2xrX3ByZXBhcmVfZW5h
+YmxlKGN0cmwtPmhjbGspOworCWlmIChyZXQpIHsKKwkJZGV2X2VycihkZXYsICJ1bmFibGUgdG8g
+ZW5hYmxlIGlmYWNlIGNsb2NrXG4iKTsKKwkJZ290byBlcnJfaW5pdDsKKwl9CiAKIAljdHJsLT5k
+ZXYgPSBkZXY7CiAJZGV2X3NldF9kcnZkYXRhKCZwZGV2LT5kZXYsIGN0cmwpOwpAQCAtMTgwMCw3
+ICsxODA2LDEwIEBAIHN0YXRpYyBpbnQgX19tYXliZV91bnVzZWQgc3dybV9ydW50aW1lX3Jlc3Vt
+ZShzdHJ1Y3QgZGV2aWNlICpkZXYpCiAJCQlkaXNhYmxlX2lycV9ub3N5bmMoY3RybC0+d2FrZV9p
+cnEpOwogCX0KIAotCWNsa19wcmVwYXJlX2VuYWJsZShjdHJsLT5oY2xrKTsKKwlyZXQgPSBjbGtf
+cHJlcGFyZV9lbmFibGUoY3RybC0+aGNsayk7CisJaWYgKHJldCkKKwkJcmV0dXJuIHJldDsKKwog
+CWVuYWJsZV9pcnEoY3RybC0+aXJxKTsKIAogCWlmIChjdHJsLT5jbG9ja19zdG9wX25vdF9zdXBw
+b3J0ZWQpIHsKLS0gCjIuNTUuMAoK
