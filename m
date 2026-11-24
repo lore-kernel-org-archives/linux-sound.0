@@ -1,92 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=60.251.196.230
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795493069;
-	b=Hj5m4VDlB29AN8fZPCFdV/8S+DMQ24eLE32B1eEVInC22KwNQLh1QhN5Yf9VdpkWUkcw
-	 qWrqrcLBmYf/ufp2IDRjdUkVq/XRZqSeMvCE8/Sa5QPePhIUGwYSBIecLB3jkPqxmtyAO
-	 GRYgdmQ1fm4YiKVaQCCSnLtxMp6XMGJjvGsvpSZNyA+ex2M56r7zBZSZxPukmM1bMWxhk
-	 QV/BGCKxTP5ElWmn0iAv+RNEZ5IYSl5ysB/sQRddtqYFknZx44jINhS9wzJ1UCQaslyee
-	 wyErF6p5/fm/IugKds8Y28DGlt5cWc9zyM1lAaKIqmu65wF6VE0h5h0YLknUxZKKMhA==
+	t=1795494867;
+	b=UXD32K7KwWBXO5OeVeKHYtIidhadKER6GHaXAOKSYwekZkmFwFG3eYUC+j5I0iLykoZa
+	 Lxp7sxEk/b0PEC2mjJQcd4KNuv/ouOGr21DSzjZizON5JAeaas+THXk9bDZw3MyWHLsiO
+	 dzlsAjLEKskh/ZIANz5/lzEf6PA500H8vvXLMTMnaydW4Dg65dYbSUOClBgNn13WYYeI7
+	 lbpG9OE01LGDdWcvHB/7EUl6NXtO+yjGssKeaOqHeg1SHiPtjX6lsgbTlXLcTjWvYSiXb
+	 phlnL/E2pTZoVXtuTM1rdP9gV8lNWj2cYMe2uskprER0WG3m1vkB7GtbrURgNsKrHJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795493069;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 Received:Received:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 x-originating-ip:x-tm-snts-smtp:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-MAIL;
-	bh=dEAWrCcLPoqiH1o+NThWPO02RVOnV+Cf+QRng64jUU0=;
-	b=kdVBoYaM8IyupDFIYpMeOJBAy8I+Z7Te9Dr02ZBqqv5dWXIDLm3bSk1Q/tUpcUMGY1rZ
-	 LVNItQIvS+F1o5XpwtNBGf1lW8Gct23b+p7V5z7wAHSrC4g6UN3NgVqlbwEOk6rUhxMML
-	 ufPpgTyJe36o+Pw6zRfxO+NP4uFgLPIPLqk4IgIYDRVQulQVz8TXOUOOIo/n645Wi7BDi
-	 TmbJYmLB2JJattveVm51ZWFkIPk/5Iy22DMHIFereCpci67j1ZZvcxlFmapw4MkYutGO/
-	 J+HzdG38m6Fs94Z0QZuzbit6p+FsoBftMmNeXtSSv9y/DACYYDoa1ZWlFjCJ/Jxc4ZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795494867;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer;
+	bh=P5N0JEP5ejcvC7nFlE0Zn8HSzONrn/YAOlThtpbyJMQ=;
+	b=n1l7EJi2UogFQtaxoeAE2chjk5Ri48zAJ+nSNnryqrEATLWD9Nk5tcVjTwi833zxx29e
+	 fVdu0jvFV13D6msltyZ0IFZBC0WG5kC3u1ydDCmKGzYehtoDIUdTVVAqCWa1qWPmbB9o7
+	 84z5JL/lPSlc2KfsjehYrI1i55XqH6tuLZZ5puS6UsBc7AAXJDRhVTvF8EemJ6cqx2+zG
+	 d4tCsn1xC+CxtRCFuHsFDbG7ZFVwehzJRr6Eya0DZC+SSjxJ2TWNJdJXCFrQssw+KnaWr
+	 L7eiba0756uWhT1I3zxGTVOteXU6/Xunyra15P5JM3eryiHyToJOzAffs0rnKJ84DhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ite.com.tw;
-	spf=pass smtp.mailfrom=ite.com.tw;
-	dkim=pass header.d=ite.com.tw header.i=@ite.com.tw header.a=rsa-sha256 header.s=dkim header.b=Kks62JO3;
-	arc=none smtp.remote-ip=60.251.196.230
-Received: from ironport.ite.com.tw (itemail.ite.com.tw [60.251.196.230])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=telaak.dev;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.128.178
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962F1606A326;
-	Tue, 24 Nov 2026 04:04:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 962F1606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.a=rsa-sha256 header.s=dkim header.b=Kks62JO3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=ite.com.tw; s=dkim;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dEAWrCcLPoqiH1o+NThWPO02RVOnV+Cf+QRng64jUU0=;
-  b=Kks62JO3mqnaHK1RIRr3msZb8a4qYt0+vxLqcM8iAa9idpq8hqJdMn1T
-   u0DJIKqVjR/iMhAgLHeAYxsEmGpp+rsa874GLS7FDviTGrBn104ynbUwd
-   AvoNRMYZlmAFj63UImIFm8tzsOvzvPe2Ce7/FYuJUTHwiWt3Lr4SLypa2
-   heVHrsI0ZaAd9ss8T7pj0NFjGLD2YD8MKW5Yzth1za6RYU3u3SPYf7+m1
-   PbZFlILp2IUYoxEIok0L+fPfw8sOsMFfwIGDKUmL/SbGR7l0MqPRemRiN
-   kww/BBrMxyqj5q47mCwlM08OHcuChVZRW8ZL6lTQTKEfhBc2MWyntEl4K
-   A==;
-X-CSE-ConnectionGUID: 7nPmQY9CTQCv5g+SOWqvIQ==
-X-CSE-MsgGUID: HOGjvmW4SJuUrE1xCyuStQ==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
-  by ironport.ite.com.tw with ESMTP; 24 Nov 2026 12:04:25 +0800
-Received: from tpemail1.internal.ite.com.tw (TPEMAIL1.internal.ite.com.tw [192.168.15.58])
-	by mse.ite.com.tw with ESMTP id 6AO44OSh056372;
-	Tue, 24 Nov 2026 12:04:24 +0800 (+08)
-	(envelope-from Hermes.Wu@ite.com.tw)
-Received: from TPEMAIL1.internal.ite.com.tw (192.168.15.58) by
- TPEMAIL1.internal.ite.com.tw (192.168.15.58) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 24 Nov 2026 12:04:24 +0800
-Received: from TPEMAIL1.internal.ite.com.tw ([fe80::63c1:9095:c5a6:3291]) by
- TPEMAIL1.internal.ite.com.tw ([fe80::63c1:9095:c5a6:3291%3]) with mapi id
- 15.02.2562.046; Tue, 24 Nov 2026 12:04:24 +0800
-From: <Hermes.Wu@ite.com.tw>
-To: <Hermes.Wu@ite.com.tw>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <hverkuil+cisco@kernel.org>, <hverkuil@kernel.org>
-CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
-        <linux-api@vger.kernel.org>
-Subject: RE: [PATCH v2 9/9] media: uapi: it6625: remove the driver-specific
- audio controls
-Thread-Topic: [PATCH v2 9/9] media: uapi: it6625: remove the driver-specific
- audio controls
-Thread-Index: AQGjzAf29/U6qc1EEeqYH4GUceBqBQHomNqft6C07ZA=
-Date: Tue, 24 Nov 2026 04:04:24 +0000
-Message-ID: <508a134174154a868ff461aec97000b6@ite.com.tw>
-References: <20261124-upstream-it6625-alsa-i2s-v2-0-a154685f6989@ite.com.tw>
- <20261124-upstream-it6625-alsa-i2s-v2-9-a154685f6989@ite.com.tw>
-In-Reply-To: <20261124-upstream-it6625-alsa-i2s-v2-9-a154685f6989@ite.com.tw>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-snts-smtp: 7847B83CBCD3A8A8D30F669BDF4C6B94F7B0C9E1D7BBCDA02E58564A2202C2982002:8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F244B606A331
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 04:34:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F244B606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b4cd576f2aso30217307b3.0
+        for <linux-sound@vger.kernel.org>; Mon, 23 Nov 2026 20:34:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795494866; x=1796099666;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=P5N0JEP5ejcvC7nFlE0Zn8HSzONrn/YAOlThtpbyJMQ=;
+        b=qEIn+czbNcDaW7unsg72f6kFCteuKXNUcd8Jo5lNmKK10uuSDYWViDcVNpFmwoCyJA
+         rLrnibp3Imnz/45pS9TIH3007PYuQS6QvzuhI7tMvQPRuDOP6kHdDnXPnIqLduSYRr6y
+         VwNxanT0ZZaLbYpgZzMCZaZBoSLA/BofI0NBJJiEdlR1xxwnIIW3xqe1DGeGCaCgIDpb
+         iRgmMjj5Fv7tIOPyqNC+2SLMlgXAnRW5XrNKfWZfP6YnDs8t+6/NdX1+Arq1Gus770jb
+         +jHPz82ANhEa92NuEu/Jgx8XzHkckKxmgZ0OtCegdUOzvStgG/EbokgdKGEOdTSfkbE+
+         Di8g==
+X-Gm-Message-State: APuU4Z+Y4G1T1PLV/I6wXVPPujvcQfy/m03ziVHbvbLRxOnFg8UhQOyT
+	Ho3Fw40E13d161tUeT09DqG1obhXzOWPjmgMN2ZznNkQ1hpPi8Xjq+fr
+X-Gm-Gg: AZFdTZfWEeQupMBv3sz8903SrvPSwbdKaT8D3cBzLFZ9sR4suXaKaJyxka9cJP6PNQ4
+	HOtd2z+avXKLZgKoIEDCDuqBXSPmQp80LOPDshUwwHdwQRPrtVhV2d5zLGz31C3UpZkj+4sBWs+
+	AtAU+BuRl5YofBS/BcuwqC15gLMK/TtPjhEyTwMhgbDIx3/U0TsM4XCLqZCt+PQ6JAjiwiS28Ez
+	DEVxQM7PGu4+Xlarrk8NPwirsflx2uRD5vTsnEOTJuBIO+FoMInvBR75PJsAsU1LbcKAazSpioo
+	SgTr9y9GE3gF4RA7ERgZbR7SXuol07YyEFYeTnMb/AXKjvCakvPdfiB8NIvP5gXrVhnPt/WUOJe
+	W+UydhVv/xFUPZArJAvKC1rf/a0Xu2NG8Q9ZFZbZsuX/4YQHXpdS32e5FFVwfvgUdM/kh7Crgja
+	XsSJ8fHrI9rHFGceakFUkSY6E8/OspigZOt9fKTONlAYsUFUhDSxVKzIIvSPI7z2lhKOOn7L/OG
+	6Rw3eIocK5LbgVWQYlG60Zv9qt+al1Qn6Olxtt2D7MGrydOWtVKsS7kRap2iWkK8aHt7NZzafhn
+	FmeJ5Vrt/xDnxKBWZ/4mP0cElrLcJULpHbSW3tNHW8740iK3G1aeJ58083yLtCluvJ//3KM+s/L
+	aePOWxd1g5tNPre8qNlrr93vtNH36LJz8aenC1bZkr4/N2BotQKwDG/xzfnjJz3+K+QcmXbDw9K
+	uhJwalpr43Fd+61Uu4WNQC0acX
+X-Received: by 2002:a05:690c:610d:b0:8b3:5121:3d7d with SMTP id 00721157ae682-8b520475df4mr57774267b3.30.1795494865986;
+        Mon, 23 Nov 2026 20:34:25 -0800 (PST)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([71.68.170.161])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b5202fb0a2sm53106397b3.27.2026.11.23.20.34.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 20:34:25 -0800 (PST)
+From: Joseph Telaak <joseph@telaak.dev>
+Date: Mon, 23 Nov 2026 23:34:20 -0500
+Subject: [PATCH v2 1/2] ASoC: ti: omap-mcbsp: Use all 8 bits of CLKGDV
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,9 +77,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MAIL:mse.ite.com.tw 6AO44OSh056372
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261123-omap-mcbsp-tdm-slot-v2-1-3e3aae215952@telaak.dev>
+References: <20261123-omap-mcbsp-tdm-slot-v2-0-3e3aae215952@telaak.dev>
+In-Reply-To: <20261123-omap-mcbsp-tdm-slot-v2-0-3e3aae215952@telaak.dev>
+To: Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
+X-Mailer: b4 0.16.0
 
-VGhlIFNpZ25lZC1vZmYtYnkgaXMgbWlzc2luZyBmcm9tIHRoaXMgcGF0Y2gsIHNvcnJ5IGFib3V0
-IHRoYXQ6DQoNClNpZ25lZC1vZmYtYnk6IEhlcm1lcyBXdSA8SGVybWVzLnd1QGl0ZS5jb20udHc+
-DQoNClRoZSBuZXh0IHZlcnNpb24gd2lsbCBjYXJyeSBpdCBpbiB0aGUgcGF0Y2ggaXRzZWxmLg0K
-DQpCZXN0IHJlZ2FyZHMsDQpIZXJtZXMNCg==
+CLKGDV is bits 7:0 of SRGR1, as its comment says and as set_clkdiv()
+intends with CLKGDV(0xff), but the macro masks the value with 0x7f, so
+a divider above 128 is programmed 128 lower.
+
+Mask with 0xff. The only set_clkdiv() user, omap3pandora, divides by 8,
+so nothing changes for it; this lets the set_tdm_slot() support that
+follows use dividers up to 256.
+
+Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+Signed-off-by: Joseph Telaak <joseph@telaak.dev>
+---
+ sound/soc/ti/omap-mcbsp-priv.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/ti/omap-mcbsp-priv.h b/sound/soc/ti/omap-mcbsp-priv.h
+index da519ea1f303..324c5d7d431d 100644
+--- a/sound/soc/ti/omap-mcbsp-priv.h
++++ b/sound/soc/ti/omap-mcbsp-priv.h
+@@ -136,7 +136,7 @@ enum {
+ #define XPHASE			BIT(15)
+ 
+ /************************* McBSP SRGR1 bit definitions ************************/
+-#define CLKGDV(value)		((value) & 0x7f)		/* Bits 0:7 */
++#define CLKGDV(value)		((value) & 0xff)		/* Bits 0:7 */
+ #define FWID(value)		(((value) & 0xff) << 8)	/* Bits 8:15 */
+ 
+ /************************* McBSP SRGR2 bit definitions ************************/
+
+-- 
+Git-155)
+
