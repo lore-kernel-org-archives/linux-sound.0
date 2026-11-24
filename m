@@ -1,54 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.88
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539053;
-	b=J7SGOsvC1GfbutSs6UlwQPAEYwnLyawE696GPIBUFf7MrYHc1eeXu/DYAlqv8/0FOhif
-	 Xb35/TU0BpTMTp4fRGB32u1nuFCngX+WV1iXcOGjGy8Jdtz2+XOGnLvlStHPqYi0P+dwX
-	 yQuYfkS9CY5h5Ap5GVaVOTD/GuL/QspLFuIrnvLXoUDWzrJ4JkbjXByP+UnH6BBPeeTL3
-	 B6LkfueKW06ECS3Cv8M4WnmWLtc6UCP7dtMiatxy5A34h0DOjN9Tla+yhLSjvZW224tAp
-	 apgv5bD1b6wf97qnniq12d1ot6g4u4KgwO5Y9qFTsE1JTaiZ1ivCDm0KuHDS/xgD+zA==
+	t=1795539174;
+	b=We6pFD6KO0NVsnUQm1bGlUupDoZNhsjigR1OVfDdivRg8WH6dYwY4uL3O3256HwAm8IX
+	 uCp/UJD2KQU4+iMxXmzgh1eHIhLcqr8J6BEW9JtdS1L0a4wNShVIYxSzZgoHg5IFe+Sz0
+	 B297tHC0ceu0+219QsRxFVDLPoEg3TGfI74vAwbFrP4jpr0TWTAKxzilz1vQOdvoyjk4f
+	 inNfeYn13EXDKzSxE6g2tP6RV+BZDRufhJfgpKWzyr7fXqWg9ZpuB9vpMC1K/cntFqxOq
+	 rT8HfZN7bG0XjHI+qvAX1/WCky+HpHGKClgNPHmCq+hMufPijWwaIdgEkuVcTAwa1rA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539053;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=0Q8le7JCIH1nVel4q1Ymz1tyMuypwKlLVFbgcHn8i0g=;
-	b=EO6c9tVdFTmIeaOAipKcSczmjWp6K8IH/InTN+0X7AOqZz9XgBRGkN8CcnaunDiF9r1B
-	 4WoE4XTGhuT5Lr71pIn/88fq/TQapnT6FxqExhHG5HcM8c/mMhA14IA4kt3mha4G0ZT8u
-	 u6FE3I7lpy01SHr8shNCs8GyePE02iB2oN92GtCpiOcZ0cIxhPUAM66p+rxL8XkMqTerg
-	 w5NAkifFZQ9/QJPTBh0tazUM0hJ5ibwvdNNqcmFZavTpKf1JOvDotjpAPIlLeRz9A5tOV
-	 QCCZw92LRK6Vo7FJJDa6yM0qlncl9WIAa1JqNzjPSjCR2bRRQIye2CxaCA4oQfNZg8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795539174;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 Mail-Followup-To:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Cookie;
+	bh=jzSg+OoRedY79JWCBKXLvmzN+Y99cAtJiasdC/afqxQ=;
+	b=J6aIyRHXAS86UjTy7tFuVV1Ck26AU/9kPjAiNXbW2XzXESV3dS/DHGnkGkRvGeG7HYF/
+	 BY4pgVC5KNMKupr8OkHbj9HV1YYSyF3XFQJ29BGxHA5BRXYLPtwtHTfHBSmQ7xjVaa/Zt
+	 0EGuv1ats6vU7WbQfkj1IsIYrRcYWh3T9hsL4QUrIvSBwqZVuSprZYwedhZx4rH/csmlu
+	 BXx6bKv98WkIWXmkDu39OcHx58sI4b8gAL1NEJI5kcPnL/A2VhGbBwxHthf2A2zcVahDE
+	 zTdBYSdupofvgiy0+AjzC4UuV+xzf8gYmzeuGEwEqicNOvxYwKJTj+2xntT4YWZvR+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XSSgmq7g;
-	arc=none smtp.remote-ip=91.218.175.88
-Received: from mta0.migadu.com (out-88.mta0.migadu.com [91.218.175.88])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hMTnc3+r;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9BF606A680
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 16:50:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D9BF606A680
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A8B606A338;
+	Tue, 24 Nov 2026 16:52:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=XSSgmq7g
-X-Envelope-To: linux-sound@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=vlAs76nHe0/RUzO2eFNrqaPRcU8npdl3yRtxXdo9tVo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795539048; v=1; x=1796143848;
- b=XSSgmq7gKvOaxNbz1JL7yKxvpyZB+uUCZQku+LCZMxcCGXpU40xvWpuBj4RWh5Rneno54YqD
- xJh7y6VLdkIxeiJp+y55XCOvvJe5g2ZeVPWTKfx125S465BCazaxSnGYsCE+tsZDpcp3iDO0Vuc
- KfBxIjAADZkt8pgCU9RtFgkQ=
-X-Envelope-To: linux-sound@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 167709dda1e004e0;
-	Tue, 24 Nov 2026 16:50:47 +0000
-X-Mizu-Trace-ID: 167709dda1e004e0
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <44756a36-bda7-4a3e-b3f3-67c2aa9b8883@linux.dev>
-Date: Tue, 24 Nov 2026 17:49:21 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hMTnc3+r
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5BF1F000C0;
+	Tue, 24 Nov 2026 16:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795539173;
+	bh=jzSg+OoRedY79JWCBKXLvmzN+Y99cAtJiasdC/afqxQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hMTnc3+rZ+l2kEtF8tVKs04jAuXdhO5+bCJ1GrJ+uNW1naPu0E6MCnQHAas3yy3AB
+	 KI5McAlyQUiZHjezgFWKJe0FLfRVX3p8ch/gGZGyd6pbot7vCn8iCneifyKFCO/XkX
+	 ctIc2quPW8iHoeefQAOryS+Roo2CSn1Csf1m0qLst7WTInldhZAlGIYmgOhpaIbs1R
+	 XRSIkak7u9NtXXNGUSaD11rt5sL25OBl4NWUE9G5OdStlCIS72Xtb7k5MIw4Z+sw0U
+	 lZfBCOKOBrD80xQEnZNfPrsryie+DTQVh5g9EGlmjjA5rZdkRmwT9Ag6hUjcpEB2AB
+	 F5kpx9WbY6zvg==
+Date: Tue, 24 Nov 2026 16:52:43 +0000
+From: Mark Brown <broonie@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Rob Herring <robh@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	letux-kernel@openphoenux.org, kernel@pyra-handheld.com
+Subject: Re: [PATCH v2 00/20] ARM: omap3: pandora: Modernize audio and
+ backlight to use Device Tree to finally remove pdata-quirks
+Message-ID: <9ac986b9-3e16-4f40-b528-ac2d09051c8e@sirena.org.uk>
+Mail-Followup-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
+	Rob Herring <robh@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	letux-kernel@openphoenux.org, kernel@pyra-handheld.com
+References: <cover.1795505160.git.hns@goldelico.com>
+ <20261124151318.GA536798-robh@kernel.org>
+ <1DCFB59E-E5EA-4470-997E-EAA4ED35D906@goldelico.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,46 +116,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] ASoC: SOF: Intel: Add IRQ chip to distribute the
- SoundWire IRQ
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org,
- broonie@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, lgirdwood@gmail.com,
- peter.ujfalusi@linux.intel.com, kai.vehmanen@linux.intel.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20261124161001.702882-1-ckeepax@opensource.cirrus.com>
- <20261124161001.702882-2-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20261124161001.702882-2-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NC8MlJRbbzgMG+mt"
+Content-Disposition: inline
+In-Reply-To: <1DCFB59E-E5EA-4470-997E-EAA4ED35D906@goldelico.com>
+X-Cookie: Real Users never use the Help key.
 
-On 11/24/26 17:09, Charles Keepax wrote:
-> Add an IRQ chip into the HDA code that can be used to trigger the
-> SoundWire IRQ for each link. Currently, only the SoundWire IRQ
-> is moved over to this IRQ chip, although in time the other IRQ
-> functions could be too.
-> 
-> This will allow refactoring such that the individual links each
-> request and free their IRQs locally, rather than having to rely
-> on looping over a list of links which is tricky to maintain while
-> destroying the devices.
 
-Well, there's no such thing as a per-link SoundWire IRQ...
+--NC8MlJRbbzgMG+mt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The hardware is built in such a way that once a global interrupt is
-received at the HDAudio controller level, the handler has to check if
-this was an IPC, HDA, SoundWire interrupt - in that order. And in the
-latter case there's no other way than iterating over each link.
+On Tue, Nov 24, 2026 at 04:27:16PM +0100, H. Nikolaus Schaller wrote:
 
-Using an abstraction to make each interrupt source 'self-contained'
-would be fine and probably make the code cleaner, but then why stop at
-SoundWire? I'd err on the side of 'go big or go home'...
+> > Which of the 7 maintainers do you expect to take this series?
 
-At any rate this would be a significant change on both SOF/HDA and
-SoundWire sides that should be handled as a well-tested prerequisite to
-the series to allow for communication with the device during remove - it
-doesn't seem right as a patch casually added in a v4...
+> Well, as a contributor for a specific device one is not regularily thinki=
+ng
+> in maintainers work split but about a series to get a device fixed. Which=
+ is
+> obviously orthogonal.
+
+> I didn't even recognize that this involves 7 maintainers.
+
+> Maybe an extension of checkpatch (which already looks into the MAINTAINER
+> list) could help here?
+
+The very large CC list you've got here really ought to have been a
+warning sign here, and all the bits in submitting-patches.rst about
+splitting patches apply to serieses as much as to individual patches.
+Note that sometimes extensive cross subsystem interactions are the right=20
+thing to do since there are actually overlaps in what's being done, a
+blanket rule will never cover everything.
+
+> > Surely=20
+> > this can be broken up into smaller series?
+
+> Yes it (we?) can. It is just a question how to do it and properly describe
+> the dependencies to avoid bisectability problems and avoid that the final
+> goal is lost.
+
+If your multiple serieses can't be applied without each other then hold
+off on the dependencies until the earlier things have been applied.  It
+is not managable to track a large stack of interdependencies.
+
+--NC8MlJRbbzgMG+mt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsFwNoACgkQJNaLcl1U
+h9CuDQf7BqGPuSppsd0kIdO6roCbvvnIt8FJPXqT6iunVWr1caWiAciqqwXpVOK9
+qLWHb4F/3O6N62eHJFGLNrx0XuolhWQl6CXFnS7y7n+ciuXZq4m7NvMPbbcwvqp0
+P1bHhyEKmQnEVdmbHLO6RNW8j5ALFuU8FOE4ZM/BwqjHgjxjmxJMi7zncNArxaZE
+gaqO2PG4Fs016MxBfMwdsOXvwpZXyAXMkIuXZx2otPF0jl/PX0OIm6tbKUnauPWk
+tS8osgVdQFxe73tHon7Xr9rgckK2ZdjGwAhT2jeHNxtJKNIcoo/yPTPH2sD6TlgQ
+ffEg/5BFXW+kwMEiVEnAOBL0CqtcJg==
+=YERm
+-----END PGP SIGNATURE-----
+
+--NC8MlJRbbzgMG+mt--
