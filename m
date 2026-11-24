@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541556;
-	b=37oS15jbYuVnqs1OMuKBJVZA3I+KdinPNu/sGcccBt46gzegDIIlLPiWuD/gk3oXRM/V
-	 aqWTLnscZZbAYTbcS3Oh7wqVD9VmXOs06ZQroUKGUsnSuHc9cb6Op75F4w+nq1h66gRiR
-	 hQC+a9JK7GQy6xXIoJMBi8dYlwmBJRB3VpPBjuF9PO3cb13PjSf/aUEffe2vjzqrhc613
-	 FO5OP/TphQ2/i/d/DsmcfXGcysGIBvXEVqYc4WapuN456W+OtTfpzG58AiC6IvYbon1Fz
-	 ANbToifBOXC8k9Svn+hzWr8l3GDExInvdvCHR945tqF6kHL8szbAW4RrouTDR6hgUYQ==
+	t=1795541558;
+	b=L7C7B8yh+TsOCHW62xVKiUSl40XYbFF/Rj2Bmg5Ga1Bd3bGXsLUU7zLOiYkNtwmxRfTo
+	 YfEj2kDYHf0gf6oqN3FCQSo5VFoGPQF7RicOmmq3amQPzs0QdxRM6EK4uuMtGuFDlIArS
+	 mOyDhOklLrLCO62AiRzdqhCzDXMAMpP8tH/FOb4dxgnJ2udSsUUdfLCqMWSTaEnHYp6hp
+	 djciaxheDrQ++3ScC3hQdRQP3ClxmGRKLCQ494YQgC2xQkRhU6K5Mde/xroDTdMngh9IV
+	 BHBWU1KcekstBZO/QGEPPQC1AIEFSdh7AnHcZnoV2F0IuOF11xPL8Vo9pUNw932I3dQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541556;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541558;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=VVJhQwsRjheYMq7E2yGzrEhTk5s/4Pi/tuTYWNiWjko=;
-	b=dnzT9hih0TN6cLK+ourPZQzzYbh1XxXQkjIWMRTSftyGKT2bypoz1uUQHl6pHfxNtTSk
-	 0N5rS9rsNUmKZrIs83sUlz6wzSGGcGbwuMWMTeu94/75ILeJkNlwPbMgE/gAhYHSVmaEV
-	 06tCfdV4I3eWUZ9MRA/Oc0nKHhIDBZFk5n9bfsPSOQ/6gM8SBe9/xgBS4xoYwogUObnKe
-	 Ib+asCOHGFzySosEY6rCmSd88kZHx6ssP6BErSzngaLwqI6vhSXGrjSb9F80LvjRuEwVy
-	 FAtS3Rh1dTWGAobdnlnELInD49TWxgFzK+82BQ7F9MfsWc53xRITnLGpojYGPPewU6A==
+	bh=nufcT6I5wtqJzgqQd6mwSeskFmkpcz5yu7UaxhvOpBc=;
+	b=VKP2fKhSw74qUG9gQxwC3+nI96lZv7dq21tcVw11S48Tg2htVOkLjoPeeDBneAl1SHel
+	 Jq2xU2t7DnVrN6P4SLHKAjfG4Rm/sIL5RF1wlGZ3Ku9i0zu60SWdBGf2Phgtex3I4LvC6
+	 OxjCAeGV1tHzlLxSho2uo00G9EiOF81WU3q+nvU+edynh+O6MxnDKk1Be7qnHX9k6FcPt
+	 WszTjAylrOBMmHbvqbtm33lO1sXJ1Z+q/4H5q5STf+9KV8Iuzs1ocLs550I3aahiM3D4E
+	 3dv1X6/XDWw+UJj637BWemsjr7dT02bXnZ+u6paudupWjBwYt8mxhzj74KOqcc758Yw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Mi9voX5L;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pU2zelue;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38286606E18C
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 17:32:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38286606E18C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1B5606E1AD
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 17:32:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC1B5606E1AD
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Mi9voX5L
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so3134422f8f.3
-        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 09:32:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=pU2zelue
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso47656385e9.1
+        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 09:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795541555; x=1796146355; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1795541556; x=1796146356; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VVJhQwsRjheYMq7E2yGzrEhTk5s/4Pi/tuTYWNiWjko=;
-        b=Mi9voX5Ld0bkkNa1euXdwVI+VoctikLY25KEw1i25FDmrduud7vf5PjpNPgXb3Md42
-         n8vmGio5JTE5RQku+TsL8w+i2MvZ/tzQqPCnCMbfCzzKzRWhwDG9kf62HgWo7TUIzq56
-         7cWhWyG4z6SAcZlNHZGElMRcGuvKSUpe0446MTIZMPlpBNQePF6ibB7n27PkdaGFuyeo
-         UV+IzinuACH0cUpZ2GsLLqoFTt46Aoa3w32N/9ef+5vvJP2+ECnFOJANJMGPlA3/28Ns
-         ea9KM6T4ge9ZDtxWp6sag/FZGq1/j/3tttNSmcZEJmxlH32cgPF8IL4rXa6gIIvXT5W6
-         Sltg==
+        bh=nufcT6I5wtqJzgqQd6mwSeskFmkpcz5yu7UaxhvOpBc=;
+        b=pU2zelueugtiJV4x+NfDMs+21apnmPRZnouT5PiCVJszVI+tmNnfn8xhBnPbyQl1Kl
+         VYBrVsF616QQFz6LyoYKecXfMAKvP04/qQ9r7m8k5fwXqZ/FJzj63DwKo4xmxTG5084r
+         O/QyfD2sWI/rYUEHCVaAR9tkYYGb0O8sPtbmFx4ozv5Juld0vf6ylLo/As3in4SSDxZ1
+         a6dfb08ECjmFmMXSG8Uz29PHRPP+XTXJYwVAIL3EdUkLXs+O3vr4DbEx6uDG8aNLNYFD
+         lkbug9eLhuPyhoFtO/YMCRpfFZz+HfVI6SymN1URkgjthZrguRGlG9Kuq5aD7b8iwEDm
+         ziiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795541555; x=1796146355;
+        d=1e100.net; s=20260707; t=1795541556; x=1796146356;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VVJhQwsRjheYMq7E2yGzrEhTk5s/4Pi/tuTYWNiWjko=;
-        b=OWYSr8vBcUSpk949FdDSCcCKlXj1DkFaojM8t3qCnssF7tpFqtgsWHO3DwRFLVDmCC
-         zANZxLP6KPa1tKkMNYb5ToqPOctf33oX9gt42vHIvgeCY+WlbkR6Bza7Fn2W1+sbIWP9
-         kIkwW7nj+iAjcIyXEZHGsOplk9/73ZaY1WRvKescLw354ZERdCK9pP3LQE324Rr+gUdo
-         DaRU+x5cCQ86NpM95bbOqUZihTYcchtwpP+0ITGfLvMVknjbf/HHIMQaeM2uALKscqNv
-         MIeY8IbdvP8gdSRzvFZpLIjNhdQlpFYdTpkyi1Lcx96X31LJhJeOqYMLwJFAP/ooQytV
-         jVvg==
-X-Gm-Message-State: APuU4Z+36a55BgvmNsqx7w1tLjH43VdihFybsSoU0K3V1CJGzUXRYaKm
-	8WPV/G1gd0VOB1E1beMpwqoMixHsEcP86h2E+oYSRliqO+RV9DA/+mkOA4AgvR108OE=
-X-Gm-Gg: AZFdTZfFeOVE3WI8h4ufUToo3JTB6ceVLnWbD42rCd0/dnz3FBuNo2xL9obd5nckDI6
-	8d5hs+UgVTBozbhtpVO+599ZI5s02g//gRNjqQ2BS4XDUg9Tmoa2BawiUsrIVkUvNO409KRN0b9
-	QVC9cl1cfsYj06LP4t+my5p+I4ScU4O54rS1aIs/zadbwVwrmU9EGxlO4b5C4kZd6iiIyHYVsFy
-	iB/smDV4qWmGJkW8ipirBqrWA7YBZt7fUx5JHyqQqtoFA5M/yzcphPLkkwySFt3HHzvpjdbFg6g
-	7CzzsIrWboI2+1m9vlukjdtymE+xZphIkpR+C26c7lGzC9gBFwQNrJUVqdNx3g1bLZkwmcrjpJB
-	t7h1UXzt1bRaLo/j/EWQEzfPviNONvKcOG8wVdIr69R1GDXCqNTaet9CN0P3gDDq3Pakhi4ZVmK
-	GNEX4Ite7wjXhCWRQqKH1XRW2WbYiIjmWKKDV3lJHyyNQDYaOKI3Ft/m3YGGwbb2HN4cQynORLH
-	1cjbQOUls2cdOMx68JRC+fyakL1SRxSreF0sVyKYCmFXB1U6kP3SwE0e8myL9CeNZDD5gCDAkn4
-	H5TfQLeuq8//KD6Xj+pxfljJUHJS1H08Mo1hyUg3Uejq8d8gn07X5ATL+wOBLB7FyaF3oto=
-X-Received: by 2002:a05:6000:200e:b0:4aa:76ce:4b9f with SMTP id ffacd0b85a97d-4abb6746af3mr30254134f8f.56.1795541554438;
-        Tue, 24 Nov 2026 09:32:34 -0800 (PST)
+        bh=nufcT6I5wtqJzgqQd6mwSeskFmkpcz5yu7UaxhvOpBc=;
+        b=b2eH1DSUEuwz3klh2Ub295MTFFKtKvYiNbjqvMZaAj2cC9+UGLYVlZYkCJCAkx5aQi
+         augj/PAlOth6ZHg8+Vzx0HHVqrgIEHNxkzFGoV7yu/2kXc4H66FqD7wQ/v3HH0VxT2PJ
+         /8hzb52bqkpTCIJiJVtQmrAnsmf+SPSOWlG+ypHj36OwV7ClZ3c79ggaVcU12A8RPIAs
+         QWeDlcv2zdd1FsoL81m5m7IwtVkPMTv+jzbYB0J/wnqHgjrWlTdyidTbvTPpFwKf3GBD
+         5dsOLequRRFKlcf9yfE4CCgO57oDu+oIVpKDJ5xs9WULaFuan/VryKDrzK75IIsSID6X
+         RZIA==
+X-Gm-Message-State: APuU4Z+UORsZi0yQMgb4Kgt7uqq3tfPPWHLnVkU6kt6J0WlfCGKQ/GsU
+	OBA3W4hhrNLBmim6aJsPRU852qHPajP4hznXToR5i/3QYQu4KA0oeyopirrslcS5pGA=
+X-Gm-Gg: AZFdTZdjGVbQ973XZM2pw7lkD9aQaVtZyLuLGXb4cry7rLZjgdAm2JbXonF9DPFJtmN
+	dDkxWMmCeZSB4jpFDnwf+4EWztu8M6ef/cFdKofZb+ueXZpWgR5QA6sshQALQwYzX7WRj0m/0fx
+	yqghVou1enVINdHV/CmflHTAOvuwy0NI1xKn8ULzEy1jGbb5rbpOjcF1zAh3ld47duW/jwFwkOf
+	BXBpICrdSRdCgNuBrT1XNmbd3ITldK7+mODl0NWEn+PsbyQ8Sf5lNXK7IcCoZzUiBN71ELSKl8/
+	CFDCHTgNkOvGVEJ2IQkUaP1uwUWqvE1VupU4CkCDch1wxY2/EIjtiXCCGksQAKK/JwhGZDyJICl
+	z11QdzJsWQz/iqJxqng34vCmbAYS1sUu+heliNeTHlDkCEKi0L+CjWneuMBe9qmb/WcLMAlLt1B
+	yWjZmPZqecfwuJNM1GjcdvkaiAhdKp3C+xCF1Q2xSAdlrJY28Y8/SFoxutRA6s0q6/E0qgQXe0Z
+	h2wYx931YJgK6v0OiVtkPL+srdO/t/pNSCEFaacT+cZqXPJ1FbbWdta5KW4jd3ENSONGo0o1hVX
+	1PKX8jxfZ68EkP40tkYMfaDF69v4dr5Sss6HouJp/rdUZoAXDQ==
+X-Received: by 2002:a05:600c:5251:b0:4a1:f8cb:7d70 with SMTP id 5b1f17b1804b1-4bb8881e837mr294089525e9.24.1795541556121;
+        Tue, 24 Nov 2026 09:32:36 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b9add26sm29560057f8f.44.2026.11.24.09.32.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b9add26sm29560057f8f.44.2026.11.24.09.32.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 09:32:34 -0800 (PST)
+        Tue, 24 Nov 2026 09:32:35 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Tue, 24 Nov 2026 18:32:23 +0100
-Subject: [PATCH v2 16/19] ASoC: qcom: lpass: enable the right codec_mem
- clock when usin LPM memory
+Date: Tue, 24 Nov 2026 18:32:25 +0100
+Subject: [PATCH v2 18/19] ASoC: qcom: sdw: allow LPASS_CDC_DMA_WSA_RX0 as
+ soundwire dai
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -94,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261124-topic-sm8650-el2-v2-16-174e159f0f69@linaro.org>
+Message-Id: <20261124-topic-sm8650-el2-v2-18-174e159f0f69@linaro.org>
 References: <20261124-topic-sm8650-el2-v2-0-174e159f0f69@linaro.org>
 In-Reply-To: <20261124-topic-sm8650-el2-v2-0-174e159f0f69@linaro.org>
 To: Srinivas Kandagatla <srini@kernel.org>, 
@@ -108,203 +108,158 @@ Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6561;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4251;
  i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=uk3CHYwQ8gWmlrdbaFO/Xc25m80hPSF4BifAFdnrvKo=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBrBcoiC3isDpEdg0St1GqjWZ8KPYconsJRQO+QJ82u
- 79TfKGKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCawXKIgAKCRB33NvayMhJ0SLrD/
- 4xrNN4YMSDpFk7MRptEw16707v5U+Hmv6ZQR4QmBbNQvMgDaq4lzyM5dT7fVkjkLlFaZMJkqtge5oR
- 6Fia5plfZ3L4a0dgslb/ME/DmWe/ifTsy+DXL+ZZL7ggL1pFW5FSIEq576MG+mNPORHi9Z+WrhrHPI
- zgznrW7isqprBHPKCvBATj2TY1h0uasvukaE/h3q1uuvoNnr9dE41Zst0xsgijrIefBCQVwQ7z0+3b
- ZQEVGe82lzsQKjgPh1mPWt05gWADXkrUysnk59Yez2vbFdnBTS+Eh60vliEzz589m9Q9m1WPOEU4fW
- Mvj2TYBv0Tzipe06AevvR0D8NGzPuOfYPITjgS24PGa87kXMlXiiWPJeG+CkHlaao57CO2vz8HrVyN
- O58fSMTy+9dGVsJANvQ6esJL6qphsjahvmGvKzQ7ZrOgh9675xmfI5z60yLpNo4INVeQE3Ak2UuVuA
- QG2f9y40h/eTu+GvWUvwLHN6Pd+8a4NIjwzhUVh0mt68FaoYK6WpY9PeEeZbxdsE1DcGxR1q2Q7JjN
- HU+ddcTgVNzeYhmHNEYEGTUM0ZZlmmD6UBV3lqbgEE8070TOFyMNJg1VnjI6rR2YbMtVB/owfWO3nc
- AAQ9kGwBtMDRbmNkMUh7QiwYl06KLKgQkg88DAbzVO955Q+HkWvMbUApYPBQ==
+ bh=O/F6X827vmeWFUDFxdC8UAbpZvNVpTpLrLIF5/O087g=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBrBcojgMzsCA387B8/ryOOczJYFfBSuSxtDFUlRNIs
+ YsLBkLKJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCawXKIwAKCRB33NvayMhJ0Z88D/
+ 9vYLjUuqfzBx8dj63qy+v+m947tJ1gy2kkA7u3l9/YwA+F1BWU8jqXz9AfzeQ8uV1ngHodUxCxWIQZ
+ HcBSsELEOnjCiu52F+XY2T9iACI/Z5xfxA2E9kvXLywkCYp52UbZ8vhR8y9l6S6yJGmW19zdeK+BPR
+ klMNviSrCf8RjA1hr6t/yXm8V3ngePpVa1miVBjxIpZBDOJ8rmueld12NvfjnE6RS5sZY8rMaoTlFH
+ F2CIINBEEH4QBT1XJ0pOD4Yav34QiWhsubbhd8UkDFUMjlyUjCV7GSMfLzcli9IZRaP5lS7PyJpB/D
+ H0VrH4bicUiRFt6UbkdYaR3JdsFIdKv1s8+2IuqmZQqPfS5lWYAb6o7l4vvfGw8VbKvlW3Keu55/fl
+ ilkkooR3INhZfVDOm3Z/gJ7H/F8Cff76+xmbmUTod9FcXk6TElBm9LhxZNBCaJwjEMEr3NXBfHAN/O
+ IbK5vdZ+2WZEWgLEHTt3YGApWDJTQfWxqeQlFxfYr2HureJdED8YZRMRpM0Qw5FUiCcS5nQBaqZH0n
+ CzMCF6TWw5S2sZaAFq/trgA3Z2sWvMKiL+2lDlpDjRlZlIPDefK9+p7J3RqNw7P7w6TQNpN8/AS6Ih
+ C4vCIFQ1eKJWKwX2evU0eaT7bTdiRFZMDBJzSN81Rrz5+5pCcqQGRqX6Depg==
 X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
  fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-The LPM memory zone needs different codec_mem clock to be
-enabled depending on the DMA buffer offset, add an helper
-returning the right clock and add support for the MI2S
-ports using a non-core LPAIF.
+Like for the WCD ports, allow the WSA_RX0 port to be initialized
+as a soundwire DAI.
+
+The LPASS CPU dai ids from qcom,lpass.h overlap with the DSP dai ids
+from qcom,q6dsp-lpass-ports.h, so only match the LPASS CPU dai ids on
+the DSP Bypass links, which are neither DPCM frontends nor backends,
+instead of matching them on all the links, adding an helper to
+identify those links.
 
 Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 ---
- sound/soc/qcom/lpass-cdc-dma.c | 18 ++++++++++++------
- sound/soc/qcom/lpass-cpu.c     | 38 ++++++++++++++++++++++++++++++++++++--
- sound/soc/qcom/lpass.h         | 20 ++++++++++++++++++++
- 3 files changed, 68 insertions(+), 8 deletions(-)
+ sound/soc/qcom/common.h |  9 +++++++++
+ sound/soc/qcom/sdw.c    | 42 +++++++++++++++++++++---------------------
+ 2 files changed, 30 insertions(+), 21 deletions(-)
 
-diff --git a/sound/soc/qcom/lpass-cdc-dma.c b/sound/soc/qcom/lpass-cdc-dma.c
-index d7f85a4f9d99..291c92936043 100644
---- a/sound/soc/qcom/lpass-cdc-dma.c
-+++ b/sound/soc/qcom/lpass-cdc-dma.c
-@@ -200,12 +200,14 @@ static int lpass_cdc_dma_daiops_startup(struct snd_pcm_substream *substream,
- {
- 	struct lpass_data *drvdata = snd_soc_dai_get_drvdata(dai);
- 	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-+	struct clk *mem_clk;
+diff --git a/sound/soc/qcom/common.h b/sound/soc/qcom/common.h
+index 37b185a4968f..1af9c32505e6 100644
+--- a/sound/soc/qcom/common.h
++++ b/sound/soc/qcom/common.h
+@@ -32,5 +32,14 @@ int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
+ int qcom_snd_dp_jack_setup(struct snd_soc_pcm_runtime *rtd,
+ 			   struct snd_soc_jack *dp_jack, int id);
  
- 	switch (dai->id) {
- 	case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
- 	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
--		clk_set_rate(drvdata->codec_mem0, CODEC_MEM_HZ_NORMAL);
--		clk_prepare_enable(drvdata->codec_mem0);
-+		mem_clk = lpass_cdc_dma_mem_clk(drvdata, drvdata->rxtx_lpm_offset);
-+		clk_set_rate(mem_clk, CODEC_MEM_HZ_NORMAL);
-+		clk_prepare_enable(mem_clk);
- 		break;
- 	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
- 		clk_set_rate(drvdata->va_mem0, CODEC_MEM_HZ_NORMAL);
-@@ -213,8 +215,9 @@ static int lpass_cdc_dma_daiops_startup(struct snd_pcm_substream *substream,
- 		break;
- 	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
- 	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
--		clk_set_rate(drvdata->codec_mem1, CODEC_MEM_HZ_NORMAL);
--		clk_prepare_enable(drvdata->codec_mem1);
-+		mem_clk = lpass_cdc_dma_mem_clk(drvdata, drvdata->wsa_lpm_offset);
-+		clk_set_rate(mem_clk, CODEC_MEM_HZ_NORMAL);
-+		clk_prepare_enable(mem_clk);
- 		break;
- 	default:
- 		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai->id);
-@@ -228,18 +231,21 @@ static void lpass_cdc_dma_daiops_shutdown(struct snd_pcm_substream *substream,
- {
- 	struct lpass_data *drvdata = snd_soc_dai_get_drvdata(dai);
- 	struct snd_soc_pcm_runtime *soc_runtime = snd_soc_substream_to_rtd(substream);
-+	struct clk *mem_clk;
- 
- 	switch (dai->id) {
- 	case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
- 	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
--		clk_disable_unprepare(drvdata->codec_mem0);
-+		mem_clk = lpass_cdc_dma_mem_clk(drvdata, drvdata->rxtx_lpm_offset);
-+		clk_disable_unprepare(mem_clk);
- 		break;
- 	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
- 		clk_disable_unprepare(drvdata->va_mem0);
- 		break;
- 	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
- 	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
--		clk_disable_unprepare(drvdata->codec_mem1);
-+		mem_clk = lpass_cdc_dma_mem_clk(drvdata, drvdata->wsa_lpm_offset);
-+		clk_disable_unprepare(mem_clk);
- 		break;
- 	default:
- 		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai->id);
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 8b005a87d408..a68ca4d4d63c 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -82,25 +82,57 @@ static int lpass_cpu_daiops_set_sysclk(struct snd_soc_dai *dai, int clk_id,
- 	return ret;
- }
- 
-+/* LPM memory clock of the MI2S ports using a non-core LPAIF, NULL otherwise */
-+static struct clk *lpass_cpu_mi2s_mem_clk(struct lpass_data *drvdata, unsigned int dai_id)
++/*
++ * DSP Bypass links (lpass-cpu) are neither DPCM frontends nor backends,
++ * their cpu dai ids overlap with the DSP dai ids.
++ */
++static inline bool qcom_snd_is_dsp_bypass_link(struct snd_soc_pcm_runtime *rtd)
 +{
-+	unsigned int port_id = mi2s_port_id(dai_id);
-+
-+	if (!is_lpm_mi2s_port(drvdata, dai_id))
-+		return NULL;
-+
-+	if (drvdata->mi2s_lpm[port_id] == LPASS_RXTX_CDC_LPM)
-+		return lpass_cdc_dma_mem_clk(drvdata, drvdata->mi2s_lpm_offset[port_id]);
-+
-+	return drvdata->va_mem0;
++	return !rtd->dai_link->no_pcm && !rtd->dai_link->dynamic;
 +}
 +
- static int lpass_cpu_daiops_startup(struct snd_pcm_substream *substream,
- 		struct snd_soc_dai *dai)
+ 
+ #endif
+diff --git a/sound/soc/qcom/sdw.c b/sound/soc/qcom/sdw.c
+index 6576b47a4c8c..669fb63207c9 100644
+--- a/sound/soc/qcom/sdw.c
++++ b/sound/soc/qcom/sdw.c
+@@ -6,10 +6,25 @@
+ #include <dt-bindings/sound/qcom,q6afe.h>
+ #include <linux/module.h>
+ #include <sound/soc.h>
++#include "common.h"
+ #include "sdw.h"
+ 
+-static bool qcom_snd_is_sdw_dai(int id)
++static bool qcom_snd_is_sdw_dai(struct snd_soc_pcm_runtime *rtd)
  {
- 	struct lpass_data *drvdata = snd_soc_dai_get_drvdata(dai);
- 	unsigned int port_id = mi2s_port_id(dai->driver->id);
-+	struct clk *mem_clk = lpass_cpu_mi2s_mem_clk(drvdata, dai->driver->id);
++	int id = snd_soc_rtd_to_cpu(rtd, 0)->id;
++
++	/* DSP Bypass usecase, cpu dai ids overlap with DSP dai ids */
++	if (qcom_snd_is_dsp_bypass_link(rtd)) {
++		switch (id) {
++		case LPASS_CDC_DMA_TX3:
++		case LPASS_CDC_DMA_RX0:
++		case LPASS_CDC_DMA_WSA_RX0:
++			return true;
++		default:
++			return false;
++		}
++	}
++
+ 	switch (id) {
+ 	case WSA_CODEC_DMA_RX_0:
+ 	case WSA_CODEC_DMA_TX_0:
+@@ -33,20 +48,8 @@ static bool qcom_snd_is_sdw_dai(int id)
+ 	case SLIMBUS_0_RX...SLIMBUS_6_TX:
+ 		return true;
+ 	default:
+-		break;
+-	}
+-
+-	/* DSP Bypass usecase, cpu dai index overlaps with DSP dai ids,
+-	 * DO NOT MERGE into top switch case */
+-	switch (id) {
+-	case LPASS_CDC_DMA_TX3:
+-	case LPASS_CDC_DMA_RX0:
+-		return true;
+-	default:
+-		break;
++		return false;
+ 	}
+-
+-	return false;
+ }
+ 
+ /**
+@@ -71,7 +74,7 @@ int qcom_snd_sdw_startup(struct snd_pcm_substream *substream)
+ 	u32 rx_ch_cnt = 0, tx_ch_cnt = 0;
+ 	int ret, i, j;
+ 
+-	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
++	if (!qcom_snd_is_sdw_dai(rtd))
+ 		return 0;
+ 
+ 	sruntime = sdw_alloc_stream(cpu_dai->name, SDW_STREAM_PCM);
+@@ -127,12 +130,11 @@ int qcom_snd_sdw_prepare(struct snd_pcm_substream *substream,
+ 			 bool *stream_prepared)
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+ 	struct sdw_stream_runtime *sruntime;
  	int ret;
  
-+	if (mem_clk) {
-+		ret = clk_set_rate(mem_clk, LPASS_CODEC_MEM_HZ_NORMAL);
-+		if (ret) {
-+			dev_err(dai->dev, "error setting lpm mem clk rate: %d\n", ret);
-+			return ret;
-+		}
-+		ret = clk_prepare_enable(mem_clk);
-+		if (ret) {
-+			dev_err(dai->dev, "error in enabling lpm mem clk: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
- 	ret = clk_prepare_enable(drvdata->mi2s_osr_clk[port_id]);
- 	if (ret) {
- 		dev_err(dai->dev, "error in enabling mi2s osr clk: %d\n", ret);
--		return ret;
-+		goto err_mem_clk;
- 	}
- 	ret = clk_prepare(drvdata->mi2s_bit_clk[port_id]);
- 	if (ret) {
- 		dev_err(dai->dev, "error in enabling mi2s bit clk: %d\n", ret);
- 		clk_disable_unprepare(drvdata->mi2s_osr_clk[port_id]);
--		return ret;
-+		goto err_mem_clk;
- 	}
- 	return 0;
-+
-+err_mem_clk:
-+	clk_disable_unprepare(mem_clk);
-+	return ret;
- }
  
- static void lpass_cpu_daiops_shutdown(struct snd_pcm_substream *substream,
-@@ -133,6 +165,8 @@ static void lpass_cpu_daiops_shutdown(struct snd_pcm_substream *substream,
- 	}
+-	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
++	if (!qcom_snd_is_sdw_dai(rtd))
+ 		return 0;
  
- 	clk_unprepare(drvdata->mi2s_bit_clk[port_id]);
-+
-+	clk_disable_unprepare(lpass_cpu_mi2s_mem_clk(drvdata, dai->driver->id));
- }
+ 	sruntime = qcom_snd_sdw_get_stream(substream);
+@@ -169,11 +171,10 @@ struct sdw_stream_runtime *qcom_snd_sdw_get_stream(struct snd_pcm_substream *sub
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+ 	struct snd_soc_dai *codec_dai;
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+ 	struct sdw_stream_runtime *sruntime;
+ 	int i;
  
- static int lpass_cpu_daiops_hw_params(struct snd_pcm_substream *substream,
-diff --git a/sound/soc/qcom/lpass.h b/sound/soc/qcom/lpass.h
-index 3a37bf992645..9e18606ef3b8 100644
---- a/sound/soc/qcom/lpass.h
-+++ b/sound/soc/qcom/lpass.h
-@@ -30,6 +30,8 @@
- #define LPASS_CDC_DMA_INTF_FOUR_CHANNEL		(0x0F)
- #define LPASS_CDC_DMA_INTF_SIX_CHANNEL		(0x3F)
- #define LPASS_CDC_DMA_INTF_EIGHT_CHANNEL	(0xFF)
-+#define LPASS_CDC_DMA_LPM_MEM_BLK_SIZE (2 * 8 * 1024)
-+#define LPASS_CODEC_MEM_HZ_NORMAL		153600000
+-	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
++	if (!qcom_snd_is_sdw_dai(rtd))
+ 		return NULL;
  
- #define LPASS_ACTIVE_PDS			(4)
- #define LPASS_PROXY_PDS			(8)
-@@ -292,6 +294,24 @@ static inline bool is_lpm_mi2s_port(struct lpass_data *drvdata, unsigned int dai
- 	return false;
- }
+ 	for_each_rtd_codec_dais(rtd, i, codec_dai) {
+@@ -196,10 +197,9 @@ EXPORT_SYMBOL_GPL(qcom_snd_sdw_shutdown);
+ int qcom_snd_sdw_hw_free(struct snd_pcm_substream *substream, bool *stream_prepared)
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+-	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+ 	struct sdw_stream_runtime *sruntime;
  
-+static inline struct clk *lpass_cdc_dma_mem_clk(struct lpass_data *drvdata, u32 offset)
-+{
-+	unsigned int id = offset / LPASS_CDC_DMA_LPM_MEM_BLK_SIZE;
-+
-+	switch (id) {
-+	case 0:
-+		return drvdata->codec_mem0;
-+	case 1:
-+		return drvdata->codec_mem1;
-+	case 2:
-+		return drvdata->codec_mem2;
-+	case 3:
-+		return drvdata->codec_mem3;
-+	default:
-+		return NULL;
-+	}
-+}
-+
- /* Vairant data per each SOC */
- struct lpass_variant {
- 	u32	irq_reg_base;
+-	if (!qcom_snd_is_sdw_dai(cpu_dai->id))
++	if (!qcom_snd_is_sdw_dai(rtd))
+ 		return 0;
+ 
+ 	sruntime = qcom_snd_sdw_get_stream(substream);
 
 -- 
 2.34.1
