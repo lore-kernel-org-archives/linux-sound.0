@@ -1,56 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620165;
-	b=09HnmNJbenxDmIEJ+hj1wxldF4o8lEsp09Y0Iqudp5VH4FzII4LcyPn6km71o+YNLSwX
-	 hW1gLAOyL+b15D7C3myZf4Hgiz/2jinS1OfYEnCdtOnaKHLQqfCORYnG2V7YLGJjaNQwG
-	 p6mN84eD+Q0KkwLDnngtGET60b1Jbj6nXnG3FBDvozxrNP4EM5K9cpfco3il+3MPzrBtx
-	 G+bOXnIDNQifMcvcepu0GbUKaKZo67enLjrU+tGcXPgWuXp/f/2+dX5G65IcnrhhkHUm8
-	 MxWl/fxRay6b43yqQeOQmtGtMqoSubd+40WuhOmMIAf/JsKDjaEEd0fYULMGURoBgmQ==
+	t=1795620175;
+	b=OLnagpJlZaLOiFkfnOjq7UMD1YKvcx2dEZ4SZguWxb7JLLG3bhjTI3xLVeVwxgHLghFJ
+	 8b2HY9ZC9tFzQ8JMi1W5zaKMAotDhQUFG//idSeS/Q7ELGG3zDfHBlt2Hji4YHYVIQ/4v
+	 Ht1AwR68Kc3tOsKBWiP/1yrRyKXjCHUay2sMEzrLo3Nm3V3NdO9fr6n5uWZBmzy6+pEWr
+	 3Hufn1ee2LBSL3mn+n8xicU6U8/5aVuGeyLkrKkZue5LgKFtQiieWegjb1dpY81RIjBkF
+	 ltbbA/QLesKXVsEhemgs9SQJqGcUhbcQQb3VPUaBibEnV/omjVL/nHO1F9VHktoH+wA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620165;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620175;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=6GSg/jLsN29tre5kcZSyHYsaS369WhKvfnM4vNbmqC4=;
-	b=x1pZy6iP6Tlbr0iuH2+fj26H4U9R3MBXQamzXDb7h6zid5oNLsFrSZMKKkD7CRpcAH6C
-	 shQtvudZ2XGbx68pR2AgOQUCTRfVRIx/TrPV3dyG4T8XtuvKwhsyA+V+Kit+ywG0Px4xm
-	 ZvYUcdJ6oNH5TxN/x5FyRqCVZhU8cKq05WwCyr0Px668MzyEJ9QSLldEzaoFwOc/J5E99
-	 uRJDzxZKXDVc3+HZuP+mmhV6VMU1aeS8Q3mUbScsLgpRKN+7QamO+7kWIFdT/6ihl25+B
-	 jW9MENL7Q/by9fCFatJyqZN/uNV7fyvZ7zoFGSPeBxJ6X6xkF6Q6DoBfHko8AKJ/Kaw==
+	bh=2PzTqrXPZgDKBf+ilRVzcBZT79IBr1BJuxecq2SrYVk=;
+	b=ZZFh9zNjopTCOhIwH5hcWSPk+fD/+AP0LXXCP81UwZw9bsrkbMCTv/epKV6jDrAuMP4k
+	 UCeKuegA4Q84nfSLmbwHgmjw/3rPs/zrDERB+EV+Uv9wzV54J5sS9y43WTHZGxiHP09/j
+	 TEFSFXFb/Iu2oq8Q7mdJ0PRmrr5AQjIF2yBzwF0PggpvzkavxTPO8H1hZ01IiTJfmFdzy
+	 DEkgS49WP0B2h7sMEB59MPJnHauOf1Fqz77TnPYVx5D4rcHtjCvfAVaOQj42H66LpkJ3M
+	 oR+Rit3t1ZWs2P2B996xW5nnH1OCLnjsvq3karQxkjmMy+YzhvR36AYclI3FC97M+KA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f/qK01bz";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1BoYxqK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE819606A688;
-	Wed, 25 Nov 2026 15:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF01606A31E;
+	Wed, 25 Nov 2026 15:22:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f/qK01bz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BA31F00A01;
-	Wed, 25 Nov 2026 15:22:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f1BoYxqK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742F81F000D4;
+	Wed, 25 Nov 2026 15:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795620165;
-	bh=6GSg/jLsN29tre5kcZSyHYsaS369WhKvfnM4vNbmqC4=;
+	s=k20260515; t=1795620175;
+	bh=2PzTqrXPZgDKBf+ilRVzcBZT79IBr1BJuxecq2SrYVk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=f/qK01bzHUyDDeiTBo/kJ+oJc+8tLLn5lqj3TMdelkNMNfVQnR77kanE7SRbUYD0X
-	 cgDZoWOIUWs0RG2dA9fuRwCyo0ObFwsvclvJIcIGwT4WX2XsiAAAClh+zfJWwLVCgI
-	 TjurB0ntDfya+a5LXXvrCWIu+CllDbGwMa1dddBXgUJpFFMXfjgZCwL/xD8OptuUeW
-	 4X2r/hmpPCGZVpH32quxqByqLthhk6uNruY6gykvkJcJ8S/JCcmbI7o4us5WbTjleS
-	 Uv5QAjawlUWR28mIhTL8F0A7lDaIHuFYvm0h67xvHYsFP5Lpe9hmbJvgCUptnH83pr
-	 pxW6lDjfu7g7A==
+	b=f1BoYxqKKeW4BNch70yc3LBvNU1UFj6RCcqTCqSMpNkmhQeZvy8EmYrwEGGwqai6Q
+	 /8KqC8nS8OeUjlQ7jPNXzlSNQyqU0l1RI7d7nd/c2PqfSW7SN04gyPMVfwRoatTOTx
+	 tHr8j8wo/jpdY2RKkToWOGj71QL6XDBq8XCJ2iggMCWmsCw1M7wqwWRxjLULBCq0mL
+	 2xPkTgqPK1OQDX++HNxLGoPgfcIJjoLMP8ZRqFz+IAGMq0geqEEoZhVpvmwVt5EpeW
+	 W1A32an4fLMZfUCoIXxT1OHUw1rB1rVMhADuTsxvfuXTmQUrFS3PT83VO1ieWMswLA
+	 zUwtVUSLK9/zg==
 From: Mark Brown <broonie@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Ian Rogers <irogers@google.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>
-In-Reply-To: <20261119171059.1537658-1-irogers@google.com>
-References: <20261119171059.1537658-1-irogers@google.com>
-Subject: Re: [PATCH] ASoC: codecs: aw88395: Validate 4-byte alignment and
- init ret in reg update
-Message-Id: <179554902677.947306.15693529746115817043.b4-ty@b4>
-Date: Tue, 24 Nov 2026 19:37:06 +0000
+ Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261122090640.1475222-2-manuelebnerli@mailbox.org>
+References: <20261122090640.1475222-2-manuelebnerli@mailbox.org>
+Subject: Re: [PATCH v4] ASoC: doc: Fix bracket
+Message-Id: <179554508712.947306.12735382898664151388.b4-ty@b4>
+Date: Tue, 24 Nov 2026 18:31:27 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,17 +65,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1166; i=broonie@kernel.org;
- h=from:subject:message-id; bh=0hTnNHG4RTo/uFcq2aIwcu+mFLSWwLBMdCg+YvkFGjw=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/jrdfjDR4EaI6iTzj+77qqZ3xbXv8lx8UtJ9khBfU
- 4HaJs/GjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzEIozhf8K2NzMSqhVX9gT+
- FdlatfEba2bakdsrbln9rNWYdG7RhRsM/8uVl5+UbjTnEpp25+XJ1ERxli9NzzfNnWFivTjwZ++
- 8VHYA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1062; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=tdpJWr0GNwgSHtdlCqBSZJ3ZESMGjRciWBISd90I2P4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/nrral87KynolpmbuNLl1olPM2dXfG/522WTyqJ0S
+ YAtQJuto5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABNxPszI0FTpcGm9wst11QKh
+ B1SYn1if+OFp7pcg8sXwn0Ts3yVmWxgZZrk33V+Wbrg2bx4zR+DJNWXfdkedm/Ogn3WKdGe1tbo
+ sCwA=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 19 Nov 2026 09:10:59 -0800, Ian Rogers wrote:
-> ASoC: codecs: aw88395: Validate 4-byte alignment and init ret in reg update
+On Sun, 22 Nov 2026 10:06:40 +0100, Manuel Ebner wrote:
+> ASoC: doc: Fix bracket
 
 Applied to
 
@@ -81,8 +83,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: aw88395: Validate 4-byte alignment and init ret in reg update
-      https://git.kernel.org/broonie/sound/c/e5c608dbb738
+[1/1] ASoC: doc: Fix bracket
+      https://git.kernel.org/broonie/sound/c/caa42517c9d7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
