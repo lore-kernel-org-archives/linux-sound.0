@@ -1,95 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795514194;
-	b=Ip8uJUwE7s57nfoG7q0IaqQODwGbZlaVH+pDcYwHChOYk1YKW1/zznvN6wwuYSbcEi70
-	 DFmpGvB0gNuR6b8bFl8GeGHUKrB0VAKm+drT4ZMVSTCJ8+EP6zNSVKQuEsHJI6AFML1RB
-	 76B55fcqYI1D72AX0kWrqeNdOqDdpwWcHYlxxYxIFd9Q5dlZ4haogzhZoJ8RwaWnhJtQ9
-	 LFcq0XWAC3i4lk5w+rNKqWf5QASSucE99fR3qpLF2A74QP3LzAtzv1BLji/rmuzQXhsBF
-	 q1UliFrZofhAQwGW4CfKfn4XQ+gABNLDEAzZddZ/IUPW/h8Ze4aEjJrsxwJ4ZSbQTgA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795514194;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=xmnB05OFBqRK5KT7n/FEDBwbB7ml+xB+YEvxP4wnFjw=;
-	b=wTdmiFJKoUSoFv1TdNuNmg+YRsB86zqZbFNIrfQT0aHbSkiDuhyprCqkv97H7JyRf4+Q
-	 ftq0AsIF/6Jf4CAfiuwvCykzFg1LAh+EuO6yDKBOIKcqpxpTtyDbjWm431+87F1aFmJi7
-	 AVBwaHx/rQzW0Z7Kfp7mIB+vtXLJGvx8mGHeyvKN8bhfI/5nuiAGR/y4mEEkSp2Zi0Haa
-	 eIFz7Ud3Rdp8GNl1cINQNawYi2Y4+LSErLbZXB3CiXsSnNxd+RgWL6UDU+N9UsuTogdLu
-	 UtHORGHqdOc5haiurTRv6unNX1IL+2teMw8GVqtiUz7TVJDwzTHg/mYBzUC9wAsmbGQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="fHI+3cV/";
-	arc=none smtp.remote-ip=209.85.210.174
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.40
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795514905;
+	b=CYWdMZM8Q0qH0wtnZNPRCVng95P7BV6Hrx0Fn8DQW87C0yuw1Zv8TfvDFKmEb2qLUJrl
+	 IRp7WtUbhvCdNlgML1nbflBLh/rCs/thSJavx5lyBa5jS247VeC/FY82XTGxJu4kg5uit
+	 zfcmTa1MPa7QgAF8qydJodUqF32LvUH7mOosFfCuvTXB/kX9EOZpT8Fcn+2dwNKXsIO85
+	 VqLBN+l1+m2mvCg9Q7M4Cw3yq/IFl3VTD4gUb9di5UcEqwdOyfKD5w1uJAogt1TVLOueX
+	 FyS50MA9nkzFwCJPwyFZhpH/HrzoTtSFBlfeJ9jndtsmoR/hK3/qVuXXxyYEgNvaljA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795514905;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ydAkCzQVW3vxcVNGFXdG1l7FB0M6jVcB3e6F3muEVnE=;
+	b=DD5XY5WDhr5PtI2YyHdYSAf2QZD1YyCq+BNqetYa01nZ3OP9i5WGdfxplPVj/i8lzxAs
+	 MT1Rf1JxtKp9eyX/7hnUYp4zFhXRbOtFbeshXVP4buzALr/viUsXoqX1crIWimKABP7Lb
+	 m2VD2EgaLj2g1qlTV3IkYwqsudmFbfl/6gJUv5zOvA3VJMX9ioJWQHQDBp0+bNug5M4rx
+	 TLAjpEe1sZhBgDyN4GkA67t6UGx7x25rU2lahc1xqBRd+EUf9wq3UJr2o7FfEtDxPJ1w1
+	 P2NI7xKO/rcwUoiSNV+T0YVEpX1/Glf2Y1NG08dyMQ/0lvKnz5y7evejRXB0f/nqkJQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Qa0Ctc6m;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.85.40
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010040.outbound.protection.outlook.com [52.101.85.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C655C606A32A
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 09:56:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C655C606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3A1606A681
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 10:08:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C3A1606A681
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fHI+3cV/
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8b67f25e6e1so2062475b3a.0
-        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 01:56:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795514193; x=1796118993; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xmnB05OFBqRK5KT7n/FEDBwbB7ml+xB+YEvxP4wnFjw=;
-        b=fHI+3cV/a0MWUI5HgdFWOzmhhVmUTFbNwxJbUBcxZ4xzVit/U8y7tMl9Kf9FDe2UBT
-         wBvrKWbRSCzpTYrls+E7NsW0CYX8ljva+T1cx+xahKywPS9oxC1Jm0lLgJuCZ2STQLOB
-         Ni5DQEmmgM4pCjopIF1vQfJWy5N9jqWFGnDmvAfVSbxUSU0Vt7Tp18Y6x291e+JbVclN
-         3M9OTFe73sluKCdmyEimeI80uXtkmizi9jgoOKcQ6vkpa2kfsAJFJ9gsTxbdv+SZ3gH/
-         IZnpl2knzm7IAXs/PDutvtWpgtDvRdV1RbO8gEwIskpYPJqZhySePA8aJHJ8j6VulQ9z
-         1x5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795514193; x=1796118993;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xmnB05OFBqRK5KT7n/FEDBwbB7ml+xB+YEvxP4wnFjw=;
-        b=23wdI/w3VZRc8qjNzt7v0rK1MAeBR9qj2TbuUotZUVMfAfDLFw6rp/THj1nynkaZNB
-         1Q00+NBedUVX0PcLa6ud5Dok3V/zone/5fxHSPTn+SjjZnHS25GZMnWVoquOJIeW6VAl
-         pCcRvHmMoVqLgWMMSMG4JU5q1hsIAxtfzB1TXrfpcWMYt71SBL5XnqDLzdcbSKtvoq+7
-         TelqiIhTfMYLQso40xjpL+73wJ1nVLCFm3+g86Mo1+6GdYY718Sl6G6dN7obkWmoYHKV
-         loc+02Yq2QD3aKcn5Sfu9vmgBqFmA0RkvckhOK0XJ/lqEovfNLz25gTnRigYBOA4BlXs
-         DX/g==
-X-Forwarded-Encrypted: i=1; AL+hErFiFTCa/76WctW9oo/pybRSptEjKMyp31wZ8ISKRSLF2QJ1F6oixHF1xUkuwKoIOW/0y+WkI7k5+eUPpw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/xpyu2ruCZKHi4HhEISBrfDG8Gk6xAri51rtuK7ychPbxEH6FS
-	eSW7KzuQtsSi+Tdp6ReKQ95y7QHd36iVKEBKESOyxT/NqfZ0596nN1U=
-X-Gm-Gg: AZFdTZeMWVefk7djdI/reZQmtOtgmdEktojpXheIlV9fucP27j2ivsH7uPd589M6TcE
-	GI+YBaRnMhdxJZPaADIPwB9ArSx31XqFHDClMCQhC3B3rTprc2O+HtgheLIFwF2r9fnRbaBvaye
-	UsosI6G8s/g4d5WQuFd3Es0E4FZQkg0mLQHAaooVeRZ3FSbpTq2J92qAU3GhpFtrweHXxZbEul9
-	IfH+7UEv/Obu/K0uIvjF+4urofDeXfHXgxRyZFXTFIKfLnaHB4qDLRMGzXFcIUaJL9jy/NO3maQ
-	5pJc+C/E6cM8KrWcaNxdWBd+sVtd4fcaCoH4u0ikWgBYZWzBdds8I4FvehiDo5/xXZRGUCnelkw
-	JQcTrrp05tQqpKgm6VVmXxbDypb30Ns8MT4v/7oQyiE569hB2J3M/ff3NIhBe9IpDKxuh85Rec9
-	gtXovQo6eyJODlZK3DPtu2V1LFObHrld7vBMwbuYjWc49d8So1DsMEoPk79ehE/cwiw39X7GSm4
-	JuZmXpySpwgUpCFLcIqlFOHVMZQ1vgLS2ruCgTg24RjYc1PPdHqdQP9X3MqlPHFES7eiipjVRVF
-	hH6OY4vF4gD7jcDWNKFjKA5Sc/EHR0/D97eSq6VRniZ2NrLVR/P2H5KUZ6Lw3aF9HtI1
-X-Received: by 2002:a05:6a00:4207:b0:886:77eb:38fb with SMTP id d2e1a72fcca58-8c87c480419mr11371810b3a.25.1795514193146;
-        Tue, 24 Nov 2026 01:56:33 -0800 (PST)
-Received: from localhost.localdomain ([2406:3003:2002:639c:5da8:85f0:b5f6:2eae])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87285c272sm7075747b3a.19.2026.11.24.01.56.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 24 Nov 2026 01:56:32 -0800 (PST)
-From: Yige Jiang <yigejiang86@gmail.com>
-To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Yige Jiang <yigejiang86@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: samsung: snow: Fix private data and node cleanup on remove
-Date: Tue, 24 Nov 2026 17:56:26 +0800
-Message-ID: <confirmed-20261105-21-73b8787ecede@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=Qa0Ctc6m
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FJtpmm4CYt09D4+xobH9r4muL/1tiarn5U5wKsbk2oCqJFkmxx4HSe7oREkJZl4Ro2hEOg17sHdiZEGv0AM18gs3/Ke4QvBK15A2EiXWFgdPhfQU+wGTb/HI+RIB3z1KlyVr6rYIOfk5s78dEtuKvso+HBVIoWhIF3p8yMroXRMvxW+tqlA066Ir3ffrg9ND1jW3tFiTSgTUdg5rdk9oHFTkt8UiwEYXS/aGMqTiFa+CXMIBXzwfP+RuXw8DHxnqyBohBlmUeBhFQ0f61x8g0bEn+Uk/ajBa9Xmi5xZKn8n0IL3bKlbgvWR5GKA+Zx6hRnP7LcnUKn9E0qiGJn/nvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ydAkCzQVW3vxcVNGFXdG1l7FB0M6jVcB3e6F3muEVnE=;
+ b=FIFm44bh1srzma4Z2uyDggt8AX1X9drF+G6tao/PibRcKA4b+hRmYqpXZB+XLYM0kkyVLuN/V3GFAOx4Wf+/TlXzkgdiLktVcSxRYJrYQ/XdbQPjGPBQ1N/gfw+B3JFOVQnQDc6egzWoijRXh++zauoT2og5OPS2cg0xL8iO06yheJyVUvvuTdlKted62FqvUdWLzf5VX1j0XF4OQ1CoSFxxTigijEN847lV4lYfeb3jpi2e/9fmp+19HEqgJ1f+++xG8yxMgM2fouvyrDLvbv4vwsgQSgDkHehwrQSZu8h5Qp+As0CUJ9wqsEHCwq9qLOTxZUiClr/8vp0PaeXzVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ydAkCzQVW3vxcVNGFXdG1l7FB0M6jVcB3e6F3muEVnE=;
+ b=Qa0Ctc6m4XCySk+x/533J1PMPeQBAhLgjCk0hxjKwukMf6DwzJ/qjvt99LnW27zGDh6UoEyQFbNlR8MclRnxVc1ObUMVBo0SdlOQQaqAXDG48InQldGaVmTPf26lDDcszssgJUSNctBoU/uFN0q2xoQvK6O4YO//Ie83lphBepM=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
+ by LV2PR12MB5752.namprd12.prod.outlook.com (2603:10b6:408:177::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
+ 2026 10:08:18 +0000
+Received: from CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
+ ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 10:08:17 +0000
+Message-ID: <ed163b17-37c4-4dbc-9f1b-40fde4192206@amd.com>
+Date: Tue, 24 Nov 2026 15:41:11 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 16/24] soundwire: amd: fix *sdw_ctx leak when
+ sdw_amd_startup() fails
+Content-Language: en-US
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sound@vger.kernel.org, "vkoul@kernel.org" <vkoul@kernel.org>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Venkata prasad Potturu <venkataprasad.potturu@amd.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, Poojitha.N@amd.com
+References: <20261124085033.682755-1-Vijendar.Mukunda@amd.com>
+ <20261124085033.682755-17-Vijendar.Mukunda@amd.com>
+ <sashiko-outbox-230792@kernel.org>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <sashiko-outbox-230792@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5PR01CA0285.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:21b::6) To CY5PR12MB6252.namprd12.prod.outlook.com
+ (2603:10b6:930:20::17)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,51 +104,174 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|LV2PR12MB5752:EE_
+X-MS-Office365-Filtering-Correlation-Id: ffe866ab-2de2-4fb4-47ae-08df4a12dc37
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|10067099003|261021121427099003|261026121527099003|4143699003|11063799006|56012099006|261022105027099003|261022075727099003|261026140227099003|261102123227099003|261028144727099003|261102130727099003|261009223027099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	FSEiJSohr4iMVAJdDARkOfhrAu/rhye3JIa4xXFD0UkJf7rI4Acj6FmXg94WB+9tH2we+tFFSXeZYIjSLB2NB95oozTt8+9Qz5AOPcXQ+AEwnIiMsWaWfGg2Dqqzedc3u6acnlbmyJU73qCA/gJzdbSTIaOy1z2bPlBSaYzLn+HzAGHsW2XKRPaA5MiWCfrZiO8U1hJ/2Z+HcsITokJ7W+pSHIycFhd61zvc+pLP40w5ifm/vWXYmzCdIMXyrvOwoS+yg3nYOHiB780uAEKyxB6MGR3AsDzYrh4jFYRvwnlPLa4qsqr770YYqmpHZXYTAyQXvclSV6piy32bDSBOozbJ/xIb4boBjPA2c01rO9ZTzypEtiLmvAUdAdTxwVm9mdf/cXHhQZBFqPUGeTe37f+zG+yRlXxUF+eZfy95WY8Hn0MNXgbvuXFO05vlCIESXW63jNzpeh5uilzwXqfdtMLcjDRFBQJwXCs4DNaxrNpyhx2PFzLvflZ5hufvxNwG7jvQSABzWzS91WSqBxf0L6rogMf+UZvsPzmUudMk7L9BZWttrg0UIS9TBhZBdu6l9AlSttCzH9QZ0m7//RNNE+YtxE7s+ilBm8EO1krEExGNSLTVMvALOW2oxxcB9Kgs/cud0XScO15D+p4wpYQxrEU/DwIsqQ+qJZcUfLjbebU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(10067099003)(261021121427099003)(261026121527099003)(4143699003)(11063799006)(56012099006)(261022105027099003)(261022075727099003)(261026140227099003)(261102123227099003)(261028144727099003)(261102130727099003)(261009223027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K0tQQnJGNzZZM2VSWHhVMnhJWXUzaHZ6L2FQYXRNQUoydm9RK2xyZkQ2ZVRQ?=
+ =?utf-8?B?bUo0QVZDYjQwUllJY05wTStDWUZoZHFGZHhWTWJreTVPZjBtcExJR1hjbVBE?=
+ =?utf-8?B?UUJ0c1J5NHJudEhjTCtQbEZoRWpPcS9HbW5OdFd4Y3JVS0diMFZnN2VOWEI2?=
+ =?utf-8?B?N2VyVS9sUExUVnhRTzJUZmZmYTF2d3JiZVBzNTI2WGJUSEYvU0lSVXRXZDBi?=
+ =?utf-8?B?dlBOSkkwWFJqMVVPZ29XeURnS0k3S0xHL2VxSThVUGVqRG9UcjJtenhVMXpv?=
+ =?utf-8?B?M2ZRSlNXNExvS25Jb1VHLzN5MEY0WHh2L3F5aUwxdFRRdFNXOUxjc2xoZ1Nr?=
+ =?utf-8?B?aEpmODlSMC9FOXZlYUswUjlJazdreFF6aTIyRHhST0I2V2VaTHJWRjRhYUVP?=
+ =?utf-8?B?bjVwRTVCTm9wL3kvUFJDQitNdTZ2MFN2WkFNZkVzZGV0eTFmRUd1eEV4N1JM?=
+ =?utf-8?B?VzFqdFFpUThqb0FKTEw4L2V0YlB5UWFBR1I0cWhEc2xCYVZXMk9SUEhjaGhX?=
+ =?utf-8?B?Z0Q5RW9KQ3JiRUNSa3BLZ2xuT085Rmt5c05HSHBTWDJEVlRLaGF6bm1xL3ND?=
+ =?utf-8?B?dDArUTAyYmpSdk1rRVdYaDlKZlZVZzN5RkhUN2FPa2FHOE50dGVralRaMWJu?=
+ =?utf-8?B?d0pRcUk2aGJHQUN0ZnlKYXNPOVBLQ0tjRFJKRkY5QVE2M01RS09zcnllNURx?=
+ =?utf-8?B?eDNkUGJTSks3K1RiaU95VHNxV0RHdDh2Y3BsOGJyaVVNeForMVdiNUUyM1V3?=
+ =?utf-8?B?QkpHZkZuY0xrVVZkR1RTTDcwamF4N1EvZHAwNUVKN0NiUFU4SWl1MDhPT0dU?=
+ =?utf-8?B?b2o2Z3RFeXJJNGtyUlF1OEpJbS9WNzZmVm44bm1PbXFLT3ZiNXl3Z0kxYlJ2?=
+ =?utf-8?B?WmwvZUNHNVhmblkxelRYYVdLV1JrTWtXbEpjR1JMbnkrY1dubWt1bDdjZXRT?=
+ =?utf-8?B?K2FPWENFN2JGcUY1RHF0VGo3eTF6K3VkK2ZHNkZmUkF3NEJaUE94cWFJSW5Q?=
+ =?utf-8?B?NFJYaG44a0ZKaVdXK01INWN6bERYRUljN1d5VkcrTW15eE4xMngvNlJvVGR0?=
+ =?utf-8?B?eFN5WXVRajBKamp1NmUvcWJXQTdYUHlPM2hCOEEwVmhhaVArYmNqMkl4WXEz?=
+ =?utf-8?B?ZWs4bkMzYmo3T0FBSkNSTTJxTzhTWjEvUWlpYkV1aWkrVWdwbVFiLzZVYWF2?=
+ =?utf-8?B?M21ZRm1NdFZONTlSRUJDeVZ6eitOS3Jpb2sva0xXQ1dqVlFEZHBSQ0VTOFdp?=
+ =?utf-8?B?WWRaWmlCcVF0aGg4U1hVTGFVZVVMWkpkQUZ6akcwMlp3cVNmc0QyRzMwRWJN?=
+ =?utf-8?B?YXg2bEEyZHgzZWp1aTFDbVBuVE96WU5MdVFxV1dHV0tYUk5ZeHY5S1dGZVJh?=
+ =?utf-8?B?anBqR1pXcXFrNUtoTVBqOEJDR1FEYXFaamxaSHhLSXdtc0s4ajViN0JiWmdp?=
+ =?utf-8?B?NkkzUVNSVStaRlFXam1tM1JQd05tMHhjYUFXR0F2UzFhcjhNLy9BU2xEWXp0?=
+ =?utf-8?B?eDhYTjBxemc3R1FhbEJCaGVnRWJ6czNncngySFhyU25aaEZBLys1UDVhQ0VX?=
+ =?utf-8?B?MkdnMkJrN1VpQkphN1lrSms4d2tFdmM5WmZ4aUY3M3hqWmp6V3FtRzlERTRP?=
+ =?utf-8?B?NnIxYWwzMEtRZmVEcXFtcnU2RElpWmUyWFB3YjRxV2hrRGZ3R1ovVDZONWhU?=
+ =?utf-8?B?clpKdUc0d2QyQmtvVW5KR0pEdkFFRVQ0ZFZLVnV5Rzh4enkzUG5CY01XTHM3?=
+ =?utf-8?B?S2VBZVhCU3BMWkF1N3BNbllpeEZJSHpLdlBHV2F3ZnYrY3A0RjkrQkdMVTJ3?=
+ =?utf-8?B?N3FrS1pVc3hVZmozNjdzbytNNGlCK2p5QzZNS0M5U1ZBY1VQeFpCVHZwa0Jp?=
+ =?utf-8?B?YnZ5elJwbWQ0NktxUXM1V29oQUdnQTZkUXNnRGY1b0NTVmlLOG52U3hra0Ir?=
+ =?utf-8?B?eXZHYmNld0FHbStPUGZjczV5ZFI1YmthTEtGRFZYakF6cXlWeGNFUUFaejBP?=
+ =?utf-8?B?cWlqS3E4SkRQQVB5eWJHM1VtWUdaeFlzSGJWOWk1KysvSEFjWVd6UFlsNWpF?=
+ =?utf-8?B?cXEweVZ0R21hYmNKNnFuTjlWRkJTbWw5SlB3MldsbUUyWkFxN2JFek9NRU00?=
+ =?utf-8?B?THYwLzZDWEttN2tWejB3Q0w2MVBrelk2RWw1SzhnVkVCQ3JUYW9yNkNPV20y?=
+ =?utf-8?B?dHI0Z2hVR0hGRTI2MnZodDNxODUyVHVncmtXQTVtLzFrQ0cvUnpoaEY2TTFI?=
+ =?utf-8?B?QUxma3BtcUswT0R5WkNvbEkvQndFdXo3ZGNPek0yWXF5Q2dPemZjUVZoNTRN?=
+ =?utf-8?B?a0tuaEpyZUVMdzhIZGl6MFk0K0lhK1hmU2E4ejV0Q2NFbllad0I0UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffe866ab-2de2-4fb4-47ae-08df4a12dc37
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 10:08:17.8475
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vQyJFyrDk1QNb1KHj4JciDxrnjstBlVyPC1z2TnuyOIpFBZwBN9VEbvng16HvCBAcUhtDM5v9SxBZLL3MLgmww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5752
 
-The ASoC core stores the snd_soc_card pointer in the platform device's
-driver data. snow_remove() treats that pointer as a snow_priv instead,
-so the accesses to the DAI link and clock use the wrong object. Obtain
-the private data through snd_soc_card_get_drvdata(), as the other card
-callbacks do.
+On 24/11/26 14:41, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] soundwire: amd: race with hardirq handlers on
+>   sdw_amd_startup() failure
+> --
+>
+> commit fb658db6de398fb5ff736ed8e17029fdf853a4c4
+> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+>
+> soundwire: amd: fix *sdw_ctx leak when sdw_amd_startup() fails
+>
+> This commit cleans up the allocated SoundWire context and resets *sdw_ctx
+> to NULL if sdw_amd_startup() fails during sdw_amd_probe().
+>
+>> diff --git a/drivers/soundwire/amd_init.c b/drivers/soundwire/amd_init.c
+>> index 8019a4faeae5b..50e487e409a9b 100644
+>> --- a/drivers/soundwire/amd_init.c
+>> +++ b/drivers/soundwire/amd_init.c
+>> @@ -182,11 +182,21 @@ static int sdw_amd_startup(struct sdw_amd_ctx *ctx)
+>>  
+>>  int sdw_amd_probe(struct sdw_amd_res *res, struct sdw_amd_ctx **sdw_ctx)
+>>  {
+>> -	*sdw_ctx = sdw_amd_probe_controller(res);
+>> -	if (!*sdw_ctx)
+>> +	struct sdw_amd_ctx *ctx;
+>> +	int ret;
+>> +
+>> +	ctx = sdw_amd_probe_controller(res);
+>> +	if (!ctx)
+>>  		return -ENODEV;
+>>  
+>> -	return sdw_amd_startup(*sdw_ctx);
+>> +	*sdw_ctx = ctx;
+>> +	ret = sdw_amd_startup(ctx);
+>> +	if (ret) {
+>> +		*sdw_ctx = NULL;
+>> +		sdw_amd_exit(ctx);
+>> +		return ret;
+>> +	}
+>> +	return 0;
+>>  }
+>>  EXPORT_SYMBOL_NS(sdw_amd_probe, "SOUNDWIRE_AMD_INIT");
+> [Severity: Medium]
+> Can clearing *sdw_ctx and tearing down ctx here race with the parent ACP
+> hardirq handler?
+No code change required; marking as false positive.
+The specific NULL pointer dereference concern — acp_irq_handler()
+(sound/soc/sof/amd/acp.c) accessing adata->sdw->pdev[i]->dev when
+adata->sdw is NULL — is directly addressed by companion patches already
+merged in Mark Brown's ASoC tree:
+  34ea81a7f284 ("ASoC: SOF: amd: guard adata->sdw dereferences with
+                 NULL check in IRQ handler")
+  41e06aaef9c0 ("ASoC: amd: ps: guard adata->sdw dereferences with
+                 NULL check in IRQ handler")
+These patches add a NULL check for adata->sdw in acp_irq_handler()
+before accessing ->pdev[0]->dev and ->pdev[1]->dev. The interrupt
+status register write (snd_sof_dsp_write() clearing ACP_SDW0_IRQ_MASK
+in ACP_EXTERNAL_INTR_STAT) is moved outside the guard, so the ACP
+interrupt bit is always acknowledged regardless of adata->sdw state.
+This prevents the hardware from re-asserting the interrupt when
+adata->sdw is NULL.
+This patch sets *sdw_ctx = NULL before calling
+sdw_amd_exit(ctx). After *sdw_ctx = NULL, acp_irq_handler() sees
+adata->sdw == NULL, acknowledges the IRQ, and returns without
+scheduling any work. sdw_amd_exit() then frees ctx safely because
+no IRQ handler can access it after the NULL check.
+The STATUS-register pre-clear argument applies to the sub-case where
+acp_enable_sdw_manager() itself fails: STATUS was cleared at gate-open,
+the manager hardware never started, no PING frames were sent, and no
+peripheral can set STATUS bits. The companion patches cover the case
+where manager 0 fully started before manager 1 failed.
+>
+> The callers of sdw_amd_probe() register their PCI IRQ handler before
+> probing SoundWire, and amd_sdw_manager_start() unmasks manager interrupts
+> in hardware via amd_enable_sdw_interrupts() before
+> amd_enable_sdw_manager() and before subsequent managers in
+> sdw_amd_startup() are started.  If startup fails after interrupts are
+> unmasked on a manager, the IRQ handler can fire while sdw_amd_probe()
+> clears *sdw_ctx (adata->sdw) and runs sdw_amd_exit():
+>
+> CPU0                                  CPU1 (<hardirq>)
+> sdw_amd_probe()
+>   *sdw_ctx = ctx
+>   sdw_amd_startup(ctx)
+>     amd_sdw_manager_start()
+>       amd_enable_sdw_interrupts()
+>       /* startup fails */
+>                                       acp7x_irq_handler()
+>                                         if (adata->sdw)
+>                                           sof_acp7x_handle_sdw_manager_irq()
+>                                             snd_sof_dsp_write(...)
+>   *sdw_ctx = NULL
+>                                             if (!adata->sdw->pdev[instance])
+>                                               <-- NULL pointer dereference
+>
+> If the hardirq handler instead loads adata->sdw->pdev[instance] right
+> before *sdw_ctx = NULL, it runs unsynchronized with sdw_amd_exit(ctx),
+> which unregisters the platform devices (freeing amd_manager without
+> waiting for in-flight hardirqs) and frees ctx, allowing a use-after-free
+> or scheduling amd_sdw_irq_thread after cancel_work_sync().  In addition,
+> because *sdw_ctx is cleared before amd_sdw_manager_remove() calls
+> amd_disable_sdw_interrupts(), any SoundWire interrupt arriving on ACP7x
+> in that window sees adata->sdw == NULL and returns IRQ_NONE without
+> acknowledging the status registers.
+>
 
-Also remove the explicit put of link->codecs->of_node. After the modern
-DAI-link conversion it is the same node that
-snd_soc_of_put_dai_link_codecs() releases. Keeping both puts would cause
-an extra reference drop once the private-data lookup is corrected. The
-helper alone releases the codec references for both supported bindings.
-
-Fixes: aff8d2bed9e5 ("ASoC: samsung: Add HDMI audio support for Snow")
-Fixes: db1623faa432 ("ASoC: samsung: snow: use modern dai_link style")
-Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
----
-AI assistance was used for analysis and patch preparation.
-
-Based on next-20261104 (8b7179210b22).
-Compile-tested: arm64, GCC 14.2.0, W=1, sound/soc/samsung/snow.o;
-baseline and patched objects built with no warnings.
-Static source review; no hardware, boot, or KASAN test was performed.
-
- sound/soc/samsung/snow.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/samsung/snow.c b/sound/soc/samsung/snow.c
-index 66ef49dff1ba37de3285cbaaf1293937d6bb0b77..64b3e2e41c2142117cb7d782b59302804d33dda7 100644
---- a/sound/soc/samsung/snow.c
-+++ b/sound/soc/samsung/snow.c
-@@ -220,11 +220,11 @@ static int snow_probe(struct platform_device *pdev)
- 
- static void snow_remove(struct platform_device *pdev)
- {
--	struct snow_priv *priv = platform_get_drvdata(pdev);
-+	struct snd_soc_card *card = platform_get_drvdata(pdev);
-+	struct snow_priv *priv = snd_soc_card_get_drvdata(card);
- 	struct snd_soc_dai_link *link = &priv->dai_link;
- 
- 	of_node_put(link->cpus->of_node);
--	of_node_put(link->codecs->of_node);
- 	snd_soc_of_put_dai_link_codecs(link);
- 
- 	clk_put(priv->clk_i2s_bus);
-
-base-commit: 8b7179210b22f8e48a82c5ceacb9d56a9c4cfec4
