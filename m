@@ -1,79 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795556598;
-	b=NKlZB50iURndYegNdBo7BKHV/TlDCRQE9Ml22DAL1mkguzl7msr0w6I3CULCM9QTPnIw
-	 QYmwBfD3UAcNEf/QR+WWE9heXpekZyRkqa0mU9wcY7JDXwol7UaMm1hfzAsOQuOImXs5p
-	 rLJx/ac9Bwb1ooL1n6G1QB5bWPCl56GbuJLbiaVzuJMVLSdQnMGfC6sAv8dPBHe8kkUvF
-	 2o2tpcgd5qV8wG005sx9JPfAf8enumvy7lZdgoQsF8bp4nACaTK6ZHGt7y4FrB5vo1+80
-	 Gy1LViUvMdLQwe6DG2YsaIHmYYFreblKvnu6uUY4/ZgcDQKaRq/l8w5LY6IWxPivuiQ==
+	t=1795556826;
+	b=gyc5d4KicA8PP66frIkahRwFYfl3mt7wrmVTi10v2sAaIe7ly/eWoP/BleB5YxeBim/i
+	 D6QsudcKJ+UZWhm1ULNfWPDwJXQVBGrSzNVBtjKYM0GpEHHylF3mvj/8J0agc8leZAKBp
+	 Sh+F9E/Wph/JUhBhRPTQnYf2r3tzwF28OdP+yneuwvX6dWO8Ir9+/gQMbd6vQs64DNYIH
+	 ZKqg0/kCeAZ5uUQ/kIujYDUcVY5P+EII3tc4qniEJgaW8I6OZi/1OWmbldjZUoNOwQBDI
+	 udSCEB7zTaCHCWw0PghvsaW8mR+34xTaBmNQjKvQ2vtr/xcJfGVaXbflM0dLVFy/66A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795556598;
-	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=EfGE9YBTewiWSglRdGN58o65rErT0L06vLupgEMSkpg=;
-	b=1L6SLt9Pw4V2OsqLpBf7asw1RHVSq40acQ8TkVMjmmuA3YXVO79CpvmBv8+GcCuaYk3w
-	 jclQubosncfeNZffCGZoXQbMKkBez4fidQ0l5nX6M6l/0FiBFTpFF4V9rYuPyOFhNB+ZN
-	 +FovFYUPgfE8LVGMyguGd9YpAfV0RPC0Gl6yDxQWnV8s4QhSBzxmxzgvbFV8eL97FHxXL
-	 nnRzRiZu3/7uuCrBPGgClU3kmcN30iCnJ16YEtUX9Tq87NgomFup4A7VoCDVUifUJk1kW
-	 lETyvLa40QubSxw+MTPsl32wIGtC2hxarxxNE+hextRoOZhgIoZRi+/5bXo1QCQxHHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795556826;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=sFe35NL2iJhCjBiZ3K/RSgr7tROyU+38r4TrRpybbew=;
+	b=NVlTz76w7DjMgEMakJfStyU0X+fQID0v2ukvlaSoSaoEyZ3hoGG8QN50y07IEqseEXfB
+	 zdh+VEHWSSCXtQA+fyp3SDT4tObs/vW/M+g2IM/pNUJsjXkqOtfyyV0+ofQb6VhP0tPdL
+	 E6M3hQEmH305mxG9DbohbAgnDojBbHcY1eSVdnKrD24CxJiS69j9eoJHcbk2ZcPYcrhym
+	 38DPZcbNdUFeWsyorc90wjvbwLosM/72H5KPY/yrrHNuSWCaQi3kwHWpRrBb3RTcbfgKA
+	 0/MlZ01ieXOCVVDyIlfXYXk4u+vVmKiu3eSU1wyL9eO++EFIW2oucgSf4BJNlTE8PAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=kemnade.info;
-	spf=pass smtp.mailfrom=kemnade.info;
-	dkim=pass header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=cLTiWz7C;
-	arc=none smtp.remote-ip=178.238.236.174
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LIJHfmrh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08301606A332;
-	Tue, 24 Nov 2026 21:43:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08301606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D25606A31E;
+	Tue, 24 Nov 2026 21:47:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=cLTiWz7C
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=EfGE9YBTewiWSglRdGN58o65rErT0L06vLupgEMSkpg=; t=1795556597; x=1796766197; 
-	b=cLTiWz7C3yQl1bpgBLRvVCg3BtGmoLSgbOZefEoa9BHjZgVBJnmdvHZeFxe1lHtMqQjsi29YfbM
-	KTrxTYgJFrOtMCYtkUKDvhgVgMl3I9MDpNpudf72LdUynq6I8NoPV3k0wPXzXp3I3ESvEz0QjqH82
-	E9fEIhDntWx5oaL9rGoKnjqjMrJjXljodcwAV1JQ42ld3T2xjBORjB/RYs/SsdPzt0FBpfZDWDbEE
-	1QNawRGmp06mRScNAd6OF68ez9PrmxNou/HWLCJ4XYUwUNQYb7V8rs/BHOrg21yUEXQpqr5GOsnYq
-	t7gry6LPk5j5gjehb72A6/xTG8eOUgXTds8A==;
-Date: Tue, 24 Nov 2026 22:43:00 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones
- <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, Jingoo Han
- <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Aaro Koskinen
- <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, Roger Quadros
- <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, Russell King
- <linux@armlinux.org.uk>, Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Uwe =?UTF-8?B?S2xl?=
- =?UTF-8?B?aW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Helge Deller
- <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, Jarkko Nikula
- <jarkko.nikula@bitmer.com>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- letux-kernel@openphoenux.org, kernel@pyra-handheld.com
-Subject: Re: [PATCH v2 06/20] dt-bindings: sound: Document OpenPandora sound
- card
-Message-ID: <20261124224300.519d8686@kemnade.info>
-In-Reply-To: <5c6f7deca16f70f1f19cb40c57d70e30068d6000.1795505160.git.hns@goldelico.com>
-References: <cover.1795505160.git.hns@goldelico.com>
-	<5c6f7deca16f70f1f19cb40c57d70e30068d6000.1795505160.git.hns@goldelico.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LIJHfmrh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2507F1F000D2;
+	Tue, 24 Nov 2026 21:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795556826;
+	bh=sFe35NL2iJhCjBiZ3K/RSgr7tROyU+38r4TrRpybbew=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=LIJHfmrhZ7lrXDJXCs6W+Dw/Cr5iY0xF+c/2cg0y4faZ1mylrzWx6jmgtl4HR7K2H
+	 oC0UEmunA1vMtW3DjQ/QzvIaeGOllcGax6wEdjkeXF3ICLFdw7HaXblWyc/7L9qRc6
+	 H2eZtCyugDGzy3Pl5MyGdoUMjjVY0MXoVhuSZbtknmDMXPYm4dH8oiWBUltUoDckUg
+	 XBB4y1gEvApJjcr9q2XioWz1PiPs19JpDTrClU9ZtQ+DMVqU+69nI07ZQWnUT+hbK7
+	 1JVT7wLzIJZ0OQXx4kJppMHzQA6IgMJr0oa5Qh35F1Wg6F4L3w/qTKq16B9ZglK/ca
+	 2RaVb607Y2jSA==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20261118-324f82bd41-slimbus-qcom-0@mail.sdu.edu.cn>
+References: <20261118-324f82bd41-slimbus-qcom-0@mail.sdu.edu.cn>
+Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: Fix potential DMA buffer leaks
+ on teardown
+Message-Id: <179555682488.425418.18392814995588121009.b4-ty@kernel.org>
+Date: Tue, 24 Nov 2026 21:47:04 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,138 +59,27 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-On Tue, 24 Nov 2026 08:25:46 +0100
-"H. Nikolaus Schaller" <hns@goldelico.com> wrote:
 
-> The OpenPandora audio subsystem describes the routing links between the
-> OMAP3 McBSP interface, the external PCM1773 DAC, and the TWL4030 audio
-> codec, alongside amplifiers and power supplies.
+On Wed, 18 Nov 2026 22:16:47 +0800, Guangshuo Li wrote:
+> DMA teardown terminates transfers and releases the channels but leaves
+> the coherent message buffers allocated. A subsequent initialization
+> overwrites their addresses, and removal loses them permanently.
 > 
-I think at least in some commit message should be commented why such
-an interface is needed and the generic sound cards are not sufficient,
-also as a starting point to recheck that later if these reasons are still
-valid.
+> Free the buffers after terminating DMA. Clear channels released during
+> initialization failure so teardown cannot free the same resources again.
+> 
+> [...]
 
-Regards,
-Andreas
+Applied, thanks!
 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
-> 
-> Notes:
->     Changes against V1:
->     - Address Krzysztof Kozlowski's V1 request to run the documented
->       DT schema checks and fix the errors reported by Rob Herring's
->       automated DT validation.
->     - Update the binding example and schema during DT consistency review.
->     - Binding and commit-message review assisted by ChatGPT.
-> 
->  .../sound/openpandora,omap3pandora-sound.yaml | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/openpandora,omap3pandora-sound.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/openpandora,omap3pandora-sound.yaml b/Documentation/devicetree/bindings/sound/openpandora,omap3pandora-sound.yaml
-> new file mode 100644
-> index 0000000000000..6c4d69ffc1c50
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/openpandora,omap3pandora-sound.yaml
-> @@ -0,0 +1,95 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/openpandora,omap3pandora-sound.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: OpenPandora OMAP3 Audio Complex
-> +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description:
-> +  The OpenPandora audio subsystem describes the routing links between the
-> +  OMAP3 McBSP interface, the external PCM1773 DAC, and the TWL4030 audio codec,
-> +  alongside amplifiers and power supplies.
-> +
-> +properties:
-> +  compatible:
-> +    const: openpandora,omap3pandora-sound
-> +
-> +  label:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    description: User-visible name for this sound card.
-> +
-> +  amp-gpios:
-> +    maxItems: 1
-> +    description: GPIO pin controlling the amplifier power state.
-> +
-> +  amp-supply:
-> +    description: Regulator supplying power to the amplifier.
-> +
-> +  sound-dai:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> +    minItems: 2
-> +    maxItems: 2
-> +    description:
-> +      Phandles to the audio CPU DAI (OMAP3 McBSP) and the codec DAI.
-> +
-> +  routing:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description:
-> +      A list of the connections between audio components.
-> +      Each entry is a pair of strings, the first being the connection's sink,
-> +      the second being the connection's source.
-> +
-> +  widgets:
-> +    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-> +    description:
-> +      User-specified audio sound widgets.
-> +      Each entry is a pair of strings, the first being the widget type
-> +      (e.g., "Speaker", "Headphone", "Microphone", "Line") and the second being its name.
-> +
-> +required:
-> +  - compatible
-> +  - sound-dai
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    sound {
-> +        compatible = "openpandora,omap3pandora-sound";
-> +        status = "okay";
-> +
-> +        label = "OpenPandora";
-> +
-> +        amp-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
-> +        amp-supply = <&aux_5v>;
-> +
-> +        widgets =
-> +            "Line", "Line Out",
-> +            "Line", "Line In",
-> +            "Headphone", "Headphone Jack",
-> +            "Microphone", "Mic (internal)",
-> +            "Microphone", "Mic (external)";
-> +
-> +        routing =
-> +            "DAC1", "APLL Enable",
-> +            "DAC2", "APLL Enable",
-> +            "Headphone Amplifier", "VOUTL",
-> +            "Headphone Amplifier", "VOUTR",
-> +            "Line Out", "VOUTL",
-> +            "Line Out", "VOUTR",
-> +            "Headphone Jack", "Headphone Amplifier",
-> +            "AUXL", "Line In",
-> +            "AUXR", "Line In",
-> +            "MAINMIC", "Mic (internal)",
-> +            "Mic (internal)", "Mic Bias 1",
-> +            "SUBMIC", "Mic (external)",
-> +            "Mic (external)", "Mic Bias 2";
-> +
-> +        sound-dai = <&mcbsp2>, <&dac>;
-> +    };
+[1/1] slimbus: qcom-ngd-ctrl: Fix potential DMA buffer leaks on teardown
+      commit: 43cf5a5e34ba866b0220901cdd2d3a21373f03bd
+
+Best regards,
+-- 
+Srinivas Kandagatla <srini@kernel.org>
 
