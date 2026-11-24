@@ -1,64 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=85.128.243.59
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795550256;
-	b=4wgbyfy6KXQ4z4ub84FUfDk7MjgbYTMaI2X1/bVeAKye6auUK4a4hv6SI5oBa4HckfJ1
-	 rybNmVsftWAE9wFsYDypdthjNdRQGudgHRblZ4C51XDzm1sTLA0JY36D69ah1P+BubaiI
-	 UPDvSHgyI1+OJqJqxwgnNv+QJbBT+kMsHTFMxDmgzcHzBxmv7AiKCujY2Ozh4aAm1Va2O
-	 AFPhS9BR3n8/kb0e+9j09Y2ym1wk17Wgyn/3Z2AeesLs3u4kkz1aurK2X7tMyFGQeUf5R
-	 Y6YAwfA7YbcZ2deGDfiqEiLrIK/aErL7vu/z0TMUljKkcBnIL+Dek7CyraVm2MaXZVw==
+	t=1795550262;
+	b=xbyL3K9I5RfiPuS5M6DoQdd2uCboOyeMzVTyaBszH8RtvKtobETZoK2K5SvvHBMc/L6a
+	 WqRO8g/+p/IHNmnbsokRrfYQUIupU2haHb4j/2oH17v76r3BXuvHk10H0YEfN/T3pcpeo
+	 fVgmZ+yrPmPQQT2Ha/3qTsOkAGjx68hLsjWzTQeLM6MVrbtbrTqgRMpgo4GTvXe2p6L0Y
+	 OKuoVpUmSjqv3jXiHk/9uOZKp0q1jM77riNzTDbNth9WwqYFJwIL4VkLEc09WVr92McK7
+	 XapYVa8VaPjg/RrJ2CVrapZsocpHsPSl4bGQ2Dzzhv1qlvcs1nPBFt4cveR6l0h4f5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795550256;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795550262;
 	h=DMARC-Filter:X-Virus-Scanned:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
 	 X-Spam-Status:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=gX+adeL+QNUec3vHjcpD3zTEZXitZK9jrl2AHgbUYxU=;
-	b=Sa0w+P9S0VfIcyk0IDdUhBQ2zw3a3MQ3D7l3q1zrw1EWz9QYXqJaIcoA3fLeBmR7SOGP
-	 PxbrZRxEwwV3T9T0N8BHjeUQ7t3X4IniMgTUKC6B8vUfsTFRjO5tvlmj9mmm4Mjd6Lcxt
-	 I4P3j1+gDzWVK0TEpXHbNA2UVHrp3WgjgDvezP1iOAgo6Tw4tlam/MwA80+JfcoFc2Czi
-	 avMBs92EQWZoArtx8Q7bvSbs+X4hm2XDbHKGv1IcS/7/LFbGkTZ1GlLfRNfj5pZymRZ46
-	 PmF5Olma4yjfn4NyR49pVwU8fjOTqc7Ks904VEQOzrPKeivOXeQ8cvTw/pjFJeIdcQA==
+	bh=dKAbHBeJWiamrD35dRdeYlsFJvX9ipADc6jzjaIEGEc=;
+	b=hTvmeXK0Y0f0MYdxGXkCYT9Z33IwlGljsvH3q6htwqEo3xmQF/dWMtPLcbExMMiVQlcy
+	 dJeOHpyQHTilxbmkycJsmulOqW8Vxn9QHRREgq+bgQDrPzm1IMo3z4rGpduOpC5dwo8tY
+	 gBehrX1c+5pzMIz9+h3JBE7EnxIMrlCM/0wZMTG9mFC3NpOuY5ytew76FwveUnDCzrLso
+	 W7l4TCyCmXemO/Pw96EljiJIA6rNV+xb/yxt004HHZZ2ZlOPMIcxT2kjk+I6h3aWRVObY
+	 3dXdgePgj1fqRP0QZKr5lZuHerihGwNw/Mo2L7rPoUPPzT3ostuqE7CBLTEfbI/DqlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=asmblr.net;
 	spf=pass smtp.mailfrom=asmblr.net;
-	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=Cbh5sIm6;
+	dkim=pass header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=OO7a3dZO;
 	arc=none smtp.remote-ip=85.128.243.59
 Received: from shared-aoh59.rev.nazwa.pl (shared-aoh59.rev.nazwa.pl [85.128.243.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A92606A31E
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 19:57:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78A92606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82AB606A31E
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 19:57:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E82AB606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asmblr.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=Cbh5sIm6
-X-Virus-Scanned: by amavisd-new using ClamAV (23)
+	dkim=pass (2048-bit key) header.d=asmblr.net header.i=@asmblr.net header.a=rsa-sha256 header.s=1706450368.internal header.b=OO7a3dZO
+X-Virus-Scanned: by amavisd-new using ClamAV (22)
 X-Spam-Flag: NO
 X-Spam-Score: -0.625
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=asmblr.net;
-	s=1706450368.internal; t=1795550253;
-	bh=gX+adeL+QNUec3vHjcpD3zTEZXitZK9jrl2AHgbUYxU=;
+	s=1706450368.internal; t=1795550259;
+	bh=dKAbHBeJWiamrD35dRdeYlsFJvX9ipADc6jzjaIEGEc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Cbh5sIm6mTCaTNQnPK1G85EcEuCTweqf5qTc7A3WbcGgurF5Rf6b0EZtDBxT9n+Wz
-	 NJivXzERw0vwXeekijZZg9ETVNGKMGyuib2Yo3fId6Qi40Np16UWDEBPFX5t47iYkr
-	 H75TYZBeHSb2VYua5JHpbJQYovBSaNOlaYZkAeStleabsb36IGtQjDBrWgNSbsnbu7
-	 IW06VG0peWRO303b3nvAtl0+Tb/3xgUZKmlgxxgoenUyVa5ssBO1qjOq8C43tYM1PA
-	 aBE8ibeFSlwGsiJEXrSdsUuXFgCzu0j3QnFYnRA3dmilVTpiXvddzhYWqELnQbLgOT
-	 TgIBrzaGmnHMA==
+	b=OO7a3dZO4LnLuKFr9Q5GmtWYvX3s0643HA7UVei3WnnwFxsvkkWsCYJXxshLp8Txi
+	 yU2l3dPsRHtsBS/JYKmKaCuMU/axO+CiLq/QtxwEOVqgeDtUlseUI3n+PdYJH3w4vg
+	 Zpw/QDgIQ/KDvJ2eicpOKmcJZbOxSOW/FwKbFrO4DypPtzPIz2uPCqd+KDhKR/0KUv
+	 h8QT6Z0SK56IItRdDD1ky5+NgTG4+bHq/gKLhSiOEPAmJMdJWacot5+5xNK21ttfon
+	 fCP3g0uufHnqLBuHWoOMhD0Pu312CQDmBiK5t7UNDh7LB9emecRdGRWY6AFrvf1Mqp
+	 mq2Cb/r9oy9UA==
 Received: from milkyway (91-150-220-230.dynamic.play.pl [91.150.220.230])
-	by server753313.nazwa.pl (Postfix) with ESMTP id 812ED1BED92;
-	Tue, 24 Nov 2026 20:57:33 +0100 (CET)
+	by server753313.nazwa.pl (Postfix) with ESMTP id 0AEC31BE6F7;
+	Tue, 24 Nov 2026 20:57:39 +0100 (CET)
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-Subject: [PATCH 4/5] ALSA: sb8: Remove orphaned PCM open/close function prototypes
-Date: Tue, 24 Nov 2026 20:57:03 +0100
-Message-ID: <20261124195704.41649-5-amade@asmblr.net>
+Subject: [PATCH 5/5] ALSA: emu10k1: Remove orphaned snd_emu10k1_memhdr_init() prototype
+Date: Tue, 24 Nov 2026 20:57:04 +0100
+Message-ID: <20261124195704.41649-6-amade@asmblr.net>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261124195704.41649-1-amade@asmblr.net>
 References: <20261124195704.41649-1-amade@asmblr.net>
@@ -74,32 +74,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-sb8_main.c uses static snd_sb8_open() and snd_sb8_close() callbacks for
-both playback and capture, while snd_sb8_playback_open(),
-snd_sb8_capture_open(), snd_sb8_playback_close() and
-snd_sb8_capture_close() are not defined anywhere. Remove their orphaned
-prototypes from include/sound/sb.h.
+snd_emu10k1_memhdr_init() has no implementation in the tree. Remove its
+orphaned function prototype from emu10k1_synth_local.h.
 
 Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
 ---
- include/sound/sb.h | 4 ----
- 1 file changed, 4 deletions(-)
+ sound/pci/emu10k1/emu10k1_synth_local.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/sound/sb.h b/include/sound/sb.h
-index 24970f36c38a..f133cfee3788 100644
---- a/include/sound/sb.h
-+++ b/include/sound/sb.h
-@@ -299,10 +299,6 @@ static inline void snd_sbmixer_resume(struct snd_sb *chip) {}
- int snd_sb8dsp_pcm(struct snd_sb *chip, int device);
- /* sb8.c */
- irqreturn_t snd_sb8dsp_interrupt(struct snd_sb *chip);
--int snd_sb8_playback_open(struct snd_pcm_substream *substream);
--int snd_sb8_capture_open(struct snd_pcm_substream *substream);
--int snd_sb8_playback_close(struct snd_pcm_substream *substream);
--int snd_sb8_capture_close(struct snd_pcm_substream *substream);
- /* midi8.c */
- irqreturn_t snd_sb8dsp_midi_interrupt(struct snd_sb *chip);
- int snd_sb8dsp_midi(struct snd_sb *chip, int device);
+diff --git a/sound/pci/emu10k1/emu10k1_synth_local.h b/sound/pci/emu10k1/emu10k1_synth_local.h
+index 11373695344b..36b37e7c1a5c 100644
+--- a/sound/pci/emu10k1/emu10k1_synth_local.h
++++ b/sound/pci/emu10k1/emu10k1_synth_local.h
+@@ -19,7 +19,6 @@ int snd_emu10k1_sample_new(struct snd_emux *private_data,
+ int snd_emu10k1_sample_free(struct snd_emux *private_data,
+ 			    struct snd_sf_sample *sp,
+ 			    struct snd_util_memhdr *hdr);
+-int snd_emu10k1_memhdr_init(struct snd_emux *emu);
+ 
+ /* emu10k1_callback.c */
+ void snd_emu10k1_ops_setup(struct snd_emux *emu);
 -- 
 2.56.1
 
