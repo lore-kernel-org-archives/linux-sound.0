@@ -1,100 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.32
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795508569;
-	b=ELr0vLSTh8QXC4fAGbjDKbuaA/csXeAFDJLioj889f/p+qB/OEaHDavl0FL4+Wt9VAkA
-	 1sM5HxFjoYTQFKeUpl3TtGhPVPMfPgRyduNmjKP2lkcf8aecEVkIES7DwG/i8qnub8ih3
-	 Vf33bTyP7JLfouUrjwW2SlB/SgDo3D5U3Pn/5TTRZ6lgQqQgTJlSFU96jmARoBqytD+nU
-	 y222mJ6e/S3ip8WV4gx5Pa64nWW9CCiO+chmumRSN5Vyxpn4Gwl02ijCkvgdr+rcjsY3J
-	 l2vzOyi9Gtq3GL3qq8PAqf1PshiVItrCBYcowstrdc9Tc5nM9hgX9fIVI6W0449dhZA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795508569;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=tYzuUJoqTl59EhFIzQejKXYQYxp/Zru/Zr0jg3C6rtY=;
-	b=HLFbtCAA+LPOA/fGDg0Ywhoe/j08HWyvVRVtPtZyWY0zotzdzXzMN7HiQMXHEkZKjhlB
-	 jA2ifL0ngfaFH+voDpl+W28aRnhaqNDN044VQsa1HVzPzsWInms+MERDuHpJt38l7vFz5
-	 3DmfPkgC9SOQk88PQs46m636li2d+B0cvToaqpT8lP5ndYwgu8qJi5/ZyCEZZ+vQtC6w5
-	 xYyO95lz+jsWwcQP1+f5E1BGG9ZPFV4MxCLGiNW4XMkz9YAsMadrbmtQOfexVniBfJuCr
-	 c1AkBBUAZVal+tq5pLCURouBLcXMYodZGDwR+GmKUkue7B/GtX5cHFjWisn1HMOo4BQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oXFA+qc+;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.32
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010032.outbound.protection.outlook.com [52.101.193.32])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795508597;
+	b=w2Iuh6K13NCIVOSSlR/Cm3IBylgXwXRDD4hcC90V84Ck0eD9GCP5czEpXAbuBfp7u2ur
+	 VVNY9rK0L168nw0lZ9+4mZvGDtRrUmwCe4P+ROsn36o4i1sV0cFsb3phjfko4JeS8WoGN
+	 YFeBOJzMRE6tisjhG3jMG0NsVEUO56xXInU8HnVAx3H6SOE6YNSOCpfDaoAZVdZtx3Clm
+	 ZfUkfGbhBg7fOCWnZAPw9FT79LdGjKTbvxBMXWZOOiLaFBvDJULDlQ5snVrocOvM4gkzZ
+	 84ZvS+PioKyDOocTknigWAqpYe8KnZaSdYNLjSDt3Hoj6d2+kbPbe09pE5Ds0wPbpJw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795508597;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=auhO15mecizuo8FqDCWu2T1sGRf4Y64p8UuTILXkr7o=;
+	b=To22fwx3hmHZOpSY1JnWMEtj5PC/lkUki5I08mw10/xxeuJWqdzwyKeF2+l+av7eM4Ws
+	 w6zn9mTOKyjs6SZBGojk0NjH0h5TBjhbe4AWi3Bo3UYMmZ8ZnQfHsvC5X4uH2hsfeb1NR
+	 iEaJVXIhBA2qksTYw2LFd+wwdIONHNZD5u/e0gDQqC7niAQDDlJqoeO34gRIjuUceA4M4
+	 uUVl2s1KnViFg2wpgjoUjOXaZgy1ZI7v9HPeoxOyk7F7MfbR4NIubCP1hK+NJpypnEXk5
+	 4b1GBXtMW4cQZ7GU2l7xW2QvvzAGywtDIo7f0csgvrrCaG0Kr80YRZAitF83GaaPF3Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=foqaj1qz;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=WXYJVFJI;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66EB606A338
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:22:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B66EB606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C142F606A322
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C142F606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=oXFA+qc+
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UXZ4M6i7svp8va6/FwURQIjsJ1bxkyGXZgv3DlFN1iPBvWGm3YU0I+SuxjsTOFeRHpDd6udqjOiPcU8Qt43HlAG5axLOcwOk0/14iJZyDEpHAabTuYQSAhQ/5qtQoMMFx/QQkWJ5HtVQkYdxzIMbgXs2Y9yscTpm18QUx+DsGPLqhj9NDsuqfyEGtrO2hnt/toUhp0kGmbIHkJInXejHp795ANClCitYfhgJdDLorVAH4lsIEvIMnHzFmeYT4LNmfXF6aozuxn6f5PUHVDCMx78w9ACw10pOBUwvlzQwgjD0/L2dulSe3eT3yJavgVxHF2fc0kTIwAjdFfcRFnQHAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tYzuUJoqTl59EhFIzQejKXYQYxp/Zru/Zr0jg3C6rtY=;
- b=VeKtNIX1dYS3lqTfWo6L3vxsKgAR+nY477Vq+/n9n8BMkY0U3TjMMzf91OW5W1WTtoGLtKy6Hks1/h7H4YUY7BEnVKOkFJnj1jzV0mQ4Sx5LY5UWcrLPETRaSnE7lvx34wLkQneAwjHY1sUBdLNiVFy2p8QVUjNurcZW47eOOcrXmfLTIozLTrIjD8UWZLAijZf9NUI6i41T5MmVF4LeBTFZOMEVoGs4eHXFf/AN0lkb2ljtLpOebYkEsrX0KPwxMbMiL2M6Y13+ZMYJmBPKPG3sG/uDee1NjLG6K471o4zn/rnCjKJmrdqTVQzgt72W6ZFhxT+iptm370kvv4QPww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tYzuUJoqTl59EhFIzQejKXYQYxp/Zru/Zr0jg3C6rtY=;
- b=oXFA+qc+ohZkmBk/pabMEKOCRpCu9z63hrD1ewOQ1sMGrvhOGcR8/qXWjeUNMkv1POqS18jpWRfzSHjOVX0NdGZqmWZR/oO3S6OpdIbYEuwragYMSP19F1fKzWz7xxno5oWkscngklKjgzNOtOjmzYzjU2KaYH14JlasjS2Uw6g=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by DS0PR12MB8786.namprd12.prod.outlook.com (2603:10b6:8:149::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
- 2026 08:22:46 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 08:22:46 +0000
-Message-ID: <3b528838-6267-470a-8282-3abcf9e4003b@amd.com>
-Date: Tue, 24 Nov 2026 13:55:40 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 24/24] soundwire: bus: use pm_runtime_get_if_active()
- in sdw_handle_slave_alerts()
-Content-Language: en-US
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, "vkoul@kernel.org" <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Venkata prasad Potturu <venkataprasad.potturu@amd.com>,
- Syed Saba Kareem <Syed.SabaKareem@amd.com>, Poojitha.N@amd.com
-References: <20261123170520.1380924-1-Vijendar.Mukunda@amd.com>
- <20261123170520.1380924-25-Vijendar.Mukunda@amd.com>
- <sashiko-outbox-229764@kernel.org>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <sashiko-outbox-229764@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5PR01CA0052.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1b8::9) To CY5PR12MB6252.namprd12.prod.outlook.com
- (2603:10b6:930:20::17)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=foqaj1qz;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=WXYJVFJI
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AO2kQC32209288
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:23:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	auhO15mecizuo8FqDCWu2T1sGRf4Y64p8UuTILXkr7o=; b=foqaj1qz8J/gqF0O
+	BbRV3/+X65rWPWn2hI4Agb2czxq+zKzpoUsFnJqmYaCO7ClMvM4PG3OWsZ4Ni1cu
+	Peq2aJXiDlxpT0rMA0AmYRQpml6SXSJqqI10EHFzpxo4oxQPWKq/DgpFrFjYPGOY
+	gWwhUG8hVXBuW9l20zzdedN7L0wBrwpUkRoSrqKJtrGguafdkTueH6UfTHM42s45
+	347306+T7J0QUFDpvzd5bmO6fUSVkwog0u33F7OhJx4DhVj6w2e6Ry0IiZrxNdPa
+	wo1+J5uJueTu5Gx9gzf+Q5n4LRCtDm1fMOx8rFn4sJFdoETxnys2L84LHsMa+aab
+	4AxSWA==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j4yy11mec-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 08:23:15 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-154e9d2d94fso5295815c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 00:23:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795508595; x=1796113395; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=auhO15mecizuo8FqDCWu2T1sGRf4Y64p8UuTILXkr7o=;
+        b=WXYJVFJIeB3i291UdN9BU94S5scZUNvhPRiM+HyFMvqAVoD6cePYvlL27LIavs9azc
+         /H9tZjk/mdev4jQUKIGJxp5bZQKVTjpk9WLIlLluUppFFpC7/XjRuo9TE8li59cPmGrY
+         /cA7brncGsR8ZIdGFyX2aW54hHkstfR3LvjQnIxKdi88N+lUcYMr4W3aeb4jxip7xSMv
+         wb2g8g5rZ6lNNg/sKOMc/vc95cahu7U+Q/gyNE6wjdzGRQNCHuvbn3fS1+HUqphABvyK
+         U3KT8C4E4BASVYLlnb9Ivlok0Cb5hCSaOZsUZDAQxh9lwxSC7DUobj2YD/nT0qdnDJYq
+         wR7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795508595; x=1796113395;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=auhO15mecizuo8FqDCWu2T1sGRf4Y64p8UuTILXkr7o=;
+        b=qV2rpJR5cwpvsYYZZhfQwkwlJJbSd3eB31AjqM0dTTaoCTI5eTy3d+fsqh7JI39j63
+         T+Z2iZu+J8OtjoqFVZQjCnnXWufsCq1qudn2FAdE4hYJGXtRj3cJq4Bz7tGZSPhFCgcI
+         fD5P/G5O0UIEOlB0GS/vXiuDYrEM2ilSzOzVasPbbXKKwmhKMHKNQVn2gGXOfDLq0UyO
+         T/RXhoIBYnQ8cEHhM8gY7xWx9D5urqjrQsExGjpKRboTj9pwaja9+X3jK80LtJWhoxkL
+         RrU3RHnBR/nY/0Ukb4JNdQyBblFRigJHVkN2NLZVlMcpSAWHR22fUb9HmzIcvxkhzUzE
+         +Wlw==
+X-Gm-Message-State: APuU4Z8YaMnhOxQb9YJm0o7xhvNXBoN2n+g0M89T9sDRqZHjv0BtistB
+	Cfz5ta5odkqFV9fqjtDeQKYSGE8TCyAfusXQbaxVgl0wfIbM9Ye9XJeMSTGd5BlftqoxpUsUU8F
+	ABPRE2d5mGkcyD7JSYMapaGbloEoOrmV3WaspTyOXRTvCUna9iBcRDUa9g+I1Qta7Jw==
+X-Gm-Gg: AZFdTZeV8CYPeJB293zGVUnI4U7AIjS+GHZyYFZ2KBepmDdyJvfgC2+69xf9ZUObS88
+	hzPWHkj9yVxNDbbp5avVhw/HaeJi7gqqh3l8LYD62LsI2/yYnpV99ro+5hqPkZvfXOwkpAIbHjY
+	7cUsJ69Ec4vrct88IaXlH3wgMVB/Wl9pXnKqsx9IScIip7TnuU19nZvds3uOMBg02GxwIsxj4n0
+	+LLmYFXNVbMpvsaFO/cJDlqDeDCNjQB2IUE3YGJN44N2X801zslyPn0IDpikV1N54GOms9brN/W
+	sm7uPC+igtqaWevgMTsmVuzrNKboYB7F6F6MfhrMDX5GmimHPC7e/RJ2GWFKZDF1JwChgQsaPYW
+	4PhdQaB88D+8zo6LC1I62hRg96FcuXgnEmAZaKhPpkI9keNgj1YqjbCPW4k/bUS+FP//pFtyPV5
+	lo8mpWGYciNi43
+X-Received: by 2002:a05:7022:23aa:b0:1b0:166c:6a94 with SMTP id a92af1059eb24-1b5568e5983mr18603399c88.28.1795508594445;
+        Tue, 24 Nov 2026 00:23:14 -0800 (PST)
+X-Received: by 2002:a05:7022:23aa:b0:1b0:166c:6a94 with SMTP id a92af1059eb24-1b5568e5983mr18603360c88.28.1795508593798;
+        Tue, 24 Nov 2026 00:23:13 -0800 (PST)
+Received: from [10.218.21.154] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38566cd40c5sm50686826eec.10.2026.11.24.00.23.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 00:23:13 -0800 (PST)
+Message-ID: <808bb7ca-ecb0-4594-900e-3114fd26eb97@oss.qualcomm.com>
+Date: Tue, 24 Nov 2026 13:53:08 +0530
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,271 +114,144 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|DS0PR12MB8786:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9e7dd4ec-87ac-491f-9980-08df4a041e2b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|6133799003|22082099003|18002099003|5023799004|260925021311599003|260925022911599003|260925021911599003|56012099006|4143699003|261028144727099003|261022105027099003|261022075727099003|261026121527099003|261009221727099003|261009221227099003|261102123227099003|261009223027099003|261021123027099003|261021121427099003|261009220027099003|261009223327099003|261026140227099003|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	bIQ/Hx+uPOjYVobY2/Xn7AeJ8SBkQ8y+K9IjUfZeRRYGMcCgApu4Ld41k6K79UL9wRj97WLpahKPafDpVXHZl7VNwcijnbiD86GxzSQ9OTwaBTYSeU1WDN8fy8IUkr34HJskxrI+X10PAIAwuDqnVS5plehmkEvUGTCtk9EL2CD36tZhHg+BgGxgdRiuYl6AH89l8Et05x5vgiH2r5/Ic+B67pfuEgkyp0aNiA9PDyIgsy5TjxbDgaVLZL0cvODjEV0fZCVJMfTjVdsvE4qMULolmd9QFtB3ob2zA6Pt0eVG3JNNpgVb9zyr30GUejDeEN+m7R6Qm+QSMpzHze5mP+DM7MMrOeg+wbuO0PuVAE7yBTRLkKjyv4LTlG1KwjXMj24J18PUOUZf61oGLINAN6VGrA5+ktnlMK1Rn2g6MmH2+i6qWmoiMiDhNYxuZS0Cw0t9VdXw3WnMTkgYc620CvNUbvfJZTs8ij/f5y9eYIIZMmjACJ6FaOjqINrbKhDMpxkeyfPZ3+s2q6Ml1p76INS/fEgDem0cooHPPyPqDuabHbP5Gb8kjF12iPvChmaqMzATxmmpYCNpm1YIuZxmDSZ8N/VXbd16Aywo4Mhf5+ItE3OAxu8sS2crmavDhX2UuzBNu5i6F6h6U73BbB39+JDsDQxtq28fRZbEuB/Mk00=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(6133799003)(22082099003)(18002099003)(5023799004)(260925021311599003)(260925022911599003)(260925021911599003)(56012099006)(4143699003)(261028144727099003)(261022105027099003)(261022075727099003)(261026121527099003)(261009221727099003)(261009221227099003)(261102123227099003)(261009223027099003)(261021123027099003)(261021121427099003)(261009220027099003)(261009223327099003)(261026140227099003)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eDA2ZkJBenFiVlF5YVBtMUc3MDdHektDLzJEWG42ME91cWJDYjNCQ0llSGZG?=
- =?utf-8?B?OWV4dnhPVWZBb29HR1BqVUpucjVQdzUwWVBiWmZjaGNWS2JnUG9OcDBMaENw?=
- =?utf-8?B?S095NGpkUzhKNm5CdjJLQksxWDVRbmdwWGxNVnNYcERqUG5xclRHUjFaSk03?=
- =?utf-8?B?bnFKdGw1cWtHMmlnbTNsQWUyeXFRa0xHQXJyTmM5akpzTWxYT1ViK0JjNytl?=
- =?utf-8?B?ZFk2bTRhKzVBNU01RzJZQzhXeTRxMTE5ekgzMGJjbWQ3MVk0TjRSQlY2VEky?=
- =?utf-8?B?NlNqSWEwQTdhYWVVcXJXNmtDZDNwWldPZnpTekJIYWdQWEVDaFp2WHlBSEsy?=
- =?utf-8?B?VWViR2ZRazdWcm1USFRhdDJNS0NhM1VLdGVRUThVaDRYa1NITnN0NStmVUdj?=
- =?utf-8?B?TkJlZ1Z4QVR1eTU2dDVWY0tQQXhETkQvQ0xDcmNQUkd0bnZ2K3R6dForN1VW?=
- =?utf-8?B?eXVRZFQrWW5QWFgvbUh6eXpFeDhZNUEzSFpGbm5HZmFrMFR1RVhZdzVJOTYv?=
- =?utf-8?B?YXRXSHUwd01TcFlNR2NqTWdSVHZiRWpUVnYvcllSbE4vWjhlQ0t2dnRWOUpG?=
- =?utf-8?B?dklseVl6V2piekdCWFFnbVFBdmhjWFc2ci9lMldrSkZmVGdLZmREbkpaS211?=
- =?utf-8?B?QTgxM3BzQjhSbHp0WVNoV1BYM2Jhb3pzVVF5OFZrV3hiVnFBVnFTVVhzeSty?=
- =?utf-8?B?ano3UWhIcFhrMklseE5qYjZsT3BPbzdMQ2xLS2xpRHlnVy9RLzBSRlJWR2Zv?=
- =?utf-8?B?djNRa2JDcWVKTldvejY5ZUF1NGpLNHFHMGVGdlAxVmtiRDhwOVNYczRkRmpo?=
- =?utf-8?B?bFpZOEVaZENtRUJ4S0c5eERRYVdSUklMSHlaTS9jZDdLUTAydWFONWR6ZDg1?=
- =?utf-8?B?RTBya3I0VGI3eWNYWDhpaEVrQlZNYkhGVzVCU3gvcWRGTUd1SWpqUnRpRmhU?=
- =?utf-8?B?b3ZoTVFuNThoTFlNZ25ucUY3dEl2YXlzZVJ5RUxIWmIzL3VBZkRvSWN2U2ZH?=
- =?utf-8?B?V3VIWG9HdnhjdkZ2bU5IVUxsb3FTREpvRUV3N2ZCcUVLUlpqRFpwSkdYam1N?=
- =?utf-8?B?OU4xZi9reDNad3UyWEFPcTk2VGNzdXc1Nms3SE84ODcwVmR6ckdDSmlBT01p?=
- =?utf-8?B?OGpiaWFBTnRWRTF4U1ZxanFJa0ZsV0JtSVFFU2RuZU1OUG9OVU5KZEhBbmNN?=
- =?utf-8?B?d1dleU9DQm1BcWdMTlRETSt2bkZ3TFJ6UEhmdFFraE9yeCtxQTcyak9zTmNL?=
- =?utf-8?B?dXNYSUxDNG9MemxnQWVtNmVZSkpTcHZNN0h4YktEcWhXOTdsYUJvUFhpQnFo?=
- =?utf-8?B?ZWxwUlE0MVBxcTE4cS80ZkZ3MVp0UXBNYkU1WWU5VHloY1N5dmx4aHJkUzNB?=
- =?utf-8?B?SXlCMDdHUjhvQy8ybXB1anZrWFNCdkZBL1d4ZkRtcGZFQTNYb285dVlIQjds?=
- =?utf-8?B?Y1pnT3pNMnZyZ3pHWk5qZm9tcnNud0lwaHhVMlh5S1F5V3owVytaTC9mbnRQ?=
- =?utf-8?B?bndEeG1uTHRaRVM4R1VxNjZVOUZjNXF1Wnc4L3ZBQWtlSU51UnQ2STRvUEEy?=
- =?utf-8?B?SmZvOXR0RmFJN3E1YnFwWi96NWpjUGhLdGlIME1vY2dUTEljYkRBZmhmUWVJ?=
- =?utf-8?B?RmVNOTQ0VjNoNGdSQ2pEUkM1ejN1NXBrWS8yZUZTMTJqRUl1M1VHWUkrMGQ3?=
- =?utf-8?B?Mnc4aFVBMzZrL3U4WllnZFBWSExBZDF5OEVtcUt3UEJ3N0lVMDRHL1hra3dq?=
- =?utf-8?B?QWVINTBySE92MEZxcU5tNE5nMHB3QnFIbTZRUW5nTkRXUXAvblNlQlRTR1lX?=
- =?utf-8?B?cGMzVVJLYW9vN0VuTm9Yc3hUN3BMQnkzWHNYN2wvRDUxM3pzSFArT3d0bEgr?=
- =?utf-8?B?cU9XWk1GYkkwU0pEdEJWSTJKV3BoU0theUtBdDl4bkhseUZFSEk0ZnFHNzB0?=
- =?utf-8?B?bnF0dkZOUHExMEdlOVc4RDg5LzJLOWNNS0NabjZ0Z1dyc2FKMHRTMWkxampt?=
- =?utf-8?B?UnhYelFRWDhFVytoUmFRWkZ5dHZZQy8vWUpVR2h6WmNlS1NKUlVEOHdtMVg3?=
- =?utf-8?B?Z2JVZjNOdkhVTkh6S0M5SDBpNFMrV1dnTjZuSzR2V1A0TWxxc2ErUnBGeGtC?=
- =?utf-8?B?bXdiNDc5VEwvZERZU3dTMFdRN3pGYWRFQXlrUTdueWRMMEEwZWFYTlpJa09y?=
- =?utf-8?B?dHh0OHVrODV3VFRDMlVVb0p5b0RXZmZQcU15bDhyMWg4ZlljU0V1RHlCL2F3?=
- =?utf-8?B?U0s1VzZDcERxS0NBM3B4ek5PK05vdlIyYmxHaFEvL1hEd2hBNkdmN2hpd0FJ?=
- =?utf-8?B?eTFJNSszcnZENDJETTA3cEMyQzYzOHZOSWRzbVhRZVYvSXVCaTdFdz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e7dd4ec-87ac-491f-9980-08df4a041e2b
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6252.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 08:22:46.0789
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0sl48SOnoJk8P9QqLzkve/scu9vG/b5otnqiQQc4DHbe/3ACeXY/UovZho2CThLHB9K8U25TaZCelA7hI3fOig==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8786
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] ASoC: qcom: sc8280xp: Add support for
+ lemans-draco-evk
+To: Karthik S <karthik.s@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20261123072522.2358819-1-karthik.s@oss.qualcomm.com>
+ <20261123072522.2358819-2-karthik.s@oss.qualcomm.com>
+Content-Language: en-US
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <20261123072522.2358819-2-karthik.s@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: _S2oS-YVI8tk3OABzAoyz-YSDpWVZsAp
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI0MDAzMiBTYWx0ZWRfXyWL9D6ULvxd3
+ mx0ejK1lUaeL1Bw8NqQ0AkfypT+LhCOzC5cl/0cG/GXkjfqdVQmdJTFTS0Yif2LyOfnGFiifoQv
+ Mk1iwK1/uUMd7qtJEQrg6wOZ3cymIew=
+X-Authority-Analysis: v=2.4 cv=JYspPkKV c=1 sm=1 tr=0 ts=6b054973 cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=K-guWxSE8BY5skIoOz8A:9 a=QEXdDO2ut3YA:10
+ a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI0MDAzMiBTYWx0ZWRfXxy2U5KsM68pm
+ pQN7Lg43xEjZrsjsa4bcrQhRRx4fIk9+hCy0+HTnOEkywuLIIyGb0c9RM+PLe5NhQfpKwiQa3Rt
+ xkC5iw5QksCJem0rWv1PxfAsrOlbMJd2KavTbTSaRjqV9eAik+JTTw5bi0pJzLtXFRteo5Ew4q5
+ 5VqREihHGFg/05wGStJCEHDr8YG8D9Z008zDkPtyDshpSWBfpgprefI+cfDXXvpWAUoexkJ1IIW
+ BlPvwgocO36IbyDtN1OGSI/TVncdW3ABIjn5IYuej3XmdcWHn39DvfdsnbLFfUntlkjb1dxtmQ/
+ F1Ty+J67tbqc8jTbBcXP/4lW8ZMbHoMvQvAe9mlY/FU4s9jZurUaSRQ+b37OMPdz+v/nL1UwgmE
+ Nz1gs30De+I53XuAJQ2qzzCHy7I95a6r58AkybzVLj/kxOVgWLYfnfDO8NIYGUuVR9c6OXqhHSE
+ X/ixqBoo/qxBwShyUTQ==
+X-Proofpoint-GUID: _S2oS-YVI8tk3OABzAoyz-YSDpWVZsAp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-24_01,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 adultscore=0 clxscore=1015 bulkscore=0
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611240032
 
-On 23/11/26 23:03, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 3 potential
-> issues to consider:
-> - [High] soundwire: bus: sdw_handle_slave_alerts() drops alerts when
->   slave is suspended
-> - [High] soundwire: bus: sdw_handle_slave_alerts() races with slave
->   runtime PM callbacks
-> - [Low] soundwire: bus: inaccurate Fixes trailer in commit message
-> --
->
-> commit 30482e5286dcebe16b970ebf3c3846bd0b707da1
-> Author: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
->
->> soundwire: bus: use pm_runtime_get_if_active() in sdw_handle_slave_alerts()
->>
->> sdw_handle_slave_alerts() calls pm_runtime_get_sync(&slave->dev) which,
->> when slave->dev is not in RPM_ACTIVE, calls rpm_resume() on the slave.
->> rpm_resume() propagates synchronously up the parent chain: slave->dev ->
->> bus->dev -> manager->dev. If manager->dev is in RPM_SUSPENDING at that
->> point, rpm_resume() blocks on dev->power.wait_queue waiting for the
->> suspend to complete.
->>
->> This creates a deadlock: the manager's runtime_suspend callback
->> (e.g. amd_suspend_runtime() or intel_suspend_runtime()) is blocked in
->> cancel_work_sync() waiting for the alert work to finish, while the alert
->> work is blocked in pm_runtime_get_sync() waiting for the manager's
->> runtime_suspend to complete.
->>
->> Fix this by replacing pm_runtime_get_sync() with
->> pm_runtime_get_if_active(), which increments the usage counter and
->> returns 1 only if slave->dev is already in RPM_ACTIVE, and returns 0
->> immediately without calling rpm_resume() otherwise.
->>
->> Children suspend before parents, so when the parent manager is in
->> RPM_SUSPENDING the slave is already RPM_SUSPENDED. The early return is
->> therefore conditioned on pm_runtime_status_suspended() so that only a
->> genuinely suspended slave triggers the deferral path:
->>
->> - When the SoundWire link enters clock-stop mode, the MIPI SoundWire
->>   spec guarantees the peripheral re-asserts the alert after clock
->>   resume, so the interrupt is deferred rather than dropped.
->> - When the link fully powers off (e.g. D3 or equivalent), the
->>   peripheral loses power and its alert state does not survive; the
->>   early return is harmless.
->>
->> When ret == 0 but the slave is not suspended (RPM_RESUMING or
->> RPM_SUSPENDING), the parent manager must be active so there is no
->> deadlock risk and the hardware is accessible. These cases fall through
->> to read and clear interrupt registers without a PM reference.
->>
->> When ret == 0, the usage counter was not incremented, so the early
->> return must bypass the io_err: label (which calls
->> pm_runtime_put_autosuspend()) to avoid a reference count underflow.
->>
->> pm_runtime_get_if_active() returns -EINVAL when PM is disabled on the
->> device (disable_depth > 0, e.g. during sdw_delete_slave() teardown) or
->> when CONFIG_PM=n. In both cases the old pm_runtime_get_sync() path
->> returned -EACCES, which the original guard exempted so alert handling
->> could proceed without a PM reference. Preserve this behaviour: when
->> ret < 0, fall through to read and clear hardware interrupt registers
->> without a reference. Introduce have_pm_ref to guard the
->> pm_runtime_put_autosuspend() call at io_err: so it is only reached when
->> a reference was actually taken.
->>
->> Fixes: e9537962519e ("soundwire: bus: Fix unbalanced pm_runtime_put() causing usage count underflow")
->> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> [Severity: Low]
-> Commit e9537962519e ("soundwire: bus: Fix unbalanced pm_runtime_put()
-> causing usage count underflow") only changed pm_runtime_resume_and_get()
-> back to pm_runtime_get_sync() to fix an error-path underflow.  Synchronous
-> runtime resume in sdw_handle_slave_alerts() was introduced by commit
-> aa79293517b3 ("soundwire: bus: fix io error when processing alert event"),
-> so should the Fixes tag reference that commit instead?
 
-Yes, you are right. aa79293517b3 introduced the synchronous runtime
-resume in sdw_handle_slave_alerts(). e9537962519e only changed the PM
-API and did not introduce the deadlock.
 
-I will correct the Fixes tag to:
-  Fixes: aa79293517b3 ("soundwire: bus: fix io error when processing
-                       alert event")
->
->> diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
->> index aeaae5a57c89d..b53fa93a7cd59 100644
->> --- a/drivers/soundwire/bus.c
->> +++ b/drivers/soundwire/bus.c
->> @@ -1667,15 +1667,44 @@ static int sdw_handle_slave_alerts(struct sdw_slave *slave)
->>  	u8 buf, buf2[2];
->>  	bool parity_check;
->>  	bool parity_quirk;
->> +	bool have_pm_ref = false;
->>  
->>  	sdw_modify_slave_status(slave, SDW_SLAVE_ALERT);
->>  
->> -	ret = pm_runtime_get_sync(&slave->dev);
->> -	if (ret < 0 && ret != -EACCES) {
->> -		dev_err(&slave->dev, "Failed to resume device: %d\n", ret);
->> -		pm_runtime_put_noidle(&slave->dev);
->> -		return ret;
->> +	ret = pm_runtime_get_if_active(&slave->dev);
->> +	if (ret == 0 && pm_runtime_status_suspended(&slave->dev)) {
->> +		/*
->> +		 * Slave device is genuinely suspended. Return early to avoid
->> +		 * I/O on an inaccessible device and to prevent a deadlock:
->> +		 * children suspend before parents, so a suspended slave
->> +		 * implies the parent manager may be in RPM_SUSPENDING, where
->> +		 * its runtime_suspend callback blocks in cancel_work_sync().
->> +		 * Calling pm_runtime_get_sync() here would propagate up to
->> +		 * the manager and deadlock.
->> +		 *
->> +		 * When the SoundWire link enters clock-stop mode, the MIPI
->> +		 * SoundWire spec guarantees the peripheral re-asserts the
->> +		 * alert after clock resume, so the interrupt is deferred
->> +		 * rather than dropped. When the link fully powers off
->> +		 * (e.g. D3 or equivalent), the peripheral loses power and
->> +		 * its alert state does not survive; the early return is
->> +		 * harmless.
->> +		 */
->> +		dev_dbg(&slave->dev, "Alert deferred: slave suspended\n");
->> +		return 0;
->>  	}
-> [Severity: High]
-> Does returning early whenever slave->dev is RPM_SUSPENDED drop peripheral
-> alerts while the manager is active or after waking from Clock Stop Mode 0?
-Yes, this is an issue with the current patch. A suspended slave does
-not imply that the manager is suspending, so checking the slave PM
-state can incorrectly drop alerts while the manager is still active.
+On 11/23/2026 12:55 PM, Karthik S wrote:
+> Add routes and controls for max98091 and va_macro for playback
+> and capture. Add mclk enablement and codec dai format enablement
+> for playback support on lemans-draco-evk.
+> 
+> Signed-off-by: Karthik S <karthik.s@oss.qualcomm.com>
+> ---
+>   sound/soc/qcom/sc8280xp.c | 38 +++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 37 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+> index e136407c56bf..2a542699a51b 100644
+> --- a/sound/soc/qcom/sc8280xp.c
+> +++ b/sound/soc/qcom/sc8280xp.c
+> @@ -44,18 +44,41 @@ static struct snd_soc_dapm_widget sc8280xp_dapm_widgets[] = {
+>   
+>   static const struct snd_kcontrol_new max98090_controls[] = {
+>   	SOC_DAPM_PIN_SWITCH("Headset Mic12"),
+> -	SOC_DAPM_PIN_SWITCH("Headphone"),
+> +	SOC_DAPM_PIN_SWITCH("Headset Mic34"),
+>   	SOC_DAPM_PIN_SWITCH("Headset Mic56"),
+> +	SOC_DAPM_PIN_SWITCH("Headphone"),
+>   	SOC_DAPM_PIN_SWITCH("Speaker"),
+>   	SOC_DAPM_PIN_SWITCH("Receiver"),
+>   	SOC_DAPM_PIN_SWITCH("Int Mic"),
+>   };
+>   
+> +static const struct snd_soc_dapm_route draco_lemans_dapm_routes[] = {
 
-I will rework this to hold a manager PM reference using
-pm_runtime_get_if_active(slave->bus->dev->parent). If the manager is
-active, the slave can be resumed and the alert processed while the
-manager reference prevents it from suspending concurrently. Otherwise,
-the alert handling will be deferred.
->
-> SoundWire codec drivers enable runtime PM autosuspend on slave->dev, so a
-> peripheral is routinely in RPM_SUSPENDED while the manager is still
-> RPM_ACTIVE (for example during the manager's autosuspend delay, when
-> another peripheral on the link is active, or when clock stop is disabled).
-> Likewise, on wake from Clock Stop Mode 0, manager wake handlers such as
-> amd_sdw_process_wake_event() and intel_link_process_wakeen_event() only
-> call pm_request_resume() on the manager device; because peripherals remain
-> SDW_SLAVE_ATTACHED across Clock Stop Mode 0 without re-enumeration,
-> sdw_handle_slave_status() never calls pm_request_resume(&slave->dev).
->
-> With pm_runtime_get_sync(&slave->dev) removed here, nothing resumes
-> slave->dev and SDW_SCP_INT1 is never cleared.  The peripheral stays stuck
-> in SDW_SLAVE_ALERT without notifying the codec driver, and on Qualcomm
-> controllers qcom_swrm_irq_handler() will loop indefinitely because
-> SWRM_INTERRUPT_STATUS_SLAVE_PEND_IRQ remains asserted.
->
->> +	/*
->> +	 * ret == 0 but slave not suspended (RPM_RESUMING or RPM_SUSPENDING):
->> +	 * hardware is accessible and no deadlock risk applies since the parent
->> +	 * manager must be active for the slave to be resuming. Proceed
->> +	 * without a PM reference to read and clear interrupt registers.
->> +	 * ret < 0 (-EINVAL): PM is disabled (disable_depth > 0 or CONFIG_PM=n);
->> +	 * proceed without a reference, consistent with the previous
->> +	 * -EACCES exemption. Skip PM release inside io_err: since no reference
->> +	 * was taken.
->> +	 */
->> +	if (ret > 0)
->> +		have_pm_ref = true;
-> [Severity: High]
-> When ret == 0 and slave->dev is in RPM_SUSPENDING or RPM_RESUMING, can
-> falling through without waiting for the transition or holding a PM
-> reference race with the slave driver's runtime PM callbacks and still
-> deadlock?
->
-> CPU0 (alert work)                 CPU1 (PM workqueue)
-> sdw_handle_slave_alerts()
->                                   rpm_suspend(&slave->dev)
->                                     /* status == RPM_SUSPENDING */
->   pm_runtime_get_if_active() -> 0
->   pm_runtime_status_suspended() -> false
->                                     rt711_sdca_dev_suspend()
->                                       cancel_delayed_work_sync(...)
->                                       regcache_cache_only(..., true)
->                                     /* slave->dev -> RPM_SUSPENDED */
->                                   rpm_suspend(manager->dev)
->                                     /* manager->dev -> RPM_SUSPENDING */
->                                     amd_suspend_runtime()
->                                       cancel_work_sync(&amd_sdw_work)
->   handle_nested_irq(slave->irq)
->     regmap_irq_thread()
->       pm_runtime_get_sync(&slave->dev)  <-- deadlocks on manager->dev
->
-> Besides the deadlock when a domain IRQ handler with runtime_pm enabled
-> (such as sdca_irq_chip or cs42l43_irq_chip via regmap_irq_thread()) runs
-> after slave->dev finishes suspending, drv->ops->interrupt_callback() and
-> handle_nested_irq() now run concurrently with .runtime_suspend and
-> .runtime_resume while the codec's regmap is in cache-only mode, failing
-> register accesses while sdw_handle_slave_alerts() clears SDW_SCP_INT1 and
-> drops the interrupt.
-Agreed. Holding the manager PM reference while resuming and processing
-the slave alert also prevents this race with manager suspend.
+Move the audio routes to the Device Tree.
 
-I will send v9 with:
+Best Regards,
+Rafi.
 
-- Fixes tag corrected to aa79293517b3.
-- Manager PM state checked with pm_runtime_get_if_active().
-- Manager PM reference held while resuming and handling the slave alert.
-- Commit message updated to describe the revised PM handling.
->
+> +	{"IN12", NULL, "Headset Mic12"},
+> +	{"Headset Mic12", NULL, "MICBIAS"},
+> +	{"IN34", NULL, "Headset Mic34"},
+> +	{"Headset Mic34", NULL, "MICBIAS"},
+> +	{"IN56", NULL, "Headset Mic56"},
+> +	{"Headset Mic56", NULL, "MICBIAS"},
+> +	{"Headphone", NULL, "HPL"},
+> +	{"Headphone", NULL, "HPR"},
+> +	{"Receiver", NULL, "RCVL"},
+> +	{"Receiver", NULL, "RCVR"},
+> +	{"Speaker", NULL, "SPKL"},
+> +	{"Speaker", NULL, "SPKR"},
+> +	{"VA DMIC0", NULL, "vdd-micb"},
+> +	{"VA DMIC1", NULL, "vdd-micb"},
+> +	{"VA DMIC2", NULL, "vdd-micb"},
+> +	{"VA DMIC3", NULL, "vdd-micb"},
+> +	{"VA DMIC4", NULL, "vdd-micb"},
+> +	{"VA DMIC5", NULL, "vdd-micb"},
+> +};
+> +
+>   static const struct snd_soc_dapm_widget max98090_dapm_widgets[] = {
+>   	SND_SOC_DAPM_HP("Headphone Jack", NULL),
+>   	SND_SOC_DAPM_MIC("Mic Jack", NULL),
+>   	SND_SOC_DAPM_HP("Headphone", NULL),
+>   	SND_SOC_DAPM_MIC("Headset Mic12", NULL),
+> +	SND_SOC_DAPM_MIC("Headset Mic34", NULL),
+>   	SND_SOC_DAPM_MIC("Headset Mic56", NULL),
+>   	SND_SOC_DAPM_MIC("Int Mic", NULL),
+>   	SND_SOC_DAPM_SPK("Receiver", NULL),
+> @@ -617,6 +640,18 @@ static const struct qcom_snd_soc_common qcs9100_priv_data = {
+>   	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
+>   };
+>   
+> +static const struct qcom_snd_soc_common draco_lemans_priv_data = {
+> +	.driver_name = "sa8775p",
+> +	.dapm_widgets = max98090_dapm_widgets,
+> +	.num_dapm_widgets = ARRAY_SIZE(max98090_dapm_widgets),
+> +	.dapm_routes = draco_lemans_dapm_routes,
+> +	.num_dapm_routes = ARRAY_SIZE(draco_lemans_dapm_routes),
+> +	.controls = max98090_controls,
+> +	.num_controls = ARRAY_SIZE(max98090_controls),
+> +	.codec_dai_fmt = SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_BC_FC,
+> +	.codec_sysclk_set = true,
+> +};
+> +
+>   static const struct qcom_snd_soc_common qcs615_priv_data = {
+>   	.driver_name = "qcs615",
+>   	.dapm_widgets = sc8280xp_dapm_widgets,
+> @@ -743,6 +778,7 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
+>   	{ .compatible = "thundercomm,qcs6490-rubikpi3-sndcard", .data = &rubikpi3_priv_data },
+>   	{ .compatible = "qcom,qcs8275-sndcard", .data = &qcs8275_priv_data },
+>   	{ .compatible = "qcom,qcs9075-sndcard", .data = &qcs9100_priv_data },
+> +	{ .compatible = "qcom,qcs9100-draco-sndcard", .data = &draco_lemans_priv_data },
+>   	{ .compatible = "qcom,qcs9100-sndcard", .data = &qcs9100_priv_data },
+>   	{ .compatible = "qcom,sc8280xp-sndcard", .data = &sc8280xp_priv_data },
+>   	{ .compatible = "qcom,sm8450-sndcard", .data = &sm8450_priv_data },
 
