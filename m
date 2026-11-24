@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.103
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.120
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795505234;
-	b=06A1FMZSzjL6ckZi3wbg/d1fjb3xThCGTxfORbuZO7WJHAB6SlG92adtFe0KIonCsYAJ
-	 NUp2XBp8UKsmfVs1mcUle/oSp4Vw7hVd6YXJJuhopcrMi0ivmzm9m88B08Y4oW1/wY0xB
-	 U78mfTACSNUcJuIgMHbOkVOr0KZ5YaV47hRazho38lp4H3vA4VF1qvJH3PkELACfMtBLO
-	 uIK+piDDwiY1Z/GazRgega7nH0hW7JQewIDJ3wi6TFqc+ZjER0HaD71lJmfxBN7B7mLa0
-	 4MuiTQQGEAamBRla6SxQIpOF94j66EymNAfoVjqCRW7GMe2ond3GbEHLWwt+Uh5DkFQ==
+	t=1795505231;
+	b=IaFdC1JcCNIx9pLBJilO6IccLD1H2XLUUQgRb7UOyra+5gjNK9NKy9b8FQTl+IJ+cgTI
+	 qGIE3pOQ6Txn6+RQ9vge5LW28z2QjG52vE1Q1gQgm2ZVxa6v3UB5oxWmTxTh4YqVa5Iyp
+	 nz96lVgLx/BzCfQLQYBe40gzWAfAPtEGG8uWQfmNkKDJ9OWNujh5rVoGiw9ZJJualsJMk
+	 6ztiUm6fnSZAerouOhvnkzsO2mnQS0B+ihcdmcMK9urb8MYLP/p+EkA2sO9MFwjHndnjQ
+	 tzGDyDtqar3GmXMGyEPSx1hFn3xvKH17nvEhCKKSKcp5gnyVi8XjWBlkHBDf23b/CUQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795505234;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795505231;
 	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
 	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=gAIN7iE4u/BQ8emUvIO6sNS6XCYcMUaeapeftYIyo6s=;
-	b=ov8aQhf7Epb2rLNmNhyRQksZTXuLL8mc/wUi0kebZdwsp+HTQhUzu2fG8gCMPCKDutZl
-	 4CCIGZli5ENH+xdxnN7RILiYW4G1BWPQQBEEs4brh83/yEoKUtOytQ2b81MWhxMKj6rdX
-	 XSVAdhTbATO03A2CoeOfJhHB9h9CLhCoMe4pLWL55Fe/2AJAp7zs1og6xufmZn29d1bqB
-	 o9LP4YDB/MZZzCArL6Yvzp3QghjnhqqcO5eypILJTboVsmVpycHboHyOYb9DgBPfFa30n
-	 yxm273kfehnT0v6DunPVMcz17FV5grSbdUjFAlrjASM1DRBvgq+0SFEgWGieYmKLsDw==
+	bh=a8tT1IHZ/9bnUeOSg8CevW7PO23hEqXdhqumUHaN6cc=;
+	b=RViJiGfpk8R1mOJk67fCgILRXhGtAJggBqxDiNrPRLst46L96TemwlgyGZNeX1DmAFXV
+	 u2t5XGLsWhJf43umcCrQlYPZMiX6V8RYw2RDqooUa8cJomwDhKFAmKMKVfFxh/6CZw3yM
+	 faV8NJYCUOfOlabIzEMW10wCHASUSvDX6YeBErIm9CQsHikkVeq8HCRKAlVWPUA/3C/1w
+	 fa2G8gjZmenMf2ZIpAAT2hQwRUZ02Gu1meUNj4kefejVIp51IvTLdt6YxL0EM3IUt4gKd
+	 GAbCSUVmg0/iCm8hc4/Dr8lDjEICe965ThdMeKxnl9H3MKG18j/ZaypZMXjdMhoLWmQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=goldelico.com;
 	spf=pass smtp.mailfrom=goldelico.com;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=a3KaLGJt;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=h3aJvplq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.103
-Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de [85.215.255.103])
+	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=Y6g743+R;
+	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=DrtAx6L9;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=85.215.255.120
+Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de [85.215.255.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B77560A6F62;
-	Tue, 24 Nov 2026 07:27:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B77560A6F62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F56460A3823;
+	Tue, 24 Nov 2026 07:27:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F56460A3823
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=a3KaLGJt;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=h3aJvplq
-ARC-Seal: i=1; a=rsa-sha256; t=1795505166; cv=none;
+	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=Y6g743+R;
+	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=DrtAx6L9
+ARC-Seal: i=1; a=rsa-sha256; t=1795505178; cv=none;
     d=strato.com; s=strato-dkim-0002;
-    b=Jw1B75AZR9r37pV72wMrabDcm66aq2L5065KPSA7+H3MAYiJokwL8WkpOc9nz+yebw
-    R52KxSfyLCxevdO0Vh8pWaopgVt/J02yGiDaBIB6s78KG8Cw2ECT9wwXtQy/Cs6YFWBP
-    52n6H5Tmf3gt/V4h9LdxzvISaAR3h5L0YUZrrykv4jFZTsERFEVmePoddeefHXt3x8Qi
-    Q6vfLOD7VIcAX+wmBGJ03w2GTeQI7X7EWk4X0hZ1TjO8IIA9us1kXkQ9wJ+sDLZet9v1
-    /fr9JZG3lUVFuwOFPdrTWsPfGYBo97jxKTpKajsmHyBbA62ig030qEZYxeUInLca+gva
-    ghTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1795505166;
+    b=q6SJfTzfqprZYrgKsjzLeq49n1EwhAQRgizro9+K5esUxEOx0G43J5fyVJ5d9BjQnr
+    RtP4FrUlFS5Kimgyvq9sASavJlKP3ItH0Crb+UNdsLeIcqeuwuz+dNR5BWchGCIJwVJt
+    2qfGlbSJyGqUcRTshIbAtswZ/xTq6Ub1atO0IlVQbvV+OsJzg08jrIE0gVLgzZcv0ZUS
+    B3YhCi6mywVGyOufXBSz+FGbOK4pBgnEZs8So3Isy6rANvBezYtxrLZCpZrYqF90odJ/
+    v5ax3EqL32kd+ornB3YB4wFDRE/7ZAgSLeWgUvd7i4olQqlpNZ/YF2IufiIE4QbUqhLE
+    yitA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1795505178;
     s=strato-dkim-0002; d=strato.com;
     h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
     From:Subject:Sender;
-    bh=gAIN7iE4u/BQ8emUvIO6sNS6XCYcMUaeapeftYIyo6s=;
-    b=jaC9A0CwwPT26qXZECMleSSd86xcXk5Mftx5phl5RznaJES9XY4Oqdo5LBu/C0RFhe
-    rWTsfelWx9RZx9/mXcw1MEII7a8U+91QH9/PgjLwgawrjUooBBBgfVyEExMgSCbMlArI
-    lMg+XWZs3fEyJ4NJeAl0iwqMsaxRnaSc1WA4Qd6g5+cVE3ZZw5affwnQWPx8liomLWHd
-    XIuTDJjF4VCjY1m7deqIvYEtb5alALG/dLXWpsgRlZMeeS93qumVRRadmZwvCVbtlKyr
-    /ikXjkqlBmfRFsI/TMtODweKq6fVI1XrojjSB00/JUfhc8x5SVBu9Sq3JOLlvuyBK3g6
-    0bHQ==
+    bh=a8tT1IHZ/9bnUeOSg8CevW7PO23hEqXdhqumUHaN6cc=;
+    b=KtSl0BSqZ2gateMzLu96RLyWf4L8ofQVX5jOnYmYvAL6NIjmCFqClRmRSHBREH9Bkd
+    MzJ0Gz1PY9Vw6SxMklGR3ROyfIWMoW31FpfT/5r7hRuqz/2uBt/sENDOYteKuOdTD1Dm
+    TOxL+X2uhbJAqInCfpC09WlC7ZDnNFH73XWf5VNfpHZi0K9vtTFKhKYnv5GAn2WMSNHG
+    0SoI6CNliRDF6M+QCEay2lJ3am+3Oc/BZBvK6uwi6DSV637xxdwXMAMLga22DS8T+rPD
+    Idealv/wxhM5yR4leRSGCf/1TUowCsxHkLe+ABy3acDccaKFQNNZ0C4NXvZzU3YutXu2
+    Gb3g==
 ARC-Authentication-Results: i=1; strato.com;
     arc=none;
     dkim=none
-X-RZG-CLASS-ID: mo03
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1795505166;
+X-RZG-CLASS-ID: mo04
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1795505178;
     s=strato-dkim-0002; d=goldelico.com;
     h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
     From:Subject:Sender;
-    bh=gAIN7iE4u/BQ8emUvIO6sNS6XCYcMUaeapeftYIyo6s=;
-    b=a3KaLGJtVvMLsOwdQZUYs+7gK4y5yMMC88fm09lTN7l6NG9gu8eI8W2icosjN3MpA2
-    bj6C07vlxiYwLcPYf5IkR78Iqaoz41qwEoq8WUwjURKL22gWnOuuuLOfP+HjN9KNrTaE
-    Lei5ojY3O7JlF8Hc1MihqnTEvrTrPZzGN5IoK7krNf4CFQvSh+R5yxJUvoaRqaz1Yz9y
-    3xagrdTDB3n0mDS1sZE14Sn+jRVds2NJ3y1yPheBCRhVQt2KRPv+oFiMFrMj/s+zUYTF
-    LHIAzqKyk2qD+bUdyyGEfw1Wkhjx+3NfNr4ib/LP/UazcxgirFOK+s1ooMG1J/EIxaXo
-    BulA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1795505166;
+    bh=a8tT1IHZ/9bnUeOSg8CevW7PO23hEqXdhqumUHaN6cc=;
+    b=Y6g743+R6atTH1Bs99pXFNWSa3562WXL2uIoA5xO0x2FhxF+zGf+zgObT2TImNfsNT
+    P+4pUKqcVZT/c0Fcg2/jc7aFGTW4MsN8IVQiLG3DzGuIf0MkWilyCo3d6+SxPEN6sN2X
+    MCjOkcVqU3KlE9yzhmqcxHTfbmqTpGbsmf4bEtOORCgYq0iy36UInElx/BY7Nt7w5vZX
+    h2fUwXjFnA0sZi62m04+/6Sf/z8UiHbLOwHY+zXNsnwF2K0LYJgcfUjiUDU0ZBvE4MTI
+    6dmETfoI1D/c+cyg27opmzOwWU0th2mSSWJ8F0Wp9X3sDJobxlFng4YLRQnzpk5OWjMM
+    Rb3g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1795505178;
     s=strato-dkim-0003; d=goldelico.com;
     h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
     From:Subject:Sender;
-    bh=gAIN7iE4u/BQ8emUvIO6sNS6XCYcMUaeapeftYIyo6s=;
-    b=h3aJvplqETdwNO8kY5RutWsO9gupBKll+2yH2AoQUGLuJZB0vkQ0wtDTAaen7gHL8k
-    5hFyXlXfUyNF6mSyn3Cg==
+    bh=a8tT1IHZ/9bnUeOSg8CevW7PO23hEqXdhqumUHaN6cc=;
+    b=DrtAx6L9aiM0luEU9dC+6uFoApLVFOJ1cxmTwwLyvyImtCtpXJfWFsN2OfWyoGGSg7
+    atmRqGZWjRV0QGxqGnCw==
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrV3poLlciNVTQoM6kVxzKyrKzkpjcAwdDfiN49"
 Received: from iMac.fritz.box
     by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id Qb56a22AO7Q51HC
+    with ESMTPSA id Qb56a22AO7QH1HQ
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
 	(Client did not present a certificate);
-    Tue, 24 Nov 2026 08:26:05 +0100 (CET)
+    Tue, 24 Nov 2026 08:26:17 +0100 (CET)
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
 To: Linus Walleij <linus.walleij@linaro.org>,
 	Bartosz Golaszewski <brgl@kernel.org>,
@@ -127,9 +127,9 @@ Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
 	letux-kernel@openphoenux.org,
 	kernel@pyra-handheld.com,
 	"H. Nikolaus Schaller" <hns@goldelico.com>
-Subject: [PATCH v2 01/20] dt-bindings: gpio: twl4030: Document REGEN GPIO
-Date: Tue, 24 Nov 2026 08:25:41 +0100
-Message-ID: <21030cf6957c49c8114829970cf64c2638050220.1795505160.git.hns@goldelico.com>
+Subject: [PATCH v2 12/20] drm/panel: td043mtea1: Attach DT backlight
+Date: Tue, 24 Nov 2026 08:25:52 +0100
+Message-ID: <163581590b662ebc7a12ccac3cc191b9a3ed4240.1795505160.git.hns@goldelico.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1795505160.git.hns@goldelico.com>
 References: <cover.1795505160.git.hns@goldelico.com>
@@ -145,44 +145,36 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="us-ascii"
 
-Document the optional ti,use-regen property for the TWL4030 GPIO
-controller. It exposes the REGEN power-management output through the
-GPIO controller so that device tree consumers can control it using a
-GPIO specifier.
-
-The property is opt-in to preserve the existing GPIO numbering for
-systems that do not use REGEN as a GPIO.
+Connect the TPO TD043MTEA1 DRM panel to its backlight described in
+Device Tree by calling drm_panel_of_backlight() during probe. Without
+this association, the panel does not control the DT backlight.
 
 Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
 ---
 
 Notes:
     Changes against V1:
-    - Replaces the former REGEN regulator binding following Mark Brown's
-      recommendation to model the control signal as a GPIO and
-      Krzysztof Kozlowski's binding review.
-    - Expand the binding commit message to explain why REGEN exposure is
-      opt-in and how consumers use it.
-    - Commit-message review assisted by ChatGPT.
+    - Explain the DT backlight lookup performed by drm_panel_of_backlight().
+      Commit-message review assisted by ChatGPT; code unchanged.
 
- Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml | 4 ++++
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml b/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml
-index 96d50d14c0710..25ba4328ac2d0 100644
---- a/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/ti,twl4030-gpio.yaml
-@@ -47,6 +47,10 @@ properties:
-     type: boolean
-     description: Enables LEDA and LEDB outputs if set
+diff --git a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
+index b18af526b54c5..cb2fa393591c8 100644
+--- a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
++++ b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
+@@ -450,6 +450,10 @@ static int td043mtea1_probe(struct spi_device *spi)
+ 		return ret;
+ 	}
  
-+  ti,use-regen:
-+    type: boolean
-+    description: Enables the REGEN output as a GPIO if set
++	ret = drm_panel_of_backlight(&lcd->panel);
++	if (ret)
++		return ret;
 +
- additionalProperties: false
- 
- examples:
+ 	ret = sysfs_create_group(&spi->dev.kobj, &td043mtea1_attr_group);
+ 	if (ret < 0) {
+ 		dev_err(&spi->dev, "failed to create sysfs files\n");
 -- 
 2.56.0
 
