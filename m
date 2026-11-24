@@ -1,79 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795560417;
-	b=YiYfjSuoBaUgOHEK1LJbTx4yMtS9bwdxBYnoyI1jz1Cn+SPCxiYqrapzVfSmJ25GZQaN
-	 LwzgqxpOAJU1cGOqK9d3w/j1G+4YSSzpOMxsxXqyBLOEXdyBwg3MydnEntBmHISTHUq53
-	 HfLw5y1ROHXdnIrTzx61hIEN6IFJmwBz3ZE5waBfwWl7rvGAuoyRB2Fc/wKVI8N9Uz/AH
-	 gl8bBY8jiGAf7jD018ZeG11BjKI5VZwcNLJfDLB8DnPrT0I9V3zVCscxXqThs5GVrKhgs
-	 GnDD4UBgGqXyhGiOH9UbFVSOX0zRbG5SV7i97WUUkrdAuSjM2wGiya2RDWGdIVRr74g==
+	t=1795560420;
+	b=XlZUkbY19J/jxKTa4CX5jARv1CbpU8FrV+/UvrrZOUHdE6b6aS8LlUDEPCsLrh3ohyWg
+	 e5wjELJny8cKiU5gA5gXtYB4Wz9kAWlGP/So+UrpmTdHHzp56RKBIGaHc3U2K9IpAKz10
+	 WGzzMCa037pAVgnlVx5j/rKL1h+nrQvpXETkbNc+HrXGwSCwRBN1RP/qNpwWdfJjfDyqt
+	 L2ckMFCZRaQVszcfcpPK9ukbFU8EbcU4Jv6H6i+cwP81EbCE/FCZw7etlKfBXThEcU2Hu
+	 6GFB/s/RN7cnEVqYmQ2UnrfEyND/MUX5iD2qsLhFsy9+4N5nb9uBt98go5rF1I3ccvw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795560417;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=YJbAzPR+UlQT/r85xLiwaNKEzQOl7kHyCYA4DNIwAmk=;
-	b=2ovIizvtlqzC6/B9exsq6X/qdDpOLrk+ZwiNZ5kHCLHi1+QJ8IbmvvAEbtYuMgxVlD2X
-	 7GaSyb7HBr5fPCdiX9v7OMUpACUQelVT2rvrRAhwyGPNx9Cww8eo/b2kXtWVt9XF+N2QU
-	 umRZ7das1vOB8c70Wt7zNk1cPoyYVzbjw9AAE3RNEIWh7NDcE/coX5R8Q9jYSrYFmoemj
-	 43csb6Jk2AXDraTxm5TTKCIGggMcfC9arg1MXR0mIMRsrfu4YHfmT5yuxuNGyttXn95Yx
-	 voVYNutQZG9WERJO2awQQF9QoNHmAn8BEUCYSyKIqy7fo0TUh3h3eOjM4PHA1Cp9NtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795560420;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=6QBH+QyIPuZ5eESry9czXmbEjy+pBjEUYZUBFcAeLBs=;
+	b=20qSmPweMb3CRGOyrrIqZJUT14D12eJnTmgM/YTbBFSHc2BpJCn1w8ScYUHEszaFBi5z
+	 T1jRfaCbXzbSlzwehv8wzYHgKCXuyqw3wSWw3bUXhLVHCcu0XVYmfz92oBsPu5DAzWCk6
+	 Ez6EIMge4i/5qbFxEoDYCzmWdnKxDmOwSQ0hE8gy0d0vZvJTGnUgXhgG7FdSQKhhynS79
+	 2scH9t3YblarRpEbekRs4RdMRLtJ1+cp/4MqKpW96jJIOcQzKqQGrWDWd4tjI678cNCKB
+	 ea+7vDCG+rq9N6m8H3sGRqgsDUOtgm6gpGq9pHkqL46nMHrxJpPMMtjV8/DcaxenTIg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ibNNHHgx;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j1QuoGpB;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD0C606A321;
-	Tue, 24 Nov 2026 22:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEEDF606A321;
+	Tue, 24 Nov 2026 22:46:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ibNNHHgx
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j1QuoGpB
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795560417;
-	b=F1U0LVAqhr3wj8m717ez7DQcUXgDO40y3rTOR0Ald/YjZ7pgADmE9xbnzBipvMnJJTfw
-	 zHx2i1cVeU46vvMMq5mY0qngKYa+OQnZy+yIDxEs5gSqQqNqjxHs0QuBTYCg6eD1xsEaH
-	 p2Xyb4CxmrgosOWsat03DyDSGnfhydvHBqfpjgQ4v3o03QtuS/Wc779mskqYiWEzvyLnK
-	 w2BGV/72JjdA+YNHvKJysR0Cp3oXmuTxV4fdAWJD3qQrI4CrFfEfBi124eqHNaVmmQKdn
-	 wVPyNTTILVRiIV6hKqSEeRDTA+5Wm34Iq8SOu61VkqaWG5tmha1LObC5V3WGjUTJJvA==
+	t=1795560419;
+	b=zSHbf6NU3aq6GVMCuacm/ybpO6O++QtUhEHytBbj9sS66i4YxWSByWtLqZe6mEyXpVcC
+	 6pR7f8MMkmThhaMcFDyDfcR3fGPsYr2f5hxOS665AhmzSjnYdrkvAIovChZVhuSFCUqSB
+	 aNIth3CNIJNlGaBNyTHzb7yiS7P6nBxbtkVJy0mUs2nxQLwU1lniUSJ3Pk24uJLDaDmYk
+	 A67uQnIaK08ywNi9ErZzypJM1jyWT4lzRI4mzsVXzYQ0NpphjiI7XGTQvTlA4oM0CNRX1
+	 3HJHF5YXl94DKJbjkUKw3J4vzquD+y6ERQF5b6PZTCobf0snnK4UFMSkzgSeXlrGuvg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795560417;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=YJbAzPR+UlQT/r85xLiwaNKEzQOl7kHyCYA4DNIwAmk=;
-	b=vxOh5FqlbKIVqk0C8+n2h31zyAcuEBkZnQhE9ZhSyCCiOIQC4IwIxJ7FEEtnPEz9PSsv
-	 XEQ3OzeMCCpxykBHQVuWT5b1CoGwbZMo3WHtTNTys+QCeZeyZKD1hPHXQ/YoueL+yi4HM
-	 sido9uJq+1mAOkx6n0DRPVlSObyWGvVccs5OX4BJPQXhDR6q+KbbZwE5U6VEOG9Hvc83a
-	 +ViGJVWDRl2I+Q91rjLRTnODe7MOAVujVmSkZHSgMJR5UMtrxtpxNj1Gel8iOm3V5xLF5
-	 WbsZ7+p5WKK0URbrWAoRsqb+odb4QzL+VKzHtqNtTHmA3OClytjrIIfCwd0RQHkNAUA==
+	c=relaxed/relaxed; t=1795560419;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=6QBH+QyIPuZ5eESry9czXmbEjy+pBjEUYZUBFcAeLBs=;
+	b=vIK6z47ev+PAoXYtQV2FlLGttZYvwGKf9TaWLvMhOic9RWW/0eUFeO2hslwBfyZp+miR
+	 do7yGPkMSq3TTU5x0uR+nsCZj1MiFQ7ehLtMzt/XD04hDWUl0p6rUDFM3JTNPoMsu9/3A
+	 0aZge6zwdc1iXMUPcv1Pgg/S6VBX5lhshaCjuLP7QB07pQ9aW2ZxxwlNK+LKAAyDxtKra
+	 M+AHTUDvn7At9vnuAp8+6rvl0xShzFtEaC3d0lH8yeBHGPY9YEewzSWFHEhIbRheYURAA
+	 as2+WtM0icgxGEKztTFfBtEX6+Hw/lCjXiepcfVJy/DCdjpRjOMp1HgL21LN1R5zu0Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id DE6381F000D1;
+	by smtp.kernel.org (Postfix) with ESMTPS id CEAFE1F000C4;
 	Tue, 24 Nov 2026 22:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795560417;
-	bh=YJbAzPR+UlQT/r85xLiwaNKEzQOl7kHyCYA4DNIwAmk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=ibNNHHgxWrl1bBh+84pQXfH02c0qI6iU6POIKfmzoykweVYcqjrZ5OkIhn2+8u3Ed
-	 7eDugDr9gUE1fMSwPn+RbSXfFmSBNcxPCu7B88F1ifJsY8WdiT2zHmg0BH+34Yl3Jh
-	 omqHOIrViPAU/YfNppYVpOEi3eSdhrxQ+RRaClJ8yAH7GPfq9uQVeGINLF+/ktsnpv
-	 2JZ0xCQIT1ANna37LC9W7VXOurCid55zdojfTTyH3mCFeTviW/TWlRfm7OMhCeml8s
-	 JZ4yJ6ifhZO3Cz0UzF2m4MgGVvIQpNISL7SdZMeeQ09XuBGsuZGez50a3YIA+EkxNa
-	 yXVtSyjACfwyQ==
+	s=k20260515; t=1795560419;
+	bh=6QBH+QyIPuZ5eESry9czXmbEjy+pBjEUYZUBFcAeLBs=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=j1QuoGpBrqwsrjvoJ+YmrzhFLIUmcvFFFfbAOaRKkJo6FGGjE42PYoNSWr8licwpE
+	 fINy6/GVkU5PNMm2evhDnfQD/FgM5dMiASVcFrCoiCyRg+lDIHa49z2X9w6yuIqK8J
+	 0NlQzJdAqaRL9sVGeZ2FZcuMeKfP43tKMoSeamhp/wNnOy76Qjo9Xk5lnxJ8EOcGBs
+	 7nTF564yVlO9Y/2cL0O75vfHzOz+hJx8KxXBUgSlppeJK3sTdqOJLI16yV3gVC8G/5
+	 sPAvSI4JLN0dKTJ6zh28u3f0PRWqlC86f7vmpt+NdgpWBamK8mVt/7f6dksQgSz1vq
+	 n79Krk39KanhQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 710854CBF9;
+	by lkml.kernel.org (Postfix) with ESMTP id 339514CBE9;
 	Tue, 24 Nov 2026 22:46:47 +0000 (UTC)
 From: Robert Ijtsma via B4 Relay <devnull+robertijtsma.gmail.com@kernel.org>
-Date: Tue, 24 Nov 2026 23:46:47 +0100
-Subject: [PATCH 2/2] soundwire: qcom: populate wr_fifo_depth before
- enabling interrupts
+Subject: [PATCH 0/2] soundwire: qcom: fix WCD AHB serialization and
+ wr_fifo_depth init order
+Date: Tue, 24 Nov 2026 23:46:45 +0100
+Message-Id: <20261124-qcom-soundwire-fixes-v1-0-8ca94d60ddd6@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,102 +85,57 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261124-qcom-soundwire-fixes-v1-2-8ca94d60ddd6@gmail.com>
-References: <20261124-qcom-soundwire-fixes-v1-0-8ca94d60ddd6@gmail.com>
-In-Reply-To: <20261124-qcom-soundwire-fixes-v1-0-8ca94d60ddd6@gmail.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBCF4auQWTsJbZWAVzEsdDrKkNBKh6oJ4
+ e5WXH55+d8KyklY4VytkPglKjEUmEMFNFzDg1F8MdjaNsbYI84UJ9SYg39LYrzLhxU77wy1nk6
+ udlDSZ+J9KOWl/1vzbWRafl+wbV/o6jpEeAAAAA==
+X-Change-ID: 20261124-qcom-soundwire-fixes-9d31c8dc5303
 To: Srinivas Kandagatla <srini@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
  Bard Liao <yung-chuan.liao@linux.intel.com>, 
  Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
  Robert Ijtsma <robertijtsma@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795560406; l=2771;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795560406; l=1208;
  i=robertijtsma@gmail.com; s=20261122; h=from:subject:message-id;
- bh=ubMHdvNcEq0xw+6HLkc77K1JCBeG6v8nJPQDHg2TJDg=;
- b=LDzxCCmc1jiBlI8Cq77vPJEnjiYxKJ1S/ZEnSwYFr5n7i1PlUgalWgAUES8EbePNX4caTa3cJ
- SXIHBYkmVw1BdRkMm8F3cQ8i8s8g4jujN339SfJKzEm2sCwLUBHp1rC
+ bh=nRQ81G0pOHjTe19q0T04n8A6t3fPhnAHDBRobILJgfU=;
+ b=Cgl9VQw+aZpzc2uVyo9Pn37RN8cCRaw9l4qgsxkUnFWGZrCsVHjqaYH4a9fuPeSGLUKMQZJJC
+ tTwJmyKlJS8BNPqmwSb7fn5+dhMqDk89ZIg5YCKNqW4S/qb9mAaW5wK
 X-Developer-Key: i=robertijtsma@gmail.com; a=ed25519;
  pk=qiDyKVqFicxFIR5sB5m+p9SWPKL2/+mMoiQnUx0C9P0=
 X-Endpoint-Received: by B4 Relay for robertijtsma@gmail.com/20261122 with
  auth_id=1604
 X-Original-From: Robert Ijtsma <robertijtsma@gmail.com>
 Reply-To: robertijtsma@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Robert Ijtsma <robertijtsma@gmail.com>
+Fix two race conditions observed on WCD934x-hosted Qualcomm SoundWire
+controllers (such as on Microsoft Surface Pro X / SC8180X):
 
-ctrl->wr_fifo_depth is currently populated at the end of
-qcom_swrm_init(), after devm_request_threaded_irq() in qcom_swrm_probe()
-and after enabling CPU interrupts in qcom_swrm_init().
+1. Serialize each two-step WCD AHB bridge register access (RD_ADDR +
+   RD_DATA or WR_DATA + WR_ADDR) with a controller mutex so concurrent
+   IRQ and init/bus accesses cannot interleave on the shared bridge
+   registers.
+2. Read and validate SWRM_COMP_PARAMS write FIFO depth before
+   registering the threaded IRQ in probe and before enabling CPU
+   interrupts in qcom_swrm_init(), avoiding false write-FIFO overflow
+   errors while wr_fifo_depth is still zero.
 
-If a SoundWire interrupt fires before SWRM_COMP_PARAMS has been read,
-qcom_swrm_cmd_fifo_wr_cmd() observes ctrl->wr_fifo_depth == 0 and fails
-with -EIO ("err write overflow").
+Tested on Microsoft Surface Pro X SQ2 (SC8180X, WCD934x + WSA881x).
 
-Read and validate SWRM_COMP_PARAMS in qcom_swrm_probe() prior to
-requesting the threaded IRQ, and read SWRM_COMP_PARAMS before enabling
-CPU interrupts in qcom_swrm_init().
-
-Fixes: 02efb49aa805 ("soundwire: qcom: add support for SoundWire controller")
 Signed-off-by: Robert Ijtsma <robertijtsma@gmail.com>
 ---
- drivers/soundwire/qcom.c | 27 +++++++++++++++++++++------
- 1 file changed, 21 insertions(+), 6 deletions(-)
+Robert Ijtsma (2):
+      soundwire: qcom: serialize WCD AHB bridge transactions
+      soundwire: qcom: populate wr_fifo_depth before enabling interrupts
 
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 368f511..3a42ab8 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -997,6 +997,12 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *ctrl)
- 	ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CLEAR],
- 			0xFFFFFFFF);
- 
-+	ctrl->reg_read(ctrl, SWRM_COMP_PARAMS, &val);
-+	if (ctrl->version >= SWRM_VERSION_3_1_0)
-+		ctrl->wr_fifo_depth = FIELD_GET(SWRM_V3_COMP_PARAMS_WR_FIFO_DEPTH, val);
-+	else
-+		ctrl->wr_fifo_depth = FIELD_GET(SWRM_COMP_PARAMS_WR_FIFO_DEPTH, val);
-+
- 	/* enable CPU IRQs for the selected EE window */
- 	ctrl->reg_write(ctrl, ctrl->reg_layout[SWRM_REG_INTERRUPT_CPU_EN],
- 			SWRM_INTERRUPT_STATUS_RMSK);
-@@ -1008,12 +1014,6 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *ctrl)
- 
- 	swrm_wait_for_frame_gen_enabled(ctrl);
- 	ctrl->slave_status = 0;
--	ctrl->reg_read(ctrl, SWRM_COMP_PARAMS, &val);
--
--	if (ctrl->version >= SWRM_VERSION_3_1_0)
--		ctrl->wr_fifo_depth = FIELD_GET(SWRM_V3_COMP_PARAMS_WR_FIFO_DEPTH, val);
--	else
--		ctrl->wr_fifo_depth = FIELD_GET(SWRM_COMP_PARAMS_WR_FIFO_DEPTH, val);
- 
- 	return 0;
- }
-@@ -1717,6 +1717,21 @@ static int qcom_swrm_probe(struct platform_device *pdev)
- 	ctrl->reg_read(ctrl, SWRM_COMP_HW_VERSION, &ctrl->version);
- 	qcom_swrm_set_ee_register_layout(ctrl, data);
- 
-+	ret = ctrl->reg_read(ctrl, SWRM_COMP_PARAMS, &val);
-+	if (ret != SDW_CMD_OK) {
-+		ret = -EIO;
-+		goto err_clk;
-+	}
-+	if (ctrl->version >= SWRM_VERSION_3_1_0)
-+		ctrl->wr_fifo_depth = FIELD_GET(SWRM_V3_COMP_PARAMS_WR_FIFO_DEPTH, val);
-+	else
-+		ctrl->wr_fifo_depth = FIELD_GET(SWRM_COMP_PARAMS_WR_FIFO_DEPTH, val);
-+	if (!ctrl->wr_fifo_depth) {
-+		dev_err(dev, "Invalid write FIFO depth in SWRM_COMP_PARAMS: %#x\n", val);
-+		ret = -EINVAL;
-+		goto err_clk;
-+	}
-+
- 	ret = devm_request_threaded_irq(dev, ctrl->irq, NULL,
- 					qcom_swrm_irq_handler,
- 					IRQF_TRIGGER_RISING |
+ drivers/soundwire/qcom.c | 57 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 38 insertions(+), 19 deletions(-)
+---
+base-commit: 4843f6873f7c4835e62f2c73ba0fd538e57a2f22
+change-id: 20261124-qcom-soundwire-fixes-9d31c8dc5303
 
--- 
-2.56.0
+Best regards,
+--  
+Robert Ijtsma <robertijtsma@gmail.com>
 
 
