@@ -1,58 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795620152;
-	b=spuzC60RC4SqpbdQSJUfiukmfZo3fk62Vzw94hVGwNAP48kMCGepkMDKAy1+umNWx98Y
-	 9SsGDaaP/v0tuUVIMFRDAe8g8NXgYlJK920yyM7jcl0lvVmqsEEPkMimElpJqMEatcTth
-	 k5V6kswivPlqPxZSHkDSOko8trigeXkgVnfg0e0yfliEaPic453nlbL0RY69NTlacdC2k
-	 Eaqg7Qtwf8ou085QdE0kseiBKw98gZGOrB1B7nRXoarg9DVcsCWLvrDCYtA9bFM1sObBS
-	 hbFiCgO9qFiIMmkBL8ArJkCa0g58uj1tRfPq79sAHw4BSB5O05/0oPQawiNPcF1W92Q==
+	t=1795620157;
+	b=0VvrfTti0LLEUTMfc6T4FToUEg5vvO6VG35yY17wD+mFguWBDFXGROVMAOuIe8l7wmt4
+	 +o+vk4wIvyNx53QfKM3bHSZkCfMQzmt7oyIygYbegucejgsKwpcw8YtROejhyvt3WkItL
+	 AJoTrYgibkD6iReTFPSn3iv0BxoRl1Kl2Txpup/MBSk+GNM54OPmp0RpDVYb4YK0lUFA5
+	 QkDGtHV2pMGE7tJ8TQoPZrATakMlFa6t2F2mujugBCP/M1DqHizYoPa5eG/mwz+NEqrwK
+	 ye+16iJxrxhVpyZvJ0MIlGIZvJuDdGc/znFvAFBn27lIBHyFwq8hcMAlrlxFx+ZRRKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795620152;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795620157;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=s0Sjb1DgacCXHrpE8DixpKmLTLzsenxzTbzFw1kwskM=;
-	b=hfjblB0VYP3ZVIPyjaOfdaxdZsseZJWK2XL7S/p60qEsKJz+YSJhJPxmCnJUtkSn6I3p
-	 WbXmqeVAXtvDISWdiI4+ditFS5g4zAlJXSkJFVFmmtBohEVVmOjrjDqVA9cE9UHGAyxJc
-	 29URjcBdXuIsEd6fkANqkaV/2AjZlLagMAdhhWM1T3I0LyuD9Bhqjtp3rVZfZg/KrRDNU
-	 xhbBMK64RPKhNfSdJRhC+L5uUjou8BHy9GLrJepVbZVu9Nbagoks2H6BboAiH5tViK9zu
-	 SubW7Z8tYfMBj9ObJJKUbUAr2Ns+0pTQzGgd5JZdrmCVxvc0loeRuiTRjhG15mhzsAQ==
+	bh=j1K5ewHys/5t3EL0s+jWiptRbODzjRlYhbYqEXH+Sgo=;
+	b=yUJyiNeIn3z9zenYroJZKY+0WJ0kaEPgbDpnDhgd4V2ieLb8YSAmHaQm5tMfN4l2aTqy
+	 v56TGlAPwMSPb77NajG9vDxwQB9/5XAHi0/zNeJY6Xf2gel5VWzqJGwOXQf16cbz70eb5
+	 XrMk8nzV1qloxcnnKVDf/+QgFzK+czAwHWXWS2MyTynI+VV3SaKNgXGfz6G2DTCOdVoHw
+	 3CVFJL4u0eb08qNgDcXyT/vNJxgbwW5pEh1rgUPRg6D+EMgAk+wipa0tGIDGMK1pPUSP1
+	 xoTwjRnhPBtiMGSkAzzWKXCKO5txFLw6ZTO3O5IVdWCutSLB+X6O7L8E2nZ/2/WMlEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="W5RseR/Q";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPM+OkcG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92B8606A327;
-	Wed, 25 Nov 2026 15:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ED8606A33D;
+	Wed, 25 Nov 2026 15:22:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W5RseR/Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE62A1F000CF;
-	Wed, 25 Nov 2026 15:22:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPM+OkcG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4C41F000F4;
+	Wed, 25 Nov 2026 15:22:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795620151;
-	bh=s0Sjb1DgacCXHrpE8DixpKmLTLzsenxzTbzFw1kwskM=;
+	s=k20260515; t=1795620156;
+	bh=j1K5ewHys/5t3EL0s+jWiptRbODzjRlYhbYqEXH+Sgo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=W5RseR/QkC7iZ18SXo4XPZT82eZfO7qCEQXJHhAxT941VXW20T+6sUOimetiXHQTg
-	 5jnFy4zt6+w8tegyzIFHP8SGxzzdDze+acpjVTYtRBUnyiQbhLMb1J/XfsOd2cpaK1
-	 raWvPNK0FHVwPisfM99cUamOCRG4FcVC7I5Dic+rcqPCDc5x9JO6SM3jZnVtV4oExL
-	 IfNwuTDBTGYmttKJ11VmtPZ+G8eFDDy6ARScfgR8ZJun2t4+8ZBa/bcyiXtDp4LQya
-	 2lekjrFyo2Yp169SIM4ayZ/XsC65W6GP7NgzGV2JQnJIzp64iitWb36a2hlCA1wKJW
-	 AjEHetdIxiHXg==
+	b=hPM+OkcG1sXtgx5Wxj2RH5GbNjqJRQ550/a+wBrK3G9XY6yMjBY76ZtGQk6nX8irV
+	 26GH8FV4g5dyFgq/QUooRTE5Jr24+cS5FV6ukbU6bz3+2e5JLy4sizWgeRuVWd5duq
+	 +/ESX0cGjcNitwMHfG/ozGCkXFsb06hD6NiRz5fbLacFOjrWwokjNASQvBnlPpDtK9
+	 uzLvreSsTHC3eFN1Nht1Mn7cVpP3cMGOHgNzMycD0XYGTZWhwjz+dMgdM7xIV24WlY
+	 Zbp0szHBAYX7CLl5GDB9S4LZwkKA9TE4ndGEA37annqDwjJ9ExE29svoRbB6zQddxl
+	 +mtqqg5LIXVgw==
 From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Kees Cook <kees+treewide@kernel.org>, 
- Jihed Chaibi <jihed.chaibi.dev@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261117042102.12442-1-phucduc.bui@gmail.com>
-References: <20261117042102.12442-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/2] ASoC: cirrus: ep93xx-i2s: Clean up resource
- management
-Message-Id: <179554463637.947306.4123953706641155831.b4-ty@b4>
-Date: Tue, 24 Nov 2026 18:23:56 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ Dhanunjanrao Katta <katta.dhanunjanrao@amd.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Michal Simek <michal.simek@amd.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, git@amd.com
+In-Reply-To: <20261117085739.3807943-1-katta.dhanunjanrao@amd.com>
+References: <20261117085739.3807943-1-katta.dhanunjanrao@amd.com>
+Subject: Re: [PATCH 0/3] ASoC: xlnx: spdif: switch to the common clock
+ framework
+Message-Id: <179554501801.947306.5510285230833292211.b4-ty@b4>
+Date: Tue, 24 Nov 2026 18:30:18 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,24 +67,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1443; i=broonie@kernel.org;
- h=from:subject:message-id; bh=i65/khEverv/t4MZb/sMgT44sPx8dhG9HuSw8r/tozI=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/po8//W5NJTD5b5B3A/P1gMlCk1Z9qllG+9IfIwSu
- Hx2FqNJRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACayq5uRYa13ZDD3p1Al411b
- /q8y7/gWrdnvx/Wp4IBHa4XOfwdZH4b/iUV/C+1Px0z5lS3WJe+03/CE9Ky0C1P2aF5h26V4M+E
- jLwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1764; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=m1Bh2olESyCCYp8JXYIX86p20sRKXCcRHfKKlZvkiQg=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZ/lqE+fZyTU0IXabp8PtKTOx2f2O7bSEbdz68fEjw6
+ 0TJ4BL7jlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzkVx3D//qy3y/5z1R/+/B4
+ wkyej48VtnR7Kl5NvhERGXXz0ZbvXdcYGbbceur/rYRj7ZUT6+sPXev2XRAwmbmwIcyd7XHQiks
+ tfqwA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 17 Nov 2026 11:21:00 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: cirrus: ep93xx-i2s: Clean up resource management
+On Tue, 17 Nov 2026 14:27:36 +0530, Dhanunjanrao Katta wrote:
+> ASoC: xlnx: spdif: switch to the common clock framework
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series simplifies IRQ error checking and clock resource
-> management in the ep93xx-i2s driver.
+> The Xilinx SPDIF/AES3 IP is fed by three clocks, but the binding
+> described only two of them and the driver requested only one. The audio
+> clock frequency was instead passed as a plain number in the custom
+> "xlnx,aud_clk_i" property, and the driver relied on the firmware to
+> leave the audio and AXI4-Stream clocks running.
 > 
 > [...]
 
@@ -92,10 +93,12 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: cirrus: ep93xx-i2s: Simplify platform_get_irq() error check
-      https://git.kernel.org/broonie/sound/c/0262f255ad9e
-[2/2] ASoC: cirrus: ep93xx-i2s: Use devm_clk_get()
-      https://git.kernel.org/broonie/sound/c/59852db7b402
+[1/3] ASoC: dt-bindings: xlnx,spdif: describe AXI4-Stream and audio clocks
+      https://git.kernel.org/broonie/sound/c/8a2e765cec00
+[2/3] ASoC: xlnx: spdif: namespace register macros and use a divider enum
+      https://git.kernel.org/broonie/sound/c/8090aeadf3a0
+[3/3] ASoC: xlnx: spdif: get clocks through the common clock framework
+      https://git.kernel.org/broonie/sound/c/91c90b881e55
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
