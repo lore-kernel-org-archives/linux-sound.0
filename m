@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795542860;
-	b=3ucGoPO24hXh40uidZmOP88ohOQZTD3H8CUB4qZhV2ddhR8ljEP1XSPwwjOaWTh/JuDa
-	 tkBwpT8iQvGe5a8Cl38ws2fzwFA+QJEy+r4hJrD7wQ5Qe/LnvZi1Cx+Fkx+uhUikQKOB+
-	 AyWYLutfRbR+7RvYDTNgmGVkT8Lo5MZ3XPGIggbqXqM7OBS8Xq7Q9Q9MttWoGhX3wJTqy
-	 5bGHua4m0dfkiyYMlUIS6CTUnXVgCpqlvVMs2XwGzpMSGDrnGVlPsksQReV/x5NFPZM7R
-	 N2LxZ4zwqhP+waKzwE4j4PtDcJ80jhebIGFe/aLgU8ShhN0kW3WUBw3jxsP/TzRO9tA==
+	t=1795543017;
+	b=NdwP1+FoaoKuumdGOt5Fds3HGOLoJLUPGsafz1EI3ms2yTPSo1Nrffix8s5+4guK1DLu
+	 uNIv3nRi59JKFA2k1D/utzDSoshZWWlaLxAvM1kpHRrTQRZyUMa8ovg8vVfiROsNzC9/6
+	 /p5TVKEFz6dxWbGtskt1D59KMZitsxGVCtbNOSFjuJimGho0JZip2aOw6718HGZHlutVO
+	 EMesspkFm++4DXlH4mooweGAZkb7VhfbiszV2k3W9ewnVJfZoubUmTjDXiY95HTu4i/SL
+	 l2IXe2SMjMCl50dAjZI/RZizwJGIr3aNOg5zY8T73QEv2LIVJYKlsy+gVMA6FXTTi+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795542860;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795543017;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0pm3p5mEPLCoZfLFF7fAcuqY+wadphrVFEOwjav6RCM=;
-	b=cfIG7mgVG/MrdT9u46aglqiyme8GOkr5BKVjxDvnqhqYOStvz51MDJsjBex0HnJs9iCE
-	 lwuqYqJGf3HJly+mCEgG5rySRO6ZDQr9LCtRcct+sD4XtfMFsCkYWirny6VEh8Ggnt3PU
-	 DIl/9+ycJtCFhs+nlzmI9SKnlAXueMGSDj8qvN14Ir/7KrkZ7s6mo67BU0PeS43e8nS/P
-	 AGeHbuazVWUSTKfhP746eHAyjpVER56D7Y6ro1lPjm1BcbQOga/kPGZ9lqLfm7WqmZamF
-	 qW677em9rdUuALbIJyxxlgzH6yb88S/SqgKKN88byAEOQ5QlYlhIedJYh5r2Bhaning==
+	bh=974w/PlNab1Z0DeWPcHuJZCtEC/8w2imrmo4h6na3WA=;
+	b=Yufg6BKyrqMvpzoyAX958HHnOucbpcACtWq+fIhix8YGMxEeTFLMg4E1vZEHDfIsgCno
+	 9Ro4CK3dPGmqdh+wDv308E0GEVChC8ZKx3JlM2vx1oMlq+mgNF69DqAVRnt7LZkCnvB+b
+	 +eZNWi1p5wP5K8OQLfcmaEbV/f+SZzLnyOpxLixjrIQj2eRfma0kH7n/CGQqyfALSMXHg
+	 jkA6EVNgj6xc62pZx/mCV6xSyPlfVWhEXxQwa1XlWGEbxIFP/d7/FzwfpGtU0TiYPy89b
+	 h9KVbWuqcu2XWLL3hLd3qLEmNUhgbNnQDlbxwJurUJfFjrWyMlcEf6chC09DORTxBNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mhw7M9A3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="KtLZoHc/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943F9606A31E;
-	Tue, 24 Nov 2026 17:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69472606A31E;
+	Tue, 24 Nov 2026 17:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mhw7M9A3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA4741F000C6;
-	Tue, 24 Nov 2026 17:54:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KtLZoHc/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58EAA1F000D8;
+	Tue, 24 Nov 2026 17:56:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795542860;
-	bh=0pm3p5mEPLCoZfLFF7fAcuqY+wadphrVFEOwjav6RCM=;
+	s=k20260515; t=1795543016;
+	bh=974w/PlNab1Z0DeWPcHuJZCtEC/8w2imrmo4h6na3WA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mhw7M9A3n9JTDWTVFn59r2zyeEq8+s0J7CUnsxpW5OYARdIc1S9hxIWcd8TlHi+5V
-	 EsDZPsBIWNuJcd9sUgHUPMtjkwuBF3Bgy+N+ve0lMcSmH2osQYnTEmZnGo+lbgd9s7
-	 4XxtS13pTiYjqitTS0DHdv4zXXQ42tntftnc7YTTatmpzMEoT6WRfzd7JLXUMQKpiF
-	 rRyuclZao9tDNnZ6IFx56yJsd9iXZXyeC7ZVY/s0kcl6GSMxhuS/Z9EmfNOXwf2iMJ
-	 sAz8KMAAwynBTsX4RDyT+dpjsRlPGBMm3M2ztqxAFALiZCJTrgqKLjJUMV4xiY4Jlj
-	 U/dFc0NdPoEKg==
-Message-ID: <sashiko-outbox-231757@kernel.org>
+	b=KtLZoHc/3xLej6J9Wo6JCqwbvXydExUj72yz68/ZPuNUQpeWcZZmcATub3FpPiQCx
+	 R3/qs+MZ88X3/ON3E8zFH4AK4c1qle5lHQ1hfXsOzOIsmTyIVeV+hSrQyOQyt14sYb
+	 a8DUAV5H2Tx6S086W20uoDpJ/p0szjnw8I36XuZ8DhEx0t7UouNbvQ4eNjP3S9Xamq
+	 iDx4GwFLjtAj0uKWVNcAklx2rV7ir9UFzlj+MhY5uaA/ef/cVC0uLDSyQYXGj0cYFJ
+	 Yxo8VNxOBiiPyY1fPyk+130o0nSS72Cnw1GXPDAEkVLfi1NvOTADZNhq4nYIFNFsen
+	 JACMvl0AOmMPQ==
+Message-ID: <sashiko-outbox-231759@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 09/19] ASoC: qcom: lpass: add support for optional
- WSA interface
+Subject: Re: [PATCH v2 19/19] ASoC: qcom: sc8280xp: allow using the sc8280xp
+ card with lpass-cpu
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Neil Armstrong" <neil.armstrong@linaro.org>
 Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261124-topic-sm8650-el2-v2-9-174e159f0f69@linaro.org>
+In-Reply-To: <20261124-topic-sm8650-el2-v2-19-174e159f0f69@linaro.org>
 References: <20261124-topic-sm8650-el2-v2-0-174e159f0f69@linaro.org>
- <20261124-topic-sm8650-el2-v2-9-174e159f0f69@linaro.org>
+ <20261124-topic-sm8650-el2-v2-19-174e159f0f69@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 24 Nov 2026 17:54:19 +0000
+Date: Tue, 24 Nov 2026 17:56:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,138 +63,119 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] ASoC: qcom: lpass: missing wsa_lpaif_map handling in suspend
-  and resume
-It also noticed 2 related pre-existing issues this patch does not
+- [Medium] ASoC: qcom: sc8280xp: missing jack cleanup and link exit on
+  DSP Bypass links
+It also noticed 1 related pre-existing issue this patch does not
 introduce:
-- [Critical] ASoC: qcom: out-of-bounds array writes in
-  of_lpass_cpu_parse_dai_data() [1]
-- [High] ASoC: qcom: lpass: unchecked memremap() and missing unmap on
-  PCM free [2]
+- [High] ASoC: qcom: sc8280xp: missing WCD jack cleanup in
+  sc8280xp_snd_exit() [1]
 --
 
-commit af2e24041ddb606a271caf973ca3eb7d9100c98e
+commit 30357a271c5bc6a19f163b41e5ab561af21084a8
 Author: Neil Armstrong <neil.armstrong@linaro.org>
 
-ASoC: qcom: lpass: add support for optional WSA interface
+ASoC: qcom: sc8280xp: allow using the sc8280xp card with lpass-cpu
 
-This commit adds regmap, DMA control, IRQ, and buffer management support for
-the optional WSA LPAIF interface used by the speaker SoundWire bus.
+This commit adds init and ops callbacks for DSP Bypass DAI links in the
+sc8280xp machine driver and attaches the WCD jack to LPASS CPU TX codec DMA
+DAIs in qcom_snd_wcd_jack_setup().
 
-> diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-> index 3089107442231..db7a0752edb2f 100644
-> --- a/sound/soc/qcom/lpass-cpu.c
-> +++ b/sound/soc/qcom/lpass-cpu.c
+> diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+> index ac4dfb2c2182c..4fcccf7ec4965 100644
+> --- a/sound/soc/qcom/sc8280xp.c
+> +++ b/sound/soc/qcom/sc8280xp.c
+
 [ ... ]
-> @@ -984,6 +1076,16 @@ static struct regmap_config lpass_va_regmap_config =
-=3D {
->  	.cache_type =3D REGCACHE_FLAT,
->  };
+
+> @@ -377,6 +378,37 @@ static int nord_snd_init(struct snd_soc_pcm_runtime =
+*rtd)
+>  	return 0;
+>  }
 > =20
-> +static struct regmap_config lpass_wsa_regmap_config =3D {
-> +	.reg_bits =3D 32,
-> +	.reg_stride =3D 4,
-> +	.val_bits =3D 32,
-> +	.writeable_reg =3D lpass_wsa_regmap_writeable,
-> +	.readable_reg =3D lpass_wsa_regmap_readable,
-> +	.volatile_reg =3D lpass_wsa_regmap_volatile,
-> +	.cache_type =3D REGCACHE_FLAT,
-> +};
-
-[Severity: Medium]
-Should lpass_platform_pcmops_suspend() and lpass_platform_pcmops_resume()
-also manage drvdata->wsa_lpaif_map when drvdata->wsa_enable is set?
-
-lpass_wsa_regmap_config uses REGCACHE_FLAT and lpass_platform_wsa_hardware
-advertises SNDRV_PCM_INFO_RESUME, but suspend and resume only handle
-hdmiif_map and lpaif_map.  If the WSA LPAIF block loses register state acro=
-ss
-system suspend, resuming a stream via SNDRV_PCM_TRIGGER_RESUME skips
-lpass_platform_pcmops_prepare() and never syncs the cached DMA base, buffer,
-and period registers back to hardware, while later regmap_update_bits() and
-regmap_fields_write() calls can skip hardware writes when the new value
-matches the stale flat cache.  Note that later commits in this series
-("ASoC: qcom: lpass: support mapping I2S ports to multiple LPAIFs" and
-"ASoC: qcom: add SM8650 LPASS CPU driver") do sync the same lpass-wsa-lpaif
-regmap across suspend and resume when it is used for MI2S.
-
-> @@ -1046,6 +1148,8 @@ static void of_lpass_cpu_parse_dai_data(struct devi=
-ce *dev,
->  			data->hdmi_port_enable =3D 1;
->  		} else if (is_cdc_dma_port(id)) {
->  			data->codec_dma_enable =3D 1;
-> +			if (is_wsa_cdc_dma_port(id))
-> +				data->wsa_enable =3D 1;
->  		} else {
->  			data->mi2s_playback_sd_mode[id] =3D
->  				of_lpass_cpu_parse_sd_lines(dev, node,
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can
-of_lpass_cpu_parse_dai_data() write out of bounds on
-data->mi2s_playback_sd_mode[] and data->mi2s_capture_sd_mode[] [1]?
-
-Both arrays are sized to LPASS_MAX_MI2S_PORTS (8), yet the initialization
-loop at the top of of_lpass_cpu_parse_dai_data() indexes them by
-data->variant->dai_driver[i].id without checking whether the DAI is an MI2S
-port (CDC DMA DAI IDs start at 19), and the else branch above indexes them
-with an unchecked id read from the Device Tree "reg" property, overwriting
-adjacent fields in struct lpass_data.
-
-> diff --git a/sound/soc/qcom/lpass-platform.c b/sound/soc/qcom/lpass-platf=
-orm.c
-> index 9666049ae51b6..99a7ce9ed7695 100644
-> --- a/sound/soc/qcom/lpass-platform.c
-> +++ b/sound/soc/qcom/lpass-platform.c
-[ ... ]
-> @@ -1148,6 +1295,14 @@ static int lpass_platform_prealloc_cdc_dma_buffer(=
-struct snd_soc_component *comp
->  		buf->bytes =3D lpass_platform_va_hardware.buffer_bytes_max;
->  		buf->addr =3D drvdata->va_cdc_dma_lpm_buf;
->  		break;
-> +	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
-> +		buf->bytes =3D lpass_platform_wsa_hardware.buffer_bytes_max;
-> +		buf->addr =3D drvdata->rxtx_cdc_dma_lpm_buf + LPASS_RXTX_CDC_DMA_LPM_B=
-UFF_SIZE * 2;
+> +static int sc8280xp_lpass_snd_init(struct snd_soc_pcm_runtime *rtd)
+> +{
+> +	struct sc8280xp_snd_data *data =3D snd_soc_card_get_drvdata(rtd->card);
+> +	struct snd_soc_dai *cpu_dai =3D snd_soc_rtd_to_cpu(rtd, 0);
+> +	struct snd_soc_card *card =3D rtd->card;
+> +
+> +	switch (cpu_dai->id) {
+> +	case LPASS_CDC_DMA_WSA_RX0:
+> +	case LPASS_CDC_DMA_WSA_RX1:
+> +		/*
+> +		 * Set limit of -3 dB on Digital Volume and 0 dB on PA Volume
+> +		 * to reduce the risk of speaker damage until we have active
+> +		 * speaker protection in place.
+> +		 */
+> +		snd_soc_limit_volume(card, "WSA_RX0 Digital Volume", 81);
+> +		snd_soc_limit_volume(card, "WSA_RX1 Digital Volume", 81);
+> +		snd_soc_limit_volume(card, "SpkrLeft PA Volume", 17);
+> +		snd_soc_limit_volume(card, "SpkrRight PA Volume", 17);
 > +		break;
-> +	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
-> +		buf->bytes =3D lpass_platform_wsa_hardware.buffer_bytes_max;
-> +		buf->addr =3D drvdata->rxtx_cdc_dma_lpm_buf + LPASS_RXTX_CDC_DMA_LPM_B=
-UFF_SIZE * 3;
+> +	case LPASS_DP_RX:
+> +		return qcom_snd_dp_jack_setup(rtd, &data->dp_jack[0], 0);
+> +	default:
 > +		break;
->  	default:
->  		break;
->  	}
+> +	}
+> +
+> +	if (data->priv->wcd_jack)
+> +		return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
+> +
+> +	return 0;
+> +}
 
 [Severity: High]
-This problem wasn't introduced by this patch, but
-lpass_platform_prealloc_cdc_dma_buffer() does not check the memremap() retu=
-rn
-value on buf->area and leaves buf->dev.type set to SNDRV_DMA_TYPE_CONTINUOUS
-with no .pcm_free callback to unmap it [2]:
+This problem wasn't introduced by this patch, but sc8280xp_snd_exit() skips
+headset jack cleanup for WCD jack configurations [1].
 
-sound/soc/qcom/lpass-platform.c:lpass_platform_prealloc_cdc_dma_buffer() {
-	...
-	buf->dev.type =3D SNDRV_DMA_TYPE_CONTINUOUS;
-	...
-	buf->area =3D (unsigned char * __force)memremap(buf->addr, buf->bytes, MEM=
-REMAP_WC);
+Both sc8280xp_snd_init() and sc8280xp_lpass_snd_init() initialize data->jack
+and set data->jack_setup =3D true for WCD jack configurations, whereas
+sc8280xp_snd_exit() only calls qcom_snd_headset_jack_cleanup() and clears
+data->jack_setup when dai_data->jack_setup is SC8280XP_JACK_SETUP_CODEC:
 
-	return 0;
+sound/soc/qcom/sc8280xp.c:sc8280xp_snd_exit() {
+	...
+	dai_data =3D sc8280xp_get_dai_data(data->priv, cpu_dai->id);
+	if (dai_data && dai_data->jack_setup =3D=3D SC8280XP_JACK_SETUP_CODEC) {
+		qcom_snd_headset_jack_cleanup(rtd);
+		data->jack_setup =3D false;
+	}
 }
 
-If memremap() returns NULL, a subsequent PCM transfer in
-lpass_platform_copy() dereferences rt->dma_area.  When the sound card is
-unbound, snd_pcm_lib_preallocate_free_for_all() -> do_free_pages() treats t=
-he
-non-NULL buf->area as SNDRV_DMA_TYPE_CONTINUOUS memory, warns in
-decrease_allocated_size(), leaks the mapping, and passes the remapped addre=
-ss
-to free_pages_exact().
+When a card with a WCD jack unbinds, snd_card_free() frees data->jack.jack
+while codec components retain &data->jack and data->jack_setup remains true.
+On rebind, qcom_snd_headset_jack_init() skips creating a new jack and
+re-registers the dangling data->jack with the codec components, causing a
+use-after-free on the next headset jack event.
 
-[1] https://sashiko.dev/#/bug/linux-ac3b3436-c7ff-4bc4-ac2f-8d1aa0b6ad52
-[2] https://sashiko.dev/#/bug/linux-c4c01ba7-4086-4d0d-b8e1-8b417f2486e3
+[ ... ]
+
+> @@ -549,6 +633,10 @@ static void sc8280xp_add_be_ops(struct snd_soc_card =
+*card)
+>  			link->exit =3D sc8280xp_snd_exit;
+>  			link->be_hw_params_fixup =3D sc8280xp_be_hw_params_fixup;
+>  			link->ops =3D &sc8280xp_be_ops;
+> +		} else if (!link->dynamic) {
+> +			/* DSP Bypass link, neither a DPCM frontend nor a backend */
+> +			link->init =3D sc8280xp_lpass_snd_init;
+> +			link->ops =3D &sc8280xp_lpass_ops;
+>  		}
+>  	}
+>  }
+
+[Severity: Medium]
+Should DSP Bypass links also wire a link->exit callback to call
+qcom_snd_headset_jack_cleanup() and reset data->jack_setup =3D false?
+
+Without an exit callback to pair with sc8280xp_lpass_snd_init(), unbinding =
+and
+rebinding a component on a DSP Bypass card with data->priv->wcd_jack set le=
+aves
+data->jack_setup true after snd_card_free() frees data->jack.jack, leading =
+to
+a use-after-free in snd_soc_jack_report() when a jack event is reported.
+
+[1] https://sashiko.dev/#/bug/linux-70cecd60-74fd-40f1-95c8-8dc260e646ac
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-topic-sm86=
-50-el2-v2-0-174e159f0f69@linaro.org?part=3D9
+50-el2-v2-0-174e159f0f69@linaro.org?part=3D19
