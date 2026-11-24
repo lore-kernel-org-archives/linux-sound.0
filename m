@@ -1,70 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795531251;
-	b=IHsz29Vt100PkqTWK3vXY1dKzqQz+ZqAiWAn6eblbmGdvF2xfhiCafGsQZI0F4sWD/Xf
-	 0C3v/E3kkgjfX6vRAOgph3TisB1px+FGDUNlPuOu1eP9baMZP0QEIIHPOPhcSFpZ4kBut
-	 k4V9JnMeYm+rhW2VdKgBc9ajmy3lVWjZCnxldoNHHvYoMxOPTOBNzzyr4atJdL7/8aeFW
-	 SKEpxPXn801XNixGbaa1poRTIlv6HYm9R6eLTMKxRxfxH7vM2d/MJrPhdfug4xt+7jcgP
-	 2LN9v1TlLgWT/TSVxSY5abLD6JMbBaCV4UVARs0f87PD/f44deyjtm9WNbdGORrAN2A==
+	t=1795531291;
+	b=kQ+WqEgVSH84hxtm5J2ofZ7Jvv5kOJHx3Tp/l/UFEhSFS1RZzK3HL9mrhfMGP3IZkRI6
+	 MadLlvIZl2wyhE7Ecs+ZCDj0a37ECgsOckCPMIs/ucZTJYVw/2WCUpfVEq24ee5MQCW+p
+	 TucezmdeSLuT6jzKmWlhrEZ6ARhxucHX0vou4R4ucMsopuWkAgxf/XT6QQA5FlMk7WIuu
+	 1ARNxcFt/UpdBB5pelyq2BTc7McljIxOwuBFFhzauQHsruuAJKSy6H0NacRxF4+Kji4Yb
+	 4bIhfz1roltj3pWaZ368MzhTi/HsB2ygAnzTE3fHv7CjePL5UGdiVyLM8PvpJT9uazA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795531251;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=unbcf7IxetKvCKK1oK9oQ5fvh2u9DJnAEwqwMUBWQOo=;
-	b=2t9qM2h2mfqUCw/mRISP5eaeBdQfcCj64QdQJjnfCLlcKAR+/DFbx8+0tpd6PTv/66oc
-	 sNnOLa75YqdxinPfl8XkJswCsqpN5JFJK8yUXN9kRdbRgG3ivkef65Di1jtLF5d0YT+Oy
-	 G8vZ5sS6FL9CI/tHqJj6LSMDODPMheR9YKuSDGgJDHBMj67P+t+Z8GxbduzQrr3pNCwUk
-	 LS/03AOVK+B7ctcqmPQHwz10Bu776shOgaCfwDXiqAYwj5sM1rMIHsEN4g/zaVdKGsTB3
-	 q22X5p5ObWbveSYJWQOXPgE6LhQPZWJ30ab24ptwhldaifVjIpXG0sA3zt3kuMyookg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795531291;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=XRXSBSB8rO6RQ7GFhBEjxN2rOtYb7HbmTeR052+QGzE=;
+	b=OIrCBhI/33Ie0vhDKtxZoNk9KYVepc2UZY+NE5CdJnDUqjtpWQpUmO3iAKwWfCv7rE1A
+	 KunrHKxd3LW1b5FNaq1qG+Jb/WlP8T9LlEmMWZykchvlw1a0HE4VkRawinNZ869aRjnXL
+	 A7twz3hgpB83stvBxJ+x2+/M2X2r9MS0J/0roiYjbRELaCDdIPdJQrizk/+7dallHsnAh
+	 LsWqU3HcjM7PtMRR2N6BtxokJXjVA/aQpw9OnVZMb840liabVvRdJBmsyWkPHVDKyrtFU
+	 wJ7KDK6R/eQQcgcRV/3MHIlOMa7ZVEzQBMrgwHik0VhZvsfSmfS7roSxZJ+uJvzTSlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=io9tgaHH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MU80bMba;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB02606A332;
-	Tue, 24 Nov 2026 14:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22313606A321;
+	Tue, 24 Nov 2026 14:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=io9tgaHH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 572071F000D0;
-	Tue, 24 Nov 2026 14:40:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MU80bMba
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D20BD1F000D8;
+	Tue, 24 Nov 2026 14:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795531251;
-	bh=unbcf7IxetKvCKK1oK9oQ5fvh2u9DJnAEwqwMUBWQOo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=io9tgaHHOyo0Z5zikV7SPV2Mwg+94HMNGbKiAM6qeawvECgjSx8Wwf/4yH3FweP+3
-	 TL7qQJAZMBWzCIlZak4Iy94oXDyTDm8kfC54GyWgMQaSBTQa9kkC8/F2r893oDxpwc
-	 tlvIxnIdjAa8rhJn38qfedqiDhY2U4aFH4mg7hs2IJuSxAOxVT0VBEZithvdBqfqN+
-	 xyFKXxxrBo5rneon0rgD37tzMv9xzSn6QyMSDl2YTyqXHgch9BVeQUItNuW3Ye4hUC
-	 qGKaO8UhXh8/zqil67p9RbC3e68sJ/7wZHtumE4lq/eECPNerHkHhoYWSFOvQQcGGF
-	 Dbl+rs4tjDHhw==
-Date: Tue, 24 Nov 2026 15:40:47 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>, 
-	Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
-	Pavel Machek <pavel@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>, 
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, 
-	Russell King <linux@armlinux.org.uk>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>, 
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org, letux-kernel@openphoenux.org, 
-	kernel@pyra-handheld.com
-Subject: Re: [PATCH v2 08/20] dt-bindings: mfd: twl4030: Document 64-cycle PWM
-Message-ID: <20261124-neon-noble-seagull-df2d40@quoll>
-References: <cover.1795505160.git.hns@goldelico.com>
- <8e0c47487add0fa1bc0dad9b1bceef5ebf8071d4.1795505160.git.hns@goldelico.com>
+	s=k20260515; t=1795531290;
+	bh=XRXSBSB8rO6RQ7GFhBEjxN2rOtYb7HbmTeR052+QGzE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=MU80bMbatHsTiDL3M02nm5xGBzIyW8o9U/oE87s7xVomzY3yl2ytSFWurC7pxyDCB
+	 E/4wgzRppHc/KPuiQA90C+PJh3PR438jOOW+KIXz5m/NCFZzdlZqt31zFF8cuExh8Z
+	 EvuJYzy00HWkws0gKGCqK/9ZwDjBdNtNDeV+xR2kNP6tm9v72/8gA6txkvH3PlUHCo
+	 vtY0g8HJFehVjGoDqnXMJkawWGhDcQJrbQGq+1+UFq0itLw9nClksGlT1EPE1tCheW
+	 3ccavoFJQ7JttSMUbP8AwDFoxqV2AVC6rUMyFlTv4RQAWWwMIyDUdm6Y03DLNmKKfq
+	 Xaot3PEjtUNsw==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar.Mukunda@amd.com, "James X. Nelson" <james@wetheinter.net>
+Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261122034611.26008-1-James@WeTheInter.net>
+References: <20261122034611.26008-1-James@WeTheInter.net>
+Subject: Re: [PATCH] ASoC: amd: yc: Enable DMIC on MSI Crosshair A18 HX
+ A8WGKG
+Message-Id: <179552756971.264265.5191868853419633704.b4-ty@b4>
+Date: Tue, 24 Nov 2026 13:39:29 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,66 +59,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <8e0c47487add0fa1bc0dad9b1bceef5ebf8071d4.1795505160.git.hns@goldelico.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EHL40PSlL26aK4NM0uKfRMIgwRQN7vz5yGBCoX+tsyM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZF4m5B8WdvVd6Kf8ds8rDhvTSqa+93Z8ssxZo4l7Bp
+ yBvFfylo5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABO5zcbIMPXT2rcv7Ivsd86o
+ fNxy6MW/rbHmU7aqLbAr1TXPbSkraGT4K3zUY+Na3d+88muDH12WfJhyZsKOWzO6GAt5elSv75X
+ n5gYA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, Nov 24, 2026 at 08:25:48AM +0100, H. Nikolaus Schaller wrote:
-> Document the optional ti,twl4030-pwm-frame-64 property for the
-> TWL4030 PWM controller. It selects the 64-clock-cycle frame instead
-> of the default 128-cycle frame, doubling the output frequency and
-> reducing duty-cycle resolution.
-> 
-> The selection is explicit because the driver does not know the PWM
-> input clock rate and cannot derive the hardware frame length from a
-> consumer-requested period. The shorter frame can reduce PWM LOW
-> intervals during startup mode detection of LED drivers such as the
-> TI TPS61160/61.
-> 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
-> 
-> Notes:
->     Changes against V1:
->     - Revised commit message to focus on the binding and the reason
->       for explicit 64-cycle frame selection.
->     - Commit-message review assisted by ChatGPT.
-> 
->  Documentation/devicetree/bindings/mfd/ti,twl.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/ti,twl.yaml b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
-> index 9cc3e4721612e..f458f0d80f2cd 100644
-> --- a/Documentation/devicetree/bindings/mfd/ti,twl.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/ti,twl.yaml
-> @@ -396,6 +396,15 @@ properties:
->        '#pwm-cells':
->          const: 2
->  
-> +      ti,twl4030-pwm-frame-64:
+On Sat, 21 Nov 2026 21:46:11 -0600, James X. Nelson wrote:
+> ASoC: amd: yc: Enable DMIC on MSI Crosshair A18 HX A8WGKG
 
-Drop twl4030. Properties are not model specific, but should be re-usable
-among all of devices from that vendor (when applicable).
+Applied to
 
-> +        type: boolean
-> +        description:
-> +          TWL4030 only; not supported by TWL6030 PWM.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-Don't repeat constraints in free form text. Implement proper dt-schema
-for this.
+Thanks!
 
-> +          Select the short 64-clock-cycle PWM frame instead of the
-> +          default 128-cycle frame, doubling the PWM frequency. Required
-> +          for dimming inputs requiring short PWM low intervals during
-> +          startup mode detection (e.g. TI TPS61160/61).
+[1/1] ASoC: amd: yc: Enable DMIC on MSI Crosshair A18 HX A8WGKG
+      https://git.kernel.org/broonie/sound/c/1c1cd016da78
 
-I don't get how TPS is related here, but if you mention other specific
-device then I wonder - why isn't this deducible from the compatible? Or
-you mean that PWM consumers might need it, depending on  the consumer?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-But isn't this then dynamic choice - depending on PWM frequency the
-consumer wants?
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Best regards,
-Krzysztof
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
