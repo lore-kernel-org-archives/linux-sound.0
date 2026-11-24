@@ -1,99 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.25
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795544634;
-	b=aZj3H6mF+M4SoTaj6yvEED14hXUfi3L6HDMYiPDhC+2GtgfKZQtDTwqjDmmWF8PNIfol
-	 oerZ8DAWkGrP1Wlb947IzmcNysMXLP+WLIlqaI0WFRoptdvXvjP3jcsDBdDf9FEI+9au7
-	 OAduSXaUplZpa3H5zrWsQqPyN5CWV+zPngpLoQ8FoZdOFlyYPjZwAaoxuDSGwv5bboHLz
-	 p0QaIwHRcGRpRmaxfdwfIqVq+mORxU0VOPAvTOJMLdFnZACi9USvQB4lnNCeUouix0+ma
-	 z5ZES7zty57oq+aDUihBGI+N43wrT04pRB7kQ2yGNCX5fy8qoMWudp+NV/Pn5G/qa5g==
+	t=1795545185;
+	b=kAxz/oABkwnh1MWnA+GMDtXDOhWHiv92hXvXbWT7mVqrzKw+YEzqNheSvI/MnW7Dm8Pl
+	 lSOAIoGgaJaGFGApocmk17aFD6pNAwnZb82ne5qVS51VXc/wGic1ufTUD58sUlJW7pUfE
+	 BDs98DotKkAszFF4cxFo+i9yOUCZB0SmLRQ4iPEXNzKD4llYAFNJx8nP/ibxLm00dyN2x
+	 tNK+TBosL40Qh1UVWAyujO/tF1FI+gN9iKvw2NoWOZYNNa14YGgnrPcZeqQVAQZn97XLr
+	 QfYdp8PsYj23h/iBidlva+rs1++3GOl5YFOhGGaCGmV7gB1g8TTYjnGwMzibCrVmbhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795544634;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=TCk6ZTxAnJNEApSswc5qcCNx/hSfuBl4OHBopATiaqM=;
-	b=gWQyl4oNSc7JsIBrMvZQs6ItwWWPaiR+BReP6x9ibY7cfgUjLw+skLDpCCFFxIWleZsP
-	 hX2pBRDLipAxhtXwa9ov4nzpFWmSxJoTqBvPVoN2IJEuOpY+S8MNyAmmKTc1fUahVsjE/
-	 M/WOCWOnLfudOYjweyqKMWspBGOi16LAle/o1M/Bh3LBfNRKB4x5V/8q287QNYpSn5V0z
-	 VbNCIPViFyqNOJSZaBQakaNogas0MeZXdvLpfZTrT2Ptj+OIhh5fLVnbBRklqZW6HXr6M
-	 D4Maf/alo68rUu4yqVy19iz8cr+H2EtlZCFHf3QNH44ASmW1iFwIlFXF9CDRJGOOgHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795545185;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3Orb80IfccFIGutES0nFJ+RUXeXDGece7CvHjmHyCNI=;
+	b=rx0e191P4bKRIWZVC+vDUTen8PFk7rXljoZzqY/ATqHILHPAW6AZauS4M+FXo2Jhgv43
+	 tzB+YerCy4nWl+6ILaGE9ct6oWYeOBepgmDmHe31TH3AKD17cnnyLhau00wzCjFWrn//8
+	 +Nu2PELBJDblQX9eme6XOm0iLPSnlwOImHN7QmTANJLhr9/FuNJFtosnpkukxM+d/ZieG
+	 JsFviXpjRKU+gA9zuQV9uvrsnCOvOU+K/3d29d8a+W44mmMh5HrhKwRsBVsplR4NdFmZs
+	 T9FU7PnjTA80WJRvJbIetqR8tlvsRPWYbRddhy7saOcceWlFgAn0TaweiYZrXFIUZYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qCZyGIFX;
-	arc=none smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=r++VktNi;
+	arc=none smtp.remote-ip=91.218.175.25
+Received: from mta0.migadu.com (out-25.mta0.migadu.com [91.218.175.25])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AA5606A334
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 18:23:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60AA5606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4864E606A321
+	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 18:33:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4864E606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qCZyGIFX
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4ad6219f7d8so4218319f8f.0
-        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 10:23:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795544629; x=1796149429; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TCk6ZTxAnJNEApSswc5qcCNx/hSfuBl4OHBopATiaqM=;
-        b=qCZyGIFXy+FwPC8hXAopGfv1ZQBpJ9NyjcaJSfKDT9oYk2t3001R+vwpdyFIK8z1vQ
-         rFEifK0sVRQEuMTLvO0OteQrTq9SLSqwExMYmbwPnO7/G8EBwmZNuzdDqyDWSUasa8gz
-         OL6GOO28hDbW9aOmBJHurQ0iVZaCmjmHoLqGLDEkInsl49/tWj61XpF6plw0PrDZHFid
-         1ewJwjnUeGB/gFLofZAaorz2Sj5JQYUF6fYl5w/AK1JeDfOHEih0lSs93qpNW3GrrCls
-         X/L7wccd6McN8hr62oVwS3boSMUyD9M7Om6UgyPvMdUeyWAEkeOnFaLYFpK62XcwizE2
-         qKrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795544629; x=1796149429;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TCk6ZTxAnJNEApSswc5qcCNx/hSfuBl4OHBopATiaqM=;
-        b=fyZnH9LL0ju/yCKq/9uNOg9gqrkDIr1sWJK0SsSp6aQhmrtSnnVleu7pw108VSJRxC
-         635nV9B3GeYMP+E57k9/SQHYwBRm1q9aCIoVXQbSmVwTwUB/ajDAzNAMMXtvr5eZ10z2
-         vBqbYBpo3OBpK+qCbQVOLaE+c72ILgxhfuiEu69RZO3d2KBuoivOYYJSDNPeAS5ppS0C
-         EIllXpabcdL/Aa8g1gBm8lRf99Ojy0mcMxPkuzU9AmZyx90Cklkz79u02ZCe/5BsXVsk
-         1XKYwUhk3W8x/IznL5f22c6LIcFiPzjeGQxRADzTQwCbpu0JbBTubT3EptIJWtSDgQT/
-         409Q==
-X-Forwarded-Encrypted: i=1; AL+hErGHhOpdEvR5IjDuWMNegUhlVi0nY8T0X84GijUPlk/IZMBem21rGyDTUHNpTgr8sDp3o6eOiIeQzrpTtg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8PIHAOddoT2DFMKX8IJsaHC3NN95tFsiropvWBQlo+jdF+HX2a
-	fH4GyD0Go/hBNjiLR+dbmpLR0m90r75PGfbN2CR7FwxQZwUO+L8ZXrzR
-X-Gm-Gg: AZFdTZfptLzyGHif7PHJ9Hn75lZR+gLTFoar37cjBz2ycWp/DLX1LwtB9YwYPhK69VV
-	ybQoG/2vQyBkeBtmijyMlKfCs5mvsC+TFE3bb6pOgLpRhcU9xQkYu2HvI0eQreF5P8m3PsIn5Yb
-	56JZYtE+ixFOXZrUIBI8JSgPfuIkiKU00BSvDzfJGHfQoLRDZU4uOcXFg7qPePNeaft01zUirOo
-	j6Pn/GGgxVzRnV6/VdLvQEUY2QLekiGuTve2yMN/Puhp5FPTKiaF4wRU4UgyJPYdYjPO0dogDvO
-	Z6socMyy/M2HJgddPS+uJQJO/+BiTIp3N7SidUTbEwY6kAVL5Yt051pIP/FJKuuD8zXWyE6ySwL
-	5tXnKQ+rgSdLjwQjGR1Y2RPIPPTpBHiU0atyoApJokubIjKS9NIbGM4SWRhX+3ls23g7pvsUk8y
-	P7Ne3EgJSg43zZM9VcUwCGQfTDiJ3BzIzPdoend75PvljLX1wnNpwFX//qH9gbJRFK9UK9ku/ik
-	KkyU32WI3dAaa5JH/6iGhkAI4qa/6lxZ+hBDpMe4zN/LSZbKQzt2DVy7PlFrX8yuGwae5/VO1Z6
-	c8FNjZAKszOK50iy82IRooUpLmDDMaiyt0jWGJ19vDT3G16e7EEkpco1xT8exR9O8xx7VXDTmga
-	l0FC1DGYh1YdPk/EqZZxBZg==
-X-Received: by 2002:a05:600c:1549:b0:4bb:6a2d:b440 with SMTP id 5b1f17b1804b1-4bb887e0699mr322583625e9.2.1795544628580;
-        Tue, 24 Nov 2026 10:23:48 -0800 (PST)
-Received: from HP-255R-G10-Notebook (218-135.dsl.iskon.hr. [89.164.218.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b8b7888sm29235049f8f.42.2026.11.24.10.23.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 10:23:46 -0800 (PST)
-From: =?UTF-8?q?Alen=20Ti=C5=A1ljar?= <alen.tisljar@gmail.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	=?UTF-8?q?Alen=20Ti=C5=A1ljar?= <alen.tisljar@gmail.com>
-Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for HP 255R G10 (board 8D22)
-Date: Tue, 24 Nov 2026 19:23:29 +0100
-Message-ID: <20261124182329.20428-1-alen.tisljar@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=r++VktNi
+X-Envelope-To: linux-sound@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=NWziLWE+sxpv1w/H1qz5Zsm7vidAAL+sWIAKb6oHxg0=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795545182; v=1; x=1796149982;
+ b=r++VktNiQzCxlQ9NVvoCqbygOf9txrYWLi12WjjB0ftE+imo/AyPdskVgyaLPfeukt0TfSqe
+ BXWJNEhgxBQ1/EQ/Ak/i6RS20djmOabxJq5ESbnGrlHRrXmotuX8d4Th9wwt6Bnol1xGgGDA/pi
+ vPFgXPclzCzRa6K3Iepbvj04=
+X-Envelope-To: linux-sound@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 21af0ff3c44373d1;
+	Tue, 24 Nov 2026 18:33:02 +0000
+X-Mizu-Trace-ID: 21af0ff3c44373d1
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <2751f03e-e93c-4889-ad41-c2d846212920@linux.dev>
+Date: Tue, 24 Nov 2026 19:33:01 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,39 +58,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] ASoC: SOF: Intel: Add IRQ chip to distribute the
+ SoundWire IRQ
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: vkoul@kernel.org, broonie@kernel.org, yung-chuan.liao@linux.intel.com,
+ lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
+ kai.vehmanen@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20261124161001.702882-1-ckeepax@opensource.cirrus.com>
+ <20261124161001.702882-2-ckeepax@opensource.cirrus.com>
+ <44756a36-bda7-4a3e-b3f3-67c2aa9b8883@linux.dev>
+ <awXEJTvuD69pszTw@opensource.cirrus.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <awXEJTvuD69pszTw@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-The HP 255R 15.6 inch G10 Notebook PC (board 8D22, Ryzen 7 7735U)
-has an internal DMIC connected to the ACP6x. Without a quirk entry
-the acp6x machine driver doesn't register a card and the internal
-microphone doesn't work.
+On 11/24/26 18:06, Charles Keepax wrote:
+> On Tue, Nov 24, 2026 at 05:49:21PM +0100, Pierre-Louis Bossart wrote:
+>> On 11/24/26 17:09, Charles Keepax wrote:
+>>> Add an IRQ chip into the HDA code that can be used to trigger the
+>>> SoundWire IRQ for each link. Currently, only the SoundWire IRQ
+>>> is moved over to this IRQ chip, although in time the other IRQ
+>>> functions could be too.
+>>>
+>>> This will allow refactoring such that the individual links each
+>>> request and free their IRQs locally, rather than having to rely
+>>> on looping over a list of links which is tricky to maintain while
+>>> destroying the devices.
+>>
+>> Well, there's no such thing as a per-link SoundWire IRQ...
+>>
+>> The hardware is built in such a way that once a global interrupt is
+>> received at the HDAudio controller level, the handler has to check if
+>> this was an IPC, HDA, SoundWire interrupt - in that order. And in the
+>> latter case there's no other way than iterating over each link.
+> 
+> Yeah, hence why we add the IRQ domain and claim a shared interrupt.
+> I will reword a bit for the next spin.
+> 
+>> Using an abstraction to make each interrupt source 'self-contained'
+>> would be fine and probably make the code cleaner, but then why stop at
+>> SoundWire? I'd err on the side of 'go big or go home'...
+> 
+> Yeah this definitely could be expanded to the other handlers, as
+> I note in one of the commit messages. But not really sure I want
+> to go that far as it no longer relates to the issues I am trying
+> to solve.
 
-Add a DMI entry for the board to enable it.
+understand, this would probably need to be handled by Intel folks, since
+it'd impact ALL platforms since GeminiLake - 2019.
 
-Signed-off-by: Alen Tišljar <alen.tisljar@gmail.com>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+>> At any rate this would be a significant change on both SOF/HDA and
+>> SoundWire sides that should be handled as a well-tested prerequisite to
+>> the series to allow for communication with the device during remove - it
+>> doesn't seem right as a patch casually added in a v4...
+> 
+> I can split this patch out to a separate series if you prefer?
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index f636b5ba5..9dcb98160 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -731,6 +731,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "8A22"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8D22"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.53.0
+I guess it's more the Intel people who'd need to speak up on such an
+invasive change. My recommendation would be to pick this patch and make
+sure it's well tested with CI and daily tests. Whether it's part of the
+same series or not is not really important, it's the test part that matters.
 
+> Apologies, for the changes a few revisions in but I had generally
+> imagined doing this would be too much work, hence the more hacky
+> approach in the previous versions. But it turned out the rabbit
+> hole was much shallower than I thought.
+One open that I have is whether the dispatch of the shared interrupt
+will deal with the links in the same order as with the explicit loop. If
+not, there could be interesting timing issues that show up.
+
+The other remark is that the free_irq() introduced in patch1 in
+intel_link_remove() is moved in patch4.
