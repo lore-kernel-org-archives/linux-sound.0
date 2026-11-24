@@ -1,79 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.238.236.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795555080;
-	b=mdPcLON9cIcrBwRQ+FErV+tdUrdWXbnPtiA3LWTWqyMIf5YoLkQ5LPARsbcjT7ezP/u1
-	 JKEUuhsm4T0VMj8gzNzf7e8ekG0RVGkMFihKJfi4gLtHPOg0MgYZ+v/VQJve2Nj/zUuYy
-	 ph8NpORDgEyeyixdpsR4nAMREKkvMLk9exeaJ1D2GFe2M3F9rKaTvwtdQvmOh6LPlLXnA
-	 fRrhxQhgZClzSiPFSJRocUmrfTO158WzkoXT+ytfIJGHnvPNL8WCIJ+WNczdIdnwrojhH
-	 jdnC2saXNitZjumjQ75vhQw337Tb1aViu5avVPvVb1UgouFGm4iJHR4V4umLim5xidw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795555080;
-	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=gnvsu0TDZ5slNtZXuUskfju+pk2M78SPgeweXv/OO6g=;
-	b=WoP4wekixMLj5ZE2soEHC4kPZPbpl68HPbLR53MT+7saeYZnEG+AVD6v6UjC6k4fGPFK
-	 tzMRL9E+ZyaSxy6DPluU0glasIPxDHTQvLkixwh0VWMwVP1MkzYr4FyR5Bw8Xi98Nx0Dh
-	 AbbJCnFIMDV1t8z9468pP45HvAHOZBrUl6cE+oEqoz7ExCH/q/lswHZSs1sFppBXe7YNq
-	 aJL5zHUfv/wEk1jxzTXiQ0zHxcmBLlPGaWkGX0tvWp12lav8GMTqxQuYT7QG0y66dNURu
-	 6Q50943RumGypBNE1NFRd91Q4SD05FIvHWqOa9c3yUNAul4KVMlyhiTlrRqC0ljZsQQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=kemnade.info;
-	spf=pass smtp.mailfrom=kemnade.info;
-	dkim=pass header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=8OcmMhbM;
-	arc=none smtp.remote-ip=178.238.236.174
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795555260;
+	b=JLWiOkG3vtZk8cVglT/xlFT/0vUiwigYZZS14Du0vVaXckw8NWlVZql0b4ScD0rkgmlY
+	 BgiuveKaSVeOM/q6nSa5nggbydDl6z3oKYuAWF7VxAgWLU6uluab2k9UgNyB7IzG3+b33
+	 CYMbJnSYleBRPYs1vFiqLo1bO1l1x+AathevvPUT4jrJj6o5uggyAMx4HOOmMYK/WFYxZ
+	 Wq43cPcFoktVJB0wAL6GG2Tyao97F606pmJvjNHrxERG7tLpei89SBTOPs5WfoLmooANu
+	 wzPV9TabSZrpBw9vFBFudfssaJ7Tw+TgJImJkeVhbH57WkJ7GT1KFOzMgY4TlyVQkhg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795555260;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=CAtKq77gs0BR/Cws+RXFDjTb8Jty3Q6oIejbW8lqGGw=;
+	b=kLkHWCBC/oYWflG7EaXSFGrLOCqMowg4+aSjNkF7XS5pMiDIGxyaAFX1O20qbPto1TtP
+	 V1suOkm52tP9R1UezRiqpH22NuJdyzy8TnxGI8BtSwseKmQU8OqyEOZAJyQwMn+LCSyo7
+	 jJwwwna3HDqB2mTdMjbQYx7/Dw/mjXiQbCkfZOhOa4s5N1UxY+PUG58EATCqzPhkAoc39
+	 8I83jEMi6PoRwbztK3jAeEQ/9Txwt9lqqXtMjuic/czwNxkf5SCKn7rfl+WdPQnkBaK/O
+	 zaX61PwGL78bCFjcG7mvwei0+/6DCbUYyXd8zS/8MEwzMfa2EsLQIzzQ5bXgEGPFmBQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YQ2PYKLE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D5F606A32E;
-	Tue, 24 Nov 2026 21:17:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1D5F606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24230606A31E;
+	Tue, 24 Nov 2026 21:20:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=8OcmMhbM
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=gnvsu0TDZ5slNtZXuUskfju+pk2M78SPgeweXv/OO6g=; t=1795555070; x=1796764670; 
-	b=8OcmMhbMFvDN43DdqUAbNeJOgoYCaWiHKUPe5/1ABjKq+HbI+phrPqB+TEStgxKTPPW3A2O0LnO
-	UUbBO+S8aRQ/u6AiOhen4rCGw5WVdayB7PnQdVKArg3H27tZ45KdyBIkebU+4oMPZ+5TGImXtxQv+
-	OnQXEfQkuPZzFtanS7eQu+hvFZqIymb9oXSJBIP0Sn0PhVzjuh15/hPJpbOZ6YJm15BdX6PiQ59H0
-	92VITcOfNTjrU8aqiaihQUo1VIECQnWJu4kkzb5qwv51k98fIvDLiCWaWCkcoh6RbD9tWxb+NqM+C
-	NXbSvZCeGaqxFsWPM4CQlVWtzNc9bwP+3UaA==;
-Date: Tue, 24 Nov 2026 22:16:10 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Lee Jones
- <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, Jingoo Han
- <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Aaro Koskinen
- <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, Roger Quadros
- <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>, Russell King
- <linux@armlinux.org.uk>, Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Uwe =?UTF-8?B?S2xl?=
- =?UTF-8?B?aW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Helge Deller
- <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, Jarkko Nikula
- <jarkko.nikula@bitmer.com>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-pwm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- letux-kernel@openphoenux.org, kernel@pyra-handheld.com
-Subject: Re: [PATCH v2 20/20] ARM: OMAP2+: Remove Pandora platform-data
- quirks
-Message-ID: <20261124221610.2938d62f@kemnade.info>
-In-Reply-To: <1cb5bd7216b334e8c4eff21ff3463deeb6109595.1795505160.git.hns@goldelico.com>
-References: <cover.1795505160.git.hns@goldelico.com>
-	<1cb5bd7216b334e8c4eff21ff3463deeb6109595.1795505160.git.hns@goldelico.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YQ2PYKLE
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795555259;
+	b=ZlCJvfkp+VIwiJHkxOFDB0VAOpavU7xbVuSoPKAE8f27dn4cGLP9fcaX9WKEdPnfoJuD
+	 YZd/FKQD2Gh9yUk6xRsEH0adK+kaU7Cd6397CHpCN07yzSWrxELUgogfxuCnsWHm5A9qt
+	 /dKWmqkXP2FBD8KZF1sNR4mwqpF3Ukxb2oQkCbsZvn5sGLmObJdSOxnyTo41JlwnKIxfU
+	 6lPIOIAw+ufdL33yyiwdfD2igSi4sSzmtS+yvDRNcWRnOcm3Nq95M1SLBnbNOrdKd/igH
+	 4kVKV+RulEYuiCALc4NCeOyGxO2AK+zDlno4uqfBil72TNnNDFPrmwHz4T3vuGBqz9w==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795555259;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=CAtKq77gs0BR/Cws+RXFDjTb8Jty3Q6oIejbW8lqGGw=;
+	b=jXdzXJjgunu1CELCYDS74jKiNhvBlaYrpdr9iHmtDf2KcO4TqUTeVzGYIissqaCSOgQw
+	 A9/0EH0iUHZukD4PYvpRLAUNL7u42K8cLEDf8MsKAbqnX+Y8YA3Th3/UCruVUlL7jbMjf
+	 V5XefveAaQR45GfmpiFwKt3L9XjPSOaDzjEesEAqcsmTYdxY/hq3vgAUqwxJwGF9Jl/5s
+	 tP+Q5VtnHDE/Ktsre2Yn/SZyNMvaO2ShnmyfbCfIOjT7OEDy8iDhgwWc5ty2ze9/M/2k1
+	 w7C6O30HHUNR8cmKHC08732TLDScrxB57PeHhIdYJ0hc6KfUR7hnI4kEpAqnBDC3zkQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id C8E9D1F000C4;
+	Tue, 24 Nov 2026 21:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795555259;
+	bh=CAtKq77gs0BR/Cws+RXFDjTb8Jty3Q6oIejbW8lqGGw=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=YQ2PYKLEoPgUCSPZs6gnv29HsqW86+mcE/EFw0rtDWnOyh9odhcVXyv5Gwd4GO9yj
+	 80dP7q2LHs5z9tJIcFrlatNRItDGMBc6x/iy3Kuto0ZkEFaKAIOsKoprlU7ugAwE0g
+	 G8k95aqAiqR0SfV2eHeyFzG5ovrWG5PRsGHufD1Luk/fw+2CrynpLsCy3bqIQ3Stsv
+	 R+ZQa20u+ZR1p3hoZXiBAEioxUsNr6IYCD/100UWFlZ5mrlB7hcgKOS9gRtfsXHNlO
+	 VWFFqmj5vpKM5sxHoAZ++ntYt3EOavLVNiZeyPZhhPo7n37PB6lY59kSvV6m0mj6A+
+	 G4NnMidOtpcZQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 2E09E4CBAD;
+	Tue, 24 Nov 2026 21:20:56 +0000 (UTC)
+From: Dennis Rijsdijk via B4 Relay <devnull+hello.dennis.gg@kernel.org>
+Date: Tue, 24 Nov 2026 22:20:43 +0100
+Subject: [PATCH] ALSA: usb-audio: Add generic implicit feedback quirk for
+ Elgato Wave:3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,84 +83,100 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261124-b4-implicit-fb-v1-1-99c0526a01f0@dennis.gg>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ5AMBBA4avIrE2iDYKriIW2U0b8pUUk4u6K5
+ bd47wJPjslDFV3g6GDPyxwg4gh0384dIZtgkInMhZApqhR5WkfWvKFVaE3ZmqRQNjMEIVodWT6
+ /Yd389rsaSG/vBe77AQvbFslyAAAA
+X-Change-ID: 20261124-b4-implicit-fb-fd9ad08bf5de
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Dennis Rijsdijk <hello@dennis.gg>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795555255; l=3251;
+ i=hello@dennis.gg; s=20261124; h=from:subject:message-id;
+ bh=CzYUiFQBTbT9Wdib/6UNKHXDgSKzREc3eNWxs3jvMew=;
+ b=DbonznYWejqOtUOztk3MIPT4LAC+q7AltktqxAfi3MCSaeBL99sZx5Y9WcajOEkxaar4VC5fW
+ qyPiAOczWkUAcVDc7cxy8SkrZJzjpTzhl10IF0SUlea4Cu4C3zCSIGh
+X-Developer-Key: i=hello@dennis.gg; a=ed25519;
+ pk=/uxm3Y6aevSpcZaCD38mlhmVoNlmJW2YgX3OS0SRGuM=
+X-Endpoint-Received: by B4 Relay for hello@dennis.gg/20261124 with
+ auth_id=1632
+X-Original-From: Dennis Rijsdijk <hello@dennis.gg>
+Reply-To: hello@dennis.gg
 Content-Transfer-Encoding: 7bit
 
-On Tue, 24 Nov 2026 08:26:00 +0100
-"H. Nikolaus Schaller" <hns@goldelico.com> wrote:
+From: Dennis Rijsdijk <hello@dennis.gg>
 
-> The Pandora backlight is now described in the device tree and driven by
-> pwm-backlight. The sound card also uses device-tree descriptions for its
-> codec and amplifier GPIOs instead of legacy GPIO lookup tables.
-> 
-> Remove omap3_pandora_legacy_init(), its backlight platform device and
-> audio GPIO lookup table, and the associated board compatibility entries.
-> These platform-data quirks are no longer needed.
-> 
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> ---
-> 
-> Notes:
->     Changes against V1:
->     - Andreas Kemnade raised bisectability and intermediate driver
->       availability concerns for the V1 pdata-quirks removal.
->     - Correct the legacy backlight name and explain removal of both backlight platform data and audio GPIO lookup tables.
->     - Commit-message review assisted by ChatGPT.
-> 
->  arch/arm/mach-omap2/pdata-quirks.c | 23 -----------------------
->  1 file changed, 23 deletions(-)
-> 
-> diff --git a/arch/arm/mach-omap2/pdata-quirks.c b/arch/arm/mach-omap2/pdata-quirks.c
-> index b947bacf23a37..aca7097a692ed 100644
-> --- a/arch/arm/mach-omap2/pdata-quirks.c
-> +++ b/arch/arm/mach-omap2/pdata-quirks.c
-> @@ -268,27 +268,6 @@ static void __init omap3_logicpd_torpedo_init(void)
->  	omap3_gpio126_127_129();
->  }
->  
-> -/* omap3pandora legacy devices */
-> -
-> -static struct platform_device pandora_backlight = {
-> -	.name	= "pandora-backlight",
-> -	.id	= -1,
-> -};
-> -
-> -static struct gpiod_lookup_table pandora_soc_audio_gpios = {
-> -	.dev_id = "soc-audio",
-> -	.table = {
-> -		GPIO_LOOKUP("gpio-112-127", 6, "dac", GPIO_ACTIVE_HIGH),
-> -		GPIO_LOOKUP("gpio-0-15", 14, "amp", GPIO_ACTIVE_HIGH),
-> -		{ }
-> -	},
-> -};
-> -
-> -static void __init omap3_pandora_legacy_init(void)
-> -{
+The Elgato Wave:3 (0fd9:0070) records digital silence from its
+microphone when capture is started while playback to its headphone
+jack is already running. Starting capture first works. With PipeWire
+this makes the microphone go silent when an application starts
+recording while audio is playing.
 
-maybe ask here for pwm-backlight node? Then this all can be untangled a bit.
-so something like if (of_find_compatible_node(NULL, NULL,"pwm-backlight"))
+The Elgato XLR Dock had the same problem and was fixed by enforcing the
+generic implicit feedback mode. The same flag fixes the Wave:3: with it,
+capture returns audio in both start orders. One case remains at 96 kHz,
+which the device advertises but Elgato's specifications do not list
+(only 48 kHz): when playback starts first right after the device ran at
+48 kHz, capture is still occasionally silent (2 of 10 tries, against
+every try without the flag). At a steady rate, and at 48 kHz in all
+cases tried, it did not happen.
 
-if that node is available do not register that device.
-Such a change can go in as soon as we have consensous that pwm-backlight
-is the way to go.
+Add a quirk entry for the device.
 
-After all is in, in a final cleanup step, remove the pandora_bl and
-the quirk.
+The patch and this description were prepared with an AI coding
+assistant (Claude Code, Claude Opus 5.5); I reproduced the problem and
+tested the fix on the device.
 
-> -	platform_device_register(&pandora_backlight);
-> -	gpiod_add_lookup_table(&pandora_soc_audio_gpios);
-> -}
->  #endif /* CONFIG_ARCH_OMAP3 */
->  
->  #ifdef CONFIG_SOC_DRA7XX
-> @@ -514,8 +493,6 @@ static struct pdata_init pdata_quirks[] __initdata = {
->  	{ "ti,omap3-evm-37xx", omap3_evm_legacy_init, },
->  	{ "ti,am3517-evm", am3517_evm_legacy_init, },
->  	{ "technexion,omap3-tao3530", omap3_tao3530_legacy_init, },
-> -	{ "openpandora,omap3-pandora-600mhz", omap3_pandora_legacy_init, },
-> -	{ "openpandora,omap3-pandora-1ghz", omap3_pandora_legacy_init, },
->  #endif
->  	{ /* sentinel */ },
->  };
-Regards,
-Andreas
+Link: https://lore.kernel.org/all/CAOUQ8cqoTYm-0xeh1jk6bPo7Qd81+rFBz+my-ByMudzZ_6E0wQ@mail.gmail.com/
+Signed-off-by: Dennis Rijsdijk <hello@dennis.gg>
+---
+Tested on v7.4-rc4 with the stock driver and
+quirk_flags=0fd9:0070:generic_implicit_fb (same effect as this entry),
+Wave:3 firmware bcdDevice 1.24. Silence below means all-zero samples.
+
+- aplay/arecord on hw: directly, playback started first:
+  - 48 kHz: silent every time without the flag; with it, 0 silent in 60+
+    starts, also right after the device ran at 96 kHz.
+  - 96 kHz: silent without the flag; with it, 0 silent in 30 starts at a
+    steady rate, but 2 of 10 silent when a 48 kHz stream ran just before
+    (and 4 of 23 in runs where WirePlumber reopened the device at 48 kHz
+    in between).
+  - Capture-first, and stopping/restarting playback during capture, had
+    audio throughout at both rates.
+- PipeWire 1.6.10: capture started while music played had audio in 6/6
+  tries at 48 kHz and 8/8 with the clock forced to 96 kHz (it was silent
+  every time before), and after a WirePlumber restart.
+- No audible glitches on the headphones during listening sessions.
+
+Unrelated to this patch, also without the flag: at 96 kHz the first
+~12 ms of a capture that starts the endpoint are full-scale noise; this
+does not happen at 48 kHz.
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index bcc93e50b..bd00db820 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2684,6 +2684,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_FIXED_RATE),
+ 	DEVICE_FLG(0x0fd9, 0x0008, /* Hauppauge HVR-950Q */
+ 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
++	DEVICE_FLG(0x0fd9, 0x0070, /* Elgato Wave:3 */
++		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x0fd9, 0x00a6, /* Elgato XLR Dock */
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x1038, 0x1294, /* SteelSeries Arctis Pro Wireless */
+
+---
+base-commit: c3c132d63840093a3ca4bd09e7434614c1bd07e3
+change-id: 20261124-b4-implicit-fb-fd9ad08bf5de
+
+Best regards,
+--  
+Dennis Rijsdijk <hello@dennis.gg>
+
+
