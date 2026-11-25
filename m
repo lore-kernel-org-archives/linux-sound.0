@@ -1,87 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795645581;
-	b=sqIkrOzsFqpT0HmyGEW3wuUZSMqejaOQdvlEDBuNrI8WXse/1m8NgxiLtd44EFL5TdAX
-	 Nd7fodPM/2swUBPYuxiNL/fkDRC/dDuGYFCYckkzwgTb/5kQolZSIUnWNXbk+6qCfBTyi
-	 i/y6u29o024bVbWEdN+GSOV5MusGCBb3dm4pVolL2UBu0ckYcmIu4C6BYgbZUqigKOrv9
-	 tqNoyrGczhIyEeo8SqkAo0PLBBY077UqiyS+OtudyzxOB9hDrZ9tVjchUVxgMokRMIuEF
-	 YuLJBEBsAvxNwkHuyH4stBsgAc+F/umpGmSP3vPbCyxgUA5ZOTaH7zEh4H/mB+kCkkg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795645581;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:Content-Language:To:
-	 Cc:References:From:In-Reply-To:Content-Type:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795650524;
+	b=Tpb2tdJbk5vMLsu1xjhB0Ldws6bod0R+qcqeuRUmWAcv2KPE6YoQkjHR7xPt5Fp+l04f
+	 9vtvbXV9EKTKLVV/GpybgUlPeE8vEG/vDrbnqIRWGkSVBm9b25I9i0dEcpZvugKTdUn9r
+	 qDFH58Cc7XpMDzdUMsfLeMcB4Mstmr9bEPh8CMWRpV7TmWtxnDCAx5zA27L/oBHd9Y7tC
+	 ITk0cS6nx3WoGEq3gqpvUSodhZ9LbI9ORb2C1n+uKB0QLRveBT5JWR3Vnozwry8nGiRoW
+	 7LFCGaHUaXqoDKApJjH7T9UTlIh7jAIRbGDBWRkaJ7tT3jggzBX6AbNQjr7YpCyMJCQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795650524;
+	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
 	 Content-Transfer-Encoding;
-	bh=Wuez8r9Gu63w2n4PILNMjVIjqJqefCtyrZMp62dMrng=;
-	b=aiCSTlO19K/Gz3hCutILeAalsKQaniRrYWsCpeGlmUIZENmL9KUBJWixuFKULq5/GEii
-	 aSPIzhJYbp0TjZN1lM4p422xSzP7Gbkn7EsULm94W73SOmviOVv3q3tbJZsrL7Km/sNCh
-	 gxSVYmPYTdt4OBvZiHiBDPB78AS/gNtevrJMuRuZcogQ8TeboVwwfOHE7nufAf7FHz7eJ
-	 LFzBt0ye1TmUFJyY+RJAKGMEO/EbS6SvDv6KqbKCr0uojJK/8SVgT9usS3+L+Ur1+fTVK
-	 OjrUM7SEgrHwK8De6j8ljmaZ8iaRstdN1QRq8F4lVqDntg78t3vmluu2lWEMr4YhQNw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=fQ8M0RhK;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	bh=6WScmZhGnz6xs9qVATpJ7harTen3WQLAwO1wmN8eQAA=;
+	b=LeOn7GWGz3eks8NJ+DBYY4hIJti0Sqn9NDjfUjS0CSfirqkvW24asV3OsmSXLjQijrog
+	 Fi5dOFP4CjKZpn/9nbh8XXPHDo+bFcS0O3evGbqgKg+QuLX0A+Ypipw/QCDrFPLubLdhS
+	 ruvo0HMt9D37zKI3hbSVD9p97RxNSXoInVtF324swx2E52GLpxjx+qgAS/34ENhV5OuQ9
+	 2YH+41vWVBiEsMlci43dd0rqOqNTrs/BPV/vADaBife9Fe7Ao3Dro4AjdLgXD71XA8xvS
+	 Z/AFyh8RkCHgfl3HWqKcSUXmaxqds+jdJEFapk28ZOWzH0Ihwe/mKhcUNuB675dsfIA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijep9NGn;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E817606A32D;
+	Wed, 25 Nov 2026 23:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijep9NGn
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795650523;
+	b=izMk7UwZ7c7G2Gsv341NaPLB9KQ8gkcCra4qT8kxeKuh8rEKjyoFFigY4FyO7mN4l36Y
+	 /HKkkQK7Qe190bXzfZMtxruQm+uJIYNXcOhWDaJtV956UdSdy7vETe/iHGLHnOoYLsevf
+	 TOmECViBqboVyqA2pMeGTdc1Pikg6jyfsimRhBHpWyBiwfUuoA4GD/vXP/nR0bYHIg37P
+	 9cSSP34lV5GrwCQlZIENOAAkBy9xeurprIUHA2/umgjj2GxWhj2MbamY9HcYg3MHPZa+/
+	 4WJbErGLtoKm8lM56xgVbga6BSEUK/KaLWD/TsXzU3cVFYtARGsqkhylbXQR8H1unDg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795650523;
+	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=6WScmZhGnz6xs9qVATpJ7harTen3WQLAwO1wmN8eQAA=;
+	b=uL8u1tr17KZPfZ0QvrjJVlLRrMygqXJga/Gqp7yoQwl2ihEgLIUwzrJqgKeIXyX1Tf19
+	 Mk8REus7TqL6dmSI0g12LY0P0sfOFTQ9Imd806tqDNFmQ+uiXEi2lDqYwjmPKck838BIE
+	 D9HZD1F4tKKiBFLSlbGXrM8HLxeL357ficEInmDStanj8pG3YQaqCPR90sQqXLw3kKq1A
+	 P3LkuChIE9a4hwpjeU12a3s982lGo0oij0NN8BWHZzTt9gHWd9YoCrZPjTcR+pA6VYl5f
+	 TK9ETVm3Xk3O19kObmoORW8zVckpyXD07S1O1PvZ3xqEIQRHEK6J8F1bUlXhDP8NkbQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B14606A326
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 22:26:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91B14606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=fQ8M0RhK
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-492f0a1b685so4429842f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 14:26:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795645579; x=1796250379; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Wuez8r9Gu63w2n4PILNMjVIjqJqefCtyrZMp62dMrng=;
-        b=fQ8M0RhKyNOOnGhbnCuZJSsdvS2ywplR+VJH77h36xzfLAoT3Sb1fcj39NGzdN7SOz
-         sHINKC+II5V6KVhG5xSsQJ+Q8cQ0XKfaWd2nsThoPDyslc8HBUSckEQtbdCd/PwLHJ3Z
-         eoY4Ake1MX3eat1bX1YMIQouIi5ote4mChiP52hP9yjC+4/zKuXTCiFvosNAwEzpKd1I
-         2SLuDdt8vTCG0NePsvFu/VNnU7BI9lO2NHQwIh5qixP9Smnv7rWosZSCrIcBVpOXS6rc
-         NHCTmFN+St5noQPvtCFeT7chk3Lwp8CMF4+QvhFsJ+CKCJbwaLZ72oft7IRQZdbdsBry
-         CXjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795645579; x=1796250379;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Wuez8r9Gu63w2n4PILNMjVIjqJqefCtyrZMp62dMrng=;
-        b=rp3tQZDXHMshbi6sFeUBsAuxLfjlGqtEbbGUlIl3hrPs1BwaNEb4EsfL0c2aNHCzZ8
-         cs9YRbC7O05Xb9JDkG/l3vfojMiXDali6oXg75buRABRbvWifun8lykBKdwToz7SzEp9
-         NjHosBqZK/qdN5lRbUie5hHg96m4VS8ig2zCUhWml8Tmxzxm7lDs1znEg/nNWKceFvGj
-         bY419bl92ccTvyVOGq/wi2L73CorSs2uzfDo9Lg0gseJaqTXbOl6/bODqYkfBuFVImKQ
-         wqAJkaoedDw7xjHyENfOgP/1FgL+O730URDlk/G2+IGgogyZz9l5ZnOH9Psb4T9mkbPL
-         PBcg==
-X-Forwarded-Encrypted: i=1; AL+hErH8LL/POew7TxV8aG0cX2nngxAencX12XY5B+0wbJ9DPUzM3C868WfBd7vIGHZVniNTv+fQU9jvBoC1HQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8n3B+EQrFg1xR11rVU3SbhNiAlzaoE6H5G4y7Zpe2vE4lTWma2
-	KsigtatWxGkwJ5p8pGU0f6QxBGdthx8d+8L5lq4xFhr2YVuzG7tiekZ9B3gtsIL6J9o=
-X-Gm-Gg: AZFdTZc/6oZlkkn/IM6RXqRNvgFNXcqN9wQJRGNh3O9OSsTEKR1+/UmniggLpS0uFhq
-	14oDu0M98+b3+3TLXXVKODygjOkrCFHsKsKC3/FdPY3NQo4shwp7oMZCcLQ0g0qEz2vPlwu6ULF
-	XlWoNuFy82EG/5qcuKVgaL8VV7efZSduLktxZNPR8gg1/UsGuDvpgM8SrrMt+e4cfklkdTkp0hv
-	iUAze/tCf6ZgNWHoXww9EcBMq7QHgLAMmT3qXQYILRnY8TpUYfCZ7U5CQRbwrc7iwIlnhM9inSQ
-	vqq06xXTer2wJOqmIwk6ry24a3BI3oP0lbwiBmqXRZOyzdYQ33V1fEIJLUrcjJzaaW0hKVFkDq4
-	KTkiLMcIRDKEHTGCYh68OZg5UJCKDRVv0/+4sq3z2HQgnFJ52IhMPF4irfD/kb3soq7e54aQqdF
-	Er2YRALcQb/c+sTXeURfNhSvBi84g0Nrz6xYwiLIu3J/B/0l/zkpKC3bIEtoq38XnnbwjzGJxVY
-	vae+b8kJ92Kgp42rRC4pxl7pYI7gdwrXZVfcvta5JdLYWYfb8le/eB4vmImKoVQOGA5xe764U0W
-	trPGPKqRHKrmt7OX87Bcqk+5GxkRkd4=
-X-Received: by 2002:a05:6000:4616:b0:4a8:714:7ae2 with SMTP id ffacd0b85a97d-4abb32a3f61mr37314572f8f.29.1795645578997;
-        Wed, 25 Nov 2026 14:26:18 -0800 (PST)
-Received: from [192.168.3.100] ([151.42.79.162])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b110d56sm35684687f8f.40.2026.11.25.14.26.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 14:26:18 -0800 (PST)
-Message-ID: <baef27e7-93fb-4e6c-8df0-8cd74b9aa533@baylibre.com>
-Date: Wed, 25 Nov 2026 23:26:17 +0100
+	by smtp.kernel.org (Postfix) with ESMTPS id 8BD101F000C4;
+	Wed, 25 Nov 2026 23:48:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795650523;
+	bh=6WScmZhGnz6xs9qVATpJ7harTen3WQLAwO1wmN8eQAA=;
+	h=From:To:Cc:Subject:Date:Reply-To;
+	b=ijep9NGnKaFYAr4/8k8Oh9YjfIbH62AVLHx0UnmV9Nr+gbIe4X+3KD2nUkz6HJbjQ
+	 cy6lSYNKeIaFTfiz7r8hmZpQXxRzYmugDmEFTI8kYj+J3RBDbCeLYOOVvftMEpJUJo
+	 BsPyiBkFQR2t3w4GFoVM5VH01qw/S2yHjziayuU01XX3MT6ukf+Of5rfEjQE5y0H2I
+	 cQzS0+7kpuiTkERVj/2WfrqaV7Cj2iMY88jblrMWyf4i7xU2p6A+Xh6fBWxfWt4ib8
+	 Dxc72tNbok/klaJQFivxUdH6FnM94GU5SxrC6qOAPxsegH4x3eVc2JuI6937iVakgr
+	 MYsRPegnzT3Ug==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 14CD34D0CB;
+	Wed, 25 Nov 2026 23:48:31 +0000 (UTC)
+From: Ilia Snezhkov via B4 Relay <devnull+iasnezhkov.gmail.com@kernel.org>
+To: broonie@kernel.org, lgirdwood@gmail.com
+Cc: perex@perex.cz, tiwai@suse.com, matthias.bgg@gmail.com, 
+ angelogioacchino.delregno@collabora.com, linux-sound@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: mediatek: mtk-btcvsd: guard against 0xdeadfeed in
+ btcvsd_tx_clean_buffer()
+Date: Wed, 25 Nov 2026 23:48:30 +0000
+Message-Id: <20261125234830.94895-1-iasnezhkov@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -91,79 +89,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 6/7] ASoC: meson: gx-card: add support for audin FIFO
-Content-Language: en-US
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20261018-audin-v5-0-4b8cc13a1b22@baylibre.com>
- <20261018-audin-v5-6-4b8cc13a1b22@baylibre.com>
- <CAFBinCA12FvOi=9gB1xj3MDvNWstx1N4TtyyrrndJ_JT5eLX=Q@mail.gmail.com>
- <0949591a-63cb-4bb3-a7de-cf59ddbaafb7@baylibre.com>
- <CAFBinCAjFb7yS4VQp+BqLw2dG61To+iU4aiBvaVE9B9bWe=oUQ@mail.gmail.com>
-From: Valerio Setti <vsetti@baylibre.com>
-In-Reply-To: <CAFBinCAjFb7yS4VQp+BqLw2dG61To+iU4aiBvaVE9B9bWe=oUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795650510; l=1783;
+ i=iasnezhkov@gmail.com; s=mindone2026; h=from:subject:message-id;
+ bh=W9UyHqccaU9sJaYlkqCsX581VyBG8Z+037komTBj1Ts=;
+ b=F9wU7UgJiGB2P7BStff8lAWPeen21Nkm66rJ9rRHWpCkZFY0WYH0G/B5l0W93ngFGlAbZw9Ud
+ 4ETAUZd1+ooDxOSjHeaJt/7+hfBhl3sX3fMZ/KatqJ8iz7nMHDgESuG
+X-Developer-Key: i=iasnezhkov@gmail.com; a=ed25519;
+ pk=hQgXfiWi4ukk2jh4BHu1vRVhg9BUivo//AFp50AKMag=
+X-Endpoint-Received: by B4 Relay for iasnezhkov@gmail.com/mindone2026 with
+ auth_id=1643
+X-Original-From: Ilia Snezhkov <iasnezhkov@gmail.com>
+Reply-To: iasnezhkov@gmail.com
+Content-Transfer-Encoding: 7bit
 
-On 11/24/26 10:21 PM, Martin Blumenstingl wrote:
-> On Tue, Nov 17, 2026 at 12:06 AM Valerio Setti <vsetti@baylibre.com> wrote:
->>
->> On 11/15/26 10:28 PM, Martin Blumenstingl wrote:
->>> On Sun, Oct 18, 2026 at 12:18 PM Valerio Setti <vsetti@baylibre.com> wrote:
->>> [...]
->>>> +       if (gx_card_cpu_identify(dai_link->cpus, DT_PREFIX "gxbb-audin", "FIFO"))
->>>> +               return meson_card_set_fe_link(card, dai_link, np, false);
->>> I suggest using the "audin" prefix. AIU / audin seem close enough on
->>> all supported SoCs that we don't need a SoC generation prefix  in
->>> there to handle this differently.
->>
->> Do you mean using "meson,audin" instead of "meson,gxbb-audin" for the
->> compatible?
->> If so I'm not sure this is allowed nowadays. As far as I understood
->> "meson,aiu" is a sort of legacy naming. 'writing-binidings.rst' says
->>
->>     "DO use a SoC-specific compatible for all SoC devices [...]"
-> Let me use an example as I realize that I wasn't very clear:
->    compatible = "amlogic,gxbb-audin", "amlogic,audin";
-> Does fulfill the criteria (as far as I understand it).
-> What doesn't work is "amlogic,audin" alone.
+From: Ilia Snezhkov <iasnezhkov@gmail.com>
 
-This is the thing I'm not sure about: "amlogic,audin" does not seem to 
-include SoC-specific details (in my opinion).
+mtk_btcvsd_read_from_bt() and mtk_btcvsd_write_to_bt() both reject the
+0xdeadfeed sentinel returned by the BT connsys SRAM pointer register
+when BT SRAM is unpowered or resetting, and check the SRAM address
+before dereferencing it. btcvsd_tx_clean_buffer(), however, casts each
+stored bt_sram_addr[] entry straight to a pointer and writes mute frames
+through mtk_btcvsd_snd_data_transfer() without checking for 0xdeadfeed
+or NULL.
 
-> 
-> The GXL example then would be:
->    compatible = "amlogic,gxl-audin", "amlogic,gxbb-audin", "amlogic,audin";
-> 
-> And for Meson8/8b (sorry, I didn't get around to testing) I would then use:
->    compatible = "amlogic,meson8-audin", "amlogic,audin";
->    compatible = "amlogic,meson8b-audin", "amlogic,meson8-audin", "amlogic,audin";
-> 
+If an invalid or reset SRAM address is recorded or cleared concurrently
+around hw_free / mute transitions, btcvsd_tx_clean_buffer() dereferences
+an invalid address in atomic context under tx_lock.
 
-Ok, so if I understand correctly you would like "amlogic,audin" to 
-become a sort of alternative fallback so that:
-- meson8 and meson8b do not need to have an "amlogic,gxbb..." compatible 
-as fallback
-- the change in 'gx-card.c' is more aligned with what's currently being 
-done for AIU.
+Skip any bt_sram_addr[] slot holding 0xdeadfeed or 0 before transferring
+mute data.
 
-Is my understanding correct?
+Found and drafted with an AI coding assistant while bringing up MT6789.
 
-Krzysztof, since you already approved the dt-bindings change in this 
-series (1st commit), what do you think about Martin proposal?
-If you don't have anything against it, I will add it.
+Fixes: 4bd8597dc36c ("ASoC: mediatek: add btcvsd driver")
+Fixes: d067b3378a78 ("ASoC: mediatek: mtk-btcvsd: Add checks for write and read of mtk_btcvsd_snd")
+Signed-off-by: Ilia Snezhkov <iasnezhkov@gmail.com>
+---
+ sound/soc/mediatek/common/mtk-btcvsd.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Best regards,
-
+diff --git a/sound/soc/mediatek/common/mtk-btcvsd.c b/sound/soc/mediatek/common/mtk-btcvsd.c
+index 19329dd..1f52567 100644
+--- a/sound/soc/mediatek/common/mtk-btcvsd.c
++++ b/sound/soc/mediatek/common/mtk-btcvsd.c
+@@ -341,6 +341,10 @@ static int btcvsd_tx_clean_buffer(struct mtk_btcvsd_snd *bt)
+ 		dev_info(bt->dev, "%s(), clean addr 0x%lx\n", __func__,
+ 			 bt->tx->buffer_info.bt_sram_addr[i]);
+ 
++		if (bt->tx->buffer_info.bt_sram_addr[i] == 0xdeadfeed ||
++		    !bt->tx->buffer_info.bt_sram_addr[i])
++			continue;
++
+ 		dst = (void *)bt->tx->buffer_info.bt_sram_addr[i];
+ 
+ 		mtk_btcvsd_snd_data_transfer(BT_SCO_DIRECT_ARM2BT,
 -- 
-Valerio
+2.54.0 (Apple Git-157)
+
+
 
