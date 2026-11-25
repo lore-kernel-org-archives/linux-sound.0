@@ -1,80 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795594185;
-	b=zPG+0ih28b4uZTSVjSsjkdP3cgXU3WrJZFQIQ/vuYt1DXJnjfleDUIvvp3x+DcqhL7FX
-	 s0XWTTwyhyMdlcrVOzxGX64EsO7VVJL6r1uYw2RJ/iAw6bB0HqqQlnxWkUll0KIDmgJHN
-	 BfwiB4FWtQVD1AM77/YhhvMPfnkrNBkSrAwSElPkt0lSGSq4DNbToT9/Q7JG+Jzx9YCC0
-	 sE5Wy1DvNqWT3TGLYsBPW2/nG5bWhPSGL2jm+QoS4A66MOHnvBoSYG3PnypqjRlF/OBz9
-	 OGkLnTtXIAWeTdjETPBnYx6Fnx38oTnGwA82ES/hc3BGNMnIIMHM4LP15juukNF5Z9Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795594185;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=Z8nhMcOEmFb6L+CgkAbvXuh2iYwQe8I4JVQrmmp60QM=;
-	b=3/Dky5ryFVqvOowSuOrS/lnHW94sSkyVCZIunyUeREuamVoDQWTN00RZOTEuizzxLbcF
-	 gdvD4xUCDkl/JUWLISK9OgT75sv5yne1v5ueZAKqfh3yboCak+0ztB0112Rp0UHHc2+PU
-	 Q9MOESYQjGAkM+KQGq9EjQkv8NXTBitdvwSi4E48fUMXrY3PtCS6IH4T1cMjmgfryUBWo
-	 6Jx/YQ44uuBdMu5JaEUIdy33g2SUonZDEywztj+GtVo7K+8OYQFbiw6CNPwd4YGMX9Y+r
-	 Khy9zBIqRGsjFmDgM598FjOehrwEfKGvOv6wGdPwbJ6w47l12cLNjtRbN5K7rSA1guA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dwixjiLR;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71725606A336;
-	Wed, 25 Nov 2026 08:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dwixjiLR
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795594185;
-	b=JM64CYDZ17tfthhJaBqepgd1IUE0V7wLHSbLHSpL4uZbsELTqRH9sX4fwFsNkT6qf5bZ
-	 Kzoj0P8SmpMo5SHhPwwjHBZaTS/vE+6ZykmMUyX6Yuj3XMXlT60OgUt4fGf0wcULNKmyo
-	 lxXZd53T9EO+FwiDQxaSGpk5ksaG6a9ZjaQBAkXIJlX6hsWnSf1jzbmjS0D4nWe9fxsOP
-	 430bBnFAIgmATHyoXZTJ4VOHtwTyfsD+eMrw4JBSJgiJgoYY76dLgLggweDosFohLjVhq
-	 jUW53X3n9yGrBvl+37bBYaHR+0I9mjb4mbubC14YuxS+3JggBuJ696yZTVDXkhySy0g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795594185;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=Z8nhMcOEmFb6L+CgkAbvXuh2iYwQe8I4JVQrmmp60QM=;
-	b=KQPALW0JyzwrSQKkzY9I3H0R05cw7dH1KJVsJ9xA8sCP56lgRccBNZzb1uQs3unI2C1Z
-	 Hu0RUQJ5Yv8LcZN6vagzdJK26LDGfJdM47buAi7/zZVyo5OMQZRps0WVr0Oz84CNdso4c
-	 d6fiSJWscbi93x+aEnMCVggHolue/fRIHfg7rW4AXMTscJ5B+H+251jmQEn7x8S8vx1X+
-	 At826rcf0+WOfH66lhMQBJgUdIjhK+PZtD6h8iFzQpSoFyvSYfMFsLPe+8Rrl9w+9vCWF
-	 90A9MB7usiVOy2gdUx3m9UvjTfBwCkGuovXjxkf5GE9/zCDPjDiseI7WdmDaQugdMCg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795594604;
+	b=z0b4e7mfYJLY1ITW1JMak9C4Er5vldLr83haC1b+r5u/uZfxOAP6NiOLcmxQWZhgqPXS
+	 /ZaX7cFKYy9fC1J+QimQQ6NuX16beRXxd9c4p0oCn1DXJPffyD/Z6tCpSBFWALBY6XO6U
+	 n9qNwjcLg3p3dhsRjpz4FrQKGC5B7ULgyg0bpg+NgFBmGkWNrRJV2RTbUiAoYPuxDCq8+
+	 dzkXy2nVr2EaYOxQSrWLI//Tien7OtQLAd5/3oaBqTao24iS6xx6YWwUuPdevfiJJxHuX
+	 dhp9E09E28A7tWvn5hxQWpc9A4wk4Y1gfSGyhEgbSNrrDHuUK2sjYUX04tMaBALaQ8A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795594604;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=HdbAsT3RhoxelmVCsoDIIpH6BVqCr/7qLnRcLrkPwGo=;
+	b=Phuudin7dtY4eBSfg4RuiiR+E4NF8flxgLxcp3zEk8Qqb/MnYJauV7EbzSIGFbzG/yAQ
+	 bQLn6FN9XEPW42MvSGay6KSJeMleDKG2woRQqiClalCbXz4gZFJLatcc1+GyipbQhsPAQ
+	 WT0IQLhA73yRto7ch26IFwh8bfwCbRts/oLr9N0u7QtUUqrKs1RygrsOB7aHjES//VnEx
+	 GST6VqNbBzSLJ12G1zKcOuHYxW0XthYzk5uVblxoXdgXRHuCAH0tL7eIaD2HNWbK7qQf7
+	 mYq2yWCtFMM+RtuSM36B4bEVSI3AkESFegFIaAaghhhnagXMFZ4mUyBK6v+trfHwiJA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pvZ/01q/";
+	arc=none smtp.remote-ip=209.85.216.54
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 96D121F000C0;
-	Wed, 25 Nov 2026 08:09:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795594185;
-	bh=Z8nhMcOEmFb6L+CgkAbvXuh2iYwQe8I4JVQrmmp60QM=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=dwixjiLR4DecAj6LVJvuSNnV7NHjDeAlvNoymE0Ig/fahAZunwKchOPQWc7u4lngz
-	 pI4GhQrHT+5OKEHlXP6PNHG3BSX1sy/kg+r1PomraPw6o9OB/OW8qs3RpLEWOEGErk
-	 xOwHFz7JShMtxdRZ0CYRaqemf2QRWYHSaI08B2FYdWv5yZrsLu3WCrH5tz7ta3+eZX
-	 Wel0Z0dJ7iSuDlYcXlC7NBiBDtyVIZlRnt9lftND5sLVIgosExOM81UGsKCb/m1e8M
-	 lKU4g8HD7W2mJdSy/Sq5UMy3qvDDBIFat+2vDBId7ic3eXuxXHRMgDh7asozMUEWC1
-	 NFPIq8ecq8BWQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E6E794CDA6;
-	Wed, 25 Nov 2026 08:09:33 +0000 (UTC)
-From: Raffaele Tranfaglia via B4 Relay <devnull+raffaele.tranfaglia.gmail.com@kernel.org>
-Subject: [PATCH v2 0/3] regmap: handle values wider than val_bits
- consistently
-Date: Wed, 25 Nov 2026 08:09:29 +0000
-Message-Id: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3F3606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 08:16:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA3F3606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pvZ/01q/
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3b41e627cadso3384703a91.1
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 00:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795594603; x=1796199403; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HdbAsT3RhoxelmVCsoDIIpH6BVqCr/7qLnRcLrkPwGo=;
+        b=pvZ/01q/qJ6P+ie7GrfTzijYyI+fvvdiwizgdBbWHup6X1Hso29mX5KUTiDDyxO/Fv
+         h5cVu5SHeMof+SKEBXwcwPoRTeDDPhIiVsL2uBclbWFJZZlaLAv5g59hQkinyMvpledL
+         4QiAf8FOkIfWCBugtG/kdHTr4WV72h8KuIHT/IwM1bCVryzG30x8tFVOGAk9mIrgqkmp
+         9zj7VBjLYna0Uc8J0OY2HppKc9HC1Nlw76gynkDsPsmeXVSC72SKII3/2Xrb6FwhmgUW
+         RMWjTBWgYIhX455jF5J42s77KIb31W8pK/DGAnFUhLYItaM6K26fBtK/t4dpS7E+vBPT
+         UDRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795594603; x=1796199403;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HdbAsT3RhoxelmVCsoDIIpH6BVqCr/7qLnRcLrkPwGo=;
+        b=R1RbynlM7UXx6SlQPi2BquWmCqtYKLNPszRGh/bwJ5TRDM8wshx3FBiZz+Z39CqGc1
+         Q9lm/riZPl6ut6UufNfjYSB08b0NkQnTevEbJuohC1iZlYe/ODvUO+17SxUF6n3e+SlS
+         b/7XTaYKoJ7QTXeV8eAPK5XgnmHqJWfUj8eq1MnVqv4ogTA+l5DZWYNKtzzFg+Is4q13
+         FZYMCavyg6zugzyvGeFBdnOEz1PUC9ETqAJud0dMlPmrQKFP0YXoW67h6tYZhdGIaNlD
+         3Rz5hm/EbGlkdhunJ1kAYGy+6gLtK3r6mKhkZRTSukacBhWpumpWmGsGdpWkGrnvBjKe
+         tvxQ==
+X-Gm-Message-State: APuU4Z+AH/Wqf+Er8tZltKk7Z9PS4+MMn9M5PlX5X4wUkcHU+UTVA3G8
+	1KYWiehoYtEBgRh9zAUaUBTJRtM0XdRe5x9pbh+/miSsoLN2VZoF64+qA40hVg==
+X-Gm-Gg: AZFdTZcpcOV07x2yTwNWzaoiOHvVOrokfl9tQZWHOnqdxJ0EZAgaqeL6PRoHQW99Ejj
+	JFMyhApqmzHy/zcez/hga6i5oiBCAe1YLP4nvdh+qI0j2iQI4Usw4fjuxBCAa0Gncyx39N1haI8
+	jy2qTKugVY/bOp9BItXWYLc1rtZq6mKuIub59s7inzFwPimXtaokSo0ch55qfb7bQs+A9nqSBXd
+	DFohm8cgidPdJnx07bETqIueOLL5TzF9gHGkVaghT7H7jryiaR0FpCfnQKwfHG/WH1itCRXhU7T
+	NjF1J2K7ZgBuSBynesYcRoXl93nD6QWUTjmJEboC/mNblObk+RF/M2HT7z/HiCbo14PfPEu9aAf
+	VV5jhg6ZmX0trhtW1EbNmCOQ+ZQM9abXa0+gQY4VbHsTNPM4kpW9REAImeCagQjlb16ZKEn7Qjs
+	KC+MMLJM/+rxyZg0jHLNrTVjiXn/G9gAdYyadbh5lbYP4W7ji2VgLsXpHGUmbR0f7whtFc98wSx
+	86nbDpRY+ukWf5d81EVVmsCnUGx+k/5XZMN7tsyL9EwbXbZVmfTd6AOlWBFk5P34TbOZh9S8rzP
+	P9fvZ1kQNfFKgmxh/1DNFqbTg7C6xnCZ6ns=
+X-Received: by 2002:a17:90b:4e8f:b0:3ad:a462:f07f with SMTP id 98e67ed59e1d1-3b41c959e46mr18764296a91.45.1795594603193;
+        Wed, 25 Nov 2026 00:16:43 -0800 (PST)
+Received: from neo16.Davolink ([2406:5900:7035:910e:b075:7756:fdfb:facc])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b405ecbd0bsm29653734a91.15.2026.11.25.00.16.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 00:16:42 -0800 (PST)
+From: SungHwan Jung <onenowy@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Fix distorted headphone audio on Acer Predator PHN16-71
+Date: Wed, 25 Nov 2026 17:16:36 +0900
+Message-ID: <20261125081636.4619-1-onenowy@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,84 +92,88 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNTQ6CMBBGr0K6dkynVTCuvIdhUcoIo/ylLY2Gc
- HcLHsDlS973vkV4ckxeXLNFOIrseRwSqEMmbGuGhoDrxEJJlSNiAY6a3kzwmgcOEE0HFQcP+an
- QWp5JXnQl0nZy9OD33r2XP/Zz9SQbtthmtOzD6D77ccTN+/cRERAM2loqmWuFxS1Z3B3t2ItyX
- dcvrvesyMwAAAA=
-X-Change-ID: 20261117-regmap-kunit-val-bits-6473305e083b
-To: Mark Brown <broonie@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Johan Hovold <johan@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
- Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org, 
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, 
- linux-sound@vger.kernel.org, Neo Chang <YLCHANG2@nuvoton.com>, 
- Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795594173; l=1960;
- i=raffaele.tranfaglia@gmail.com; s=20261011; h=from:subject:message-id;
- bh=niRjLc5BPtItCfeqEJ3V75a61ksSwRctBYQr3XvGWXM=;
- b=Du8pd/IZETKlBvTPHNlt422/qO1bNIozP3bj2PlLrjcfGyjp7C+mSS5hhzM4WEUHj6GsEmT5r
- 5q4H77EIz3lADGuiNvX/6xzcLVrsTGE+wtSnKZ92F8zj7Hwc+DerlBi
-X-Developer-Key: i=raffaele.tranfaglia@gmail.com; a=ed25519;
- pk=mweuSGNM6vguCTdqa+aiHwMXdgk70suj2wolzCp6XGM=
-X-Endpoint-Received: by B4 Relay for raffaele.tranfaglia@gmail.com/20261011
- with auth_id=1160
-X-Original-From: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
-Reply-To: raffaele.tranfaglia@gmail.com
+Content-Transfer-Encoding: 8bit
 
-regmap_write() takes an unsigned int, and what happens to the bits above
-val_bits currently depends on the bus and on the cache type. As agreed
-on the RFC, mask them in the core, before the cache is updated.
+On the Acer Predator PHN16-71, booting with headphones already
+plugged into the 3.5mm jack results in distorted headphone audio
+until the headphones are unplugged and replugged.
 
-Patch 1 prepares nau8360, which sets val_bits = 16 but writes 32-bit
-values to its DSP registers, so it would break with the masking.
-Patch 2 adds the masking.
-Patch 3 adds the KUnit tests from the RFC, which now pass.
+Vendor COEF 0x4a reads 0x2010 when the distortion occurs, meaning
+that the Reset HP JD bit (BIT(15)) is already clear. Clearing the
+bit alone doesn't fix the issue.
 
-I searched for other drivers whose reg_write() handles more bits than
-val_bits and found no other clear case, but the search cannot be
-exhaustive. Implementations of reg_update_bits() do not go through
-_regmap_write() and are not changed.
+Add a dedicated fixup (ALC245_FIXUP_ACER_HP_JD_RESET) that sets
+and then clears COEF 0x4a BIT(15) during HDA_FIXUP_ACT_INIT while
+preserving the remaining coefficient bits.
 
-The regmap KUnit tests pass on arm64 QEMU. The nau8360 change is only
-compile tested.
+Chain ALC245_FIXUP_ACER_MICMUTE_LED to retain mic mute LED and
+headset microphone support.
 
-I prepared these patches with the help of an AI coding assistant, and
-reviewed and tested them myself.
+Testing confirmed that pulsing COEF 0x4a BIT(15) restores clean
+headphone audio.
 
+LLMs were used to assist in analyzing the cause of the headphone
+audio distortion and refining the commit message.
+
+Signed-off-by: SungHwan Jung <onenowy@gmail.com>
 ---
-Changes in v2:
-- No longer an RFC.
-- New patch masking the values in the regmap core (Andy, Mark).
-- New patch preparing nau8360.
-- Use be16_to_cpup()/le16_to_cpup() instead of casts in the tests (Andy,
-  Mark).
-- Rebased on regmap for-7.5.
-- Link to v1: https://patch.msgid.link/20261117-regmap-kunit-val-bits-v1-1-a1cd02063217@gmail.com
+ sound/hda/codecs/realtek/alc269.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
----
-Raffaele Tranfaglia (3):
-      ASoC: codecs: nau8360: set val_bits to the widest register size
-      regmap: mask values to val_bits on write
-      regmap: kunit: add tests for values wider than val_bits
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 0c2442d98a3e..45371686da62 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -1462,6 +1462,17 @@ static void alc245_fixup_minisforum_jack_detect(struct hda_codec *codec,
+ 		alc_update_coef_idx(codec, 0x4a, BIT(15), 0);
+ }
+ 
++static void alc245_fixup_acer_hp_jd_reset(struct hda_codec *codec,
++					  const struct hda_fixup *fix,
++					  int action)
++{
++	if (action == HDA_FIXUP_ACT_INIT) {
++		/* Pulse Reset HP JD */
++		alc_update_coef_idx(codec, 0x4a, BIT(15), BIT(15));
++		alc_update_coef_idx(codec, 0x4a, BIT(15), 0);
++	}
++}
++
+ /* turn on/off mic-mute LED per capture hook via VREF change */
+ static int vref_micmute_led_set(struct led_classdev *led_cdev,
+ 				enum led_brightness brightness)
+@@ -4554,6 +4565,7 @@ enum {
+ 	ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY,
+ 	ALC245_FIXUP_BASS_HP_DAC,
+ 	ALC245_FIXUP_ACER_MICMUTE_LED,
++	ALC245_FIXUP_ACER_HP_JD_RESET,
+ 	ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED,
+ 	ALC245_FIXUP_CS35L41_I2C_2_MUTE_MICMUTE_LED,
+ 	ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO,
+@@ -7392,6 +7404,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC2XX_FIXUP_HEADSET_MIC,
+ 	},
++	[ALC245_FIXUP_ACER_HP_JD_RESET] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc245_fixup_acer_hp_jd_reset,
++		.chained = true,
++		.chain_id = ALC245_FIXUP_ACER_MICMUTE_LED,
++	},
+ 	[ALC245_FIXUP_CS35L41_I2C_2_MUTE_LED] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc245_fixup_hp_mute_led_coefbit,
+@@ -7576,7 +7594,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x166c, "Acer Predator PH16-71", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1679, "Acer Nitro 16 AN16-41", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+-	SND_PCI_QUIRK(0x1025, 0x170f, "Acer Predator PHN16-71", ALC245_FIXUP_ACER_MICMUTE_LED),
++	SND_PCI_QUIRK(0x1025, 0x170f, "Acer Predator PHN16-71", ALC245_FIXUP_ACER_HP_JD_RESET),
+ 	SND_PCI_QUIRK(0x1025, 0x171e, "Acer Nitro ANV15-51", ALC245_FIXUP_ACER_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x172c, "Acer Nitro ANV16-41", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1731, "Acer Predator PHN16-72", ALC245_FIXUP_ACER_MICMUTE_LED),
 
- drivers/base/regmap/internal.h     |  1 +
- drivers/base/regmap/regmap-kunit.c | 60 ++++++++++++++++++++++++++++++++++++++
- drivers/base/regmap/regmap.c       | 14 ++++++++-
- sound/soc/codecs/nau8360.c         |  3 +-
- sound/soc/codecs/nau8360.h         |  3 +-
- 5 files changed, 77 insertions(+), 4 deletions(-)
----
-base-commit: 573c689219af87f6d5a4bbf809c174e7f28a23a1
-change-id: 20261117-regmap-kunit-val-bits-6473305e083b
-
-Best regards,
---  
-Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
-
+base-commit: aa10c1b25efa97f58680298f609c14cc686dcf1e
+-- 
+2.56.1
 
