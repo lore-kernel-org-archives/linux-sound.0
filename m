@@ -1,58 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795615386;
-	b=IKAlqy0yRY3mkdDwt2UBrX1fDjX+/kmzStivXyZJ2rCGt1CJkaLUQsGdjlOlmYtE5g1B
-	 7/0QI0pw4lKRiL2oEHcK5XIf+mQncm8y4sSWkeg8qrLMiF4c4uhibG9FaM0vvCyAe/7qy
-	 OJHf3o5O4VcwWe6VwEMXEc0js8djR4/IbIfdFYrPvSndHN+cOGgsIGyyFApWUt4lR/r7I
-	 xObMFC902RVtxyY7f0yfp7BhWu3z4MTRkTi2JATAt0iaX0z7K+TMqmdE0F/AwwLlnavgY
-	 Fn4d3fAYTUDURZk+6EYCoVdNc/nn4WZChQcEkqZKf9YOFRUMWpjTEpFikJmqXg5LS7Q==
+	t=1795615863;
+	b=rpsf1Jp497m2+EnAbbNFXyfSDokmohQB9d+Cpw3jE4smg5qRlczKIeG9nUUt4f9uPPRi
+	 v4Cdi6kRI71Vc+vJHYDPZ0n1zd/E9rvDxhBSMK72iaLSwnBEdEhcuRoonFq2f3KnWap0a
+	 TAf6/mAvrjpPjNlfQN5TenQolYgJPkJ+7AlNHOoLyvnuLOsmrAYusARfcxl+HCtfazXFf
+	 Hc2jc0FKxOpn2W0gPP7YLuQZqsKtBG3Zp+27JUabNIlCCRcRsU0V+JBn9fXqEn1ejZySj
+	 4Z5qEqczfS7+DBm+vqk2ZIXeDdjPjEJlZrP9/wVecIUSvcmQwgz6I7KDStHu6MXsUfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795615386;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=o0xCrp+ykgn22IEvePS7hj5uQUsEuSvg3Gk5u3CyDtM=;
-	b=XL1jVTHke/qQa0HZnFTa4AEWBhjNLHhVEqcvov2uEZ4Nb8l9Gw7sDIIx402JLrdJ1Tnu
-	 QUDsPKv7hizThxnufqvCPEUhhyo7Ok/whScoAtBw5M5z4oT9cop/0i4/5wyiAauEnWZom
-	 BllKYaV9ezNqjt8ZuM6GzCo+tP6Kgx+uCIqwU9fErK9SWJcTKy+DHUI0UWazRoNStUC3u
-	 nqE7v0m6r4TdSUeTzRSVTmdrq1flrdq9l4+BQcfkapYFUJGOJmInDX4R6wJr6nx6wVnFF
-	 RdiZsqyx0Oez4jp/cszOD3lUEkZiPKYl66H3MqeOLZVEcwdrl5OabpSbE1roJOe0HhQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795615863;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
+	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=kMUPprzkb/xW/UwvGiS5x83c4LFUkbe20/iJlMpOVr0=;
+	b=j3utqG02jV+6TKi7U62nEIKoh/h5HZW+TDvx3+nUlxknfxboEjYCkWu9cFyUbw7PenCI
+	 HutUhlZJ+aN8tbkjQtIQXW+OmbJbLGLW9wCsl8pygcy1Z6x4OZVO36r+sd6hEHmX2CYLF
+	 gdaV8XG4JXvUB+jiFnGLeV76SoaZZMxvQewb8cMqaJvCZH6Y68EwZbsHzRA5nzS31CC56
+	 YDovHL5GXgu1PfOzdR9twFDc6MkAc8IDfUIlOXVRY2ynazntLFGOGiDPlAe34B4Zsaxvw
+	 o5gQtnc4W7UeJq0O/IIf25xwdDyCQm7w6jp/Uux9YlI5EBedBCkMggONsZA8qoQTiSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cuPGoii+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=UJtvLx3z;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jOb+0tDZ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bMPoVTFO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="Z/2k+/0v";
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FDD606A32A;
-	Wed, 25 Nov 2026 14:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1EA5606A68C
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 14:11:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1EA5606A68C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cuPGoii+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B531F000C4;
-	Wed, 25 Nov 2026 14:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795615385;
-	bh=o0xCrp+ykgn22IEvePS7hj5uQUsEuSvg3Gk5u3CyDtM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cuPGoii+b0q2m4MngsSIgYWxrJwQNwFYhvMnjxHMf1S6zd/qFlJuNIP0BGNV04B37
-	 BcHt8C8TclPXbGg+e7wNwQQsG4EJ1CRGrq0DyetU0CQExm4m1DG1DnFziOvlSkSQV3
-	 sRdBre2LHEKWJ9FFH7ELVH+MMrjNmR024jqx7OO0bYyWBIYr2luwT1rIdTgWJSkiEi
-	 D0wRIcX4sebhVkFJFhWn52hrBkPVZDovLWEPM5jkOI+O8zhNPCaMx5mn7c/pFpSWmw
-	 Ulha/o+6/ygNAlU3FN22131lSWVNLml49oeozggTHl39eS7mDP0jj1j6rvgSdQwt2e
-	 JTqIJkbKFCnxA==
-Date: Wed, 25 Nov 2026 14:03:01 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH RESEND 4/4] ASoC: cs35l56: Add test that probe() doesn't
- write SDW mux registers
-Message-ID: <51679d08-a78f-4572-a280-daa3a032b5e8@sirena.org.uk>
-References: <20261125110853.741337-1-rf@opensource.cirrus.com>
- <20261125110853.741337-5-rf@opensource.cirrus.com>
- <61660f09-9402-479e-92fe-6b1b2bc48158@opensource.cirrus.com>
- <44ae0233-b475-42f0-a1e8-2c3299a4df50@sirena.org.uk>
- <2e698fb5-6041-4ffb-99d6-d95644749f41@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=UJtvLx3z;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=jOb+0tDZ;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=bMPoVTFO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Z/2k+/0v
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D9581F7E1;
+	Wed, 25 Nov 2026 14:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795615861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kMUPprzkb/xW/UwvGiS5x83c4LFUkbe20/iJlMpOVr0=;
+	b=UJtvLx3zuNurZf05bzgfelc5QRIxj/GDhWDDBsBEy/vmqNXgUKnLRb8pbV5wSiyhKWucYx
+	xvqH51gBh9kwP1gewmcL6KKttdCjDnTMidFZLlO06qA4r9bEC1gdP2dmCYXGnGoxcBjKDr
+	yN2MsJ56VCf6+Jsnn/eb9w9m9rlwhgI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795615861;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kMUPprzkb/xW/UwvGiS5x83c4LFUkbe20/iJlMpOVr0=;
+	b=jOb+0tDZgQFayfv+KY4OJ4wOEIroB4Q734p9j7Oq2+73R4U4TxuBsvt9DZh6KywQQIFMvS
+	kS/+FO4CP8KzJACA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bMPoVTFO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Z/2k+/0v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795615860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kMUPprzkb/xW/UwvGiS5x83c4LFUkbe20/iJlMpOVr0=;
+	b=bMPoVTFONQ7S7Oim7hUmFihsS2hX24JfzuPPz4lL7iXA7wj5W2lBGgJHN/vjHwSQ9PR4Dg
+	LxjoT1C9h3dEruw8F1OLbgQqTJN0HwX80utuE14fi4MYWn6++bzIdx/MQ4L2i5SZ+uGlhW
+	W22ssMH9DVhCLdx8KCWKeOP5uwxFxdg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795615860;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=kMUPprzkb/xW/UwvGiS5x83c4LFUkbe20/iJlMpOVr0=;
+	b=Z/2k+/0v7oRJogj5s5GvVJRIAEbdRKK0VlNXPfZn5E7S16wfoEh3137tdVY9HGTpHDw/GN
+	SwHRzvmrIbZ9KJCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05C49134E8;
+	Wed, 25 Nov 2026 14:11:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OSRhM3PsBmuVUgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 14:10:59 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Don't queue playback URBs after stop
+Date: Wed, 25 Nov 2026 15:10:56 +0100
+Message-ID: <20261125141057.2094719-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -62,45 +103,79 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="n9uYdnkB3n7cnem4"
-Content-Disposition: inline
-In-Reply-To: <2e698fb5-6041-4ffb-99d6-d95644749f41@opensource.cirrus.com>
-X-Cookie: -- Owen Meredith
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 3D9581F7E1
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.01 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	FROM_EQ_ENVFROM(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.01
 
+Although we've tried to address the corrupted ready_list for the
+playback URBs due to the concurrent start/stop of streams, there seems
+still a slight race: namely, in snd_complete_urb(), the driver checks
+the EP check via ep_state_running() and process
+push_back_to_ready_list() only when the EP isn't stopped.  But since
+the EP state change can still happen between the EP state check and
+push_back_to_ready_list(), push_back_to_ready_list() may queue the
+URBs unexpectedly even after the EP gets stopped.  This may result in
+a list corruption when the stream is restarted.
 
---n9uYdnkB3n7cnem4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The addition to the list itself is properly protected by a lock, so as
+a stop-gap, just add the EP state check again before actually adding
+to the list.
 
-On Wed, Nov 25, 2026 at 01:26:36PM +0000, Richard Fitzgerald wrote:
-> On 25/11/2026 12:39 pm, Mark Brown wrote:
+In a long-term, we should reorganize the code to cover the EP state
+changes more consistently, but this should suffice for the particular
+race, at least.
 
-> > Send something incremental, this was already applied even before your
-> > resend.
+Reported-by: Miloslav Brada <email@miloslavbrada.cz>
+Closes: https://lore.kernel.org/awZs88beIhMcOchv@genesis.transkript.cz
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/endpoint.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> I don't see them in your for-7.4/for-7.5/for-next branches.
-> Are you thinking of the previous series that did something similar
-> for the ASP registers?
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 8dd0b3525e4b..02f0049cacf3 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -449,6 +449,9 @@ static void push_back_to_ready_list(struct snd_usb_endpoint *ep,
+ 				    struct snd_urb_ctx *ctx)
+ {
+ 	guard(spinlock_irqsave)(&ep->lock);
++	/* don't re-queue after stop_urbs() flushed the list */
++	if (!ep_state_running(ep))
++		return;
+ 	/* ctx may still be linked: a stale completion racing a stop/restart. */
+ 	if (list_empty(&ctx->ready_list))
+ 		list_add_tail(&ctx->ready_list, &ep->ready_playback_urbs);
+-- 
+2.53.0
 
-It should be in CI, though it's possible if you have two similar enough
-inapplicable serieses one of them got dropped on the floor.  There is a
-lag between me applying things and them actually appearing where I test
-them.
-
---n9uYdnkB3n7cnem4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsG6pUACgkQJNaLcl1U
-h9CWNAf/a5z8E8P4PpuW3zAjcWxzspdfJedIKMBmWa3k15zpL/9tg73KO/nE4FeC
-hFNcTGWupPIUWL0uN+8AQlD76d8GYtF7wLL3lUZ1uA4wXyaUv14k9MtY6q1vXB3m
-oNLD/JMZm/5MRX6ScgisnPbZzGCSAvsSMI6BTfUjRuQM0TcSca4woqFs2i/A3MzI
-GdQr6jaS8Y+TSiQpD2qA73uF8+A4CiFHc+o/HF02nki9Di4KW2gO0ZKaHSwaeVJu
-HIRXHHkVZHzKazQ9xN/NkMa+jlGpC0fFZEWmxQGaEoZThylgs3gyqCO9y6y4An7M
-KaIeoC6n+P7fMYHwXTLvzM3T2pk3Ug==
-=x8hv
------END PGP SIGNATURE-----
-
---n9uYdnkB3n7cnem4--
