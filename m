@@ -1,108 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.159.30
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795592193;
-	b=QO3saTSb53ZUOHrRzXl3gmr9+I7NK8M2I8Zp8WazdzWza9UnPjizSDMl0O+zi0BTkvTu
-	 HAk9GP9s8LrKZJOfyUbR+bVyABxwY+E0OGqsMupU8vAmlFwHADZUpYqH0EbrNj7uTnK7S
-	 Ss8w7eTGotLUv0OytYPkfjh+RyIQcC8M3KGGto1eE7YraY+7k6nmiz+ep7Dk94+AvsPlg
-	 30wnq2o3LRLqbJ2Nz94G+3mx+q48l7S6aSCDMJunxCp5Y+gyWbrpyptOVf3HQ0c0FAuaM
-	 ovNCV8JSyTku9bEyC7qH8spc/ZCm/FeW3ngmN4fSNVZLL5Ch5dn8lfrAI1Dp5cbXJiQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795592193;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:Content-Transfer-Encoding:Content-Type:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:
-	 X-MS-Exchange-AntiSpam-MessageData-1:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=I13tgjzOuBe1PKGk1IvE10wC+XTr+vhb3P6j8rtKV5A=;
-	b=JywsdqXIOLjJPOybUST5V0nMsyq/dOIAs9+toJ5Ef9vi9b6HApA6Uyq3kO6G0zeejqw/
-	 JhBVSGL1GAdRMlGcJSB0LMNmbB854kWs3Y56wIhZ+jp+Qkmk4gPFn5nAKsG6IB4ve2CpD
-	 6ITjHhxmWLw4PLi4SqG0Z/Xy8fDAbCVoaqTw0GjtPmdDF8VPlRt+OdCwatoaPlWImyis1
-	 yKDs2UlFnqvFPvUzSgeGkVAiKjTvo0ePgksyNdd3j9SpsTIPI4Z4KXGrQuS4oRAU/knlv
-	 fnGzucj2OcTAgahvPVS/hVadsN44IgKZDgvllS/s9Xpfa3NgZ7XbgEYUU1tx0vvs4TA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=b2Zyw5j7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.159.30
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013030.outbound.protection.outlook.com [40.107.159.30])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795592493;
+	b=O5/RdMe1wDSO71CIYwI1ALTtc52vupNqy5Vy8eD/3Za1q9fMvIdvJQOKi3lpkx6aZJGY
+	 EgKgkrc70QPkHtYGlwb5LcPAk2lWes5irJ936sQXhA7E1oR/WrMEWQbnEhTsuYeZkojTR
+	 OtpYFC4sMUW6v3TdQ59pX70819NGeyuR42k3nxcP1O1dhwcyHCoATwSYNeQAUw6COE0A1
+	 X/T2FUPHaqHRpmQzYHBTnmo5CeQIGvG2pOTrlTPbA0A/8gD6cyTaIYWHCzNzi2oTFrSdw
+	 DHjB1DAN9p5SBMuPGR5PYSvspx2HF4Cfz+kweb4Vzu5PMiNs5PrUXfGSFFF1wbN6zKA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795592493;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
+	bh=+lUcpFlGuUz+DdVv4pqT76KVLhw/q/JWGXJGWIwC35Y=;
+	b=RFvErFB0MAjNfA4A2YdnOugRtOUb9fzUJiOkMwBqJW63mtos4glzhuwNu/hiCMlu3Zk4
+	 IIWM31oKwxretTQDsoz31MU2M+vfAM7FGarMJFKlP+X1ZXm1qxeppyOiOLJhWGnDsAU09
+	 zXlPrERKGhmrF56IPHbaKFM5xqtGZ906Fk+8OxyNQonM2kM5raw1isk6wBdFEEK5+1K08
+	 osdQT3h4aSkz52wOXBjTExW9xiVlL5ylJFnSvbnnDfaoro6wyDISnifylZszjmCoMT/mh
+	 jU+YdTBmRDlaYhEmgCtsQbnxtTp0Hwh9y2SzAb6Eb8rDK7ceZHnGV/YCsbZe3xT9QYw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tVAOOtUc;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=klKuX37F;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vebySQ6V;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=znYfsPIn;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA42606A32D
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:36:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DA42606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2EF606A31E;
+	Wed, 25 Nov 2026 07:41:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA2EF606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=b2Zyw5j7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZNt+V73swQ1LtiTcGVF7wwiDlaa3hZM+4h3GF1gBSi8WenUPG8d+T0qjmu5MSTCHtgY+AIPHdA8KdwHD7XT38FCU0MSn9T3jGvZCmGzDFVTl5Z0slHrZjgpFMh/bljA0P0CWoC1G+fe9LJ9FHolJh4SWxwHCQNjcCtXPBGAhaJ8MYsgsDImKsw6kcKqzrN4T5t+HionNEQPc4e9m7AtOOjQEI+D2DleQ3P4zbceYHQtOh46SPLQxaE/KvRqudK9yeVryOoGOsoe4MN3me6ybXKV43uHbnEpPLtXR4+U1DSbgENlZ5NJtJvNLBZS0l+q9PjS5krqI6Uw+xkdbkFq2GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I13tgjzOuBe1PKGk1IvE10wC+XTr+vhb3P6j8rtKV5A=;
- b=SMsZb9TO+sV2KtiOTObIpVcMZA1WiGlwPU1SoaZ49cQC4KwNEi5jxEiBCx4yc0o3DdhPnx0DyIZbqU7bv30qjIkhhYfgaXvdBwQ96SNyizlx2Oq7iMZI4oxMLC9YXTFVRwDvkHJuKXvBYmi0ml0kgljDKXvtZM8i4EI0W0jBAjnQrRlI2+uynKyA1AJPgF9xdWSEyI/5cN0NAd15btEE07Z3KKKlLH9QFjaNjipub+CMb8yr/jtzB0gVNt8DWm1mZMHNKppqTqTYHLl/Sf/OcuOf5KhgcKkX3LqcsA4gfuiWC3FtBeUIqLkmM5IdHTgf00WX25HAfPHeC5kx/K6xlA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I13tgjzOuBe1PKGk1IvE10wC+XTr+vhb3P6j8rtKV5A=;
- b=b2Zyw5j7dJEC6aWbJn9znTcfeUGapMDQElGT7PoFF7rDRdXrHaFBccXmU5hzguMqCjU/KuNwCyayAa2J19slV2hG7LgQUoBfFjRNFr97wdlq1SKFjuO8DGEeHwS24k/7bETKQSZR4ev/ckWeG54M3CUYAJ7IpbBRL0CwMJQasvG5DjIaxYm3MJUxxJ3Ef9Ox3GOzTgCZO9AOaph0NiI5ka1dlq5bcGIp0Tp/bs5fCivBCSGNTJcJXYx/FFRsHccCD15vZzbILb73trDkA+BBHhqSGmrHkUONCklw606RsKAJI9tK3Ofco2+GO7YngXCgJLGFKUvRMzImWo4ySiNoGg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by VI0PR04MB797245.eurprd04.prod.outlook.com (2603:10a6:800:363::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.5; Wed, 25 Nov
- 2026 07:36:26 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%5]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
- 07:36:25 +0000
-From: shengjiu.wang@oss.nxp.com
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: [PATCH] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset framework
-Date: Wed, 25 Nov 2026 15:38:57 +0800
-Message-Id: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI1PR02CA0052.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::20) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=tVAOOtUc;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=klKuX37F;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=vebySQ6V;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=znYfsPIn
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9C1D81F399;
+	Wed, 25 Nov 2026 07:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795592490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+lUcpFlGuUz+DdVv4pqT76KVLhw/q/JWGXJGWIwC35Y=;
+	b=tVAOOtUcaHlOrFTRKQ7TNz513WHyumArwhOuqNa/SQsmOakix7kBEoHjFcZJmA6KmOUICt
+	3fDJdaBK2FL1Ggc2d5cdN7A5QaUD6r2WWfmg/qBy2aSp9R48ut/Q3hRJjLPByDEn1Wox0B
+	dEwJ744qVuqZXUXoaC98cW0Pv7EYQVo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795592490;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+lUcpFlGuUz+DdVv4pqT76KVLhw/q/JWGXJGWIwC35Y=;
+	b=klKuX37FqFvW/jlylDcxn5AD7ayMTCzMNEh2v7OABOm9KSZfB26BjAkEE8vZIL4WmLGvs1
+	fXoc0PHEmsP2JOCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vebySQ6V;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=znYfsPIn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795592489; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+lUcpFlGuUz+DdVv4pqT76KVLhw/q/JWGXJGWIwC35Y=;
+	b=vebySQ6VTibJIqEUTUDubeIn/rjd9/B9gM82ffxavKlFy4HREwHL1nyUXmu80F6Xxg+WgC
+	FUaAf0ziEWrHc+hlgCgcQJGjeDad+2oA1vcmce1FjjRpLGFNCzS4TB/1P7ds2je/K/SIbf
+	A9pxodrvdzYKuL6Ejh7QhI06I8TxHSw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795592489;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+lUcpFlGuUz+DdVv4pqT76KVLhw/q/JWGXJGWIwC35Y=;
+	b=znYfsPInSyD8QmoQR5m7hL2WvM3v4fioMU8BpYtolJS2K3Pvk4tmE2+0igIYyOv7tUCkDE
+	lxBWucUfS/Uw6xAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4EF8E1339F;
+	Wed, 25 Nov 2026 07:41:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LhPyBymRBmsjOQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 07:41:29 +0000
+Date: Wed, 25 Nov 2026 08:41:28 +0100
+Message-ID: <87o6bd8ijb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: Fix dynamic major number assignment
+In-Reply-To: <20261125073009.3091-1-sreekuttan2156239@gmail.com>
+References: <20261125073009.3091-1-sreekuttan2156239@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -111,202 +112,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|VI0PR04MB797245:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5f23f95-acdc-4738-0680-08df4ac6cf6d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|366016|1800799024|23010399003|7416014|376014|261022105027099003|261026121527099003|10067099003|261026140227099003|261028144727099003|261021123027099003|261102123227099003|261021121427099003|261009223027099003|20046099003|6133799003|921020|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	NRUZagVz5QEt5k6MD91BQjcOVlkF9RgUv0jt9FgVLwWI2VISHARkK+l3oFaNMTUlZoEins1CLdnG5G22OQpVVgi23aWXfYC0O5nR2J9FkdQKK3o15EiaqbS3xY5OP1o+li15LIsoUWgVrgmhlKkZE5J2jr4oEz+LKPWGxZWkb2h82/fYrUdb0lfyGH1/X6/BAc70xd+dbY48d1tgKItaXhEvaA2+KLXl22f27EAfnvcUdxzWm5qCxRQiFKTTmR0TC7HljqKRGvJUTV8R3Q53nywsSoAF6aH7OGWW6By+TkYkTW8Ook9R+BzgtN5aexkH/G/3j6U6ZdlM+8yJXx6VHyXbjrrVq40Um2G9HtixveoGRnjH4op+4iMYHqoZdTJDuEx5b02Bq7SuoOzhZIir16yq4TDaWMEKrF/xKRVRaWgb2fPb/PjAVpPFCZV4yWspOtJav32UzRYlCVTHoqOUOfdi7fgvn4G3rIPi7oMxV/U2i6rr6Fzu+xqI/cgshqVuWuciOEae8iXRyogERzNKB7r33412HqZo/uwBqD7hA9JZ5ct6pcPYnq8w4yhtshnssIBtBBIu81HLx2RKyTXaLKP3A3+U6svFyz36uzO6zPyiQE77363ZtAFPbIPXYN3PXiq/1fs+vvICg/w08faiVbFGiF5WNdhbK3+OJRjPMoE3NC9sVNJbKD8VppRqD75LlpHcpt5hnbxUaUVhNeSv5w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(23010399003)(7416014)(376014)(261022105027099003)(261026121527099003)(10067099003)(261026140227099003)(261028144727099003)(261021123027099003)(261102123227099003)(261021121427099003)(261009223027099003)(20046099003)(6133799003)(921020)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BNC7wFHy6NUMnOggVk9uPkZR/0L8ftEB3OFu0U1c6V5jniAqu8o2HVRgFINW?=
- =?us-ascii?Q?hrAY7lzp0NDgaTMHhmN4FAaMgBVnrdgLgQkRAHVjtSIQXLZJsl88vsHrO6CE?=
- =?us-ascii?Q?bn1NkCGW1V96sagVqbZxy9DUSDP4qdoAAYyN8sf08KFV6Vip/ZNCvnqdVK/h?=
- =?us-ascii?Q?ewoEarnrXIjtCUS07kKqXy8gLYOLxKNOOzugwMJnFb0N7rS9iwN8QhFpN2w4?=
- =?us-ascii?Q?R79jB0gdRLg/XPOD16mscRL1jnVAUH7wjjzjcQRguuo3yRzaXetMwKreKuzO?=
- =?us-ascii?Q?q4Wvhl0/Qf/jEJwe2GQHewza9vz/iuE+L3sZS6JvCQEm3fKY2vdoRNq4ANps?=
- =?us-ascii?Q?mcA0mgzXusTWt3gXkWYjANN2Q44zfMhivMHON0NNisDcNn2Zb004y5ONumX1?=
- =?us-ascii?Q?SSc1/gWBG6QmF1fAAbk9a/CBAq5bcnVk4ovOss/UflFT43pORwR3FRW+d2H0?=
- =?us-ascii?Q?A2mg9ONTelJxOfqxElCGgciZRGt/2y9C/GGYKvDUj0yfg0tAyFJsdjtmKML5?=
- =?us-ascii?Q?4XrVR4HhxU5vxxOWRXULotIGohg8Z2bgRtMAG7+MrioLhD96UHnxoaVUqP6N?=
- =?us-ascii?Q?b3QV9/dtYxFNrjWPeoNmyZsFR2gaXpUug7gV4UMnSBNBgUM3J9nGibdP57DU?=
- =?us-ascii?Q?OfnMxiJzkKE9K3Apk2ts+IeYJFuLO3pKBHNq1Ddo8Xi/aNrr9y621mkf6Gb6?=
- =?us-ascii?Q?GinQNBfZNxqE6cJCIdA7K+hpQZE9lhKUbSZPWLR9FmkffRuraaU6L8Bwzauj?=
- =?us-ascii?Q?TqpXX4b8E9vSJFbvDE8YzDPdAnCxhuoUOejYGkVs+yyd+ZiA5dcZo1FD1QI+?=
- =?us-ascii?Q?kEjXV7zTkK6pC9MQlzgJLSwWpouSNeTtq2MeOQ0OUOgUXqvOAix4/zNZe/Kq?=
- =?us-ascii?Q?6OsoSn9rnzp8IByUpRCZlmLc6I2EtjP69E/IaHR92ezl/AIUieq1Obu/s5Ue?=
- =?us-ascii?Q?X+JY1NEKjGFyuH7+TiAfBeXuRXXz+6UxygA45Xw+YhBneu06zQsvPfI5WI9W?=
- =?us-ascii?Q?8kn3WE2u3mw1yfvel0N4JXy/zr8nOtR2QPw21rgBlo6VtGIsGa4gi8o4dqXf?=
- =?us-ascii?Q?jxdOMxPmoEOA7b5QMWUd+4DHDQIyfl0wpVWzMnHZq72UN16vxHIPa2w8SWjV?=
- =?us-ascii?Q?fcvWIIy+q2lgkpIDb0L0JxX5dFh9XLryJh4+5jotCjGKJQ8ePF0FZjnJKjGv?=
- =?us-ascii?Q?gLAlybl3Mdfak0RBot9SOG3aDHTfB9PL2amPK16i+xTKefoP33UAsyMXbylW?=
- =?us-ascii?Q?5yEf92LzgxBphwx9KGEAMKa1Q+0GzOWSzi8hgrsA3KVYrIo8z/m1JdDYh9ij?=
- =?us-ascii?Q?WSPDb9XI/sF8qLb1ChjVp7mfE8HP7Hg+IargX0LD58okPIlF2F0Dvh8diCv7?=
- =?us-ascii?Q?WIz9WSFVw1hruScxiBt5cr1R/lRp4PTP4XoerzlXZAX2AI8gzGkuh1uQPZM6?=
- =?us-ascii?Q?KLRJmOgUJgLRUkOekRlEFR0AgBUfsEYwN/gcKZejMrOtY0o2YC7GKeppKrri?=
- =?us-ascii?Q?NwY2xbKcLtibsmSUk77KM03znDBpYFwbn7TC0cAErFMDknA1V73fxmIA5MXL?=
- =?us-ascii?Q?fuOyRmV/Id0VDmFyRRmBHE+dRg0AbhwpPjE+iOlb1M2a2zNAQDjVc7vOudHL?=
- =?us-ascii?Q?SWSi2Np20/YIjo2MxKWK5+tqS7KLq4aR5PZrURijrubzGRlfRWkc4mWAOUE0?=
- =?us-ascii?Q?Ls4rVZQTBqtKSCGudEOxFJiKZuYyW5jjZN+FnMGkFWYiIksN3vRKZykYbMM1?=
- =?us-ascii?Q?1aTEdH1EaVzU2k63BftLxZ7M8aoetGpHiSnoeDWmR7wvHh4kRkYlc965zr7L?=
-X-MS-Exchange-AntiSpam-MessageData-1: 16lJwsIU+B5Gjg==
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5f23f95-acdc-4738-0680-08df4ac6cf6d
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 07:36:25.8292
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /O/24CqlPHVwHmX/JIM6OdHVRvbyNNBZFnLbOdF66FyxZ1VA0E5ZLi2iirYiY2lnoXI5Wy0NBI8r/xONT51EbabwqhuxTFR5H/kxjAtB+UbKga9rF/Y85TJJhfdcrvmJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB797245
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 9C1D81F399
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+On Wed, 25 Nov 2026 08:30:09 +0100,
+Sreeraj S Kurup wrote:
+> 
+> When major is set to 0, register_chrdev() allocates
+> a major number and returns it.
+> 
+> Store the allocated major number and update snd_major
+> after successful registration.
+> 
+> This ensures ALSA uses the correct major number for
+> device registration and unregistration.
+> 
+> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 
-Replace syscon regmap-based DSP reset control with the kernel reset
-controller framework for i.MX8ULP. The syscon approach requires direct
-register access and creates tight coupling to the system controller,
-while the reset framework provides a cleaner abstraction and proper
-reset sequencing.
+We never thought of the dynamic major assignment there.
+So major=0 should be treated simply as an error before passing to
+register_chrdev().
 
-Three named reset controls are now consumed: runstall to stall/unstall
-the DSP core, softreset for DSP core reset, and dbgreset for the debug
-logic which is kept deasserted to allow external debug agent access.
+Moreover, the current code was written before module_param_named() is
+used widely, and that's why it has unnecessary assignments.
+That is, we can drop major and cards_limit variables, and directly use
+snd_major and snd_ecards_limit with initialization and
+module_param_named().
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/sof/imx/imx8.c | 73 +++++++++++++++++++++-------------------
- 1 file changed, 38 insertions(+), 35 deletions(-)
 
-diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 5cd3f44c90d2..6b01b9aa0528 100644
---- a/sound/soc/sof/imx/imx8.c
-+++ b/sound/soc/sof/imx/imx8.c
-@@ -26,19 +26,18 @@
- 
- /* imx8ulp macros */
- #define FSL_SIP_HIFI_XRDC       0xc200000e
--#define SYSCTRL0                0x8
--#define EXECUTE_BIT             BIT(13)
--#define RESET_BIT               BIT(16)
--#define HIFI4_CLK_BIT           BIT(17)
--#define PB_CLK_BIT              BIT(18)
--#define PLAT_CLK_BIT            BIT(19)
--#define DEBUG_LOGIC_BIT         BIT(25)
- 
- struct imx8m_chip_data {
- 	void __iomem *dap;
- 	struct reset_control *run_stall;
- };
- 
-+struct imx8ulp_chip_data {
-+	struct reset_control *run_stall;
-+	struct reset_control *soft_rst;
-+	struct reset_control *dbg_rst;
-+};
-+
- static int imx8_shutdown(struct snd_sof_dev *sdev)
- {
- 	int ret;
-@@ -202,42 +201,32 @@ static int imx8m_probe(struct snd_sof_dev *sdev)
- 
- static int imx8ulp_run(struct snd_sof_dev *sdev)
- {
--	struct regmap *regmap = get_chip_pdata(sdev);
-+	struct imx8ulp_chip_data *chip = get_chip_pdata(sdev);
- 
--	/* Controls the HiFi4 DSP Reset: 1 in reset, 0 out of reset */
--	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, 0);
-+	/* Controls the HiFi4 DSP Reset */
-+	reset_control_deassert(chip->soft_rst);
- 
--	/* Reset HiFi4 DSP Debug logic: 1 debug reset, 0  out of reset*/
--	regmap_update_bits(regmap, SYSCTRL0, DEBUG_LOGIC_BIT, 0);
-+	/* Release HiFi4 DSP Debug logic */
-+	reset_control_deassert(chip->dbg_rst);
- 
--	/* Stall HIFI4 DSP Execution: 1 stall, 0 run */
--	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, 0);
-+	/* Run HIFI4 DSP Execution */
-+	reset_control_deassert(chip->run_stall);
- 
- 	return 0;
- }
- 
- static int imx8ulp_reset(struct snd_sof_dev *sdev)
- {
-+	struct imx8ulp_chip_data *chip = get_chip_pdata(sdev);
- 	struct arm_smccc_res smc_res;
--	struct regmap *regmap;
--
--	regmap = get_chip_pdata(sdev);
--
--	/* HiFi4 Platform Clock Enable: 1 enabled, 0 disabled */
--	regmap_update_bits(regmap, SYSCTRL0, PLAT_CLK_BIT, PLAT_CLK_BIT);
- 
--	/* HiFi4 PBCLK clock enable: 1 enabled, 0 disabled */
--	regmap_update_bits(regmap, SYSCTRL0, PB_CLK_BIT, PB_CLK_BIT);
--
--	/* HiFi4 Clock Enable: 1 enabled, 0 disabled */
--	regmap_update_bits(regmap, SYSCTRL0, HIFI4_CLK_BIT, HIFI4_CLK_BIT);
--
--	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, RESET_BIT);
-+	reset_control_assert(chip->soft_rst);
- 
- 	usleep_range(1, 2);
- 
--	/* Stall HIFI4 DSP Execution: 1 stall, 0 not stall */
--	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, EXECUTE_BIT);
-+	/* Stall HIFI4 DSP Execution: */
-+	reset_control_assert(chip->run_stall);
-+
- 	usleep_range(1, 2);
- 
- 	arm_smccc_smc(FSL_SIP_HIFI_XRDC, 0, 0, 0, 0, 0, 0, 0, &smc_res);
-@@ -248,16 +237,30 @@ static int imx8ulp_reset(struct snd_sof_dev *sdev)
- static int imx8ulp_probe(struct snd_sof_dev *sdev)
- {
- 	struct imx_common_data *common;
--	struct regmap *regmap;
-+	struct imx8ulp_chip_data *chip;
-+
-+	chip = devm_kzalloc(sdev->dev, sizeof(*chip), GFP_KERNEL);
-+	if (!chip)
-+		return -ENOMEM;
- 
- 	common = sdev->pdata->hw_pdata;
- 
--	regmap = syscon_regmap_lookup_by_phandle(sdev->dev->of_node, "fsl,dsp-ctrl");
--	if (IS_ERR(regmap))
--		return dev_err_probe(sdev->dev, PTR_ERR(regmap),
--				     "failed to fetch dsp ctrl regmap\n");
-+	chip->run_stall = devm_reset_control_get_exclusive(sdev->dev, "runstall");
-+	if (IS_ERR(chip->run_stall))
-+		return dev_err_probe(sdev->dev, PTR_ERR(chip->run_stall),
-+				     "failed to get dsp runstall reset control\n");
-+
-+	chip->soft_rst = devm_reset_control_get_optional_exclusive(sdev->dev, "softreset");
-+	if (IS_ERR(chip->soft_rst))
-+		return dev_err_probe(sdev->dev, PTR_ERR(chip->soft_rst),
-+				     "failed to get dsp softreset reset control\n");
- 
--	common->chip_pdata = regmap;
-+	chip->dbg_rst = devm_reset_control_get_optional_exclusive(sdev->dev, "dbgreset");
-+	if (IS_ERR(chip->dbg_rst))
-+		return dev_err_probe(sdev->dev, PTR_ERR(chip->dbg_rst),
-+				     "failed to get dsp dbgreset reset control\n");
-+
-+	common->chip_pdata = chip;
- 
- 	return 0;
- }
--- 
-2.34.1
+thanks,
 
+Takashi
