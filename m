@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611944;
-	b=DTKbS1HshArgdu21stxD51WM637O5Sl58SXostKLPBLXT+fzv057kgjTyJEU1ihENUnT
-	 LPsKDhJhlGF4elL2W4fC/LfCAFkmy1xQSBZoh5GNH1grC8JFXj99EkmTzMrVzNoSiHoal
-	 idutCorj21YtxLpX1K7o8bbVzHTRFuzrbCKD95MrqMCXMKQrmzCXTHl4YbZeMhMAb7A2/
-	 1dGHgEPvbL+9wJt42F3ZB4tJcZo1Jofir3g82Gmeo/5G45GX9H99kW44GYephjR9VLO25
-	 sWXjtwdjHnhyRPIuz+WSGsvooWyYlFHW10y8YusWgifjw0lCwkHkvA23MslViZ4jb4A==
+	t=1795611964;
+	b=ww+gYIR+zUU61V3a7MflX90NS8AYFj3ZQq7h9gGA/tKVWFkdIGXmXYs40iGyfSzkarZW
+	 fcyRiD7do0eOeM6vYMrZ6iTKYuxwb8cxH2kmHLmmSYFXWrJUGhq/lSHc1EXQA1sYoc5fp
+	 dED9+jmMJB1ZjtU5GecIwkXUIWMFCva0lc8DQX5eyUMXNGwlgGh3Wwc7TEHR0ZJbMBpTF
+	 1JV2+FkBv/KOgGNu4cvKjsMpimuPwZgWdQ/8+Qb81r5tLdDZOjOhqQvA6pbt2XqgfYXeV
+	 siOlq0DoRq0d9jInB6frqEYSg8X3HfZmLz/KBIWnpRvfBITQdvxL+mW8mpZSKYqwemQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611944;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795611964;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=4EhKHWv5rhFEy5L0xN7s/ByT0q9QW78G8ooyCv6TxQ8=;
-	b=IIierLcWQZam7DVXRGiIC7j+6zLKKod918myS2hDBeBrjtc4SA+xOpa0jK3ao2dx0nr5
-	 gs9X0GBgC7/DRHUuOPzZPfr/cGf3JLd3/9bPIgSoC3Tg0JMFKSO6UvWyDVOINliBCRUc1
-	 S9m95slTAUmirHpqY0W6/SI9hmkvL1LEJTiWCMO8BeF1gh5Tf8Dr8LnEa5k4KXAjmWSNG
-	 cQJE3ClfT2+KVJUjMAdGuGy7yGq/Nu58V24V5dha5zvCAruKDdZ2JbJoIz1cbA73QNT3O
-	 NG1SmJP8wmj83HvPyxxkTf+dk4n+TN4cWB47T8LDw5CJzXG3/3jgymTUQDxS3jA2bwQ==
+	bh=hZh1S+KvMqEO5kko1bVmIL17c2VmFipz9BikyBBCfh0=;
+	b=zrpKzqxdfTxbe4UuOdM4UrxoodzNYXHJqkfl33ZKd/2wWT7N+fkydRC5t53mA777JfKE
+	 +uvnlEMv0AU1iL7IEQ+X9BSNF+itLDF9O03dscfs/z6N0DzMFl9p4ubwTWWg1btWSRern
+	 jernFgmjGz+NPrYpEVPB76Q+5X9fLYq9i9sD36/61eXoPnEn71nNruNXk/iTssRJHjoX5
+	 IsrBEQZ7+DkSXQ9aRqWWEQnNz9Qv/ESlaUQrs8YPK+W6pgIkEGOKCnTg8f/LrW8//t1x8
+	 FT9pCeiWXdwzgb6yrRpDexA4+5dHBuyvEObITvr3AXt7q5s+OUO+vlyFxoAlzlAbvQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DF0ODMtE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jle9xdHW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C41606A323
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 13:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB5C606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 13:06:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DF0ODMtE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1171D1F000D0;
-	Wed, 25 Nov 2026 13:05:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jle9xdHW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A619A1F000D3;
+	Wed, 25 Nov 2026 13:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795611944;
-	bh=4EhKHWv5rhFEy5L0xN7s/ByT0q9QW78G8ooyCv6TxQ8=;
+	s=k20260515; t=1795611963;
+	bh=hZh1S+KvMqEO5kko1bVmIL17c2VmFipz9BikyBBCfh0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DF0ODMtE6XVVMZqAExVclHnQl7fDHXz+NYDY66j6ltH9Fdga4ym5LrhRXFRcVsbl3
-	 T8mlor4RSfUKIIn4OHIEa1CcEaQmur5vV+XabSAN1iH2tMLimwrMqiGjBqlQdJTjHb
-	 7gZDXdcnTGoL+vXo2CrAOinE+YrVLEbaps89rOK/nc7c7kgLRT2n8dLbUhBS17AbLh
-	 vb1tMLyJnN3s9MYPbHu/9DcAL/QCTt47Vpivh1Ka4LvYim270sXbuUecvp0iSdaVPu
-	 IKThCcJSeQFvKK+HE/l5Dqsb3Roufrrf6axxo4cS35Cc6KNIqG19quJDb5N6Zu5F5z
-	 uso5Or632Rakg==
-Message-ID: <sashiko-outbox-233451@kernel.org>
+	b=Jle9xdHWPzkmnlVC/6R304IYWTjz4zRT3WeNsjN71BQsEkynsvKR4I0oESNpMm+2u
+	 7c9gl64jikJD1bZJBLLc4RLEBlq+Sw7KGDz2p4t10jLvns6L8oqTCoX9johnkgtLC3
+	 ypkb6Xyl+ecfUN+RTASwUHzVcoDOl5425/zkuULqQU/FNgEGtbl1O+z6xVQhDYZuLa
+	 hNJf91uoDJ3RvheULDDtfvhL9KrKu8XLbCTcM4Cf0M3UxfCCCEI6Juo+9/ish3Fchw
+	 UrMCDeUNhfCOFrV5VUhxaC7nOqN5oHzNywpNzYjrZTfYHT15tnHs32vAlivhoygFES
+	 OGXbS/DBPNr3A==
+Message-ID: <sashiko-outbox-233452@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] Re: ALSA: ctxfi: do not free a running system timer
- when timer_delete_sync_try() returns -1 (UAF)
+Subject: Re: [PATCH] Re: ALSA: asihpi: quiesce PCM timer and IRQ before
+ freeing dpcm on close (UAF)
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20f42cfd.589.1a212c337be.Coremail.xuhx@hust.edu.cn>
+In-Reply-To: <8e25ddf.57f.1a212c231fe.Coremail.xuhx@hust.edu.cn>
 References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
  <2026102727-data-sequel-ce41@gregkh>
- <6776b38b.262de.1a1d4ca8711.Coremail.xuhx@hust.edu.cn>
- <20f42cfd.589.1a212c337be.Coremail.xuhx@hust.edu.cn>
+ <2337e87f.262ec.1a1d4cd7b94.Coremail.xuhx@hust.edu.cn>
+ <8e25ddf.57f.1a212c231fe.Coremail.xuhx@hust.edu.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 13:05:43 +0000
+Date: Wed, 25 Nov 2026 13:06:00 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -65,118 +65,127 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 3 potential
 issues to consider:
-- [High] ALSA: ctxfi: missing Signed-off-by trailer in commit message
-- [Medium] ALSA: ctxfi: ct_systimer_prepare() skips timer sync on false
-  lock claim
-- [Low] ALSA: ctxfi: missing Fixes trailer in commit message
+- [High] ALSA: asihpi: missing Signed-off-by trailer in commit message
+- [High] ALSA: asihpi: unreachable synchronize_irq() in
+  snd_card_asihpi_runtime_free()
+- [High] ALSA: asihpi: quiescing in snd_card_asihpi_runtime_free() runs
+  after hw_free()
 --
 
-commit e750bb6cd03b9a9826e84cf3cb74558902482fe7
+commit 95d808dec25e736dfee562fd8a1a93b51e97b152
 Author: =E5=BE=90=E6=99=97=E7=BF=94 <xuhx@hust.edu.cn>
 
-> ALSA: ctxfi: do not free a running system timer when timer_delete_sync_tr=
-y() returns -1 (UAF)
+> ALSA: asihpi: quiesce PCM timer and IRQ before freeing dpcm on close (UAF)
 >
-> ct_systimer_prepare() served as both the prepare callback and the
-> free_instance callback and ignored the -1 return of
-> timer_delete_sync_try() (-1 means the callback is running on
-> another CPU and was NOT deleted); ct_timer_instance_free() then
-> kfree()d the instance while ct_systimer_callback() still
-> dereferenced ti->substream, substream->runtime, ti->apcm and
-> ti->position -- a UAF on a normal PCM close with use_system_timer=3D1.
+> snd_card_asihpi_runtime_free() kfree()d the per-open
+> snd_card_asihpi_pcm while a polled timer callback or an
+> IRQ/threaded handler could still use it: the polled stop path uses
+> plain timer_delete() (no wait for a running callback), and the IRQ
+> stop path clears card->llmode_streampriv with a plain store and no
+> synchronize_irq().
 >
-> Split the callbacks: keep ct_systimer_prepare() non-sleeping (it
-> also runs from ct_timer_prepare() under snd_pcm_prepare()'s stream
-> lock, where a sleeping wait would be 'scheduling while atomic'), and
-> give the free path its own ct_systimer_free() that calls
-> timer_shutdown_sync() before the instance is removed and kfree()d.
+> Quiesce in runtime->private_free, which runs in process context from
+> snd_pcm_detach_substream() outside the PCM stream lock (so the
+> sleeping sync calls are allowed there): timer_shutdown_sync() for
+> the polled timer; for IRQ mode, clear card->llmode_streampriv and
+> synchronize_irq(card->hpi->irq) before the kfree(dpcm).
 
 [Severity: High]
-The commit message is missing a Signed-off-by: trailer.
+This commit is missing a Signed-off-by: trailer.
 
-[Severity: Low]
-Since this fixes a bug, should the commit message include a Fixes: tag?
-
-  Fixes: b7bbf876087e ("ALSA: ctxfi - Use native timer interrupt on emu20k1=
-")
-
-> diff --git a/sound/pci/ctxfi/cttimer.c b/sound/pci/ctxfi/cttimer.c
-> index 9d6f5df2bc7ef..ad463321cac2e 100644
-> --- a/sound/pci/ctxfi/cttimer.c
-> +++ b/sound/pci/ctxfi/cttimer.c
-> @@ -111,11 +111,24 @@ static void ct_systimer_stop(struct ct_timer_instan=
-ce *ti)
-> =20
->  static void ct_systimer_prepare(struct ct_timer_instance *ti)
+> diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
+> index b78e96caef9d0..f528039651ab1 100644
+> --- a/sound/pci/asihpi/asihpi.c
+> +++ b/sound/pci/asihpi/asihpi.c
+> @@ -495,6 +495,29 @@ snd_card_asihpi_hw_free(struct snd_pcm_substream *su=
+bstream)
+>  static void snd_card_asihpi_runtime_free(struct snd_pcm_runtime *runtime)
 >  {
-> +	/* keep the try variant here: this callback also runs from
-> +	 * ct_timer_prepare() under snd_pcm_prepare()'s stream lock, where
-> +	 * a sleeping wait would be a "scheduling while atomic" */
->  	ct_systimer_stop(ti);
->  	timer_delete_sync_try(&ti->timer);
->  }
-> =20
-> -#define ct_systimer_free	ct_systimer_prepare
-> +static void ct_systimer_free(struct ct_timer_instance *ti)
-> +{
-> +	/* the close/free path runs in process context and must wait for a
-> +	 * callback that is already running on another CPU before the
-> +	 * instance (and the PCM runtime / apcm it dereferences) is removed
-> +	 * and kfree()d; timer_delete_sync_try() returns -1 in exactly that
-> +	 * case without waiting, so a UAF followed.  Use the full shutdown
-> +	 * sync here, but do NOT route prepare through it. */
-> +	ct_systimer_stop(ti);
-> +	timer_shutdown_sync(&ti->timer);
-> +}
+>  	struct snd_card_asihpi_pcm *dpcm =3D runtime->private_data;
+> +	struct snd_card_asihpi *card =3D snd_pcm_substream_chip(dpcm->substream=
+);
+> +
+> +	/* Quiesce the polled timer and the low-latency IRQ stream before
+> +	 * the memory goes away.  This runs in process context from
+> +	 * snd_pcm_detach_substream(), outside the PCM stream lock, so the
+> +	 * sleeping sync calls are allowed here (they must NOT be put into
+> +	 * the trigger/stop path under the stream lock).
+> +	 *
+> +	 * Polled mode: snd_card_asihpi_pcm_timer_stop() uses plain
+> +	 * timer_delete(), which does not wait for a callback that is
+> +	 * already running on another CPU -- the callback dereferences dpcm
+> +	 * throughout and re-arms itself if it observes respawn_timer set.
+> +	 *
+> +	 * IRQ mode: card->llmode_streampriv is cleared with a plain store
+> +	 * by snd_card_asihpi_pcm_int_stop(); the threaded handler may
+> +	 * already have loaded the pointer, so synchronize the IRQ line
+> +	 * after clearing before the kfree(). */
+> +	timer_shutdown_sync(&dpcm->timer);
 
-[Severity: Medium]
-Should ct_systimer_prepare() use timer_delete_sync() instead of
-timer_delete_sync_try()?
+[Severity: High]
+Isn't quiescing in runtime->private_free too late to protect
+runtime->dma_area and dpcm->h_stream during teardown?
 
-snd_pcm_prepare() drops the stream lock before invoking the .prepare
-callback via snd_pcm_action_nonatomic():
-
-sound/core/pcm_native.c:snd_pcm_prepare() {
-	scoped_guard(pcm_stream_lock_irq, substream) {
-		...
-	}
-
-	return snd_pcm_action_nonatomic(&snd_pcm_action_prepare,
-					substream,
-					(snd_pcm_state_t)f_flags);
-}
-
-All three callers of ct_timer_prepare() in sound/pci/ctxfi/ctatc.c
-(atc_pcm_playback_prepare(), atc_pcm_capture_prepare() and
-spdif_passthru_playback_prepare()) already run in sleepable process
-context and take atc->atc_mutex right before calling ct_timer_prepare().
-
-With timer_delete_sync_try(&ti->timer) ignoring a -1 return when
-ct_systimer_callback() is running on another CPU, ct_timer_prepare() and
-a following ct_timer_start() can race with the in-flight callback:
+In snd_pcm_release_substream() (or when userspace issues
+SNDRV_PCM_IOCTL_HW_FREE without closing the device), do_hw_free() and
+substream->ops->close() run before snd_pcm_detach_substream() invokes
+snd_card_asihpi_runtime_free():
 
 CPU0                              CPU1
-ct_timer_prepare(ti)              ct_systimer_callback()
-  ct_systimer_prepare(ti)           ...
-    ct_systimer_stop(ti)
-    timer_delete_sync_try() -> -1
-  ti->position =3D 0;
-  ti->running =3D 0;
-ct_timer_start(ti)
-  ct_systimer_start(ti)
-    ti->running =3D 1;
-    mod_timer(&ti->timer, ...)
-                                    apcm->interrupt(apcm);
-                                    ti->position =3D position;
-                                      <-- clobbers reset position
-                                    if (ti->running)
-                                      mod_timer(&ti->timer, ...)
-                                        <-- re-arms with stale interval
+snd_pcm_release_substream()
+  snd_pcm_drop()
+    ...
+    timer_delete(&dpcm->timer)
+                                  snd_card_asihpi_timer_function()
+  do_hw_free()
+    snd_card_asihpi_hw_free()
+      hpi_stream_host_buffer_detach()
+    snd_pcm_lib_free_pages()
+      runtime->dma_area =3D NULL
+  substream->ops->close()
+    hpi_outstream_close()
+                                    pd =3D &s->runtime->dma_area[buf_ofs];
+                                    hpi_outstream_write_buf(ds->h_stream, p=
+d, ...)
+                                      <-- NULL deref / DMA buffer UAF
+  snd_pcm_detach_substream()
+    snd_card_asihpi_runtime_free()
+      timer_shutdown_sync(&dpcm->timer)
 
-Calling timer_delete_sync(&ti->timer) in ct_systimer_prepare() waits for
-any running callback while still allowing the timer to be re-armed on the
-next start.
+Both snd_pcm_drop() and do_hw_free() call snd_pcm_sync_stop() outside the
+PCM stream lock before freeing pages or closing the stream, so quiescing
+the timer and IRQ in a struct snd_pcm_ops .sync_stop callback would cover
+both hw_free and close.
+
+> +	if (card->llmode_streampriv =3D=3D dpcm) {
+> +		card->llmode_streampriv =3D NULL;
+> +		if (card->hpi->irq)
+> +			synchronize_irq(card->hpi->irq);
+> +	}
+>  	kfree(dpcm);
+>  }
+
+[Severity: High]
+Can synchronize_irq() ever be reached here?
+
+snd_pcm_release_substream() unconditionally calls snd_pcm_drop() before
+snd_pcm_detach_substream().  For an active stream in IRQ mode,
+snd_pcm_drop() triggers snd_card_asihpi_pcm_int_stop(), which sets
+card->llmode_streampriv =3D NULL:
+
+sound/pci/asihpi/asihpi.c:snd_card_asihpi_pcm_int_stop() {
+	...
+	hpi_handle_error(hpi_adapter_set_property(card->hpi->adapter->index,
+		HPI_ADAPTER_PROPERTY_IRQ_RATE, 0, 0));
+
+	card->llmode_streampriv =3D NULL;
+}
+
+By the time snd_card_asihpi_runtime_free() runs, card->llmode_streampriv
+is already NULL, so card->llmode_streampriv =3D=3D dpcm is always false and
+kfree(dpcm) can still race with an in-flight threaded IRQ handler running
+snd_card_asihpi_isr() -> snd_card_asihpi_timer_function().
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20f42cfd.589.1a212c=
-337be.Coremail.xuhx@hust.edu.cn?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/8e25ddf.57f.1a212c2=
+31fe.Coremail.xuhx@hust.edu.cn?part=3D1
