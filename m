@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.40
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795599207;
-	b=g882yKY12GVVvXagM35veBniTajT48Z9RdRx//R/IxceFBRgP+SftKA04gTn5D4HC0wi
-	 jjFcbiYR6cbVvFdDIHGAoCvLCjYpTBrEKwxu4c/9Wlo/lTVSpiLvaWMWcKg7V48WFUGuf
-	 Og5tHgum6stxrCRLbz5yIf8t/C71LTa8vuAFxaNXbsG4CXRlc4Inn2p6QYlU92FXR2mT7
-	 96c6KyQzNgIUr3M71qohhs+TnbYZSXHnqf1n5U6KMoGTWoEsVrBqmvQE2rb3FJoccNabo
-	 TyHajhILcSA8COF/+2xuh7+TPpKXPG2AHZjE6eclgt2qiQ6km2AKTvP/PuF+gHAM3BA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795599207;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=x85ZrLgLVZ2u27nl2iDBCxCBo21vp5nUpjJyUnMXL6Q=;
-	b=Urb1YrPKiYtbRD5Oi356lCBtokjjsfLToFibQzWe+4FPonBVnhWvphizueaRh2CreSV9
-	 wZE1XXjcgzA9lTwOU4ksB9Z77IaDNcj+KExhn9ipB3rm0SHEOz4l38mF8o1OtcVk5lEAF
-	 VSd4z3KVRv7OKwNIFAHLpJESl6redbvJPnxh/CGuHf67Kk2RPoTky/kG49jurl6fucWXM
-	 4pt9S0oSEb4YkNBA/rLYglky+2w0HMl04/u6ur/FFqevZqQVWQeXyCovisdZEsPk2nLPe
-	 SemSU7epJkt0TTbHFrgNSu/rfWW3fJThiJ25LEwQsu6/eDY764JbnfgPMF5sraipWtA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=tDrYchy6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.40
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012040.outbound.protection.outlook.com [40.107.200.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795599370;
+	b=xfSvlbR+hCPNxZ3LoMfoshZz4Dsu2KLN86Dy5tQEX9hLVlACAEqWZqmyhCU0ABnJENPq
+	 /fZ2bCJHRw7XSSC5kQ5MTJ5PcM6Ih6T8wD+M7t7mIx5Vop3JSwU2SH/ZG6WI7cL5n+60u
+	 yu9ROJm+SYXtU2vbd9WtquzlIMXVw6/v/eVLzWtgJGzLyuvsPmJ/ZuuKmaXZfr73C5iQG
+	 xVPZ7pHBG6b4cA3M+hzXxlLNnbDiATpbljHn0ZkfOSD5HWghmCx7fsBnRl2EIVJ0mmpbr
+	 PBJHbYFnHlnSItJgToVeMwQz58h0BAXedmC0fd1KzR/nwKjsNw2xft41kd3z44pvhnw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795599370;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=ugfNGSkMkksGb7kfTV5SRjEmNCXpWyRWq3uVRTCGG4Y=;
+	b=DpS0WhPquoDFtxKyH4kx2LPDnYnIR25HlNxYO9KvuuR7sUq3UQYF8e0Jlxr/WZAhiRfL
+	 dYFApVP6+LsVoaXBFgynxr7gncLoeG2xP2ADRc6RHIPNDaFNKH3WfUf3SxwD0PIgo9Kvy
+	 7KD5/OYygQ0zRBs5Igq5hCb3Wbz1EeUWOSmpzquI67SxqoEK2GR80oik2m5hxVkrQdV37
+	 xGHbuWXaRQ51rCqyUEJ4Bc9IqDvh1KoufGKGHbbCdtosDA7ASptw79LBRL3YM/UCrLb5E
+	 8YU1vc6WKZzcGXFDZQZzcNJik3/cSSA+ipBMIGXB70TZ8LgzpWeswxsu+UPbwUX44Bw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dN78wiyu;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD19B606A31E
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 09:33:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD19B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78578606A6A5
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 09:36:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78578606A6A5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=tDrYchy6
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mJRKZnaWiBuTqKpmK+G2U3yEiOwmz4EoqvBHQ9fjF+oogOtltDH++Dv/lrMyqfBk825+igvQdo1D0D4BRjPIPv5bE4kikRlXhqVWQW0EuPiDaeMX5n9mIci8GytBqsRlxkBx08x6Ih/FCgv1fNxuVN36N7awZZUxefL+oet+vB/tCUKbaA80/6Ri8KokxlRFIxCKN0NEczA/krajnxB4gKbRPeuW++HVaG7W5bcsTF03NEVbG/OAoZtrZv5KWmIGEm/FJxJ9ymRuAxoxZhvguqhBI47/rx/EW5eiJBaxP+Z3OSGd7P5q/UinBdRuDi2x94jBeWpTd3ZiWRNfUX79fQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x85ZrLgLVZ2u27nl2iDBCxCBo21vp5nUpjJyUnMXL6Q=;
- b=gnLT0outkQI76g0M/nxbrRc0ifse0ZD0JZJCxGx8QjSqdg+/MSsQWBdA21SttR/YMpR0Tgo9Qu0JrnWTPNtdVYjUr7/0gzdG4qGee43QzNK4rEkkPmsh2CX9NucVK90v+bU0CvUX8G/NbGcZeoddKMkLwVrQeh2ocPH8a6YUVuVXFpm2oOYsItnP2b6J7vGQ9vY+QzpbVTmZ6Xe455Q1hKkcvelshUVnkJwGcG3LFvAwJBNJR6PCFGdGwehCCtPa7fadjNViTvPfmI1V29mkem7OWUqMrnzCC6/RcJ4qWyeK8za7HZmlap0QgtJXVoC+b6mBQLGaB5wvy7bLPwtkxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x85ZrLgLVZ2u27nl2iDBCxCBo21vp5nUpjJyUnMXL6Q=;
- b=tDrYchy6aJo7CzJoFF0TBd6BQRhxMvILoSxn2/hI80y6bg5ZWQGKhJlukPRrSN79QVnPUSzPt7PyXYEPDsv1VM5ME89p2gjZlqHvGSA2W0xk7l5bVmA6zJ1bURwGWXAQGy8FBqkVRVXKyicaODPfiM6dBpD3KXwVzu+imtd0jJ0=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com (2603:10b6:930:20::17)
- by SA3PR12MB7879.namprd12.prod.outlook.com (2603:10b6:806:306::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 25 Nov
- 2026 09:33:23 +0000
-Received: from CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2]) by CY5PR12MB6252.namprd12.prod.outlook.com
- ([fe80::ab00:d77:6014:64a2%4]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
- 09:33:23 +0000
-Message-ID: <61c0a076-5433-410a-b1b7-247d4393bf01@amd.com>
-Date: Wed, 25 Nov 2026 15:02:13 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for HP 255R G10 (board 8D22)
-To: =?UTF-8?Q?Alen_Ti=C5=A1ljar?= <alen.tisljar@gmail.com>,
- Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Cc: Mario Limonciello <mario.limonciello@amd.com>,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
-References: <20261124182329.20428-1-alen.tisljar@gmail.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20261124182329.20428-1-alen.tisljar@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0022.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:179::12) To DS7PR12MB6240.namprd12.prod.outlook.com
- (2603:10b6:8:94::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dN78wiyu
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-385c497bf94so2272030eec.1
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 01:36:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795599367; x=1796204167; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ugfNGSkMkksGb7kfTV5SRjEmNCXpWyRWq3uVRTCGG4Y=;
+        b=dN78wiyu+GfnnmV4zHwY2zAFAdQNBBnfk6rp9gQGp4oZJ4rYJl4Xi1+x41zZ170Eyf
+         io5b09LPIWtzueJ7I25PM7hEaxGpZWloTtrES40qUhuPFUWwctlasy/P+12z0Euxhf8V
+         /c7fDdwoaLqO8knt6mJqX3LZf+NRXULhe6PcDhvdleYrH2lZPMevrBawyYk/umQ3BxgG
+         IiqQXNb+Xl8l/fXFfqWAsfz1EiOzyxsQgQOmIuAMc2oHSkECyTX5xQaaEuhxT6NKFHFH
+         INWh/O3l77zsq3DOd8O/BBH3EtuNQTfVb+jkoIGWVvjsSRmxObATj7H4uCg7w47r7JIO
+         Uspw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795599367; x=1796204167;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ugfNGSkMkksGb7kfTV5SRjEmNCXpWyRWq3uVRTCGG4Y=;
+        b=BRFZ6VzvJ8rxjpDrq7F1HjpMBgk9zA4223wUhd3IhA/Q+1fOVWZE6BlpofEeT0rbJS
+         aH3uLpEnp6Ns35X903pRVhks+KZirwsySyei+TLwiplbf9srS5ndhI5JKv+cy80sNx8S
+         P6zCRajApaXLvnDYGPw2OGvTA1ATcQZ7GTVzITITPCpTTue+wxcN7y0AmUa+tx9yGYJ1
+         IJwz+iRwOXpORR8uMSvYtjgMAuhM5OfXzPd5lsdaug3L6ZXkYRb/b3xj48Wo8s3ganBJ
+         F+IdIlG5+ZfRU7QHyxvDvInzaaYcPBRGrSpNWxRtcvdnoiOyLicf4cf+88Hf1ODtJY4s
+         3Oqg==
+X-Forwarded-Encrypted: i=1; AL+hErEwHh7ihaWvDt79L92yJ6VXiIjWjwOlI5LPnmIl/AsVlxnHGZ2Hp0yGlvlLGlSQzSoA7llK5BfQ+DKMfA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8wMABq6dbAKwfa1worDcnEVwq3nwAgtTS7GOBuk0B/Opcs/80N
+	1jl3XC9o4eMPGRWv2VPipkvuV84N5otk4h0+H5aa8Eh4ySPYxCXipqDZ
+X-Gm-Gg: AZFdTZcaCiNXllIcShOFHesDFL/OONoqOIf6qpjZzl3aCECxBmiwQDA5gHRiVp8a3aW
+	7WKVUoEqKMCqfQHOm8ee+sJ5IoIfshRjCU+DmOgvtb4cdj0MlUyBYlZrQWhcgouOz4xQcnOO6db
+	THNR6SveGxnXDPdnWxsIvTkjtnx0WxQf7FgUYPgUD/p9bN5kSnUCbgdxFXa0yOMR+1u9sGu1jT2
+	CpSilgZdElPQWdV8UrE0NzVki2rE+XvqvZP6G29aOncZrNsHdqZxQG6WILYGqFtuC+gtfFv+prM
+	b1Sq4VK4jdmkSS67L7wrCOd/WvpF9sAt4XD+dmlpQlaX2TUqDz7il4zsl820kIxmguB4Ph+XdaR
+	IhqmxZMUb7nkDdMtH5LTsjMPDRHm/ovoWK5tqJ6ylH6ujS/TUc3wyeSdclDGtjs1R5K98m4HNg3
+	QkB38zt0vPeRgJSA1IzalyvHWQXjflyO2/xxeHUjENVJRvGKKZrRZzXK/Obtds972ANrGkpgZE2
+	odGeCjM5SLNBvlCIqfuIKnCjgdTvi/g9IKuLUrf62RZkE1NTeOzCdFrNfO18jXbzJBH9vFMLKmp
+	R3X7ttcw7AmkmS1vJbS61EH2wWNTa2UC/5VNBWXtBzBPBIvDSu4=
+X-Received: by 2002:a05:7300:108:b0:375:50d9:474e with SMTP id 5a478bee46e88-3856c0d0bb4mr22872675eec.4.1795599367493;
+        Wed, 25 Nov 2026 01:36:07 -0800 (PST)
+Received: from localhost.localdomain ([103.179.230.77])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385677c371esm51659458eec.23.2026.11.25.01.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 01:36:07 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	sreekuttan2156239@gmail.com
+Subject: [PATCH v4] ALSA: core: Reject zero major number
+Date: Wed, 25 Nov 2026 09:35:37 +0000
+Message-ID: <20261125093538.4974-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87o6bd8ijb.wl-tiwai@suse.de>
+References: <87o6bd8ijb.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,106 +99,137 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR12MB6252:EE_|SA3PR12MB7879:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39c8fc18-d9bb-422a-46d8-08df4ad72614
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|18002099003|22082099003|261009223027099003|11063799006|261028144727099003|56012099006|261026140227099003|261026121527099003|261022105027099003|10067099003|261021121427099003|261102123227099003;
-X-Microsoft-Antispam-Message-Info:
-	UIkzIvdoX6WtIM/ocBzSw0p7uWvQd+7FyJl0xkWD7e0F6i11eK53ZuIx+Yj1ysI1UGg1NwqS2roK4OTHpcPkMIfOU/fuBR/Q7eWejDEKEDwtpIo5TaQIGIbM4wnPbrV34E/9uroJmueKxDVx3BYe6Npfouxphpto+IHZClIYs8ysSPtroWbWLUYhgumBbuk+YOHMvcpVPaEZOMRSO8z9ilD8P6+m1AZ/Sn8ueO+EaUIyUW9NJDtinTzBhj/5G2BWPSnxgN4s0pfs1prAoae14FARwQ4Tgfk1yemlOKYZkgwLOVeOO4LsnFbWST8g45vNLXrJpBUDc1r5GPjmvqH2uB5BjPUvIrxmb76VGHuyWSXCrmxDS37vHzZMkWzOqln4BamFdAuJegpXGaDu3NHndhEfikxpilTrCoK+4gQplrs+bBm4o1Qg8wj25tIG2owA29xEoUy4yKXkOSs01WyDBFq3EiyW9FN/sBrNUK7Q9oELfrDybh0bowz5L3LQ5vo7g8Uo3rHJcwkAQXpqEQh6aBGXLMGcox1G/uqhs8lXWG0YaF2cd5BvVzxmggRBId/95XMps2jcWNpaV7goQemBaPflNE2x53MPecufLN6SYUCDUXa1G0gVnkOAbNhEWFdyxb0ekkZ948bSc0bKX6lA1NUB57U20PU4LlXubl+tq7c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6252.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(18002099003)(22082099003)(261009223027099003)(11063799006)(261028144727099003)(56012099006)(261026140227099003)(261026121527099003)(261022105027099003)(10067099003)(261021121427099003)(261102123227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b1R2aFhFSmluMVUvS20zYjYwZStoZHI1SzM4VldOdW5XYTRvUlRBMEFKMlZu?=
- =?utf-8?B?SWN4b09kekdEMXdCb2YwZGdXRW9vT0pnanc2VTl2aGtYYkJWUDk3L2VabDBy?=
- =?utf-8?B?Qmh0cVU0NCtYeGZJWkhSVTZLU0djYWxxaXVHWDU3STlvRmZhbGJBcnl4ZTE2?=
- =?utf-8?B?Y3cxRXBLU1BWeGJnRzQweTFXR1diNlgwWUNqM2F4bXpyVHVFZFhVWW9CUDd4?=
- =?utf-8?B?ZXVqOHJpa2dLL3lsV0huVEdTOWZoQmthbnFDYnp2TXdQVnh4K3dzU2NTamxG?=
- =?utf-8?B?T0grQWJUeEZZRDJ4VmdhbU93eFFqcU5YSG9rOU9nVTA2RWFZc2l4VW9hczlp?=
- =?utf-8?B?a1RKaTdtVTloU3dnVGN2V293S1JzNHZCN050bHJyWmhEaGg2bXM3Q0FmQjEx?=
- =?utf-8?B?eVpJYjJCSk1kYVJ2UjBkd2VyUGVSNFdPWFBSMFc4TTNtZUI1UXJzQThEaWxJ?=
- =?utf-8?B?d3N0MFNKWUlzNGNjcEx6cHdjNGI5Y3lQekJXOExVdTlQRHVTY3JTL2JqMmts?=
- =?utf-8?B?dzlQcEtTRThlMHRUMUJacjRvMmVZVFRCdVd5VUNMS1cvZ3RDT2VZNmtEYTVI?=
- =?utf-8?B?Q1MwZFY5UjFnQm1TNVpYbVJZQXplUjYyeHZZVStEWFRJakxlam1ZZXRhdXN5?=
- =?utf-8?B?cEhMc0FYczVtZXNTR1pvYWh0UHJ2bXRnWElFcTV5K0Z3YUpTU2Fic1RzTGNm?=
- =?utf-8?B?MEswOVFJalRPTEdOZ1U1SkVJcFJrbVc1SWtScjVIVEVlRlgzai9zTW5GaTZi?=
- =?utf-8?B?bXRTY3pVUHRYeGhITTdMSCtEdHNBQk5hZVZ2MmdJWVU2NFdXWkdQU3N5Qkh3?=
- =?utf-8?B?c3hlWDNDS2JxWml0bGYzMlpMaVlkZlh5cWpkUFN6S2x1aGtHMlBVb2U3VSsv?=
- =?utf-8?B?eUdBZzMxQ2ptMndadXYyVHJiMlpyVTlxdDRBS05VUkg0ODZuSmx6c3VNanBH?=
- =?utf-8?B?MmpnSHc2Q1ZGTGtiekRuWEVsYk4vTlJnakVQMjJ5TUJCemJ4VGtCOEtacVdh?=
- =?utf-8?B?NnZZVGNCVElkeWY4alp2Tm9QOTVXWThUUGxlSWpQZ0NTZndiTjZ2RzFzdHhv?=
- =?utf-8?B?bEhnV2VHOCtvUHVjMFIrYm9YTkZxZC9aQWkyMnh0a0pScm9MT1VUZmdlUkRx?=
- =?utf-8?B?YkVFdWJuazk3QkovY0tFdTZ0RHI2Wk5IbWl2Z1MwejdlN0plWUR1K1pIQVNZ?=
- =?utf-8?B?R01OZW5oNGUva0FCRmZHaXlScnBmM2hOdStZZUhSajhFREJFNDBrdVpMYXFQ?=
- =?utf-8?B?bGtZSEx2T1JmWm9lT3Q4Y2pEdE1zSHI4NjVaUUNnSHRMdjJMdStyOUVvczVW?=
- =?utf-8?B?eldVMEhQbzF2TlZBblBRS05FcVlQYU9IWWhGZVc2d213ak9mbHhVQ1J6OURX?=
- =?utf-8?B?UlBYMThQS1pBejdMKzRFM0hTR1M2dG5mcjNDM0FZOXpvNFZ2bDd6bnQvS3NG?=
- =?utf-8?B?RHdIVllFQXdYa2FSMEpNdGJuQWg1ZDdkV2U2ZFNxTjhnOUJIcFZpRnF1eXFk?=
- =?utf-8?B?MU1VenR4R2tjUG9kd3NSaVd4Z2IxS1RkYmRwM1RlMG03VWJlRmErMVB5WHRK?=
- =?utf-8?B?YVZhN0I2enh0Sy9MVGNPOURTRVJNU0JDNGd6N3doM1BYby9TLy9wU3ZoVEk3?=
- =?utf-8?B?MzUyZzNKVm5Wb212cUxrbnZqTXVUNzVpOFFrQlpsSmVoU3BZT2dPTDNkNHM5?=
- =?utf-8?B?SWc4VUJzMjlNWEhQK2lSeWlzMlJ5ZUVIZ3hrUklwbDE4SCt4OXZEbkJlWGVx?=
- =?utf-8?B?ajYrY2ZtdCtYTkRFVjRXMmFiMlcyZ2U3dzBNWStSYmo2ak5rUHlLcm96VXk1?=
- =?utf-8?B?MWNyZ3gwMDE4dE5RcVl4em1nMXRwOEdUNnB2UHBURnRWamRFTzJvdVVpZDN2?=
- =?utf-8?B?TjNmOGlYNU1BY1J3WUYzQjFsV1V6aEpZZzU3NmFBYUYyQ1JEZUlqTGE1RlR2?=
- =?utf-8?B?YjAwYitMd1J5WUZmeDlmY2ZxUUpRMFc5ekJYdnJSSVcyOTI5SGh4Y2VtYXEx?=
- =?utf-8?B?Q2VrK0VKcitOcENSMUlxdnFWODlQOHhnOHplTWx5bi84ZmJhbVZXR3BQQWFW?=
- =?utf-8?B?SFFHSDRQNzNEeXVOZXNOd0t4NE9GWjBGbFZXZW5XTFVsNkFEeURocDZ3RGtp?=
- =?utf-8?B?aUMvSHJVWDVXU3ZTckVVc2NUaHB0Y294U2E1THNEQ0p1d3gyeG50K1hTUlRp?=
- =?utf-8?B?OTdqbWRObllWWDZjOHNyL1Q4ZkxIUTF4S1ZiNCt3dThLcU1GaTc2TjJXcDVO?=
- =?utf-8?B?VzdZL2NoTUlGaUg2UEY2MzNsUzZuMG03ZC93SGxIaVFwRWJMMGd6SFRyeElh?=
- =?utf-8?B?M3QwU3Y5K3FPR0RLVzFwS2ZUWTBLOU1EZ3d3TFFyZHVRM3lpc3RiUT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39c8fc18-d9bb-422a-46d8-08df4ad72614
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6240.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 09:33:23.4081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BYe/G0hb9XRHeyDoZcvZsmJQ82NHRKy3sBuNDWqCo35xR06zc+yEsas3SqueF0o9lJnLm5/KGmt+P2fEdkkTlg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7879
+Content-Transfer-Encoding: 8bit
 
+Reject a zero major number before calling register_chrdev(),
+as ALSA expects a fixed major number.
 
+Remove the redundant major variable and use snd_major
+directly with module_param_named().
 
-On 11/24/26 23:53, Alen Tišljar wrote:
-> [You don't often get email from alen.tisljar@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> The HP 255R 15.6 inch G10 Notebook PC (board 8D22, Ryzen 7 7735U)
-> has an internal DMIC connected to the ACP6x. Without a quirk entry
-> the acp6x machine driver doesn't register a card and the internal
-> microphone doesn't work.
->
-> Add a DMI entry for the board to enable it.
->
-> Signed-off-by: Alen Tišljar <alen.tisljar@gmail.com>
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> ---
->   sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-> index f636b5ba5..9dcb98160 100644
-> --- a/sound/soc/amd/yc/acp6x-mach.c
-> +++ b/sound/soc/amd/yc/acp6x-mach.c
-> @@ -731,6 +731,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
->                          DMI_MATCH(DMI_BOARD_NAME, "8A22"),
->                  }
->          },
-> +       {
-> +               .driver_data = &acp6x_card,
-> +               .matches = {
-> +                       DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-> +                       DMI_MATCH(DMI_BOARD_NAME, "8D22"),
-> +               }
-> +       },
->          {
->                  .driver_data = &acp6x_card,
->                  .matches = {
-> --
-> 2.53.0
+Keep a separate configured card limit for automatic
+module loading, as snd_ecards_limit may increase at
+runtime when cards are registered at higher indices.
+
+Update device number creation and character device
+registration and unregistration to use snd_major.
+
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v4:
+ - Keep the configured cards_limit separate from
+   snd_ecards_limit to preserve the existing autoload behavior.
+ - Update the comments describing the card limits.
+v3:
+ - Update the unregister_chrdev() call in alsa_sound_exit() to use snd_major.
+v2:
+ - Reject major=0 before calling register_chrdev().
+ - Remove redundant major and cards_limit variables.
+ - Use snd_major and snd_ecards_limit directly with module_param_named().
+ - Update device number creation, registration and unregistration to use snd_major.
+
+ sound/core/sound.c | 43 +++++++++++++++++++++++--------------------
+ 1 file changed, 23 insertions(+), 20 deletions(-)
+
+diff --git a/sound/core/sound.c b/sound/core/sound.c
+index 24f40763a20c..35b7f1683532 100644
+--- a/sound/core/sound.c
++++ b/sound/core/sound.c
+@@ -18,28 +18,28 @@
+ #include <linux/kmod.h>
+ #include <linux/mutex.h>
+ 
+-static int major = CONFIG_SND_MAJOR;
+-int snd_major;
++int snd_major = CONFIG_SND_MAJOR;
+ EXPORT_SYMBOL(snd_major);
+ 
+-static int cards_limit = 1;
++/* maximum number of cards allowed for automatic module loading */
++static int snd_cards_limit = 1;
++
++/* this holds the actual maximum card number currently available.
++ * it is initialized from snd_cards_limit and increases when
++ * cards are registered manually at higher indices.
++ */
++int snd_ecards_limit = 1;
++EXPORT_SYMBOL(snd_ecards_limit);
+ 
+ MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
+ MODULE_DESCRIPTION("Advanced Linux Sound Architecture driver for soundcards.");
+ MODULE_LICENSE("GPL");
+-module_param(major, int, 0444);
++module_param_named(major, snd_major, int, 0444);
+ MODULE_PARM_DESC(major, "Major # for sound driver.");
+-module_param(cards_limit, int, 0444);
++module_param_named(cards_limit, snd_cards_limit, int, 0444);
+ MODULE_PARM_DESC(cards_limit, "Count of auto-loadable soundcards.");
+ MODULE_ALIAS_CHARDEV_MAJOR(CONFIG_SND_MAJOR);
+ 
+-/* this one holds the actual max. card number currently available.
+- * as default, it's identical with cards_limit option.  when more
+- * modules are loaded manually, this limit number increases, too.
+- */
+-int snd_ecards_limit;
+-EXPORT_SYMBOL(snd_ecards_limit);
+-
+ #ifdef CONFIG_SND_DEBUG
+ struct dentry *sound_debugfs_root;
+ EXPORT_SYMBOL_GPL(sound_debugfs_root);
+@@ -61,7 +61,7 @@ void snd_request_card(int card)
+ {
+ 	if (snd_card_locked(card))
+ 		return;
+-	if (card < 0 || card >= cards_limit)
++	if (card < 0 || card >= snd_cards_limit)
+ 		return;
+ 	request_module("snd-card-%i", card);
+ }
+@@ -280,7 +280,7 @@ int snd_register_device(int type, struct snd_card *card, int dev,
+ 	}
+ 
+ 	preg->dev = device;
+-	device->devt = MKDEV(major, minor);
++	device->devt = MKDEV(snd_major, minor);
+ 	err = device_add(device);
+ 	if (err < 0)
+ 		goto error;
+@@ -396,18 +396,21 @@ static int __init alsa_sound_init(void)
+ {
+ 	int err;
+ 
+-	snd_major = major;
+-	snd_ecards_limit = cards_limit;
++	if (!snd_major)
++		return -EINVAL;
++
++	snd_ecards_limit = snd_cards_limit;
+ 
+-	err = register_chrdev(major, "alsa", &snd_fops);
++	err = register_chrdev(snd_major, "alsa", &snd_fops);
+ 	if (err < 0) {
+-		pr_err("ALSA core: unable to register native major device number %d\n", major);
++		pr_err("ALSA core: unable to register native major device number %d\n",
++		       snd_major);
+ 		return err;
+ 	}
+ 
+ 	err = snd_info_init();
+ 	if (err < 0) {
+-		unregister_chrdev(major, "alsa");
++		unregister_chrdev(snd_major, "alsa");
+ 		return err;
+ 	}
+ 
+@@ -426,7 +429,7 @@ static void __exit alsa_sound_exit(void)
+ 	debugfs_remove(sound_debugfs_root);
+ #endif
+ 	snd_info_done();
+-	unregister_chrdev(major, "alsa");
++	unregister_chrdev(snd_major, "alsa");
+ }
+ 
+ subsys_initcall(alsa_sound_init);
+-- 
+2.55.0
 
