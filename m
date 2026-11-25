@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795629999;
-	b=uXd+yIrtK+I7M9WCrhRcHAU6Ln8ISF+d8+eFZGRUIAze0oBjRmJCw0n7N55F/aiBNWAD
-	 jA8JfW+TWM0OexxhyZTvIXjxNnLPygm5OKGwIKH/ipsGpxVj+hwuw6dwwod5vlLF24bNM
-	 wCVNfv8H5k8N47OxM9H1pJEi/1fUx9wWsQTJUBhwwna5whitS8pj2Lhp8mc7qaa+ldBBc
-	 tgFCfHMfKy0D9KOTNeAWExeqLF/7jWEjhZHj7wU/ol9IM+0YGAMSu8X+9zXRDXn/E2UoE
-	 wbbOR4sE0Ks5lj+8jagywQR9HDHB6/7tUW3w2LjrXcLMHbJ0KE8QcQvN4NUDOBz7jhg==
+	t=1795630058;
+	b=nS7jdPy5ZoUdUwoUMFdFzWBxPT5448g++5sSAsERJkJhNJ3QA9AGaFBmsh0YB7MosMWT
+	 SyqF497s2KufvKItQmWBtZ9HBdbU1BMPbzhpeSQEPSnNEg3FQFn7NKJkFheLIe5b8nbVf
+	 R04xstuNHazUZo1260UrZbJClIKYO5gphdmMM+0OwF1EpS3QolzNGLdJSOlIbCYMaiMvP
+	 +1CTnr0ozqLymz7cF5a/1xlQCN2vicemlSPTyw06jivQdr5DYdOWZuioRmP90FFDHTRQL
+	 i6+8emIpJ68VGmwO+Yz3e1nAOkmC7orlqZaN+O+pUOAj9DGWSQH2UPBd+4C0Rr+j/Wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795629999;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Vfpqfghp8rtJ0ttiLbaqibQehjgOthc7Xhwq+CR89LA=;
-	b=XJoROGuy2zX8KfVXzwbNb2o+1ZjpzKanIwExRJXtNsZeNmaJnxni6lMsCUbsaObVQ6Yh
-	 rzWL+00ZKrZvFq18MK1t0o50DJTUfTwrzthRFtu8hP9D+lIOUXFC1ZqYDFJcIWY8fOZ1H
-	 7pUOg1qixrmq/5RrcdJrvCGZ1jwQMQAD9OGQ3aGXEMVKg0oNlmNafibn6rNgBi9RPFUf4
-	 MXxeL0ZTrUlkLSOQ4BihwVogEP7AK6R4ueuEpi47ww8DwYuHJxvZJl4uvyLjfxOtT9TXC
-	 5tZCmcfbujtL2K8BPbTxj2HZI9r4EujkhP2uoKgrmA8CTm0aPuWXyoiIRziWDbPtp4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795630058;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=7S9L2bVkaRL0hV4UwLogPIAmhUfhkxStMxKaA9DQzpM=;
+	b=T4cFaxLacMoNBe/13QavLkaOe9agOYj1AOqdICm+vXfHFNhgwjtIT4QErRUEFy+s8I1n
+	 XW6g3IwFfTPTd6GRXfzn7+oN9xJumFaeICUg2xmsMnjgvysXJojhtbEB2bVgENRmrOnAW
+	 y0h0i+OgloAgUjpiVI3rTGIfXuhY1VWIM8d4UXEWiJ+F6I1ltDh1zneKe+JDNtEpZ+dkF
+	 wYYRNPnspmhUoFdeYpSYs7QaZX3BGvZO+fSR5Qw8yK6KD8x4fqX0Ovnpo2HwETfvm3or7
+	 iEiUobsWm/0MhYKUtPNCv91mnhTHKdyD/omJzV5Re3uu3s3ngavDbWkHailMycLGIWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ULmO+bnX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GU2faQD0;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B910B606A329
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 18:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF787606A31E;
+	Wed, 25 Nov 2026 18:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ULmO+bnX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 589871F00AD3
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 18:06:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GU2faQD0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F6F71F000D0;
+	Wed, 25 Nov 2026 18:07:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795629999;
-	bh=Vfpqfghp8rtJ0ttiLbaqibQehjgOthc7Xhwq+CR89LA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ULmO+bnXi7PFZD226VAWRBnKz5WR4LDSEbP0tNUK+LrfDOFb7VrGIgBLTgZGWZBky
-	 Y4usFC9BXJanyoFrP8UTW4Rh6SaaXE48vhC7qmUNQQTbslCe6tP75JWGBtpbDKkWmX
-	 AR66ew6g7FKpr6fp5uCp2H5QSBFwjOpCoUPZapAPbvbL6/lst4xm6+sE8K7frf/1ro
-	 cUB6yl+h9J2/elGh8HFk+k4Js0C7ElvsDAIoUMNEsdIJRx+kIzC6bnYMAMR2ZXniOx
-	 0JlGg30LTvfbSCr0mflz55y/uMcbC394TzNv7soG6UlMFqpbZmy5XZ/tkn9Fga7aJV
-	 a25dHYFcYmG0A==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae85add512so50263951fa.0
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:06:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGIT6hJbfriVhWYK9oTI5ZzvlBq/dHBqbudUvlCr1nLqmSSJ/ia5qZdRAveuX3BJS5b8TeAFSFsFv1x2A==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/OKLCeV9/rhPsSa8kC0wXxshhBAjBvXC1JCl7raW/AQXQnvr0t
-	/EI9AAYHON/6PvRocWKvL5V5iCWCP+oHxC/mmBRLU+jPLk5ZBh5IO7T7AiB91F4p2GuFdhl4V1Z
-	9o2rqXmgJXiQX9jcI0gNaXq/Js1SBvAI=
-X-Received: by 2002:a05:6512:61aa:b0:5c0:e5:7e49 with SMTP id
- 2adb3069b0e04-5c1bc806f13mr5272038e87.44.1795629998006; Wed, 25 Nov 2026
- 10:06:38 -0800 (PST)
+	s=k20260515; t=1795630058;
+	bh=7S9L2bVkaRL0hV4UwLogPIAmhUfhkxStMxKaA9DQzpM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GU2faQD0C3C3QHmZvfIZn6uGYgk/K2DzEGXeZnGJRKWYKEZFgx4lDFYq1U1YnIMFm
+	 mJSeky3yhAM0AM3lPh3HAZEKZYKk73gQI06V084q3VYZeO4wMQwu/dvS+884t7TDWg
+	 kICFYd6g0yNMvxwAdhljLowinJr2fjAsxdNe0504a35BXFxF4MkEklnymmuuo6dZLL
+	 v0umaGv32j5CcFNpREGmeOvfyEn0G1vGR+0bpKY8p522I8chm0GkKbrMFqgueKQwX0
+	 iNYZ7VwvCStdnpFW+yvf58G+dYK3FcjbcFl1/UBpyz6fqZVLw5R8U0+ESzbA3PTmaA
+	 Tj1AoRSlWJCNQ==
+Date: Wed, 25 Nov 2026 20:07:34 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+	dmitry.torokhov@gmail.com
+Subject: Re: [PATCH v4 28/33] PCI: Use device trust for platform restrictions
+Message-ID: <20261125180734.GG14811@unreal>
+References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+ <20261124-device-trust-core-v4-28-037eb0d17b1f@nvidia.com>
+ <sashiko-outbox-233065@kernel.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,263 +59,54 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
-In-Reply-To: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 25 Nov 2026 19:06:24 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
-X-Gm-Features: Aa3M54qrOtW7v88959U2QkIHeP3Sl4QoSZukrMhtwzQVb3_px1CPH3x87TWk2cQ
-Message-ID: <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: cs42l43: Add GPIO controlled mic/spk mute LEDs
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>, Andy Shevchenko <andy@kernel.org>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: brgl@kernel.org, patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <sashiko-outbox-233065@kernel.org>
 
-Top posting to loop in more people.
-
-(Andy & Mika)
-
-On Tue, Nov 10, 2026 at 3:21=E2=80=AFPM Maciej Strozek
-<mstrozek@opensource.cirrus.com> wrote:
-
-> Add ability to use cs42l43's GPIOs to drive speaker and microphone mute
-> LEDs. The LEDs must be described using
-> 01fa-global-mute-led-(spk|mic)-mute-gpio ACPI property, which tells
-> which of the 3 available cs42l43's GPIOs to use for the respective
-> function.
->
-> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-
-ACPI property, so Andy and Mika need to decide if this is a reasonable
-way to go about this issue.
-
-> ---
->  drivers/pinctrl/cirrus/pinctrl-cs42l43.c | 156 +++++++++++++++++++++++
->  1 file changed, 156 insertions(+)
->
-> diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/c=
-irrus/pinctrl-cs42l43.c
-> index 8990fab0446cf..7e4e43783ef14 100644
-> --- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-> +++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-> @@ -5,11 +5,15 @@
->  // Copyright (c) 2023 Cirrus Logic, Inc. and
->  //                    Cirrus Logic International Semiconductor Ltd.
->
-> +#include <linux/acpi.h>
->  #include <linux/array_size.h>
->  #include <linux/bits.h>
->  #include <linux/build_bug.h>
->  #include <linux/err.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/gpio/driver.h>
-> +#include <linux/gpio/machine.h>
-> +#include <linux/leds.h>
->  #include <linux/mfd/cs42l43.h>
->  #include <linux/mfd/cs42l43-regs.h>
->  #include <linux/module.h>
-> @@ -29,9 +33,18 @@
->
->  #define CS42L43_NUM_GPIOS 3
->
-> +struct cs42l43_mute_led {
-> +       struct led_classdev cdev;
-> +       struct gpio_desc *gpio;
-> +       u32 gpio_num;
-> +};
-> +
->  struct cs42l43_pin {
->         struct gpio_chip gpio_chip;
->
-> +       struct cs42l43_mute_led spk_mute_led;
-> +       struct cs42l43_mute_led mic_mute_led;
-> +
->         struct device *dev;
->         struct regmap *regmap;
->         bool shutters_locked;
-> @@ -535,6 +548,143 @@ static void cs42l43_fwnode_put(void *data)
->         fwnode_handle_put(data);
->  }
->
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +static int cs42l43_find_mute_gpios(struct cs42l43_pin *priv, struct fwno=
-de_handle *fwnode)
-> +{
-> +       struct cs42l43_mute_led *mic =3D &priv->mic_mute_led;
-> +       struct cs42l43_mute_led *spk =3D &priv->spk_mute_led;
-> +       int ret;
-> +
-> +       fwnode_for_each_child_node_scoped(fwnode, child_fwnode) {
-> +               struct fwnode_handle *ext_fwnode __free(fwnode_handle) =
-=3D
-> +                       fwnode_get_named_child_node(child_fwnode,
-> +                                                   "mipi-sdca-function-e=
-xpansion-subproperties");
-> +               bool mic_present, spk_present;
-> +
-> +               if (!ext_fwnode)
-> +                       continue;
-> +
-> +               mic_present =3D fwnode_property_present(ext_fwnode,
-> +                                                     "01fa-global-mute-l=
-ed-mic-mute-gpio");
-> +               spk_present =3D fwnode_property_present(ext_fwnode,
-> +                                                     "01fa-global-mute-l=
-ed-spk-mute-gpio");
-> +               if (!mic_present && !spk_present)
-> +                       continue;
-> +
-> +               if (mic_present) {
-> +                       ret =3D fwnode_property_read_u32(ext_fwnode,
-> +                                                      "01fa-global-mute-=
-led-mic-mute-gpio",
-> +                                                      &mic->gpio_num);
-> +                       if (ret)
-> +                               return dev_err_probe(priv->dev, ret,
-> +                                                    "Invalid mic-mute LE=
-D GPIO property\n");
-> +               }
-> +
-> +               if (spk_present) {
-> +                       ret =3D fwnode_property_read_u32(ext_fwnode,
-> +                                                      "01fa-global-mute-=
-led-spk-mute-gpio",
-> +                                                      &spk->gpio_num);
-> +                       if (ret)
-> +                               return dev_err_probe(priv->dev, ret,
-> +                                                    "Invalid spk-mute LE=
-D GPIO property\n");
-> +               }
-> +
-> +               return 0;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static int cs42l43_mute_led_set(struct led_classdev *cdev, enum led_brig=
-htness value)
-> +{
-> +       struct cs42l43_mute_led *led =3D container_of(cdev, struct cs42l4=
-3_mute_led, cdev);
-> +
-> +       return gpiod_set_value_cansleep(led->gpio, value !=3D LED_OFF);
-> +}
-> +
-> +static void cs42l43_mute_led_gpio_free(void *data)
-> +{
-> +       struct cs42l43_mute_led *led =3D data;
-> +
-> +       gpiochip_free_own_desc(led->gpio);
-> +}
-> +
-> +static int cs42l43_mute_led_register(struct cs42l43_pin *priv,
-> +                                    struct cs42l43_mute_led *led,
-> +                                    const char *function, const char *tr=
-igger)
-> +{
-> +       int ret;
-> +
-> +       led->gpio =3D gpiochip_request_own_desc(&priv->gpio_chip, led->gp=
-io_num - 1,
-> +                                             trigger, GPIO_ACTIVE_HIGH,
-> +                                             GPIOD_OUT_LOW);
-> +       if (IS_ERR(led->gpio))
-> +               return dev_err_probe(priv->dev, PTR_ERR(led->gpio),
-> +                                    "Failed to request GPIO%u for %s LED=
-\n",
-> +                                    led->gpio_num, trigger);
-> +
-> +       ret =3D devm_add_action_or_reset(priv->dev, cs42l43_mute_led_gpio=
-_free, led);
-> +       if (ret)
-> +               return ret;
-> +
-> +       led->cdev.name =3D devm_kasprintf(priv->dev, GFP_KERNEL, "%s::%s"=
-,
-> +                                       dev_name(priv->dev), function);
-> +       if (!led->cdev.name)
-> +               return -ENOMEM;
-> +
-> +       led->cdev.default_trigger =3D trigger;
-> +       led->cdev.brightness_set_blocking =3D cs42l43_mute_led_set;
-> +       led->cdev.max_brightness =3D 1;
-> +
-> +       ret =3D devm_led_classdev_register(priv->dev, &led->cdev);
-> +       if (ret)
-> +               return dev_err_probe(priv->dev, ret, "Failed to register =
-%s LED\n",
-> +                                    trigger);
-> +
-> +       dev_dbg(priv->dev, "%s LED uses codec GPIO%u\n", trigger, led->gp=
-io_num);
-> +
-> +       return 0;
-> +}
-> +
-> +static int cs42l43_mute_leds_register(struct cs42l43_pin *priv,
-> +                                     struct fwnode_handle *fwnode)
-> +{
-> +       struct cs42l43_mute_led *mic =3D &priv->mic_mute_led;
-> +       struct cs42l43_mute_led *spk =3D &priv->spk_mute_led;
-> +       int ret;
-> +
-> +       if (!is_acpi_node(fwnode))
-> +               return 0;
-> +
-> +       ret =3D cs42l43_find_mute_gpios(priv, fwnode);
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (mic->gpio_num > CS42L43_NUM_GPIOS ||
-> +           spk->gpio_num > CS42L43_NUM_GPIOS ||
-> +           (mic->gpio_num && mic->gpio_num =3D=3D spk->gpio_num))
-> +               return dev_err_probe(priv->dev, -EINVAL,
-> +                                    "Invalid or shared mute LED GPIOs: m=
-ic=3D%u, spk=3D%u\n",
-> +                                    mic->gpio_num, spk->gpio_num);
-> +
-> +       if (mic->gpio_num) {
-> +               ret =3D cs42l43_mute_led_register(priv, mic, LED_FUNCTION=
-_MICMUTE,
-> +                                               "audio-micmute");
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       if (spk->gpio_num) {
-> +               ret =3D cs42l43_mute_led_register(priv, spk, LED_FUNCTION=
-_MUTE,
-> +                                               "audio-mute");
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
-> +       return 0;
-> +}
-> +#endif
-> +
->  static int cs42l43_pin_probe(struct platform_device *pdev)
->  {
->         struct cs42l43 *cs42l43 =3D dev_get_drvdata(pdev->dev.parent);
-> @@ -598,6 +748,12 @@ static int cs42l43_pin_probe(struct platform_device =
-*pdev)
->                 return dev_err_probe(priv->dev, ret,
->                                      "Failed to register gpiochip\n");
->
-> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> +       ret =3D cs42l43_mute_leds_register(priv, dev_fwnode(cs42l43->dev)=
-);
-> +       if (ret)
-> +               return ret;
-> +#endif
-> +
->         return 0;
->  }
->
+On Wed, Nov 25, 2026 at 09:46:45AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue to consider:
+> - [Medium] PCI: of_create_pci_dev() runs pci_ats_init() before
+>   device_trust_init()
 > --
-> 2.47.3
->
+> 
+> commit a65ec3ba4c9db1ced18be2126bf20a6e9f67645c
+> Author: Leon Romanovsky <leon@kernel.org>
+> 
+> PCI: Use device trust for platform restrictions
+> 
+> This commit maps PCI topology untrusted device classification into the
+> device trust policy and checks pci_dev_default_is_restricted() when
+> configuring ATS and ACS translation blocking at discovery time.
+> 
+> > diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
+> > index 9cb23780093dd..c8c96acc26343 100644
+> > --- a/drivers/pci/ats.c
+> > +++ b/drivers/pci/ats.c
+> > @@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
+> >  {
+> >  	int pos;
+> >  
+> > -	if (pci_ats_disabled())
+> > +	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
+> >  		return;
+> >  
+> >  	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
+> > @@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
+> >   */
+> >  bool pci_ats_supported(struct pci_dev *dev)
+> >  {
+> > -	if (!dev->ats_cap || dev->untrusted)
+> > +	if (!dev->ats_cap)
+> >  		return false;
+> >  
+> >  	if (dev->is_virtfn)
+> 
+> [Severity: Medium]
+> Can pci_ats_init() run before device_trust_init() populates
+> dev->dev.trust_policy on OpenFirmware PCI enumeration paths?
+
+Changes to IOMMU/ATS will be sent in a follow-up series, as this series is
+already large enough.
+
+Thanks
