@@ -1,54 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=132.226.202.154
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795610614;
-	b=OuZICK86qCqhXhXeormvGLScMQ+Y63KKoFRHerwHfID7NL536wjASDAPVJRZa6xWFFuS
-	 dbJ0E1eyVWAT0kPAoaEr+BK/g7SPNsTx5UfkvEYRHZJ1wr14GSln0SYvY3gfGI4BejBmT
-	 AOsr+60T73c/SBfgN/Nr8Fm+mMVNuJifx9nXtJN+m66JdSpnm9aOxQ7HwsitJrB6HYDRb
-	 xxwb+hdXhwbZrYgRRLLXileC3jr2t256LgcW9v/UX1FWhqKQxQYIgeFGeHYW2R4AOqUdX
-	 qJI4TP4E5llttjgQYKKTxsVVJ2XEBcDED9Qfp4DmyBM57HI2rJs77781h8kJKAXEhzQ==
+	t=1795610618;
+	b=a/1x7ODSPdGyaJM7SmZqYcf38NZWRwkAUuiNSSm9vX5to6DBr7KxdnrIPJwOW2L4j+RA
+	 M65VM7Bfg+fVh4HY9z0ijUUkca2+kwzSU5zkEI4ITZqa5ocfmhQUS4zbXQMGrWgW42cLu
+	 K+uzfY3bmXuC8RGquSlqFbNOxqbGdqu2pQV1fyWxu/LSf9mVER7aQb1S8S2p09KGhMUDM
+	 C6mMcPftXfwkpgYrz3xZ+1egWwQ6MG1Aa97hxgl2IDy3SnzNy17yi8Ec7/upaCRcO2fQE
+	 bc1uadb0l18AWMmsUPPNnaLXyPBFQLhMEwRl2QdYYY6ZTHjNU2IZ/2sAsaE+LerkRcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795610614;
-	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
-	 To:Cc:Subject:X-Priority:X-Mailer:In-Reply-To:References:
-	 X-CM-CTRLMSGS:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	 Message-ID:X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:
-	 X-Coremail-Antispam;
-	bh=5+VrE36iK3rm/NyRlBfQKTTVyoNY7orAQB/U5dy5e7Q=;
-	b=VmagkJejNq8w0lDpvDNoB56WkTqqCWRAaQLuHopC/WzWvHfey+CAGmZbuEKdI4TtZOXw
-	 Q/mCUYNNYP5NtbhMmeJ10SW6KTGNmla2qM5xrpjS38CWph+LjI67dz+vQvb/mQUf9fv5I
-	 ALKhTAir9/ILFTM/xskRwTzEbEBX+fElhsDQTdhARM2ilIfEtKb3NJpTA7aGytwXkA0T4
-	 u1/jgRxwvnWDTHCrpJY5KWK7K5LMkF+KiPMWG7qATQBUSxJpEfPhUZISsWMvura8vYRFt
-	 ZQYDnmXOXS2qyEdpIOtvZZkpcQDL/SUI7GFB/l5jV2jqX1hHU6Xx0EUKZ94r53UkR3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795610618;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=xgMce4ZLn7WugbByXBoQX9uK8N/L98LxV5lBSsjjcpc=;
+	b=h3+jad8E8WtDvsYcMTbaoRrx/uIhtPYObGYgJjGzeTYdDNbn3Iz2EvEbGijyXbxUeGTj
+	 WTdQM6Q1WMYYW/DSgKv4apn1JpV/yNYPR1n/U+zsOlVbGc6qbC3iKabQMi4KFROklX4pl
+	 RYiqfFwq7g9IEU/bJYQ6/r7TtAPYWLrHTo9Vqt6MgWZedcsv8OWJOa2yjYVQ56WKO11YC
+	 EsQRk7bB0/xzXrPL1S5cWEPJZWcsuiuRVWtpvEPxCxpLwjyLkwxdHERzYWeOeBfoYedsL
+	 FDI1Xt8tpI8yVnxccUxV/tcPotrVx+MDOgPJc3ICByMeIrsi4ZIHYCdRtMUWlcjE4rg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=132.226.202.154
-Received: from fraori-sdnproxy-3.icoremail.net (fraori-sdnproxy-3.icoremail.net [132.226.202.154])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A09606A31E;
-	Wed, 25 Nov 2026 12:43:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1A09606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from xuhx$hust.edu.cn ( [10.12.190.107] ) by ajax-webmail-app2
- (Coremail) ; Wed, 25 Nov 2026 20:43:26 +0800 (GMT+08:00)
-Date: Wed, 25 Nov 2026 20:43:26 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
-To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, perex@perex.cz, tiwai@suse.com
-Subject: Re: Re: sound: core: jack kcontrol is published before jack_kctl
- allocation, and the failure path frees it without removing it from
- card->controls (null-ptr-deref)
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
-In-Reply-To: <20261124093942.2963-1-sreekuttan2156239@gmail.com>
-References: <28bb004a.2ad18.1a2023a6d95.Coremail.xuhx@hust.edu.cn>
- <20261124093942.2963-1-sreekuttan2156239@gmail.com>
-X-CM-CTRLMSGS: =?B?rZF7uziH6nJ5xwDR7hwMki1N8jM=
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BT+hTcP9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8406F606A321;
+	Wed, 25 Nov 2026 12:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BT+hTcP9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756F51F000C0;
+	Wed, 25 Nov 2026 12:43:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795610618;
+	bh=xgMce4ZLn7WugbByXBoQX9uK8N/L98LxV5lBSsjjcpc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BT+hTcP9vymG7plIWwg5zVbrsIoEEyfkv9Ln58G0WyvQ/w/RuOhRlcZzcuW8O6Ago
+	 H8lPkqpVEf8LdwufW/HUAIhKhlDORtJT8fkSBKjqheJhIGD+nFnuq0jNbDfPJ9/iBK
+	 H5U1lgNUrC2MX96rKjFSKaRAXt7mWYQ7T4NynJc+Ujyicbhs/E8oRbnZlexic4zXdE
+	 39vG/i9OnvNEoduuA9ys3A5+YZQPJxyW4rxdG5/lWimm6gP/m2uomF0Nt4VeBf5S41
+	 yBrei4qtAkoSmp1G67sjI/avTxQNe9Pk6g62G6UO8k9itVUd+e/6nZj2r9ag0Bq8/p
+	 YPpTlVbhtKKGw==
+Message-ID: <c356089d-775d-4998-813f-644b15eddfc3@kernel.org>
+Date: Wed, 25 Nov 2026 13:43:34 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,38 +51,131 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-ID: <19953f99.563.1a212bb7d34.Coremail.xuhx@hust.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:IQEQrMAG7xHu1wZrLnUDAA--.4187W
-X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAQICB2sGaXQ7IwADst
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 9/9] media: uapi: it6625: remove the driver-specific
+ audio controls
+To: Hermes.wu@ite.com.tw, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hans Verkuil
+ <hverkuil+cisco@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+ linux-api@vger.kernel.org
+References: <20261124-upstream-it6625-alsa-i2s-v2-0-a154685f6989@ite.com.tw>
+ <20261124-upstream-it6625-alsa-i2s-v2-9-a154685f6989@ite.com.tw>
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20261124-upstream-it6625-alsa-i2s-v2-9-a154685f6989@ite.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-VGhhdCBwYXRjaCBkb2VzIHdvcmssIHRoYW5rcy4KCgo+IC0tLS0t5Y6f5aeL6YKu5Lu2LS0tLS0K
-PiDlj5Hku7bkuro6ICJTcmVlcmFqIFMgS3VydXAiIDxzcmVla3V0dGFuMjE1NjIzOUBnbWFpbC5j
-b20+Cj4g5Y+R6YCB5pe26Ze0OjIwMjYtMTEtMjQgMTc6Mzk6NDIgKOaYn+acn+S6jCkKPiDmlLbk
-u7bkuro6IHh1aHhAaHVzdC5lZHUuY24KPiDmioTpgIE6IGJyb29uaWVAa2VybmVsLm9yZywgbGdp
-cmR3b29kQGdtYWlsLmNvbSwgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZywgbGludXgtc291
-bmRAdmdlci5rZXJuZWwub3JnLCBwZXJleEBwZXJleC5jeiwgdGl3YWlAc3VzZS5jb20KPiDkuLvp
-opg6IFJlOiBzb3VuZDogY29yZTogamFjayBrY29udHJvbCBpcyBwdWJsaXNoZWQgYmVmb3JlIGph
-Y2tfa2N0bCBhbGxvY2F0aW9uLCBhbmQgdGhlIGZhaWx1cmUgcGF0aCBmcmVlcyBpdCB3aXRob3V0
-IHJlbW92aW5nIGl0IGZyb20gY2FyZC0+Y29udHJvbHMgKG51bGwtcHRyLWRlcmVmKQo+IAo+IEhp
-IEhhbnhpYW5nLAo+IAo+IFRoYW5rcyBmb3IgdGhlIGRldGFpbGVkIHJlcG9ydCBhbmQgdGhlIEtB
-U0FOIHJlcHJvZHVjZXIuCj4gCj4gPiBUaGUgc2FtZSBmYWlsdXJlLXJvbGxiYWNrIGJ1ZyBoYXMg
-YSBkZXRlcm1pbmlzdGljIGNvbXBhbmlvbiBwYXRoOgo+ID4gc25kX2phY2tfbmV3KCkgY2FuIGZh
-aWwgYWZ0ZXIgc25kX2N0bF9hZGQoKSBoYXMgYWxyZWFkeSBwdWJsaXNoZWQgdGhlCj4gPiBrY29u
-dHJvbCAoZm9yIGV4YW1wbGUsIHdoZW4gaXRzIHN1YnNlcXVlbnQga3N0cmR1cCgpIG9mIHRoZSBq
-YWNrIGlkCj4gPiBmYWlscyksIGFuZCBpdCBhbHNvIGRvZXMgbm90IHVuZG8gdGhlIHB1YmxpY2F0
-aW9uLgo+IAo+IFRoZSBjb21wYW5pb24gZmFpbHVyZSBwYXRoIGluIHNuZF9qYWNrX25ldygpIHdh
-cyBhbHJlYWR5IGZpeGVkIGJ5IG15IHVwc3RyZWFtIGNvbW1pdDoKPiAKPiBjb21taXQgZWJjZTIw
-MTk2MzQ2OTA2Y2ZhMzNhODRhMDIxY2U4ZjliZDkxODgwYwo+IEFMU0E6IGphY2s6IEZpeCBqYWNr
-IGNvbnRyb2wgY2xlYW51cCBvbiBlcnJvciBwYXRocwo+IAo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5v
-cmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3Rpd2FpL3NvdW5kLmdpdC9jb21taXQvP2lkPWVi
-Y2UyMDE5NjM0NjkwNmNmYTMzYTg0YTAyMWNlOGY5YmQ5MTg4MGMKPiAKPiBUaGUgcGF0Y2ggaW5p
-dGlhbGl6ZXMgamFja19rY3RsLT5saXN0IGFuZCByb3V0ZXMgdGhlIGZhaWx1cmUgcGF0aHMgaW4g
-c25kX2phY2tfbmV3KCkgdGhyb3VnaCBjb21tb24KPiBjbGVhbnVwLCBlbnN1cmluZyB0aGF0IHRo
-ZSBwcmV2aW91c2x5IGNyZWF0ZWQga2NvbnRyb2wgaXMgcmVtb3ZlZCB1c2luZyBzbmRfY3RsX3Jl
-bW92ZSgpLgo+IAo+IENvdWxkIHlvdSBjaGVjayB3aGV0aGVyIHlvdXIgcmVwcm9kdWNlciBzdGls
-bCB0cmlnZ2VycyB0aGUgaXNzdWUgd2l0aCB0aGlzIGNvbW1pdCBhcHBsaWVkPwo+IAo+IFRoYW5r
-cyBmb3IgcmVwb3J0aW5nIHRoaXMuCj4gCj4gUmVnYXJkcywKPiBTcmVlcmFqCg==
+On 24/11/2026 04:04, Hermes Wu via B4 Relay wrote:
+> From: Hermes Wu <Hermes.wu@ite.com.tw>
+> 
+> V4L2_CID_IT6625_AUDIO_SAMPLING_RATE and V4L2_CID_IT6625_AUDIO_PRESENT
+> have been replaced by the standard V4L2_CID_DV_RX_AUDIO_SAMPLING_RATE
+> and V4L2_CID_DV_RX_AUDIO_PRESENT controls, and the driver no longer uses
+> them. They were added together with the driver and are not part of any
+> released kernel yet.
+
+Well, that's not really true. By the time this patch would go in, the driver
+will be part of a released kernel.
+
+That said, this is one case where I am in favor of dropping the old controls
+even though it strictly speaking breaks the uAPI.
+
+I'm not aware of any hardware boards that use this chip, so the impact is very
+small if not zero.
+
+It's actually an interesting question: are there boards/SBCs commercially available
+that use this chip? It's an interesting one, it might be nice if there would be
+a board for e.g. the Raspberry Pi.
+
+Regards,
+
+	Hans
+
+> 
+> Remove the uAPI header and the V4L2_CID_USER_IT6625_BASE reservation.
+> ---
+>  MAINTAINERS                        |  1 -
+>  drivers/media/i2c/it6625.c         |  1 -
+>  include/uapi/linux/it6625.h        | 25 -------------------------
+>  include/uapi/linux/v4l2-controls.h |  6 ------
+>  4 files changed, 33 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f4456f4589a1b86b140ab578d149884d46a3320a..a7a315f0e80585be26fe2b52a62c19e469cb5703 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14271,7 +14271,6 @@ S:	Maintained
+>  T:	git git://linuxtv.org/media.git
+>  F:	Documentation/devicetree/bindings/media/i2c/ite,it6625.yaml
+>  F:	drivers/media/i2c/it6625.c
+> -F:	include/uapi/linux/it6625.h
+>  
+>  IVTV VIDEO4LINUX DRIVER
+>  M:	Andy Walls <awalls@md.metrocast.net>
+> diff --git a/drivers/media/i2c/it6625.c b/drivers/media/i2c/it6625.c
+> index e4487e8111b94b2fa9f599e37ecd2b8a11425862..64c1cec26edfcb0e0105e00e1b7ba5960252aae7 100644
+> --- a/drivers/media/i2c/it6625.c
+> +++ b/drivers/media/i2c/it6625.c
+> @@ -33,7 +33,6 @@
+>  #include <sound/pcm.h>
+>  #include <sound/pcm_params.h>
+>  #include <sound/soc.h>
+> -#include <uapi/linux/it6625.h>
+>  
+>  static int debug;
+>  module_param(debug, int, 0644);
+> diff --git a/include/uapi/linux/it6625.h b/include/uapi/linux/it6625.h
+> deleted file mode 100644
+> index a895658aaf6a80d3fb624cdece33c5135161c72d..0000000000000000000000000000000000000000
+> --- a/include/uapi/linux/it6625.h
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+> -/*
+> - * Controls header for IT6625/IT6626 driver
+> - */
+> -
+> -#ifndef _UAPI_LINUX_IT6625_H
+> -#define _UAPI_LINUX_IT6625_H
+> -
+> -#include <linux/v4l2-controls.h>
+> -
+> -/*
+> - * Currently detected HDMI audio sampling rate, in Hz. Read-only.
+> - * 0 means the rate is unavailable/unknown: no audio is currently
+> - * present on the input, the hardware reported a sample-rate id this
+> - * driver doesn't recognize, or the status read itself failed. Never a
+> - * literal 0 Hz sample rate.
+> - */
+> -#define V4L2_CID_IT6625_AUDIO_SAMPLING_RATE	(V4L2_CID_USER_IT6625_BASE + 0)
+> -
+> -/*
+> - * Whether HDMI audio is currently present on the input. Read-only.
+> - */
+> -#define V4L2_CID_IT6625_AUDIO_PRESENT		(V4L2_CID_USER_IT6625_BASE + 1)
+> -
+> -#endif /* _UAPI_LINUX_IT6625_H */
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 942a1df3057e3e49c9111f6a27ec1883d964bf64..a2d4ea909e01f9b705d30b680ef382f5fcd39714 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -249,12 +249,6 @@ enum v4l2_colorfx {
+>   */
+>  #define V4L2_CID_USER_DCMIPP_BASE		(V4L2_CID_USER_BASE + 0x1240)
+>  
+> -/*
+> - * The base for IT6625/IT6626 driver controls.
+> - * We reserve 16 controls for this driver.
+> - */
+> -#define V4L2_CID_USER_IT6625_BASE		(V4L2_CID_USER_BASE + 0x1250)
+> -
+>  /* MPEG-class control IDs */
+>  /* The MPEG controls are applicable to all codec controls
+>   * and the 'MPEG' part of the define is historical */
+> 
+
