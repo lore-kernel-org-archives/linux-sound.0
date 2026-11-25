@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795594184;
-	b=rqJii1rfycyg+JeBKCBPzwCaltvhJ9iuRtcDnCcDiZ9Qetft80w8DtsKaNrJ8wX44CtF
-	 pzDx1xoWXvAQbT8c/sGrfIj7lRONwNujj53ZEkbtikv9MeYE4LlNKmGckjpdPVmuz86t8
-	 yULzH5bu5eTxQbXlC3jJgeilHifdXV4320rlSRSMxuP/Qh57iwC1/iOYfF/KKTtwu+8CI
-	 i15QvujR7mNSI/88TOYdJcvZjIa5MpI7fakrGgld163/vIfzdQkJF38oE07PnCU/7Dhgo
-	 fu/8s2dapRMuOrGvDFhAq7biecHFV4Pq4k9gIf5f2MchmNLGbLH6rwXI/2yxh/W3uYw==
+	t=1795594187;
+	b=j1gyqXmg54+OkCGFl38t0zx7Z+SJNQ9C7eoDcithZFhDFXr7SwjlzPWEv58KccFpheLo
+	 rfq+MQFUvVo7Op5TIXP+AaYUnsb01qC3Dn7MsajDpFFSIcwq+V+0ly8YXO7FG/EgDNYKg
+	 5sEm6KhaCfEi41g0LuRjWQC/iAYfNXxirtbVZtfq4jLd3/OMc40yOdRj6galjYDXThK9d
+	 Lbdr2ZcbKjfqN6To1UHq7XqW36g/kL/fC0+HMYy8DuapfN6ODfu9mEi0/s/zAbFuTdjnx
+	 1JmLdk9+c/4t02ihWXV67MVgoWvwkh6gsGiNCG5+OIdB4XzRQvYDmSFGkX6u/7sm9Xg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795594184;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795594187;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=A+43Ngp34qQ6Pwnw6V0uikrG+/eUrfHRHkaCmN3yD74=;
-	b=dbfAZwhTaIsJKJ5L01OjVdWmmnEoENuwmrDF4ZXGEI4K+99i1PQliMSHP6a+HHNSWUho
-	 nBMeUhU26ZFiHfadvG8isWQcL5AuUR/kWNwHZR8LxGAZ1PTMECSULwX9lsPvPhAmLe+aH
-	 wPanf+T/Z3M4SKvMMJ5I1+gZZ7jTkFPfS8IjSnqDmYs1eSKx14FclaszMlthfsOCquXco
-	 +dufAOMQh2VbRkLBfXSLdcS0gXkML7ThKwpcPDyn0JPpkClA7fln6rNuQom89SUqTp3l4
-	 yPgo81Y7FXr5AP4aSq3JEvqLoAcBqJRWswJMLTcTYyg6SVJxMnui9RlG+Gumi03+2SQ==
+	bh=bUH7XhYRcN0ZSzmqSkUpoFs7FYnuAGT+laP6+sfdijk=;
+	b=ZX1JHqCSrBcq/ImX4XhqfsxNvoxuBZEeoYmIRNeGi02pXQe9rJuW8YULTc9iVf3Bl5s6
+	 fDgPmYChFaa+a+v+vwypqBl3iJo7vRXyc3Cxq9WneLzPrOXPynRSKgvt9fOrkzilF6I51
+	 6KHROpkCUAUto510bhMhxMHFfNAA98x6Rtk8PSZhcK278qfEgpa5JTnwavtAKrE2qT1Qz
+	 6ICB9c++TXw/yyS3bDBGR/RoboWtLPMTmb78Ux5hm3yGhwrph153xqsoG0cDeNGY3KaBb
+	 vnlRC0gmysGFhT9FdkqexBwluJ1BvjMwWQoSV4xbMgL1o2YxZih4+ktk/PT9ZDh+JNA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TgQCKE6x;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YVEXjbgG;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB75606A329;
-	Wed, 25 Nov 2026 08:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA27606A323;
+	Wed, 25 Nov 2026 08:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TgQCKE6x
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YVEXjbgG
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795594184;
-	b=ihTGhtOYPP6exBZrdeXKT84+cgARmpGJ8MYfIZknN0YNht3tQKjX8gns/CiSQ4rBq2qP
-	 do+cLccluW0HYhue/G4+B87FXvvVPF9iWA5lt2I03Kgjcg7IOTXaD17vSd8tiMcknTkn8
-	 kWAI5Z7LgNMzJ923cRlCMO/CacQboXbDVTiJZVZyr6nOxZiVgegC7J2+ui9KAigh6iD6Q
-	 MiQIj2j6sFCGOmnrsM5D/gN3Ayu9K7d5597RB2D5nArbRDbP6FNELW5gp+PxmkoRpWHl3
-	 mis595tDVnORSNZxEWjIxsva0wCxfOiKelAKw5VdE0y1nCPbogUF1KLasRY5GLl/GXg==
+	t=1795594186;
+	b=ju4heASjKSnjyyWQ8dBtfCIX7UxfyqQhxB710JYl9Vzm/RcgDoZld4uEzR/PSLMpuJ0z
+	 KrGVMKpYOv3s/JVBipjW96s+2GMuz23bZdL6/EGDdjxBqcmQBAJNcHa/8JovcmASV0LLt
+	 srfmJpYqdkRUFz3muAmOr/DZzpZqi92iF+HeYHlDApg8A5vpgqjgcfbtlRz4zBHbfcjq1
+	 3KjlclwloUfWZoyRoYwzkh7Ly+TzrjUp6+0nHbPh49yVDHwVe/7I9LNPnry5eZkWea3Qc
+	 gsRkblG+1tMBBG3sm/Ex1UBnTRjkVvfk0ffoj/dVfvsmgJ6FoaFxhEfgplyfKe5ZWCw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795594184;
+	c=relaxed/relaxed; t=1795594186;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=A+43Ngp34qQ6Pwnw6V0uikrG+/eUrfHRHkaCmN3yD74=;
-	b=u0EI5LPJjvGZ/44wjbyBJ9xEfuZgjCxXJLMlwxijJ2LGf8uiLCjf+ysRTF+4lfM+ijMk
-	 rqykWkWNesmr29FH64O4hrIIfdrRSy0ENImFv9GxKp+w39IDOwBVJmNQdZzvAxblU1jzr
-	 0V0oStW0Da2L6hBMN0npHwtIL4IdZSGCigZ6c19Fm35ghnbiZsL0pph7DUehy5iRG7aXb
-	 zYbHfzxyZ8FL/2gBm9jeuf2YV8DRa5iybfZMi0uYIx/+DJbmfApCjrIpyDlzp2EJVn9Ff
-	 ZSD4uwW8FPdo7tMK8nSMVFCB3hTPxbbcT/9FcIxNVx+v/bLCys1nRMiT1Krd3cVeycQ==
+	bh=bUH7XhYRcN0ZSzmqSkUpoFs7FYnuAGT+laP6+sfdijk=;
+	b=MCNDgXITY2hdwIq39bMgVr9pId1oUqW+mhPrLQ3Bj0Kzf9grY+3eHX0YwzYVYTkME0do
+	 qVkouM4YRsfp6wqTndh9QTRpfP8LKkJvnWdDqMIT3xCmOz846bM9OhS1F2+OyiKNfVUPs
+	 H+mZDeZOkrEFAARsh5aPJP1D1yula+NYEdI7floC9Qw47tL+eBKw4HqcgCVfDFA74Ni+O
+	 3bqzr9YlhF5iEyxW5oIncQJQyd4xmqP4WvzHnpwjpFp8vNDMWitW14hvtRPT9FdiOxhX/
+	 6+goapr6tpMyxlQTLC6c1l0jrj09mTII4yNLxn8zmrCzlG7UXXQYAxVrxV5s8Iq8lrA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B01B31F000C4;
+	by smtp.kernel.org (Postfix) with ESMTPS id EE4751F000D8;
 	Wed, 25 Nov 2026 08:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795594184;
-	bh=A+43Ngp34qQ6Pwnw6V0uikrG+/eUrfHRHkaCmN3yD74=;
+	s=k20260515; t=1795594186;
+	bh=bUH7XhYRcN0ZSzmqSkUpoFs7FYnuAGT+laP6+sfdijk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=TgQCKE6xyhZeVYOC9MmvBUdYH6mOmr9xU0VDnfGgAXIQ/S4kfUfySRFsii8HrV4N6
-	 iv9/bw2H6YNmSFlYfY0u4HEaavALW6LRcYvV3i1ZQAvpkvi7jqOyCMP+btF0VjDkCc
-	 KABYeL6KzRUx4f0ANTqmG7A2jnel5IahRIOl00EbByJtzndbOcyOgm5qJlfL8oqMGF
-	 IRndzSL4c8554YatJ+G4X0znQOw0kj+vqlX6+znlaXoFE8Q7xFxyI8VwHGIXmCnbBW
-	 hgBQUTlInuq1Tmj1U6NUuodkFBypqNSYVuwbC6QDAZ6q7e9nH30RbTKviD73k6EeXe
-	 ZP96eX/Fgstvg==
+	b=YVEXjbgGC+5THpx3TPMemxJ87pLCHYE0tjc8zmB89z4JuEJ6TX/L0HKEQgN+e2FLU
+	 OlSdnxXgRd8rHiAYKM6e9vshW7ABqKlpZlJQrUetw8Osrut4WO2nu0BxnFkq3nLgcC
+	 lPWJS8OAKiTppX/ECQK1uhklcMPX7W7jvI2ksffberWlWexaHaClBteOS7UcNoC+z4
+	 1iqDWb+f3IOhwyVZ9Ghpm0iQTmElW9NIhi2Uj0ih9qSxBBWIbgdx676phH+Nl3g1DI
+	 2YNKCynVLQGJGz/BRisnmdZjnXtIpzrdK20RQSg71LC4uDOU8INl4gz3k3c8dJ6m+C
+	 WnBCSOJ3w2qjA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 38AC54CD70;
+	by lkml.kernel.org (Postfix) with ESMTP id 778DA4CDAF;
 	Wed, 25 Nov 2026 08:09:34 +0000 (UTC)
 From: Raffaele Tranfaglia via B4 Relay <devnull+raffaele.tranfaglia.gmail.com@kernel.org>
-Date: Wed, 25 Nov 2026 08:09:30 +0000
-Subject: [PATCH v2 1/3] ASoC: codecs: nau8360: set val_bits to the widest
- register size
+Date: Wed, 25 Nov 2026 08:09:32 +0000
+Subject: [PATCH v2 3/3] regmap: kunit: add tests for values wider than
+ val_bits
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261125-regmap-kunit-val-bits-v2-1-81db3b79cd3f@gmail.com>
+Message-Id: <20261125-regmap-kunit-val-bits-v2-3-81db3b79cd3f@gmail.com>
 References: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
 In-Reply-To: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
 To: Mark Brown <broonie@kernel.org>, 
@@ -98,11 +98,11 @@ Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
  linux-sound@vger.kernel.org, Neo Chang <YLCHANG2@nuvoton.com>, 
  Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795594173; l=1897;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795594173; l=3961;
  i=raffaele.tranfaglia@gmail.com; s=20261011; h=from:subject:message-id;
- bh=JtoiIZBSgQWLgUfHX+0oV8XepiuXh0sLdsFtw7Od4h8=;
- b=1pnp4emTHZHWJ/xOuImgjppfJ1X+BZki0slWTa1vwKXToTv/KnEDt60B4D9OEe45m5Bi5Nnam
- Q0GX083bRUaC2Kr63Dj1SlROLEJmAjHGuiqeZ4mDT3Er2pDwyDIZCIf
+ bh=O/bSq8ATRnJpAzSNzffwCRkaLe7Q98YDcHwxyFy4JF4=;
+ b=/DGtjIuBeVus/HvctOSVZo7v3yNnwtSu8S2bLD2z51pi9Aq59jfoUKZXMhVKmbx1eJSpVIjji
+ /ED7tGdJQv7BFN6cmpr9Y1GEh6acoxal5dRyO9Uff+8/WI+TB0aUPYc
 X-Developer-Key: i=raffaele.tranfaglia@gmail.com; a=ed25519;
  pk=mweuSGNM6vguCTdqa+aiHwMXdgk70suj2wolzCp6XGM=
 X-Endpoint-Received: by B4 Relay for raffaele.tranfaglia@gmail.com/20261011
@@ -113,51 +113,112 @@ Content-Transfer-Encoding: 7bit
 
 From: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
 
-The regmap is configured with val_bits = 16, but the two DSP registers
-are 32 bits wide: nau8360_reg_write() sends four bytes for them, and the
-DSP messages written with snd_soc_component_write() use all 32 bits.
+Add two test cases writing 0xffffff0f with regmap_write() to a regmap
+with val_bits = 16, and check that only the low 16 bits reach the bus
+and can be read back:
 
-This works because the driver provides its own reg_read() and
-reg_write() and regmap passes the value through unmodified. As regmap is
-going to mask values to val_bits, set it to 32, the size of the widest
-register. The size of each access is still selected in the driver's
-reg_read() and reg_write().
+- write_wider_than_val_bits uses the RAM regmap, a bus that only
+  provides reg_write()/reg_read();
+- raw_write_wider_than_val_bits uses the raw RAM regmap, which goes
+  through the value formatters.
 
 Signed-off-by: Raffaele Tranfaglia <raffaele.tranfaglia@gmail.com>
 ---
- sound/soc/codecs/nau8360.c | 3 ++-
- sound/soc/codecs/nau8360.h | 3 +--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/base/regmap/regmap-kunit.c | 60 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/sound/soc/codecs/nau8360.c b/sound/soc/codecs/nau8360.c
-index f0942739d7ab..d4cab3c8e29d 100644
---- a/sound/soc/codecs/nau8360.c
-+++ b/sound/soc/codecs/nau8360.c
-@@ -1918,7 +1918,8 @@ static int nau8360_reg_read(void *context, unsigned int reg, unsigned int *value
+diff --git a/drivers/base/regmap/regmap-kunit.c b/drivers/base/regmap/regmap-kunit.c
+index c948219f46a3..b8b14995a548 100644
+--- a/drivers/base/regmap/regmap-kunit.c
++++ b/drivers/base/regmap/regmap-kunit.c
+@@ -319,6 +319,33 @@ static void basic_read_write(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, config.cache_type == REGCACHE_NONE, data->read[0]);
+ }
  
- static const struct regmap_config nau8360_regmap_config = {
- 	.reg_bits = NAU8360_REG_ADDR_LEN,
--	.val_bits = NAU8360_REG_DATA_LEN,
-+	/* Codec registers are 16 bits wide, DSP registers are 32 bits wide */
-+	.val_bits = 32,
++static void write_wider_than_val_bits(struct kunit *test)
++{
++	const struct regmap_test_param *param = test->param_value;
++	struct regmap *map;
++	struct regmap_config config;
++	struct regmap_ram_data *data;
++	unsigned int rval;
++
++	config = test_regmap_config;
++	config.val_bits = 16;
++
++	map = gen_regmap(test, &config, &data);
++	KUNIT_ASSERT_FALSE(test, IS_ERR(map));
++	if (IS_ERR(map))
++		return;
++
++	/* Write a value with bits set above val_bits */
++	KUNIT_EXPECT_EQ(test, 0, regmap_write(map, param->from_reg, 0xffffff0f));
++
++	/* The bus should only have seen the low val_bits bits */
++	KUNIT_EXPECT_EQ(test, 0xff0f, data->vals[param->from_reg]);
++
++	/* And that is what we should read back */
++	KUNIT_EXPECT_EQ(test, 0, regmap_read(map, param->from_reg, &rval));
++	KUNIT_EXPECT_EQ(test, 0xff0f, rval);
++}
++
+ static void bulk_write(struct kunit *test)
+ {
+ 	struct regmap *map;
+@@ -2004,6 +2031,37 @@ static void raw_write_read_single(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, val, rval);
+ }
  
- 	.max_register = NAU8360_REG_MAX,
- 	.readable_reg = nau8360_readable_reg,
-diff --git a/sound/soc/codecs/nau8360.h b/sound/soc/codecs/nau8360.h
-index 71396747c0fa..3d9711804073 100644
---- a/sound/soc/codecs/nau8360.h
-+++ b/sound/soc/codecs/nau8360.h
-@@ -123,9 +123,8 @@
- #define NAU8360_RF002_DSP_COMM			0xf002
- #define NAU8360_REG_MAX				NAU8360_RF002_DSP_COMM
++static void raw_write_wider_than_val_bits(struct kunit *test)
++{
++	struct regmap *map;
++	struct regmap_config config;
++	struct regmap_ram_data *data;
++	void *hw_val;
++	unsigned int rval;
++
++	config = raw_regmap_config;
++
++	map = gen_raw_regmap(test, &config, &data);
++	KUNIT_ASSERT_FALSE(test, IS_ERR(map));
++	if (IS_ERR(map))
++		return;
++
++	hw_val = data->vals;
++
++	/* Write a value with bits set above val_bits */
++	KUNIT_EXPECT_EQ(test, 0, regmap_write(map, 0, 0xffffff0f));
++
++	/* The "hardware" should only have seen the low val_bits bits */
++	if (config.val_format_endian == REGMAP_ENDIAN_BIG)
++		KUNIT_EXPECT_EQ(test, 0xff0f, be16_to_cpup(hw_val));
++	else
++		KUNIT_EXPECT_EQ(test, 0xff0f, le16_to_cpup(hw_val));
++
++	/* And that is what we should read back */
++	KUNIT_EXPECT_EQ(test, 0, regmap_read(map, 0, &rval));
++	KUNIT_EXPECT_EQ(test, 0xff0f, rval);
++}
++
+ static void raw_write(struct kunit *test)
+ {
+ 	struct regmap *map;
+@@ -2249,6 +2307,7 @@ static void raw_ranges(struct kunit *test)
  
--/* 16-bit control register address, and 16-bits control register data */
-+/* 16-bit control register address */
- #define NAU8360_REG_ADDR_LEN			16
--#define NAU8360_REG_DATA_LEN			16
- 
- /* NAU8360_R03_CLK_CTRL0 (0x03) */
- #define NAU8360_MCLK_DIV_SFT			10
+ static struct kunit_case regmap_test_cases[] = {
+ 	KUNIT_CASE_PARAM(basic_read_write, regcache_types_gen_params),
++	KUNIT_CASE_PARAM(write_wider_than_val_bits, regcache_types_gen_params),
+ 	KUNIT_CASE_PARAM(read_bypassed, real_cache_types_gen_params),
+ 	KUNIT_CASE_PARAM(read_bypassed_volatile, real_cache_types_gen_params),
+ 	KUNIT_CASE_PARAM(bulk_write, regcache_types_gen_params),
+@@ -2286,6 +2345,7 @@ static struct kunit_case regmap_test_cases[] = {
+ 	KUNIT_CASE_PARAM(raw_read_defaults_single, raw_test_types_gen_params),
+ 	KUNIT_CASE_PARAM(raw_read_defaults, raw_test_types_gen_params),
+ 	KUNIT_CASE_PARAM(raw_write_read_single, raw_test_types_gen_params),
++	KUNIT_CASE_PARAM(raw_write_wider_than_val_bits, raw_test_types_gen_params),
+ 	KUNIT_CASE_PARAM(raw_write, raw_test_types_gen_params),
+ 	KUNIT_CASE_PARAM(raw_noinc_write, raw_test_types_gen_params),
+ 	KUNIT_CASE_PARAM(raw_sync, raw_test_cache_types_gen_params),
 
 -- 
 2.56.0
