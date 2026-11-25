@@ -1,56 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795596761;
-	b=RUQP6OWzdm31hiCg226UDt50OG8+F+FRE4yUw7qRPb/1Q15N1MTdajlbPVW/7gC+VCDN
-	 VZl+KVh4+udfMegWB6gM+e0bvOhlzz3WSTHb9Vh8b2CdD6IWVpGRxm3MbGfd94/kMlfxu
-	 51huthRwOs4zPYdwy5dgmfSHQpchCsKVdDek5j/yUiNWvwJ0lH+z59Wew6t8Bqk4ZeTz2
-	 +/+5TgVoLMKnLUUaNKBrSx5uQbBlWG7jtJb/B1oNTI9hxLpsSr3HIhKsmEaIMM/NIPwFz
-	 EgJnD2MVlQMkBiFHZMe0VGhW+Li8pjHttMdNWRe13iJbaWPBpId61EibUxEeOJr/jHA==
+	t=1795597921;
+	b=QVYRxao/M2MZBTQxRv1J6x3UTRfY2/PGxJd1MhhM4MElzF26PJTyATM/ZInwguBOeEKR
+	 Zyp3u13Mce0bf2uWSJHzepugJZERZ9gV7qyMn2o2/yWpLEhjk2fc4PZiOT19bK0JmGYYA
+	 ualJVJtrpi3n1JRxXyDPsrfATsoVkriP/YxY9kviV9AIxVHiko0NR32hBDH4Pla3Ktwmi
+	 fBcWDevFEuLgnsrh+lLydtmoONX/lDeVFIacmrMLlXH88mM0ZgFRGix/T8cA2p3kfKN/U
+	 2cTeassAVP9zxD9VJw9MXr2Ut+vmxuJee8QNybJjzdDpPKNhtj4cInqnGcb3Y1ARrOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795596761;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=aX+LjGWi0gPGPA9sZkOZtJrQ4n9T/6iee9o4+vTj098=;
-	b=osQrh+yAp657aOA9CMPSpuFhexjYiTQWD8hJpt7+As/jOi7qvplHJQt1VElPxjdqC1+Y
-	 xAbzw4RQAGaCwQOH/l+vNO376KQHK5ycK69CbF/Ku1vLdhRDxYervqydzrb4u0bHths+8
-	 Bx2xhuAAc3fsONGexdMIN5S7zKA1j+T0W+8u7uJ5uL5jbdydMOA2fRmVQnt6H/Rc/PEoe
-	 +HxLjaiWsepnJGWJXuz3wXYzUuf2j4m9Ca0X03hksnlOOo7p5by978D/Zrwa2OxZQIxhH
-	 5fHGIlu1jR20izETCoN3+kxwUnfNcetvDbzHe/jHXbc48+h4tlClC+9vWEhXzqqYb4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795597921;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-CMS-MailID:X-Msg-Generator:Content-Type:
+	 X-RootMTR:X-EPHeader:X-CMS-RootMailID:References;
+	bh=gouNuXBJ/VJmH4mgiTD8Nh1fdWF8sXBHPydQFNSIqds=;
+	b=d0ebo/e65JKhCdZ80wl9clXHB1IJgfzl5mXABt4/b8Ks9DFyWmpvqkBH56wrtj1X2v/2
+	 G2TNhC03MX2A78BvImaGkiSq0aLsB9a8gcbdwbvyWnJCja4CJWD7ZgImH7kxR9yUw7pTV
+	 nbJxtqIj3Brx+PQ7dksdi41hYNK9GmZxA6ygLO1TBMxkONC0y3DwfvEqBWhdbvGkjHsxo
+	 wTsrpLQKMgJotHc0KppzrseYF99RtmHM5xK35LqUVGBKc9rzUGJYB3s3CLBsHu3enC6DN
+	 IIeo/QCxskk9nvuV+A94E6ScZ4ciBiUf1/21tNSWY2jLsEnylyLPpPGMlEt8AlWAbSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xi5NsSkI;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=h2g8lWBD;
+	arc=none smtp.remote-ip=210.118.77.11
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34717606A321
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 08:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8706606A326
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 09:11:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8706606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xi5NsSkI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A29D1F000C6;
-	Wed, 25 Nov 2026 08:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795596760;
-	bh=aX+LjGWi0gPGPA9sZkOZtJrQ4n9T/6iee9o4+vTj098=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Xi5NsSkIN4EdrCKsVLBRm6JBr43YdLS+6VetibmrZQoM7qzPp3khXDYqf0B3JRMqs
-	 swbqltAx7fgwANKD2sv2jcU1XLLOXJK72nG2PU/q9QLpgJgFTq64jiiwAhz1AgRbnG
-	 +9tIerIY1TkQ1xQq2VZXBCbevHVp+KmLH8nbe+rXqjxuQxcz5EzIEKm+rPPNyLkMev
-	 US40HhtxGONJbLNFLyKzWiQ7b4Wq+pI0mTfvjvyVK5qH42Jtwa4Yeo5vW9vYych96A
-	 IDxpBndkoqEmdO+eAPKUHd/uyugpsgzIRHSDPe77/lbQA6TDMMvmYQ1FWrGHcgYDRf
-	 p1bcgvY2uxrCw==
-Message-ID: <sashiko-outbox-232953@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] ALSA: core: Reject zero major number
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261125084324.4151-1-sreekuttan2156239@gmail.com>
-References: <87o6bd8ijb.wl-tiwai@suse.de>
- <20261125084324.4151-1-sreekuttan2156239@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 08:52:40 +0000
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=h2g8lWBD
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261125091157euoutp01b86bc8b9ed0aa600985df921a1a88f1c~rPsr7k6yL1421314213euoutp01o
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 09:11:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261125091157euoutp01b86bc8b9ed0aa600985df921a1a88f1c~rPsr7k6yL1421314213euoutp01o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1795597918;
+	bh=gouNuXBJ/VJmH4mgiTD8Nh1fdWF8sXBHPydQFNSIqds=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=h2g8lWBDfQ8cCBjrkLIfA3TTO5sATZmuSXAcWdcZgmat0Y7E4tAXwIKKdwFE5YKCJ
+	 MX9t1sT3ixMUsJ9EYuvAKwDV2TE9JlDjdkd3q3ocsgoe029hOKUWTM5/HRKnwM5S+W
+	 WZ7U/SMYTqdq3/gzD9YKOiuLrsJDJUuEw71854LU=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261125091157eucas1p2f4324315c65e38343c488ea16ce3a2cf~rPsrcgERO2882528825eucas1p2e;
+	Wed, 25 Nov 2026 09:11:57 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261125091157eusmtip29a72a29dbb07225364b002f3267a2fe9~rPsrF2y9T0318503185eusmtip2B;
+	Wed, 25 Nov 2026 09:11:56 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Srinivas Kandagatla
+	<srini@kernel.org>, Vinod Koul <vkoul@kernel.org>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>
+Subject: [PATCH] soundwire: qcom: skip DPn_BLOCK_CTRL_1 write for
+ unconfigured ports
+Date: Wed, 25 Nov 2026 10:11:49 +0100
+Message-ID: <20261125091150.2145177-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,97 +71,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261125091157eucas1p2f4324315c65e38343c488ea16ce3a2cf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20261125091157eucas1p2f4324315c65e38343c488ea16ce3a2cf
+X-EPHeader: CA
+X-CMS-RootMailID: 20261125091157eucas1p2f4324315c65e38343c488ea16ce3a2cf
+References: <CGME20261125091157eucas1p2f4324315c65e38343c488ea16ce3a2cf@eucas1p2.samsung.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] ALSA: core: using snd_ecards_limit for cards_limit breaks
-  snd_request_card()
---
+Master port_params are filled in qcom_swrm_compute_params() only when
+qcom,ports-word-length is provided in DT. Otherwise they stay zeroed,
+but the SoundWire core still calls dpn_set_port_params(), so
+qcom_swrm_port_params() writes 0xffffffff (bps - 1) to
+SWRM_DPn_BLOCK_CTRL_1(offset, 0), which is outside the DPn register
+range. Since commit 55207a5b6959 ("soundwire: qcom: add multi-master
+support") this also triggers the port_num sanity WARN in
+qcom_swrm_port_target(), e.g. on RB5 (sm8250 WSA):
 
-commit 09efa67fd5336064a9c9600571b9d55c3d75ea0a
-Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+  WARNING: drivers/soundwire/qcom.c:1170 at qcom_swrm_port_target+0x68/0x78 [soundwire_qcom]
+  Call trace:
+   qcom_swrm_port_target+0x68/0x78 [soundwire_qcom] (P)
+   sdw_program_params+0x374/0x774 [soundwire_bus]
+   sdw_prepare_stream+0xfc/0x310 [soundwire_bus]
+   qcom_snd_sdw_prepare+0x90/0xc28 [snd_soc_qcom_sdw]
+   sm8250_snd_prepare+0x2c/0x38 [snd_soc_sm8250]
 
-ALSA: core: Reject zero major number
+Skip programming when port params were not configured.
 
-This commit rejects a zero major number in alsa_sound_init() and replaces
-the static major and cards_limit variables with snd_major and
-snd_ecards_limit via module_param_named().
+Fixes: 128eaf937adb ("soundwire: qcom: add support to missing transport params")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+This patch has been developed with LLM assistance and have been tested
+on the real Qualcomm RB5 board.
 
-> diff --git a/sound/core/sound.c b/sound/core/sound.c
-> index ba226aa7affd3..746a5e254cbb8 100644
-> --- a/sound/core/sound.c
-> +++ b/sound/core/sound.c
-> @@ -18,28 +18,25 @@
->  #include <linux/kmod.h>
->  #include <linux/mutex.h>
-> =20
-> -static int major =3D CONFIG_SND_MAJOR;
-> -int snd_major;
-> +int snd_major =3D CONFIG_SND_MAJOR;
->  EXPORT_SYMBOL(snd_major);
-> =20
-> -static int cards_limit =3D 1;
-> +/* this one holds the actual max. card number currently available.
-> + * as default, it's identical with cards_limit option.  when more
-> + * modules are loaded manually, this limit number increases, too.
-> + */
-> +int snd_ecards_limit =3D 1;
-> +EXPORT_SYMBOL(snd_ecards_limit);
-> =20
->  MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
->  MODULE_DESCRIPTION("Advanced Linux Sound Architecture driver for soundca=
-rds.");
->  MODULE_LICENSE("GPL");
-> -module_param(major, int, 0444);
-> +module_param_named(major, snd_major, int, 0444);
->  MODULE_PARM_DESC(major, "Major # for sound driver.");
-> -module_param(cards_limit, int, 0444);
-> +module_param_named(cards_limit, snd_ecards_limit, int, 0444);
->  MODULE_PARM_DESC(cards_limit, "Count of auto-loadable soundcards.");
->  MODULE_ALIAS_CHARDEV_MAJOR(CONFIG_SND_MAJOR);
-> =20
-> -/* this one holds the actual max. card number currently available.
-> - * as default, it's identical with cards_limit option.  when more
-> - * modules are loaded manually, this limit number increases, too.
-> - */
-> -int snd_ecards_limit;
-> -EXPORT_SYMBOL(snd_ecards_limit);
-> -
->  #ifdef CONFIG_SND_DEBUG
->  struct dentry *sound_debugfs_root;
->  EXPORT_SYMBOL_GPL(sound_debugfs_root);
-> @@ -61,7 +58,7 @@ void snd_request_card(int card)
->  {
->  	if (snd_card_locked(card))
->  		return;
-> -	if (card < 0 || card >=3D cards_limit)
-> +	if (card < 0 || card >=3D snd_ecards_limit)
->  		return;
->  	request_module("snd-card-%i", card);
->  }
+Best regards
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+---
+ drivers/soundwire/qcom.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-[Severity: Medium]
-Does replacing cards_limit with snd_ecards_limit raise the auto-load limit
-at runtime and mutate the cards_limit module parameter?
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index d74986a3dab3..613679be4b21 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -1205,6 +1205,10 @@ static int qcom_swrm_port_params(struct sdw_bus *bus,
+ 	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
+ 	u32 offset = ctrl->reg_layout[SWRM_OFFSET_DP_BLOCK_CTRL_1];
+ 
++	/* port_params are filled only when qcom,ports-word-length is given */
++	if (!p_params->num)
++		return 0;
++
+ 	return qcom_swrm_port_reg_write(ctrl, p_params->num,
+ 					SWRM_DPn_BLOCK_CTRL_1(offset, p_params->num),
+ 					p_params->bps - 1);
+-- 
+2.43.0
 
-snd_card_init() increases snd_ecards_limit whenever a card is registered
-at an index at or above it:
-
-sound/core/init.c:snd_card_init() {
-	...
-			if (idx >=3D snd_ecards_limit)
-				snd_ecards_limit =3D idx + 1; /* increase the limit */
-	...
-}
-
-Once a second card or a card with an explicit index >=3D cards_limit is
-registered, snd_ecards_limit grows to idx + 1 and is never lowered on
-disconnect.  snd_request_card() will then invoke
-request_module("snd-card-%i", card) for unoccupied or disconnected card
-slots above the configured cards_limit, and
-/sys/module/snd/parameters/cards_limit will report the mutated runtime
-high-water mark instead of the configured limit.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125084324.4151=
--1-sreekuttan2156239@gmail.com?part=3D1
