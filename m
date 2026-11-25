@@ -1,114 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795616102;
-	b=Mc90okE69hwy7O/4nP20MemhYPRJ4dI7oxPU+/bMrmF4Cnuah1X0YXkYDnb92b5HfJHF
-	 OIzj43og5JDDboPRCBQGxQZCARixKRpPABrw2eky5esxI5madwUySwsKhsyXV1ciTdbLE
-	 Xq5jM7yvlsbWa0LHptopcaqO3Hs2zgBnILoTlVh3cPmls/SqGXNdWO7kkIgINl8UuDh1G
-	 UzTQGO3C6MdE6+FemtL6CcjbXnyAicFDqk/k9JM5FniNUGmUhQnUvAFgM/7ZcTD1xqcKr
-	 8RaeGkNv7VXIrAtzinGi82NcukwqdKz3VPJ7pyxGiwiuJ7lQR+cG3j5V/I93G7B7jAQ==
+	t=1795616224;
+	b=AA3NEyAHVsyk/tXIJvbBRueKya221kDE6YhyYqsM4EETvQ19kX3Q8+XqS53PXtD/8yzd
+	 vuw3lvEK0pj5b9a0X/ImO/8k3sGx7neSowIDYMlbU9Hrgn1mFmJhvop2Ci4ix6X1SL7lb
+	 xA26KGDIze27lxFF2EHlT1HLrtpK04I4wKpoVjZqmASom66WhStN0Va/K/p2UoX3CqO1M
+	 cEHmPDEUQinDG0eizbuy4VFjrUmG/AJEIXpe3hiBfl1Xum9cvXnInjkqXTc4+t/Rdd/XT
+	 U6Yc2X3OKKmULV0Aon90B2i1lbbL6uGuuuu47SISq5068r8gS9Q5xFpwXHMkEvUDq7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795616102;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795616224;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spamd-Result:X-Spam-Score:X-Spam-Level:
-	 X-Spam-Flag;
-	bh=gTEaZlqRzA20kz1/1lJ12JNht6eJaqpykYAzPGXu/Q8=;
-	b=s/iX36Hcf6HfmXfM4+PpQnvyzX7+pYqZpddACc1MEbYfzZ44KlNnb3MwU+aG18iMThD9
-	 vzbKCIO+i4wOpBQw+WwrPn1yHMTZaP+L65nYZRCViSogq3MqGAzXUS+W7FQzmlt+5xFYH
-	 e2QvF6Tyt1PaF2TVmBXWW2efyVOUfuwEsshXHcYqC5AKxBl4oE2vVfz3x73x2xgUlkk3r
-	 BG5yHYkNXq92gbHloKDa/PVZRgRQkSzMhmII8934bA63troKlXwwygjapxZRJfi7wpyUn
-	 xS7NBJbEUN/jv9dozQn9s/RPAaiENsRzPBg3vN3Zo9F9GtSXx5iRF7Mu7VZHb1q7qDg==
+	 Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Spam-Level:
+	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=xjQ7t+hxSYpdXoOaT5d0FPIqr7NUdn7i+G2iVbJjNM0=;
+	b=Mlh+CP0suk9Yv7cNrC57yrdT95girP+dcF1YdbNAc2NzEIRkiD81uhcwAlBojP/E2hTE
+	 z7ZgfixS0gq3kF3FykaZYKsYqDbUpwNO/t/4qGzY9UpWxRt5qXn4zFvcmb2IKDnz4sBA2
+	 DPvcWGGxyzTErdRQKrn+v81S8LnzJS1nxA6Qx7l5I0dJajmsfr+XQaHPe3fSJIPtbKkQw
+	 flv7j0zznuQmHUMscxAMGPUXjwN5m7q4Kgp0iTHGXmv96pOI0UfRvgzvQgw4zJo9zxItm
+	 dohCQUwaRn5uHaEZLTc3i1A7kaZL2qrwckwRxW2ZWdHTtY15OKghkuPf0VP57sPa3Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="d/okIrC9";
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aJx+O3OV;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="d/okIrC9";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aJx+O3OV;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=y2tIauWU;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5mo+JhEp;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v570YwC8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tQ1DJTw5;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A22606A321;
-	Wed, 25 Nov 2026 14:15:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33A22606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08DA606A32C;
+	Wed, 25 Nov 2026 14:17:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B08DA606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d/okIrC9;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aJx+O3OV;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=d/okIrC9;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=aJx+O3OV
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=y2tIauWU;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=5mo+JhEp;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=v570YwC8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=tQ1DJTw5
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 609D2221B6;
-	Wed, 25 Nov 2026 14:15:00 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C91B1F7A2;
+	Wed, 25 Nov 2026 14:16:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795616100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795616221; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTEaZlqRzA20kz1/1lJ12JNht6eJaqpykYAzPGXu/Q8=;
-	b=d/okIrC9sFbNZ9n65MzaUItVUKcZXVMBoTS8zN92pZIVgWhXeM4IjCVt0A9p+Ll9sRu3J6
-	2mkxMxlUaR756QA0txYMohwY6uRsrxMoosdXx/TtLexsqxZysRV+hWimPNckNj8PvlqRne
-	L7YUFMO8XI0yebmuirtOI77aaZ/j4J4=
+	bh=xjQ7t+hxSYpdXoOaT5d0FPIqr7NUdn7i+G2iVbJjNM0=;
+	b=y2tIauWUd2pShqo/bfCbA6msVxNTC2uj7qVptcutAJ5W4bRpgTiW0ZQn5EfN0nKxNhjNv/
+	5Ow2n7k1HvIyZWc3oEJPifXBPuzo6kqnW5MrvPI0eYsC1c6OE8KK1dxrIhHqF66yZ4JAGE
+	5HGG2RXg0JkaMSkdv0/yj+DOsBcqRP4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795616100;
+	s=susede2_ed25519; t=1795616221;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTEaZlqRzA20kz1/1lJ12JNht6eJaqpykYAzPGXu/Q8=;
-	b=aJx+O3OV0M54Q+xHv9ZcVMeiab+T7v29/VbrMSi2F/YT8jRWk4x+ZdBQjwCRrF30DFf4+z
-	M0xH4SBydlpG20AA==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=xjQ7t+hxSYpdXoOaT5d0FPIqr7NUdn7i+G2iVbJjNM0=;
+	b=5mo+JhEpt7L5hxRVMb7+JMjARMDC54oRUE4Hn/+dwtnbQjGpCKWaIgAjIkW8bYKnbzjf/0
+	+rs2z7N/AoeX3oCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=v570YwC8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tQ1DJTw5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795616100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795616219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTEaZlqRzA20kz1/1lJ12JNht6eJaqpykYAzPGXu/Q8=;
-	b=d/okIrC9sFbNZ9n65MzaUItVUKcZXVMBoTS8zN92pZIVgWhXeM4IjCVt0A9p+Ll9sRu3J6
-	2mkxMxlUaR756QA0txYMohwY6uRsrxMoosdXx/TtLexsqxZysRV+hWimPNckNj8PvlqRne
-	L7YUFMO8XI0yebmuirtOI77aaZ/j4J4=
+	bh=xjQ7t+hxSYpdXoOaT5d0FPIqr7NUdn7i+G2iVbJjNM0=;
+	b=v570YwC89TXqHdtif9Wh7u/WkMczFZe3Gxz8SAdteNmulKz7Zf7ve/NnVx1ZizXlPqfMXK
+	n9Db0sz6w72npsi5CvZiD7QGFw2Z//fw5jyZ0v2H4Ka8Izpgmh9UFvh1+n2qpRV/+AB9jL
+	GeYuUykjlHDMhzu761tp8SZuuPZX/AQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795616100;
+	s=susede2_ed25519; t=1795616219;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gTEaZlqRzA20kz1/1lJ12JNht6eJaqpykYAzPGXu/Q8=;
-	b=aJx+O3OV0M54Q+xHv9ZcVMeiab+T7v29/VbrMSi2F/YT8jRWk4x+ZdBQjwCRrF30DFf4+z
-	M0xH4SBydlpG20AA==
+	bh=xjQ7t+hxSYpdXoOaT5d0FPIqr7NUdn7i+G2iVbJjNM0=;
+	b=tQ1DJTw5PXPrFZBsADbXKfnc5hMi4VH7MqLzFpChiGgmgyXerhscDDMhMRT00MZPweQzIS
+	NJxTYgYtfX586mAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17649134CA;
-	Wed, 25 Nov 2026 14:15:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F414134CA;
+	Wed, 25 Nov 2026 14:16:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1WNCOGPtBmuPVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 14:15:00 +0000
-Date: Wed, 25 Nov 2026 15:14:59 +0100
-Message-ID: <87o6bd6lr0.wl-tiwai@suse.de>
+	id RqcfNtrtBmsLWQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 14:16:59 +0000
+Date: Wed, 25 Nov 2026 15:16:58 +0100
+Message-ID: <87mrqx6lnp.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: =?GB2312?B?0Ozqz8/o?= <xuhx@hust.edu.cn>
 Cc: perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Re: sound: core: hwdep DSP_LOAD check-then-act is unlocked, allowing  concurrent DSP_LOAD callbacks (UAF)
-In-Reply-To: <4f829dcb.56e.1a212bebac5.Coremail.xuhx@hust.edu.cn>
+Subject: Re: [PATCH] Re: sound: core: OSS mixer notify callback is invoked without module  pin or mutex, racing with rmmod
+In-Reply-To: <2970c0cb.571.1a212bf66e0.Coremail.xuhx@hust.edu.cn>
 References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
 	<2026102727-data-sequel-ce41@gregkh>
-	<7eed17bc.2ad1e.1a2023e5f21.Coremail.xuhx@hust.edu.cn>
-	<4f829dcb.56e.1a212bebac5.Coremail.xuhx@hust.edu.cn>
+	<119ebb9d.2ad26.1a20241cf1c.Coremail.xuhx@hust.edu.cn>
+	<2970c0cb.571.1a212bf66e0.Coremail.xuhx@hust.edu.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -121,226 +123,299 @@ Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=GB2312
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Rspamd-Queue-Id: 5C91B1F7A2
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
-X-Spam-Level: 
-X-Spam-Flag: NO
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[perex.cz:email,hust.edu.cn:email,suse.de:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.51
 
-On Wed, 25 Nov 2026 13:46:59 +0100,
+On Wed, 25 Nov 2026 13:47:43 +0100,
 徐晗翔 wrote:
 > 
-> snd_hwdep_dsp_load() checked hw->dsp_loaded, ran the driver
-> callback and updated the bit with no lock; two threads sharing one
-> hwdep fd (dup()/fork()) could both pass the check and run
-> hw->ops.dsp_load() concurrently -- the callback is not required to
-> be thread-safe (in-tree usx2y registers ALSA devices and allocates
-> URBs under non-atomic WARN_ON() check-then-act guards), with
-> double-registration / double-free / UAF consequences.
+> snd_mixer_oss_notify_callback is a bare exported function pointer
+> called by the card core without any mutex and without pinning the
+> snd-mixer-oss module: a card thread could read the non-NULL
+> pointer, be preempted, let rmmod clear it and unload, and then call
+> into unloaded module text; and the module exit FREE walk could race
+> snd_card_do_free()'s FREE callback into a double free of
+> card->mixer_oss.
 > 
-> Restore the upstream per-device dsp_mutex: add the field to struct
-> snd_hwdep, initialize it in snd_hwdep_new() and hold it across the
-> dsp_loaded check, the dsp_load() callback and the bit update.
-> hw->exclusive only guards open(), not concurrent ioctls on an
-> already-open fd.
+> Restore the upstream synchronization: a static
+> mixer_oss_notify_mutex, an internal snd_mixer_oss_notify(card, cmd)
+> that takes the mutex and checks the pointer (used by the
+> register/disconnect/free paths), and an exported
+> snd_mixer_oss_set_notify() that the module uses to install/clear
+> the callback under the same mutex -- so the exit path waits for
+> in-flight callbacks (including their module_put()) before the
+> module text is freed.
 
-This is already fixed in the upstream commit aee83c204f80.
+This should have been already fixed by the upstream commit
+f0780cfa6acf.
 
 
 thanks,
 
 Takashi
 
+
 > ---
->  sound/core/hwdep.c    | 11 ++++++++++-
->  include/sound/hwdep.h |  2 ++
->  2 files changed, 12 insertions(+), 1 deletion(-)
+>  sound/core/init.c          | 38 ++++++++++++++++++++++++++++++--------
+>  include/sound/core.h       |  5 ++++-
+>  sound/core/oss/mixer_oss.c | 11 +++++++++--
+>  3 files changed, 43 insertions(+), 11 deletions(-)
 > 
-> diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
-> --- a/sound/core/hwdep.c
-> +++ b/sound/core/hwdep.c
-> @@ -207,11 +207,19 @@
->  			      struct snd_hwdep_dsp_image *info)
->  {
->  	int err;
-> -	
+> diff --git a/sound/core/init.c b/sound/core/init.c
+> --- a/sound/core/init.c
+> +++ b/sound/core/init.c
+> @@ -82,8 +82,33 @@
+>  }
+>  
+>  #if IS_ENABLED(CONFIG_SND_MIXER_OSS)
+> -int (*snd_mixer_oss_notify_callback)(struct snd_card *card, int free_flag);
+> -EXPORT_SYMBOL(snd_mixer_oss_notify_callback);
+> +/*
+> + * The mixer-oss notify callback is invoked from the card core paths
+> + * (register, disconnect, free) with no other serialization available.
+> + * Call it through snd_mixer_oss_notify(), which takes a static mutex and
+> + * checks the pointer under it: this keeps a callback in flight until it
+> + * completes, so the snd-mixer-oss module can clear the pointer and wait
+> + * for in-flight callbacks in its exit path instead of racing rmmod
+> + * (call into unloaded module text) and double FREE walks
+> + * (double free of card->mixer_oss).
+> + */
+> +static DEFINE_MUTEX(mixer_oss_notify_mutex);
+> +static int (*snd_mixer_oss_notify_callback)(struct snd_card *card, int cmd);
 > +
->  	if (! hw->ops.dsp_load)
->  		return -ENXIO;
->  	if (info->index >= 32)
->  		return -EINVAL;
-> +	/* Serialize the whole check-and-load sequence: two threads sharing
-> +	 * one hwdep fd (dup()/fork()) must not both pass the dsp_loaded
-> +	 * check and run the driver callback concurrently -- the callback
-> +	 * is not required to be thread-safe (in-tree usx2y registers
-> +	 * devices and allocates URBs with non-atomic check-then-act
-> +	 * guards), and both would set the same bit.  hw->exclusive only
-> +	 * guards open(), not concurrent ioctls on an already-open fd. */
-> +	guard(mutex)(&hw->dsp_mutex);
->  	/* check whether the dsp was already loaded */
->  	if (hw->dsp_loaded & (1u << info->index))
->  		return -EBUSY;
-> @@ -380,6 +388,7 @@
+> +static int snd_mixer_oss_notify(struct snd_card *card, int cmd)
+> +{
+> +	guard(mutex)(&mixer_oss_notify_mutex);
+> +	if (snd_mixer_oss_notify_callback)
+> +		return snd_mixer_oss_notify_callback(card, cmd);
+> +	return 0;
+> +}
+> +
+> +void snd_mixer_oss_set_notify(int (*callback)(struct snd_card *card, int cmd))
+> +{
+> +	guard(mutex)(&mixer_oss_notify_mutex);
+> +	snd_mixer_oss_notify_callback = callback;
+> +}
+> +EXPORT_SYMBOL_GPL(snd_mixer_oss_set_notify);
+>  #endif
 >  
->  	init_waitqueue_head(&hwdep->open_wait);
->  	mutex_init(&hwdep->open_mutex);
-> +	mutex_init(&hwdep->dsp_mutex);
->  	hwdep->card = card;
->  	hwdep->device = device;
->  	if (id)
-> diff --git a/include/sound/hwdep.h b/include/sound/hwdep.h
-> --- a/include/sound/hwdep.h
-> +++ b/include/sound/hwdep.h
-> @@ -56,6 +56,8 @@
->  	struct device *dev;
+>  static int check_empty_slot(struct module *module, int slot)
+> @@ -530,8 +555,7 @@
+>  	/* at this point, they cannot respond to any calls except release() */
 >  
->  	struct mutex open_mutex;
-> +	struct mutex dsp_mutex;		/* serializes the DSP_LOAD
-> +					 * check-and-load sequence */
->  	int used;			/* reference counter */
->  	unsigned int dsp_loaded;	/* bit fields of loaded dsp indices */
->  	unsigned int exclusive:1;	/* exclusive access mode */
+>  #if IS_ENABLED(CONFIG_SND_MIXER_OSS)
+> -	if (snd_mixer_oss_notify_callback)
+> -		snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_DISCONNECT);
+> +	snd_mixer_oss_notify(card, SND_MIXER_OSS_NOTIFY_DISCONNECT);
+>  #endif
+>  
+>  	/* notify all devices that we are disconnected */
+> @@ -587,8 +611,7 @@
+>  
+>  	card->releasing = true;
+>  #if IS_ENABLED(CONFIG_SND_MIXER_OSS)
+> -	if (snd_mixer_oss_notify_callback)
+> -		snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_FREE);
+> +	snd_mixer_oss_notify(card, SND_MIXER_OSS_NOTIFY_FREE);
+>  #endif
+>  	snd_device_free_all(card);
+>  	kfree(card->components);
+> @@ -932,8 +955,7 @@
+>  		return err;
+>  
+>  #if IS_ENABLED(CONFIG_SND_MIXER_OSS)
+> -	if (snd_mixer_oss_notify_callback)
+> -		snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_REGISTER);
+> +	snd_mixer_oss_notify(card, SND_MIXER_OSS_NOTIFY_REGISTER);
+>  #endif
+>  	return 0;
+>  }
+> diff --git a/include/sound/core.h b/include/sound/core.h
+> --- a/include/sound/core.h
+> +++ b/include/sound/core.h
+> @@ -300,7 +300,10 @@
+>  #define SND_MIXER_OSS_NOTIFY_REGISTER	0
+>  #define SND_MIXER_OSS_NOTIFY_DISCONNECT	1
+>  #define SND_MIXER_OSS_NOTIFY_FREE	2
+> -extern int (*snd_mixer_oss_notify_callback)(struct snd_card *card, int cmd);
+> +/* install/clear the mixer-oss notify callback; the core serializes all
+> + * callbacks through a static mutex, so the module's exit path can wait
+> + * for in-flight callbacks before its text is unloaded */
+> +void snd_mixer_oss_set_notify(int (*callback)(struct snd_card *card, int cmd));
+>  #endif
+>  
+>  int snd_card_new(struct device *parent, int idx, const char *xid,
+> diff --git a/sound/core/oss/mixer_oss.c b/sound/core/oss/mixer_oss.c
+> --- a/sound/core/oss/mixer_oss.c
+> +++ b/sound/core/oss/mixer_oss.c
+> @@ -1367,7 +1367,7 @@
+>  	struct snd_card *card;
+>  	int idx;
+>  	
+> -	snd_mixer_oss_notify_callback = snd_mixer_oss_notify_handler;
+> +	snd_mixer_oss_set_notify(snd_mixer_oss_notify_handler);
+>  	for (idx = 0; idx < SNDRV_CARDS; idx++) {
+>  		card = snd_card_ref(idx);
+>  		if (card) {
+> @@ -1383,7 +1383,14 @@
+>  	struct snd_card *card;
+>  	int idx;
+>  
+> -	snd_mixer_oss_notify_callback = NULL;
+> +	/* clear the callback through the core helper: it stores NULL under
+> +	 * the notify mutex, so any in-flight callback (which holds the
+> +	 * same mutex) has completed before we proceed, and the card core
+> +	 * can no longer call into this module while it is being unloaded.
+> +	 * This also makes the FREE walk below the only FREE invocation,
+> +	 * instead of racing the card core's snd_card_do_free() on the same
+> +	 * card->mixer_oss (double free). */
+> +	snd_mixer_oss_set_notify(NULL);
+>  	for (idx = 0; idx < SNDRV_CARDS; idx++) {
+>  		card = snd_card_ref(idx);
+>  		if (card) {
 > 
 > 
 > > -----原始邮件-----
 > > 发件人: 徐晗翔 <xuhx@hust.edu.cn>
-> > 发送时间:2026-11-22 15:52:51 (星期日)
+> > 发送时间:2026-11-22 15:56:37 (星期日)
 > > 收件人: perex@perex.cz, tiwai@suse.com
 > > 抄送: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-> > 主题: sound: core: hwdep DSP_LOAD check-then-act is unlocked, allowing  concurrent DSP_LOAD callbacks (UAF)
+> > 主题: sound: core: OSS mixer notify callback is invoked without module  pin or mutex, racing with rmmod
 > > 
-> > snd_hwdep_dsp_load() in sound/core/hwdep.c checks the
-> > hw->dsp_loaded bit and then calls hw->ops.dsp_load() without holding a
-> > lock.  Two threads that share the same hwdep file descriptor (dup() or
-> > fork()) can both pass the check and run the driver's dsp_load callback
-> > concurrently; both then set the same bit.  Upstream serializes the whole
-> > check-and-load operation with a per-device dsp_mutex, which this tree
-> > does not have at all: struct snd_hwdep has no dsp_mutex field,
-> > snd_hwdep_new() does not initialize it, and snd_hwdep_dsp_load() has no
-> > guard.
+> > snd_mixer_oss_notify_callback is a bare exported function pointer.  The
+> > card core calls it from snd_card_register(), snd_card_disconnect() and
+> > snd_card_do_free() without any mutex and without taking a reference to
+> > the snd-mixer-oss module.  alsa_mixer_oss_exit() sets the pointer to NULL
+> > and then walks all cards calling SND_MIXER_OSS_NOTIFY_FREE, which frees
+> > card->mixer_oss.  A card thread can read the non-NULL pointer, be
+> > preempted, let rmmod finish unloading the module, and then call the old
+> > function pointer -- executing code from the unloaded module.  The same
+> > lack of serialization allows the module's exit FREE walk and the card's
+> > do_free FREE callback to race and double-free card->mixer_oss.
 > > 
-> > The driver callback is not required to be thread-safe.  In-tree, the
-> > usx2y driver's snd_usx2y_hwdep_dsp_load() calls usx2y_create_alsa_devices()
-> > for index 1; that path registers ALSA devices and initializes URBs, and
-> > usx2y_async_seq04_init()/usx2y_in04_init() use a non-atomic
-> > WARN_ON(usx2y->as04.buffer) / WARN_ON(usx2y->in04_urb) check-then-act.
-> > Concurrent DSP_LOAD can therefore duplicate device registration and
-> > allocate/overwrite the same buffer/URB pointers, with double-free or
-> > use-after-free consequences in the driver.
+> > Upstream avoids this with a static mixer_oss_notify_mutex plus
+> > snd_mixer_oss_notify()/snd_mixer_oss_set_notify() wrappers; the exit path
+> > clears the pointer under that mutex, so in-flight callbacks (including
+> > their final module_put()) finish before unload.  This tree exports the
+> > raw pointer and calls it directly in three places.
 > > 
-> > I reproduced the unlocked check on Linux 7.3 with a test hwdep device
-> > whose dsp_load callback sleeps 300 ms and tracks concurrency.  Four
-> > threads sharing one fd issue SNDRV_HWDEP_IOCTL_DSP_LOAD; the log shows
-> > active=1,2,3,4 in the callback (max_active=4).  hw->exclusive only
-> > guards open(), not concurrent ioctl() on an already-open fd.  This run
-> > did not produce a KASAN report because the callback is synthetic; the
-> > proven claim is the broken mutual exclusion, with the usx2y consequence
-> > argued from code.
+> > This is a static report: the race is plain in the source, but I did not
+> > build a dynamic reproducer for it.  The requirement is
+> > CONFIG_SND_MIXER_OSS=m so that an rmmod path exists.
 > > 
 > > The detailed description:
 > > 
 > > * Test environment / affected version
 > > 
-> >   Linux version 7.3.0 (gcc 13.3.0, GNU ld 2.42) #6 SMP PREEMPT_DYNAMIC,
-> >   vanilla 7.3 source, KASAN, QEMU/KVM x86_64 (4 vCPU, 4 GB).
-> >   CONFIG_SND_HWDEP=y.  Version line in evidence/kernel-version.txt.
+> >   Source analysis against mainline 7.3; no dynamic reproducer was run
+> >   for this case.
 > > 
 > > * Root cause
 > > 
-> >   sound/core/hwdep.c:206-222 (snd_hwdep_dsp_load):
+> >   sound/core/init.c:85-86:
 > > 
-> >     if (hw->dsp_loaded & (1u << index))
-> >         return -EBUSY;
+> >     int (*snd_mixer_oss_notify_callback)(struct snd_card *card, int free_flag);
+> >     EXPORT_SYMBOL(snd_mixer_oss_notify_callback);
 > > 
-> >     err = hw->ops.dsp_load(hw, &info);
-> >     if (err < 0)
-> >         return err;
-> >     hw->dsp_loaded |= (1u << index);
+> >   direct calls:
 > > 
-> >   No lock covers the test, the callback and the bit update.  Upstream
-> >   has guard(mutex)(&hw->dsp_mutex) around this sequence, and struct
-> >   snd_hwdep contains dsp_mutex; in this tree the field, the
-> >   mutex_init() in snd_hwdep_new() and the guard are all absent.
+> >   - init.c:533-535 in snd_card_disconnect():
+> >       if (snd_mixer_oss_notify_callback)
+> >           snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_DISCONNECT);
+> >   - init.c:590-591 in snd_card_do_free():
+> >       if (snd_mixer_oss_notify_callback)
+> >           snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_FREE);
+> >   - init.c:935-936 in snd_card_register():
+> >       if (snd_mixer_oss_notify_callback)
+> >           snd_mixer_oss_notify_callback(card, SND_MIXER_OSS_NOTIFY_REGISTER);
 > > 
-> >   The ioctl path sound/core/hwdep.c:236-252 does not take open_mutex
-> >   around snd_hwdep_dsp_load(); open_mutex is held only by
-> >   snd_hwdep_open() for the exclusive/wait logic.  hw->exclusive is a
-> >   one-time open() check, not a per-ioctl lock, and dup()/fork() share
-> >   the same struct file and hw->used without re-running open().
+> >   module side:
 > > 
-> > * Consequence in usx2y
+> >   - sound/core/oss/mixer_oss.c:1370:
+> >       snd_mixer_oss_notify_callback = snd_mixer_oss_notify_handler;
+> >   - mixer_oss.c:1386-1394 (alsa_mixer_oss_exit):
+> >       snd_mixer_oss_notify_callback = NULL;
+> >       for each card: snd_mixer_oss_notify_handler(card, SND_MIXER_OSS_NOTIFY_FREE);
 > > 
-> >   sound/usb/usx2y/usX2Yhwdep.c:174-213
-> >   (snd_usx2y_hwdep_dsp_load) loads firmware images by index; for
-> >   index == 1 it calls usx2y_create_alsa_devices(hw->card), which
-> >   registers ALSA devices and starts the USB streams.
+> >   The FREE handler (mixer_oss.c:1308-1360) takes card->mixer_oss, frees
+> >   it and sets card->mixer_oss = NULL.  There is no lock around the
+> >   pointer read/call or around the mixer_oss pointer, and no module
+> >   reference is taken by the callback path.  snd_mixer_oss_open()
+> >   (mixer_oss.c:57/73) takes try_module_get(card->module), not this
+> >   module; the OSS mixer file's .owner may pin the module only while such
+> >   an fd is open, so rmmod is possible with no OSS fd.
 > > 
-> >   sound/usb/usx2y/usbusx2y.c:267-297 (usx2y_async_seq04_init) and
-> >   :299-334 (usx2y_in04_init) allocate buffers/URBs and use
-> >   WARN_ON(usx2y->as04.buffer) / WARN_ON(usx2y->in04_urb) as a
-> >   check-then-act guard; WARN_ON does not serialize.  Two concurrent
-> >   index-1 loads can both allocate and overwrite these fields, and
-> >   usx2y_unlinkseq()/cleanup can then double-free or UAF them.
+> > * Failure modes
+> > 
+> >   1. Unloaded-code execution: card thread reads a non-NULL callback,
+> >      preempted; rmmod runs exit, sets NULL, unloads; card thread resumes
+> >      and calls into unmapped module text.
+> >   2. Double FREE: alsa_mixer_oss_exit() and snd_card_do_free() both
+> >      invoke the FREE callback for the same card.  Both can read
+> >      card->mixer_oss before either sets it NULL and kfree() the same
+> >      object; or one frees while the other is inside the handler.
+> >   3. Card register/disconnect during rmmod can leave the pointer
+> >      cleared but a concurrent call already in flight with no completion
+> >      wait.
 > > 
 > > * Trigger model
 > > 
-> >   - A hwdep device whose DSP load is performed by userspace (usx2y is
-> >     the in-tree example);
-> >   - a process opens /dev/snd/hwC*D* and dup()s the fd (or forks);
-> >   - two threads issue SNDRV_HWDEP_IOCTL_DSP_LOAD concurrently with the
-> >     same index;
-> >   - both pass the bit check and enter the driver callback.
+> >   - CONFIG_SND_MIXER_OSS=m (built-in has no unload path);
+> >   - one thread registers/disconnects/frees a card, another thread runs
+> >     rmmod snd-mixer-oss;
+> >   - the card thread must read the callback before the exit store and
+> >     reach the indirect call after unload, or both threads must reach the
+> >     FREE path concurrently.
 > > 
-> >   No hardware is needed to demonstrate the unlocked check; the attached
-> >   test module does it.
+> >   Hotplug/unbind plus module unload is a realistic administration
+> >   sequence.  It is a narrow but real race; the upstream mutex exists for
+> >   exactly this reason.
 > > 
-> > * Reproducer (attached) and results on 7.3
+> > * Impact
 > > 
-> >   sndcore_hwdep.c creates a card + hwdep device with hw->exclusive = 1
-> >   and a dsp_load callback that does:
-> >   atomic_inc(&active); update max_active; msleep(300); atomic_dec().
-> >   sndcore_test.c opens /dev/snd/hwC0D0 once and lets four pthreads issue
-> >   SNDRV_HWDEP_IOCTL_DSP_LOAD on that fd.
+> >   - call into unloaded module text: UAF execution, kernel crash,
+> >     potential code execution if the address is reused;
+> >   - double free of card->mixer_oss: heap corruption;
+> >   - at minimum rmmod/hotplug crash.
 > > 
-> >   Observed :
+> > * Suggested direction
 > > 
-> >     dsp_load enter: index=0 active=1 entered=1 ...
-> >     dsp_load enter: index=0 active=2 entered=2 ...
-> >     dsp_load enter: index=0 active=3 entered=3 ...
-> >     dsp_load enter: index=0 active=4 entered=4 ...
-> >     HWDEP: 4 concurrent DSP_LOAD issued
-> >     KASAN bug count: 0
+> >   Restore the upstream synchronization: a static mixer_oss_notify_mutex,
+> >   snd_mixer_oss_notify(card, cmd) that takes the mutex and checks the
+> >   pointer, and snd_mixer_oss_set_notify() used by the module init/exit to
+> >   install/clear the pointer under the same mutex.  Ensure the exit path
+> >   waits for in-flight callbacks (including their module_put()) before
+> >   the module text is freed.
 > > 
-> >   active=4 proves all four callbacks ran concurrently despite the
-> >   dsp_loaded check; the absence of KASAN is expected for a synthetic
-> >   callback and is stated as such.
-> > 
-> > 
-> > 
-> > * Suggested direction 
-> > 
-> >   Restore the upstream per-device dsp_mutex:
-> >   - add struct mutex dsp_mutex to struct snd_hwdep;
-> >   - mutex_init(&hwdep->dsp_mutex) in snd_hwdep_new();
-> >   - hold it across the dsp_loaded check, hw->ops.dsp_load() and the bit
-> >     update in snd_hwdep_dsp_load().
 > > 
 > >   Please keep me in Cc; I am not subscribed to the lists.
 > > 
