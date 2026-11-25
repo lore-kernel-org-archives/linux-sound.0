@@ -1,56 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795600008;
-	b=YgT3q3/sAmr/l6Bic5YY67uDzsmq1fpkGt4+LHBhDPRCS5NXKFOAJtcsf5spzyNHs8Yn
-	 MF9oF3hqoI1xNJj8lPRWsApq2XX+6I/9LvsBz4ZmlrDEcxtG2aU62Tte1hHcsdRT9E3Wu
-	 02C+ADCTG5nEttCWGfW4xFQrhz8ot2Lm1gOiymuKr4p2YsZWUMxk6DDH8s15YAasCtLoF
-	 aNcsW4i/TkXXJUnapQZ/rnh0oOEw9Ie2hT+H0dn0rzb8f7Ba/hKWGuVvkg0wGKlFou+TA
-	 FAtZwH0ycI477p8XFaIp8XuiRnIbLtcWlIfU9OhzlcInR6WW58vBAFeMZAVtiiucn0A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795600008;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=oFeLu7EEDvClRzVwizYa0Eo4zJlKAa12pT6RWv0WOrw=;
-	b=bDZTOMEDoQA8506YoxnY5Wvz4D0TDB2V+Umu+Ps/eJSG5mKmYiiYK66xgnA/w7pIB5J+
-	 PPQq9CqkgQLQxRjTyScSt9u8/fqFPC4IkLx0CHxTIdzkYT9IG6wUPmj1l2EwPzTfSvITa
-	 lK6b63vWzJhgwyM7tyFPbXkj/Gu/4vgTjQ/z1tGNUl/3tXv0/uEVJgrXSNrAAc+UwWQUG
-	 j1ABwroLDD65mTLzacBlSocCpf66XBCrRpL/Vbu88dt1TTYAZInUFYBlSUb+mrkKVdYZ1
-	 /udqJ6htdn7dropBBLRSCUEoyREFPa+lqZsahT1UPdcIxmWEMuoooD2N3BgVikW/R1Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S1lfBPOO;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.21
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795601375;
+	b=CsJYyQYufAp9sTG6Igi6S2P0Iopx1qjFdDRK3IKsu41FRvOaEcV/EYwZ74lH7ugqvsf4
+	 ZeBql65CKODG19QLk1vwKSzXeRNvN7qrAPa3JlnWpF+3vVBwZXsLFILMiTuO0f6TTCYXT
+	 XvmMyaR6EGDLvaN1eaJC1zyUup8ttRdfmqcQTwIn9++ktwp1hYv1y9Azfl9H7t3mUTUaP
+	 0wvwrz42SYo60zMr7Cls7YnmgKaNs80Us8RaADN8sx0QUyTwMW0UDN548Em3KkkrqCTZr
+	 DSFzpGw4LoiiZ7pLD1LRE0Fe0rWHxkznUjoKLjBpkSXcq5PjVaLBoe/0Uy0exWgBr6Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795601375;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=94jKpoVVfEuzuYGJ/QGmpD4nwJD9rbbVjreDdQE30gE=;
+	b=msHRHAMhQsfWtTAyBaWCY8LIDQuvcNJLFLE5TumbxwRKRKrp9YK1Kr8l7hh9Z8Zd6CNs
+	 cDKQiU727c1BS3huQhRJPGpgcin113iGRkui+o/x2REWAcZ+PtpW660fpvWKyRcJh8EtR
+	 JYGwaHjPWXclabco2CtOXEH96QuoJW5hCnJUO7krqt0w8A6buLRbyIdxiWR2F9H3qZSXP
+	 GC35vuUAbRoc6tLdX3Zv4fSGpCfjpCIwFcP34lp3E+ThcmASCCVZZydmWovNHoigRFut/
+	 +FoLjEoKSHqWSGtB994Lp/pddletlxQ9GQAjiboPX8AlDKIg+DGVBoO2KngT2GtNDag==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b="yDg5j/z/";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.21
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011021.outbound.protection.outlook.com [40.107.130.21])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A9B606A327;
-	Wed, 25 Nov 2026 09:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78BB606A321
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:09:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C78BB606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S1lfBPOO
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5741F000C6;
-	Wed, 25 Nov 2026 09:46:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795600008;
-	bh=oFeLu7EEDvClRzVwizYa0Eo4zJlKAa12pT6RWv0WOrw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=S1lfBPOOKBCeBvYW5N8RAlkDblE9Oba9fA2LSs0wOJfphi48iiQNHyviYw8BmmBG0
-	 sFK8NZScAss4nmXwEH3YQUx1q+tPJGH9Waig+ofXg6S9sj4zy6GvNbrDapK196ZMpx
-	 Ab2gPWu/DlDh2sdw/nsq/HTMzNJCKKwuJiDau0q9WDiBLnQOYNuvvgU7NpV8T0HcsG
-	 C7omolF55+acX7PAR3S1QuyqrCeRr5tZGSlZBczPLAK1QD0axSjudmNoBKNwdFr6e+
-	 FswjaFyWWXFiOcTP4t1JPaOrGUcrKoA2/3w8+89BEM6tTqE+OnUgy4VZoVQCbBjkLL
-	 9v7o3/r6ImyYg==
-Message-ID: <sashiko-outbox-233070@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 33/33] USB: Authorize devices through device trust
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Leon Romanovsky" <leon@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, dmitry.torokhov@gmail.com
-In-Reply-To: <20261124-device-trust-core-v4-33-037eb0d17b1f@nvidia.com>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
- <20261124-device-trust-core-v4-33-037eb0d17b1f@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 09:46:47 +0000
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=yDg5j/z/
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G75rPLKAph6x3VhsfZXMdOl6Y3RQnTsWVGlLNwMDSRlnhd3mKtTCSZMpw6vgrEUwv3VMQ+d9/5/DKRnnjmPdtTvHM4eJKWAadpD2rao2vQsTtUeaKH2T/dI7WS5YNxD6uoPKj9BoBcgKNYPozd4U7oK0VajT3Pyv0RaYuX0PNFDP8iy7lnU7pl+e9UmmNPXcrl9t9iMcmrtwvuduupQRcT+XUUfBxX4k5VLh1Xoth9au4gfe0NlxrHXIGe/IbJ7ZsUftIVWqQD0bdlF3AdL/xmp7pB3DcRZbTyWlZn+sqEEdagW6viv0jrheuTyHq4qSd9sfConL1Dt1goaZAG/1Zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=94jKpoVVfEuzuYGJ/QGmpD4nwJD9rbbVjreDdQE30gE=;
+ b=hitoE7ntinFWsLXKS1b9GhpUge+P/XcMkm4dvZj+nqJXp8GSOlJzrj8ULIRK7wQ5YOjJ4CtZ4wJMnvOw64BPCYu+F/Dub758KSeYxCmjP+PnEbJC2yL51Reswo22q/ZBsbuaEOGAECJHurnZ3HCAkEpfvmOc6QuxYVN4a2tUl6qjvSV48AOuGir3M4TiqaIzyZYyaAyIzEyAqjJwZbIo+jkOjiCI5v+7T3O+tWfVvh3kM10Rmr7OAUbGMAJJQO1eYkC0mClTm1qefPzqRnxCXSnvQQ/vDxUUni4y/JGf1vq3o78nopHG/b5oHDoT1eji6aKcIHXsoRhDPq2qaHkQfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=94jKpoVVfEuzuYGJ/QGmpD4nwJD9rbbVjreDdQE30gE=;
+ b=yDg5j/z/u9C6xFBj2WZaPOzKk0NUthrITZl7H0ixNy/n/hjSkZ/ko/EvYW8p/xGe5iJfL4Zql30yu+vTouqayuCFNuKmTiJoc6Hgugx09+Pgq5KuSch07rSDO8tTPXLf93NPovT6wZ/KGIlpj9BJzdba7MKbHiLQW4n8ZGps/vcCF9goLhS1rTqeFykKAKMj21K3RzATy8HbPNcvtEqEQ1QdQNRJMjJRzymh65xyrGZ6qKBtAUb0edBgaqY4n22Q/w12J4Wu33Tbl1Ev0gEzKW0A+c7eL932O2s+IpxIKnJL3SRekbTX1oAWeCBXQ9Ylb7EKCrry7FB/ny4D0qbmfg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
+ by BR2PR04MB659875.eurprd04.prod.outlook.com (2603:10a6:2c8:1b::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
+ 2026 10:09:30 +0000
+Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
+ ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
+ ([fe80::fc6e:ca22:f065:def4%5]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
+ 10:09:30 +0000
+Message-ID: <006c7209-fe06-4aa1-bed8-2fa74b4d0edc@oss.nxp.com>
+Date: Wed, 25 Nov 2026 12:13:13 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset
+ framework
+To: shengjiu.wang@oss.nxp.com, Liam Girdwood <lgirdwood@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Mark Brown
+ <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+References: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
+Content-Language: en-US
+From: Daniel Baluta <daniel.baluta@oss.nxp.com>
+In-Reply-To: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P189CA0030.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5db::17) To GVXPR04MB12316.eurprd04.prod.outlook.com
+ (2603:10a6:150:2c6::8)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,90 +111,126 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|BR2PR04MB659875:EE_
+X-MS-Office365-Filtering-Correlation-Id: 195d4590-7639-4835-02ec-08df4adc321e
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|366016|1800799024|23010399003|7416014|376014|261022105027099003|261026121527099003|10067099003|261026140227099003|261028144727099003|261102123227099003|261021121427099003|20046099003|6133799003|921020|18002099003|22082099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	BeltwXAygyjiBeFkMsxNC4dQe4QeKieJxYMUymCMz8rYvsxz4LiBYAL2ClgwIPNuQ/dpUk+0Cr7aHbcdX0n4Oo25UPBGEsLlVwZsltCBwtxRprQNYbo2r0mstPH+oFNR+u1G84ApmCrx7bLW3t5GC9JMcNa8o8TlfpkcPTT6t71zmLvXFEMEaiMRWuERbJPrqzX2FonbHX2OHMQvn2dtZSn9oa/2uplhbsanby7W12luTC1JyyGe9mLbxbAC47Yj5taEtM/BAnzq6iX+RsjkJ4CvieqzSM5AUIM+FVNCOCq+fvX+J//xDU7QVg1fZJJNK55vTRpl/DoGYXEOUX3rk4UN0vU6QJ2snUClwIRExN0baEe9ilXTHjF0otTPvp/QPDr9Zl8BjBz0h69bhGhLHD792gGlVQcB+DpdpR+76e9Yr2Uf8hKcKE927iYeo9XTdbYSBGi/cIXGjZ52rwXUIel4Nyh1RySjgQKhIlB9w8VLohQNzLesqIh0yK17b4jsxearYX556RvnqxwVhkda54Qr0OJObuQbU+a8ykD7j+csKDiGDZWQilgW3BUT6VqVz1y69EQsg/wuv5MtRFmenPBMolNGRabJcJFFAOYx150x2ZZUQhY3ZEPSArrBRb1/CDr6mHtYriw/s50S1xo31hAjfm+2G9wXtnX/+q7UuRBV2inJCuh8uoc2Y5Nw+l0Wb4i6RxU6272Gru0CS+WqKQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(23010399003)(7416014)(376014)(261022105027099003)(261026121527099003)(10067099003)(261026140227099003)(261028144727099003)(261102123227099003)(261021121427099003)(20046099003)(6133799003)(921020)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T0hZdHhKNE9DYmFrcUtOaDhOVnZabklSRTZ4aHR2b2o0c0syNW52S0lsRUEz?=
+ =?utf-8?B?aXJvVTNQSyt6WWJMdWl4RmpqQ2Uxa1BOam40cHBTdVJEeERzazFLRlNJRHdl?=
+ =?utf-8?B?cUNraEFlbkZBeTJpSkhldEpsNmxBNVIzQ3kxdnZ0OVRBRHRwandUOHRtbjNS?=
+ =?utf-8?B?MkJadGxZS0hHT2VhZjM5WlY1NEVoV0dkR3VVNXNGcmJXMDZLNFZYTk10RzVw?=
+ =?utf-8?B?bUJhbk5zTWsveDBQZGl3WnZOYWxwQTB6aE9Vd3RqUTJ6aHdEQXVRaFowY2N2?=
+ =?utf-8?B?K3RCL2Y1eE8wR2p4RFlQeFZqaTdVRWVNOGh6VVNZZEVjRlh4TEUvcXBhWXU2?=
+ =?utf-8?B?ZEVOYWUwcUhQUmhFWmJiSjE2TEkzRTRMV2xIekxqWVpCWWVxM3VFNFQ5OXpa?=
+ =?utf-8?B?eU5oTHNHWFFhb21kdDVkVi9ZME43UDdMYVVrZWY3VXo4bndmSkZkVkZyeDU5?=
+ =?utf-8?B?bzlvMWE4dWg1Yit6TW8xUDcwaXlRc0VxZkhpQXBvdjBoY3AvMDNSRmxrZEly?=
+ =?utf-8?B?M1JmSFN3Tm9ORnMyTVg3Tm9BNUFlNERXNDhoVWNLaUczY3FsRWdPT3diN2hv?=
+ =?utf-8?B?R0RGTmRCTHpDUUR2KzJCbVZjblFNb0dBdFVJOFdYR3h5SVpUZnNJTm1wSnhm?=
+ =?utf-8?B?cHZ0TDhPaFZWbG9oK0Q0WWZHVHJ6cGFlTUdRalFrbjdVM3Vjd2liSTJ5bmVx?=
+ =?utf-8?B?aXc3SFBIOTg3T1Z2bUJHTklKNTIybzNvZkVTRzgwR09kS0hocjFiQXZaWWpp?=
+ =?utf-8?B?VUwzWTJMR3dLY0l2R2hSZHVLZzNVWlhnbTQ5WGNuVkppNUVJNmtuWEJka3NB?=
+ =?utf-8?B?WGRyWXJYNDYyZDdBSC9IcE4xWGkzcytjNTNEQklzWEYzelRrd0tVUXNpcVlk?=
+ =?utf-8?B?Y0RjK3d2RENidXd5d0szOFlNem53MitTMjhXUWpYbUNYZmduV3BBN2lVTVUv?=
+ =?utf-8?B?cjczd3pSZStGbGdyM1lRbTdiNjdVUGlqTVdnYU9DdUM5UVRKUkFyVnZUN1VZ?=
+ =?utf-8?B?SzJsVTE1bVp4dWgreDBQdjN0NEltcm83cVZKUk5wWGZaYVFBK2MxYk1zanVN?=
+ =?utf-8?B?YnpYUk41TkZmMFEwL2lhSDZzRlRKRTlXdS96VHV4T2xjZDN3RHB5NVZsSkpO?=
+ =?utf-8?B?cFdKUnIzcTkySXF5SkV5a3hia1Iwd1JIQTJRbE9ndHUrRkZYTi8xczc4TE1x?=
+ =?utf-8?B?ZnQ0SHpUV0pqTDhoY1l4VmhSRTFndDEzYU5GdngvTDJ3aGF2UDduVVE2VFBK?=
+ =?utf-8?B?UzExRzlUNE1vWmo0THRzZzYxVEFTSzhFNkExVmg1aHBnMHNLSkxPd0xyc0Q5?=
+ =?utf-8?B?akxONFJnNkxsYWcwaGZWdld2ejh5U0phZ0lvcUwydFRKNnh3c0owQld5anFE?=
+ =?utf-8?B?aE0rdUVFSzBZUjNUUWxQS3lXb3hWMzA3a2hVRitia3ZjUUVpU09yOWE0SDR5?=
+ =?utf-8?B?UzZZQkYxbG5JTXRPVlFLZzBTb0N0T1NkcXpIWXJsUVplN2c0NFlQcW1UV3Jt?=
+ =?utf-8?B?eEw2eFl4bTJVV2RocnRVa25UZVcwLzJVK2lUYzhweHVodzFSYnpVc0gxWTFp?=
+ =?utf-8?B?eS85Ym00OVZuQmRkVDVtdnRNSHJUTE9LeEFDQklZTjZxRmlOUkVEZkkrOE5v?=
+ =?utf-8?B?NTRqTTQ5RXpXZ1NGVlk5eU1maEx6cTJCcytTbG9HWEl4WHU3NGVLWFRjZTRS?=
+ =?utf-8?B?WFdHNWxudEdUTmdqQ3VhQURJVnllTjA5Zlh3N1RBZk4rQjJROU1oaEJLR3dW?=
+ =?utf-8?B?SVFzSjNFTk1hczBjamxoby9kV09kRXlOaUVENmpvTjFnTGZISnBKaS9XTmhh?=
+ =?utf-8?B?UnlDVkxTYjNiQmQ0d3A1RFBDbGNxSWE0ME9MN0xxZHA3ZlFJbTdWejd4cmtK?=
+ =?utf-8?B?d3pHcE5GQU9jOWxzQ05hSnBmWjRUV1B2NTNUemNlOXhFeDJLUzJGbk4zTFhT?=
+ =?utf-8?B?eW9YdW9oOWE2OHREL0czNytQelFKL3lVVFkvbzVKaURRVU10NDVRTzhnS3lU?=
+ =?utf-8?B?cTFwS0NuQmVvNUtwMzlPU28yN2ptTkVxUloyVjV6eEhtWDBpNkIzUjN2aWlh?=
+ =?utf-8?B?TEpUbk11WWpDbjFHRWtyMmxlbmF3VHZYcTlIUktXcnE4d1BWS21QR1pRVWcv?=
+ =?utf-8?B?UWJuVXMwVzNucEkzckJzRjdOYTJmRXFwZXptL2l3Yk9FNUg3YlRFczVCUzIr?=
+ =?utf-8?B?UzdVOWVLRFRGOUhJVnFOeFl6cTJWMS9YYWhrZ3FUWTFHSGxtT3lvVjl3OHZN?=
+ =?utf-8?B?N2hMN2tTMjdUYlVJZ1RHY2NUVTkvOVZhdHBXMmVrTFptZU1MRUpKNXVUUXZJ?=
+ =?utf-8?B?QVFjZjE5TUFqWWF6Z1M4M2MvZUVYNUw4Vyt0SW94OEJHZVpteTE4dz09?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 195d4590-7639-4835-02ec-08df4adc321e
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 10:09:30.6256
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bOoQaahWdJgriRviXMsDSBuORHoJFn1qu2AaKI+4HU5pR3sX5lOzcizea1pg8nKSOdMI+p7Ms47AyNzQykwxFA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BR2PR04MB659875
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] usb: stale config_error in usb_authorize_device() when no config
-  is chosen
---
+On 11/25/26 09:38, shengjiu.wang@oss.nxp.com wrote:
+> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> 
+> Replace syscon regmap-based DSP reset control with the kernel reset
+> controller framework for i.MX8ULP. The syscon approach requires direct
+> register access and creates tight coupling to the system controller,
+> while the reset framework provides a cleaner abstraction and proper
+> reset sequencing.
+> 
+> Three named reset controls are now consumed: runstall to stall/unstall
+> the DSP core, softreset for DSP core reset, and dbgreset for the debug
+> logic which is kept deasserted to allow external debug agent access.
 
-commit e933bc32d14e8dc32abb1afc1a81475eeaa3569d
-Author: Leon Romanovsky <leon@kernel.org>
 
-USB: Authorize devices through device trust
+As Philipp pointed the wording here is a little bit unfortunate. The reset
+sequence is already correct what this patch does uses a cleaner and standard
+reset abstraction.
 
-This commit integrates USB device authorization with the device trust
-framework so that device driver admission precedes configuration when
-device trust is enabled, and tracks configuration errors under the device
-lock to allow retries.
+[...]
 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 372bd6368cc94..c94539b0c697c 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-
-[ ... ]
-
-> @@ -2787,17 +2788,41 @@ int usb_deauthorize_device(struct usb_device *usb=
-_dev)
-> =20
->  int usb_authorize_device(struct usb_device *usb_dev)
+>  static int imx8_shutdown(struct snd_sof_dev *sdev)
 >  {
-> +	bool attach;
->  	int result =3D 0, c;
-> =20
->  	usb_lock_device(usb_dev);
-> -	if (usb_dev->authorized =3D=3D 1)
-> -		goto out_authorized;
-> +	if (device_policy_is_blocked(&usb_dev->dev)) {
-> +		result =3D device_trust_set_policy_locked(&usb_dev->dev,
-> +							DEVICE_TRUST_POLICY_UNRESTRICTED);
-> +		if (result)
-> +			goto out_unlock;
-> +	}
-> +
-> +	attach =3D device_trust_enabled() && !usb_dev->dev.driver;
-> +	if (!attach && usb_dev->authorized =3D=3D 1 &&
-> +	    (!device_trust_enabled() || !usb_dev->config_error ||
-> +	     usb_dev->actconfig))
-> +		goto out_unlock;
-> =20
->  	result =3D usb_autoresume_device(usb_dev);
->  	if (result < 0) {
->  		dev_err(&usb_dev->dev,
->  			"can't autoresume for authorization: %d\n", result);
-> -		goto error_autoresume;
-> +		goto out_unlock;
-> +	}
-> +
-> +	if (attach) {
-> +		usb_dev->authorized =3D 1;
-> +		usb_dev->config_error =3D 0;
-> +		result =3D device_attach_locked(&usb_dev->dev);
-> +		if (result <=3D 0) {
-> +			if (result >=3D 0)
-> +				result =3D -ENODEV;
-> +		} else {
-> +			result =3D usb_dev->config_error;
-> +		}
-> +		goto out_autosuspend;
-> +	}
-> =20
->  	usb_dev->authorized =3D 1;
+>  	int ret;
+> @@ -202,42 +201,32 @@ static int imx8m_probe(struct snd_sof_dev *sdev)
+>  
+>  static int imx8ulp_run(struct snd_sof_dev *sdev)
+>  {
+> -	struct regmap *regmap = get_chip_pdata(sdev);
+> +	struct imx8ulp_chip_data *chip = get_chip_pdata(sdev);
+>  
+> -	/* Controls the HiFi4 DSP Reset: 1 in reset, 0 out of reset */
+> -	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, 0);
+> +	/* Controls the HiFi4 DSP Reset */
 
-[Severity: Low]
-Should the non-attach path in usb_authorize_device() also clear
-usb_dev->config_error =3D 0 before calling usb_choose_configuration()?
+I would remove this comment above, as it is obvious from the function name what
+is the action taken. 
 
-Unlike the attach branch, the non-attach path only updates
-usb_dev->config_error when usb_choose_configuration() returns c >=3D 0 and
-usb_set_configuration() runs.  If a previous configuration attempt failed
-(leaving usb_dev->config_error non-zero and usb_dev->actconfig NULL) and
-usb_choose_configuration() returns -1 because no suitable configuration
-exists, the stale error remains set and subsequent writes of 1 to the
-authorized attribute will bypass the early return and repeatedly re-run
-autoresume and configuration selection instead of returning as a no-op.
+> +	reset_control_deassert(chip->soft_rst);
+>  
+> -	/* Reset HiFi4 DSP Debug logic: 1 debug reset, 0  out of reset*/
+> -	regmap_update_bits(regmap, SYSCTRL0, DEBUG_LOGIC_BIT, 0);
+> +	/* Release HiFi4 DSP Debug logic */
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261124-device-tru=
-st-core-v4-0-037eb0d17b1f@nvidia.com?part=3D33
+this comment can stay. 
+
+> +	reset_control_deassert(chip->dbg_rst);
+>  
+> -	/* Stall HIFI4 DSP Execution: 1 stall, 0 run */
+> -	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, 0);
+> +	/* Run HIFI4 DSP Execution */
+
+
+With that said, 
+
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+
