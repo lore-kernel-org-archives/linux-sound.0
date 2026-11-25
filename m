@@ -1,56 +1,153 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795634479;
-	b=iEmdOYtjwiRMWNY+4vBTJivTY+1NF81dwVBR1OmJtJn0IMrRcUA+8oXzSaqB/gA88oFF
-	 DH+eQFC9jJ8b9Q5UCXIxu71BL5mY2zmP/5L3yTljNwuKgrPuyqNZa8zFSnuS07ORymRJc
-	 KAkVpoMXfGh0KOUWjyrBLCa361RsfhkgT6zqrMHiUG4zCfE8eIrGo20Su4ZZ6Je209jIs
-	 OkTHRsRM/gnq+5BetCzW7+beFwNs3tvK9zpknoKMjXT8vlEX3Vfi2kenekbZcu+q/X5FE
-	 ghm14q+8ahSTskv7xIwCclEepbID8iZqSIpqfjqXTK/DwuCtxl5ibnv2Eq3lStNx64w==
+	t=1795634656;
+	b=206mHSsLZq50GiQKZ44prIXp31EY/phSgW2e+zxHxPLerFKe2RHK5p09+A3iP1Tlmpx6
+	 JHX/EpDpn5kkd0dFqRM8QXFrh8OWNOq8IJU5KFOJ/2SW1XYHnrjioDg+Xlm+9tMuN+S2u
+	 i+MNUgAB2UPD5/6HN8OkRO+kVZ1B8AO1iym9vTvuSqhVvXmegsO1KJhFDKvlY4/GLziir
+	 ysuz8gHcGY24tIzXFZw9qptpxh5vyW69Uf2erbfPe1lZDPthasgSEz2IdXE4AHae2Ls7N
+	 sM+K3cexl5+ONOVrYZTFLa6fXOY5zbmc0Hz10/OC/pkRDJKjlzjCxXVwliBqdhkitJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795634479;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type;
-	bh=4k7ohsPxej6L59b5Tjp/2AFI7B43mGDw/TdGi88o2gY=;
-	b=b50bgqCfodOCknhguTdF+BPEK8Thcpt6jj2i6H58gcdvOLVl8rKWs6BTjpW7t14NFhTG
-	 ZiJOHBRSUDyoPKJaTsSu5pIcGjER+r52QGB0yMo6OThrV63HjMazF5NFAN47uUEeX6Q/y
-	 981PF3GC5Tatxmn8WQ/8v+cSufN2L/EGfvq0uyi8oJjFLT4g0+9s+5v1KAodVAQU2ltqP
-	 5lm28+ZeFy7to8hO3UUDU95/U/8Vgwj+pP19rTqjpkglyPTHQx+mkcgl25zs8Zct1OUX4
-	 kCwI6rmMOgP9ZXTgR676x7Snd2Lis1sEgUbcZWp4EYTU70wzGqP73U3z2hf6JskFBJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795634656;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=N55gjPKFtoyQEkpZ+mulBFdiGvAn3buEDUMJWwRWBLA=;
+	b=vhUuOSiCA3cfuf1RQZyDQIb4xRctD2WbHmMi6fAut2/yZfFbAAtUZqWBDtEG1IAkjtPe
+	 9/Joe7IAbS4FbqZ3tgN6Cxqc6rsntMAPL/akpeo1n9p8JHEdeuEyiQ5ENBnOY8DeOD+79
+	 p0xV5nT6OW9P+LvvWf7XnqyhaUco7b2ABEPKoMkrZmcIOVinwUpXXqJl890GB3uXVcB38
+	 KLDwvfcmBC5ENnOKj1TbH2oC81fHSDPXAU4nCGDSdW6jDC+szn4SjJrSet6flje6p1vaH
+	 HwqoOuMAvy/YfrIK0N1xyoiLV8ossL2itd4ug/Vi7GQj/0sVfWYwTsat/AtTQ4RbTUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nitrohex.com;
-	spf=pass smtp.mailfrom=nitrohex.com;
-	dkim=pass header.d=nitrohex.com header.i=@nitrohex.com header.a=rsa-sha256 header.s=protonmail header.b=xOucXI9Q;
-	arc=none smtp.remote-ip=185.70.43.17
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PQxZQo0T;
+	arc=none smtp.remote-ip=209.85.210.172
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E69606A31E;
-	Wed, 25 Nov 2026 19:21:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2E69606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nitrohex.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nitrohex.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9A2606A32A
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 19:24:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C9A2606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=nitrohex.com header.i=@nitrohex.com header.a=rsa-sha256 header.s=protonmail header.b=xOucXI9Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nitrohex.com;
-	s=protonmail; t=1795634476; x=1795893676;
-	bh=4k7ohsPxej6L59b5Tjp/2AFI7B43mGDw/TdGi88o2gY=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=xOucXI9QJIrXG0Vs7IYfM6CzCJ9ha0pOJOVyem9qgw+vit6zyOHxOUE+OQYbQVsn9
-	 lbhlfdumAEaMedRBMv21+1G5TwwvC4Id2pjcBWzUkUysrwcdpbWHMVOBA2EMALIcQI
-	 Px3rNzN9bj+AGQP/k8t+xsHUynbyDc4X+ejA5+/Ga2xs+P6GyaQrhYFLVwvxnQLwRc
-	 ExK2UvGHaM9QNkKThoep+lPeGTgzwXVjDYsh1YKBtDWcUlxO639xptBgWe+ojHs+g5
-	 c7nWqALscZ5O23lOgw1YWgczRxD+RQwZHF3YGyg5qzgugivXxIWymHWxTRJQbKRqQl
-	 Vb5iB3JGpGBxA==
-Date: Wed, 25 Nov 2026 19:21:12 +0000
-To: perex@perex.cz, tiwai@suse.com
-From: Rongen Wang <security@nitrohex.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH] ALSA: timer: Protect the slave instance flags with the timer lock
-Message-ID: <20261125192053.5664-1-security@nitrohex.com>
-Feedback-ID: 235154292:user:proton
-X-Pm-Message-ID: 91ebf654dc522a684de742c5013fe2bc638d227c
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=PQxZQo0T
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8b29b83fdf1so3290954b3a.2
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 11:24:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1795634655; x=1796239455; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=N55gjPKFtoyQEkpZ+mulBFdiGvAn3buEDUMJWwRWBLA=;
+        b=PQxZQo0TTqoCAQqV96+d5EoAEWVnLcJP15L/GDv397QjtUn2t3l5136UUhvM4tv/Ye
+         /o1K4Z5hEm9bYDztTZbC2tXo1IU4+GUmeoqyiuDiGsKdVLefuFWDdbvvuSPIyscCxFoP
+         Cz4ZSeO5vANruk+8Am3i2DzZ4yo4APgqe8I/txsx9lJPZVEtO9eDX/jJ0NvmuTWbmBfh
+         /V2lhq+B/jWKFHoehpwQtNkrtDkVscLJPhf1ctnG7DF99Uz2LPxpw1SR5D67WU3cM393
+         fLAlhmwaFKwppT+9uL1ESlPHR8gqRsgEzs/ToyHZbUgXX/nL83IF07v5cJH14tA3PxVU
+         eIEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795634655; x=1796239455;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N55gjPKFtoyQEkpZ+mulBFdiGvAn3buEDUMJWwRWBLA=;
+        b=Di8gjFX6YkBxa28Q+Zv7iKfg8F9ACi6lbc5HG1l57BT633aTrL1Ri10bUTqfR9R004
+         3WJBY0PcRc4InnQ0s7JycjWvfsbZaxySNgbBh0dzT5Mn7f6Ii4WKLMaFAASM5NiMlb2A
+         Xprz7B6RFsSIsMrXUCAg2pk4UEd1pNWGmFqHyq/iQoGjR5XENjTkhiz3I/82JZtUiFeV
+         qFhAs4w3JZu1CAJsy1HS7JQG1d25/MStz5lOx31Zvvk/LI2ZetsOwIo7ddJEYdwWYGna
+         czA32g79/8f1nUaKgcYVqztR9QuYBUER+BkWIEPt5fRtclu0AapatMkXPW1s9box0jMD
+         GB9A==
+X-Forwarded-Encrypted: i=1; AL+hErHj9umPYGHtOei5UtTMTR1fMnq4dUnydiCksiUjCL9KCtXKNBKKSEQarDU6OJmHzGwJMSXc5QytrPV+Qw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/PWRGGjGpD+UlNhA1ZzgFpoociYPwGTcTjOutzB9UKMiXnkeY2
+	cT60rOcwABb58h/0Da+scHv0qwjielw+pulQ1bv4nNYKlIPVofVktg0aEtCp3889JA==
+X-Gm-Gg: AZFdTZcxyHYcQWnZntyiTuQQtpCnq9323UxezGY6GiQOi+IoQx0eF2KcOuzi0XXR1Y2
+	6Z5HXaNDrznkHrjTNrP73bzIDi93iF5Je7utYBME0rrgw1fbL3mZOATNbfnm4G/KvTXIIMjdGfP
+	qxFo1Zu/8tcOTKsfo4RvPH/sj5GEBQBwuppP8MvHqnp8jpwn7hfD1b+4i8PXKcKbvYlIPvGo7iC
+	XBf3SSIpRm+3l8tLm7762rL16xBUHqD7v0w8/1SaEGpTjfD1IdeMqHYg30uEPovJa5QoI8nngqm
+	bI0nvA9JcsgYkGEWgCUBoXZfaQafasmb0OTxw9KfE6HdZ2La5A2B2WcrdsBJBTS44W9sfwKJ0WT
+	4TZc4/yjNzEXNkSxXGXNcigqXy50B/QN2E4jp8meywBqcHGpHvRVxHWw+wxy40pxoUvaEgafFXK
+	UpXlAeTOWQ3cNJkFSsF+MTC/0lu9mbCir+5p3z26z03CTNTbEPEPTrq3EiY3ohktd4ZoSN64B+Z
+	CK/4+rtWgHQVHTmQLnpZjDplTIf6XNyx0Mmk2mSIll7IIITZ0OlhcMqdlqBwdOz0Bhx/mAIcwG8
+	41uqsrljFAPnUJdBhcVqh3bx5RIUOOvfYjuubYlEq+1T0ZKW//xd2jBy0+m7CUp/pgelJDVd1Np
+	ykVR1nrdaO4lHEZCq3F8yPB8AzZ8G4LW/mlCIM6VuP+1ewaXzinr/2Yn6fRDDDdKfuM7CXGj/3B
+	d30IqftJpf9Q==
+X-Received: by 2002:a05:6a00:a908:b0:886:773d:a6a with SMTP id d2e1a72fcca58-8c87c199463mr15925448b3a.28.1795634654761;
+        Wed, 25 Nov 2026 11:24:14 -0800 (PST)
+Received: from google.com (196.126.197.35.bc.googleusercontent.com. [35.197.126.196])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8c87077bc47sm9717494b3a.6.2026.11.25.11.24.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 11:24:13 -0800 (PST)
+Date: Wed, 25 Nov 2026 11:24:10 -0800
+From: Benson Leung <bleung@google.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v3 11/12] docs: ioctl-number: update platform entries
+Message-ID: <awc12oWB5WDJi8XZ@google.com>
+References: <20261125061340.3402300-1-rdunlap@infradead.org>
+ <20261125061340.3402300-12-rdunlap@infradead.org>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,206 +157,90 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------614efbd2c3e3428e932d58df87f8c2d4af8a75bbdd06252af9d82974bb81ff2e"; charset=utf-8
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------614efbd2c3e3428e932d58df87f8c2d4af8a75bbdd06252af9d82974bb81ff2e
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-From: Rongen Wang <security@nitrohex.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: timer: Protect the slave instance flags with the timer lock
-Date: Thu, 26 Nov 2026 04:20:53 +0900
-Message-ID: <20261125192053.5664-1-security@nitrohex.com>
-X-Mailer: git-send-email 2.47.1.windows.2
-MIME-Version: 1.0
-
-snd_timer_start_slave() and snd_timer_stop_slave() set and clear
-SNDRV_TIMER_IFLG_RUNNING in timeri->flags while holding only
-timeri_lock.  For a slave that is linked to a master, the interrupt
-path updates the same word under timer->lock:
-snd_timer_process_callbacks() sets SNDRV_TIMER_IFLG_CALLBACK before it
-calls the instance callback and clears it afterwards.  Both sides do a
-plain read-modify-write, so when they overlap one of the two updates is
-lost.
-
-If the set of SNDRV_TIMER_IFLG_CALLBACK is lost,
-snd_timer_close_locked() does not wait for the callback that is still
-running, the owner frees the instance, and the interrupt path clears
-the flag in the freed object:
-
-  BUG: KASAN: slab-use-after-free in snd_timer_process_callbacks+0x269/0x2b0
-  Read of size 4 at addr ffff888007e5cc10 by task poc/90
-   snd_timer_process_callbacks+0x269/0x2b0
-   snd_timer_interrupt+0x7b8/0x1100
-   snd_utimer_ioctl+0x7c/0xb0
-  Freed by task 91:
-   kfree+0x127/0x3b0
-   __snd_timer_
-user_ioctl.isra.0+0xe93/0x28f0
-
-If the clear is lost instead, the flag stays set: the instance gets no
-further callbacks, and closing it spins in the drain loop of
-snd_timer_close_locked() with register_mutex held, which blocks every
-other open and close of an ALSA timer.
-
-Take timer->lock around the whole flag update of a linked slave, as
-snd_timer_start1() and snd_timer_stop1() do for master instances.  The
-callers hold timeri_lock, so timeri->timer is stable, and the lock
-order is the one these functions already use.  A slave that is not
-linked to a master cannot be reached from any timer and needs no
-additional protection.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Rongen Wang <security@nitrohex.com>
----
-The bug was found and this patch drafted with the help of an AI tool;
-I reviewed the patch and ran the tests below. The report itself went to
-the maintainers and security@kernel.org; a reproducer is available on
-request.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Kk3dCghKBQNrocaf"
+Content-Disposition: inline
+In-Reply-To: <20261125061340.3402300-12-rdunlap@infradead.org>
 
 
-Tested on v7.4-rc3 with KASAN under QEMU TCG (4 vCPUs). Without the
-patch the reproducer hits the use-after-free within seconds and the
-close hang within a minute. With it, 778621 rounds (userspace-driven
-timer) and 1310178 rounds (hrtimer) gave no report and no hang. A
-master/slave start, stop, pause, continue and relink test passes with
-and without the patch. checkpatch --strict clean, no new W=1 warnings
-in sound/core/.
+--Kk3dCghKBQNrocaf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Not covered: snd_timer_user_params() changes the instance flags under
-the lock of a timer it looked up earlier, so a slave relinked to
-another master in between would be updated under the wrong lock.
-Much narrower; not reproduced.
+On Tue, Nov 24, 2026 at 10:13:38PM -0800, Randy Dunlap wrote:
+> Update the list of platform/ files where ioctls are defined and update
+> the ranges of function numbers that are used.
+>=20
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Tzung-Bi Shih <tzungbi@kernel.org> # cros_ec
 
-Trees before 100407f548ca ("ALSA: timer: Fix racy timeri->timer
-changes with rwlock") need a backport on top of slave_active_lock; one
-for 6.18.y and 6.12.y applies cleanly but has not been built or tested.
+For cros_ec as well:
 
- sound/core/timer.c | 50 +++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 43 insertions(+), 7 d
-eletions(-)
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
-diff --git a/sound/core/timer.c b/sound/core/timer.c
-index 905176bf694..50e31827d9f 100644
---- a/sound/core/timer.c
-+++ b/sound/core/timer.c
-@@ -657,9 +657,12 @@ static int snd_timer_start1(struct snd_timer_instance *timeri,
- 	return result;
- }
- 
--/* start/continue a slave timer */
--static int snd_timer_start_slave(struct snd_timer_instance *timeri,
--				 bool start)
-+/*
-+ * start/continue a slave timer;
-+ * called with timer->lock held when the slave is linked to a master
-+ */
-+static int __snd_timer_start_slave(struct snd_timer_instance *timeri,
-+				   bool start)
- {
- 	if (timeri->flags & SNDRV_TIMER_IFLG_DEAD)
- 		return -EINVAL;
-@@ -667,7 +670,6 @@ static int snd_timer_start_slave(struct snd_timer_instance *timeri,
- 		return -EBUSY;
- 	timeri->flags |= SNDRV_TIMER_IFLG_RUNNING;
- 	if (timeri->master && timeri->timer) {
--		guard(spinlock)(&timeri->timer->lock);
- 		list_add_tail(&timeri->active_list,
- 			      &timeri->master->slave_active_head)
-;
- 		snd_timer_notify1(timeri, start ? SNDRV_TIMER_EVENT_START :
-@@ -676,6 +678,27 @@ static int snd_timer_start_slave(struct snd_timer_instance *timeri,
- 	return 1; /* delayed start */
- }
- 
-+/*
-+ * start/continue a slave timer
-+ *
-+ * The flags of a slave linked to a master are updated also from the timer
-+ * interrupt (SNDRV_TIMER_IFLG_CALLBACK in snd_timer_process_callbacks())
-+ * under timer->lock.  Change them only under the same lock, otherwise one
-+ * of the two read-modify-write updates may get lost.  The caller holds
-+ * timeri_lock, hence timeri->timer can't change here; an unlinked slave is
-+ * not reachable from any timer and needs no further protection.
-+ */
-+static int snd_timer_start_slave(struct snd_timer_instance *timeri,
-+				 bool start)
-+{
-+	struct snd_timer *timer = timeri->timer;
-+
-+	if (!timer)
-+		return __snd_timer_start_slave(timeri, start);
-+	guard(spinlock)(&timer->lock);
-+	return __snd_timer_start_slave(timeri, start);
-+}
-+
- /* sto
-p/pause a master timer */
- static int snd_timer_stop1(struct snd_timer_instance *timeri, bool stop)
- {
-@@ -718,15 +741,17 @@ static int snd_timer_stop1(struct snd_timer_instance *timeri, bool stop)
- 	return 0;
- }
- 
--/* stop/pause a slave timer */
--static int snd_timer_stop_slave(struct snd_timer_instance *timeri, bool stop)
-+/*
-+ * stop/pause a slave timer;
-+ * called with timer->lock held when the slave is linked to a master
-+ */
-+static int __snd_timer_stop_slave(struct snd_timer_instance *timeri, bool stop)
- {
- 	bool running;
- 
- 	running = timeri->flags & SNDRV_TIMER_IFLG_RUNNING;
- 	timeri->flags &= ~SNDRV_TIMER_IFLG_RUNNING;
- 	if (timeri->timer) {
--		guard(spinlock)(&timeri->timer->lock);
- 		list_del_init(&timeri->ack_list);
- 		list_del_init(&timeri->active_list);
- 		if (running)
-@@ -736,6 +761,17 @@ static int snd_timer_stop_slave(struct snd_timer_instance *timeri, bool stop)
- 	return running ? 0 : -EBUSY;
- }
- 
-+/* stop/pause a slave timer; see snd_time
-r_start_slave() for the locking */
-+static int snd_timer_stop_slave(struct snd_timer_instance *timeri, bool stop)
-+{
-+	struct snd_timer *timer = timeri->timer;
-+
-+	if (!timer)
-+		return __snd_timer_stop_slave(timeri, stop);
-+	guard(spinlock)(&timer->lock);
-+	return __snd_timer_stop_slave(timeri, stop);
-+}
-+
- /*
-  *  start the timer instance
-  */
 
-base-commit: aebb7274476403040d582c61478df8f4a7bf9cd3
+> ---
+> v2: no change
+> v3: rebase
+>=20
+> [Since having multiple maintainers trying to merge these would
+> cause some conflicts, it would be more manageable for Jon to
+> take all of these through the docs-next tree.]
+>=20
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Florian Fainelli <florian.fainelli@broadcom.com>
+> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
+om.com>
+> Cc: Tzung-Bi Shih <tzungbi@kernel.org>
+> Cc: Benson Leung <bleung@chromium.org>
+>=20
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> --- linux-next-20261123.orig/Documentation/userspace-api/ioctl/ioctl-numb=
+er.rst
+> +++ linux-next-20261123/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -434,6 +434,7 @@ Code  Seq#    Include File
+>  0xBA  00-0F  uapi/linux/liveupdate.h                                   P=
+asha Tatashin
+>                                                                         <=
+mailto:pasha.tatashin@soleen.com>
+>  0xC0  00-0F  linux/usb/iowarrior.h
+> +0xC4  00-1F  platform/raspberrypi/vchiq-interface/vchiq_ioctl.h
+>  0xCA  00-0F  uapi/misc/cxl.h                                           D=
+ead since 6.15
+>  0xCA  10-2F  uapi/misc/ocxl.h
+>  0xCA  80-BF  uapi/scsi/cxlflash_ioctl.h                                D=
+ead since 6.15
+> @@ -446,7 +447,7 @@ Code  Seq#    Include File
+>  0xDD  00-3F                                                            Z=
+FCP device driver see drivers/s390/scsi/
+>                                                                         <=
+mailto:aherrman@de.ibm.com>
+>  0xE5  00-3F  linux/fuse.h
+> -0xEC  00-01  linux/platform_data/cros_ec_chardev.h                     C=
+hromeOS EC driver
+> +0xEC  00-02  linux/platform_data/cros_ec_chardev.h                     C=
+hromeOS EC driver
+>  0xEE  00-09  uapi/linux/pfrut.h                                        P=
+latform Firmware Runtime Update and Telemetry
+>  0xEF  00-0F  uapi/linux/ntfs.h                                         N=
+TFS
+>  0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                       s=
+isfb
 
---------614efbd2c3e3428e932d58df87f8c2d4af8a75bbdd06252af9d82974bb81ff2e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+--Kk3dCghKBQNrocaf
+Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-wqsEARYIAF0FgmsHNSYJEEViQ3yWCW7tNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmcXDlZ5kM4ufzChNfQ9w1NlFiEEfxPrtnS1hdMk
-TNpkRWJDfJYJbu0AAB5AAQDoWCxbm6g0M8US1HCYvwygdxFMmkQiQBdLt3if
-/HegEQEAwYRSShdIDvQS3Mw37hEWaiB1K1wEfv0XrLw7lI6gqwU=
-=9I2y
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCawc12gAKCRBzbaomhzOw
+wuvSAP9FFr45oXAv5Psc3n5xsSYyPFouusI/XwRnWy3tYxQspAD+KIeOTWQfcOeC
+TWeqyAANog5rg68r7xNPxeH8I/R6xAQ=
+=Fk2v
 -----END PGP SIGNATURE-----
 
-
---------614efbd2c3e3428e932d58df87f8c2d4af8a75bbdd06252af9d82974bb81ff2e--
-
+--Kk3dCghKBQNrocaf--
