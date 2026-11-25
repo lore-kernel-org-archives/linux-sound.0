@@ -1,114 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795621638;
-	b=YFb0Mv70y5g6poN6exbPvdWSnLTaSJVzZrn1SNZviVMfMgaj/FS0+T5SE9tc0VJ1XIX7
-	 cMw4nsEtAw+6RYrIEVG5SlnnZzXaiB/qSM13jKHwn2uT5v4Wg3sifMA6PP3cqtf5Q2+tL
-	 wOVumywRsLLNrV9j+mrP1Vf+pn+yV6Ki8BiNsKvlNy1CFrXjfN8AXUoc+ToUvPtMFnzxj
-	 YM+LPXvvYgmeL/u07pH5iUhBIvdTDE3lm6mLYTy/9Tmi1KFzk6oTgIys7odvUc5rmlfBT
-	 wP/8yYorq90ofAhuJOn7W8Wo2s93Td+7Uaphlr34sbWxRxynVE4cXjkHSzdp9dm3/qw==
+	t=1795622032;
+	b=yjTDmqiOccg91k1pesOUlL0y5OqQ76whD0DVLr4xcp9RibVQLK3lREZ0eJub+Q7NIiZB
+	 e+e8vqVPZEvbklrdAazom8xLz54deUkkqoYKBj42AzSrRyO7pPuHrR3axvcEJfwcP05i1
+	 2vEWT2PJhguJua7PERuFYPNSTcBYkmoJvGMsR5XLcbT7bjlXqkbQqOzFf9I745jmBEkAY
+	 9kaGrq0AyBarXvQL5UZW0eVgnTj5R81vLLXTJxMNUk400MPRM1tm09DhgSB9Bm+oqgDhU
+	 sYc3MPRWZ5pKB9sRtYr0cnmPWgiVBa2qhHezwg1bh06ACKYYZ/XMt94JXNYVe6zQ4rw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795621638;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=lepUxE6g0dBTxfDnnmeNKmTx3vQR3lgLfMBKGs4Ua+4=;
-	b=D+pCEfpymqtm/TT/6rrht65PIRe/voYiS2BWj6/yNAbWlpEBCaPIzbVZYI1CzsjTpLVY
-	 PEexFuToiX6pG0A5nwPb4aLZZu5z5A4TBHPtTBEIhbGGbOT9PMnoKKkNC8/NZ/smFUIWK
-	 VUUSkByaZZkFBKnRsNJmVZoH2nW64rD/eU2Y6jGm0IjQcYUHeo9RyDAmghcH+IhJ13OsU
-	 DevKxVRPPyF4z659HeSKhk6G+a9KQ7BsRcoGyy90QUWT+LhB6MmeM6mW74t0K0Lv7nu0A
-	 txffA8UxYqhSdfpftDa4id6jbnmwJdGSdvGDHt+O9t4bLPIm/iqrJXFjbhNO8KWgCpw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795622032;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/QyiPsXELdVcU8h8SMClaBGSEvaC+/rJrAPi6gmrO6o=;
+	b=PTMSh4bE3nwL48gD1q4T2d/blu3HDSiWX+0dSLRme0VnAdZT4uB46HwGHgbIujVySTEf
+	 vz5luqSi62iLO59iQPsW6qp2cyyVrXUL4a0LilrYPuwWfCrQ/Tk+8NLxu0yfaPvsNqcrv
+	 aLhcn+U5pHaTNMcx/kYtJN2e4jE0O2wU0r2oXsHo9dq16Ao/1lbG5COUmaMztoKEFJGVB
+	 PMI/xhAB8nLD7D7bcneLa9KvSMkWwWuDhbtfpHI8UPs1ENT6OdbAgyDgs0UyiqisBKCPk
+	 powhuwaVgmArgVVVY8D8wKr8pVFNR5+uTrRXeoTVnyZDaq60ASeuUDpEQErIRfTW3aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yy0b9DF1;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XO4Wv3Iz;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=McplLCoI;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=iFVK3v3K;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ajte+QQg;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB542606A336
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 15:47:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB542606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7F2606A330
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 15:53:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=yy0b9DF1;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XO4Wv3Iz;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=McplLCoI;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=iFVK3v3K
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9EDD31F88E;
-	Wed, 25 Nov 2026 15:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795621635; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lepUxE6g0dBTxfDnnmeNKmTx3vQR3lgLfMBKGs4Ua+4=;
-	b=yy0b9DF121fCEqapSBB8LKg223gfCF1STYy9YiseNdgITh/3Mv+ZvygVeWhqiFnJPunf+D
-	nhTYU71gxkYKRZrpFBF8m+8BiehHLht19liE4ImvlNIj6dE7+xgtULH/n8EBe+zRWcTgRk
-	uDoU5M/tmrNhK5WvvV8ySTcyLQ6nGRY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795621635;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lepUxE6g0dBTxfDnnmeNKmTx3vQR3lgLfMBKGs4Ua+4=;
-	b=XO4Wv3IzHgw3lM5gGCqjw6AnwdOzIaZhYZOAoGB76rJvWdUWZEBC2UYfjQO1i8XflT4NSV
-	Tr6pymZ5V96uswCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=McplLCoI;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=iFVK3v3K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795621634; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lepUxE6g0dBTxfDnnmeNKmTx3vQR3lgLfMBKGs4Ua+4=;
-	b=McplLCoIBGvYSfRMBd0qg5V+lBiKIxhQOxbE45uNwxlIENFK0oPst5NOcBaVTTo/XIrq6h
-	36rV4DdJ9tpInlYZuKHz1xxaMHBNDut5jecPAROpURtRCf+DXp91A7wvLSFHaFuzQZ6EKs
-	WDnXGCsD86uEDRhpf3npyMuCSK/3TBM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795621634;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lepUxE6g0dBTxfDnnmeNKmTx3vQR3lgLfMBKGs4Ua+4=;
-	b=iFVK3v3KWNEZj87iuUA5APwDSLczPgGzFUJKNqHa4Meo0ZxLLz4mbkVM8ulaftPtU4+CIJ
-	HbZHYXKJmQdV4CDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5EE0A1339F;
-	Wed, 25 Nov 2026 15:47:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NzHQDQIDB2vMOAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 15:47:14 +0000
-Date: Wed, 25 Nov 2026 16:47:13 +0100
-Message-ID: <875wxk7w1q.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?KOI8-R?Q?=EB=CC=A3=CE=CF=D7_=E1=CC=C5=CB=D3=C1=CE=C4=D2?=
- <a.a.klenov@yandex.ru>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>
-Subject: Re: ALSA: hda/realtek: no audio on ASUS ExpertBook B3 G2 BM3406CGA (ALC256, SSID 1043:1704), fixed by resetting COEF 0x10
-In-Reply-To: <663131795497400@mail.yandex.ru>
-References: <663131795497400@mail.yandex.ru>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ajte+QQg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 876E81F01568
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 15:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795622032;
+	bh=/QyiPsXELdVcU8h8SMClaBGSEvaC+/rJrAPi6gmrO6o=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Ajte+QQgdCvyL5yKctsd8Z7EZxDbaxER6jE5Vt9tSb6N3b0CuQEt0CNTjW0eR/avj
+	 Du27j6wgkzhwuLh8wHXreOV+jtHAMt66zyL9WY1VXZ81OVroo+AyfPIqTnG+NjbOsh
+	 UGsw87nP7s3YrHAgJBQG0et8fUHWVGb9cwQLk96evoW+/rFroI8OfsL4WEf2bP1QFs
+	 pOfBr8ZOx1olk0rcXwcmIdty5Djn8Unj9t8/VltsfQ0Zr0OJCe3ZOhU4zH7NJ3Rh5V
+	 V0NwbYkeRUSZ1mmVhKUa5Yxk2yQM7AvywafkSQGj5VwzcKOVh/JiVZXjZFpJ9FUc4B
+	 glVZcJaxFhwYA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5c1c0c8d61aso3975325e87.1
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:53:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGnCdczOKOvy6gdwyVKXrooyLiZrgTTxoEmhym4+OZ067qX7qaZV4yoi264wBOm3H+J5O8o1RS7j8lwcw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+5ePsYFN3Ay/t1AaxCI1ZJfIuZpQ9qPfR4Ty636cybDw+W3qQu
+	zm6GKi1/xlskMXr7HFsribu4lg0Gb51MR8fa7fNaSFDEXAF15lnl7RkzygSDAhypdKkEBZUtfhb
+	MKP9S//IWym/9vPgeWT0Kr61ZVv6U5SE=
+X-Received: by 2002:ac2:4e07:0:b0:5c1:4f54:a6c6 with SMTP id
+ 2adb3069b0e04-5c1bc7cb0f6mr5811261e87.30.1795622030011; Wed, 25 Nov 2026
+ 07:53:50 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -117,111 +58,211 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,alsa-project.org:url];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[yandex.ru];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[yandex.ru];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[alsa-project.org:url,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9EDD31F88E
+MIME-Version: 1.0
+References: <20261117173738.1073856-1-Frank.Li@oss.nxp.com>
+ <20261117173738.1073856-2-Frank.Li@oss.nxp.com> <CAPx+jO9RwkpSKwq6vq00uoXK-mcovJ2LMH7b_ByRnxOUj8nH8w@mail.gmail.com>
+In-Reply-To: <CAPx+jO9RwkpSKwq6vq00uoXK-mcovJ2LMH7b_ByRnxOUj8nH8w@mail.gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 25 Nov 2026 16:53:35 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0jsnLjEBxa1R4Q3hZLZKrCUW0xSE9SqLB8bd4tNAhXTAQ@mail.gmail.com>
+X-Gm-Features: Aa3M54pn_ud7xKJ4Sp9_9mJsafRFGsiuNY-zMFg468C0_97OrWEf728wG9SLJbM
+Message-ID: <CAJZ5v0jsnLjEBxa1R4Q3hZLZKrCUW0xSE9SqLB8bd4tNAhXTAQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] PM: runtime: fix stub pm_runtime_get_if_in_use()
+ for !CONFIG_PM
+To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Cc: Frank.Li@oss.nxp.com, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Heiko Stuebner <heiko@sntech.de>, 
+	Ulf Hansson <ulfh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Matthew Auld <matthew.auld@intel.com>, Hans de Goede <hansg@kernel.org>, 
+	Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Yong Wu <yong.wu@mediatek.com>, 
+	Will Deacon <will@kernel.org>, Tomasz Figa <tfiga@chromium.org>, Marek Vasut <marex@denx.de>, 
+	Michael Tretter <m.tretter@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, 
+	"open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	"moderated list:ARM/Mediatek SoC support:Keyword:mediatek" <linux-arm-kernel@lists.infradead.org>, 
+	"moderated list:ARM/Mediatek SoC support:Keyword:mediatek" <linux-mediatek@lists.infradead.org>, 
+	"open list:ARM/Rockchip SoC support:Keyword:b[Rr]ock[Cc]hipb" <linux-rockchip@lists.infradead.org>, imx@lists.linux.dev, 
+	Frank Li <Frank.Li@nxp.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, Simona Vetter <simona@ffwll.ch>, 
+	David Airlie <airlied@gmail.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Alessio Belle <alessio.belle@imgtec.com>, 
+	Luigi Santivetti <luigi.santivetti@imgtec.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Dafna Hirschfeld <dafna@fastmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>, dri-devel@lists.freedesktop.org, 
+	imagination@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, iommu@lists.linux.dev, 
+	linux-media@vger.kernel.org, linux-sound@vger.kernel.org, 
+	sound-open-firmware@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 24 Nov 2026 06:22:28 +0100,
-ëÌ£ÎÏ× áÌÅËÓÁÎÄÒ wrote:
-> 
-> Hello,
-> š
-> On the ASUS ExpertBook B3 G2 (BM3406CGA) there is no audio at all from the
-> internal speakers or the 3.5 mm headphone jack. HDMI and Bluetooth audio work.
-> The cause is a vendor coefficient of the Realtek codec: resetting it restores
-> playback on both outputs.
-> š
-> System:
-> - Laptop: ASUS ExpertBook B3 G2 14", model BM3406CGA
-> - CPU: AMD Ryzen AI 7 445
-> - BIOS: BM3406CGA.208
-> - Distribution: Ubuntu 26.10, kernel 7.3.0-11-generic
-> - Codec: Realtek ALC256 (vendor id 0x10ec0256), subsystem id 0x10431704
-> - The laptop shipped without an OS, so there is no Windows install to compare
-> with.
-> š
-> Symptoms:
-> - dmesg: "snd_hda_codec_alc269 hdaudioC1D0: ALC256: picked fixupš (pin match)
-> ", so there is no quirk entry for SSID 1043:1704.
-> - Pin autoconfig looks correct: speaker on NID 0x14 (0x90170120), headphone on
-> NID 0x21 (0x04211010).
-> - The codec dump shows both paths unmuted, pins enabled, EAPD set and all
-> widgets in D0. COEF 0x0f is already 0x7778.
-> - The PCM stream runs (hw_ptr advances). speaker-test directly on plughw:1,0
-> with PipeWire stopped is silent too.
-> - The speakers work in the BIOS hardware diagnostics (beep test), so the
-> hardware is fine.
-> š
-> Finding:
-> The vendor coefficients on NID 0x20 read:
-> š COEF 0x10 = 0x1d20 (0x0020 is the value used by
-> ALC256_FIXUP_SET_COEF_DEFAULTS)
-> š COEF 0x37 = 0xfe15 (0xfe05 in the same defaults)
-> The other coefficients from that list (0x24, 0x26, 0x29, 0x45) already match
-> the defaults.
-> š
-> Writing 0x0020 to COEF 0x10 restores audio on speakers and headphones at once:
-> š hda-verb /dev/snd/hwC1D0 0x20 SET_COEF_INDEX 0x10
-> š hda-verb /dev/snd/hwC1D0 0x20 SET_PROC_COEF 0x0020
-> COEF 0x37 did not need to be changed.
-> š
-> Current workaround: an HDA patch file loaded with "options snd-hda-intel patch
-> =,hda-asus-1704.fw":
-> š [codec]
-> š 0x10ec0256 0x10431704 0
-> š [verb]
-> š 0x20 0x500 0x10
-> š 0x20 0x400 0x0020
-> This works across reboots.
-> š
-> Could a quirk for SSID 1043:1704 be added? I am happy to test patches.
-> š
-> alsa-info: 
-> https://alsa-project.org/db/?f=ea9d806a452f7528ec56ae8c9e78fe0fddef5bcf
+On Wed, Nov 25, 2026 at 4:07=E2=80=AFPM Ulf Hansson
+<ulf.hansson@oss.qualcomm.com> wrote:
+>
+> On Tue, Nov 17, 2026 at 6:38=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
+> >
+> > From: Frank Li <Frank.Li@nxp.com>
+> >
+> > The stub for pm_runtime_get_if_in_use() under !CONFIG_PM currently
+> > returns -EINVAL.  The real implementation returns:
+> >   1  - device is active and its usage counter is non-zero (bumped)
+> >   0  - device is not in use or not active (counter not bumped)
+> >  -EINVAL - runtime PM disabled for this device
+> >
+> > When CONFIG_PM is not set every device is permanently "active" and
+> > always considered "in use", so the stub must return 1, mirroring
+> > __pm_runtime_resume() which already returns 1 in the same build.
+> >
+> > Returning -EINVAL breaks callers that test the return value with
+> > comparisons other than "!=3D 0 / =3D=3D 0":
+> >
+> > drivers/gpu/drm/i915/intel_runtime_pm.c:
+> >   if (intel_runtime_pm_get_if_in_use(rpm))
+> >   which wraps to: ret =3D pm_runtime_get_if_in_use(); return ret > 0;
+> >   With -EINVAL the wrapper returns false, causing an incorrect error
+> >   path in the GT fence revocation code.
+> >
+> > drivers/gpu/drm/xe/xe_pm.c:
+> >   if (pm_runtime_get_if_in_use(xe->drm.dev) > 0)
+> >   With -EINVAL the condition is false; xe_pm_runtime_get_if_in_use()
+> >   returns false, so callers believe the device is not usable.
+> >
+> > drivers/gpu/drm/gma500/power.c:
+> >   return pm_runtime_get_if_in_use(dev) =3D=3D 1;
+> >   -EINVAL !=3D 1, so the helper always returns false when !CONFIG_PM.
+> >
+> > drivers/gpu/drm/imagination/pvr_power.c:
+> >   if (pm_runtime_get_if_in_use(...) <=3D 0)
+> >   -EINVAL <=3D 0 is true, so the driver always takes the "requeue" erro=
+r
+> >   path instead of proceeding with the active device.
+> >
+> > sound/soc/sof/debug.c:
+> >   if (pm_runtime_get_if_in_use(sdev->dev) =3D=3D 1)
+> >   -EINVAL !=3D 1, so d3_prevented is never set, corrupting exception
+> >   debug accounting.
+> >
+> > drivers/iommu/mtk_iommu.c:
+> >   if (pm_runtime_get_if_in_use(dom->plat_dev->dev) <=3D 0)
+> >   -EINVAL <=3D 0 skips the TLB flush, leaving stale IOMMU mappings.
+> >
+> > drivers/iommu/rockchip-iommu.c:
+> >   Three call sites use WARN_ON_ONCE(err < 0) or similar patterns.
+> >   -EINVAL < 0 triggers a spurious WARNING on every call.
+> >
+> > drivers/media/i2c/isl7998x.c:
+> >   if (pm_runtime_get_if_in_use(dev) <=3D 0)  (two call sites)
+> >   -EINVAL <=3D 0 causes the driver to always skip register programming
+> >   when !CONFIG_PM.
+> >
+> > drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:
+> >   if (pm_runtime_get_if_in_use(dev) <=3D 0)  (two call sites)
+> >   -EINVAL <=3D 0 prevents any debug statistics from being collected.
+> >
+> > Fixes: a436b6a19f57 ("PM / runtime: Add new helper for conditional usag=
+e count incrementation")
+> > Fixes: 3b85b7bcccf4 ("drm/xe: Fix display runtime_pm handling")
+> > Fixes: 672c473576ca ("drm/gma500: Rewrite power management code")
+> > Fixes: b30289e7fa92 ("ASoC: SOF: Fix runtime pm usage counter balance a=
+fter fw exception")
+> > Fixes: c0b57581b73b ("iommu/mediatek: Add power-domain operation")
+> > Fixes: 51ef2be546e2 ("media: i2c: isl7998x: Add driver for Intersil ISL=
+7998x")
+> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > ---
+> > Change in v3
+> > - drop tag: cbb819c363c5 ("media: rkisp1: debug: Collect input status b=
+y sampling ISP_FLAGS_SHD")
+> > selected PM at arch config
+> > - drop tag: 0f181d3cf7d9 ("iommu/rockchip: Add runtime PM support")
+> > selected PM at arch config
+> > - drop tag: 9d58aa46291d ("drm/i915: Fix the GT fence revocation runtim=
+e PM logic")
+> > guard by CONFIG_PM
+> > - drop tag 727538a4bbff ("drm/imagination: Implement power management")
+> > depend on PM
+> > `
+> > Change in v2
+> > - new patches.
+> >
+> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> > Cc: linux-pm@vger.kernel.org
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Matthew Brost <matthew.brost@intel.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > Cc: Alessio Belle <alessio.belle@imgtec.com>
+> > Cc: Luigi Santivetti <luigi.santivetti@imgtec.com>
+> > Cc: Liam Girdwood <lgirdwood@gmail.com>
+> > Cc: Mark Brown <broonie@kernel.org>
+> > Cc: Jaroslav Kysela <perex@perex.cz>
+> > Cc: Takashi Iwai <tiwai@suse.com>
+> > Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> > Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+> > Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> > Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: Yong Wu <yong.wu@mediatek.com>
+> > Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com=
+>
+> > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > Cc: Heiko Stuebner <heiko@sntech.de>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: Dafna Hirschfeld <dafna@fastmail.com>
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Michael Tretter <m.tretter@pengutronix.de>
+> > Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> > Cc: Will Deacon <will@kernel.org>
+> > Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: imagination@lists.freedesktop.org
+> > Cc: intel-gfx@lists.freedesktop.org
+> > Cc: intel-xe@lists.freedesktop.org
+> > Cc: iommu@lists.linux.dev
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-mediatek@lists.infradead.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linux-rockchip@lists.infradead.org
+> > Cc: linux-sound@vger.kernel.org
+> > Cc: sound-open-firmware@alsa-project.org
+> > Cc: imx@lists.linux.dev
+> > ---
+> >  include/linux/pm_runtime.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
+> > index de9e7518ecef2..1d983fe55a16a 100644
+> > --- a/include/linux/pm_runtime.h
+> > +++ b/include/linux/pm_runtime.h
+> > @@ -276,7 +276,7 @@ static inline int pm_schedule_suspend(struct device=
+ *dev, unsigned int delay)
+> >  }
+> >  static inline int pm_runtime_get_if_in_use(struct device *dev)
+> >  {
+> > -       return -EINVAL;
+> > +       return 1;
+>
+> This should be return 0, as we did not bump the usage count.
 
-There is already a quirk for ExpertBook PM3406CHA (1043:1664) which
-might work for you.  Could you check whether applying the option
-  model=1043:1664
-works?  If the above works, it's a simple quirk entry addition.  OTOH,
-if the COEF with the value 0x0020 is really needed, we need to add a
-different quirk entry.
+This is kind of moot because there is no usage counter.
 
-
-thanks,
-
-Takashi
+However, the caller may always take the opportunistic "in use" path
+because there are no potential costs related to it.
