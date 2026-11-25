@@ -1,85 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795650524;
-	b=Tpb2tdJbk5vMLsu1xjhB0Ldws6bod0R+qcqeuRUmWAcv2KPE6YoQkjHR7xPt5Fp+l04f
-	 9vtvbXV9EKTKLVV/GpybgUlPeE8vEG/vDrbnqIRWGkSVBm9b25I9i0dEcpZvugKTdUn9r
-	 qDFH58Cc7XpMDzdUMsfLeMcB4Mstmr9bEPh8CMWRpV7TmWtxnDCAx5zA27L/oBHd9Y7tC
-	 ITk0cS6nx3WoGEq3gqpvUSodhZ9LbI9ORb2C1n+uKB0QLRveBT5JWR3Vnozwry8nGiRoW
-	 7LFCGaHUaXqoDKApJjH7T9UTlIh7jAIRbGDBWRkaJ7tT3jggzBX6AbNQjr7YpCyMJCQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795650524;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
-	 Content-Transfer-Encoding;
-	bh=6WScmZhGnz6xs9qVATpJ7harTen3WQLAwO1wmN8eQAA=;
-	b=LeOn7GWGz3eks8NJ+DBYY4hIJti0Sqn9NDjfUjS0CSfirqkvW24asV3OsmSXLjQijrog
-	 Fi5dOFP4CjKZpn/9nbh8XXPHDo+bFcS0O3evGbqgKg+QuLX0A+Ypipw/QCDrFPLubLdhS
-	 ruvo0HMt9D37zKI3hbSVD9p97RxNSXoInVtF324swx2E52GLpxjx+qgAS/34ENhV5OuQ9
-	 2YH+41vWVBiEsMlci43dd0rqOqNTrs/BPV/vADaBife9Fe7Ao3Dro4AjdLgXD71XA8xvS
-	 Z/AFyh8RkCHgfl3HWqKcSUXmaxqds+jdJEFapk28ZOWzH0Ihwe/mKhcUNuB675dsfIA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijep9NGn;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795650999;
+	b=lgfWA0a2t+hLWUI64O8heo3VwAyYqXA7z4Rojk46vpYt5i1yon2uxLEPOFlJaRTJVEZf
+	 XkugXpdV96YPgSv63SZdGvm1EfUAQTpa6G0tBYuEO5SykdCUlRGGCokbM8eLV9QcLe/NJ
+	 950AhDqREjTFdO8aPsJvkxlkAYlaa5Ab0xGTGK5cJbEQkQCOkUi6q90DXWONRhrWwID6P
+	 XzYMV4DqrSJ93CIE3ifXujQ0T+9E5mE9q3NhzWbfb8WtM/8+8tSL6+rvrT8fA0YYYuZfl
+	 QvvhWJ4UmA4ochC+XErEDY/utnQ019zwhPWWyTOsAq+2Yq/oViSeFucbmFbHYWh9lig==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795650999;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=aMO5yS9ZguTO218Z9/py9RTbh8xc1n6S7g48Yg1ePOs=;
+	b=jmjNW6STcKJLZ47x89RmY9aDN4n0vohO3ZRW3yga6+WHs/ANIUVnoE4X1lrtkD+xDt+i
+	 czU2c71MiFfUgXlm853GSiwgVJ8HcpGZ3p0flgJYqXCjvLdB7KkAIC0jUWYceHiLVURdT
+	 ClJqH0IAUQ5O1lApRt3XCsBzAd7MTchY8poN2PfAaZPDy6aFrBdvO9ShCCfKHBC+WDuOC
+	 5YkhKV6gWlM1kvqIdJcGM0Z8EyUUJJQ4MDJdFzOEvUzUaP0hGEz+wdaIYeo5/5a+mrPa5
+	 sDodUZDBTsSkyJfypBkiSqfi+Th4z2x/DchcnGkkutSTd0WIUBVcRoiKjxWAEwVOoIw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XnPDizBJ;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E817606A32D;
-	Wed, 25 Nov 2026 23:48:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22AD2606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 23:56:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ijep9NGn
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795650523;
-	b=izMk7UwZ7c7G2Gsv341NaPLB9KQ8gkcCra4qT8kxeKuh8rEKjyoFFigY4FyO7mN4l36Y
-	 /HKkkQK7Qe190bXzfZMtxruQm+uJIYNXcOhWDaJtV956UdSdy7vETe/iHGLHnOoYLsevf
-	 TOmECViBqboVyqA2pMeGTdc1Pikg6jyfsimRhBHpWyBiwfUuoA4GD/vXP/nR0bYHIg37P
-	 9cSSP34lV5GrwCQlZIENOAAkBy9xeurprIUHA2/umgjj2GxWhj2MbamY9HcYg3MHPZa+/
-	 4WJbErGLtoKm8lM56xgVbga6BSEUK/KaLWD/TsXzU3cVFYtARGsqkhylbXQR8H1unDg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795650523;
-	h=DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
-	 Content-Transfer-Encoding;
-	bh=6WScmZhGnz6xs9qVATpJ7harTen3WQLAwO1wmN8eQAA=;
-	b=uL8u1tr17KZPfZ0QvrjJVlLRrMygqXJga/Gqp7yoQwl2ihEgLIUwzrJqgKeIXyX1Tf19
-	 Mk8REus7TqL6dmSI0g12LY0P0sfOFTQ9Imd806tqDNFmQ+uiXEi2lDqYwjmPKck838BIE
-	 D9HZD1F4tKKiBFLSlbGXrM8HLxeL357ficEInmDStanj8pG3YQaqCPR90sQqXLw3kKq1A
-	 P3LkuChIE9a4hwpjeU12a3s982lGo0oij0NN8BWHZzTt9gHWd9YoCrZPjTcR+pA6VYl5f
-	 TK9ETVm3Xk3O19kObmoORW8zVckpyXD07S1O1PvZ3xqEIQRHEK6J8F1bUlXhDP8NkbQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 8BD101F000C4;
-	Wed, 25 Nov 2026 23:48:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XnPDizBJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F011F000C0;
+	Wed, 25 Nov 2026 23:56:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795650523;
-	bh=6WScmZhGnz6xs9qVATpJ7harTen3WQLAwO1wmN8eQAA=;
-	h=From:To:Cc:Subject:Date:Reply-To;
-	b=ijep9NGnKaFYAr4/8k8Oh9YjfIbH62AVLHx0UnmV9Nr+gbIe4X+3KD2nUkz6HJbjQ
-	 cy6lSYNKeIaFTfiz7r8hmZpQXxRzYmugDmEFTI8kYj+J3RBDbCeLYOOVvftMEpJUJo
-	 BsPyiBkFQR2t3w4GFoVM5VH01qw/S2yHjziayuU01XX3MT6ukf+Of5rfEjQE5y0H2I
-	 cQzS0+7kpuiTkERVj/2WfrqaV7Cj2iMY88jblrMWyf4i7xU2p6A+Xh6fBWxfWt4ib8
-	 Dxc72tNbok/klaJQFivxUdH6FnM94GU5SxrC6qOAPxsegH4x3eVc2JuI6937iVakgr
-	 MYsRPegnzT3Ug==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 14CD34D0CB;
-	Wed, 25 Nov 2026 23:48:31 +0000 (UTC)
-From: Ilia Snezhkov via B4 Relay <devnull+iasnezhkov.gmail.com@kernel.org>
-To: broonie@kernel.org, lgirdwood@gmail.com
-Cc: perex@perex.cz, tiwai@suse.com, matthias.bgg@gmail.com, 
- angelogioacchino.delregno@collabora.com, linux-sound@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: mediatek: mtk-btcvsd: guard against 0xdeadfeed in
+	s=k20260515; t=1795650998;
+	bh=aMO5yS9ZguTO218Z9/py9RTbh8xc1n6S7g48Yg1ePOs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=XnPDizBJuqodrZOJaa054BkAsiEtS1hKPdKI6ybEho7UFn1/yf+OuhlcHBHiXvpna
+	 edaKARw0CbUxFt6+ZiUI2yDCO1Y1+Gx18m+TDRnYtMvU6LmrNDCwTbcHVugb6QZ8bd
+	 od8MS6w8cOCcFwgcb2BSVlYkd/1PogbBtlvalJPpg5QOaqojceW19AS6kdIpgtiyn2
+	 bWdQC2Io01rFUTzkRakWJ8DxTxghgCIvY6mxPSXabEvAMH6BJViwsh33TTauLLF6yo
+	 1Tyf7HzjtLd9YrlaUaPvB8FIxy99exGtSc7gVPEGTe7LfC4NCfkuUnyYZOhJZhColP
+	 bxWoYqKs7I8CA==
+Message-ID: <sashiko-outbox-234420@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ASoC: mediatek: mtk-btcvsd: guard against 0xdeadfeed in
  btcvsd_tx_clean_buffer()
-Date: Wed, 25 Nov 2026 23:48:30 +0000
-Message-Id: <20261125234830.94895-1-iasnezhkov@gmail.com>
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ilia Snezhkov" <iasnezhkov@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261125234830.94895-1-iasnezhkov@gmail.com>
+References: <20261125234830.94895-1-iasnezhkov@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 23:56:37 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -88,65 +59,105 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795650510; l=1783;
- i=iasnezhkov@gmail.com; s=mindone2026; h=from:subject:message-id;
- bh=W9UyHqccaU9sJaYlkqCsX581VyBG8Z+037komTBj1Ts=;
- b=F9wU7UgJiGB2P7BStff8lAWPeen21Nkm66rJ9rRHWpCkZFY0WYH0G/B5l0W93ngFGlAbZw9Ud
- 4ETAUZd1+ooDxOSjHeaJt/7+hfBhl3sX3fMZ/KatqJ8iz7nMHDgESuG
-X-Developer-Key: i=iasnezhkov@gmail.com; a=ed25519;
- pk=hQgXfiWi4ukk2jh4BHu1vRVhg9BUivo//AFp50AKMag=
-X-Endpoint-Received: by B4 Relay for iasnezhkov@gmail.com/mindone2026 with
- auth_id=1643
-X-Original-From: Ilia Snezhkov <iasnezhkov@gmail.com>
-Reply-To: iasnezhkov@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Ilia Snezhkov <iasnezhkov@gmail.com>
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [Medium] ASoC: mediatek: ineffective 0xdeadfeed check in
+  btcvsd_tx_clean_buffer()
+- [Low] ASoC: mediatek: unrelated Fixes trailer d067b3378a78 in commit
+  message
+--
 
-mtk_btcvsd_read_from_bt() and mtk_btcvsd_write_to_bt() both reject the
-0xdeadfeed sentinel returned by the BT connsys SRAM pointer register
-when BT SRAM is unpowered or resetting, and check the SRAM address
-before dereferencing it. btcvsd_tx_clean_buffer(), however, casts each
-stored bt_sram_addr[] entry straight to a pointer and writes mute frames
-through mtk_btcvsd_snd_data_transfer() without checking for 0xdeadfeed
-or NULL.
+commit ed1dbfaac1e6a9adfd651ed2d3dd40c2aaf8a20b
+Author: Ilia Snezhkov <iasnezhkov@gmail.com>
 
-If an invalid or reset SRAM address is recorded or cleared concurrently
-around hw_free / mute transitions, btcvsd_tx_clean_buffer() dereferences
-an invalid address in atomic context under tx_lock.
+> ASoC: mediatek: mtk-btcvsd: guard against 0xdeadfeed in btcvsd_tx_clean_b=
+uffer()
+>
+> mtk_btcvsd_read_from_bt() and mtk_btcvsd_write_to_bt() both reject the
+> 0xdeadfeed sentinel returned by the BT connsys SRAM pointer register
+> when BT SRAM is unpowered or resetting, and check the SRAM address
+> before dereferencing it. btcvsd_tx_clean_buffer(), however, casts each
+> stored bt_sram_addr[] entry straight to a pointer and writes mute frames
+> through mtk_btcvsd_snd_data_transfer() without checking for 0xdeadfeed
+> or NULL.
+>
+> If an invalid or reset SRAM address is recorded or cleared concurrently
+> around hw_free / mute transitions, btcvsd_tx_clean_buffer() dereferences
+> an invalid address in atomic context under tx_lock.
+>
+> Skip any bt_sram_addr[] slot holding 0xdeadfeed or 0 before transferring
+> mute data.
+>
+> Found and drafted with an AI coding assistant while bringing up MT6789.
+>
+> Fixes: 4bd8597dc36c ("ASoC: mediatek: add btcvsd driver")
+> Fixes: d067b3378a78 ("ASoC: mediatek: mtk-btcvsd: Add checks for write an=
+d read of mtk_btcvsd_snd")
+> Signed-off-by: Ilia Snezhkov <iasnezhkov@gmail.com>
 
-Skip any bt_sram_addr[] slot holding 0xdeadfeed or 0 before transferring
-mute data.
+[Severity: Low]
+Should the second Fixes: tag for d067b3378a78 ("ASoC: mediatek: mtk-btcvsd:
+Add checks for write and read of mtk_btcvsd_snd") be dropped?  That commit
+only changed mtk_pcm_btcvsd_copy() to propagate return values from
+mtk_btcvsd_snd_write() and mtk_btcvsd_snd_read(), and did not touch
+btcvsd_tx_clean_buffer() or 0xdeadfeed handling.
 
-Found and drafted with an AI coding assistant while bringing up MT6789.
+> diff --git a/sound/soc/mediatek/common/mtk-btcvsd.c b/sound/soc/mediatek/=
+common/mtk-btcvsd.c
+> index 19329dd7c0d75..1f525673c463b 100644
+> --- a/sound/soc/mediatek/common/mtk-btcvsd.c
+> +++ b/sound/soc/mediatek/common/mtk-btcvsd.c
+> @@ -341,6 +341,10 @@ static int btcvsd_tx_clean_buffer(struct mtk_btcvsd_=
+snd *bt)
+>  		dev_info(bt->dev, "%s(), clean addr 0x%lx\n", __func__,
+>  			 bt->tx->buffer_info.bt_sram_addr[i]);
+> =20
+> +		if (bt->tx->buffer_info.bt_sram_addr[i] =3D=3D 0xdeadfeed ||
+> +		    !bt->tx->buffer_info.bt_sram_addr[i])
+> +			continue;
+> +
+>  		dst =3D (void *)bt->tx->buffer_info.bt_sram_addr[i];
+> =20
+>  		mtk_btcvsd_snd_data_transfer(BT_SCO_DIRECT_ARM2BT,
 
-Fixes: 4bd8597dc36c ("ASoC: mediatek: add btcvsd driver")
-Fixes: d067b3378a78 ("ASoC: mediatek: mtk-btcvsd: Add checks for write and read of mtk_btcvsd_snd")
-Signed-off-by: Ilia Snezhkov <iasnezhkov@gmail.com>
----
- sound/soc/mediatek/common/mtk-btcvsd.c | 4 ++++
- 1 file changed, 4 insertions(+)
+[Severity: Medium]
+Can bt->tx->buffer_info.bt_sram_addr[i] ever equal 0xdeadfeed here?
 
-diff --git a/sound/soc/mediatek/common/mtk-btcvsd.c b/sound/soc/mediatek/common/mtk-btcvsd.c
-index 19329dd..1f52567 100644
---- a/sound/soc/mediatek/common/mtk-btcvsd.c
-+++ b/sound/soc/mediatek/common/mtk-btcvsd.c
-@@ -341,6 +341,10 @@ static int btcvsd_tx_clean_buffer(struct mtk_btcvsd_snd *bt)
- 		dev_info(bt->dev, "%s(), clean addr 0x%lx\n", __func__,
- 			 bt->tx->buffer_info.bt_sram_addr[i]);
- 
-+		if (bt->tx->buffer_info.bt_sram_addr[i] == 0xdeadfeed ||
-+		    !bt->tx->buffer_info.bt_sram_addr[i])
-+			continue;
-+
- 		dst = (void *)bt->tx->buffer_info.bt_sram_addr[i];
- 
- 		mtk_btcvsd_snd_data_transfer(BT_SCO_DIRECT_ARM2BT,
--- 
-2.54.0 (Apple Git-157)
+mtk_btcvsd_write_to_bt() is the only place that populates bt_sram_addr[], a=
+nd
+it checks the raw 32-bit register value connsys_addr_tx against 0xdeadfeed
+before storing the translated virtual address ap_addr_tx:
 
+sound/soc/mediatek/common/mtk-btcvsd.c:mtk_btcvsd_write_to_bt() {
+    ...
+	connsys_addr_tx =3D *bt->bt_reg_pkt_w;
+	ap_addr_tx =3D (unsigned long)bt->bt_sram_bank2_base +
+		     (connsys_addr_tx & 0xFFFF);
 
+	if (connsys_addr_tx =3D=3D 0xdeadfeed) {
+		/* bt return 0xdeadfeed if read register during bt sleep */
+		dev_warn(bt->dev, "%s(), connsys_addr_tx =3D=3D 0xdeadfeed\n",
+			 __func__);
+		return -EIO;
+	}
+    ...
+		scoped_guard(spinlock_irqsave, &bt->tx_lock) {
+			bt->tx->buffer_info.num_valid_addr++;
+			next_idx =3D bt->tx->buffer_info.num_valid_addr - 1;
+			bt->tx->buffer_info.bt_sram_addr[next_idx] =3D ap_addr_tx;
+		}
+    ...
+}
 
+Because bt_sram_addr[] caches previously computed virtual addresses
+(bt_sram_bank2_base + (connsys_addr_tx & 0xFFFF)), an entry never holds
+0xdeadfeed, and the cached entries do not change to 0xdeadfeed if BT connsys
+enters sleep or resets before mtk_pcm_btcvsd_hw_free() ->
+btcvsd_tx_clean_buffer() runs.  As a result, btcvsd_tx_clean_buffer() will
+still write mute frames to BT SRAM while BT connsys is asleep unless it
+checks the live hardware register *bt->bt_reg_pkt_w =3D=3D 0xdeadfeed.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125234830.9489=
+5-1-iasnezhkov@gmail.com?part=3D1
