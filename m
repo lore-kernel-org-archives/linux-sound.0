@@ -1,96 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795608772;
-	b=ayscM4QJm4DgmJHA/v2B363cGyQK+uUBxtgNjyMv7UiO4RGlQYXQAq3ziLbwQIuQSF0B
-	 zfIapSsiAJN31eYjlWznYiw8R4z8SZVRcZc72mdIxJAREcbNHkNS5cpD2iwJ6SbXhPi58
-	 hmgh1N+W6Kq2SZ3SBMuleYDTRiZnVzpy4wEd/mi9etWn0imdeugCswwpZI9Y0+uYeNkdB
-	 S7/E0Xkmzq1hxKbxeb4yYQea9qvYFAWraiQenSaWK4d38Vi3zp1Etder8ydlcBdTJcdVa
-	 qGVEOeIexIxkSJ2+3OgO3IkLQP3/q2+VwnaUxuY3G653qYjpkCi8+n1h/Hzh0EGU/Wg==
+	t=1795609131;
+	b=THLDh3NnVjDXLd/WKw+f/fdKKuvR9MWJAY+qbY6g+adX/iCNIEHAixluwVFlyho5m3G+
+	 r4FIU48reAA3P+SKXNgBjuFy4JFC/tqc7tiPdIFNDRKIHN+u1caDaxJ9ddZ29maWuLncK
+	 TPYJx2nSh1nAIj87fXFhSTbfJyQgwkM53te+SK9QUgIALbWTiRlmZUjmwj0f3YYbUQOq5
+	 VtJ41Bdi4NKeSyy9WAQj5wxVP47rIIY8H3oad5yeh1CwS3uT7rpAXT8KaxuIIXJnCTARL
+	 uTFNMmU6kph9BWBzWMpGIeLkylGVj1oC8wdJEBUKzHz++Yy9TtdRyJgaIVImWE0Rd7w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795608772;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=rYPqNNQTB0KS1iZP1Yah3x05x6is9oHmiMLVkcdjRCw=;
-	b=lNnHlbLIK/JGuXvH+z1Qfdy7/dGLX9RofHvoxiXd6znSIqv0WKREGL/DNWQ6yJys7bzG
-	 0BtChLgZDR25cnlg82ahnNth/db2kSYY/5Z2I4dOJRmue4Y2SLNpBoarLYfr8y4dy4hRj
-	 xx/bhzWBYEqKzG3MWKCQzeianQuQOlGDHgrHeKOsYM0A6B8U83fBsOncyLHJ7Vw5xdWYE
-	 pt46mHr7jRKKcmxmGbtPWcj5TtjMZjnGMJltmH2FXltNaL2KaBHgyzcIOUCAuAeFF1JsK
-	 ejaM90f2ZwZXfPYKgKGFLvcfHxhOFH3qPZjQLmoqWb1Ny02ABjO55Mgc/OOYC5cgWyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795609131;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=KFHcpvrlWQv1ZcfrvoaNP6S7f/cIuwgUS/8kwT0n4g4=;
+	b=BmlREufr5m7pnpj31rGvASHN3ljNoW/cV1kYY2SfTj7usAbGW6V0fnvVaiXtSZ7IN0V+
+	 lDsmAaeJlt6zXCIpSePy5FsO8ywOtZ2cPjjiBzJKkMLii+OrsMylV26ErdGcuBo02EvO1
+	 Zh0eRsZ+XF44d1uuLSEB7SqyOykFHUzoKyWtD44fsmWPlgdo1R419MJ0PFvrcBIg1F219
+	 vkeZj3kAkwnKzjozN2djsYGIl+dnRm+qXkFp3aGh4NHk3uG+SG9rXdk6dgUQkFUusawOg
+	 ixA6M+MR2XtBmf9StjA6sKGbTX5/FEaT8DNeOTQV7jOylj4+lt5Ud3JCCHbMxgemwFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="emTxQ+5/";
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MHbFkqqH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859A0606A321
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 12:12:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 859A0606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F953606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 12:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=emTxQ+5/
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-38644aedba1so8646276eec.0
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 04:12:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795608772; x=1796213572; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rYPqNNQTB0KS1iZP1Yah3x05x6is9oHmiMLVkcdjRCw=;
-        b=emTxQ+5/WwdMet3hczmEvvqlS8s/6vNiHs/wlvNhM6fF6pOBHmriEXXhMCR+KYoLWZ
-         9A+q+jaWvAdPjXdH17hfAV+zUL5jjLHE+ggvjs2a7cFhqjm99XzRoT0zncIQiKlRasJI
-         Hk7h61oOd9yXI9QDOav/WWh7nXxBTtHoSczRx7BS+otctELjiSmFc5xv0t/DbSLrru7s
-         mpsNduMCW929aLUw0YnthTSoHylbs+G1CYT+DpiyV+qIz/WB4yhyEaXnnHZEAAqGAyiX
-         BsmY8DQ7G6dZUIwxDWLOymIh7IhgX/9ylxltMHiYR9qfegB9rjCKyHuzM49TevFRKFB2
-         raNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795608772; x=1796213572;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rYPqNNQTB0KS1iZP1Yah3x05x6is9oHmiMLVkcdjRCw=;
-        b=G0WNIthZBCcD+hkgpZvC09aiZ44nwJDaQJwM4hSzRJRoAAIEfKixRihGG0LtDiwI6x
-         VRGeMB+5IyIMmVlMcIry/mcmN6z4JJ4Z52rCgw1yp81UlQZ+r1D35zn4CI96L81n4gxv
-         D6XB9ksHE4qM8lsC+ofMpKQQA827m63uH0xe+l7quAa6iIrv1AJdpdMcCOn0qu4QBOL1
-         hSYrNq0DPcqhkeZibrxS0Fpq9NXRG1LrwPe6uw0toELLviEkZs8JGjW4hN+w7Fvw7XAO
-         qzprZxSWiV6/TfZ6pgHz5Du8X1Yi/gU1WKYnKB+WbyJrVyibMHCIku90O5bDxV0Hu6dE
-         OaIA==
-X-Forwarded-Encrypted: i=1; AL+hErEm9vMNjjcCs918xNghgT38Nufi8v/kMa7aoz2dfoO4JJbgmlNBok2ZUb9uRjWgkJ95yQT73M8cL5/N7g==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Y/LCt7ucERuUSmRRFX7G7CKUgDmviQKgdLyvGqt6S2bSsOL7h
-	l7XypUakFhsy35bQkVHHvYMma9fXiYuSHzR0GSKQ1fSFLtRnnTSUqNpP
-X-Gm-Gg: AZFdTZdSsyLV+xCHoBYPUm926MbGIaTSIwlvFDycIWglApvMgDl6wdcEuLj9hKrledD
-	lvI105vdqBLYrxtAgStEKHyk5I2FIsO6YMlDaeCq4XU7AAU+GUYSxtxKM5xADQAmXb5Tj9Lwz5T
-	KHfiz3BngeNSO7h3loa0n2yebYq1e2HRBY07rNfiLjXZO4Y4/bcv7EhhFQcnFOcguTeU1LQNnfk
-	SfYd7x1SRsrE7W5wBISqyZBht3yCodtpiE0WmdZNMWTT4PCAC+SC5jE4Zv3XXZWqcaRW+vFad9C
-	Iz6AYZ7TzmLyLRgAlwYqkWi6s95X8DzPQHxm441Lza1ZsOYvQi7kAGy4UC3CJXH8+uhV4CKfq9M
-	uGyeQyv6wWtU99MJtkmXy7IW6wxq4+/981BaZO1bOKeS7nwBhYnopgJazuOOfb0itZ/TDDVoDIh
-	GWVDpUFuNsf6LFSI1f3/4mj6oxtZ2gxYbOSoei4Mmf/VhL/+E52cqpZGj7FvgOPjHM3Z8VPOCHh
-	TtbcGQJ9F1M9jqGFILOo6QMP1/oEQfn+zD6TS2Y5uL9dP88t/XMuVpz1gUjgCtaB7pJR6bcMlET
-	+HV0CwCldS4Pl05x6EvrDnUcHRy9PNMcvuS2Q/lUCuEzNi/GLk3YBg==
-X-Received: by 2002:a05:7301:4704:b0:383:729:cabe with SMTP id 5a478bee46e88-3856f8519ecmr19175296eec.19.1795608771243;
-        Wed, 25 Nov 2026 04:12:51 -0800 (PST)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386c7c62a91sm12234336eec.17.2026.11.25.04.12.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 04:12:50 -0800 (PST)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Clemens Ladisch <clemens@ladisch.de>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] ALSA: oxfw: bound the stream format entries to the response length
-Date: Wed, 25 Nov 2026 20:12:38 +0800
-Message-Id: <20261125121238.1602172-4-maoyixie.tju@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261125121238.1602172-1-maoyixie.tju@gmail.com>
-References: <20261125121238.1602172-1-maoyixie.tju@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MHbFkqqH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02CDA1F000C6;
+	Wed, 25 Nov 2026 12:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795609131;
+	bh=KFHcpvrlWQv1ZcfrvoaNP6S7f/cIuwgUS/8kwT0n4g4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MHbFkqqHmiSuiE50nx5xFwnBnSWQji/5eMyuA5YeeulT9vE/3MX5Z9stgbmN2MFZA
+	 H5cPojpZYqH1cTE3Br0mS/TwFcOjvb5AhnG/fk/JTfkQJk47GhnX18I3vGToepCBRk
+	 Ns3uETTXKBUnLgYJ5nVxmzOZCKttGAgHiPLZoHEufBkTckZt/rnusdTAIVk/JEzQqP
+	 nvLElx7rhuwlV6FV1TsUmpU8IOkhUX3t3wYBoJ/0UYpMJESZ3LNup6M+RSsGsnRWL5
+	 9yr1jNXw1wN4S4TzyU5+U782X+33SRLmlkQexo329rT2hCp/blt8x/zqKyIF8zdEcu
+	 OkvZt/aUGvPOg==
+Message-ID: <sashiko-outbox-233349@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 7/7] ALSA: hda/cs35l41: rework how firmware requests
+ are queued and flushed to prevent races
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Stefan Binding" <sbinding@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261125115124.9130-8-sbinding@opensource.cirrus.com>
+References: <20261125115124.9130-1-sbinding@opensource.cirrus.com>
+ <20261125115124.9130-8-sbinding@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 12:18:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,86 +60,99 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-snd_oxfw_stream_parse_format() takes the number of two-byte entries of
-a stream format from format[4] and never sees the length of the
-response. A count of 254 or 255 can read past the 512-byte response
-buffer. An accepted format is stored with the length of its response
-and parsed again later. A count that needs more than that length reads
-past the copy.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ALSA: hda/cs35l41: DSP left running in cs35l41_hda_unbind()
+--
 
-Check the length of a response against its entry count before the
-format is parsed or stored. Formats other than AM824 compound still
-reach the parser and get -ENXIO.
+commit a2a79af13f0805a482086a5ad2d46142a6d2a234
+Author: Stefan Binding <sbinding@opensource.cirrus.com>
 
-Found with a CodeQL-based static analysis tool. Reproduced in a
-userspace harness under AddressSanitizer. Not tested on hardware.
+ALSA: hda/cs35l41: rework how firmware requests are queued and flushed to p=
+revent races
 
-Fixes: 5cd1d3f47a63 ("ALSA: oxfw: Change the way to make PCM rules/constraints")
-Cc: stable@vger.kernel.org
-Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
----
-I used an LLM to help write the harness and this patch.
+This commit reworks firmware load scheduling in the CS35L41 HDA driver to
+use system_freezable_wq, adds PM notifiers to cancel or re-queue firmware
+work around system suspend, and moves control creation outside fw_mutex.
 
- sound/firewire/oxfw/oxfw-stream.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codec=
+s/side-codecs/cs35l41_hda.c
+> index 51ac11270c88f..9a0063ff41590 100644
+> --- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
+> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
 
-diff --git a/sound/firewire/oxfw/oxfw-stream.c b/sound/firewire/oxfw/oxfw-stream.c
-index 5e36d7153a7b..d8fe136369d8 100644
---- a/sound/firewire/oxfw/oxfw-stream.c
-+++ b/sound/firewire/oxfw/oxfw-stream.c
-@@ -484,6 +484,19 @@ void snd_oxfw_stream_update_duplex(struct snd_oxfw *oxfw)
- 	}
- }
- 
-+/*
-+ * A format of AM824 compound has five bytes, followed by two bytes for each of its entries.
-+ * A response can be shorter than that. The parser rejects every other format before it reads
-+ * an entry.
-+ */
-+static bool format_has_all_entries(const u8 *format, unsigned int len)
-+{
-+	if (len < 2 || format[0] != 0x90 || format[1] != 0x40)
-+		return true;
-+
-+	return len >= 5 && len >= 5 + format[4] * 2;
-+}
-+
- int snd_oxfw_stream_get_current_formation(struct snd_oxfw *oxfw,
- 				enum avc_general_plug_dir dir,
- 				struct snd_oxfw_stream_formation *formation)
-@@ -501,7 +514,7 @@ int snd_oxfw_stream_get_current_formation(struct snd_oxfw *oxfw,
- 
- 		err = avc_stream_get_format_single(oxfw->unit, dir, 0, format, &len);
- 		if (err >= 0) {
--			if (len < 3)
-+			if (len < 3 || !format_has_all_entries(format, len))
- 				err = -EIO;
- 			else
- 				err = snd_oxfw_stream_parse_format(format, formation);
-@@ -662,6 +675,11 @@ assume_stream_formats(struct snd_oxfw *oxfw, enum avc_general_plug_dir dir,
- 		*len = 7;
- 	}
- 
-+	if (!format_has_all_entries(buf, *len)) {
-+		err = -EIO;
-+		goto end;
-+	}
-+
- 	/* parse and set stream format */
- 	eid = 0;
- 	err = snd_oxfw_stream_parse_format(buf, &formation);
-@@ -740,7 +758,7 @@ static int fill_stream_formats(struct snd_oxfw *oxfw,
- 	/* LIST subfunction is implemented */
- 	while (eid < SND_OXFW_STREAM_FORMAT_ENTRIES) {
- 		/* The format is too short. */
--		if (len < 3) {
-+		if (len < 3 || !format_has_all_entries(buf, len)) {
- 			err = -EIO;
- 			break;
- 		}
--- 
-2.34.1
+[ ... ]
 
+> @@ -1521,9 +1583,18 @@ static int cs35l41_hda_bind(struct device *dev, st=
+ruct device *master, void *mas
+> =20
+>  	mutex_unlock(&cs35l41->fw_mutex);
+> =20
+> +	/* Create the necessary controls, do not create them under fw_mutex */
+> +	ret =3D cs35l41_create_controls(cs35l41);
+> +	if (ret) {
+> +		dev_err(cs35l41->dev, "Failed to create controls: %d\n", ret);
+> +		goto err;
+> +	}
+> +
+>  	if (!device_link_add(&cs35l41->codec->core.dev, cs35l41->dev, DL_FLAG_S=
+TATELESS))
+>  		dev_warn(dev, "Unable to create device link\n");
+> =20
+> +	register_pm_notifier(&cs35l41->pm_notifier);
+> +
+>  	dev_info(cs35l41->dev,
+>  		 "CS35L41 Bound - SSID: %s, BST: %d, VSPK: %d, CH: %c, FW EN: %d, SPKI=
+D: %d\n",
+>  		 cs35l41->acpi_subsystem_id, cs35l41->hw_cfg.bst_type,
+> @@ -1531,6 +1602,17 @@ static int cs35l41_hda_bind(struct device *dev, st=
+ruct device *master, void *mas
+>  		 channel_name[cs35l41->hw_cfg.spk_pos],
+>  		 cs35l41->cs_dsp.running, cs35l41->speaker_id);
+> =20
+> +	return 0;
+> +err:
+> +	memset(comp, 0, sizeof(*comp));
+> +	cs35l41_fw_load_cancel_sync(cs35l41);
+> +	scoped_guard(mutex, &cs35l41->fw_mutex) {
+> +		cs35l41->request_fw_load =3D false;
+> +		if (cs35l41->halo_initialized)
+> +			cs35l41_shutdown_dsp(cs35l41);
+> +	}
+> +	cs35l41->codec =3D NULL;
+> +
+>  	return ret;
+>  }
+> =20
+> @@ -1549,7 +1631,11 @@ static void cs35l41_hda_unbind(struct device *dev,=
+ struct device *master, void *
+>  		memset(comp, 0, sizeof(*comp));
+> =20
+>  		cs35l41_remove_controls(cs35l41);
+> -		cancel_work_sync(&cs35l41->fw_load_work);
+> +		scoped_guard(mutex, &cs35l41->fw_mutex) {
+> +			cs35l41->request_fw_load =3D false;
+> +		}
+> +		unregister_pm_notifier(&cs35l41->pm_notifier);
+> +		cs35l41_fw_load_cancel_sync(cs35l41);
+>  		cs35l41->codec =3D NULL;
+>  	}
+>  }
+
+[Severity: Medium]
+Should cs35l41_hda_unbind() also shut down the DSP (with the device
+runtime-resumed) after cancelling fw_load_work, just like the err path in
+cs35l41_hda_bind()?
+
+Clearing cs35l41->request_fw_load without calling cs35l41_shutdown_dsp()
+leaves cs35l41->cs_dsp.running set to true.  If the component is unbound
+and later rebound without removing the CS35L41 device, cs35l41_hda_bind()
+calls cs_dsp_power_up() on an already-running DSP when firmware_autostart
+is enabled (leaking duplicate cs_dsp.alg_regions entries), or leaves
+cs_dsp.running and request_fw_load out of sync so the next
+HDA_GEN_PCM_ACT_CLOSE queues fw_load_work to unload the running firmware.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125115124.9130=
+-1-sbinding@opensource.cirrus.com?part=3D7
