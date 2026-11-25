@@ -1,109 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795590879;
-	b=OHHi1z2K5j1ngJ/ub3qQhcD1KsX4xX+XCdvukAVJ7YTmb0NWYUChXT+YU/tlaJDZPFUz
-	 GwpTDRoTnxTwX/JofMPoIEmLHna69jfE3fMvBf4hiurLohvEwOQ9hObc64MBSbwJP3qXN
-	 2Z3194cFDa6uffpyc/KEYwZfL9e0w6UWu2yPRww3sxDVjNJdXXQWZVTG9bM6+fcgf3X3s
-	 yV3zo0vfSVm+CtoMwG/FPUsv0W0Q31GJLB0r+9ABYeLF6Pp9nvEcf0CdLt3FzUEpnxXWm
-	 aetKw01l+SRKHEVEpZJqsrC0WX/duQpaNoLP1zz/HG2RJqf+zZqx4PDxHRQIKC6dSVw==
+	t=1795590967;
+	b=PpWFn9uE+Qr02IKLnu6BXne3RCKb9xBqW4f6YtzqNRT0LuNog6pf+A6H2pXGNfcT1XIk
+	 i1ycuAfOAYhqx3SX0a+oTJhl2eKuy0IeOtS0vgQ7cG49NSvh0wZtb5fkdg/vjReDpejWT
+	 ydP3pAQ3mSFfidb97IFeu7wc03pJtm4iXO9WvWGtJ8N/sNaFCspgEfrOpZUpz5zbqo7lU
+	 3q6B4cSJR3AGPR69/GCIgqjmAixNXzvkYm5XSjBV85GoRHJ8vaiFxvXUqV9HMaoI9HYsT
+	 Os6V4pZlVWk4pAKAxEqM/U+0AtWmyMuP59q3yO1u5cpv6peUc2J6/ciREsA8VpWgo1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795590879;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=dBI2RYLDZVzemBXrOdKSUj2V9jC1KWDMszq6Q2TiGfA=;
-	b=P0IzsbX/WQ4oC9tRwAUHy/5xBJP+Z0VV8ihV0rYR3wMUQNFHikSGs9czFQ8ygx84rpnC
-	 PbBF1whSCLu3SrIs1D6gpMhefdZOXYpanjjLGDZHzi8V709oUMD7bggZLIckCD6T4Uop0
-	 n3/PDMhUsgf1TGcdKGl1Gha3vR2EPs78LBvxc4t8HiLHsSxHd9Zt6dzu1QVctLLleCxSd
-	 iwxEWmTKJzuhfxRQCky1gZcYsdDC7ke90LzkKwFRiUHeVd38dpobfFIhUJbOyXfQOxyRc
-	 AGj3+7wmc7gVNHUB9rAyPfn45MMVvhcAWlPbkjbRlnIn7uXMi/w33e+2fS9JvqgYwog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795590967;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=tzqeOBpH5cqY+1r94hCteVR+JRFSHfgUzW80U073a4U=;
+	b=5R0K8r3f7eumjBz3FdttmaUm4RE5HlVLGbF3RGR5njVc0Pwvr1ReMgiXBDYYpNpDa68t
+	 e+EDYYxpi62d7LOd31Z+fzw5bT4ly3F07othDOiRm4zV0gEkUGbJb9Qu1uh+lzS+os6rO
+	 cID9wRcGcOtKrWIV9i55qzlQqmY7cup524UI1+sarSMpElP5XOUEsYFS6unCI92Ul9vv2
+	 Swq/pPkxJ2azs+w2vH/3xapQm/0+elgL6R42dYxuSdHDaQaqhhDiN9vvg1TntGUkM9kcG
+	 +1CzfqpUvh0eGqjDkFnL33PdK/Ah5LC9VPeLkab5Y8ckX2HqOUN5iZziaCmwgkbicjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g9mEIOw+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=p8ao74yp;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g9mEIOw+;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=p8ao74yp;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QSLrQWTY;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAF8606A680
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:14:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FAF8606A680
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75E2606A339
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:16:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g9mEIOw+;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=p8ao74yp;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=g9mEIOw+;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=p8ao74yp
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98E541F395;
-	Wed, 25 Nov 2026 07:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795590876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dBI2RYLDZVzemBXrOdKSUj2V9jC1KWDMszq6Q2TiGfA=;
-	b=g9mEIOw+c12oeZG3zZV/OSVCUvrsm5NiyeQXe3UsW88iCAm3Dj3EMtW5dOhAPbUb+MOhGQ
-	9NLAiWW9kLAvByCveLCQiIpo1UHrAiWq6CDpYMH7Xocj7YyhF6XLnOUutfE18c/IUbCBFM
-	pyZagi8bSS9u/AIaD5WZIe2n2eDls5Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795590876;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dBI2RYLDZVzemBXrOdKSUj2V9jC1KWDMszq6Q2TiGfA=;
-	b=p8ao74ypiuGWaoFasJAl7eDzGAaWeo45FAiMepv5tu6mVYm3bBAqs4ecohzJ9dSfDBQRBs
-	QxdatqlHQQa1t+Bg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=g9mEIOw+;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=p8ao74yp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795590876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dBI2RYLDZVzemBXrOdKSUj2V9jC1KWDMszq6Q2TiGfA=;
-	b=g9mEIOw+c12oeZG3zZV/OSVCUvrsm5NiyeQXe3UsW88iCAm3Dj3EMtW5dOhAPbUb+MOhGQ
-	9NLAiWW9kLAvByCveLCQiIpo1UHrAiWq6CDpYMH7Xocj7YyhF6XLnOUutfE18c/IUbCBFM
-	pyZagi8bSS9u/AIaD5WZIe2n2eDls5Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795590876;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dBI2RYLDZVzemBXrOdKSUj2V9jC1KWDMszq6Q2TiGfA=;
-	b=p8ao74ypiuGWaoFasJAl7eDzGAaWeo45FAiMepv5tu6mVYm3bBAqs4ecohzJ9dSfDBQRBs
-	QxdatqlHQQa1t+Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5202E1339F;
-	Wed, 25 Nov 2026 07:14:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id w9l9CtyKBmu1HQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 07:14:36 +0000
-Date: Wed, 25 Nov 2026 08:14:35 +0100
-Message-ID: <87tsl58js4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Miloslav Brada <email@miloslavbrada.cz>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-Subject: Re: [BUG] ALSA: usb-audio: list_add corruption in push_back_to_ready_list() on 7.3.4
-In-Reply-To: <awZs88beIhMcOchv@genesis.transkript.cz>
-References: <awZs88beIhMcOchv@genesis.transkript.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QSLrQWTY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526931F000C4;
+	Wed, 25 Nov 2026 07:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795590967;
+	bh=tzqeOBpH5cqY+1r94hCteVR+JRFSHfgUzW80U073a4U=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=QSLrQWTYUoPsyT7h+FODnTNYUvVs93xtYlvpP8SIxmf2MKO8o+UgcLvIsIqpEl/a0
+	 LVaQih7dlFtWyHzsNPjfOuToEOn8OBIPt+qrz1U6Zkuax0eqNAsdGGVAmFpJ/0+BXR
+	 5ijULeL9gEHoAgKf5CCGKWWiQi9MTTQFn5aEAL2tH2+M0y9DP7wKp+lA7aoXHBWcZ7
+	 XSK+07D46RTz/G2uqPyqek9nYwb+DIhdSgVuunsndp1R4qGPP9KTQmNEirrknxVu5Z
+	 kBf9DEpjDqAJbCptMYvW7N8WkcVmjSoNfII6y8EAymNhdnwfGkLy1zGRPs8aAaUNkg
+	 dTHQ8bcrtm89A==
+Message-ID: <sashiko-outbox-232763@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] ALSA: pcm: Cover buffer access gate in all
+ read/write ioctls
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Takashi Iwai" <tiwai@suse.de>, linux-sound@vger.kernel.org
+In-Reply-To: <20261125065034.1470697-2-tiwai@suse.de>
+References: <20261125065034.1470697-1-tiwai@suse.de>
+ <20261125065034.1470697-2-tiwai@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 07:16:06 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,88 +59,86 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-11.01 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,vger.kernel.org,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 98E541F395
 
-On Wed, 25 Nov 2026 06:06:59 +0100,
-Miloslav Brada wrote:
-(snip)
-> Possible fix (untested, only a sketch)
-> --------------------------------------
-> 
-> 1) Check the state again under ep->lock. stop_urbs() changes the state
->    before it takes ep->lock to flush the list, so any push that takes
->    the lock after the flush sees !running:
-> 
-> 	static void push_back_to_ready_list(struct snd_usb_endpoint *ep,
-> 					    struct snd_urb_ctx *ctx)
-> 	{
-> 		guard(spinlock_irqsave)(&ep->lock);
-> 		/* don't re-queue after stop_urbs() flushed the list */
-> 		if (!ep_state_running(ep))
-> 			return;
-> 		if (list_empty(&ctx->ready_list))
-> 			list_add_tail(&ctx->ready_list, &ep->ready_playback_urbs);
-> 	}
-> 
->    (snd_usb_endpoint_start() sets RUNNING before its fill_rest loop,
->    so that caller is not affected.)
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ALSA: pcm: missing writer() error check in __snd_pcm_lib_xfer()
+- [High] ALSA: pcm: missing buffer_accessing gate in
+  __snd_pcm_lib_xfer() callers
+--
 
-Yes, this should cover in your particular case, and that'll be likely
-the easiest fix for now.  Could you check the below?
+commit a0ca0563533dec8be3f120c69e7d751e0b7fb94c
+Author: Takashi Iwai <tiwai@suse.de>
 
-But for a long-term solution, we'd need to improve the EP state change
-and link change more tightly covered by the proper locking instead of
-the current atomic check.
+ALSA: pcm: Cover buffer access gate in all read/write ioctls
 
+This commit acquires the PCM buffer access gate in the native and compat
+interleaved read/write ioctls and removes the inner
+snd_pcm_buffer_access_get() and snd_pcm_buffer_access_put() calls from
+__snd_pcm_lib_xfer().
 
-thanks,
+> diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+> index 3b66677c037a6..50bd5f32d2f8d 100644
+> --- a/sound/core/pcm_lib.c
+> +++ b/sound/core/pcm_lib.c
+> @@ -2377,9 +2377,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm=
+_substream *substream,
+>  			err =3D -EINVAL;
+>  			goto _end_unlock;
+>  		}
+> -		err =3D snd_pcm_buffer_access_get(runtime);
+> -		if (err < 0)
+> -			goto _end_unlock;
+>  		snd_pcm_stream_unlock_irq(substream);
+>  		if (!is_playback)
+>  			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
+> @@ -2388,9 +2385,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm=
+_substream *substream,
+>  		if (is_playback)
+>  			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
+>  		snd_pcm_stream_lock_irq(substream);
+> -		snd_pcm_buffer_access_put(runtime);
+> -		if (err < 0)
+> -			goto _end_unlock;
+>  		err =3D pcm_accessible_state(substream);
+>  		if (err < 0)
+>  			goto _end_unlock;
 
-Takashi
+[Severity: High]
+Does removing "if (err < 0) goto _end_unlock;" here drop the error check
+for writer()?  Because err is immediately overwritten by
+pcm_accessible_state(substream), a failure from writer() (such as -EFAULT
+during user copy) is lost whenever the stream remains in an accessible
+state, causing __snd_pcm_lib_xfer() to advance appl_ptr and report a
+successful transfer.
 
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -449,6 +449,9 @@ static void push_back_to_ready_list(struct snd_usb_endpoint *ep,
- 				    struct snd_urb_ctx *ctx)
- {
- 	guard(spinlock_irqsave)(&ep->lock);
-+	/* don't re-queue after stop_urbs() flushed the list */
-+	if (!ep_state_running(ep))
-+		return;
- 	/* ctx may still be linked: a stale completion racing a stop/restart. */
- 	if (list_empty(&ctx->ready_list))
- 		list_add_tail(&ctx->ready_list, &ep->ready_playback_urbs);
+[Severity: High]
+Also, can dropping snd_pcm_buffer_access_get() and
+snd_pcm_buffer_access_put() from __snd_pcm_lib_xfer() leave callers
+outside pcm_native.c and pcm_compat.c with runtime->buffer_accessing at 0
+while the stream lock is dropped?
+
+Callers such as snd_pcm_oss_write3(), snd_pcm_oss_read3(),
+snd_pcm_oss_writev3(), snd_pcm_oss_readv3(), and snd_pcm_oss_sync() in
+sound/core/oss/pcm_oss.c, as well as u_audio_playback() ->
+snd_pcm_kernel_write() in drivers/usb/gadget/function/u_uac1_legacy.c,
+enter __snd_pcm_lib_xfer() without SND_PCM_BUFFER_ACQUIRE():
+
+CPU0                              CPU1
+u_audio_playback()
+  snd_pcm_kernel_write()
+    __snd_pcm_lib_xfer()
+      snd_pcm_stream_unlock_irq()
+                                  snd_pcm_hw_free()
+                                    snd_pcm_buffer_access_lock()
+                                    snd_pcm_lib_free_pages()
+      writer()
+        ...                       <-- use-after-free on runtime->dma_area
+
+For OSS streams, a concurrent SNDCTL_DSP_RESET followed by prepare on the
+same descriptor can similarly bypass snd_pcm_buffer_access_lock() while
+writer() and snd_pcm_dma_buffer_sync() run unlocked.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125065034.1470=
+697-1-tiwai@suse.de?part=3D1
