@@ -1,56 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795590967;
-	b=PpWFn9uE+Qr02IKLnu6BXne3RCKb9xBqW4f6YtzqNRT0LuNog6pf+A6H2pXGNfcT1XIk
-	 i1ycuAfOAYhqx3SX0a+oTJhl2eKuy0IeOtS0vgQ7cG49NSvh0wZtb5fkdg/vjReDpejWT
-	 ydP3pAQ3mSFfidb97IFeu7wc03pJtm4iXO9WvWGtJ8N/sNaFCspgEfrOpZUpz5zbqo7lU
-	 3q6B4cSJR3AGPR69/GCIgqjmAixNXzvkYm5XSjBV85GoRHJ8vaiFxvXUqV9HMaoI9HYsT
-	 Os6V4pZlVWk4pAKAxEqM/U+0AtWmyMuP59q3yO1u5cpv6peUc2J6/ciREsA8VpWgo1A==
+	t=1795591991;
+	b=HCp8wUPJmCT7x/6471uax6GtrPRCRqdak/u6RjVCp4k/0yT0xBvrGEmFuM5xm3S2x2hz
+	 vZWMeHemuALi2om1qKylm4Wdde1ehBRHWFxtIxhDAHFAzVnsi0qxl5ZCF3kgjBuTF3zbI
+	 ORZToHrwqBWzdLBs3Sad/CMAC7PolbjIzn/7M4RL7P8/4BZQvh35ZA45vuMkl7RdIGkm/
+	 I4kDhbbXDj0L0oNvWD9sMUPq6EE7x/WNLMZGYpPcv/4VsicSRcHARDnP6Z5VwjgJHLWGE
+	 bq261tG5/lxEG4Jm1K7YB3Q5Ti2hDpDp8TycCJ6IjIh9C7lozt3UN7phQ+1nwdh4Uyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795590967;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=tzqeOBpH5cqY+1r94hCteVR+JRFSHfgUzW80U073a4U=;
-	b=5R0K8r3f7eumjBz3FdttmaUm4RE5HlVLGbF3RGR5njVc0Pwvr1ReMgiXBDYYpNpDa68t
-	 e+EDYYxpi62d7LOd31Z+fzw5bT4ly3F07othDOiRm4zV0gEkUGbJb9Qu1uh+lzS+os6rO
-	 cID9wRcGcOtKrWIV9i55qzlQqmY7cup524UI1+sarSMpElP5XOUEsYFS6unCI92Ul9vv2
-	 Swq/pPkxJ2azs+w2vH/3xapQm/0+elgL6R42dYxuSdHDaQaqhhDiN9vvg1TntGUkM9kcG
-	 +1CzfqpUvh0eGqjDkFnL33PdK/Ah5LC9VPeLkab5Y8ckX2HqOUN5iZziaCmwgkbicjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795591991;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=LY9PIL87+p647dH24UAXYUoRiDEKyNrn4zGa9K6gDcM=;
+	b=Wt3aNPJyY8NQAiuywcWNmsBhKLXyrTJ7/GWV3bRJfKey67UUcN7+F1fAokfLbVrDC23/
+	 QE1VhdWQNfEF6mpA2cuwEj4ETTckBcR5UEhHrmw/zGNRs1YVRNenSyFtEx97dzojCmsWO
+	 FgrTL4jp5/Go3p/uwrwxuiGzdUpi8C8SOU20NWDhafMA27tcmf73Ceydz6K5wTlgRAFwr
+	 zOGSfMXlso9+6zeEtgwaTMlxCAb2KF6cADzkfvHSBdmlMPWIDjOlsv6F4Fpu6VAhLuCA2
+	 pM+M5iponmh2w6jLmWt1Mh3FPwdCBhNLf7O3Q/UvHwjof0wq8zUvUrkjWRqTiSlKAPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QSLrQWTY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rUHeKRSb;
+	arc=none smtp.remote-ip=74.125.82.47
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75E2606A339
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EEC606A33D
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:33:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17EEC606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QSLrQWTY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 526931F000C4;
-	Wed, 25 Nov 2026 07:16:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795590967;
-	bh=tzqeOBpH5cqY+1r94hCteVR+JRFSHfgUzW80U073a4U=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=QSLrQWTYUoPsyT7h+FODnTNYUvVs93xtYlvpP8SIxmf2MKO8o+UgcLvIsIqpEl/a0
-	 LVaQih7dlFtWyHzsNPjfOuToEOn8OBIPt+qrz1U6Zkuax0eqNAsdGGVAmFpJ/0+BXR
-	 5ijULeL9gEHoAgKf5CCGKWWiQi9MTTQFn5aEAL2tH2+M0y9DP7wKp+lA7aoXHBWcZ7
-	 XSK+07D46RTz/G2uqPyqek9nYwb+DIhdSgVuunsndp1R4qGPP9KTQmNEirrknxVu5Z
-	 kBf9DEpjDqAJbCptMYvW7N8WkcVmjSoNfII6y8EAymNhdnwfGkLy1zGRPs8aAaUNkg
-	 dTHQ8bcrtm89A==
-Message-ID: <sashiko-outbox-232763@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] ALSA: pcm: Cover buffer access gate in all
- read/write ioctls
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Takashi Iwai" <tiwai@suse.de>, linux-sound@vger.kernel.org
-In-Reply-To: <20261125065034.1470697-2-tiwai@suse.de>
-References: <20261125065034.1470697-1-tiwai@suse.de>
- <20261125065034.1470697-2-tiwai@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 07:16:06 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rUHeKRSb
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1b563e5cbc3so120927c88.0
+        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 23:33:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795591990; x=1796196790; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LY9PIL87+p647dH24UAXYUoRiDEKyNrn4zGa9K6gDcM=;
+        b=rUHeKRSb4wtr1LFUAu6mYK/iO9og9xSu8Cy75l7lBIhBgreIzjgAMHY+KcYT43wwia
+         r7RmcjGnhR/cFImCmA0dl0BsCw8QmzUBe4syhXvALpiiupQjmzf2pq/NvB9/OrFwV93x
+         XTkicsOjVZxa7vxFTLb2uyrA2uCGyhXb8c7sU3laEQv8H4ulm+EWMzArxtACYq7r8d+q
+         VWX0I4knzqhr7IWTbpJ6w0gxcsl8yt6/Q1P/D2jBfaXLIKmbN80gPRRgwrvnOAeJrRb+
+         xIeORNkknNy+LRczGEabzZmyxYXvTQv9FE0RxnZu5+dfUyCV4YsJbSOvgjo+HImnhAnV
+         +M5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795591990; x=1796196790;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LY9PIL87+p647dH24UAXYUoRiDEKyNrn4zGa9K6gDcM=;
+        b=f3jZvJ+BylTyi//ur0Jkk99luHcPYmMtaSc6LSBbJ9CxRjW/cm0KoyCAuSXeAPCHZn
+         WXauh148Dt5U/6kTLT7nz84ljSC0s1gWQqCFbkhExfuUsHY7ItsFSFNtSeOvjCqc+RMx
+         WkDriFAZ2q0K5/0K92VUYSgAd7WqafATapLIutsECVYO+RFXaim0Fvk1OuAYH6S33pCa
+         qjHQodUz6uXhY/4Bp7cXtYa8j5CoIdVEqy9gVth6PWcMWmRZl3ddettJVQ9M8p+7SqHN
+         9ZN2Dhointmeed8HscoF59QItB64b8KQr6Zp9CCyPtw2tt4rTd4ibUjut3hVpnufo/Qp
+         5OjA==
+X-Forwarded-Encrypted: i=1; AL+hErHrK8Ay3DJ1rlDaqFweiXi1Ex0VfkWsaHY7cSJ6FLy+u9/BrcdLGMkdle+2slHMmWfXRXtTe7odcHHZ9A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8xuFF0dviKmibUbgA2cV1MZsIJjAkgKQg55rWoWV7vrEkFdlxo
+	StwasFh7onRVn65RfT1SB2086JUfzCKupPIjRHQOC1bclCWOAqU6a07qIrPQ0M67
+X-Gm-Gg: AZFdTZfQaceElTepis8tL4btpniSBV3+B4MQ/v8yBMaoKqdOb0mcd/lbipuxiA6IJ+f
+	MayLfExRdviFVYy/9UzH1hQFrck/cYp3SP5wEJzGJ405mUH59s9oWGqiKVvtogJCwZ4MFlevV1Y
+	y50PpR5LLEp6DXW4prtgejbdkBhA/ohj6i4TjehBrWYsw4hRicK7GJxsx1S4r/V4761AgcuRSIC
+	+UHILbyxU3uz5gOWgIE/1LNNE2Y/vv2LPhjePHD7QiLL/Ov2RfanB97DFDgceGZhYf1v/vjIK/H
+	m1CcrK3M2hu5Uh5N1aKtuRFP7KbQsYSg+4tHJagJAlOdgEtkTDVA3r0NIimUxAFVOXRtkjMnFHN
+	2pv00EXmM7a2b8HqrmOIVQvOWGKEMd6YKc9h+veWvSkVuuVM6U686h2OUIQbbVwsOBiHkMFFWr4
+	69sJDrrD3h2vL3e40wEeciVZAIN8WyevumQhpsrIjMFNzoyt7nQwuQsjcXw2OHigOqwEvdX1JBm
+	uUMysrMia6ajAmczpGxOqCY2h/xtXpTB/cwPB889GXaQvd0jfVMDxrvrq7K2DUsp0zwJe1Qf8FX
+	jvwSUAi0WOWx9SCKT2wfGuoRM09izLVdPjmZ2/fWZMOylmMz/EXA
+X-Received: by 2002:a05:7022:b056:20b0:17a:a3d4:8b17 with SMTP id a92af1059eb24-1b5568eb4acmr18251286c88.12.1795591989931;
+        Tue, 24 Nov 2026 23:33:09 -0800 (PST)
+Received: from localhost.localdomain ([103.178.205.105])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b562a82b3fsm45906027c88.5.2026.11.24.23.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 23:33:09 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] ALSA: Fix dynamic major number assignment
+Date: Wed, 25 Nov 2026 07:30:09 +0000
+Message-ID: <20261125073009.3091-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,86 +95,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] ALSA: pcm: missing writer() error check in __snd_pcm_lib_xfer()
-- [High] ALSA: pcm: missing buffer_accessing gate in
-  __snd_pcm_lib_xfer() callers
---
+When major is set to 0, register_chrdev() allocates
+a major number and returns it.
 
-commit a0ca0563533dec8be3f120c69e7d751e0b7fb94c
-Author: Takashi Iwai <tiwai@suse.de>
+Store the allocated major number and update snd_major
+after successful registration.
 
-ALSA: pcm: Cover buffer access gate in all read/write ioctls
+This ensures ALSA uses the correct major number for
+device registration and unregistration.
 
-This commit acquires the PCM buffer access gate in the native and compat
-interleaved read/write ioctls and removes the inner
-snd_pcm_buffer_access_get() and snd_pcm_buffer_access_put() calls from
-__snd_pcm_lib_xfer().
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+ sound/core/sound.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-> index 3b66677c037a6..50bd5f32d2f8d 100644
-> --- a/sound/core/pcm_lib.c
-> +++ b/sound/core/pcm_lib.c
-> @@ -2377,9 +2377,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm=
-_substream *substream,
->  			err =3D -EINVAL;
->  			goto _end_unlock;
->  		}
-> -		err =3D snd_pcm_buffer_access_get(runtime);
-> -		if (err < 0)
-> -			goto _end_unlock;
->  		snd_pcm_stream_unlock_irq(substream);
->  		if (!is_playback)
->  			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
-> @@ -2388,9 +2385,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm=
-_substream *substream,
->  		if (is_playback)
->  			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
->  		snd_pcm_stream_lock_irq(substream);
-> -		snd_pcm_buffer_access_put(runtime);
-> -		if (err < 0)
-> -			goto _end_unlock;
->  		err =3D pcm_accessible_state(substream);
->  		if (err < 0)
->  			goto _end_unlock;
+diff --git a/sound/core/sound.c b/sound/core/sound.c
+index 24f40763a20c..eaead62cf814 100644
+--- a/sound/core/sound.c
++++ b/sound/core/sound.c
+@@ -396,7 +396,6 @@ static int __init alsa_sound_init(void)
+ {
+ 	int err;
+ 
+-	snd_major = major;
+ 	snd_ecards_limit = cards_limit;
+ 
+ 	err = register_chrdev(major, "alsa", &snd_fops);
+@@ -405,6 +404,10 @@ static int __init alsa_sound_init(void)
+ 		return err;
+ 	}
+ 
++	if (major == 0)
++		major = err;
++	snd_major = major;
++
+ 	err = snd_info_init();
+ 	if (err < 0) {
+ 		unregister_chrdev(major, "alsa");
+-- 
+2.55.0
 
-[Severity: High]
-Does removing "if (err < 0) goto _end_unlock;" here drop the error check
-for writer()?  Because err is immediately overwritten by
-pcm_accessible_state(substream), a failure from writer() (such as -EFAULT
-during user copy) is lost whenever the stream remains in an accessible
-state, causing __snd_pcm_lib_xfer() to advance appl_ptr and report a
-successful transfer.
-
-[Severity: High]
-Also, can dropping snd_pcm_buffer_access_get() and
-snd_pcm_buffer_access_put() from __snd_pcm_lib_xfer() leave callers
-outside pcm_native.c and pcm_compat.c with runtime->buffer_accessing at 0
-while the stream lock is dropped?
-
-Callers such as snd_pcm_oss_write3(), snd_pcm_oss_read3(),
-snd_pcm_oss_writev3(), snd_pcm_oss_readv3(), and snd_pcm_oss_sync() in
-sound/core/oss/pcm_oss.c, as well as u_audio_playback() ->
-snd_pcm_kernel_write() in drivers/usb/gadget/function/u_uac1_legacy.c,
-enter __snd_pcm_lib_xfer() without SND_PCM_BUFFER_ACQUIRE():
-
-CPU0                              CPU1
-u_audio_playback()
-  snd_pcm_kernel_write()
-    __snd_pcm_lib_xfer()
-      snd_pcm_stream_unlock_irq()
-                                  snd_pcm_hw_free()
-                                    snd_pcm_buffer_access_lock()
-                                    snd_pcm_lib_free_pages()
-      writer()
-        ...                       <-- use-after-free on runtime->dma_area
-
-For OSS streams, a concurrent SNDCTL_DSP_RESET followed by prepare on the
-same descriptor can similarly bypass snd_pcm_buffer_access_lock() while
-writer() and snd_pcm_dma_buffer_sync() run unlocked.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125065034.1470=
-697-1-tiwai@suse.de?part=3D1
