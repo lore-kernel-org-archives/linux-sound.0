@@ -1,88 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795595927;
-	b=BJ/taC06121665nbKPFuvexv++4kWESWd9fvYsOaCz/NhGqDrc22oHhFy1yzo3aUj1s6
-	 z4PNNld//wavov53gKK4QZOAaBltM/tbni56q2o3btMmsiobZEzA9PLC5U3Ru/8TNW3jW
-	 fIf2W2kXaZ/estW7PGsscz7MOTLYJCqtM8YZZMdD7vjooIGvzk/xWR8z5UW3ZSaEKz6dJ
-	 bKd+AXIdoCQrV9czM/7Y6op8W3sui1ck/U0WeRe0Er1V6adW5ShSjgprOQeIIjJbsDXx6
-	 dGfeG0Y/N4FIv9kiwwz7DSSfJxxtYXG/Qyr6SehDTq9fxnZvtgwR97jYUBEvr77aI4g==
+	t=1795595929;
+	b=DPGhQNgol9h7vuq+l9nAVjcI4dT5u9RbVyo8BXUqM8m3Kr+lx+KJe/4KmPgY1grXkj/W
+	 62LZn88ynNsHSgQ8FI/pjXe1/pQ5rnA6IggEXkVEXXNzMLFkvDFbwvoFt52v1sigtjlT4
+	 2layLhNJkDiFOxS5OFwxVNUnfAtn9uvnWPvdOyDM375TS61fmbSWvU9Y2WlTSNy7xYW/j
+	 uaB+lN7YxqC00OCoWyGZp0obgB3tm0DNEetYoPtbLw4fJvJE7v1PWgNwuZ2nFtr2v6Tnc
+	 WA45MIuxOkFOVgtLieExkGY4GNLGuYB6Li7nuRTsdGavWroQHEA6ww9/ln04XoNZBrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795595927;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:From:Reply-To:Subject:To:Cc:References:
-	 Content-Language:Autocrypt:Organization:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=50VR4Bii4r0x40VxRkLIljzh8fTduZtxHSfKIR3mJdA=;
-	b=Rue149LfBP+TXfN3JRPf9mtWoo84zNBfiikAHsOIC5yRbmQbHRcnkDa7fG5feAG37Suj
-	 lw1q3zpcM55TR35wccaIhcQF2JCsQcYTNq+Cyylt0FdFZcrbRg41MxNvWuTlyNXG233G+
-	 1MLLQV4j6RLfUCNJpZEuUXtm4u2gcVoH1SZ/RXPEM+MQdS+H1T5nNBZ4B/vZAUq8tq5kP
-	 l/NZfwcxpgQI/qJy0CLHZkfLF4I9jjYcDlfHxdf6IFpiWRgx10BXTdS/5qgjDqHG3/OIw
-	 scdXn0tXEe5Daw1KdpJHZdkqefUVRNr9oBirPCRQ1MeRMhycW3yBVqffyxXgcGeUMAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795595929;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=VRNENHmmLaE4ERrb7Y3NNse4tykbKVN1wscaZwdMndM=;
+	b=NNTkgKqq8g3qDpGhiGBfsst6juCqUbR11VeTBDiKj3WrJaVOvrLf3hEIAcPEHI+Fl8Tc
+	 Z6uooKvlfW0tdo6ifEtIgUcCaD5nxgCoukl8wMuVGgSdJH4c/RJnz7D6ONlPz1HeThqRE
+	 EOIFnHSHEZwChUokwsL5MOGBjefmG/Jh3DyMCR0BAqMn0wSREpVQ2voIxYKkBHF7+uxkQ
+	 SRuZoL8Zp8aUYy1Z3M4+XqoK+l4MJKZ4/3SX0aGRBrlTLGsIkWfcrMGAx+BCEyJph88EC
+	 hyDFCtcWAisLU6ZfEx7E+JYEINtLMIdStgV27bISOTrogYBZL9AtEkT9P0sLL25Ysfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uXB0uB9r;
-	arc=none smtp.remote-ip=209.85.221.45
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mHxPGpc2;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6CA606A336
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 08:38:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D6CA606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01B6606A6AC
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 08:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=uXB0uB9r
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4a357b1c649so3151744f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 00:38:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1795595925; x=1796200725; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:organization
-         :autocrypt:content-language:references:cc:to:subject:reply-to:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=50VR4Bii4r0x40VxRkLIljzh8fTduZtxHSfKIR3mJdA=;
-        b=uXB0uB9rBS61mYCE8m6Y2IuifItmaCmqaGyCD6s5PyydPTNRjrKOswJNpKzWAjGCbL
-         WebE5b7ecGwKmy3Jiq48lG2n1vuAbv1fo/sJlA+L3pfdRHxPevEpW8YiRsqMGfsin9HP
-         VBfjbaCKfaba6qlxsuy4ZNT2PFo7N8t/o4qFngaEsXTyptDqbU4snsbxibcizetBohGO
-         hJqKr12mT1tzTQbKlOYzKAgGEr8kiRsjMHvnvASSUWbFiVnT6pVZAdwAoA9+6GYuupgP
-         sDozzWJwML8Gp5MNPdRBDz4hO5/X1XHuskXggAbPUC+5LHEq+zJwq0zPyY5ytMbal+0E
-         I4/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795595925; x=1796200725;
-        h=content-transfer-encoding:content-type:in-reply-to:organization
-         :autocrypt:content-language:references:cc:to:subject:reply-to:from
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=50VR4Bii4r0x40VxRkLIljzh8fTduZtxHSfKIR3mJdA=;
-        b=1cjciztxNOHI4mMfqKfk1uSC6E97mAnw1ly3D8e3aZ9HlDjOIO2ZZxjG7YJTNib1ES
-         q8WiOYJyPNRth28VdAxyW9PMvTB80JE1eJd3ctZSWGCS0s9MmD8HVbrWY0CVIXrOgr6p
-         0W8xVGxoCLBKDoLAsOv6s2fv3UEBVSMDoc0oA6xU9UItHm7sjh/2ciX4uN27hjJEUESN
-         LbmNQVcPGHqG0LTlf7UQtByvRR3uP3sunFxEDUCVl3ZnZxc2dIdeMcngWzlFtr+eT09Y
-         HTicf7IBkHNLkpkxZyL3nK3zzzyxCQsqQ4ETURDQ46JSu/p5V1gmwS8mMWEiaF16GCos
-         Qw8g==
-X-Gm-Message-State: APuU4Z+zXWdHg/ivQcHj2rUSap9b+fJjaIa6+2YyPULDsmsD4TGB/PJ8
-	rqScwFnohjb5fRRkIRawboJKhIVt64Y7DeJdSRngVKFSi6vwQH9Fjd7npRu+OzrGk74=
-X-Gm-Gg: AZFdTZek5Fpy05bv2Vdki+ZO+H6McQ6n4OHwxe/c8m1haxSVz7osyQe0DQ5QeHocPCk
-	7bAK0l+ISRXSzKmITpIQGD4Fgy+1ZhT7F8o4CTTNIBQG3CH9nipm7DowL2jzYo+V2QasFu9qHFt
-	6fez4Spey+5Mayax/30CYGwOLdiF9UGKsiLvRmNzev5O1Sir68xultrqsJn78FHk9sbRKPv2//J
-	ZY3QdDHktkM3+EtrgDv0xdYHmTa/8+Nzg7o+DgJvLRtzuxcBxidx6IZ869GlaXcSGq8DG3z1f29
-	h3A17ovNzwbyPwtvtgEOCQTSB7LiFcxMvHqR5TpLqIH/p+ZVG5Za1/GYEFFxgSvBs7k5s9WleLN
-	ienzID7BdsweBVf/XGOeiyD5Q8WAGa9cetS0T0FqEEVAg4A0++J+A2n3KwwEkzOrWL3V8Jkjuq/
-	gb4skzjabCdeQi9lXHCXcH4apc9jtu48vb+40wT5tIuuBmyNjAARwUY7HQ1/UVNfzNB2Gl4LyoN
-	4TgVizmmKkcYSqbvL2HrSvX9sLcIjMTNorRarqjQ2gvHw8qGKJyeNmCjKla45cVkQnxf6JIg55t
-	I88qKgMClpfEq0fJUF2k19JZweglRMHg2TSXEL4lGGAkehVMJmUoQAixkA9AAcnCOWsB7V36dLA
-	ar4dQNpQfgw==
-X-Received: by 2002:a05:6000:200f:b0:4b7:6dcb:e906 with SMTP id ffacd0b85a97d-4b76dcbea3emr7646897f8f.43.1795595925303;
-        Wed, 25 Nov 2026 00:38:45 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:106d:1080:f368:ae2e:e717:e970? ([2a01:e0a:106d:1080:f368:ae2e:e717:e970])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab5ffcad11sm31544013f8f.0.2026.11.25.00.38.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2026 00:38:45 -0800 (PST)
-Message-ID: <0144c378-919d-4c44-a306-dfadea6a7617@linaro.org>
-Date: Wed, 25 Nov 2026 09:38:44 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mHxPGpc2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 297A01F0093C;
+	Wed, 25 Nov 2026 08:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795595929;
+	bh=VRNENHmmLaE4ERrb7Y3NNse4tykbKVN1wscaZwdMndM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=mHxPGpc2fzMaIcnFkXi+Rs+xdLid6rRYmz1hwi8CTtO5THOwvDcsbeH2QxCeU775P
+	 2RXOCz/XHx/Mc4/u9toIdjyz+ZEedfBv3smHRgIYdWSKRGjdvenypcHqqKstCucQuz
+	 V8tikohl/w/gt/Srbj+GA4ZP3k2Mr69nUTBgKZBrHTRwg8pJzHABf9YWIMklmTqyY9
+	 HOZEgoN3I+3Zvf5Y/90bBa6tTn2HyS7aYK192J/HZBPXT87PXTTnfPRo/b+vFd9b2i
+	 eKMKnf8MIMEB7TMbQHCieeFXrClMWAKqeA/CFhDWJADhuJhk31LZP+uu/BkJa9ZV36
+	 HpUnjTozgNIlw==
+Message-ID: <sashiko-outbox-232917@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] ALSA: core: Reject zero major number
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261125083053.3917-1-sreekuttan2156239@gmail.com>
+References: <87o6bd8ijb.wl-tiwai@suse.de>
+ <20261125083053.3917-1-sreekuttan2156239@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 08:38:48 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -91,104 +59,141 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 10/19] ASoC: qcom: lpass-cdc-dma: add support for WSA
- codec DMA
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org,
- conor+dt@kernel.org
-References: <20261124-topic-sm8650-el2-v2-0-174e159f0f69@linaro.org>
- <20261124-topic-sm8650-el2-v2-10-174e159f0f69@linaro.org>
- <sashiko-outbox-231736@kernel.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <sashiko-outbox-231736@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 11/24/26 18:44, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] ASoC: qcom: unchecked clk_prepare_enable() in
->    lpass_cdc_dma_daiops_startup()
-> --
-> 
-> commit b77682a3d9ba3fc802985eb7a7f2cb05c5db3350
-> Author: Neil Armstrong <neil.armstrong@linaro.org>
-> 
-> ASoC: qcom: lpass-cdc-dma: add support for WSA codec DMA
-> 
-> This commit adds WSA codec DMA interface handling to the LPASS codec DMA
-> driver, wiring up the WSA DMA control handles, interface types, and
-> codec_mem1 clock in DAI startup and shutdown.
-> 
->> diff --git a/sound/soc/qcom/lpass-cdc-dma.c b/sound/soc/qcom/lpass-cdc-dma.c
->> index 2dc8c75c4bf08..d7f85a4f9d999 100644
->> --- a/sound/soc/qcom/lpass-cdc-dma.c
->> +++ b/sound/soc/qcom/lpass-cdc-dma.c
-> 
-> [ ... ]
-> 
->> @@ -184,6 +211,11 @@ static int lpass_cdc_dma_daiops_startup(struct snd_pcm_substream *substream,
->>   		clk_set_rate(drvdata->va_mem0, CODEC_MEM_HZ_NORMAL);
->>   		clk_prepare_enable(drvdata->va_mem0);
->>   		break;
->> +	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
->> +	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
->> +		clk_set_rate(drvdata->codec_mem1, CODEC_MEM_HZ_NORMAL);
->> +		clk_prepare_enable(drvdata->codec_mem1);
->> +		break;
->>   	default:
->>   		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai->id);
->>   		break;
->> @@ -205,6 +237,10 @@ static void lpass_cdc_dma_daiops_shutdown(struct snd_pcm_substream *substream,
->>   	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
->>   		clk_disable_unprepare(drvdata->va_mem0);
->>   		break;
->> +	case LPASS_CDC_DMA_WSA_RX0 ... LPASS_CDC_DMA_WSA_RX9:
->> +	case LPASS_CDC_DMA_WSA_TX0 ... LPASS_CDC_DMA_WSA_TX8:
->> +		clk_disable_unprepare(drvdata->codec_mem1);
->> +		break;
->>   	default:
->>   		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai->id);
->>   		break;
-> 
-> [Severity: Medium]
-> Should lpass_cdc_dma_daiops_startup() check and return errors from
-> clk_set_rate() and clk_prepare_enable() on drvdata->codec_mem1?
-> 
-> If clk_prepare_enable() fails and startup returns 0, the substream opens
-> with an unclocked LPM memory bank, and lpass_cdc_dma_daiops_shutdown() will
-> later call clk_disable_unprepare(drvdata->codec_mem1) on close, either
-> underflowing the clock refcounts or disabling the shared clock while
-> another WSA stream is using it.
-> 
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ALSA: core: undeclared identifier major in alsa_sound_exit()
+- [Medium] ALSA: core: merging cards_limit with snd_ecards_limit breaks
+  autoload limit
+--
 
-Ultimately yes, but the actual code doesn't, so this will probably deserve a follow-up fix as it's not related to this serie.
+commit 9a3f490adfcc49e86e9645ef8d568109e4bac5c8
+Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+
+ALSA: core: Reject zero major number
+
+This commit rejects a zero major number in alsa_sound_init() before calling
+register_chrdev(), removes the static major and cards_limit variables, and
+binds the module parameters directly to snd_major and snd_ecards_limit.
+
+> diff --git a/sound/core/sound.c b/sound/core/sound.c
+> index ba226aa7affd3..ff459d8f8aa78 100644
+> --- a/sound/core/sound.c
+> +++ b/sound/core/sound.c
+> @@ -18,28 +18,25 @@
+>  #include <linux/kmod.h>
+>  #include <linux/mutex.h>
+> =20
+> -static int major =3D CONFIG_SND_MAJOR;
+> -int snd_major;
+> +int snd_major =3D CONFIG_SND_MAJOR;
+>  EXPORT_SYMBOL(snd_major);
+> =20
+> -static int cards_limit =3D 1;
+> +/* this one holds the actual max. card number currently available.
+> + * as default, it's identical with cards_limit option.  when more
+> + * modules are loaded manually, this limit number increases, too.
+> + */
+> +int snd_ecards_limit =3D 1;
+> +EXPORT_SYMBOL(snd_ecards_limit);
+> =20
+>  MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
+>  MODULE_DESCRIPTION("Advanced Linux Sound Architecture driver for soundca=
+rds.");
+>  MODULE_LICENSE("GPL");
+> -module_param(major, int, 0444);
+> +module_param_named(major, snd_major, int, 0444);
+>  MODULE_PARM_DESC(major, "Major # for sound driver.");
+> -module_param(cards_limit, int, 0444);
+> +module_param_named(cards_limit, snd_ecards_limit, int, 0444);
+>  MODULE_PARM_DESC(cards_limit, "Count of auto-loadable soundcards.");
+>  MODULE_ALIAS_CHARDEV_MAJOR(CONFIG_SND_MAJOR);
+> =20
+> -/* this one holds the actual max. card number currently available.
+> - * as default, it's identical with cards_limit option.  when more
+> - * modules are loaded manually, this limit number increases, too.
+> - */
+> -int snd_ecards_limit;
+> -EXPORT_SYMBOL(snd_ecards_limit);
+> -
+>  #ifdef CONFIG_SND_DEBUG
+>  struct dentry *sound_debugfs_root;
+>  EXPORT_SYMBOL_GPL(sound_debugfs_root);
+> @@ -61,7 +58,7 @@ void snd_request_card(int card)
+>  {
+>  	if (snd_card_locked(card))
+>  		return;
+> -	if (card < 0 || card >=3D cards_limit)
+> +	if (card < 0 || card >=3D snd_ecards_limit)
+>  		return;
+>  	request_module("snd-card-%i", card);
+>  }
+
+[Severity: Medium]
+Does replacing cards_limit with snd_ecards_limit break the auto-load card
+limit?
+
+As noted in the comment above snd_ecards_limit, snd_card_init() raises
+snd_ecards_limit whenever a card is registered at an index >=3D
+snd_ecards_limit:
+
+sound/core/init.c:snd_card_init() {
+    ...
+		if (!err) {
+			set_bit(idx, snd_cards_lock);		/* lock it */
+			if (idx >=3D snd_ecards_limit)
+				snd_ecards_limit =3D idx + 1; /* increase the limit */
+		}
+    ...
+}
+
+Once a card is registered at an index above the configured cards_limit,
+snd_ecards_limit grows to idx + 1.  snd_request_card() will then call
+request_module("snd-card-%i", card) for any free or unloaded slot up to the
+new snd_ecards_limit instead of stopping at the configured cards_limit, and
+/sys/module/snd/parameters/cards_limit will report the mutated runtime
+value.
+
+[ ... ]
+
+> @@ -442,18 +439,19 @@ static int __init alsa_sound_init(void)
+>  {
+>  	int err;
+> =20
+> -	snd_major =3D major;
+> -	snd_ecards_limit =3D cards_limit;
+> +	if (!snd_major)
+> +		return -EINVAL;
+> =20
+> -	err =3D register_chrdev(major, "alsa", &snd_fops);
+> +	err =3D register_chrdev(snd_major, "alsa", &snd_fops);
+>  	if (err < 0) {
+> -		pr_err("ALSA core: unable to register native major device number %d\n"=
+, major);
+> +		pr_err("ALSA core: unable to register native major device number %d\n",
+> +		       snd_major);
+>  		return err;
+>  	}
+> =20
+>  	err =3D snd_info_init();
+>  	if (err < 0) {
+> -		unregister_chrdev(major, "alsa");
+> +		unregister_chrdev(snd_major, "alsa");
+>  		return err;
+>  	}
+
+[Severity: High]
+Does alsa_sound_exit() fail to compile now that major is removed?
+
+sound/core/sound.c:alsa_sound_exit() {
+    ...
+	snd_info_done();
+	unregister_chrdev(major, "alsa");
+}
+
+alsa_sound_exit() still passes major instead of snd_major to
+unregister_chrdev(), causing an undeclared identifier build error.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125083053.3917=
+-1-sreekuttan2156239@gmail.com?part=3D1
