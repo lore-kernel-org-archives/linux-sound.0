@@ -1,90 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795589076;
-	b=K62wSfAX4dydOq9mLA2VkL6aDXhcRw2pDybt7byCKZd7+92SYRa2VZTl8OJYQbTEffOb
-	 n8TF7tHgmj2uaWU5UEeYPLss7USUIdADE4r1nXwVyVTYWkzOJ6xbQ6dgsrq5wTU0X6LXu
-	 9Q6SoTfVK+u6w3oNc8kAJbtI4SmdZpFdKs8O4osFRaMEEX5wM31Z3hmsHTcM/FPz1EMsW
-	 jGUJthIT4rXU6714yufui64ms6RZg9NMlhXqoZeyfxQ51d6nF3lnuZ0mk+mn4GKeCuPf8
-	 eN5AAZ9K5QXLHzZOXeyquwt7+JvK+dCyT8wUPgLyAxlJ7s8Novn7axuNbsJ2Jt9k/qA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795589076;
-	h=DMARC-Filter:X-RZG-CLASS-ID:DKIM-Signature:DKIM-Signature:X-RZG-AUTH:
-	 Received:Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Content-Transfer-Encoding:Message-Id:References:To:X-Mailer;
-	bh=1gk2zDY+qHFoLpfFOUqPZn9pkTFPLdiycG87z3EJLfY=;
-	b=IW6+Hy3IFnWgTxKZp1jW5jPQAliT+b3VK2CLi8N8dwbZnIx+w0t8rRrMbJtCNGB55g/H
-	 Qh1lfCOApGkaHgivXwV7t4NHRziXYJiy6RzAul44ql4qvkvTOerF3S6mSusPyg06EwZCG
-	 lCQGSo4RwMx2xkBeKhjFpdhj96klB51qq7uwTBmbalQsgjhHwwO5xW7Pb2MNzD8ToM0It
-	 B6OwRj6c/v0U37ivXam932sUG51hbDD69bQTDWriuUAU6mvjsIIqP3YHf1V/ANXJhrcGL
-	 zc2q4whNr8iz1hBc846FZQOzckxKAYvAUc+85v12h1iQtz4t1VT8pC1orL/OabqIBKw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=goldelico.com;
-	spf=pass smtp.mailfrom=goldelico.com;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b="k/jEVpVv";
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b="I+Y/BRNS";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=81.169.146.169
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.169])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795589440;
+	b=neQ8pjEuCeCf/6YFjt27AE+BH7+wFMGXivHwbyVF109xKvnNAxmqR92e3hKKtVdfUQIl
+	 oDWBKviSmL6/FTBn3LIWXMJmgW+Y2awP36EbkjtpofaaC008CNZVT4DRvJAUr8N0ufQCU
+	 aVC2rCI67pfMGJGEJ+ZaVXgHgdH/lVa/vNko4Bp2Sx3I886r9U227fo1R6hCueg6DtY/L
+	 6bYCKheNLvi15/cw4GIOoBVIw4QRhSGoSS6oBDUqNWbiOrfyWL7otcR1Fnx5BC7/Zj0If
+	 q6IkOni3s27otWQ995yvf4U5+A+XLdb2pPTWCHX22nZM/ujgQW1I0QU4J38Y8PaOmlQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795589440;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Spamd-Result:X-Spam-Score:X-Spam-Level:
+	 X-Spam-Flag;
+	bh=dckA/GIzuTawkPjZQNHf5tzrexFgB4Tt7W3vxrn9E0Q=;
+	b=Vl/876xepDsJVlnapnfa7NOC+uzSRa/l7mdNJu92YFJVfnik5GuhEK1N7o2ErKTtulvC
+	 k7zYzbhPqrcfGdZ+1FAApUeuGT39HxH7j/YihSJUI7vxeVzoOOaPwTQ/zu4R2DPPUAFPL
+	 BP300rNVUY4ux4yBH1tDRSb6L3IsR2QX5qBde/aovECZG9h0Xn6PwlI3OMGzNKseGvn4X
+	 7Dq/kGGkMmkgljkQG+/TJy6z/EROYzSR7nLQGY0RmH5WWMob5tAcbqaskInqU1yQIl2Tf
+	 PiyzFgqTs812gdKC81nXzmL9MCQljM2U9venj1Rw/IADqyBVg41unNqjO+MdvvneZGw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=A6XsMkXz;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k5u9ykWt;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pE1GwkOp;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KeZzLupG;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BE9606A31E;
-	Wed, 25 Nov 2026 06:44:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6BE9606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AAC606A339
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 06:50:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38AAC606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.a=rsa-sha256 header.s=strato-dkim-0002 header.b=k/jEVpVv;
-	dkim=pass header.d=goldelico.com header.i=@goldelico.com header.a=ed25519-sha256 header.s=strato-dkim-0003 header.b=I+Y/BRNS
-ARC-Seal: i=1; a=rsa-sha256; t=1795588973; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=cTnbBPeGovHeLT6q6u9ZQyfIcEbHxmGIT0GrghPBSMc0a8wnvXLtuQfkzrUkZuOig+
-    mjlrb2X9BAMV6Niob3O8lWaPpn0e2SdWNdjNmOniwDiCZzqNRfWlUcROWNXaHY5Ve/NY
-    0VtyS2euhWucTcYnwTYon1YrmlfKfZqLYxa+qOPkv3sBr3ecSeQhrjCD2A5z9j+paM+0
-    rVWwnW9u+e0WtxWUhTDMffhkDAndZfl9WrnAH8ZAPV4eKb9fiwp9k208ODbrRSGsbdsg
-    j3/FNSbgbwldCxxsf4/oW8ZuSQ7/5LhlEuJLh16CY1sXuLGDgGTwZ6sZYN9iz1IICxLH
-    BmLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1795588973;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=1gk2zDY+qHFoLpfFOUqPZn9pkTFPLdiycG87z3EJLfY=;
-    b=VnsemKLEMl+3O0YMCi8sFARtWux1a17AXnxlzhRywNWKFcfap3DH7difiJlRoGytYh
-    0lOcJWFo7zxhNwp1yt3/yyQ6N4YsfMUGObwXOKvs4A5PTFMk0fIug+tCVkPz4A//bvId
-    jxdtI+t8tUjP1cM0OjQcUc+7LTkHs2scm9F9oIOZetWaErP1jEVAIELCzO4t4KbALYLi
-    Jw1E1xmzK3Oiz6FwxQ41LBe7+tDd3B01/ZH1FJL1A+y8qC+R7qsqDEMYTgrNAZPhKyf8
-    RLLci93fYIazcGHZ3aHRYdTRVHq/Ax90aMZHWEnskYt5wjVw9tE+H9/kWGZsWXKRGccY
-    5LLg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1795588973;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=1gk2zDY+qHFoLpfFOUqPZn9pkTFPLdiycG87z3EJLfY=;
-    b=k/jEVpVvLQkIML9nalg1JpMqB9CTqv/wAXr1zhqxzs/o7JG9ou3ERFGcSh+GlbUNZn
-    3tq85SddEbKil5B7cchZLZTrAwFexsBaMs9qsmh1iCRlQ1k6fHzxw0ptVxAI3mTDKdQL
-    4FxIaWJCkEHW4UASXFZnhxLqQn7CtpEwLzx6WyFXmsohzLa/KHGYS/rke0TQqo4/JxkA
-    jdfdPQTfKFoLe7ntolGx8485ObKLaY/+bpykLMy52JLbu3wYhBttQ1/RFXnt/tLR18T6
-    beJ+5cYvFYqR4grNQ3iFfE1hMjcMvNNuRfSugQ0WE2Fjb766Bf/tfXpjfxJEV5n02c70
-    dlsg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1795588973;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=1gk2zDY+qHFoLpfFOUqPZn9pkTFPLdiycG87z3EJLfY=;
-    b=I+Y/BRNSdG/pLdf5zxxzQco0G17o3kqUXrsy6r9rvniFtpueTu2DVpyc8o6OxvGsQI
-    iHXykzGIK8KtXwVBJmDw==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrS25oMlMiNMn5e/Npe6SVDIvzG+5uG4p/zkDZq"
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 55.6.3 AUTH)
-    with ESMTPSA id Qb56a22AP6go5ny
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Wed, 25 Nov 2026 07:42:50 +0100 (CET)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=A6XsMkXz;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=k5u9ykWt;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=pE1GwkOp;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=KeZzLupG
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3F34222305;
+	Wed, 25 Nov 2026 06:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795589438; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dckA/GIzuTawkPjZQNHf5tzrexFgB4Tt7W3vxrn9E0Q=;
+	b=A6XsMkXznqXJGYk3hoOM0kgCv4o2xCHnGdODv7PLbIptpQcd0pCZXzptDt07ykul0lgb7s
+	MFpDBufr5ss7jfz8duNIc1tfUlOlCWqlv/QxQH+hknzAy2ulUa98FtR36cVoJz7hOkx5Ll
+	wA7pQ4oMpm/VlY4RkkJaQLvSCh9gz3s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795589438;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dckA/GIzuTawkPjZQNHf5tzrexFgB4Tt7W3vxrn9E0Q=;
+	b=k5u9ykWtcheTIuH2UxKb55aRmgDhHJ+kA9HGsZhzQa9rWv34z82+REpsRs22UWjKONHLxJ
+	qgnaXpCICWEbnOCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795589437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dckA/GIzuTawkPjZQNHf5tzrexFgB4Tt7W3vxrn9E0Q=;
+	b=pE1GwkOpWuPJYhizvkYau4dqAd62eRIziEgKmx85Nww0+lPefHMwtXfbiHSauRc7+hqw7A
+	4cegIMz+wKJwMH6bT/rrhcLS+IXhZgga9gkuCur4sokJwUAqFsVzPXMIcEDhFpYuInMlhO
+	hOsmcC7N4Ptg5HKPyMjROeOApjHPzOs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795589437;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dckA/GIzuTawkPjZQNHf5tzrexFgB4Tt7W3vxrn9E0Q=;
+	b=KeZzLupG6PCEqrqdMmksdGE083fsyCAPPjYxjq5wzQe0W7kPrPektfY5Dm4QBMcCXAtvRl
+	D2uBa+KyUwOd0lCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1FE0134E8;
+	Wed, 25 Nov 2026 06:50:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id c5yuGjyFBmvpBQAAD6G6ig:T2
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 06:50:36 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 1/2] ALSA: pcm: Cover buffer access gate in all read/write ioctls
+Date: Wed, 25 Nov 2026 07:50:31 +0100
+Message-ID: <20261125065034.1470697-2-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261125065034.1470697-1-tiwai@suse.de>
+References: <20261125065034.1470697-1-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -93,120 +111,107 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.11\))
-Subject: Re: [Letux-kernel] [PATCH v2 00/20] ARM: omap3: pandora: Modernize
- audio and backlight to use Device Tree to finally remove pdata-quirks
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20261124234143.4f099646@kemnade.info>
-Date: Wed, 25 Nov 2026 07:42:19 +0100
-Cc: linux-fbdev@vger.kernel.org,
- Lee Jones <lee@kernel.org>,
- linux-pwm@vger.kernel.org,
- Tony Lindgren <tony@atomide.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- dri-devel@lists.freedesktop.org,
- Jaroslav Kysela <perex@perex.cz>,
- =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- David Airlie <airlied@gmail.com>,
- linux-leds@vger.kernel.org,
- Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>,
- Aaro Koskinen <aaro.koskinen@iki.fi>,
- Kevin Hilman <khilman@baylibre.com>,
- Helge Deller <deller@gmx.de>,
- Bartosz Golaszewski <brgl@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Peter Ujfalusi <peter.ujfalusi@gmail.com>,
- Daniel Thompson <danielt@kernel.org>,
- devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Roger Quadros <rogerq@kernel.org>,
- linux-gpio@vger.kernel.org,
- Mark Brown <broonie@kernel.org>,
- linux-sound@vger.kernel.org,
- Takashi Iwai <tiwai@suse.com>,
- linux-omap@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- kernel@pyra-handheld.com,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jarkko Nikula <jarkko.nikula@bitmer.com>,
- Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <D4A9EE97-468E-4720-8D26-D3B008F8E762@goldelico.com>
-References: <cover.1795505160.git.hns@goldelico.com>
- <20261124151318.GA536798-robh@kernel.org>
- <1DCFB59E-E5EA-4470-997E-EAA4ED35D906@goldelico.com>
- <20261124234143.4f099646@kemnade.info>
-To: Andreas Kemnade <andreas@kemnade.info>
-X-Mailer: Apple Mail (2.3826.700.81.1.11)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi Andreas,
+We haven't applied the buffer access gate in interleaved read/write
+because it doesn't involve with the runtime attribute access before
+the actual snd_pcm_lib_read/write calls.  However, there can be a
+slight race during those ioctls between the PCM state check and
+read/write calls, which may trigger a kernel WARNING() for the NULL
+runtime->dma_area check in pcm_sanity_check().
 
-> Am 24.11.2026 um 23:41 schrieb Andreas Kemnade <andreas@kemnade.info>:
->=20
-> On Tue, 24 Nov 2026 16:27:16 +0100
-> "H. Nikolaus Schaller" <hns@goldelico.com> wrote:
->=20
->>> Surely=20
->>> this can be broken up into smaller series? =20
->>=20
->> Yes it (we?) can. It is just a question how to do it and properly =
-describe
->> the dependencies to avoid bisectability problems and avoid that the =
-final
->> goal is lost.
->>=20
-> I think it is indeed tricky, and probably induces delays.
-> You can point to the pandora_bl driver  resp the pandora sound card to =
-show the
-> final goal.=20
->=20
-> If I understand it correctly,  you have
->=20
-> 1. preparations/extensions for using the standard pwm backlight.
-> 2. REGEN stuff to wire up the power supply.=20
-> 3. dts changes to wire up backlight and its power supply.=20
-> 4. sound: quirks in twl4030 codec
-> 5. sound: dt conversion of the sound card.
-> 6. dts changes to wire up sound card and its power supply
-> 7. machine quirk cleanup
+For addressing it, in this patch, all read/write ioctls are assured to
+take the buffer access get via SND_PCM_BUFFER_ACQUIRE() call for
+avoiding the unexpected PCM state change during the whole operation.
 
-Basically yes.
+Meanwhile, this change makes the snd_pcm_buffer_access_get() and
+_put() calls in __snd_pcm_lib_xfer() (which is the main body of
+pcm_lib_read() and pcm_lib_write()) superfluous, so those are dropped,
+too.
 
->=20
-> So what brings it all together: the power supply requirments,
-> so both backlight and sound depend on 2.
->=20
-> Maybe it is an idea to split this into a set of
->=20
-> One patchset for
-> 7a. machine quirk conditionally depending on available compatible
-> 2.
-> 1.
-> 3.
-> Each can go into their individual trees.
-> 3. might to in the next release cycle after 7a, 2. 1.
->=20
-> A second patchset sent after 3 is in -next, containg
-> 4.
-> 5.
-> 6.
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/pcm_compat.c | 3 +++
+ sound/core/pcm_lib.c    | 6 ------
+ sound/core/pcm_native.c | 3 +++
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
->=20
-> A third:
-> 7b: remove quirk + pandora_bl
+diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
+index c5931fdfe1f5..924fd269dace 100644
+--- a/sound/core/pcm_compat.c
++++ b/sound/core/pcm_compat.c
+@@ -293,6 +293,9 @@ static int snd_pcm_ioctl_xferi_compat(struct snd_pcm_substream *substream,
+ 		return -ENOTTY;
+ 	if (substream->stream != dir)
+ 		return -EINVAL;
++	SND_PCM_BUFFER_ACQUIRE(substream->runtime, lock);
++	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
++		return -EBUSY;
+ 	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
+ 		return -EBADFD;
+ 
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index 3b66677c037a..50bd5f32d2f8 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -2377,9 +2377,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 			err = -EINVAL;
+ 			goto _end_unlock;
+ 		}
+-		err = snd_pcm_buffer_access_get(runtime);
+-		if (err < 0)
+-			goto _end_unlock;
+ 		snd_pcm_stream_unlock_irq(substream);
+ 		if (!is_playback)
+ 			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
+@@ -2388,9 +2385,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 		if (is_playback)
+ 			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
+ 		snd_pcm_stream_lock_irq(substream);
+-		snd_pcm_buffer_access_put(runtime);
+-		if (err < 0)
+-			goto _end_unlock;
+ 		err = pcm_accessible_state(substream);
+ 		if (err < 0)
+ 			goto _end_unlock;
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 897975e43a9b..9e4a82d4ee82 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -3418,6 +3418,9 @@ static int snd_pcm_xferi_frames_ioctl(struct snd_pcm_substream *substream,
+ 	struct snd_xferi xferi;
+ 	snd_pcm_sframes_t result;
+ 
++	SND_PCM_BUFFER_ACQUIRE(substream->runtime, lock);
++	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
++		return -EBUSY;
+ 	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
+ 		return -EBADFD;
+ 	if (put_user(0, &_xferi->result))
+-- 
+2.53.0
 
-Yes, this is a good approach. I am currently checking if the =
-series-scheme
-can be simplified even more to help everybody.
-
-BR and thanks,
-Nikolaus=
