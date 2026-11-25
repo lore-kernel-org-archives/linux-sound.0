@@ -1,120 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795613216;
-	b=qM53sHqtEcPjkUNCyLVAf17uZluFDZ4ejNJV/46ja+64GpAgZUE9RUA6q6YHVjkB4WI6
-	 P/PgSy1AjPvJzVPgdNlWhBxXDkPqCnFCl9UqfYg8AxqFIL6BDP27jLuQ8m9H+xfOMZuiM
-	 39xUAF88MSKxSzDCs1V8DOVkICeHG+QzYDt4/SH5SVhWJbm64nm+KPqBoGMO14Ldk8VuL
-	 2vMQKmGPZbfQ410dg98xo91r9pVjuSBOkwqBbR0I/E4cPLTGiR70zohk7fWWMZzyYPN4L
-	 k2LNNQXocCmF5JW9opJ8OuA91LJwJUCKVdhDOB591+JfOGFaEKV+PUk4f3Cp39sVLfg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795613216;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Reason;
-	bh=xULlUtYUX5Vk5RFTcJyi3oJPdG0nwachhQLhOpGvz8U=;
-	b=jjg9AfKXpHRZdOXSpvPRsBfQKTAab2dJ+fz1+L6ZDeyu9BMmNwzART2tgxGVsqYDo+0v
-	 BAqUOHhVrdxHxb39igsPlbCXsMmknNYDEra1CNDqwoKcmlEHWCsJhk71NpnWHTYX+iiLY
-	 G9Xr5OXHZPwdy7g7iXrEffdEyPLuoMT2v4x3GnWbSqegVIhnP9QlWI2bwsjGhy40ZRwD5
-	 y3Uxvblg4ggM7StnQ5kDwMePoolyO1i7vmpU3CjzhGTSPI6NyqkoNsNm35SYNfo6CfYXH
-	 BFWOGfwTAZeTm4E9GS7a6cxo+arAH9HbP/2ZomX/A4r0KId5h9xWfzoHC8NzVfyV6+Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=RqUtMN4Y;
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b="d/4p3YUM";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795613273;
+	b=HouZmuISQ2Z7anTpoPEAXDkSjFpJfB4jah99gJSVZzd29VwwayOfQeH9vE3IMdqUbC46
+	 QA57xLcdw1/iqK1jOKYRElMgjTWY5a7z3vjQShUu/EGCyNas7m2uYogHnvM7GFVsaJXd7
+	 x9c0GvS4gqMoc75Ue8z52PNJO9r6bUdsW0wRKgHNL7t4l20JqurhYsK4e66coRZb50UkF
+	 tK4rqm76uwo3WlWDvilRE6VZYd2394nNhMPGjQaqcMpNY40fimBQcW2iyVBz12fMP6kez
+	 Fn3PGPexOnZ6+eIQFo8Q0DF/Bc4umTRLFTG7lOS1RONDzJr78LFWrAqCbMD9ljgbfJg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795613273;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Spamd-Result:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id;
+	bh=M/OgP0GRLzZw0qFPrbR0pcGkj4nQgsglbswkaxD0k+Q=;
+	b=HFmWDxuGb7y0AlSBFcFalrIm/ihzwbms1HUpvkfUXiZJHRR4KRwmGkt0i1TNizOdBbbK
+	 ZyZ4n0wBqrL5CHDLuxNJMBaH/MD1kQ7NjD1NZB/YZba14bmwcYd/8e9WyzZFkn+10z0td
+	 nI/FQrYa45bxiHGY0AnVF/8L11zJCle9O+7s9DG/9otBDZyFmNn4bHNMtYSbnb7Nj2Vhv
+	 6W1NLq4ekL+UQvjK70In2IvGLih9EqIOQ1srVacdRygxRcYUQA0iLZrrmXXIx0r8wy94t
+	 a1eS++HS7dHLi8VKn5F96/nINaLBsYTnVqnSpdvoYzznAYbmkrU6eFF66P/iaHhbKeQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="kM5iJ/lF";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=b5u9Esyr;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="PyD2/VWO";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=eAydGE0b;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2619606A31E;
-	Wed, 25 Nov 2026 13:26:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2619606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901E9606A330;
+	Wed, 25 Nov 2026 13:27:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 901E9606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=RqUtMN4Y;
-	dkim=pass (1024-bit key, unprotected) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=d/4p3YUM
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6APDFIWx1901771;
-	Wed, 25 Nov 2026 07:26:44 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=xULlUtYUX5Vk5RFTcJyi3oJPdG0nwachhQLhOpGvz8U=; b=
-	RqUtMN4YuEhkL16UfMdvQLRPILO39p7wpN6eBpaProm6LaTE/2S20yN6g41lJ0L9
-	YL9TMKVP5hP2RfFFlePWepujAb9Nj62hxfW1T2XI7Os+6lFTY2n4be4oYdL417vd
-	3fdYUootkrANFwbApk10IuiwKnHKL6KZyY/q3ZdVsvFITNEVqQq7e4FSI5YDrXH6
-	zog7gHLe/RjqV6eRxPI+U7Hf7o/CQhUqU1s1dyliNoyFoXp44R49CQlFEwm4UUvk
-	XxjsNukQe1aKqzRWaE1aTB6bB8b3OCAsA2MHVlURRY123mfY+KgupecRZX/PcXE9
-	hPWEjt3NA/2Rkk/XVNdx/A==
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020134.outbound.protection.outlook.com [52.101.61.134])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4j51882k30-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 25 Nov 2026 07:26:43 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fkY7zmP23CIheUtcq81VC/FxmbZ5pqEpu7drs4SIJVik2VDBSKPUSJMhkRu77W/qp0IYdxu7TL5jpJAXJquRh6je5mOazF4f4oqVes3wLS/ApqDullg7NEbwsJ95hdSmqPdBxmdqc3ZKtatYYDKWbNZ6bITVtB7A3cMXp8V7VPSAAL9OlIuRB05kVMJK5wzyOCuKxQ31zGbKEmuPOsk/Jhleuz8A+WAuyG/c2042tQ9xpPmcUbk7KbijxypDOLw+M0Z2ayDUObJ5WLawpJpfxJgJ+Z4N2aDQsyIktluqojGWY83wqC9L6pNkMo7cHYpRML/vlZyOivGhuGRqhgIK8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xULlUtYUX5Vk5RFTcJyi3oJPdG0nwachhQLhOpGvz8U=;
- b=ZiDDzmYAxQTUKmkmsZdiGRE8SXrcVrDDWHZ8wfXvAgrHQ6jGX+LJPsXJKN6rSutOlUy1LZHGoUxRbPCmcN4WZLFvH18s5y/CRwKQg6E6W3gNAv0V3TqWgQ8o83P0MteJHoq0ZZ+SxfIQT59Yec9OyQHBo3/guNaP/TFROWBWwmM6mSgaot3pi6dA9rxOEmwdWE9mQvqe6xPqnLLvN7EG6AH5nLYfsIUhnpf76UCJfJIdoMqCjlZb8pUb5qMklm8uW5vKjfhYUtH6Wo2xfCe4iPkj4Xgu2GKom1pyiI3mEwwgg0kf0HaER8iJ4dlOrXVn90wHpLxYcJtv9khW7aq+Wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xULlUtYUX5Vk5RFTcJyi3oJPdG0nwachhQLhOpGvz8U=;
- b=d/4p3YUMUWodX4v4mA/XCy5yWiQTwoAJIk2ZABXbomK8PNVSdh+wb3ccoYHY2qLdN0SOGtEA5zbrvigJCBlyCc0UNP2mZzlFfrn5lMEuLP9Kh9uMCPqXlxvl7V2RpwnlwYcDAeMIip4OaIeyxihqhyfgt8G++P4Mdw1f8Znb/Vs=
-Received: from PH7P220CA0029.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:326::21)
- by DS0PR19MB6527.namprd19.prod.outlook.com (2603:10b6:8:c5::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Wed, 25 Nov
- 2026 13:26:39 +0000
-Received: from PH1PEPF00062F28.namprd02.prod.outlook.com
- (2603:10b6:510:326:cafe::1) by PH7P220CA0029.outlook.office365.com
- (2603:10b6:510:326::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.6 via Frontend Transport; Wed, 25
- Nov 2026 13:26:39 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- PH1PEPF00062F28.mail.protection.outlook.com (10.167.243.57) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.3
- via Frontend Transport; Wed, 25 Nov 2026 13:26:38 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id E2D73406550;
-	Wed, 25 Nov 2026 13:26:36 +0000 (UTC)
-Received: from [198.90.208.12] (ediswws06.ad.cirrus.com [198.90.208.12])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id D2B32822540;
-	Wed, 25 Nov 2026 13:26:36 +0000 (UTC)
-Message-ID: <2e698fb5-6041-4ffb-99d6-d95644749f41@opensource.cirrus.com>
-Date: Wed, 25 Nov 2026 13:26:36 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kM5iJ/lF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=b5u9Esyr;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=PyD2/VWO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=eAydGE0b
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5358A1F82F;
+	Wed, 25 Nov 2026 13:27:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795613270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M/OgP0GRLzZw0qFPrbR0pcGkj4nQgsglbswkaxD0k+Q=;
+	b=kM5iJ/lF2vxHexZACN1Xq0MrF5OmFvlKV488eQQo4Ypp0VjOL0HCFN2VnVVqrWAOn4vIQ9
+	xiZvdPBe3A1cBCelhRpaasYnD9Nv1h45myT6BLL9i2w0f8TL+2Hf4ASsGMwXGujjOZ3oZv
+	vHXtmTy+kkrCsE53dPwilTLKMXJUHPk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795613270;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M/OgP0GRLzZw0qFPrbR0pcGkj4nQgsglbswkaxD0k+Q=;
+	b=b5u9EsyrUKMabZRLScXT3N74RJFb9mcqkgw1UCpoKIy6jdc1X0nK3+8EELvpNP7YjwtV/o
+	NXYCgPtuvXCTjUAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="PyD2/VWO";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eAydGE0b
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795613269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M/OgP0GRLzZw0qFPrbR0pcGkj4nQgsglbswkaxD0k+Q=;
+	b=PyD2/VWOh86ABAyM96fKdL08ZGVWQz/a2yi/qqZ25wuJirlNkRBt10o4XfVRbD3PUr8ksS
+	yAkR1hCVYFaV/AZQLfSLYL38EmQLDKRzkWJXEG0hj4vg0WHgy1fXMUEyczs/Bk0QB4Ie9Y
+	qAu7YKgaL8Hty5Htc1hL3F39aUG/xz4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795613269;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M/OgP0GRLzZw0qFPrbR0pcGkj4nQgsglbswkaxD0k+Q=;
+	b=eAydGE0bjTgWvA9NMFR7sxGrPqAHEkomGTKoONeJH/gYNE24HgW+ZM1rmZa6MPMs0dVAQN
+	09ICPRVjRmOTsjAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 030D51339F;
+	Wed, 25 Nov 2026 13:27:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id H8Y7MlTiBmvgJQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 13:27:48 +0000
+Date: Wed, 25 Nov 2026 14:27:48 +0100
+Message-ID: <8733sp82i3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?0Ozqz8/o?= <xuhx@hust.edu.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Re: ALSA: pcm: link-group walk in timer callback can use a closed substream's freed runtime (UAF)
+In-Reply-To: <49f1dede.596.1a212c69040.Coremail.xuhx@hust.edu.cn>
+References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
+	<2026102727-data-sequel-ce41@gregkh>
+	<7117f13e.2631e.1a1d4d54236.Coremail.xuhx@hust.edu.cn>
+	<49f1dede.596.1a212c69040.Coremail.xuhx@hust.edu.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -123,82 +120,461 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 4/4] ASoC: cs35l56: Add test that probe() doesn't
- write SDW mux registers
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-References: <20261125110853.741337-1-rf@opensource.cirrus.com>
- <20261125110853.741337-5-rf@opensource.cirrus.com>
- <61660f09-9402-479e-92fe-6b1b2bc48158@opensource.cirrus.com>
- <44ae0233-b475-42f0-a1e8-2c3299a4df50@sirena.org.uk>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <44ae0233-b475-42f0-a1e8-2c3299a4df50@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH1PEPF00062F28:EE_|DS0PR19MB6527:EE_
-X-MS-Office365-Filtering-Correlation-Id: 469ad52b-34c9-4a8a-2d92-08df4af7bc80
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|61400799027|23010399003|82310400026|10067099003|56012099006|11063799006|261022075727099003|261026121527099003|16102099003|22082099003|18002099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	fr4Voqf3WcUd0tqfJ6EbEIAmQWG2wAKicbg0m1TAQvTniSYADiBj340vAahbedyHoryqlhEDUsyFiCSdI+xwKQI8ykWRM8p/8A6En/QUt/8sjrDscRXNF1QCaD9AZfCW3L6QihcoCdJb3zrXKxHKY2+xDJlwObY+gxXMoG1a0HOJcJD4eqZyZ7JYtBcjmpvkVu3QjBX4D2NCocfaU6lwhGBzaXygPs4SuKhXsrtzgEne5dHoBY0EYep+pkO3Fq8YrGRWZnZ0iBcefAhgNNE8t0us4BpB0xyPsZS7JaI2dN9iieZa2xDVU/pzSMwN1YpWGKpVfPbXfDmQIAV8cm+MapO0AmnqahIX4LIYZYWjuOLEhiuxpFcnHXPO9b9ykuVlvuRf2FmzUjwFlUvvFLTBtjYPdWfCyJSCj24R7mgkMmhUSrgGHgaJkL6naipU1gmJciMTxnvnusmDFF35UsWLhUlKgu05/gXxSfcnMyA3X/ZNVSrIyV40H8z8t0zQzwfbbdZgaAg5X1MV+lqEC5gBezi0tDIojXcexHRznPurcM1tRrNj2Albz/r03SE4bFv2W2D1j2YecUvMptNp80Evza9w0fZVQ7iWdNrSTwjwlmSKWwRCCogKQh30a3i3oMjtZ9I9v0v2lmV8Iyezej8Rmha7M4HX7RZBQawiL566z4YVvOCsgvbUVGlqPUXwSmg1KtDjgdp7JVswb0Gg8aynbw==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(61400799027)(23010399003)(82310400026)(10067099003)(56012099006)(11063799006)(261022075727099003)(261026121527099003)(16102099003)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	c8ZxREjitMAoqSUPrc7Ka4+uCKdu9YA8Qbbim5MExJnhkGzomoKgaIAjeVZyMVouZIAny3WjcJFvUH/7c+D2dG4cgDN+xK/tLVjtIsIJdOk94R8IFLcSRlBjyacCqbN6wgd9rYcd+GFAm99UVD//3Uo3LjsO1G2EkVt86O68TPlOHhtk4I57hOvoId0lSMEZmqJgyvB0lQxigAvwxDe9yAkxUeDa6JvWh1axpfYzX6j1DJsBrcyOkrROxjijP4FLIVUJFCm9maEN3qDkhTOl5quS5cs3zVaeUScuUMKW3XX3oKpHlqvCo3RcmTFj2koJ/Yi1aDHwNW/wkwN+Q4PvCzOCMgsRdW4kPM6gyNrcSc1wtoYKhUO2SYN/TAN9eIeMK2PHeUtyvNNm51mR6O7mmOE74L7EQ1MKib32tR11Ml4Tg28kd7zk0dE4SiI9536g
-X-Exchange-RoutingPolicyChecked:
-	Qt0RpiGnfZ8t26RoxQt/UMx0AfD+ji+smppZmm19A+IvrrIn4A0PaTs41QQDqwJDmWiwebkiptj0AiX/xHFt/WBzXvk09yfHQvTgAq33oVdab4yrAO+K/Tkh7UaP0YHj0cO+/D4UwjSzcZA7MWrLG3zlUtscVeOboOVernKNlL+jGxSIdTSLdTnieDFzbpAo8OY3ddAXiUkKuyyfvCJfXlLn9bntE9b+bRecUmIy90aughyfLRgqX4plknwSONC6ee0jSjVRFOpM3bZlM1u7Deook8GGNscTZS9i8PJj7UDJdRF1NM/Ph6xCoz9JMtVlgzEreBUELSH6KZh1VNy16Q==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 13:26:38.6627
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 469ad52b-34c9-4a8a-2d92-08df4af7bc80
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-PH1PEPF00062F28.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB6527
-X-Proofpoint-ORIG-GUID: SLJRi7zqVea85ZYh8v1d-RfrJbyqbz_z
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA1MyBTYWx0ZWRfX6JuEHOtTbpjt
- dBPnPkuZV+BjE1A2wBaGv2/9iTj0iSRDapPRQuX3H4osgmUBN5b3ZpUi4xHemGG5DkQfS29FMr0
- M8PViq0fB4cFbCSbUnLfW+he1dLz86wghDTU6NeOg80q0/3LE8HUWOEpeuPPohM70oC4IeGxJ6f
- GJW9qGd+bDfE87kYkO46ZirOvlbPBCRj9YhmVEVUM4W35oSBCDVxvl9fjZ7M/PyJwDulEyNB5id
- UCIyDKbP5ORnM/7GOLMuJLWfHdfIhrhTH2yq+RrOv5QVQfmDwxV12u2lwqkaOL3URmC5qoVq8u0
- TvDxlqjjT+395B/LpYr2GwEZoz2SZxwlDYJ063/N3e070iRRAk4KLoZXSkUe6UsDiGhZycN3/gt
- DcGltLJrg6lOL/hYDItrP4MxAzqVmOryg4GAJvcpY2Z49QUOooFJTa6mNRK574pmhimD4CJYyQq
- RY6VoEEo0XDJIvTYc0g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA1MyBTYWx0ZWRfX9bEdU9e3CvcN
- X4WgUU8xlm6s22pKTSqaryYx22YpVw6nON+vqUrxZQYBnX/MgIzek5Rnn4GlPMTdiA7ymJg36S1
- ChnRtSN9ty7ifFombd0mnTQ/1pXfJrQ=
-X-Proofpoint-GUID: SLJRi7zqVea85ZYh8v1d-RfrJbyqbz_z
-X-Authority-Analysis: v=2.4 cv=BuEIUoX5 c=1 sm=1 tr=0 ts=6b06e213 cx=c_pps
- a=TszpKlPPvK6rXl4+XYbYdQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=Q5VH1a7_qaBjK8gzJ5QA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -12.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 5358A1F82F
 
-On 25/11/2026 12:39 pm, Mark Brown wrote:
-> On Wed, Nov 25, 2026 at 11:24:53AM +0000, Richard Fitzgerald wrote:
->> On 25/11/2026 11:08 am, Richard Fitzgerald wrote:
->>> The driver cannot assume that it owns control of the
->>> CS35L56_SWIRE_DP3_CH?_INPUT registers so it must not do anything
->>> during probe() or component_probe() that could result in a write
->>> to these registers. Add a test case for this.
+On Wed, 25 Nov 2026 13:55:32 +0100,
+徐晗翔 wrote:
 > 
->> Sashiko found a bug in this test. Will send a V2 series.
+> snd_pcm_group_for_each_entry() is a plain list_for_each_entry() over
+> substream->group->substreams.  A driver timer callback (asihpi's
+> snd_card_asihpi_timer_function()) walked that list from softirq with
+> no group reference and no link rwsem, while the close of another
+> linked substream could unlink the members, reassign the survivors
+> and kfree() the group object -- the callback kept dereferencing a
+> stale s/runtime pointer and freed group memory (KASAN UAF).
 > 
-> Send something incremental, this was already applied even before your
-> resend.
-I don't see them in your for-7.4/for-7.5/for-next branches.
-Are you thinking of the previous series that did something similar
-for the ASP registers?
+> Core: free the group object only after an RCU grace period (new
+> rcu_head in struct snd_pcm_group, kfree_rcu() at both free sites),
+> so a group pointer read without the link rwsem stays memory-safe
+> while a concurrent unlink tears the group down.
+> 
+> Driver: walk the group one member at a time under the group lock
+> with rcu_read_lock() held -- the lock makes membership (and each
+> member's runtime) stable while the member is processed, and RCU
+> keeps the group object alive.  snd_pcm_stop_xrun()/
+> snd_pcm_period_elapsed() are deferred out of the locked section:
+> they enter snd_pcm_action(), which re-takes the group lock.  A
+> substream object outlives its fd's close and both helpers recheck
+> substream->runtime under the stream lock, so the deferred calls are
+> safe against a concurrent close of the member.
+
+I don't think we want to add a RCU there.  It can open a can of worms.
+
+IMO, an easier and safer fix would be to keep the ASIHPI's timer
+callback alive only during the PCM stream running, i.e. assure to kill
+the timer callback at PCM stop and sync_stop.  During the PCM running
+state, PCM links can't be changed, hence the list is safe to traverse.
+
+
+thanks,
+
+Takashi
+
+> ---
+>  sound/core/pcm_native.c   | 12 ++++++++++--
+>  include/sound/pcm.h       |  6 ++++++
+>  sound/pci/asihpi/asihpi.c | 144 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------
+>  3 files changed, 145 insertions(+), 17 deletions(-)
+> 
+> diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+> --- a/sound/core/pcm_native.c
+> +++ b/sound/core/pcm_native.c
+> @@ -1368,7 +1368,11 @@
+>  	do_free = refcount_dec_and_test(&group->refs);
+>  	snd_pcm_group_unlock(group, substream->pcm->nonatomic);
+>  	if (do_free)
+> -		kfree(group);
+> +		/* free only after an RCU grace period: a driver timer
+> +		 * callback (softirq context) may hold group->lock under
+> +		 * rcu_read_lock() without the link rwsem and must not
+> +		 * touch freed group memory */
+> +		kfree_rcu(group, rcu_head);
+>  }
+>  
+>  /*
+> @@ -2401,7 +2405,11 @@
+>  
+>  	snd_pcm_group_unlock_irq(group, nonatomic);
+>  	if (do_free)
+> -		kfree(group);
+> +		/* free only after an RCU grace period: a driver timer
+> +		 * callback (softirq context) may hold group->lock under
+> +		 * rcu_read_lock() without the link rwsem and must not
+> +		 * touch freed group memory */
+> +		kfree_rcu(group, rcu_head);
+>  	return 0;
+>  }
+>  
+> diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+> --- a/include/sound/pcm.h
+> +++ b/include/sound/pcm.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/bitops.h>
+>  #include <linux/pm_qos.h>
+>  #include <linux/refcount.h>
+> +#include <linux/rcupdate.h>
+>  #include <linux/uio.h>
+>  
+>  #define snd_pcm_substream_chip(substream) ((substream)->private_data)
+> @@ -455,6 +456,11 @@
+>  	struct mutex mutex;
+>  	struct list_head substreams;
+>  	refcount_t refs;
+> +	/* a group object is freed only after an RCU grace period, so a
+> +	 * lockless/atomic group walker (e.g. a driver timer callback that
+> +	 * takes group->lock under rcu_read_lock()) cannot touch freed
+> +	 * group memory while a concurrent unlink tears the group down */
+> +	struct rcu_head rcu_head;
+>  };
+>  
+>  struct pid;
+> diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
+> --- a/sound/pci/asihpi/asihpi.c
+> +++ b/sound/pci/asihpi/asihpi.c
+> @@ -136,6 +136,8 @@
+>  	unsigned int pcm_buf_dma_ofs;	/* DMA R/W offset in buffer */
+>  	unsigned int pcm_buf_elapsed_dma_ofs;	/* DMA R/W offset in buffer */
+>  	unsigned int drained_count;
+> +	bool timer_walked;		/* one-shot mark for the timer
+> +					 * callback's group walk */
+>  	struct snd_pcm_substream *substream;
+>  	u32 h_stream;
+>  	struct hpi_format format;
+> @@ -705,6 +707,31 @@
+>  	return result;
+>  }
+>  
+> +/* Pick the next group member this timer callback has not processed yet.
+> + * Must be called with the group lock held and under rcu_read_lock(): the
+> + * group list cannot change under us, so every member's runtime is still
+> + * alive. */
+> +static struct snd_pcm_substream *
+> +asihpi_timer_next_member(struct snd_pcm_substream *substream,
+> +			 struct snd_card_asihpi *card)
+> +{
+> +	struct snd_pcm_substream *s;
+> +
+> +	snd_pcm_group_for_each_entry(s, substream) {
+> +		struct snd_card_asihpi_pcm *ds = s->runtime->private_data;
+> +
+> +		if (snd_pcm_substream_chip(s) != card)
+> +			continue;
+> +		/* don't link Cap and Play */
+> +		if (substream->stream != s->stream)
+> +			continue;
+> +		if (ds->timer_walked)
+> +			continue;
+> +		return s;
+> +	}
+> +	return NULL;
+> +}
+> +
+>  /** Timer function, equivalent to interrupt service routine for cards
+>  */
+>  static void snd_card_asihpi_timer_function(struct timer_list *t)
+> @@ -713,10 +740,12 @@
+>  	struct snd_pcm_substream *substream = dpcm->substream;
+>  	struct snd_card_asihpi *card = snd_pcm_substream_chip(substream);
+>  	struct snd_pcm_runtime *runtime;
+> +	struct snd_pcm_group *group;
+>  	struct snd_pcm_substream *s;
+>  	unsigned int newdata = 0;
+>  	unsigned int pcm_buf_dma_ofs, min_buf_pos = 0;
+>  	unsigned int remdata, xfercount, next_jiffies;
+> +	unsigned long flags;
+>  	int first = 1;
+>  	u16 state;
+>  	u32 buffer_size, bytes_avail, samples_played, on_card_bytes;
+> @@ -725,17 +754,58 @@
+>  
+>  	snd_pcm_debug_name(substream, name, sizeof(name));
+>  
+> -	/* find minimum newdata and buffer pos in group */
+> +	/*
+> +	 * Walk the PCM link group one member at a time, under the group
+> +	 * lock and an RCU read lock.  This callback runs from a timer
+> +	 * (softirq) with no group reference and no link rwsem, so a close
+> +	 * of another linked substream could previously unlink the members,
+> +	 * free the group object and free that member's runtime while this
+> +	 * walk was holding a stale s/runtime pointer.
+> +	 *
+> +	 * The group lock keeps the membership (and each member's runtime)
+> +	 * stable while the member is processed; the RCU read lock keeps
+> +	 * the group object itself alive (snd_pcm_unlink() frees it only
+> +	 * after a grace period).  snd_pcm_stop_xrun() and
+> +	 * snd_pcm_period_elapsed() must run WITHOUT the group lock -- they
+> +	 * enter snd_pcm_action(), which re-takes the group lock -- so they
+> +	 * are deferred to after the unlocked section.  A substream object
+> +	 * outlives the close of its fd, and both helpers recheck
+> +	 * substream->runtime under the stream lock.
+> +	 */
+> +
+> +	/* clear the one-shot walk marks of the previous invocation */
+> +	rcu_read_lock();
+> +	group = READ_ONCE(substream->group);	/* kept alive by RCU */
+> +	spin_lock_irqsave(&group->lock, flags);
+>  	snd_pcm_group_for_each_entry(s, substream) {
+> -		struct snd_card_asihpi_pcm *ds = s->runtime->private_data;
+> -		runtime = s->runtime;
+> +		if (snd_pcm_substream_chip(s) == card) {
+> +			struct snd_card_asihpi_pcm *ds =
+> +				s->runtime->private_data;
+>  
+> -		if (snd_pcm_substream_chip(s) != card)
+> -			continue;
+> +			ds->timer_walked = false;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&group->lock, flags);
+> +	rcu_read_unlock();
+>  
+> -		/* don't link Cap and Play */
+> -		if (substream->stream != s->stream)
+> -			continue;
+> +	/* find minimum newdata and buffer pos in group */
+> +	for (;;) {
+> +		struct snd_card_asihpi_pcm *ds;
+> +		struct snd_pcm_substream *xrun = NULL;
+> +
+> +		rcu_read_lock();
+> +		group = READ_ONCE(substream->group);	/* kept alive by RCU */
+> +		spin_lock_irqsave(&group->lock, flags);
+> +
+> +		s = asihpi_timer_next_member(substream, card);
+> +		if (!s) {
+> +			spin_unlock_irqrestore(&group->lock, flags);
+> +			rcu_read_unlock();
+> +			break;
+> +		}
+> +		ds = s->runtime->private_data;
+> +		runtime = s->runtime;
+> +		ds->timer_walked = true;
+>  
+>  		hpi_handle_error(hpi_stream_get_info_ex(
+>  					ds->h_stream, &state,
+> @@ -762,8 +832,9 @@
+>  					"P%d drained\n", s->number);
+>  				ds->drained_count++;
+>  				if (ds->drained_count > 20) {
+> -					snd_pcm_stop_xrun(s);
+> -					continue;
+> +					/* defer to after the unlock */
+> +					xrun = s;
+> +					goto member_done;
+>  				}
+>  			} else {
+>  				ds->drained_count = 0;
+> @@ -799,6 +870,13 @@
+>  			(unsigned long)frames_to_bytes(runtime,
+>  						runtime->control->appl_ptr)
+>  		);
+> +
+> +member_done:
+> +		spin_unlock_irqrestore(&group->lock, flags);
+> +		rcu_read_unlock();
+> +
+> +		if (xrun)
+> +			snd_pcm_stop_xrun(xrun);
+>  	}
+>  	pcm_buf_dma_ofs = min_buf_pos;
+>  
+> @@ -818,12 +896,41 @@
+>  	asihpi_dbg("timer2, jif=%d, buf_pos=%d, newdata=%d, xfer=%d\n",
+>  			next_jiffies, pcm_buf_dma_ofs, newdata, xfercount);
+>  
+> +	/* clear the one-shot walk marks again for the second pass */
+> +	rcu_read_lock();
+> +	group = READ_ONCE(substream->group);	/* kept alive by RCU */
+> +	spin_lock_irqsave(&group->lock, flags);
+>  	snd_pcm_group_for_each_entry(s, substream) {
+> -		struct snd_card_asihpi_pcm *ds = s->runtime->private_data;
+> +		if (snd_pcm_substream_chip(s) == card) {
+> +			struct snd_card_asihpi_pcm *ds =
+> +				s->runtime->private_data;
+>  
+> -		/* don't link Cap and Play */
+> -		if (substream->stream != s->stream)
+> -			continue;
+> +			ds->timer_walked = false;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&group->lock, flags);
+> +	rcu_read_unlock();
+> +
+> +	/* second pass, again one member at a time under the group lock
+> +	 * (see above); snd_pcm_period_elapsed() is deferred to after the
+> +	 * unlock for the same reason as snd_pcm_stop_xrun() */
+> +	for (;;) {
+> +		struct snd_card_asihpi_pcm *ds;
+> +		struct snd_pcm_substream *elapsed = NULL;
+> +
+> +		rcu_read_lock();
+> +		group = READ_ONCE(substream->group);	/* kept alive by RCU */
+> +		spin_lock_irqsave(&group->lock, flags);
+> +
+> +		s = asihpi_timer_next_member(substream, card);
+> +		if (!s) {
+> +			spin_unlock_irqrestore(&group->lock, flags);
+> +			rcu_read_unlock();
+> +			break;
+> +		}
+> +		ds = s->runtime->private_data;
+> +		runtime = s->runtime;
+> +		ds->timer_walked = true;
+>  
+>  		/* Store dma offset for use by pointer callback */
+>  		ds->pcm_buf_dma_ofs = pcm_buf_dma_ofs;
+> @@ -887,8 +994,15 @@
+>  			/* ? host_rw_ofs always ahead of elapsed_dma_ofs by preload size? */
+>  			ds->pcm_buf_host_rw_ofs += xfercount;
+>  			ds->pcm_buf_elapsed_dma_ofs += xfercount;
+> -			snd_pcm_period_elapsed(s);
+> +			/* defer to after the unlock */
+> +			elapsed = s;
+>  		}
+> +
+> +		spin_unlock_irqrestore(&group->lock, flags);
+> +		rcu_read_unlock();
+> +
+> +		if (elapsed)
+> +			snd_pcm_period_elapsed(elapsed);
+>  	}
+>  
+>  	if (!card->hpi->interrupt_mode && dpcm->respawn_timer)
+> 
+> 
+> > -----原始邮件-----
+> > 发件人: 徐晗翔 <xuhx@hust.edu.cn>
+> > 发送时间:2026-11-13 20:15:08 (星期五)
+> > 收件人: perex@perex.cz, tiwai@suse.com
+> > 抄送: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+> > 主题: ALSA: pcm: link-group walk in timer callback can use a closed substream's freed runtime (UAF)
+> > 
+> > `snd_card_asihpi_timer_function()` walks the PCM link group with
+> > `snd_pcm_group_for_each_entry()` and dereferences each member's
+> > `s->runtime->private_data`.  That macro is a plain `list_for_each_entry()`;
+> > the callback holds no group reference and no group lock.  Close of another
+> > linked substream can unlink/free the group and detach/free that substream's
+> > runtime and `dpcm`, leaving the timer callback with a stale `s`/runtime
+> > pointer.  This is reachable from user space through
+> > `SNDRV_PCM_IOCTL_LINK` plus close, on hardware whose driver supports PCM
+> > linking (asihpi does).
+> > 
+> > The detailed description:
+> > 
+> > * Test environment / affected version
+> > 
+> >   Linux 7.3.0 source plus a QEMU/KASAN fake-PCM harness.  No ASI6205 hardware
+> >   was available; the harness reproduces the core group traversal and close
+> >   ordering, with the asihpi callback's exact
+> >   `snd_pcm_group_for_each_entry()` pattern.
+> > 
+> > * Mechanism
+> > 
+> >   The group loops are at `sound/pci/asihpi/asihpi.c:729-735` and `821-827`.
+> >   They read `s->runtime->private_data` (and in one path `dma_area`) and call
+> >   `snd_pcm_period_elapsed(s)`.  The macro is
+> >   `include/sound/pcm.h:694`:
+> > 
+> >     #define snd_pcm_group_for_each_entry(s, substream) \
+> >         list_for_each_entry(s, &substream->group->substreams, link_list)
+> > 
+> >   `snd_pcm_stream_lock_irq()` (`sound/core/pcm_native.c:140-144`) locks
+> >   `substream->self_group`, not the group that the timer callback walks.
+> >   `snd_pcm_unlink()` (`pcm_native.c:2370-2402`) takes
+> >   `snd_pcm_link_rwsem` and the group lock, removes the closing substream,
+> >   relinks the remaining streams, and may `kfree(group)`.
+> >   `snd_pcm_release_substream()` (`pcm_native.c:2785-2805`) calls
+> >   `pcm_release_private()` -> `snd_pcm_unlink()` at 2779-2783 before
+> >   `snd_pcm_detach_substream()` frees the runtime and `dpcm`.
+> > 
+> >   A timer callback that already loaded member `s` or `s->runtime` can run
+> >   after B's unlink/detach.  It may then read freed `runtime`, freed
+> >   `private_data`, or a freed group list node; `snd_pcm_period_elapsed(s)`
+> >   additionally takes the stale substream.
+> > 
+> > * Why existing synchronization does not close the window
+> > 
+> >   `snd_pcm_stop()` does transiently take a group reference through
+> >   `snd_pcm_action()` -> `snd_pcm_stream_group_ref()` (`pcm_native.c:1378-1427`)
+> >   and group lock, but it drops the reference after the STOP action.  The
+> >   asihpi timer callback is not part of that action and holds no group
+> >   reference.  Taking `snd_pcm_stream_lock_irq(A)` in the callback would only
+> >   lock A's `self_group`; it would not pin B or the group.  The group can be
+> >   freed while the callback holds a raw member pointer.
+> > 
+> > * Trigger model
+> > 
+> >   Two capture substreams A and B, same PCM and runtime state; user does
+> >   `SNDRV_PCM_IOCTL_LINK` then starts A.  While A's timer callback is walking
+> >   the group, user closes B.  `SNDRV_PCM_IOCTL_LINK` is available to a local
+> >   user with the PCM device open; no special privilege is needed beyond access
+> >   to the PCM.  Consequence: UAF in timer context, crash or memory corruption.
+> > 
+> > 
+> > * How to run the PoC
+> > 
+> >   The harness is self-contained and does not need ASI6205 hardware: it creates
+> >   a fake ALSA card with two capture substreams.  The tested configuration was
+> >   7.3.0 with KASAN and 4 vCPU; a uniprocessor run may not overlap.
+> > 
+> >   Build against the target kernel build tree:
+> > 
+> >     printf 'obj-m := sndpci_race.o\n' > Kbuild
+> >     make -C <kernel-build-dir> M=$PWD modules
+> >     gcc -static -O2 -I<kernel-source>/include/uapi -o pcmtest pcmtest.c
+> > 
+> >   Put `sndpci_race.ko` and `pcmtest` into the guest initramfs/rootfs, boot the
+> >   target kernel (QEMU/KVM recommended), then run as root:
+> > 
+> >     insmod sndpci_race.ko mode=pcm
+> >     ./pcmtest link 200
+> >     dmesg | grep -E 'BUG: KASAN|race_pcm_timer|victim use'
+> > 
+> >   In the minimal guest the fake card enumerates as card 0 and `pcmtest` opens
+> >   `/dev/snd/pcmC0D0c`.  If the test machine already has another sound card,
+> >   adjust `DEV` in `pcmtest.c` or use the QEMU initramfs.  Expected result:
+> >   32 KASAN reports with `slab-use-after-free in race_pcm_timer` and about 114
+> >   `victim use` lines.  
+> > 
+> > 
+> > * Suggested direction 
+> > 
+> >   This needs a core/lifetime fix, not just an asihpi timer fix.  Possible
+> >   directions: make group traversal safe against concurrent unlink (group
+> >   reference or RCU-protected/atomic-safe iterator that pins each member's
+> >   runtime), or provide a driver API that snapshots/refcounts members before
+> >   the callback walks them.  On the asihpi side, quiesce the timer/IRQ before
+> >   allowing the linked substream to detach.  Adding only
+> >   `snd_pcm_stream_lock_irq(A)` is not sufficient because it locks A's
+> >   `self_group`, not the group being walked.
+> > 
+> > 
+> > 
+> > Please keep me in Cc; I am not subscribed to the lists.
+> > 
+> > 
+> > Regards,
+> > Hanxiang Xu
+> > xuhx@hust.edu.cn
