@@ -1,83 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795614584;
-	b=rmmyq9lITm4IAcgbOYT9BB+UziBDMTWGD0u59hJ68yGeGvzzJ5uaZjTQp329eWhM5l7h
-	 31Zzy+y6ZzDsa9lNMTm6rN1tOocIPMeAYx8f3Ajx6OL4RHyU7WdBHKO5FOH1+WdCtv7zo
-	 15nrM2u0Yx9AxYfHZahCiHr5/6VMiLkL/yKKs183gQ0IPyKqcRwqYL1qg0YpNsNhOuDbM
-	 oRBC91nsBDk/cnDp4Vqfh09nyPkg/pINs09/lEa5axx5AaB/Y07ZAu/92ryD9cM6HKUfe
-	 PgClm6Y5iCbQBUQigckbdCvD+hmyjtwv4+MkWC2o02AlqC/A+eFasbpmyC9sTB+qKOw==
+	t=1795614902;
+	b=gnzbGZZ2bgZ1j5Fz0nEwywjvbayjnZUuewyVDgxNzY1OYgOf6ZEIc/YaUZO1sgAt72ch
+	 9bbDrWh2wKMd4+9pImhcQRaWxRMmDu4Udvr91p0F08tiXS0Mdpokj8tN7jwnVwPoYw72q
+	 zKK2a1w/70Nru5qUZ1qPTcHMLpNdtFGHkX8Cjr8ofQV9KPn/auOcmePUxyH8FZP3ZsAjd
+	 P5K9IvGSk82muICDxC5KiikEhQpElsFBwz2fIUO1fSvTdaQdnnGZAPveHqcJu8wH5ZJBe
+	 dWeGilPibVd6R7K7IH9HpOEwR6V//9Kt14byXD0M8m3wATCyDaH2kfPbaLtZOcAetkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795614584;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=yyHxxdReNfxVoXh4IqIaq80BMGasrVS/xxrq8pVvCe8=;
-	b=1zVzvIpfARDCP7/grS33qLXWXnadEq7LUHIaFr94lwLMlHRvDoK0XLjLzrakypoFPv5h
-	 KCsXmF/DhmfwS7InEvn2pWVs5Iku7hdv1vkvDGAOdYYXY5O89je7R6gn/0THyd+AyJI6Y
-	 5hxHaeTdN60Mfowb3xd/IzPMZAtVHo6uMXQMxVkDCDxbkzUosyi0YsSqW7ST/FqUZ/A6J
-	 KE7lxstHTHb3siZTxEbHbi4/iyN0y7qdDioD/QblBMlHE2nRiMdmE3gJyruP5+kbOzFdA
-	 s0nyfww+xmqbuwFC6lbjCiDYPJyDG+vuJmYNhGAG23yTTNtilp9oXn7YVvTZpBs7hQw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795614902;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=MMlMKO3dWuu4qaNyTUy0YHJ/ENS65Lu1XZ/j1NliVxY=;
+	b=glhwVU1yEG6O8UFPUyVImnzAt8aUKc2ek2TBDGoHL4k48fu9+TOQ4TB/ChMaViQ6ByCZ
+	 +cJxrR4PZEd+8BogcIoMASM8VLImVhqBdUGQ4uFvOuTaGTKq6Dp+pNPBE7WmDJwjhMAY1
+	 t+ymxkGhnGG90JFJc92cW1JYs7d9mE4KBouQI1yKT5JomAo+RnpYBurvht0t3oTWgnq0E
+	 9UvkqZa+XdxGswBRHkYDw0yauXnhKeE2iK+ZD1hOmy12nT+VXYZz0MiGn3GO4mYs8H2Qd
+	 9pfL6SkmMnEAHCMFLb7E/BNKItkKzBwPnNnhtgpEFPp2cUpzdxzJ9LQ3HxGTqgERbcQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DLzNdlhH;
-	arc=none smtp.remote-ip=198.175.65.11
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SvAHDkdQ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wGoyELXN;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SvAHDkdQ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wGoyELXN;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45FDA606A31E;
-	Wed, 25 Nov 2026 13:49:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45FDA606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D292606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 13:55:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D292606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DLzNdlhH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795614585; x=1827150585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9VUNgHXhpfQAQ9DcK1y1cc9wnfI/kl+snFE3maIB6K8=;
-  b=DLzNdlhHetNoRXudHUnQqlSeVCmURrTlGOqmflq23py8bQfOxOM+lpa5
-   z46cjckeY8BD7RUR/tj6oHCK5NcW/giRtTzIWxog9wmaGnoHjDvR90kJ4
-   z4wsF47lyW66DcosAE7jUKA1cRmH4Stptcpwu/tzBEhkilTmPSXRymKdy
-   VRofCd0l3nYjUbxD4EGFWTfGgL76NkWo9ZaR0JoM0yMvkW+YA2/H5edDe
-   I2aR8GK1CdxEty14IwDdrmQQN3Da2PNT3Uh1eyC4MUlP9dBpj0VUNdDxU
-   0IIAmg4SSUnby+jXrAJB+nctYrnJZJqM1FCoScjJq2HgxChcau5mNf368
-   w==;
-X-CSE-ConnectionGUID: z1tjZTt4TtCSr4M6DkFUVQ==
-X-CSE-MsgGUID: 0bYDd4/dSMOlu+Iwcv8HUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4382120"
-X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="4382120"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 05:49:44 -0800
-X-CSE-ConnectionGUID: MVU5Y1eiTISAbn9qypmeVw==
-X-CSE-MsgGUID: OS2hxzV6S9akpR3n3dC0TQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,233,1787036400"; 
-   d="scan'208";a="13551619"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.73])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 05:49:40 -0800
-Date: Wed, 25 Nov 2026 15:49:38 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: raffaele.tranfaglia@gmail.com
-Cc: Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-sound@vger.kernel.org, Neo Chang <YLCHANG2@nuvoton.com>
-Subject: Re: [PATCH v2 2/3] regmap: mask values to val_bits on write
-Message-ID: <awbncgC-qNTtr_ID@ashevche-desk.local>
-References: <20261125-regmap-kunit-val-bits-v2-0-81db3b79cd3f@gmail.com>
- <20261125-regmap-kunit-val-bits-v2-2-81db3b79cd3f@gmail.com>
- <awbk6Ah554O_Nxg5@ashevche-desk.local>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SvAHDkdQ;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wGoyELXN;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SvAHDkdQ;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wGoyELXN
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C58522003;
+	Wed, 25 Nov 2026 13:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795614899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=MMlMKO3dWuu4qaNyTUy0YHJ/ENS65Lu1XZ/j1NliVxY=;
+	b=SvAHDkdQibajX+Abi9aU3S8mb3zOYPg5WN8hMqrJm8Zc3qdzLgjYwNjorxXgSwoJ75ZoMm
+	HmqS13TaiUaHuIkjAZXBwsA4xKr8eaTlXs0xWb1PJswGu02ON42riQqJH2Bt+zzhWTGp/3
+	tTXjeECueG+FwCX9m3ut4H9y0BYF0xU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795614899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=MMlMKO3dWuu4qaNyTUy0YHJ/ENS65Lu1XZ/j1NliVxY=;
+	b=wGoyELXN3Sj0arECqPRK6Y4QqituuUaJYn+IMzskuTUyS4YZmsCSOnVDfNOKpjRHB389wE
+	8wFg+sHsIhSkgRAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795614899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=MMlMKO3dWuu4qaNyTUy0YHJ/ENS65Lu1XZ/j1NliVxY=;
+	b=SvAHDkdQibajX+Abi9aU3S8mb3zOYPg5WN8hMqrJm8Zc3qdzLgjYwNjorxXgSwoJ75ZoMm
+	HmqS13TaiUaHuIkjAZXBwsA4xKr8eaTlXs0xWb1PJswGu02ON42riQqJH2Bt+zzhWTGp/3
+	tTXjeECueG+FwCX9m3ut4H9y0BYF0xU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795614899;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=MMlMKO3dWuu4qaNyTUy0YHJ/ENS65Lu1XZ/j1NliVxY=;
+	b=wGoyELXN3Sj0arECqPRK6Y4QqituuUaJYn+IMzskuTUyS4YZmsCSOnVDfNOKpjRHB389wE
+	8wFg+sHsIhSkgRAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4483C1339F;
+	Wed, 25 Nov 2026 13:54:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LZyHCbPoBmsSQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 13:54:59 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: oss: Fix deadlock at unregistering (again)
+Date: Wed, 25 Nov 2026 14:54:52 +0100
+Message-ID: <20261125135453.2088984-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -87,38 +101,94 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <awbk6Ah554O_Nxg5@ashevche-desk.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Wed, Nov 25, 2026 at 03:38:54PM +0200, Andy Shevchenko wrote:
-> On Wed, Nov 25, 2026 at 08:09:31AM +0000, Raffaele Tranfaglia via B4 Relay wrote:
+The recent code refactoring using guard() re-introduced a potential
+deadlock at unregistering OSS device that had been fixed onceby the
+commit 97d917879d7f ("ALSA: oss: Fix potential deadlock at
+unregistration").  The unregister_sound_special() call must be done
+outside the sound_oss_mutex.
 
-...
+Fix the regression by changing guard() with scoped_guard() to limit
+the range.
 
-> > +	/* Some users with their own register accessors don't set val_bits */
-> > +	if (config->val_bits > 0 &&
-> > +	    config->val_bits < BITS_PER_TYPE(map->format.val_mask))
-> > +		map->format.val_mask = GENMASK(config->val_bits - 1, 0);
-> > +	else
-> > +		map->format.val_mask = UINT_MAX;
-> 
-> This is simply
-> 
-> 	map->format.val_mask = UINT_MAX >> config->val_bits;
+Fixes: 742ecf3ce1ac ("ALSA: core: Use guard() for locking")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/sound_oss.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-Answering to myself, no.
-
-> no? In other words, do we have cases IRL when val_bits > 32?
-
-But this question stays for this check
-
-	    config->val_bits < BITS_PER_TYPE(map->format.val_mask)
-
+diff --git a/sound/core/sound_oss.c b/sound/core/sound_oss.c
+index 2f0bc481a46d..c1439f9d34cb 100644
+--- a/sound/core/sound_oss.c
++++ b/sound/core/sound_oss.c
+@@ -174,24 +174,25 @@ int snd_unregister_oss_device(int type, struct snd_card *card, int dev)
+ 		return 0;
+ 	if (minor < 0)
+ 		return minor;
+-	guard(mutex)(&sound_oss_mutex);
+-	mptr = snd_oss_minors[minor];
+-	if (mptr == NULL)
+-		return -ENOENT;
+-	switch (SNDRV_MINOR_OSS_DEVICE(minor)) {
+-	case SNDRV_MINOR_OSS_PCM:
+-		track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_AUDIO);
+-		break;
+-	case SNDRV_MINOR_OSS_MIDI:
+-		track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_DMMIDI);
+-		break;
+-	case SNDRV_MINOR_OSS_MIDI1:
+-		track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_DMMIDI1);
+-		break;
++	scoped_guard(mutex, &sound_oss_mutex) {
++		mptr = snd_oss_minors[minor];
++		if (mptr == NULL)
++			return -ENOENT;
++		switch (SNDRV_MINOR_OSS_DEVICE(minor)) {
++		case SNDRV_MINOR_OSS_PCM:
++			track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_AUDIO);
++			break;
++		case SNDRV_MINOR_OSS_MIDI:
++			track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_DMMIDI);
++			break;
++		case SNDRV_MINOR_OSS_MIDI1:
++			track2 = SNDRV_MINOR_OSS(cidx, SNDRV_MINOR_OSS_DMMIDI1);
++			break;
++		}
++		if (track2 >= 0)
++			snd_oss_minors[track2] = NULL;
++		snd_oss_minors[minor] = NULL;
+ 	}
+-	if (track2 >= 0)
+-		snd_oss_minors[track2] = NULL;
+-	snd_oss_minors[minor] = NULL;
+ 
+ 	/* call unregister_sound_special() outside sound_oss_mutex;
+ 	 * otherwise may deadlock, as it can trigger the release of a card
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0
 
