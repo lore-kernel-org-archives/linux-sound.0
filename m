@@ -1,93 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.59.206.189
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795630217;
-	b=asHUt1uTUbj3/emrFChlFYxaZ6DBdWxrV/+RtqiRXkIPq48ghKd51hOvk31N3MYo+eLe
-	 AKDuplKlWaif/nVO/b0TKe9qLTkpaLwreJ4raWrMXJ+47WD9JiGWlyCmcie1kLE+2tGxs
-	 qBzZGeQxzervbXIxfS5JoLv+YeEhWsIwvTjC3/XeRCpOxn7Nsqrez4hqKX9Jp6XmgzGjg
-	 lu8Ar6QYjXT/qpIugeu+buyg4bIxpMpRVLkP8mXfLFEXYdEmN/jphOGqid8zQxJOTNYrA
-	 FCv7gVuMcJNo9/m75xbgUYsAJ1yAG4zBwyOKOH1lKsRFvieUF6M+j1Hd+dwmZTQRYqw==
+	t=1795630476;
+	b=lDHwNjG5/Wl1hwYYvygr/h4okGcrUkG/dfltJRP6GLsIbJDFF+6H4f8WDsotRExSqIJo
+	 0kP5b2cnwn/ud57UaCfrwuPmrXewxBJ5ZjIoARBMdVS2hGiXCYe88WhFBPZtsNcJCPLBH
+	 h7YaPunit1hz99IysZHagN5CbbD0lEVo52cX3zVg4EYnEtv8vPyEU0Ln9dwQS5L0XiWAC
+	 Bjkzp9jgYgBM5Jrf1xoZ8YUi7kr9O5Rp1D3hoIJwrumciTMw44x006xB0J1XPADVugSBK
+	 Z+BM0qBWQHMP7PhZVXToldR9E5ykKdWQAhu4oM7SfqqY+eDbHgWyEzYRz38JOJfqOtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795630217;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=D3ALQHcgOfAhUAKhVbZdjihQ4c8Hm2EiPI8oXAafIGM=;
-	b=YlUQuYtC9JC/Zhw5V1hqZqa6ohg0j/ZVav2noozx7fNeFGxprpYqWnAv5tVQAjMId8VV
-	 aH/lMtYLszSI9unoELd823W6+u+g29Awh3bdhFrPjSGX9Fk6R86Dl47J3CgsV9wrTsAE/
-	 atKI9g3hJjSTiuO7D0uvVVEMByio7ZMccRtQla2s/nTYRvqSy82K6isqKMaC+uQmMTZDx
-	 MLLZRtXu5Ze3KLAVDPb3b5pzGrr4mfmwij+mB+6SjMLhwzWPra43OEbK9Gpzwxc4s2jSP
-	 NBd6aoWZdlJNJWgvhAqQ/K7cC6nTEs1egELPT83DCbHSxLEK9DaiNGdsi9/VIJD0coQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795630476;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-PPP-Message-ID:X-Rspamd-Server:
+	 X-Rspamd-Queue-Id:X-NC-CID;
+	bh=T7Jfy1YX0JM1xaHCJ3ZuUaayOlpEccV6YKpeVDstUOk=;
+	b=BoZIcM6XKk/DFHnZhYNddNw48To0l4snkuwLIishQ1I7GRBmf6qQiBER2C+GnrazP1wK
+	 VHYPJYcbvjQfFexlWnvJkAXZoO4Ix0pqs6YRyUOG6jAs6W/jBd3kz3xVuWLYfNsgk84zl
+	 zKF9z5JcnVaCxTFllFZx8unEUk6Yz+Vrf1WLEIkIfA6wrmY2JzbvAb+hoLIHvUspFuIXQ
+	 RK4l3jdOIDgy9x6ZaqAObhRxC1n3sHPN4TBPaiFFlklzIpT76jwKTXz/3CCX+vsVpWwZn
+	 HWtccRTLtM6tPgttlKke3Y8fr4EC2l/NbXdhCFkdcGZXD3mdWubxsZ5ttb7R0xrdnZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cs.unc.edu;
-	spf=pass smtp.mailfrom=cs.unc.edu;
-	dkim=pass header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b="YdXtTz/v";
-	arc=none smtp.remote-ip=74.125.224.46
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=leemhuis.info;
+	spf=pass smtp.mailfrom=leemhuis.info;
+	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=SqHy6r9g;
+	arc=none smtp.remote-ip=194.59.206.189
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [194.59.206.189])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274C4606A321
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 18:10:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274C4606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cs.unc.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.unc.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64B7606A695;
+	Wed, 25 Nov 2026 18:14:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C64B7606A695
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.unc.edu header.i=@cs.unc.edu header.a=rsa-sha256 header.s=google header.b=YdXtTz/v
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-67db0791748so7079635d50.1
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:10:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cs.unc.edu; s=google; t=1795630216; x=1796235016; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=D3ALQHcgOfAhUAKhVbZdjihQ4c8Hm2EiPI8oXAafIGM=;
-        b=YdXtTz/v6Nm4qzgVyt4tU1Dm9vGEsroperK4W3BGilBnyGrVMOM6MIT5XJD2rcDogB
-         AWuqcPc7rOYnD9e+HpsWAPKiW9DYo6OEiOtdmUiLKvIuxOHtWDuJHlD/vCKafPsJxQLC
-         BXllwZhuRD1IwujoB6aBtVMXSWBjO++oCGjBlQYfo24feoz8A4QtCZhzrClzWJOySJkX
-         +xT/ureqEuqX7lIeo6TLrqv1qZbU8hEhJweFrf0dfdpjPJpNItgT6YU6OW4VThEXW6+m
-         cm09thM45wrjt173UXANGAdABSORsn4HM3CBs7dMDTus+al+tGpQ23jXx/OE/f0h4gvn
-         cJag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795630216; x=1796235016;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=D3ALQHcgOfAhUAKhVbZdjihQ4c8Hm2EiPI8oXAafIGM=;
-        b=PghDVL0ozyd9nAZGQ2wr8SleFTRns062ErwuGwkOefQqMr52OhxOtI9qNV4lrJi2Q7
-         IOVLdauHTVxu6I4T7AqmzwJ8QOErf5q3MydSc8MkDXhFXgqoDipUjKihRwIblYkLiiD+
-         qCRKK1T+0/3pMvTLBEEkUYDayNdFfGJ4qbSv6d3yE/4ZakOq+8weo3c4qyrwRf5PCORM
-         2abO1aN86Pd3OjtXgaUprNuUjpYhd9YlNUvme7e8+v7qiIik3HT1PcblXPTq/h8fdGeC
-         SybQz/5CT9AuW2ywLv7RGOsTXlKIj/bIB3rXZgevlvZsKVjfVNeGEbsPJlgu3loSKs1z
-         eygw==
-X-Forwarded-Encrypted: i=1; AL+hErHqVrntGSZMgrGGM1e1pYUSGUMwFbIFbX4u0bIADIZyf0hPhkIhwpvcdxV96OXf18X4STBW/wXXatflkw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Q0eENnIBjDfMR8Rd6pnSivbAH+g8pxpn/wxiizaIvNJFZ9zd1
-	zapughWpFyfhcTc5wazhUm6e0Izvly3Wrf5vwTriWL7iqxUBsg3eVyaq/Mg6xzE+GQ==
-X-Gm-Gg: AZFdTZcEoSMav6dxVV2wrZ/qoiDDfD2AZmg2WQguvLZM3EiaKp13kHj1qbKIhHG3U6W
-	UTxErgVm0YHod5AgVeUmZHIcwIbgrlDogr+O6UvP3zaSKo8SRArhLBi6VI8YbVEeMX2OnmI1r9U
-	ZLQNw1Xq+FDkSdRt5D7hUShnlmbzJExpvwZBcT15HDfO5q8AwGT90MAZIFI1AdIwLiu8a0JKqfN
-	5O5OUB4kd7f+td244S+MjWKO3Ega9IcBvVnrmBtqqRBMrBNM8dpEs+sfH9KgoZtLQAspFIAo1q7
-	b/OxbwCgsJXk+vKPy29MNpGv8s5B+/eGlEtTDhnOiW5yyzT6ky6VjKQmu79E2Z2dwOYFsCOTsOq
-	LjPU0yrrO126aFt12ytjUUiMIJrcC/DQznbiQdyPlZ6WNyUGphsVPOvu7xHWJ49v7soN2zPEVWV
-	lgaxvE9msxan2fQmp2EEBgnBcHJ/N5/r8gc4GyNtUIPm6ZQuB050OFaliAwY8L+iaMTmbMvaoq4
-	ugpJvGL1njT1/TK1hD9tEV8rPVvTFVbT+/lGUwHmCNGjvL7XIH8PzWpsikWm8wY59pSRJ281q1w
-	INhxPL7ECRnFY9kPiBxeXj8aKr7PLk/pZxf0Zf9qv3dROP5fafoArg==
-X-Received: by 2002:a05:690e:400a:b0:67e:4934:63dd with SMTP id 956f58d0204a3-67e49347cb2mr1238903d50.15.1795630216103;
-        Wed, 25 Nov 2026 10:10:16 -0800 (PST)
-Received: from cobra01.cs.unc.edu (cobra01.cs.unc.edu. [152.2.130.143])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67df330bfb1sm9206152d50.6.2026.11.25.10.10.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 10:10:15 -0800 (PST)
-From: Hengyu Liang <hengyul@cs.unc.edu>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: Pavel Hofman <pavel.hofman@ivitera.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: pcm: oss: Refine slave hw_params after setting format
-Date: Wed, 25 Nov 2026 13:10:05 -0500
-Message-ID: <20261125181005.3683575-1-hengyul@cs.unc.edu>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=SqHy6r9g
+Received: from relay02-mors.netcup.net (localhost [127.0.0.1])
+	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4jZSW26NGYz4QKd;
+	Wed, 25 Nov 2026 19:14:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1795630462;
+	bh=my78kg4S54Fk8CVZt5B3siWtk9PWEx8eNQ9n1fmSTOw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SqHy6r9gKfeGooIxTWppV5bROD5x/eJ9tz4t2pjuS/jMsMQ5uL4lW4UArPZKrM4ao
+	 SucD9q7TEE9HR7awJehYsgcJ9StNsk8dN1XGLePCgiDdfAECdKrpgPkUTabspbj8eE
+	 99uoaLo9QrULihXpwhI0NwZyFvxNpc4KPJ6dQ0W2ay47VAdE0h3ygMN/txsay7spbu
+	 uvO5Ptm5J8hWorcxj21/qAP33q1t3+uovzBQp8fSP3piLslSPpSYH5bXrqtILetdkF
+	 za3NuMHhknDYs5+CRBnRgsesvksHj6dK0rVKgdIB95Mm/zutH/vA+5ArcDa9Tw0otL
+	 CgD3+N0vL099Q==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4jZSW25gPMz7xCG;
+	Wed, 25 Nov 2026 19:14:22 +0100 (CET)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4jZSW20fcMz8tH7;
+	Wed, 25 Nov 2026 19:14:22 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 855B85F985;
+	Wed, 25 Nov 2026 19:14:12 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <2d8bd052-fefa-45be-8712-bb93c73acc07@leemhuis.info>
+Date: Wed, 25 Nov 2026 19:14:10 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -97,95 +74,77 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] Creative Sound Blaster X3 (041e:3264) fails USB
+ audio probe on Fedora 7.3.4
+To: Flavio Giacchetti <flv.giacchetti@gmail.com>, linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>, regressions@lists.linux.dev,
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ Linux Sound System <linux-sound@vger.kernel.org>
+References: 
+ <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: 
+ <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <179563045288.4017891.9126847949981694816@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: 855B85F985
+X-NC-CID: 30B9LND43JiTdovUqlYsOMsGn9G+e2I6feLTNWqyeHQzIz3YLy0=
 
-Commit 93d7d38fa61d ("ALSA: aloop: add DSD formats") added DSD_U8 to
-the formats of snd-aloop. Before that, its narrowest format had 16 bits.
+On 11/25/26 17:46, Flavio Giacchetti wrote:
+> 
+> My Creative Sound Blaster X3 stopped appearing in ALSA on Fedora 45
+> after the update from 7.3.3-300.fc45.x86_64 to 7.3.4-300.fc45.x86_64.
+> Booting the previous Fedora kernel restores audio on this PC.
 
-However, snd_pcm_oss_change_params_locked() sets the slave format with
-_snd_pcm_hw_param_set(), which does not refine the parameters, while
-the access, rate and channels before it are set with refining helpers.
-snd_pcm_oss_period_size() then reads a buffer size maximum that is
-still computed for the narrowest format, now DSD_U8, so the OSS period
-doubles. With the default U8 client format, the doubled period no
-longer fits in the format plugin, and snd_pcm_plugin_alloc() returns
--ENOMEM. As of now, an OSS program that asks snd-aloop for 8 channels
-at 192 kHz gets ENOMEM from SNDCTL_DSP_SPEED and from every later
-ioctl on the same file.
+Not my area of expertise (I only help with regressions in general), but
+this sounds somewhat odd to me. I CCed the sound maintainers and list,
+maybe someone with more knowledge in this area will share an opinion. If
+nobody comes around with an idea soon what's causing this, I suggest you
+check (a) if mainline (7.4-rc4 or later) is also affected and (b) run a
+bit bisection to find the change that caused the problem to appear.
 
-The issue can be reproduced with this program, where card 1 is
-snd-aloop:
-
-    #include <fcntl.h>
-    #include <stdio.h>
-    #include <sys/ioctl.h>
-    #include <sys/soundcard.h>
-
-    int main(void)
-    {
-            int fd = open("/dev/dsp1", O_WRONLY | O_NONBLOCK);
-            int ch = 8, rate = 192000, blk = 0;
-
-            ioctl(fd, SNDCTL_DSP_CHANNELS, &ch);
-            if (ioctl(fd, SNDCTL_DSP_SPEED, &rate) < 0)
-                    perror("SNDCTL_DSP_SPEED");
-            if (ioctl(fd, SNDCTL_DSP_GETBLKSIZE, &blk) < 0)
-                    perror("SNDCTL_DSP_GETBLKSIZE");
-            printf("block size %d\n", blk);
-            return 0;
-    }
-
-Before that commit, it prints "block size 65536". After that commit,
-the result is:
-
-    SNDCTL_DSP_SPEED: Cannot allocate memory
-    SNDCTL_DSP_GETBLKSIZE: Cannot allocate memory
-    block size 0
-
-This patch will set the format with snd_pcm_hw_param_set(), which
-refines the parameters, as is done for the channels just before.
-
-Fixes: 93d7d38fa61d ("ALSA: aloop: add DSD formats")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
----
-I found this while comparing the behavior of different kernel versions.
-I used an LLM to analyze the problem and to draft the patch and this
-message, and I analyzed the result myself.
-
-The missing refine is older than that commit, so the patch also halves
-the default fragment size on other cards that offer a format narrower
-than the one in use. On snd-dummy (U8 and S16_LE) with S16_LE, one
-channel at 48 kHz now gets 4096 bytes instead of 8192.
-
-With "ALSA: pcm: oss: Compare max buffer size in bytes" in for-next,
-the program above no longer fails, but it prints "block size 131072"
-until this patch is applied.
-
-Tested on for-linus (5a6fcabe156e) and for-next (486060b97284) with
-KASAN and lockdep. On snd-aloop, a grid of 1 to 128 channels at 8 to
-192 kHz gives the same results as before that commit, and SETFRAGMENT,
-mmap and a playback and capture pair work as before.
-
- sound/core/oss/pcm_oss.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
-index 66162caa45d4..3c2ac8966d5e 100644
---- a/sound/core/oss/pcm_oss.c
-+++ b/sound/core/oss/pcm_oss.c
-@@ -921,7 +921,8 @@ static int snd_pcm_oss_change_params_locked(struct snd_pcm_substream *substream)
- 		goto failure;
- 	}
-  format_found:
--	err = _snd_pcm_hw_param_set(sparams, SNDRV_PCM_HW_PARAM_FORMAT, sformat, 0);
-+	err = snd_pcm_hw_param_set(substream, sparams,
-+				   SNDRV_PCM_HW_PARAM_FORMAT, sformat, 0);
- 	if (err < 0)
- 		goto failure;
- 
-
-base-commit: 5a6fcabe156e91c6ef2435a74f2d16e6dd39f7c7
--- 
-2.53.0
+Ciao, Thorsten
+ > Hardware:
+> 
+>   USB device: Creative Sound Blaster X3, 041e:3264, bcdDevice 10.90
+>   Host controller: Intel 600 Series xHCI [8086:7ae0], revision 11
+>   Connection: rear motherboard USB port, enumerated at 480 Mb/s
+> 
+> With the stock 7.3.4 Fedora kernel, the failure reproduced on two rear
+> USB ports. On one failed plug-in the kernel enumerated the device,
+> bound cdc_acm to interface 1 and then logged a disconnect. After
+> re-enumeration, the USB audio driver repeatedly failed to query sample
+> rates and mixer controls. The X3 never appeared in /proc/asound/cards.
+> 
+>   cdc_acm 1-12:1.1: ttyACM0: USB ACM device
+>   usb 1-12: USB disconnect, device number 7
+>   ...
+>   usb 1-12: parse_audio_format_rates_v2v3(): unable to retrieve number
+> of sample rates (clock 33)
+>   ...
+>   usb 1-12: 13:3: failed to get current value for ch 0 (-110)
+> 
+> An experimental cdc-acm quirk skips interface 1 for 041e:3264 only.
+> With that module on the same 7.3.4 Fedora kernel, the X3 registered
+> with ALSA and played stereo audio at 48 kHz. The first hot-plug test
+> still logged errors during re-enumeration, then recovered. On a
+> subsequent normal reboot with the patched module installed and the X3
+> connected, ALSA and PipeWire exposed the output and input, and the
+> earlier rate-query errors and timeouts did not recur. Playback worked
+> after the reboot.
+> 
+> This is the result of testing one unit on one host. I have not isolated
+> the first bad upstream commit or established what functionality needs
+> the ACM interface. The results so far are for Fedora kernels.
+> 
+> Would a device-scoped ACM exclusion be appropriate here, or would a
+> comparison of USB traces with and without the ACM binding help narrow
+> this down?
+> 
+> Thanks,
+> Flavio
 
