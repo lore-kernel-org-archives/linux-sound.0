@@ -1,70 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.59.206.189
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795630476;
-	b=lDHwNjG5/Wl1hwYYvygr/h4okGcrUkG/dfltJRP6GLsIbJDFF+6H4f8WDsotRExSqIJo
-	 0kP5b2cnwn/ud57UaCfrwuPmrXewxBJ5ZjIoARBMdVS2hGiXCYe88WhFBPZtsNcJCPLBH
-	 h7YaPunit1hz99IysZHagN5CbbD0lEVo52cX3zVg4EYnEtv8vPyEU0Ln9dwQS5L0XiWAC
-	 Bjkzp9jgYgBM5Jrf1xoZ8YUi7kr9O5Rp1D3hoIJwrumciTMw44x006xB0J1XPADVugSBK
-	 Z+BM0qBWQHMP7PhZVXToldR9E5ykKdWQAhu4oM7SfqqY+eDbHgWyEzYRz38JOJfqOtg==
+	t=1795631852;
+	b=LUlkA2a+m9OkfqQQYnCZb1xIRTTQg0nD98b7lTHYHUW+jL5zq3TejV8Pt/XKgO/Uz7Fv
+	 hFy+rwyp22X0cKTh+I74Mu0TXmM+UGgWh6lEs58GFBCJKZUrXi5l/dxmOjlNv9Oh4tqVQ
+	 TSh1VxSPoBjTK/mMuvXpy93eobtesWCAFHDhgi4gUc3ttAFtzDZAKmFcV6bG/Lp3mATZu
+	 AEbTdMyoCYi2j89YRfr404cmXspy+ZZyjIDY+inPtZ4zAGN2ZQL3R3ZnrjK8+eKj72rkX
+	 2nfpqdlO1HhF+0a0ceE8Atinwj3+Khg7yR2QOVML534nn/0rg7yROXKcXONR3bTGJNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795630476;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-PPP-Message-ID:X-Rspamd-Server:
-	 X-Rspamd-Queue-Id:X-NC-CID;
-	bh=T7Jfy1YX0JM1xaHCJ3ZuUaayOlpEccV6YKpeVDstUOk=;
-	b=BoZIcM6XKk/DFHnZhYNddNw48To0l4snkuwLIishQ1I7GRBmf6qQiBER2C+GnrazP1wK
-	 VHYPJYcbvjQfFexlWnvJkAXZoO4Ix0pqs6YRyUOG6jAs6W/jBd3kz3xVuWLYfNsgk84zl
-	 zKF9z5JcnVaCxTFllFZx8unEUk6Yz+Vrf1WLEIkIfA6wrmY2JzbvAb+hoLIHvUspFuIXQ
-	 RK4l3jdOIDgy9x6ZaqAObhRxC1n3sHPN4TBPaiFFlklzIpT76jwKTXz/3CCX+vsVpWwZn
-	 HWtccRTLtM6tPgttlKke3Y8fr4EC2l/NbXdhCFkdcGZXD3mdWubxsZ5ttb7R0xrdnZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795631852;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Kek6FDZpLqcH0HSvQN9yDKp87EpQtRAbPNHn0j20kgA=;
+	b=dmFTF302yB7apHI6vR5oGARMXzerfEpJ45vE6dhIioN3+Neh5Xe9H3Um3VAx4BW24Fe0
+	 uDG7Gu4KbhBf63SLhx5o1QnObUAhKrEerQUSEZuYf+lewQD8FFqv+jGwk6bXAw/O3W572
+	 jCay1Hpcm2050IQIgwodgtIQaOcUV7nZNRI5Zmz7Xwl00PNTUNcXGKTIKQwaUYWhqi3kD
+	 8ZHfvV3U/ZARIcdFq7TcAFDUwF6NHQy5Zuf/ihCLy/vwGgNYfVYmoey90UCpsUKM55pyz
+	 UEotJdLzSwrMDaLInLAT6YC1deuaXuSOPn9IBYAo7Qgymt62eh7LGxQxF3RznUxkXYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=leemhuis.info;
-	spf=pass smtp.mailfrom=leemhuis.info;
-	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=SqHy6r9g;
-	arc=none smtp.remote-ip=194.59.206.189
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [194.59.206.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NwaW9uHL;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64B7606A695;
-	Wed, 25 Nov 2026 18:14:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C64B7606A695
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5471606A326
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 18:37:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5471606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=SqHy6r9g
-Received: from relay02-mors.netcup.net (localhost [127.0.0.1])
-	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4jZSW26NGYz4QKd;
-	Wed, 25 Nov 2026 19:14:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1795630462;
-	bh=my78kg4S54Fk8CVZt5B3siWtk9PWEx8eNQ9n1fmSTOw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SqHy6r9gKfeGooIxTWppV5bROD5x/eJ9tz4t2pjuS/jMsMQ5uL4lW4UArPZKrM4ao
-	 SucD9q7TEE9HR7awJehYsgcJ9StNsk8dN1XGLePCgiDdfAECdKrpgPkUTabspbj8eE
-	 99uoaLo9QrULihXpwhI0NwZyFvxNpc4KPJ6dQ0W2ay47VAdE0h3ygMN/txsay7spbu
-	 uvO5Ptm5J8hWorcxj21/qAP33q1t3+uovzBQp8fSP3piLslSPpSYH5bXrqtILetdkF
-	 za3NuMHhknDYs5+CRBnRgsesvksHj6dK0rVKgdIB95Mm/zutH/vA+5ArcDa9Tw0otL
-	 CgD3+N0vL099Q==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by relay02-mors.netcup.net (Postfix) with ESMTPS id 4jZSW25gPMz7xCG;
-	Wed, 25 Nov 2026 19:14:22 +0100 (CET)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4jZSW20fcMz8tH7;
-	Wed, 25 Nov 2026 19:14:22 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 855B85F985;
-	Wed, 25 Nov 2026 19:14:12 +0100 (CET)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <2d8bd052-fefa-45be-8712-bb93c73acc07@leemhuis.info>
-Date: Wed, 25 Nov 2026 19:14:10 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NwaW9uHL
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a2d6d01ecbso33337475e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:37:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795631850; x=1796236650; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Kek6FDZpLqcH0HSvQN9yDKp87EpQtRAbPNHn0j20kgA=;
+        b=NwaW9uHLhWDz1JQvFv1IoKf+QK7th0438JBfB6b5Jik8GN/zO/xJ+nEvvKuNrdtrqB
+         RR6nofnnAOr3IgswVFRX0rEgBLgBnqxI/a5U4xKLHH7LfsWuZk6249L1jexDWFmgeeLc
+         ytBbeYkm70OAs7Hbq5eQdFf1hQibJCo4+fEZQyMzb4/QbUIcv1UXeteUdyC4NitCbFIM
+         BNj1P/OGAsAriCzgyyTLGSn1Ghaft1uiBmomA5hwUZDED0+gkuaVcwQcmpBmyCyts7gR
+         CU8EocwDmH/8a5D5qne1KevXtlJ9uQim6yjDMNCm7cHUxVTtoWcaEmfg2EvAS2aS00Wp
+         KhhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795631850; x=1796236650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Kek6FDZpLqcH0HSvQN9yDKp87EpQtRAbPNHn0j20kgA=;
+        b=1LAR+VnbcS+0jbt6eimSVo6pCWnfRSqToGAhx3OWdiF/efA805oP63QzUsyUvIvh5A
+         O68RgFrFevtgb8aE7bEl8YSB2ksfVChC9wL8VotYijUi9jdENWp8MU8683GIG1TGaoZ3
+         k2pS97OXAKDtcobJxU4sluI4L165+2zHSKOGNbDA0mnlqwyR03sx/+kltjVbRIcJ1Qfx
+         ToaxGSnQDXYEO+xFU8nubYncAcsLvYwM9YycOz4YU/5IL55CcekFtcFqpKuPkF3CvEZN
+         Pft+N7dM9Zb8Ynb0fQBrDwxPFXT52V2IIpmIXwxJjZuLuBtlEKbRXPva3bjW4+2dwr/h
+         48ow==
+X-Forwarded-Encrypted: i=1; AL+hErFbDCEEu6hl6eolU7VyrHC7LgXwjrQkyxQ+boGRKLdUryDwiIUcZiTGlNXYiA80stByAMSs0Bz1gsVNSw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/bnOacUkVfzM9/7J8JW4elf78/FEB2HIzhOFiZaChnIpsTSjAJ
+	x0TxMbiPdSaqnIlhmtUl9H0J3sqYsTOCExRK/SGANMqISI0+orIvC7PE
+X-Gm-Gg: AZFdTZfegcRDSzpz28PhvDkPKdz6f/J420vYcvikZmA4/o+6d4+X3eS24wggY2JUPxv
+	sUQ+lhq0ZQwSq5cGNEjDUtWRRguqBvrw7D6M8Qn6MFQsyr9JFTP6Qvg6bSfL/eD7y3LfMIMMwpp
+	ejANkD0o22e56JfMJX3YcTK5KKZV3V01DbLlKGOK/CaCOCGuL4fo1pCQX9+1Khm1r2DgAm5Miqp
+	bHWZv04cjG+8wvMHo54zRZOzZdiRbc+7sYqyNzDyqUgbtIresGYrQMDvQtM9BtO+Et8wtJeABPF
+	9zQrvlEOydsMQLbhoZna+L665UAauPVZBAIDkPKPdDi3CsdcBV+RnwX11pZvPrZxDfFUTm43YyL
+	xraDlg7jp9WHU7FWrWXV2ta5Zw2HcqnlRlVoiUqtgIEP7iIoIxdTNRy8LCkjZeatkuQ84e3z2QQ
+	zeH8UcqAzMvQ27B3jBNvoQuT360msGscbml4nUIifcPgi5D0/DqzSezPBGOMgLAmwK+54StSliu
+	E9iUlKJvqLPRNxFxmySP1pcO7BNaE07Nx8jv9BEbmb1jCNFhgVWJr9xiDxBIZOAs83wC2YEkUaS
+	ol2rzHyzBh07sLbcsBElxeA9GvI5juAt5oC1YUue8Szj1S2uZmrcBlOiSnAy8XfTJwNzqIudXlu
+	47Q==
+X-Received: by 2002:a05:600c:5487:b0:4bb:5de1:e92c with SMTP id 5b1f17b1804b1-4bb88813157mr384863025e9.26.1795631850007;
+        Wed, 25 Nov 2026 10:37:30 -0800 (PST)
+Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bba6a0d65fsm68397895e9.3.2026.11.25.10.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 10:37:29 -0800 (PST)
+From: Jude Gyimah <jude.gyimah87@gmail.com>
+To: lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	Vijendar.Mukunda@amd.com
+Cc: broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	arnd@arndb.de,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jude Gyimah <jude.gyimah87@gmail.com>
+Subject: [PATCH] ASoC: SOF: ipc4-topology: fix link failure with SND_INTEL_DSP_CONFIG=m
+Date: Wed, 25 Nov 2026 19:37:06 +0100
+Message-ID: <20261125183706.53331-1-jude.gyimah87@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,77 +107,69 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Creative Sound Blaster X3 (041e:3264) fails USB
- audio probe on Fedora 7.3.4
-To: Flavio Giacchetti <flv.giacchetti@gmail.com>, linux-usb@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>, regressions@lists.linux.dev,
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- Linux Sound System <linux-sound@vger.kernel.org>
-References: 
- <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: 
- <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <179563045288.4017891.9126847949981694816@mxe9fb.netcup.net>
-X-Rspamd-Server: rspamd-worker-8404
-X-Rspamd-Queue-Id: 855B85F985
-X-NC-CID: 30B9LND43JiTdovUqlYsOMsGn9G+e2I6feLTNWqyeHQzIz3YLy0=
+Content-Transfer-Encoding: 8bit
 
-On 11/25/26 17:46, Flavio Giacchetti wrote:
-> 
-> My Creative Sound Blaster X3 stopped appearing in ALSA on Fedora 45
-> after the update from 7.3.3-300.fc45.x86_64 to 7.3.4-300.fc45.x86_64.
-> Booting the previous Fedora kernel restores audio on this PC.
+Hi everyone,
 
-Not my area of expertise (I only help with regressions in general), but
-this sounds somewhat odd to me. I CCed the sound maintainers and list,
-maybe someone with more knowledge in this area will share an opinion. If
-nobody comes around with an idea soon what's causing this, I suggest you
-check (a) if mainline (7.4-rc4 or later) is also affected and (b) run a
-bit bisection to find the change that caused the problem to appear.
+Just to bring this to your attention.
 
-Ciao, Thorsten
- > Hardware:
-> 
->   USB device: Creative Sound Blaster X3, 041e:3264, bcdDevice 10.90
->   Host controller: Intel 600 Series xHCI [8086:7ae0], revision 11
->   Connection: rear motherboard USB port, enumerated at 480 Mb/s
-> 
-> With the stock 7.3.4 Fedora kernel, the failure reproduced on two rear
-> USB ports. On one failed plug-in the kernel enumerated the device,
-> bound cdc_acm to interface 1 and then logged a disconnect. After
-> re-enumeration, the USB audio driver repeatedly failed to query sample
-> rates and mixer controls. The X3 never appeared in /proc/asound/cards.
-> 
->   cdc_acm 1-12:1.1: ttyACM0: USB ACM device
->   usb 1-12: USB disconnect, device number 7
->   ...
->   usb 1-12: parse_audio_format_rates_v2v3(): unable to retrieve number
-> of sample rates (clock 33)
->   ...
->   usb 1-12: 13:3: failed to get current value for ch 0 (-110)
-> 
-> An experimental cdc-acm quirk skips interface 1 for 041e:3264 only.
-> With that module on the same 7.3.4 Fedora kernel, the X3 registered
-> with ALSA and played stereo audio at 48 kHz. The first hot-plug test
-> still logged errors during re-enumeration, then recovered. On a
-> subsequent normal reboot with the patched module installed and the X3
-> connected, ALSA and PipeWire exposed the output and input, and the
-> earlier rate-query errors and timeouts did not recur. Playback worked
-> after the reboot.
-> 
-> This is the result of testing one unit on one host. I have not isolated
-> the first bad upstream commit or established what functionality needs
-> the ACM interface. The results so far are for Fedora kernels.
-> 
-> Would a device-scoped ACM exclusion be appropriate here, or would a
-> comparison of USB traces with and without the ACM binding help narrow
-> this down?
-> 
-> Thanks,
-> Flavio
+snd-sof can be built into vmlinux while the Intel NHLT code that
+ipc4-topology.c calls is in a module, and then the link fails:
+
+  ipc4-topology.c:(.text+0x22bc): undefined reference to
+    `intel_nhlt_get_endpoint_blob'
+  ipc4-topology.c:(.text+0x2424): undefined reference to
+    `intel_nhlt_ssp_device_type'
+
+This happens with a non-Intel SOF platform built in and the Intel option
+modular, for example SND_SOC_SOF_IMX_COMMON=y selecting SND_SOC_SOF while
+SND_SOC_SOF_INTEL_COMMON=m selects SND_INTEL_DSP_CONFIG=m.
+
+The existing guard cannot prevent it.  intel-nhlt.o is shipped by
+SND_INTEL_DSP_CONFIG, but the guard tests SND_INTEL_NHLT, a bool that
+SND_INTEL_DSP_CONFIG selects "if ACPI", and a select from an m-valued
+symbol sets a bool to y.  So SND_INTEL_NHLT is y whenever the provider is
+y or m, and the condition can only tell "NHLT present somewhere" from
+"absent", never built-in from modular.  The static inline fallbacks in
+include/sound/intel-nhlt.h are keyed on the same condition and are
+therefore unreachable too.
+
+Test reachability of the option that actually ships the code instead.  No
+header change is needed: the file already stubs
+snd_sof_get_nhlt_endpoint_data() in its own #else branch, and wherever
+IS_REACHABLE is true with ACPI=y, SND_INTEL_NHLT is y as well, so the real
+declarations are in scope.
+
+This is the same remedy as commit 8a3fea95fab1 ("ASoC: SOF:
+SND_INTEL_DSP_CONFIG dependency") applied for snd_intel_dsp_driver_probe in
+sof-pci-dev.c, which commit 194fe0fc3422 ("ASoC: SOF: pci: move DSP_CONFIG
+use to platform-specific drivers") later resolved by moving that call to
+Intel-specific code.  Moving these calls likewise would be the complete
+fix so this is the one-line one.
+
+Found with kreach, a static check that compares what Kconfig allows
+against the symbols the compiled objects actually reference.
+
+Fixes: aa84ffb72158 ("ASoC: SOF: ipc4-topology: Add support for SSP/DMIC DAI's")
+Link: https://lore.kernel.org/r/20261107114944.561731-1-jude.gyimah87@gmail.com
+Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
+---
+ sound/soc/sof/ipc4-topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 22c15fbb93f2..3ad27c57564b 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -1790,7 +1790,7 @@ static void sof_ipc4_unprepare_copier_module(struct snd_sof_widget *swidget)
+ 	}
+ }
+ 
+-#if IS_ENABLED(CONFIG_ACPI) && IS_ENABLED(CONFIG_SND_INTEL_NHLT)
++#if IS_ENABLED(CONFIG_ACPI) && IS_REACHABLE(CONFIG_SND_INTEL_DSP_CONFIG)
+ static int snd_sof_get_hw_config_params(struct snd_sof_dev *sdev, struct snd_sof_dai *dai,
+ 					int *sample_rate, int *channel_count, int *bit_depth)
+ {
+-- 
+2.43.0
 
