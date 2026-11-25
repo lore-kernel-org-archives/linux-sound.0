@@ -1,57 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795572131;
-	b=DKetkzoz58WtdzWALu6sVw/hpXKNyJrpdbpCusuF3uNp+qPNHngeIkuRgExf4opOtpbk
-	 j/LoGsSn2H732QLixAqxoH5kBZZGikpfqgDx95Wnd30T6f8ALhy06UHMneE71b6fLTZCU
-	 KzhUtsqfyMNTA4x7EcuC95HU0PqFM77kaZ8/AH4DyYAtWOlvamN8kn7WwRPi/09SJRhsM
-	 mUhtweSUNOwXopyT9Aj6ber7PrKJijEkRMj/9/L9gWPm6pNvQ2aq7GcJDoMHHQQgKUAgG
-	 d/rbxzjdCZpiDKxpNR44rY21vsf5C6CeFecB00/LSP1qpmXIPa00+202zQrTtxsUa/Q==
+	t=1795577108;
+	b=v16GOWG7WgiBdovi/VQLIH+2N4nBqTAnDFWo0vQrHP/qP2a/FK6o2xUN3Dd0qINBD29z
+	 i1peom51RKLlIZ/9rd6nVLOqLFOlzTNJBKCV32DzHVcT3KRgu71AaX90IA5UNjfdCDpc2
+	 ROADgT2oKP02FNDD5/yrCyuOPzEHDfISV0SH3mTQ/Ga7cEYxd6heTXJIOaOQeGCkd40H6
+	 cPnE1lHKK69OOgUzDHPW3lDH2kLwCDdPXZmCZeqfCBJbrl98gzG4dgeSdQTDyxooUyAUM
+	 8gtgi2hSB8lqwQBk610SXAr6t0ETPPbjV+MIv+LRV93x2V3HbqH+zWfk3X75YHYWX/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795572131;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=tRjQt/196/e4a0AR1UIsDEsmdGNnbIeAcHX5cvkdm08=;
-	b=3LvVf/PaY97IgdHUe3whPgnryL1hghrcl1jR29REN3Sg6hy4TfjK9kPQzGAqvb8CBrFq
-	 0pOMExB46Sr2i/bXRwEosae0KSo2HvNTDvBiUPUrS9TaEU+aym7gSmJpxeKsLu5fbvyD7
-	 b0nnVJmFk+7Oik7DvU2x5D985a4Eib5MP8dGWGpXlpCoEVl48AE2wrXXVFLMgTO0Jocdj
-	 pxBiI2Ko2MYsMizjwgJV+JLWBJoumv0O46m6RmJL7ot17JfkdX9mohUn03uH4ujzbCgSQ
-	 pgF/3gTnDIxmK0jEUr5l8rU8OqGBxzsF3TkLP8tL/tp+gXBufvWf5IM3Wfo185w8G7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795577108;
+	h=Received:DKIM-Signature:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=jm765WKY/zC72jkI2x569XRAtZ95jMdKBRn4kx2NFXU=;
+	b=rrjW1BcU/nROFseWCk6q7Qo7TzWqkB3pNnX9HSi0VYG7k5tDQ44Mqhjh67DnGcGqTwhU
+	 yBovC1HEDZ2KwVLJToknA9iPCqzOIFV/NwfB8YHZJPRx+3iGlA6GCgDy98gYEGENx66Md
+	 uGMhpCZXZ32fWh6NMAR8SunISKW9k5xhlXGHznp4W9EiNYFXiCaNY5K5YfQY7E7H3rCld
+	 UiDAGOD2kfyh6j8MpLg2NacQQtt8dG5ahg8wZpRajOHLnjQCgQnauy9pHvziq9r1RmfMD
+	 WgheNPh033Kc+bld/QmlUJTkkEKWYDoJ93OQplN3Xp3znFUVrIxZ+qOySq11D2bmIbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NkgmzcXT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V4AGWGfe;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076A1606A31E
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 02:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057F4606A31E;
+	Wed, 25 Nov 2026 03:25:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NkgmzcXT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8358A1F000C0;
-	Wed, 25 Nov 2026 02:02:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V4AGWGfe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722391F00A3D;
+	Wed, 25 Nov 2026 03:25:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795572130;
-	bh=tRjQt/196/e4a0AR1UIsDEsmdGNnbIeAcHX5cvkdm08=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NkgmzcXT6lkyVIaYBFizoQ8SU0HfqoItMbGwE5gtKphX690f+uIQpmG5v82hk0jG8
-	 nGu5Zn4ABKBwKrUSa2r0Dqi4VE4QqSb+uxwQOYPAVQCJJL3Sp2II7MB07srYA9OWyW
-	 ISAfFtCTaMSz6BAmhUqaOKHyisq7kOsF9M0CWYsKNpr2ZYf7o1ru+yT6MguHArjI6H
-	 q76vORLFS77QNHwCMqmH6cYLNTZbcsKhY88TKCBqissoL8JiIunFvLq1b/sYsg9aF+
-	 Vs7ixKz9zc+3DMFEct3fX6mvAtKzYfXboDkKdtSOrNVZOx7rbo13pXmLh14ykDPoDc
-	 SzBZlfpPSxhZw==
-Message-ID: <sashiko-outbox-232386@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 09/27] ASoC: soc-devres: use
- snd_soc_component_unregister() for devm_snd_soc_register_component()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87wlq1eley.wl-kuninori.morimoto.gx@renesas.com>
-References: <87a4mxg01k.wl-kuninori.morimoto.gx@renesas.com>
- <87wlq1eley.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Nov 2026 02:02:10 +0000
+	s=k20260515; t=1795577107;
+	bh=jm765WKY/zC72jkI2x569XRAtZ95jMdKBRn4kx2NFXU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=V4AGWGfeZLmrhtquKRv6EviHYCknQ6uF6sSccjviJ4oFSvgpAICCuQyib02WKudKy
+	 WZzoevJXnvM5e8NOpUoL9Ig82rYSxXxmUF9Jr1DLDbm4EjtTfslgzFUp9UHxUlPTv9
+	 wrZwz+G0W0uX1L3CBHkaI1MEt38fA9MYeSZuWLQ37eiV+uutE2OGEeTf1isC4/809q
+	 ZNbCkMcYIXb3teD/R3X/bXjffIjQmZgy38Wakf++rKKgIEMtzE5TK9nhDC09ZhOLli
+	 riBulMJ56RdCaDMuJt8qSHKFWjz1+SQJPB/Yzgx1/6vGL5v3z03GsZeS1enRqA31wI
+	 ei8UTG7MewgQw==
+Date: Tue, 24 Nov 2026 17:25:06 -1000
+Message-ID: <8fefdabc4b1d9e0c0d0b3bae1995e784@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Boqun Feng <boqun@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Corey Minyard <corey@minyard.net>, openipmi-developer@lists.sourceforge.net,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>,
+ Benjamin Marzinski <bmarzins@redhat.com>, dm-devel@lists.linux.dev,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, linux-arm-msm@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ "D. Wythe" <alibuda@linux.alibaba.com>, Dust Li <dust.li@linux.alibaba.com>,
+ Sidraya Jayagond <sidraya@linux.ibm.com>,
+ Mahanta Jambigi <mjambigi@linux.ibm.com>,
+ Tony Lu <tonylu@linux.alibaba.com>, Wen Gu <guwen@linux.alibaba.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, linux-rdma@vger.kernel.org,
+ linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+ Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>,
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, virtualization@lists.linux.dev
+Subject: Re: [PATCH 2/2] workqueue: doc: clarify cancel_work_sync() cross-workqueue behavior
+In-Reply-To: <20261118-ordered-wq-cancel-v1-2-916e01f9affe@google.com>
+References: <20261118-ordered-wq-cancel-v1-0-916e01f9affe@google.com> <20261118-ordered-wq-cancel-v1-2-916e01f9affe@google.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,57 +90,35 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] ASoC: soc-devres: double list_del() in devm_component_release()
-  on teardown
+Applied to wq/for-7.5.
+
+Note that cancel_work_sync() and friends haven't been waiting for a work
+item which is still running from a different workqueue since 606a5020b9bd
+("workqueue: gut flush[_delayed]_work_sync()") which went in in v3.7. This
+has been broken for well over a decade and the documentation now says so.
+
+The following queue the same work item on more than one workqueue and then
+sync-cancel or flush it. As cancel_work_sync() doesn't guarantee that the
+work item is quiescent in that case, they need to make sure in some other
+way, e.g. by flushing the workqueues that are involved. Note that system_wq
+and system_percpu_wq, which schedule_work() uses, are different workqueues.
+cc'ing the maintainers.
+
+- drivers/char/ipmi/ipmi_msghandler.c: smi_work
+- drivers/md/dm-mpath.c: trigger_event
+- net/smc/smc_llc.c: llc_event_work
+- sound/soc/codecs/rt5651.c: jack_detect_work
+- sound/soc/codecs/rt5682s.c: jack_detect_work
+- sound/soc/soc-jack.c: snd_soc_jack_gpio.work
+- drivers/input/misc/palmas-pwrbutton.c: input_work
+- drivers/cpufreq/qcom-cpufreq-hw.c: throttle_work
+- drivers/vdpa/vdpa_user/vduse_dev.c: vduse_virtqueue.inject
+
+Thanks.
+
 --
-
-commit 2485034f94d95731614688861ce6e0f8f1b48236
-Author: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-ASoC: soc-devres: use snd_soc_component_unregister() for devm_snd_soc_regis=
-ter_component()
-
-This commit updates devm_snd_soc_register_component() to store the created
-component pointer in devres and call snd_soc_component_unregister() on
-release.
-
-> diff --git a/sound/soc/soc-devres.c b/sound/soc/soc-devres.c
-> index ca6c29b54f6ab..0323897c664dc 100644
-> --- a/sound/soc/soc-devres.c
-> +++ b/sound/soc/soc-devres.c
-> @@ -11,9 +11,9 @@
-> =20
->  static void devm_component_release(struct device *dev, void *res)
->  {
-> -	const struct snd_soc_component_driver **cmpnt_drv =3D res;
-> +	struct snd_soc_component **component =3D res;
-> =20
-> -	snd_soc_unregister_component_by_driver(dev, *cmpnt_drv);
-> +	snd_soc_component_unregister(*component);
->  }
-
-[Severity: High]
-Can this run list_del(&component->list) a second time when a driver
-registers a component via devm_snd_soc_register_component() and also calls
-snd_soc_unregister_component(dev) in its remove path?
-
-Previously, snd_soc_unregister_component_by_driver() looked up the
-component on component_list first, so devm_component_release() was a
-no-op if the component had already been removed.  Now
-snd_soc_component_unregister() unconditionally calls
-snd_soc_component_unregister_unlocked() -> list_del(&component->list).
-
-For example, sound/soc/stm/stm32_adfsdm.c registers
-stm32_adfsdm_dai_component with devm_snd_soc_register_component() in
-stm32_adfsdm_probe() and calls snd_soc_unregister_component(&pdev->dev) in
-stm32_adfsdm_remove(), which unregisters all components on the device
-before devres_release_all() runs devm_component_release(), causing a
-double list_del() on the poisoned list head during unbind or module
-unload.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/87a4mxg01k.wl-kunin=
-ori.morimoto.gx@renesas.com?part=3D9
+tejun
