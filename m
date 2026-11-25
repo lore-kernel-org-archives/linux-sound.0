@@ -1,60 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795604018;
-	b=RtBCtJ3DX3JSG5d9F5cU/siuvpf7W+MAaLZ7bIJoVaJyfCUig1Xt16FHJwyxl2HwxV3v
-	 Ary1PudENrhEODLe/U8SOB7yM7sYm80D07ZKEzThHawkf6UYgf6W3YnbS+rrYKOXZk5bh
-	 bdngD7s0V0Nw+f1qcida3Sv5Dmmw7jdGmEWZ6hBxyrTVZXdPvGMhLANnLnoHw+vszpabd
-	 4kKKOc1wrqooa0KKOOHYNyGxm+Ry01oEL+7lS0e6A/kXVtedaXxstaYNmCbzwXDLNjXCk
-	 fInp3m8V+dR19k9fxdhsBhZKw6SIf2/t9QI87hJPULqvs0u8tDHEFfay6x6ep97prVw==
+	t=1795604141;
+	b=1MDbSY/5omccqaV+6hD6LIgPN2A6nnr029GewgEPvLtmSjYF/1IK+iG16PlifElAYkPk
+	 D+5QChrPQy1z/fQjI0X0iynfE1uf0hyPrmDHCFTtmGpGw/jjKIyi3WoTGuPLRNK1ocpeM
+	 6qYmIhqYJk+yI4jDoIs/D3hn8+Laxv5bo0a/LMsMYRAqTiw0WrG4KWi84azhaxE0h+70y
+	 Cke7lwHEAi2w2GY5uKkl5LsVCqDXuPmvl83v39rANEJUougAWVp0gmo1eD1Lp6jNLCw61
+	 n1nxjHr3nXBFhEiX6rLeLQXDWaMLYYp5DLrKfDCgHjwgX0gv0uzRZewmVmc891w+aFg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795604018;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
-	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-RootMTR:X-EPHeader:
-	 X-CMS-RootMailID:References;
-	bh=tWsJdisCnNUTJmEHgS/h0WoUaEKuAhcAElbM1LpemB4=;
-	b=FXKrW1qxZP4+Dl55tmm8WezDWCcevnyDiDsPzi7CZRpAo+5usGuTZ4ScCHe6OUIpYvLd
-	 iW22ArgNm5tf4lQl9ZplPZgcvs9JA9XZxbNF986vOK7WcsvXjMbdL/NPJTD7hNhVGlCcf
-	 e7fE9t56gXNzmdkArKTYNUdLQPQFWlIx/OBCwLfIIKMebefvVltJfU8Lu+n4quhEyiN10
-	 iwnH+lv6SthZ2J+Eaok7t0i1QjA+wvhEr6gUWLhmBRixlohc1L/1iQaarpYDn8uJPXwGB
-	 IfF/ievt/YQSlfzElQhN/bVCsKLvk6wHTNFhTdJIo4yzcbzo1NVhaoHY+qtlamjs1+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795604141;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=SEJtYCC+sawf3FR5jBgcp7z0VSXuRyftBPc3qpP8J1k=;
+	b=CkM4MlrPMI24wRfxmL8fsgrocbDut0jOGa7FL6iO7Ujh4TvDt3WFQT967JmKXvGqkXc5
+	 pIp+mukC6vpgponUIrk53Fb8ohSqc+w7J/ykEbmKqB08dCph0FqxpLr0FMwKm2Zl7nhcU
+	 3PS+4aTm4l98SV5DAEIZztrqMErrTF/k3IxwZFcce4ue/HoEfvI8Gq2MK6PXFhSXJbGKn
+	 vYWp4T8q1ASS3lowulbebC1vzH148FI8HgEr97rkBWXj30oGKMUonZZS8iVPJ9dexRrh1
+	 /U7KunkTSdzibdWByYncMCrY7ID/MLDCHy1XpbdZQHv9KxfdIEFf6PurnTudboT3O2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=PsX7C6IN;
-	arc=none smtp.remote-ip=210.118.77.11
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EATtXw9S;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C4D606A321
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:53:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2C4D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C74E606A321
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=PsX7C6IN
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261125105329euoutp016cf2d75d736f299084b40e061ca71425~rRFU55pBY2991529915euoutp01F
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:53:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261125105329euoutp016cf2d75d736f299084b40e061ca71425~rRFU55pBY2991529915euoutp01F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795604009;
-	bh=tWsJdisCnNUTJmEHgS/h0WoUaEKuAhcAElbM1LpemB4=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=PsX7C6INOyWU4uuDG73v92fRc2SubDa3of/cmL5XL0D+qJ1asJZ6ANKUG4VUbyqPF
-	 b4CxQnlAFa/vv60WVDhCKsGzpNQ9zjshiMoF6TvD90Ua6Q5Yln3zqnmnCwey0qdd5c
-	 b+HGgl7O+oHluQiPMBONVljN6l2LsEbv18+sxGlQ=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261125105329eucas1p2d715a0441207737ec107c34452539dea~rRFUpzE1D2395023950eucas1p2R;
-	Wed, 25 Nov 2026 10:53:29 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261125105328eusmtip2ff03c8fe75050c8ba766a658a48b487b~rRFT-6FMT2375323753eusmtip2r;
-	Wed, 25 Nov 2026 10:53:28 +0000 (GMT)
-Message-ID: <c5dc8e9c-7fcf-44cd-8ed1-65c70d8c8bdd@samsung.com>
-Date: Wed, 25 Nov 2026 11:53:27 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EATtXw9S
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D85E1F000C0;
+	Wed, 25 Nov 2026 10:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795604140;
+	bh=SEJtYCC+sawf3FR5jBgcp7z0VSXuRyftBPc3qpP8J1k=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EATtXw9S7bjMTrSjgQ8ovpNmJB98QgRsIqkjUcIflKJvsPDFdoqr6Yy2HnEtqolEN
+	 Y8UdCQAhjPa1VRP55D1dxIq5DBF8lZoICsh22f5OUUa6/5nJmImsu8+YxnC6utwYkc
+	 hD91OsIT4QxUCXS0nxUlMui1eC0lXd9VHdurM1K6Iw8Elk9HU9xt7nP41kqVVY83MA
+	 xqLCcyu3cN/3OqMMlUxcpGx42ChiTkhImeKb4AcDb7nAeSk1R3at/va87tiCmOuxLX
+	 r6KVcf1dXuQ91CgXcKH9pRLMGfnczVXmPaiSxLhdwKhGKpGB222ox3Tjti4mcCH3WZ
+	 QID1cPU2zyBRQ==
+Message-ID: <sashiko-outbox-233175@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 4/4] soundwire: qcom: program SSP period on multi-master
+ primary
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261125103825.936939-5-srinivas.kandagatla@oss.qualcomm.com>
+References: <20261125103825.936939-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261125103825.936939-5-srinivas.kandagatla@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 10:55:40 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,102 +60,78 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 1/4] soundwire: qcom: always set master port_params.num
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, Vinod Koul
-	<vkoul@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Srinivas Kandagatla <srini@kernel.org>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	stable@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20261125103825.936939-2-srinivas.kandagatla@oss.qualcomm.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20261125105329eucas1p2d715a0441207737ec107c34452539dea
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261125103844eucas1p19032e975aa03f8926e30212a5c3184a0
-X-EPHeader: CA
-X-CMS-RootMailID: 20261125103844eucas1p19032e975aa03f8926e30212a5c3184a0
-References: <20261125103825.936939-1-srinivas.kandagatla@oss.qualcomm.com>
-	<CGME20261125103844eucas1p19032e975aa03f8926e30212a5c3184a0@eucas1p1.samsung.com>
-	<20261125103825.936939-2-srinivas.kandagatla@oss.qualcomm.com>
 
-On 25.11.2026 11:38, Srinivas Kandagatla wrote:
-> qcom_swrm_compute_params() populates p_rt->port_params only when the
-> DT entry for that master port carries a valid word-length. If the DT
-> marks word-length as SWR_INVALID_PARAM, port_params is left
-> zero-initialised and the subsequent dpn_set_port_params() callback
-> sees port_num == 0, tripping the port_target() sanity check on the
-> capture path. The callback then also writes bps - 1 = 0xffffffff to
-> DPn_BLOCK_CTRL_1(offset, 0), which is outside the DPn register range.
->
-> Split the per-port assignment: always set num/flow_mode/data_mode so
-> that the callback receives a semantically correct port identifier,
-> and only derive bps from the DT when a word length is given. Guard
-> the callback so no register write is issued when bps is unset, and
-> bound-check p_rt->num against ctrl->nports before indexing
-> ctrl->pconfig[].
->
-> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Closes: https://lore.kernel.org/all/20261125091150.2145177-1-m.szyprowski@samsung.com/
-> Fixes: 128eaf937adb ("soundwire: qcom: add support to missing transport params")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] soundwire: qcom: qcom_swrm_pre_bank_switch() writes
+  SSP_PERIOD to peer
+--
 
-This fixes the issue I've observed.
+commit ea2417312b39017aa66bb591f5dc0c79d434de58
+Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+soundwire: qcom: program SSP period on multi-master primary
 
+This commit programs SWRM_MCP_FRAME_CTRL_BANK_SSP_PERIOD_BMSK (and zeroes
+SWRM_MCP_FRAME_CTRL_BANK_CLK_DIV_BMSK on bank switch) in
+SWRM_MCP_FRAME_CTRL_BANK_ADDR on the multi-master primary controller at
+initialization and before each bank switch.
 
-> ---
->  drivers/soundwire/qcom.c | 19 ++++++++++++-------
->  1 file changed, 12 insertions(+), 7 deletions(-)
->
 > diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index 65add9a74ffd..95444eee4c0b 100644
+> index e0392f3cda34e..3476edd7c4236 100644
 > --- a/drivers/soundwire/qcom.c
 > +++ b/drivers/soundwire/qcom.c
-> @@ -1209,6 +1209,9 @@ static int qcom_swrm_port_params(struct sdw_bus *bus,
->  	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
->  	u32 offset = ctrl->reg_layout[SWRM_OFFSET_DP_BLOCK_CTRL_1];
->  
-> +	if (!p_params->bps)
-> +		return 0;
+
+[ ... ]
+
+> @@ -1005,10 +1011,16 @@ static int qcom_swrm_init(struct qcom_swrm_ctrl *=
+ctrl)
+>  	/* Clear Rows and Cols */
+>  	val =3D FIELD_PREP(SWRM_MCP_FRAME_CTRL_BANK_ROW_CTRL_BMSK, ctrl->rows_i=
+ndex);
+>  	val |=3D FIELD_PREP(SWRM_MCP_FRAME_CTRL_BANK_COL_CTRL_BMSK, ctrl->cols_=
+index);
+> +	if (ctrl->mm_role =3D=3D QCOM_SWRM_MM_PRIMARY)
+> +		val |=3D FIELD_PREP(SWRM_MCP_FRAME_CTRL_BANK_SSP_PERIOD_BMSK,
+> +				  SWRM_SSP_PERIOD(ctrl->bus.params.row,
+> +						  ctrl->bus.params.col));
+> =20
+>  	reset_control_reset(ctrl->audio_cgcr);
+> =20
+>  	ctrl->reg_write(ctrl, SWRM_MCP_FRAME_CTRL_BANK_ADDR(0), val);
+> +	if (ctrl->mm_role =3D=3D QCOM_SWRM_MM_PRIMARY)
+> +		ctrl->reg_write(ctrl, SWRM_MCP_FRAME_CTRL_BANK_ADDR(1), val);
+> =20
+>  	/* Enable Auto enumeration */
+>  	ctrl->reg_write(ctrl, SWRM_ENUMERATOR_CFG_ADDR, 1);
+> @@ -1191,6 +1203,14 @@ static int qcom_swrm_pre_bank_switch(struct sdw_bu=
+s *bus)
+>  	if (ctrl->peer_ctrl)
+>  		ctrl->peer_ctrl->reg_write(ctrl->peer_ctrl, reg, val);
+> =20
+> +	if (ctrl->mm_role =3D=3D QCOM_SWRM_MM_PRIMARY) {
+> +		u32p_replace_bits(&val, 0,
+> +				  SWRM_MCP_FRAME_CTRL_BANK_CLK_DIV_BMSK);
+> +		u32p_replace_bits(&val,
+> +				  SWRM_SSP_PERIOD(bus->params.row, bus->params.col),
+> +				  SWRM_MCP_FRAME_CTRL_BANK_SSP_PERIOD_BMSK);
+> +	}
 > +
->  	return qcom_swrm_port_reg_write(ctrl, p_params->num,
->  					SWRM_DPn_BLOCK_CTRL_1(offset, p_params->num),
->  					p_params->bps - 1);
-> @@ -1341,15 +1344,17 @@ static int qcom_swrm_compute_params(struct sdw_bus *bus, struct sdw_stream_runti
->  
->  	list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
->  		list_for_each_entry(p_rt, &m_rt->port_list, port_node) {
-> +			if (p_rt->num == 0 || p_rt->num > ctrl->nports) {
-> +				dev_err(ctrl->dev, "master port %d out of range\n", p_rt->num);
-> +				return -EINVAL;
-> +			}
->  			pcfg = &ctrl->pconfig[p_rt->num];
->  			p_rt->transport_params.port_num = p_rt->num;
-> -			if (pcfg->word_length != SWR_INVALID_PARAM) {
-> -				sdw_fill_port_params(&p_rt->port_params,
-> -					     p_rt->num,  pcfg->word_length + 1,
-> -					     SDW_PORT_FLOW_MODE_ISOCH,
-> -					     SDW_PORT_DATA_MODE_NORMAL);
-> -			}
-> -
-> +			p_rt->port_params.num = p_rt->num;
-> +			p_rt->port_params.flow_mode = SDW_PORT_FLOW_MODE_ISOCH;
-> +			p_rt->port_params.data_mode = SDW_PORT_DATA_MODE_NORMAL;
-> +			if (pcfg->word_length != SWR_INVALID_PARAM)
-> +				p_rt->port_params.bps = pcfg->word_length + 1;
->  		}
->  
->  		list_for_each_entry(s_rt, &m_rt->slave_rt_list, m_rt_node) {
+>  	return ctrl->reg_write(ctrl, reg, val);
+>  }
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+[Severity: Medium]
+Does qcom_swrm_pre_bank_switch() write the primary controller's
+SWRM_MCP_FRAME_CTRL_BANK_SSP_PERIOD_BMSK value into ctrl->peer_ctrl?
 
+qcom_swrm_pre_bank_switch() reads val from the primary controller ctrl,
+where both banks already have SWRM_MCP_FRAME_CTRL_BANK_SSP_PERIOD_BMSK
+populated from qcom_swrm_init(), updates only the row and column fields,
+and writes that val directly to ctrl->peer_ctrl.  As a result, every bank
+switch copies the primary's previous SSP_PERIOD (and any un-cleared
+CLK_DIV bits) into the dependent controller's FRAME_CTRL_BANK register
+instead of leaving SSP_PERIOD at 0 on the dependent.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261125103825.9369=
+39-1-srinivas.kandagatla@oss.qualcomm.com?part=3D4
