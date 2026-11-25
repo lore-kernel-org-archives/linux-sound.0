@@ -1,108 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.21
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795601375;
-	b=CsJYyQYufAp9sTG6Igi6S2P0Iopx1qjFdDRK3IKsu41FRvOaEcV/EYwZ74lH7ugqvsf4
-	 ZeBql65CKODG19QLk1vwKSzXeRNvN7qrAPa3JlnWpF+3vVBwZXsLFILMiTuO0f6TTCYXT
-	 XvmMyaR6EGDLvaN1eaJC1zyUup8ttRdfmqcQTwIn9++ktwp1hYv1y9Azfl9H7t3mUTUaP
-	 0wvwrz42SYo60zMr7Cls7YnmgKaNs80Us8RaADN8sx0QUyTwMW0UDN548Em3KkkrqCTZr
-	 DSFzpGw4LoiiZ7pLD1LRE0Fe0rWHxkznUjoKLjBpkSXcq5PjVaLBoe/0Uy0exWgBr6Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795601375;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-Exchange-MessageSentRepresentingType:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=94jKpoVVfEuzuYGJ/QGmpD4nwJD9rbbVjreDdQE30gE=;
-	b=msHRHAMhQsfWtTAyBaWCY8LIDQuvcNJLFLE5TumbxwRKRKrp9YK1Kr8l7hh9Z8Zd6CNs
-	 cDKQiU727c1BS3huQhRJPGpgcin113iGRkui+o/x2REWAcZ+PtpW660fpvWKyRcJh8EtR
-	 JYGwaHjPWXclabco2CtOXEH96QuoJW5hCnJUO7krqt0w8A6buLRbyIdxiWR2F9H3qZSXP
-	 GC35vuUAbRoc6tLdX3Zv4fSGpCfjpCIwFcP34lp3E+ThcmASCCVZZydmWovNHoigRFut/
-	 +FoLjEoKSHqWSGtB994Lp/pddletlxQ9GQAjiboPX8AlDKIg+DGVBoO2KngT2GtNDag==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b="yDg5j/z/";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.130.21
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011021.outbound.protection.outlook.com [40.107.130.21])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795601440;
+	b=3vXiAi6+yq4/EP6TDe7qzLosdFTTDNiqUg1dWUaIlzAXAKu87/gC8o6WLbY73OUhaIgx
+	 +1aaZ8243Ul9sx0xrvbgC/7AojMYq2kJESweI7GcTpwzDVf3CC47gBWaxIXDY6xZppmXE
+	 Czro8XEmmbKIpkNdSZCa/b7PAR6Ex5GxDmVz5+xM5k5FdbDcNE+of5dUhBUuYuKSmG+po
+	 NXaLfzXaLRctbKrDg7DDA8vfaQgvf8DursgjodGoLhM6P0nOcDDDjaTOpI6OF3UjUsOxp
+	 cao0fca4ZIRsBq52IwnYM1o0H3FeNn75b2E3yUwnZVaaeyWpTr/gqDWvrfg+semfgIA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795601440;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:From:To:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding:X-Spam-Flag:
+	 X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=eRgKCSOVQLlYdGnQ42KqaSDUUDva1bKv3y/USXOMqNQ=;
+	b=Y7vYQtWjRakJrdvxkXjhDM3ge8vaYPsgLAJrZlkFy/+0eANxpmhS0uCjC3wIjjF0Evs3
+	 xM9FvTT1CCat4/fzoref+yMu0nm2+8Cw5yZlFdzig+fNLex22tkKALXzvboGFwvMHqEy3
+	 /4Ylpp3kQGnWSSDoh8LfKghXqvBZcGb6ro/CXTUqH8mrPk1w/Kjowbr86XMCINtyBcwpl
+	 WLirUTBqSZB2CIbex68PkXs56UlC/HpoNSJ/DSMQcLv3b9PNrxMetZbEhf9dy+xu+vslj
+	 WLt5K9XpVXNtqKsfGHIX5PWRC1nVgrPJA+blX7lbnHZt9ZTk1QEUAoIawlhGKp2CY5A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=G9gH1wkp;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9ap1UFnT;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=G9gH1wkp;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9ap1UFnT;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78BB606A321
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:09:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C78BB606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E5D606A31E
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:10:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8E5D606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=yDg5j/z/
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G75rPLKAph6x3VhsfZXMdOl6Y3RQnTsWVGlLNwMDSRlnhd3mKtTCSZMpw6vgrEUwv3VMQ+d9/5/DKRnnjmPdtTvHM4eJKWAadpD2rao2vQsTtUeaKH2T/dI7WS5YNxD6uoPKj9BoBcgKNYPozd4U7oK0VajT3Pyv0RaYuX0PNFDP8iy7lnU7pl+e9UmmNPXcrl9t9iMcmrtwvuduupQRcT+XUUfBxX4k5VLh1Xoth9au4gfe0NlxrHXIGe/IbJ7ZsUftIVWqQD0bdlF3AdL/xmp7pB3DcRZbTyWlZn+sqEEdagW6viv0jrheuTyHq4qSd9sfConL1Dt1goaZAG/1Zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=94jKpoVVfEuzuYGJ/QGmpD4nwJD9rbbVjreDdQE30gE=;
- b=hitoE7ntinFWsLXKS1b9GhpUge+P/XcMkm4dvZj+nqJXp8GSOlJzrj8ULIRK7wQ5YOjJ4CtZ4wJMnvOw64BPCYu+F/Dub758KSeYxCmjP+PnEbJC2yL51Reswo22q/ZBsbuaEOGAECJHurnZ3HCAkEpfvmOc6QuxYVN4a2tUl6qjvSV48AOuGir3M4TiqaIzyZYyaAyIzEyAqjJwZbIo+jkOjiCI5v+7T3O+tWfVvh3kM10Rmr7OAUbGMAJJQO1eYkC0mClTm1qefPzqRnxCXSnvQQ/vDxUUni4y/JGf1vq3o78nopHG/b5oHDoT1eji6aKcIHXsoRhDPq2qaHkQfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=94jKpoVVfEuzuYGJ/QGmpD4nwJD9rbbVjreDdQE30gE=;
- b=yDg5j/z/u9C6xFBj2WZaPOzKk0NUthrITZl7H0ixNy/n/hjSkZ/ko/EvYW8p/xGe5iJfL4Zql30yu+vTouqayuCFNuKmTiJoc6Hgugx09+Pgq5KuSch07rSDO8tTPXLf93NPovT6wZ/KGIlpj9BJzdba7MKbHiLQW4n8ZGps/vcCF9goLhS1rTqeFykKAKMj21K3RzATy8HbPNcvtEqEQ1QdQNRJMjJRzymh65xyrGZ6qKBtAUb0edBgaqY4n22Q/w12J4Wu33Tbl1Ev0gEzKW0A+c7eL932O2s+IpxIKnJL3SRekbTX1oAWeCBXQ9Ylb7EKCrry7FB/ny4D0qbmfg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
- by BR2PR04MB659875.eurprd04.prod.outlook.com (2603:10a6:2c8:1b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.6; Wed, 25 Nov
- 2026 10:09:30 +0000
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4%5]) with mapi id 15.21.0662.004; Wed, 25 Nov 2026
- 10:09:30 +0000
-Message-ID: <006c7209-fe06-4aa1-bed8-2fa74b4d0edc@oss.nxp.com>
-Date: Wed, 25 Nov 2026 12:13:13 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset
- framework
-To: shengjiu.wang@oss.nxp.com, Liam Girdwood <lgirdwood@gmail.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Mark Brown
- <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-References: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
-Content-Language: en-US
-From: Daniel Baluta <daniel.baluta@oss.nxp.com>
-In-Reply-To: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0030.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5db::17) To GVXPR04MB12316.eurprd04.prod.outlook.com
- (2603:10a6:150:2c6::8)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=G9gH1wkp;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9ap1UFnT;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=G9gH1wkp;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=9ap1UFnT
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B093121FE9;
+	Wed, 25 Nov 2026 10:10:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795601437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eRgKCSOVQLlYdGnQ42KqaSDUUDva1bKv3y/USXOMqNQ=;
+	b=G9gH1wkpBuRsvU8TbuDkN4pf6BRBb0iKBS8OfVNCPW2l6sRgzythSsmSjfLrYqu37cvvPm
+	yBSgA4wqWpd5zgAUXJtxsi2xetBNPcTD5vHYDcMbyBftsyOXWKp+PtTKgleYAbS/fNU269
+	qsGDREOPOGMJyfTKfjVwlQ8tcJpez10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795601437;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eRgKCSOVQLlYdGnQ42KqaSDUUDva1bKv3y/USXOMqNQ=;
+	b=9ap1UFnTnvhhFIZr822lEfjNfQRMILrB5JV0+NHdScP1hVLEB8CPCgMKRkXpx/HqkLPvDu
+	LQSslacL+16xonCw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795601437; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eRgKCSOVQLlYdGnQ42KqaSDUUDva1bKv3y/USXOMqNQ=;
+	b=G9gH1wkpBuRsvU8TbuDkN4pf6BRBb0iKBS8OfVNCPW2l6sRgzythSsmSjfLrYqu37cvvPm
+	yBSgA4wqWpd5zgAUXJtxsi2xetBNPcTD5vHYDcMbyBftsyOXWKp+PtTKgleYAbS/fNU269
+	qsGDREOPOGMJyfTKfjVwlQ8tcJpez10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795601437;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=eRgKCSOVQLlYdGnQ42KqaSDUUDva1bKv3y/USXOMqNQ=;
+	b=9ap1UFnTnvhhFIZr822lEfjNfQRMILrB5JV0+NHdScP1hVLEB8CPCgMKRkXpx/HqkLPvDu
+	LQSslacL+16xonCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75FBD134CA;
+	Wed, 25 Nov 2026 10:10:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Qe8gEx20Bmv3UwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 10:10:37 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH v2] ALSA: pcm: Cover buffer access gate in all read/write ioctls
+Date: Wed, 25 Nov 2026 11:10:30 +0100
+Message-ID: <20261125101035.1754568-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,125 +101,273 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|BR2PR04MB659875:EE_
-X-MS-Office365-Filtering-Correlation-Id: 195d4590-7639-4835-02ec-08df4adc321e
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|366016|1800799024|23010399003|7416014|376014|261022105027099003|261026121527099003|10067099003|261026140227099003|261028144727099003|261102123227099003|261021121427099003|20046099003|6133799003|921020|18002099003|22082099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	BeltwXAygyjiBeFkMsxNC4dQe4QeKieJxYMUymCMz8rYvsxz4LiBYAL2ClgwIPNuQ/dpUk+0Cr7aHbcdX0n4Oo25UPBGEsLlVwZsltCBwtxRprQNYbo2r0mstPH+oFNR+u1G84ApmCrx7bLW3t5GC9JMcNa8o8TlfpkcPTT6t71zmLvXFEMEaiMRWuERbJPrqzX2FonbHX2OHMQvn2dtZSn9oa/2uplhbsanby7W12luTC1JyyGe9mLbxbAC47Yj5taEtM/BAnzq6iX+RsjkJ4CvieqzSM5AUIM+FVNCOCq+fvX+J//xDU7QVg1fZJJNK55vTRpl/DoGYXEOUX3rk4UN0vU6QJ2snUClwIRExN0baEe9ilXTHjF0otTPvp/QPDr9Zl8BjBz0h69bhGhLHD792gGlVQcB+DpdpR+76e9Yr2Uf8hKcKE927iYeo9XTdbYSBGi/cIXGjZ52rwXUIel4Nyh1RySjgQKhIlB9w8VLohQNzLesqIh0yK17b4jsxearYX556RvnqxwVhkda54Qr0OJObuQbU+a8ykD7j+csKDiGDZWQilgW3BUT6VqVz1y69EQsg/wuv5MtRFmenPBMolNGRabJcJFFAOYx150x2ZZUQhY3ZEPSArrBRb1/CDr6mHtYriw/s50S1xo31hAjfm+2G9wXtnX/+q7UuRBV2inJCuh8uoc2Y5Nw+l0Wb4i6RxU6272Gru0CS+WqKQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(1800799024)(23010399003)(7416014)(376014)(261022105027099003)(261026121527099003)(10067099003)(261026140227099003)(261028144727099003)(261102123227099003)(261021121427099003)(20046099003)(6133799003)(921020)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?T0hZdHhKNE9DYmFrcUtOaDhOVnZabklSRTZ4aHR2b2o0c0syNW52S0lsRUEz?=
- =?utf-8?B?aXJvVTNQSyt6WWJMdWl4RmpqQ2Uxa1BOam40cHBTdVJEeERzazFLRlNJRHdl?=
- =?utf-8?B?cUNraEFlbkZBeTJpSkhldEpsNmxBNVIzQ3kxdnZ0OVRBRHRwandUOHRtbjNS?=
- =?utf-8?B?MkJadGxZS0hHT2VhZjM5WlY1NEVoV0dkR3VVNXNGcmJXMDZLNFZYTk10RzVw?=
- =?utf-8?B?bUJhbk5zTWsveDBQZGl3WnZOYWxwQTB6aE9Vd3RqUTJ6aHdEQXVRaFowY2N2?=
- =?utf-8?B?K3RCL2Y1eE8wR2p4RFlQeFZqaTdVRWVNOGh6VVNZZEVjRlh4TEUvcXBhWXU2?=
- =?utf-8?B?ZEVOYWUwcUhQUmhFWmJiSjE2TEkzRTRMV2xIekxqWVpCWWVxM3VFNFQ5OXpa?=
- =?utf-8?B?eU5oTHNHWFFhb21kdDVkVi9ZME43UDdMYVVrZWY3VXo4bndmSkZkVkZyeDU5?=
- =?utf-8?B?bzlvMWE4dWg1Yit6TW8xUDcwaXlRc0VxZkhpQXBvdjBoY3AvMDNSRmxrZEly?=
- =?utf-8?B?M1JmSFN3Tm9ORnMyTVg3Tm9BNUFlNERXNDhoVWNLaUczY3FsRWdPT3diN2hv?=
- =?utf-8?B?R0RGTmRCTHpDUUR2KzJCbVZjblFNb0dBdFVJOFdYR3h5SVpUZnNJTm1wSnhm?=
- =?utf-8?B?cHZ0TDhPaFZWbG9oK0Q0WWZHVHJ6cGFlTUdRalFrbjdVM3Vjd2liSTJ5bmVx?=
- =?utf-8?B?aXc3SFBIOTg3T1Z2bUJHTklKNTIybzNvZkVTRzgwR09kS0hocjFiQXZaWWpp?=
- =?utf-8?B?VUwzWTJMR3dLY0l2R2hSZHVLZzNVWlhnbTQ5WGNuVkppNUVJNmtuWEJka3NB?=
- =?utf-8?B?WGRyWXJYNDYyZDdBSC9IcE4xWGkzcytjNTNEQklzWEYzelRrd0tVUXNpcVlk?=
- =?utf-8?B?Y0RjK3d2RENidXd5d0szOFlNem53MitTMjhXUWpYbUNYZmduV3BBN2lVTVUv?=
- =?utf-8?B?cjczd3pSZStGbGdyM1lRbTdiNjdVUGlqTVdnYU9DdUM5UVRKUkFyVnZUN1VZ?=
- =?utf-8?B?SzJsVTE1bVp4dWgreDBQdjN0NEltcm83cVZKUk5wWGZaYVFBK2MxYk1zanVN?=
- =?utf-8?B?YnpYUk41TkZmMFEwL2lhSDZzRlRKRTlXdS96VHV4T2xjZDN3RHB5NVZsSkpO?=
- =?utf-8?B?cFdKUnIzcTkySXF5SkV5a3hia1Iwd1JIQTJRbE9ndHUrRkZYTi8xczc4TE1x?=
- =?utf-8?B?ZnQ0SHpUV0pqTDhoY1l4VmhSRTFndDEzYU5GdngvTDJ3aGF2UDduVVE2VFBK?=
- =?utf-8?B?UzExRzlUNE1vWmo0THRzZzYxVEFTSzhFNkExVmg1aHBnMHNLSkxPd0xyc0Q5?=
- =?utf-8?B?akxONFJnNkxsYWcwaGZWdld2ejh5U0phZ0lvcUwydFRKNnh3c0owQld5anFE?=
- =?utf-8?B?aE0rdUVFSzBZUjNUUWxQS3lXb3hWMzA3a2hVRitia3ZjUUVpU09yOWE0SDR5?=
- =?utf-8?B?UzZZQkYxbG5JTXRPVlFLZzBTb0N0T1NkcXpIWXJsUVplN2c0NFlQcW1UV3Jt?=
- =?utf-8?B?eEw2eFl4bTJVV2RocnRVa25UZVcwLzJVK2lUYzhweHVodzFSYnpVc0gxWTFp?=
- =?utf-8?B?eS85Ym00OVZuQmRkVDVtdnRNSHJUTE9LeEFDQklZTjZxRmlOUkVEZkkrOE5v?=
- =?utf-8?B?NTRqTTQ5RXpXZ1NGVlk5eU1maEx6cTJCcytTbG9HWEl4WHU3NGVLWFRjZTRS?=
- =?utf-8?B?WFdHNWxudEdUTmdqQ3VhQURJVnllTjA5Zlh3N1RBZk4rQjJROU1oaEJLR3dW?=
- =?utf-8?B?SVFzSjNFTk1hczBjamxoby9kV09kRXlOaUVENmpvTjFnTGZISnBKaS9XTmhh?=
- =?utf-8?B?UnlDVkxTYjNiQmQ0d3A1RFBDbGNxSWE0ME9MN0xxZHA3ZlFJbTdWejd4cmtK?=
- =?utf-8?B?d3pHcE5GQU9jOWxzQ05hSnBmWjRUV1B2NTNUemNlOXhFeDJLUzJGbk4zTFhT?=
- =?utf-8?B?eW9YdW9oOWE2OHREL0czNytQelFKL3lVVFkvbzVKaURRVU10NDVRTzhnS3lU?=
- =?utf-8?B?cTFwS0NuQmVvNUtwMzlPU28yN2ptTkVxUloyVjV6eEhtWDBpNkIzUjN2aWlh?=
- =?utf-8?B?TEpUbk11WWpDbjFHRWtyMmxlbmF3VHZYcTlIUktXcnE4d1BWS21QR1pRVWcv?=
- =?utf-8?B?UWJuVXMwVzNucEkzckJzRjdOYTJmRXFwZXptL2l3Yk9FNUg3YlRFczVCUzIr?=
- =?utf-8?B?UzdVOWVLRFRGOUhJVnFOeFl6cTJWMS9YYWhrZ3FUWTFHSGxtT3lvVjl3OHZN?=
- =?utf-8?B?N2hMN2tTMjdUYlVJZ1RHY2NUVTkvOVZhdHBXMmVrTFptZU1MRUpKNXVUUXZJ?=
- =?utf-8?B?QVFjZjE5TUFqWWF6Z1M4M2MvZUVYNUw4Vyt0SW94OEJHZVpteTE4dz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 195d4590-7639-4835-02ec-08df4adc321e
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2026 10:09:30.6256
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bOoQaahWdJgriRviXMsDSBuORHoJFn1qu2AaKI+4HU5pR3sX5lOzcizea1pg8nKSOdMI+p7Ms47AyNzQykwxFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BR2PR04MB659875
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -11.80
 
-On 11/25/26 09:38, shengjiu.wang@oss.nxp.com wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
-> 
-> Replace syscon regmap-based DSP reset control with the kernel reset
-> controller framework for i.MX8ULP. The syscon approach requires direct
-> register access and creates tight coupling to the system controller,
-> while the reset framework provides a cleaner abstraction and proper
-> reset sequencing.
-> 
-> Three named reset controls are now consumed: runstall to stall/unstall
-> the DSP core, softreset for DSP core reset, and dbgreset for the debug
-> logic which is kept deasserted to allow external debug agent access.
+We haven't applied the buffer access gate in interleaved read/write
+because it doesn't involve with the runtime attribute access before
+the actual snd_pcm_lib_read/write calls.  However, there can be a
+slight race during those ioctls between the PCM state check and
+read/write calls, which may trigger a kernel WARNING() for the NULL
+runtime->dma_area check in pcm_sanity_check().
 
+For addressing it, in this patch, all callers of __snd_pcm_lib_xfer()
+are changed to take the buffer access get via SND_PCM_BUFFER_ACQUIRE()
+call for avoiding the unexpected PCM state change during the whole
+operation.  Some inline helpers imply the runtime->buffer_access
+gating, so the definitions of SND_PCM_BUFFER_ACQUIRE() & co are moved
+to the standard pcm.h now (so that the usage outside sound/* can work
+e.g. for USB gadget audio driver).
 
-As Philipp pointed the wording here is a little bit unfortunate. The reset
-sequence is already correct what this patch does uses a cleaner and standard
-reset abstraction.
+Meanwhile, this change makes the snd_pcm_buffer_access_get() and
+_put() calls in __snd_pcm_lib_xfer() superfluous, so those are
+dropped, too.
 
-[...]
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+v1->v2: fixed the mistakenly dropped error check, covering more calls
 
->  static int imx8_shutdown(struct snd_sof_dev *sdev)
->  {
->  	int ret;
-> @@ -202,42 +201,32 @@ static int imx8m_probe(struct snd_sof_dev *sdev)
->  
->  static int imx8ulp_run(struct snd_sof_dev *sdev)
->  {
-> -	struct regmap *regmap = get_chip_pdata(sdev);
-> +	struct imx8ulp_chip_data *chip = get_chip_pdata(sdev);
->  
-> -	/* Controls the HiFi4 DSP Reset: 1 in reset, 0 out of reset */
-> -	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, 0);
-> +	/* Controls the HiFi4 DSP Reset */
+ include/sound/pcm.h      | 45 ++++++++++++++++++++++++++++++++++++----
+ sound/core/oss/pcm_oss.c |  9 ++++----
+ sound/core/pcm_compat.c  |  3 +++
+ sound/core/pcm_lib.c     |  5 +----
+ sound/core/pcm_local.h   | 26 -----------------------
+ sound/core/pcm_native.c  |  3 +++
+ 6 files changed, 53 insertions(+), 38 deletions(-)
 
-I would remove this comment above, as it is obvious from the function name what
-is the action taken. 
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index 1cf511f8d880..71143c19c7ae 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -701,6 +701,32 @@ DEFINE_LOCK_GUARD_1(pcm_stream_lock_irqsave, struct snd_pcm_substream,
+ 	     stream <= SNDRV_PCM_STREAM_LAST;		\
+ 	     stream++)
+ 
++/*
++ * helpers for restricting hw_params / hw_refine changes
++ */
++static inline int snd_pcm_buffer_access_get(struct snd_pcm_runtime *runtime)
++{
++	if (!atomic_inc_unless_negative(&runtime->buffer_accessing))
++		return -EBUSY;
++	return 0;
++}
++
++static inline void snd_pcm_buffer_access_put(struct snd_pcm_runtime *runtime)
++{
++	atomic_dec(&runtime->buffer_accessing);
++}
++
++/* auto-cleanup macros */
++DEFINE_GUARD(snd_pcm_buffer_access, struct snd_pcm_runtime *,
++	     snd_pcm_buffer_access_get(_T), snd_pcm_buffer_access_put(_T));
++DEFINE_GUARD_COND(snd_pcm_buffer_access, _try,
++		  snd_pcm_buffer_access_get(_T), _RET == 0);
++
++#define SND_PCM_BUFFER_ACQUIRE(runtime, var) \
++	ACQUIRE(snd_pcm_buffer_access_try, var)(runtime)
++#define SND_PCM_BUFFER_ACQUIRE_ERR(var) \
++	ACQUIRE_ERR(snd_pcm_buffer_access_try, &(var))
++
+ /**
+  * snd_pcm_running - Check whether the substream is in a running state
+  * @substream: substream to check
+@@ -1187,6 +1213,17 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 				     void *buf, bool interleaved,
+ 				     snd_pcm_uframes_t frames, bool in_kernel);
+ 
++static inline snd_pcm_sframes_t
++snd_pcm_lib_get_and_xfer(struct snd_pcm_substream *substream,
++			 void *buf, bool interleaved,
++			 snd_pcm_uframes_t frames, bool in_kernel)
++{
++	SND_PCM_BUFFER_ACQUIRE(substream->runtime, lock);
++	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
++		return -EBUSY;
++	return __snd_pcm_lib_xfer(substream, buf, interleaved, frames, in_kernel);
++}
++
+ static inline snd_pcm_sframes_t
+ snd_pcm_lib_write(struct snd_pcm_substream *substream,
+ 		  const void __user *buf, snd_pcm_uframes_t frames)
+@@ -1219,28 +1256,28 @@ static inline snd_pcm_sframes_t
+ snd_pcm_kernel_write(struct snd_pcm_substream *substream,
+ 		     const void *buf, snd_pcm_uframes_t frames)
+ {
+-	return __snd_pcm_lib_xfer(substream, (void *)buf, true, frames, true);
++	return snd_pcm_lib_get_and_xfer(substream, (void *)buf, true, frames, true);
+ }
+ 
+ static inline snd_pcm_sframes_t
+ snd_pcm_kernel_read(struct snd_pcm_substream *substream,
+ 		    void *buf, snd_pcm_uframes_t frames)
+ {
+-	return __snd_pcm_lib_xfer(substream, buf, true, frames, true);
++	return snd_pcm_lib_get_and_xfer(substream, buf, true, frames, true);
+ }
+ 
+ static inline snd_pcm_sframes_t
+ snd_pcm_kernel_writev(struct snd_pcm_substream *substream,
+ 		      void **bufs, snd_pcm_uframes_t frames)
+ {
+-	return __snd_pcm_lib_xfer(substream, bufs, false, frames, true);
++	return snd_pcm_lib_get_and_xfer(substream, bufs, false, frames, true);
+ }
+ 
+ static inline snd_pcm_sframes_t
+ snd_pcm_kernel_readv(struct snd_pcm_substream *substream,
+ 		     void **bufs, snd_pcm_uframes_t frames)
+ {
+-	return __snd_pcm_lib_xfer(substream, bufs, false, frames, true);
++	return snd_pcm_lib_get_and_xfer(substream, bufs, false, frames, true);
+ }
+ 
+ int snd_pcm_hw_limit_rates(struct snd_pcm_hardware *hw);
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+index 66162caa45d4..e417cb618dce 100644
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -1246,8 +1246,8 @@ snd_pcm_sframes_t snd_pcm_oss_write3(struct snd_pcm_substream *substream, const
+ 				break;
+ 		}
+ 		mutex_unlock(&runtime->oss.params_lock);
+-		ret = __snd_pcm_lib_xfer(substream, (void *)ptr, true,
+-					 frames, in_kernel);
++		ret = snd_pcm_lib_get_and_xfer(substream, (void *)ptr, true,
++					       frames, in_kernel);
+ 		mutex_lock(&runtime->oss.params_lock);
+ 		if (ret != -EPIPE && ret != -ESTRPIPE)
+ 			break;
+@@ -1287,9 +1287,10 @@ snd_pcm_sframes_t snd_pcm_oss_read3(struct snd_pcm_substream *substream, char *p
+ 		if (ret < 0)
+ 			break;
+ 		mutex_unlock(&runtime->oss.params_lock);
+-		ret = __snd_pcm_lib_xfer(substream, (void *)ptr, true,
+-					 frames, in_kernel);
++		ret = snd_pcm_lib_get_and_xfer(substream, ptr, true,
++					       frames, in_kernel);
+ 		mutex_lock(&runtime->oss.params_lock);
++
+ 		if (ret == -EPIPE) {
+ 			if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_DRAINING) {
+ 				ret = snd_pcm_kernel_ioctl(substream, SNDRV_PCM_IOCTL_DROP, NULL);
+diff --git a/sound/core/pcm_compat.c b/sound/core/pcm_compat.c
+index c5931fdfe1f5..924fd269dace 100644
+--- a/sound/core/pcm_compat.c
++++ b/sound/core/pcm_compat.c
+@@ -293,6 +293,9 @@ static int snd_pcm_ioctl_xferi_compat(struct snd_pcm_substream *substream,
+ 		return -ENOTTY;
+ 	if (substream->stream != dir)
+ 		return -EINVAL;
++	SND_PCM_BUFFER_ACQUIRE(substream->runtime, lock);
++	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
++		return -EBUSY;
+ 	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
+ 		return -EBADFD;
+ 
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+index 3b66677c037a..9c60fd3d38fc 100644
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -2275,6 +2275,7 @@ int pcm_lib_apply_appl_ptr(struct snd_pcm_substream *substream,
+ }
+ 
+ /* the common loop for read/write data */
++/* the caller should reserve the buffer via runtime->buffer_access beforehand */
+ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 				     void *data, bool interleaved,
+ 				     snd_pcm_uframes_t size, bool in_kernel)
+@@ -2377,9 +2378,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 			err = -EINVAL;
+ 			goto _end_unlock;
+ 		}
+-		err = snd_pcm_buffer_access_get(runtime);
+-		if (err < 0)
+-			goto _end_unlock;
+ 		snd_pcm_stream_unlock_irq(substream);
+ 		if (!is_playback)
+ 			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
+@@ -2388,7 +2386,6 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 		if (is_playback)
+ 			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
+ 		snd_pcm_stream_lock_irq(substream);
+-		snd_pcm_buffer_access_put(runtime);
+ 		if (err < 0)
+ 			goto _end_unlock;
+ 		err = pcm_accessible_state(substream);
+diff --git a/sound/core/pcm_local.h b/sound/core/pcm_local.h
+index 7762c89e0f9f..4b134d435c24 100644
+--- a/sound/core/pcm_local.h
++++ b/sound/core/pcm_local.h
+@@ -86,30 +86,4 @@ static inline void snd_pcm_dma_buffer_sync(struct snd_pcm_substream *substream,
+ #define is_oss_stream(substream)	false
+ #endif
+ 
+-/*
+- * helpers for restricting hw_params / hw_refine changes
+- */
+-static inline int snd_pcm_buffer_access_get(struct snd_pcm_runtime *runtime)
+-{
+-	if (!atomic_inc_unless_negative(&runtime->buffer_accessing))
+-		return -EBUSY;
+-	return 0;
+-}
+-
+-static inline void snd_pcm_buffer_access_put(struct snd_pcm_runtime *runtime)
+-{
+-	atomic_dec(&runtime->buffer_accessing);
+-}
+-
+-/* auto-cleanup macros */
+-DEFINE_GUARD(snd_pcm_buffer_access, struct snd_pcm_runtime *,
+-	     snd_pcm_buffer_access_get(_T), snd_pcm_buffer_access_put(_T));
+-DEFINE_GUARD_COND(snd_pcm_buffer_access, _try,
+-		  snd_pcm_buffer_access_get(_T), _RET == 0);
+-
+-#define SND_PCM_BUFFER_ACQUIRE(runtime, var) \
+-	ACQUIRE(snd_pcm_buffer_access_try, var)(runtime)
+-#define SND_PCM_BUFFER_ACQUIRE_ERR(var) \
+-	ACQUIRE_ERR(snd_pcm_buffer_access_try, &(var))
+-
+ #endif	/* __SOUND_CORE_PCM_LOCAL_H */
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 897975e43a9b..9e4a82d4ee82 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -3418,6 +3418,9 @@ static int snd_pcm_xferi_frames_ioctl(struct snd_pcm_substream *substream,
+ 	struct snd_xferi xferi;
+ 	snd_pcm_sframes_t result;
+ 
++	SND_PCM_BUFFER_ACQUIRE(substream->runtime, lock);
++	if (SND_PCM_BUFFER_ACQUIRE_ERR(lock))
++		return -EBUSY;
+ 	if (snd_pcm_get_state(substream) == SNDRV_PCM_STATE_OPEN)
+ 		return -EBADFD;
+ 	if (put_user(0, &_xferi->result))
 
-> +	reset_control_deassert(chip->soft_rst);
->  
-> -	/* Reset HiFi4 DSP Debug logic: 1 debug reset, 0  out of reset*/
-> -	regmap_update_bits(regmap, SYSCTRL0, DEBUG_LOGIC_BIT, 0);
-> +	/* Release HiFi4 DSP Debug logic */
-
-this comment can stay. 
-
-> +	reset_control_deassert(chip->dbg_rst);
->  
-> -	/* Stall HIFI4 DSP Execution: 1 stall, 0 run */
-> -	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, 0);
-> +	/* Run HIFI4 DSP Execution */
-
-
-With that said, 
-
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+base-commit: c3c132d63840093a3ca4bd09e7434614c1bd07e3
+-- 
+2.53.0
 
