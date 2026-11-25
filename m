@@ -1,108 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795625137;
-	b=d7PihfG8THwoBJDKt1sW+ZleRR42s30RFBmqCyjDrFAWsxuZV4Yr5eV0+TVwQfNKy76l
-	 37MmJxCButtmfr5ujtpQzyKL8CO/BRKTCQLM2IbfP19asYFiBm/7lkTNMK8s/48gFIkZJ
-	 G/MhgwC1+5cTNEcp8xesI4axVxEbe1/Wacm6n70fCji7IFATTISr+2uCuhtP5g2gRLWch
-	 OJR5qaty3Is/CwVWSgXKGO5ZnnrDSE+F+vISrjJDR3nPnYGRATofmLINqWubaHziwPAd6
-	 yGp/RMkR7ffED9cZI7QZzU1VtK1/Mwbwu19nMDCRuyXYODeJBsIpE+/SBNgGN9jIBKA==
+	t=1795626294;
+	b=v1EyLi9H6FURZY9AxRq/r39hxmkTqWt0Olbx64FB4GS67eR7wEVn+IlM8xCH1025GMZn
+	 zl1U7I50USn8vhFE2kz7d8L+0IFho4Pdb5whW9mTXPVdYH9aGmN4FjSHOnpGxC+89oeJW
+	 0kfenAhDp1E6g++AfECAf/iYHf7VD6MHOi7Ip5A55SdH9tM1H9BeuoS6nQfSPE5u505OP
+	 vMPTEH2kuTflTuKRThnpmEdXEZznGqOnL2UZbQ7RPqRVDt/0cEqGQFo+G60V+Q4VmPnYa
+	 xdjipVwPS1NzQBXoIHl4+FmuyJ0xX/sOMd6cD1z+xMt/WVKLxOXlWf1HNXSHbSuNfdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625137;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=11zt4OupvieQqDw22Q2ubqyLm0TwPHTf9uDp8UQ/aNg=;
-	b=PUsbplCsMhlqiymWe4V5Xj/NroXrL6l5nwWUHeAe+tJogdDy8zUOeEkMzFcJNRInmf+Q
-	 Zjji2Mth+x5/ypT5hjyfsZV+DJlbCDhDP9SVZavQG79hsWIvKkMekf0zhvdHPWK4Xisa7
-	 0OLHR1E8Hg7Yvzz3zEDDiiyU729leUZO7zbT0URM5MwvsfrRKVK/VaerhW82piXXxpal5
-	 YY+PM/cgeZQrO1gojlBzOuc1R85JbaT3S7vlqlDVxnKY2gXjGQXbPApahWRk9Q1nGwk6+
-	 /6wQs7SGFbO7KbnQ/Sb2YHFSFjj7A2wxpg2Rm8yyRqjng5fp+Cef4UaWGd6Cw5rmWgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795626294;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=lwMyyLlgAulcgxUt03RSWfXx+IzjN/eAWiZQJKqrsSM=;
+	b=wwfSoPfhtM31Fi/biC310Ar0zDqVUoMLbdJSq3HcspZ39vMExT9wd2mSOUdxxHEHtNE6
+	 iDbOFlEWytYi+FJV6PZJDqonyWWmmIVd7aN6u03Y8FrTpURXWpV0FmD55T1PF+d3eKw8n
+	 T0A24hBIgYeDXx9v2nQd9ZHDdgqkaTJ2a3Aani47XS7wEtVk/S7HrQ0NsI/M+WJVbBAJp
+	 DkDkbV3usHVdg3CKJEI6EbLzAtHaESTfaxnwsFpZwMn2wJi2VeVnQYwXPEcaRsaZCjeOc
+	 sI7VfZac38jcmIWniyVmMFOgwf7stVhFPwo81amjWOtajGCsCRuqFjKNpBAwq8G0asw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gYew8w2z;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="mKl/Af1a";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEEE606A327;
-	Wed, 25 Nov 2026 16:45:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AEEE606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265F7606A31E;
+	Wed, 25 Nov 2026 17:04:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=gYew8w2z
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 164CF410D0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1795625135; bh=11zt4OupvieQqDw22Q2ubqyLm0TwPHTf9uDp8UQ/aNg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=gYew8w2zbH6+bi/mBbqli+h0aBDamw00BioPDCMMC4Es4g+qCaaIw8gBYOLhfGAsU
-	 9mfNHzR2Wjt3eb5ezNkPplfVvqDZB4yLXc7H/uIjYl6k/R0SNrt0O4pqewchTPc4H+
-	 DoPRzU4+fJgJOU7hPx03jLkV4HVaXJMTTjxyrWRVyiE+GFkUio915W5ZUB0L5VMnbm
-	 Z5AtjEERksNhEMgjG3ZSm0ynjzhzYrKmQP0JaqQq4T6DitPDhHE0cz5cUJ9ItE/n9j
-	 Ip9FDRPDTnpXpMfA3rcqvq+BtjVyvtC+AdbQzNra/9WErFSqw5foLA7PdpN6n18WG/
-	 9pepodyHhS3sA==
-Received: from localhost (unknown [205.220.129.44])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 164CF410D0;
-	Wed, 25 Nov 2026 16:45:34 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, David Hildenbrand
- <david@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Jason
- Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, linux-sound@vger.kernel.org, Jens Axboe
- <axboe@kernel.dk>, linux-block@vger.kernel.org, Marcel Holtmann
- <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, Jason Wang <jasowangio@gmail.com>,
- David Heidelberg <david@ixit.cz>, oe-linux-nfc@lists.linux.dev, Chas
- Williams <3chas3@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, Helge Deller
- <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, MPT-FusionLinux.pdl@broadcom.com, "James
- E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, "Martin K.
- Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org, Miquel Raynal
- <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
- Raghavendra <vigneshr@ti.com>, Zhihao Cheng <chengzhihao1@huawei.com>,
- linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Juergen Gross
- <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
- xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, "Michael S. Tsirkin" <mst@redhat.com>, Eugenio
- =?utf-8?Q?P=C3=A9rez?= <eperezma@redhat.com>, Sean Christopherson
- <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>, Namjae Jeon
- <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org, Jaegeuk Kim
- <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Tzung-Bi Shih
- <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
- intel-gfx@lists.freedesktop.org, Matthew Brost <matthew.brost@intel.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/12] docs: ioctl-number: update entries
-In-Reply-To: <20261125061340.3402300-1-rdunlap@infradead.org>
-References: <20261125061340.3402300-1-rdunlap@infradead.org>
-Date: Wed, 25 Nov 2026 09:45:27 -0700
-Message-ID: <875wxkx3ko.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mKl/Af1a
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 506F31F000C6;
+	Wed, 25 Nov 2026 17:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795626293;
+	bh=lwMyyLlgAulcgxUt03RSWfXx+IzjN/eAWiZQJKqrsSM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=mKl/Af1a4mmdiPtOcgs0n1qIh/yOPGMwNpXmDDvBHZYxJ9k1dZy8JO/uVzeYTH2xw
+	 r/5ehcAxQGM994bmcpzecpRt7OGdTIhYdwuKCjZApMixrEuuVrXRqLqfh5yhb7OhHC
+	 4Qu5hqY4gjT57w07sAWa0GZ5w1cxn4xBmIiMRarsxHPj5rouTfEAEyobSieDvNHSO2
+	 8HFpHdk1kZxkwsnKnXG4hDOPX7zIIawaBzCYVxW+DtV9iD/G+JwKrMM3UbXm68j+EU
+	 tqe0HwUOKf2lPwftmI6XlxQ3eK8gFKSl9kh2F7xP3aOY4u5ZYVUL8Aj8jqg9nsvHYP
+	 awt6xqtN2j+xw==
+From: Mark Brown <broonie@kernel.org>
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Ian Rogers <irogers@google.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, Elkin Cruz <elkin@google.com>
+In-Reply-To: <20261119171111.1538575-1-irogers@google.com>
+References: <20261119171111.1538575-1-irogers@google.com>
+Subject: Re: [PATCH] ASoC: sti: Return irqreturn_t instead of -EPERM in
+ uni_player_irq_handler()
+Message-Id: <179562185577.358726.11130362629711779852.b4-ty@b4>
+Date: Wed, 25 Nov 2026 15:50:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -112,33 +61,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1166; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=G6V5Px8etOi7i1uRKyug+BSFpCRLBg3BjTNTRb20krw=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLZRY10zP1y5Sfp9ktF/919sSDs380Wd9a4i+cfRC/gZ
+ OK+9n5ORykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACZS2sTI8NSj5NAxvTP8hS3z
+ e16+fViZ//fxNdfbN4X7/e0vsqhdXM7IsPHB3EdGpz6zcVTF3Jt4dH72tUbN668/cV/eXPjjddN
+ /Bm4A
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+On Thu, 19 Nov 2026 09:11:11 -0800, Ian Rogers wrote:
+> ASoC: sti: Return irqreturn_t instead of -EPERM in uni_player_irq_handler()
 
-> Update file names that define ioctls and update the range of
-> ioctl function numbers that are used where they have changed.
->
-> [Since having multiple maintainers trying to merge these would
-> cause some conflicts, it would be more manageable for Jon to
-> take all of these through the docs-next tree.]
->
->  [PATCH 01/12 v2] docs: ioctl-number: update MM entries
->  [PATCH 02/12 v2] docs: ioctl-number: update sound entries
->  [PATCH 03/12 v2] docs: ioctl-number: update block entries
->  [PATCH 04/12 v2] docs: ioctl-number: update networking entries
->  [PATCH 05/12 v2] docs: ioctl-number: update video/fbdev entries
->  [PATCH 06/12 v2] docs: ioctl-number: update SCSI entries
->  [PATCH 07/12 v2] docs: ioctl-number: update MTD entries
->  [PATCH 08/12 v2] docs: ioctl-number: update USB entries
->  [PATCH 09/12 v2] docs: ioctl-number: update virtualization entries
->  [PATCH 10/12 v2] docs: ioctl-number: update FS entries
->  [PATCH 11/12 v2] docs: ioctl-number: update platform entries
->  [PATCH 12/12 v2] docs: ioctl-number: update DRM entries
->
->  Documentation/userspace-api/ioctl/ioctl-number.rst |   91 ++++++++---
->  1 file changed, 72 insertions(+), 19 deletions(-)
+Applied to
 
-I've applied the series, thanks.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-jon
+Thanks!
+
+[1/1] ASoC: sti: Return irqreturn_t instead of -EPERM in uni_player_irq_handler()
+      https://git.kernel.org/broonie/sound/c/83e20d3e0d11
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
