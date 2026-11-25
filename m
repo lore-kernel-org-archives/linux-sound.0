@@ -1,98 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795595156;
-	b=VmCMvdxlbbRRu6FdSntBTZcgWXRI0ChH7GwoYrJKw4WDpl3SNf2Io1z6FXXgb/NEsLP9
-	 eshkUjWGPj+tomAFoc7MYTLKqfR5SbdUmyqCnFG4z1cOEIQ+QM/U2GNfSkO74XTtmqdIM
-	 V3mxUixf4jABQBrNt2GJtJpivVa1b2Sn3+qO+9GW/WbcvXP30IlmWS9PU+ui5MKsoH38p
-	 14eAdKIiNdXWrVDH0/qNAhCX2nRDT2g1iMdhwte4kzUtZeMxQnGtEURkBfgxft9qt69f+
-	 28OcxRiKa6Z21Cd5cIFTwU+g7/MMy3a001UqPwhlUIInCkDxcHhBdAYbu+ximdGjZtw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795595156;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=vf7/fHh0NzQPgN07aJpbb1vB1DON0qR+F/6eyHLLiH4=;
-	b=PLXrkoDhCH6KA39PjeMKDVvTB9lcIN/933IwgMGvIrCvDXAzS9U7OIzmj4RHO0ObfuVx
-	 vHaUrBOEdo8j5jHRoOcyUtDnR+WQh2zlW8KoryhcGd/OJLjfoaL0k0FP8b+ukqC664YoB
-	 8Z2XvHgm/aoQtgnlOS4Zu5r/rNiMHzxAA/uJtR60r8ULyJYsA69xL5aw1ZBm03BQyWKHP
-	 McC+Q99YzfpYjfsLgpeRqK6z6hdTpwTGX7sFB1apmnZeO8q5Brxa3jozQDh9yKnBzPXJA
-	 STAkl+IG+s1oOqxwj7CTdS16X53WzSIrfquuMhAorWxG5F6NEW4squ5jva5LBnxoGHQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=DK7NRn96;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795595482;
+	b=cY5E/McRCpkh/sxkzKA3fK9Kty+E+TpSC155byzkafKCsAX6tKVfBXgtzhWjghr4pldc
+	 wdSNJbkfomrPlojj9cm+vZYduDEJd1B10fwwQ7547zzLVjOCwvrUuvq4FjVFb/mnlnh/U
+	 jQi6PhdP8vGDsoQbADa65SOzGpc3gKyLsJEo1RO3Oh4kGCiOVMJ0s7gtq0sYdNOz0jHyE
+	 5LkJIzVkkFicRr1lMjWNwK6ahPPRwbaOEZXR/cLAougWpK6P60JRWQ4IEquVLQP2hPvfy
+	 9Wg5qN0jYSRv2hU66zvuRYA9PLfWiY29ZhIGhgkbDd7xmy3+07jAfpzWhVRi4YDQnCA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795595482;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=E+BGXrVqMMcOjoija3bnHKJo8eMQcws0efPUmCBxKAA=;
+	b=mtz5a79nJSvRX5IzUGqSe3vQrmcnwK0Hys7Pf3dRrG4XMWHhMIAtHY4RhfdqrjUNghH0
+	 VJqeeOp7rtSaa6ZvE4VOfJNF2ubQdJ0WKnAZhsIk0Jg1C+KkMRGk/t/ZoDFWJlL6KKjW0
+	 0lpZcXf9reKTY3/V0UdMAllJy+Bebym9a71u2POYThWduW21SKFDEPKundbNIsVQnznRJ
+	 7bqPXPCL2e0h3isAciTDBT11u2IKGmN3F307wlblI7vI/bH0688IVJeYJjpSZfJl73kSv
+	 lLfS76GRGk+CpKTXFUOOs0r6mqn0oXyxHZy6pA7JkxN9HYmclvGIOCdpOU9Rs+1LWTw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QnQ8szL6;
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F2B606A321
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 08:25:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76F2B606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD45606A321
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 08:31:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FD45606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=DK7NRn96
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 1ED82200033;
-	Wed, 25 Nov 2026 09:25:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795595153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vf7/fHh0NzQPgN07aJpbb1vB1DON0qR+F/6eyHLLiH4=;
-	b=DK7NRn96Oj1tHB/4dbpzvEz4DtAw4NhD3t3OL4aWuayFHDoJOUN3GerlDRI0zcbcQKeK0M
-	rCplB7PM66Y6wMOBKCxOTTIEEnyDfPCjGLROa3uoDK5NQ6d+zsROOjiBZaZzQJ6RQU/1CU
-	8Lf61EDm75NTUSdRfrtQPkUtcLedoRMBHascSY2QBr7VGsPrdfcPuwVRyp+aFAtcyebl5T
-	bB3eTi3A+fAXT+D6Xyo6fvSgyjkyjqmRi2HwBa5G21MT4Y0jEDeBRxQbOP0HKjjfFJvGjI
-	J2TsQReQgToCpL6Pbfcabz+0595dw1nvYKl8fru9vZrsxUYjSyhwjs76lOpaNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795595153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vf7/fHh0NzQPgN07aJpbb1vB1DON0qR+F/6eyHLLiH4=;
-	b=dH1o5gSshYaQL0r8M052ghsI9tZt1DM1lNqql6iJkrhQEr8ih/T8i5pi8STev3PGx63ono
-	OiS6p2zRG3niHD/+rGyqSOx+Glc6EoCyllywde/AUm09kCsZPNUnxbrl5skdi4rmpybZrm
-	J09CjQpA6eI/ppSnZBOLlNDFxbhiCRLBVDApwXRV11abj0itmhjQQmX8VOOtuG1LSusAyZ
-	3DFm5Jp2jA7rJUxlCTLYIb48qkXqkktQRf0Q381yjco1eTnyEG1WM0q4D5vehb4NemJlPU
-	6tLKnx5BS1llm9Euc1ThPePx/fVr0S8UCvNM247BX2rai3EYcuyVGgRiXiP9Kw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795595153; a=rsa-sha256;
-	cv=none;
-	b=Iwtij5vcPIjXIOS8P6aAEReqMFdBorMvASrFBM39btL8qFvmY0zi/n4UyhM5pC6Xok+Kry
-	LtY+V9lrbK1VUCG9C55ZFJjkivqC8VCCbfYiO6jyw2Euy50xGaU7XsbjQGRwIycMjF6gtP
-	GLsAzbY2Ecne60nomnhP9L1KRv3iZzWE7zTFdtB2FMl1wNWYLqTKpGAiPtyMOG7NciczUQ
-	K0crHprErsAwZTg4HDqGHdQePTlfrxXZaaHlyvvio4OXWec/5PWQItche1SdJThMd/Avh1
-	g0VW9YfMlp5KIeav5iYioF4NQCTaa+85aP2grWVhuPfLyof/dlk+w5DA4sU5Ig==
-Message-ID: <bdca545f7b754d757cab225952d7f79ec5dd6519.camel@pengutronix.de>
-Subject: Re: [PATCH] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset
- framework
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: shengjiu.wang@oss.nxp.com, Liam Girdwood <lgirdwood@gmail.com>, Peter
- Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
- <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Mark Brown	 <broonie@kernel.org>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai	 <tiwai@suse.com>, Frank Li
- <Frank.Li@nxp.com>, Sascha Hauer	 <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-Date: Wed, 25 Nov 2026 09:25:53 +0100
-In-Reply-To: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
-References: <20261125073857.1402045-1-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QnQ8szL6
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-15ea896ddc8so9182508c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 00:31:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795595481; x=1796200281; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=E+BGXrVqMMcOjoija3bnHKJo8eMQcws0efPUmCBxKAA=;
+        b=QnQ8szL6ohbVVpqxtT5eIhcVWtsHmMcOKM685nYGz98zYQquP1LF5UPe7tdRkv08v/
+         RFv1WkkZsuctp9qIldIKbQ64gdsTD7XGdRc2FRLm+pDbpUevLfEQrOwjEIFXpOGnM0SY
+         U073pb38KE8xeE10fA4FghIHBizOb6STs4fG4YsK3kow5h21EZ2ooCRKxTN8C9Zvk/9H
+         IwkBxsjstzEBSK+sggQBsDQBizXDeBiaEm46orKn99VROXc5ZlswG8rKbuY8pKlcsx/k
+         O/BFSQRb8cibj8gVy7Qz7k9dEwsnhj8zqXIfHTSg8tzU/dKbU072Df0V92jBStmgIPT1
+         Iuug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795595481; x=1796200281;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=E+BGXrVqMMcOjoija3bnHKJo8eMQcws0efPUmCBxKAA=;
+        b=fzfo9BR6/J9kMAxY+gdoXgxerTIruyqCovbmxa6k6a9faO68qx1hE9lRvs4q19nd5Q
+         2Ku2OLoO+ePJ49qB4qjggmXNqvpbGdCWZ6MY0z9k12hJdnXTfShrY6AzYv/y9SV0jFv7
+         NLgTMdHDMVujc4byKq7uueD5e7KDkya8bWqTzm0GQIt311e77PoMclb//ziIdrACcMpx
+         iQbv8qYcYtDK+bblpGm1V3y4EydFuhXy8GpxLeQ+uw/oWwL2Z9h1fXHBeMLc3xzNY2m6
+         NDVPRTghjgT1uoO+NI8KYu+Xye0tqWVulxuGPMHP+PiDDr5AWY/1FSUkMRrm01nbnpmH
+         k0vQ==
+X-Forwarded-Encrypted: i=1; AL+hErEZdfqOjsY0+ioX7uWn9i5xeuLeHsC0j+K2qGktdrbNBx2262aGHex5KDViJZaUS+fBI8qjdgx7Re5XWg==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9p/l64UQtGwRed4QqYqzi2ulxVnYytt096Iqfs2k1QwN3napjN
+	9riumUJTktRnwB8Zrte5t8APqJEV27WeLNj6f6sdZ+aVfbJW8s4D+6qSKxJgDJxt
+X-Gm-Gg: AZFdTZdQrjy5sXHHa4/c3DqgfO407Bbk/2tCLvOBplmKJ4rbPYYAI66PHuM8CYBINUI
+	uUcIO29rdkDpqd2QZIGK5jHXYnn1cOhoHklDS2u3zz7e6q7V/7al0odoRCnpQHeKzo03mooH5P8
+	GecuQH4prGdxke0UAgrM8HxkC2Cdp0RKTqWCBb38EG8CJ7RzWwzY02g/xwmZP29sRSXVxxgBO6t
+	K3mqclDOnrRq1K48d6cRV/BcuM1lS597aZRoFifpkma+McyUEfXNXn7p8vAWI8Qa3dTAIh+/cdz
+	/0paOZtVTsG//N25ZSxRXMkDm3nU2ynqZx9dT6+a0xwXO9Bdfwra9N1psSXSzjbUBRUAk34aFYU
+	4FWcZu5KIPhnqQz3irFy6dil6IX5O6zYOcI+3Wql/wS35T9rmeG78nWyA1M7pMbTum5lKbDZXhp
+	eAT+vwjWc/SnPSqRLjyn38RY+XPRvfVhPcDXOYa+4hVLvQKG9cH4Z15no4u/emjeUIFL42OX0yQ
+	KacPJphgdm7XyOqwM6hCon8OSlu7Ga7LGWcSUNrMXYfqYEZYWXEANoCfIlCNLAYvecfWz2VwRu4
+	WJ5IvAxHoZlqZ9ooic+/r+WO0+HQlvKk48+6uPTzM2lwJh73t6g=
+X-Received: by 2002:a05:7022:f907:b0:1b2:558a:d781 with SMTP id a92af1059eb24-1b5567b5788mr15355163c88.5.1795595481380;
+        Wed, 25 Nov 2026 00:31:21 -0800 (PST)
+Received: from localhost.localdomain ([103.179.230.77])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm45162585c88.6.2026.11.25.00.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 00:31:20 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	sreekuttan2156239@gmail.com
+Subject: [PATCH v2] ALSA: core: Reject zero major number
+Date: Wed, 25 Nov 2026 08:30:53 +0000
+Message-ID: <20261125083053.3917-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87o6bd8ijb.wl-tiwai@suse.de>
+References: <87o6bd8ijb.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -102,18 +99,114 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mi, 2026-11-25 at 15:38 +0800, shengjiu.wang@oss.nxp.com wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
->=20
-> Replace syscon regmap-based DSP reset control with the kernel reset
-> controller framework for i.MX8ULP. The syscon approach requires direct
-> register access and creates tight coupling to the system controller,
-> while the reset framework provides a cleaner abstraction and proper
-> reset sequencing.
+Reject a zero major number before calling register_chrdev(),
+as ALSA expects a fixed major number.
 
-What do you mean by the reset framework providing reset sequencing in
-this context?
+Remove the redundant major and cards_limit variables and
+use snd_major and snd_ecards_limit directly with
+module_param_named().
 
-regards
-Philipp
+Update device number creation and character device
+registration and unregistration to use snd_major.
+
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+v2:
+ - Reject major=0 before calling register_chrdev().
+ - Remove redundant major and cards_limit variables.
+ - Use snd_major and snd_ecards_limit directly with module_param_named().
+ - Update device number creation, registration and unregistration to use snd_major.
+
+ sound/core/sound.c | 36 +++++++++++++++++-------------------
+ 1 file changed, 17 insertions(+), 19 deletions(-)
+
+diff --git a/sound/core/sound.c b/sound/core/sound.c
+index 24f40763a20c..8ac3cee19e66 100644
+--- a/sound/core/sound.c
++++ b/sound/core/sound.c
+@@ -18,28 +18,25 @@
+ #include <linux/kmod.h>
+ #include <linux/mutex.h>
+ 
+-static int major = CONFIG_SND_MAJOR;
+-int snd_major;
++int snd_major = CONFIG_SND_MAJOR;
+ EXPORT_SYMBOL(snd_major);
+ 
+-static int cards_limit = 1;
++/* this one holds the actual max. card number currently available.
++ * as default, it's identical with cards_limit option.  when more
++ * modules are loaded manually, this limit number increases, too.
++ */
++int snd_ecards_limit = 1;
++EXPORT_SYMBOL(snd_ecards_limit);
+ 
+ MODULE_AUTHOR("Jaroslav Kysela <perex@perex.cz>");
+ MODULE_DESCRIPTION("Advanced Linux Sound Architecture driver for soundcards.");
+ MODULE_LICENSE("GPL");
+-module_param(major, int, 0444);
++module_param_named(major, snd_major, int, 0444);
+ MODULE_PARM_DESC(major, "Major # for sound driver.");
+-module_param(cards_limit, int, 0444);
++module_param_named(cards_limit, snd_ecards_limit, int, 0444);
+ MODULE_PARM_DESC(cards_limit, "Count of auto-loadable soundcards.");
+ MODULE_ALIAS_CHARDEV_MAJOR(CONFIG_SND_MAJOR);
+ 
+-/* this one holds the actual max. card number currently available.
+- * as default, it's identical with cards_limit option.  when more
+- * modules are loaded manually, this limit number increases, too.
+- */
+-int snd_ecards_limit;
+-EXPORT_SYMBOL(snd_ecards_limit);
+-
+ #ifdef CONFIG_SND_DEBUG
+ struct dentry *sound_debugfs_root;
+ EXPORT_SYMBOL_GPL(sound_debugfs_root);
+@@ -61,7 +58,7 @@ void snd_request_card(int card)
+ {
+ 	if (snd_card_locked(card))
+ 		return;
+-	if (card < 0 || card >= cards_limit)
++	if (card < 0 || card >= snd_ecards_limit)
+ 		return;
+ 	request_module("snd-card-%i", card);
+ }
+@@ -280,7 +277,7 @@ int snd_register_device(int type, struct snd_card *card, int dev,
+ 	}
+ 
+ 	preg->dev = device;
+-	device->devt = MKDEV(major, minor);
++	device->devt = MKDEV(snd_major, minor);
+ 	err = device_add(device);
+ 	if (err < 0)
+ 		goto error;
+@@ -396,18 +393,19 @@ static int __init alsa_sound_init(void)
+ {
+ 	int err;
+ 
+-	snd_major = major;
+-	snd_ecards_limit = cards_limit;
++	if (!snd_major)
++		return -EINVAL;
+ 
+-	err = register_chrdev(major, "alsa", &snd_fops);
++	err = register_chrdev(snd_major, "alsa", &snd_fops);
+ 	if (err < 0) {
+-		pr_err("ALSA core: unable to register native major device number %d\n", major);
++		pr_err("ALSA core: unable to register native major device number %d\n",
++		       snd_major);
+ 		return err;
+ 	}
+ 
+ 	err = snd_info_init();
+ 	if (err < 0) {
+-		unregister_chrdev(major, "alsa");
++		unregister_chrdev(snd_major, "alsa");
+ 		return err;
+ 	}
+ 
+-- 
+2.55.0
+
