@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795608767;
-	b=Zg4CRFoRl4fWW4NNwsrNExLXg+VR0xzK5zSAnOk97s8AlNrNsTBILrbFzXeIjgnbYdPN
-	 sUZ2HjKDF+LRPL40HqmtJM6dGKTmU0megYJixR+th+6fj3coSEHPq2A0jas9PbU8wQeoo
-	 t0u17ceG8NDahC6qPJB5E9sPCGZuslNW0Y9KnuW9OkyND44U1uMGW230fHCSpP9v+Bus+
-	 YD0LFlfRaVHNWZ9xiowWM0M0ZmHGRtvVS3u315KdHG0S4qXeABRok8DatxsqPTqzqgMG3
-	 Jn0h0M0rVBfJNwgJTvZ9sW8ky30Bmwd1gqq9EllrwUNfDfEaEE04MkUb461B2Z/MSlw==
+	t=1795608770;
+	b=Pdfkq1WjkYzalK+Ceuzhw+A18CZN8gfaqOkKtxH085iiEp9I6OCMMyJhCiryLcjJP50j
+	 0yzDMyvYMrwAc0aPbPCCDY0CsNXGQ4SLHuBLcSawTd4v9u4dKDZAXT6L9X8dcRmlTIu1T
+	 gbefvtsCI57l/drms6jgTrhrgeRJYvWmvc8u6g7mGSJazhN7/fChH1CDI8pEFj+Hd0MPa
+	 XTQEKYtUHC6srwGQ0/c+Lan8NMUtnes2m0cNM7OhKCXx59AMgd+R5NksbKbz8tbtccK90
+	 xPJYqE0PqXeTV137tLB9mSada6+4ywwy3VGa3qRR2Rpm+4wTCCZXt7SHojBRmiZ/ifw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795608767;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795608770;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=bjI8AHQ7m4jgA91fm4jtF1Tcxlfx0iArocDzt6XuoC4=;
-	b=yQ0+PmFXB9z1t5OTJu2lx3UPxDaoea505XOH5odb/msw46UnfbC4KjTU4sqn8lHArP9R
-	 4NbwPxc5byYIESv0esbinMwnMnIpxOnKe6QdhITZGBHZi7gb5BZlg1C0t3eRE21h+EXer
-	 0ZkCJk5whDqCDM+C8EdJrmuyt8a1rU/oFruJeiPJJUx2DqzKfOTJlSrrE2Vpoj5eTquUU
-	 JaFJWdd5jytrTTgloB6M1D+V8vpntF7dnE1OdCi+dRXj26QJ67pULxMeIm+abs+tn/zc3
-	 Ek+AsLOYBMcMOV3ASAoefoCwcsM//ROI8ZKrP3gJSt4TgPXrlIMYAhwuK1NlMW5HNrA==
+	bh=YvZ+MYm/tEerVMyhRfgrUkzK2+6reEodKLZZg+DwbmQ=;
+	b=hxSaV+aePPfAfAiPbNNgupM7rRSI/TrAICKe677SRDRSWFEF3rkRYqC4VaJL4y7sJTxI
+	 Fpiiw4xx3160k1oHfTdoaV+n8I6CJq1V2BKoCESzdfc2aPh9nqoLdHu24ipeapPGk6a7O
+	 L+hGj1My0KYaL/WTkMeMiFJ+UPUrNK66qUFZpsJl5TakgMzUFlt0fI380FNdujXQp2tyu
+	 wSpzz8Q7iKqNl19ATr9LETQPLlHWDKNn+HRNsns7bn/n9C6fjIECUkcTZXyrhCZ/vg0JO
+	 6vhnFQHu41JA95Wj7RPUZ86VMAN//YLYjxm32mlNwIR+8MyUtARPJCzMxFVXUwYtsvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CA8BQPpk;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZDmtFYMz;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B260606A31E
-	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 12:12:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B260606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CC1606A321
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 12:12:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D2CC1606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CA8BQPpk
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-386b8f2f671so2739403eec.1
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 04:12:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZDmtFYMz
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-386c4d2e2ccso2827372eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 04:12:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795608766; x=1796213566; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795608769; x=1796213569; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bjI8AHQ7m4jgA91fm4jtF1Tcxlfx0iArocDzt6XuoC4=;
-        b=CA8BQPpkFGYJETP5Jmxax83ihH2w9AshAsRfUGuV/3QgrKGAC5C5wnBt6nhmQ5xF5h
-         UdBwgt2cLLvl9g1wmfKzAvy548AzBvAwiOroS+AF8SbeL4YNhkyV+jO8AWxACNx9HVZr
-         stIYazRKRTAuG+p46Y5Zm3ln3Qh4KvJnXrMlOk9CXLsdFXnL37Ja4Zx9AgeiNTsyu8ay
-         dGA963GfIVwmoVccY5nNlKHWIFN9gN9lvZsnwevkFii3gVs3EpmnysUDoyNbrGWWIdta
-         9EPMFN/TGjUAsb9egIKWXC1y0QI0fzAN0nQgdJCsRxtBbRIPanIZy12lnHepe7W+Cesd
-         qnWQ==
+        bh=YvZ+MYm/tEerVMyhRfgrUkzK2+6reEodKLZZg+DwbmQ=;
+        b=ZDmtFYMzXcImZicAXIG8oXjEPLiR1MKbH9dxPWNJwHFEgNeAJC7LkbkdEV9lEelwmU
+         Bf49U3MLLDqAC0e28Oty2RTJDeOWsP+YmjsAoGldobmSHc7gWO5cJZuveAtcy7JhEqZ4
+         boRSIBrN9dNAjXCblnkl1W6JJqwZSWJ37kwnXRlajuPUIys++GMRUIohsUsBguX5fBbr
+         cUZ3JhPeSu74kdpn6V5yr+/ikAMSTynXUa6q8E4wclOwC2bBWc60POoFwnHo3hDgkjo8
+         vvXUHGPuCePYsT//3C05yj0GpFNXb8sgD5NOsEoceQ3JpSuQAV+WmRxAdJtfBvwQp6fi
+         6sEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795608766; x=1796213566;
+        d=1e100.net; s=20260707; t=1795608769; x=1796213569;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bjI8AHQ7m4jgA91fm4jtF1Tcxlfx0iArocDzt6XuoC4=;
-        b=JJ7+YPZeKdKiHERHZlBOjHaVnVbvuaz0kIQ51TekuCoaAHu8jn57J0coojSOUL439l
-         qWnVmZ+cxNDDRgkdGiF6r1B5ZIKIgqWXkTPYiooJL6o5c/KlWCazffCqbZouPzoY5Fja
-         FHAiRHP74Lj0fsFBquptaMkyv0ij1cIXwnHYMyN9ls9olhlaY30M1AE3foqgmEaSIvNq
-         IjpcQl2mc81EeeVccupLmppyb58DFiY1Lhxs86bHcXpBfU1y+BSJey5Or+4NvmoREZkc
-         8J158gA8ysNTJltuvoCCu6iV3AfTTfOkfBRearVjT25H3z/4xWqRa+4Tj4+6TfkhbUpq
-         Ymow==
-X-Forwarded-Encrypted: i=1; AL+hErEWFlhwHyiU5EDIG3XoeD3kMNnX88vj5ZNViQmKTHxWXQCpQ5/Q9GkLxtkBaDJTprb1D9urIUY8wssKUg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8vfdcpCmqOrtiUUnQRR9vWkk7NjGJPxYVGseZi86Yom57urBXn
-	TShabjCgg4Q1l4kA3DD8E1WJ73taOVIGii5RQxkhxBAUgjKb3kvJX1rV1u39Pw==
-X-Gm-Gg: AZFdTZdFLFPMTmLPgTFyrTo7LWe3pJI89smKjy8phQFhLcsBG9WJkiQeMHPFRmPwY/t
-	jhC70J5zOtQnWJcLFqbyIeHVZYWrMEx0iUSvejsAvmh0GzyAVFTwGuh6DQr4kqRmM9621BE0nG4
-	konfda1+mtJwguLa4vjk9/YqXn7+My7v+UFGfvtAultOiSVaibBPIClkBjHxaHuWOECpZnPayEQ
-	Unm6LvPPxdBEtvIcypQCEJbE+PyAgwTQiEy+g3IrbhhXauvPVCEDHaECXoYUD4uFri6DbCTeNGk
-	EjV9GlUvOZmTVOn+nceM4dXklHeFE8rdtqmc35kMwt6NrNE1lTTfmUCDTrF3rt804p5E9Y0/2Z6
-	UZ9SnZrdUzKplIo15LT++vPSrJcAgmF82GQ7Nx8w4mconfyxNz/k2tDO+x2vIJj2FIJh8OKImBI
-	85AAd4EjrHhaWgF6MvNKa7J5/zGrFj2foWY8b8H88FgPAqGrg9aqfCxA9mUpG13tMclEp5ZeLYB
-	YEwt5Eu1ajSfNpTGH/9VO6/fxpiIZp+lRdWG0j+XvZfV+T5v9D+/jLXpHlDC3CeydMowNtyDDJT
-	FUs7cnnifmfOSaEC7359eNrnm8wbSSqLzh6L0n8hv4mU0PBrOHzwCFc=
-X-Received: by 2002:a05:693c:6390:10b0:386:ac97:f670 with SMTP id 5a478bee46e88-386ac97f867mr9397200eec.12.1795608766468;
-        Wed, 25 Nov 2026 04:12:46 -0800 (PST)
+        bh=YvZ+MYm/tEerVMyhRfgrUkzK2+6reEodKLZZg+DwbmQ=;
+        b=RifNoO+fUnvmTkBxm1iepzTqQ99SUydmYYy0PpoNvsuj8n4CohbnbrdICNi2e/sgC8
+         IoTtvHCd/eJDOKO1nKKVkR2A2/qgEYyKL9K+SWxWkeDHWCYBAtaVShf7yaaYayRKVEec
+         1YBOUr6lKC1Mrft2dXfeimwNMsPFc9Of4klIKpTS8Yk30CWM2q8/NDfFLYvhnXdROibN
+         mADWDfqwQUZ/lzRIShsaMWbdmXcJ0FyUVudenjIW9ohC3I0Ei8O/Nb/x7gcXpl6Hq9lo
+         6AICqIJZa11G/66eigubysGpkLIcNgzFAuUub8UtmTPWQTlvFRMEZ6t4f7Vo7uHFq/oB
+         PJsA==
+X-Forwarded-Encrypted: i=1; AL+hErH4CIhqRaPyoAqN/yH9QFFMX+twFEIqSuX4N6vY21qK8D2ilTWKtm7wdg3OSd0J6kIirWUmN1BfY9gvIw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9HOpaXvPZxgbmxS+EYIjQWR92l7/XRpaUw+e/s34iNJP2FN6IU
+	XKrlsI09EVjaDbVNvqOpUc4qxrGgY7cxGjexctF+9m+iEqRqfCe3r2w3
+X-Gm-Gg: AZFdTZe3J6l5iiONVUumb5KQKfagH7RIa/u6rBzSRBbIKJr4COrMUQ1ynZbygyPZc3Y
+	KTgL5h6bl3XUAsRoFo7B6M2FhZt6vt5pHvE58l/kSXnzjcvjYCbanMGMiyzxiHg2+fHa6deAQkI
+	HSv+mwfKBlIxqPESqrMsUhflLOX+70DPj5t2oc6v6K8cS4ydavKPgJP4gfhIFLKTBQMDGk4bL3D
+	bcDbnG70QhAdaVc7GEIuws53gbT9UiOLUwsNiVNH5YQWrR54larOiRXRBQm5BTKeL2tTbniKyN9
+	9uFGZy9pumjkAyT2SgcwqrrPKgzych9GCaZD8xkWyDAsPcbKIusXfT954tctjMzMRpwdd2J2d7y
+	acE3Bdi2XKlZJzCuB6yKM7kr+JvCn7vQtUzOhemLvmbDGRyK+sDHPFtIXn/BR9BNUAEFMRmAZmt
+	mTPflhfLEurAVwtAUOf0KTrvy/WhXc1ly06W/a60LZOnsaIoFNUt9PwuwaZC1CJ8n2+iBHLwJcx
+	0HV7C2STWzaligTUZ25Wjx6efuzzXbCh4AsjbDeokXaFwfl/3skKfdqRRX17LP+K4GRvQxAaPbD
+	nPKShH+AeuJYum8S/OXpiTp0vLGtd7eEZuznLoQ1NFxYzzLdtZaJFg==
+X-Received: by 2002:a05:7301:a0d:b0:369:fa21:ba0b with SMTP id 5a478bee46e88-38570847a85mr20043418eec.33.1795608768857;
+        Wed, 25 Nov 2026 04:12:48 -0800 (PST)
 Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386c7c62a91sm12234336eec.17.2026.11.25.04.12.44
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386c7c62a91sm12234336eec.17.2026.11.25.04.12.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 04:12:46 -0800 (PST)
+        Wed, 25 Nov 2026 04:12:48 -0800 (PST)
 From: Maoyi Xie <maoyixie.tju@gmail.com>
 To: Clemens Ladisch <clemens@ladisch.de>,
 	Takashi Sakamoto <o-takashi@sakamocchi.jp>
@@ -85,9 +85,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH 1/3] ALSA: bebob: bound the channel position walk to the response length
-Date: Wed, 25 Nov 2026 20:12:36 +0800
-Message-Id: <20261125121238.1602172-2-maoyixie.tju@gmail.com>
+Subject: [PATCH 2/3] ALSA: bebob: bound the stream format entries to the response length
+Date: Wed, 25 Nov 2026 20:12:37 +0800
+Message-Id: <20261125121238.1602172-3-maoyixie.tju@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20261125121238.1602172-1-maoyixie.tju@gmail.com>
 References: <20261125121238.1602172-1-maoyixie.tju@gmail.com>
@@ -102,13 +102,12 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-map_data_channels() walks the channel position response by the section
-and channel counts in that response. Nothing checks the counts against
-the length of the response. A section of 128 channels can read past the
-256-byte buffer.
+parse_stream_formation() takes the number of two-byte entries of a
+stream format from buf[4]. It ignores its len argument. A count of 62
+or more can read past the 128-byte buffer. A smaller count can still
+read bytes that are not part of the response.
 
-Take the length of the data from avc_bridgeco_get_plug_ch_pos(). Return
--EIO for a section that does not fit.
+Return -EIO when the entries do not fit into the response.
 
 Found with a CodeQL-based static analysis tool. Reproduced in a
 userspace harness under AddressSanitizer. Not tested on hardware.
@@ -119,88 +118,23 @@ Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
 ---
 I used an LLM to help write the harness and this patch.
 
- sound/firewire/bebob/bebob.h         |  2 +-
- sound/firewire/bebob/bebob_command.c |  5 +++--
- sound/firewire/bebob/bebob_stream.c  | 11 +++++++++--
- 3 files changed, 13 insertions(+), 5 deletions(-)
+ sound/firewire/bebob/bebob_stream.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/firewire/bebob/bebob.h b/sound/firewire/bebob/bebob.h
-index 41e019b9e24e..7891a5802f1a 100644
---- a/sound/firewire/bebob/bebob.h
-+++ b/sound/firewire/bebob/bebob.h
-@@ -194,7 +194,7 @@ avc_bridgeco_fill_msu_addr(u8 buf[AVC_BRIDGECO_ADDR_BYTES],
- }
- int avc_bridgeco_get_plug_ch_pos(struct fw_unit *unit,
- 				 u8 addr[AVC_BRIDGECO_ADDR_BYTES],
--				 u8 *buf, unsigned int len);
-+				 u8 *buf, unsigned int *len);
- int avc_bridgeco_get_plug_type(struct fw_unit *unit,
- 			       u8 addr[AVC_BRIDGECO_ADDR_BYTES],
- 			       enum avc_bridgeco_plug_type *type);
-diff --git a/sound/firewire/bebob/bebob_command.c b/sound/firewire/bebob/bebob_command.c
-index 022df09c68ff..2e5a43e24615 100644
---- a/sound/firewire/bebob/bebob_command.c
-+++ b/sound/firewire/bebob/bebob_command.c
-@@ -181,14 +181,14 @@ end:
- 
- int avc_bridgeco_get_plug_ch_pos(struct fw_unit *unit,
- 				 u8 addr[AVC_BRIDGECO_ADDR_BYTES],
--				 u8 *buf, unsigned int len)
-+				 u8 *buf, unsigned int *len)
- {
- 	int err;
- 
- 	/* Info type is 'channel position'. */
- 	avc_bridgeco_fill_plug_info_extension_command(buf, addr, 0x03);
- 
--	err = fcp_avc_transaction(unit, buf, 12, buf, 256,
-+	err = fcp_avc_transaction(unit, buf, 12, buf, *len,
- 				  BIT(1) | BIT(2) | BIT(3) | BIT(4) |
- 				  BIT(5) | BIT(6) | BIT(7) | BIT(9));
- 	if (err < 0)
-@@ -206,6 +206,7 @@ int avc_bridgeco_get_plug_ch_pos(struct fw_unit *unit,
- 
- 	/* Pick up specific data. */
- 	memmove(buf, buf + 10, err - 10);
-+	*len = err - 10;
- 	err = 0;
- end:
- 	return err;
 diff --git a/sound/firewire/bebob/bebob_stream.c b/sound/firewire/bebob/bebob_stream.c
-index 449cb17717f0..5850357cb3da 100644
+index 5850357cb3da..8eceafc70a44 100644
 --- a/sound/firewire/bebob/bebob_stream.c
 +++ b/sound/firewire/bebob/bebob_stream.c
-@@ -255,7 +255,7 @@ static int map_data_channels(struct snd_bebob *bebob, struct amdtp_stream *s)
- {
- 	unsigned int sec, sections, ch, channels;
- 	unsigned int pcm, midi, location;
--	unsigned int stm_pos, sec_loc, pos;
-+	unsigned int stm_pos, sec_loc, pos, len;
- 	u8 *buf, addr[AVC_BRIDGECO_ADDR_BYTES], type;
- 	enum avc_bridgeco_plug_dir dir;
- 	int err;
-@@ -274,7 +274,8 @@ static int map_data_channels(struct snd_bebob *bebob, struct amdtp_stream *s)
- 		dir = AVC_BRIDGECO_PLUG_DIR_IN;
+@@ -730,6 +730,10 @@ parse_stream_formation(u8 *buf, unsigned int len,
+ 	if (i == ARRAY_SIZE(bridgeco_freq_table))
+ 		return -ENOSYS;
  
- 	avc_bridgeco_fill_unit_addr(addr, dir, AVC_BRIDGECO_PLUG_UNIT_ISOC, 0);
--	err = avc_bridgeco_get_plug_ch_pos(bebob->unit, addr, buf, 256);
-+	len = 256;
-+	err = avc_bridgeco_get_plug_ch_pos(bebob->unit, addr, buf, &len);
- 	if (err < 0) {
- 		dev_err(&bebob->unit->device,
- 			"fail to get channel position for isoc %s plug 0: %d\n",
-@@ -311,6 +312,12 @@ static int map_data_channels(struct snd_bebob *bebob, struct amdtp_stream *s)
- 			goto end;
- 		}
- 
-+		/* this section should be within the response */
-+		if (pos >= len || pos + 1 + buf[pos] * 2 > len) {
-+			err = -EIO;
-+			goto end;
-+		}
++	/* The entries should be within the response. */
++	if (len < 5 || len < 5 + buf[4] * 2)
++		return -EIO;
 +
- 		/* the number of channels in this section */
- 		channels = buf[pos++];
+ 	/* Avoid double count by different entries for the same rate. */
+ 	memset(&formation[i], 0, sizeof(struct snd_bebob_stream_formation));
  
 -- 
 2.34.1
