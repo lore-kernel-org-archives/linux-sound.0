@@ -1,105 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795561977;
-	b=vlwFmJWDEYIl7z+MtV8bwLNmQ0oG8AGjPl+rpMwVDiUNGm/ahu2e4KanbreDj6tFRLLC
-	 8gz8cAizj1pj9KN2Zmhmxa+4Dxl4SENJ+lcpqAqQ/CdH0599g0pX3zgmYHAh5SSFQ919X
-	 MpS88z4e0CFQmqqf1se+k/pCm4OZ0PGbqR4d07FCS8JIRy+P4DQuD+F/xFlz5/GimVMaX
-	 g+DlNzxia9KEDyTSCimdhuQm5OUNXljEDcc6s3iwWH77wb3j6HPUlQLrGMW3bqRcw8+j3
-	 b6UMFaNafDk8mMNsyG+iVRLBzgdzQ7TuSJtvqTEwgSh8XQk9wERmQu4dMq9CY/qGUkQ==
+	t=1795565619;
+	b=lB4Xlc8pVuj592/auq5RLnvJYYuThRy9WAbBe8ySRtG5pQ4Y+RuvpwjpKHcpQ7Buv39V
+	 cuO1pxOmQjxiklg0Xq/05yriRGLG4v3dy1ZDzUypGm3JJTEv8PrLRTjtw5aignrYCo51E
+	 FxtG+XdcpT8Gp7quPIjfl36sN9bMnL/tfnWrrKelDGdyTC0Ld+QZiC72xz/dKDdIQa8Q+
+	 29gvfMFe8gLxc5MjLgS9AWSw3kIo79OxTlhegzK0nsxxtR6GB/43II1Kv5zLjW9jN94P8
+	 kTfy966oVo+aLd894RD6QaNUbJBW1GX4Paki6aag02QfENcT7xmRml+52Pb1HerQSaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795561977;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Fu1JR9BwCRRgF7zql9PraHs0kE4B88Qxih1JN4hThMw=;
-	b=e2eachZexf6KgZWfABFF9k/BTqFCp7yEP/+FHfxUJf6+afQWrcCbXctukDO7ywdXsLx5
-	 5LlUsPjtcDGHWVU1MErcnsiBDQPI2hC6v3kSz8wvDvMPKFZwezgUx4zbR81XeTabxPDbg
-	 /m5hfBPXgQxQlEJP3ZeEVjE4UQzjf33fJiF2Ay6A9BdVKsnvZWNY5jf8Jd7lbqnsNCU2w
-	 MTsctsATPcxn+h6sEXh9jEY9AbHPu1sG7lNonLMyP6XzBCSmQVUVaEoOj5sOXTj/YuZ5d
-	 KwytDqzgpN9paHfcCqtB0QZQZPFnXyu0YpWkPBZcHSs3PIJWClo8P/umKxYO7dqj8gA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795565619;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=H5JA1xiHcuO5av/TCwEs6eB3F56+e7cAUCqQUzm2IKE=;
+	b=z/GVWpB5shUbdYeyEc20Nni5BwyrRwGIT+Mf/H31cdKIrVJNjDaHz2tYCCeI6QKyx3Cz
+	 gBgHsPN2DaW0jqbhjZ3Qap00yfNeZUHAaA2J32M4of197qOapudL3Oj0N9rEvucSEOZDO
+	 /pUy73bIEEJq+/GS67Nl/oJfKBOI2yXFObqU3p4WNcxLhhHksW4yUZYBnKX0fWXvBpzgl
+	 cyke5zG3u21kRrgtpAAxP8MMg3Qvcfu77IqKf7GGdowkauBs4dXqPPoY0nvIRLMQvLbQo
+	 T600N55RD04Vc3aNeUU3EFT3IFWN0nyml1DyyAWq0gHvO186h2pVKIEUli+TfeouePA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CDLUc26G;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=v9zYfpM3;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B21D606A323
-	for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 23:12:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B21D606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C80606A31E;
+	Wed, 25 Nov 2026 00:13:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5C80606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CDLUc26G
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so50116825e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 24 Nov 2026 15:12:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795561976; x=1796166776; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Fu1JR9BwCRRgF7zql9PraHs0kE4B88Qxih1JN4hThMw=;
-        b=CDLUc26GksTMAra0+lV+vKwcRDN6ljY0wmeG5ULKr75IFUdliDBmMUvTQ5ptYCjm4C
-         Ob65/ciwKwLHwDt93tlPX6Xt9MXWQ4Fgz8uqWttdaHiFDF4tR0xG8R2fqmJAE1HVAVTB
-         YHfafutWrQIV6voEBkN7o/M0hDGhQWwlNov6gaBE4Q113AGeBI3oxwoFjCkNDGWUcLIU
-         Om+epPqmV/uL+s2P91VWAYAFE834Xg8u6iGCDDKBOYUayY9z4xmogM0cj3NlgW2DEDBU
-         bunTWt1+qTSzE0dBX+y8qFn+jSobHP/76vNGiF0ilM3VRcVbsw0S57IcUQPRQ9kaFTL8
-         ll9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795561976; x=1796166776;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Fu1JR9BwCRRgF7zql9PraHs0kE4B88Qxih1JN4hThMw=;
-        b=cmCOhK5dS3f9Scb4CGLx8Hj7V2LqpqV1ZnrGn8MVNQ4avqNaqLex8OCEVFaEujr5zH
-         ZYP6xbt3J+/2f8IRdeoPcEWUISq85snGXL3t42B06JWwBNcUslo1oDbANmKIfkY+Ak86
-         GFelplMxIa//x+zHYBrbVqFIaZVYS1BCk9zH9LD6SEIflxli3b0GT7UYDcKvRwPVhIRw
-         3vIw+l4Q8zK3aEwfVp80OFiltNQ6c9U8FdnGWEwiNYWm40HldVXeVK8xjYaPH044/qdH
-         YFIHL/ffr0moHPTXaE7t5XaRe6YMiwAihByQYDK1ZuWRfysQ8FwE/kV6Zj+B3OY6YkFB
-         ZIZg==
-X-Forwarded-Encrypted: i=1; AL+hErGBRA+rr2mBu+xKs9HerszTyCof4hTLtoaF3n/thTZdXx8sCSp8uqt0w0SLOkIXDUla2Uut0DfAsuPMCQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z99XCYsA8UVbEO+GznPI8QmQxYXayBvoZo16IbqMVZO7e7Q+zG9
-	ABRsw16RMhKs2hWMqT3VfscESK7bmekUROPAYgzCU0XeNux5pR9WvxhV
-X-Gm-Gg: AZFdTZc4r+ll4qwLLf1Q3vNtGFBOX49p0M/bugLEHp/7dPuXd/RP87UGGZCuBN8VNty
-	bc3MGbSueYczkDylJmgnfPUYZEu2x0CVl+kuchD1tQBzS7ehhCj7nMoQ7ct043UUrYd+04GELim
-	ffYF8JBsLBTbhwfLsf03BK7ExeuAV+L4HvaKi1AfCELkA/0HNUsONLYV2aaqOfTM+Lp605Mp4jH
-	zsj9AXi/ySU6bCY9pCLcsrusT7uPdewIxZivux/QPj4nX97ZzvkZ6xV6o+wB9rYN9pY5VGuR8qN
-	rX2vznDkimtS7l5Dfa8Bclz+DbCLav2ffg+5QeXplxrVcATTw0z/4MM884xLuEO27CEfcpVZvEo
-	UGB2Dg6GbX/p/ObRAyFh7vqQm1Y2fawlwehM6baVJpOP56Xh718sQ66SGWb2XhutyyMTCWRGwhE
-	Xc8D3H8TLyay2Kw9jTJLERCOC2BUWlbTnX6jf9MNJ54lqs5IbN+r+HcPeqBfglW3VR4Y/Z7ony1
-	iKjsiGKcviuGwKTznf4Xfy74SlBIjygTI87aPBcSFVG0xQRrieErFrt1KeoFeqlY15K4tuxdeUl
-	eNiWmRgjPYVP0rbjoxrVuworfSQLY2zcCq8hJ7fyJ6ulb8RXYz+53cgRdELEUxlR2dC8S/QOlVG
-	sidu94mVZbmv/N+Y2XFOxu1sM
-X-Received: by 2002:a05:600c:3491:b0:4a2:c2b:a91b with SMTP id 5b1f17b1804b1-4bb8880014dmr336408085e9.10.1795561975632;
-        Tue, 24 Nov 2026 15:12:55 -0800 (PST)
-Received: from Ansuel-XPS24.localdomain ([87.13.246.159])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b3a7sm527766585e9.3.2026.11.24.15.12.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 15:12:55 -0800 (PST)
-From: Christian Marangi <ansuelsmth@gmail.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	llvm@lists.linux.dev
-Cc: kernel test robot <lkp@intel.com>
-Subject: [PATCH] ASoC: airoha: fix objtool warning with memif probe loop
-Date: Wed, 25 Nov 2026 00:12:43 +0100
-Message-ID: <20261124231245.271869-1-ansuelsmth@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=v9zYfpM3
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=H5JA1xiHcuO5av/TCwEs6eB3F56+e7cAUCqQUzm2IKE=; b=v9zYfpM32kAvGWDRKN8MU6P6/i
+	THgQ6XYg3TtUofGeL2k7Si7qt22CXocALWePyGThKmz1qAlHdno0YaX4hMbpi9yfZlUtHK6K1eXlL
+	GeQuqTgf4XWzLJy2chYc+tSG2mRITN+XTa5/pQFz7cU8pYCeZvHTNEpGTic0Ra3Bn7X6rG9WSY590
+	c+OuNmPeBIWBhoTdq/4F/GyhXL88V+9v+Cfhpu0nrLW61HOrtf46r6ZIWqNplXFPNIO5S1UpJrbac
+	fYM0SjlPu530GhgWnDw17IOQ2+0z2pmZF19OsGitN/UbkR2o0ojmQxrw6eR3DwYptge1D3Fb5xrr6
+	9A7gm4og==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xW0dS-000000088Rc-0EKa;
+	Wed, 25 Nov 2026 00:13:18 +0000
+Message-ID: <1bc8f048-4d35-484b-af60-2d13541e683f@infradead.org>
+Date: Tue, 24 Nov 2026 16:13:16 -0800
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -109,38 +58,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 21/33] driver core: Introduce a generic device trust
+ level
+To: Leon Romanovsky <leon@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
+ Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+ Chris Lu <chris.lu@mediatek.com>, Mans Rullgard <mans@mansr.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Cornelia Huck <cornelia.huck@de.ibm.com>, Andrew Morton <akpm@osdl.org>,
+ Jeff Garzik <jeff@garzik.org>, "Rafael J. Wysocki"
+ <rafael.j.wysocki@intel.com>, Bart Van Assche <bvanassche@acm.org>,
+ Alexander Duyck <alexander.h.duyck@linux.intel.com>,
+ Dan Williams <djbw@kernel.org>
+Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
+ linux-coco@lists.linux.dev, Alexey Kardashevskiy <aik@amd.com>,
+ Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+ Greg Kroah-Hartman <gregkh@suse.de>, linux-sound@vger.kernel.org,
+ Jason Gunthorpe <jgg@ziepe.ca>
+References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
+ <20261124-device-trust-core-v4-21-037eb0d17b1f@nvidia.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261124-device-trust-core-v4-21-037eb0d17b1f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Objtool produce a warning when clang is used as compiler. This was caused
-by the memif probe loop when assigning the irq to the memif.
+Hi Leon,
 
-The warning is:
->> sound/soc/mediatek/an7581/snd-soc-an7581-afe.o: warning: objtool: an7581_afe_pcm_dev_probe(): unexpected end of section .text.an7581_afe_pcm_dev_probe
+On 11/24/26 1:43 AM, Leon Romanovsky wrote:
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 0b3c140babd94..8a94482f0b19b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1259,6 +1259,20 @@ Kernel parameters
+>  	dell_smm_hwmon.fan_max=
+>  			[HW] Maximum configurable fan speed.
+>  
+> +	device_trust	[KNL]
+> +			Enable device trust with blocked as the implicit default.
+> +
+> +	device_trust.default=
+> +			[KNL] Set initial trust policy for all devices, including
+> +			hotplugged devices.
+> +			Format: { default | blocked | adversarial | unrestricted }
+> +			No trust options selects legacy unrestricted mode, preserving
 
-Fix this by giving a fixed upper bound for the loop for the memif as it
-seems there are some problem with detecting the runtime value is hardcoded.
+By "No trust options," do you mean using
+	"device_trust.default="
+or just
+	"device_trust", which says above means "blocked"?
 
-Fixes: 4974ffa0d6c2 ("ASoC: airoha: Add AFE driver for Airoha AN7581")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202611201414.1NBNxorL-lkp@intel.com/
-Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
----
- sound/soc/mediatek/an7581/an7581-afe-pcm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If I want the status quo (before generic trust levels), do I need to do
+anything? If so, what?
 
-diff --git a/sound/soc/mediatek/an7581/an7581-afe-pcm.c b/sound/soc/mediatek/an7581/an7581-afe-pcm.c
-index d47edb630452..b17d58f25d9e 100644
---- a/sound/soc/mediatek/an7581/an7581-afe-pcm.c
-+++ b/sound/soc/mediatek/an7581/an7581-afe-pcm.c
-@@ -447,7 +447,7 @@ static int an7581_afe_pcm_dev_probe(struct platform_device *pdev)
- 		return irq_id;
- 
- 	/* init memif */
--	for (i = 0; i < afe->memif_size; i++) {
-+	for (i = 0; i < AN7581_MEMIF_NUM; i++) {
- 		int sel_irq = an7581_memif_irq_descs[i].irq;
- 
- 		afe->memif[i].data = &memif_data[i];
+> +			bus policy and existing authorization. Otherwise blocked is the> +			implicit default. An explicit value wins regardless of option
+> +			order. default preserves bus policy; other values replace it.
+> +			unrestricted disables runtime policy changes.
+> +			See Documentation/driver-api/driver-model/device-trust.rst.
+
+thanks.
 -- 
-2.55.0
+~Randy
 
