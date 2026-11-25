@@ -1,56 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795629892;
-	b=zfGLYNljwv2TXDqT3lMS+T66IehUdex1YOWB7QJWkXsz07WHOg23/JOP3XYobg0aFIJ4
-	 KzrvZw9zCTI4PwTegOkUt149kcjNpVAqMUlocdnGtP3+oTR/KPbSEH4A6RhgdSb1DtFsc
-	 LCTFgCKtKfiT4eO+x2PYz76lHUqZqx9i8Dq/jwD0yE26W8thX2fpq5mM6+cx1Ybxjsb+q
-	 T+ElLmBuYwQOqEAXG0pLmcgSiMA90tX6SzvWEbyy/OuSFgPylpTzjeirJnPxX68iwuB6G
-	 RsbASMnri+IwuZJkh8ZsmUpAYK0C8DZFfCgkIlusRqBhcfb1rHyWrO996/BWtUT+aWA==
+	t=1795629999;
+	b=uXd+yIrtK+I7M9WCrhRcHAU6Ln8ISF+d8+eFZGRUIAze0oBjRmJCw0n7N55F/aiBNWAD
+	 jA8JfW+TWM0OexxhyZTvIXjxNnLPygm5OKGwIKH/ipsGpxVj+hwuw6dwwod5vlLF24bNM
+	 wCVNfv8H5k8N47OxM9H1pJEi/1fUx9wWsQTJUBhwwna5whitS8pj2Lhp8mc7qaa+ldBBc
+	 tgFCfHMfKy0D9KOTNeAWExeqLF/7jWEjhZHj7wU/ol9IM+0YGAMSu8X+9zXRDXn/E2UoE
+	 wbbOR4sE0Ks5lj+8jagywQR9HDHB6/7tUW3w2LjrXcLMHbJ0KE8QcQvN4NUDOBz7jhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795629892;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=+FVqL9ntFrkIeDACgdbPrlQAjg1IHC9YGpnQbHm+hC0=;
-	b=eEBryh4aoWRqXJzKIGFtKYYJc3ztzdYsMSrVo1+7E7XdPejKAd/rzJvPWqNmPA7xnbYs
-	 26PJpQ2ya+XZoybD9TImqE8RDvTumY0iTybwqavfUXu1i9t4ZwQM/GhiQFT4sekmggp4B
-	 Aptyz8aIRIgZ1UBAiNpedm6tNUTWXKjRSCi+hN0bVZBH2IcJuFNyjDB0xOCAYxihWPT3V
-	 bVrY4O4z7q2dfFh6t2MzmPe6Wsc9YYKm3f171O+Y9XZFQDqxgXW0s6TQiqujZG/03fh6p
-	 LtTHnap3wzatu849F8lqOF0cAs0Yl0bD26LcHYukYuYatDM+Wf1K2YuDKqVU6K7jWlw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795629999;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Vfpqfghp8rtJ0ttiLbaqibQehjgOthc7Xhwq+CR89LA=;
+	b=XJoROGuy2zX8KfVXzwbNb2o+1ZjpzKanIwExRJXtNsZeNmaJnxni6lMsCUbsaObVQ6Yh
+	 rzWL+00ZKrZvFq18MK1t0o50DJTUfTwrzthRFtu8hP9D+lIOUXFC1ZqYDFJcIWY8fOZ1H
+	 7pUOg1qixrmq/5RrcdJrvCGZ1jwQMQAD9OGQ3aGXEMVKg0oNlmNafibn6rNgBi9RPFUf4
+	 MXxeL0ZTrUlkLSOQ4BihwVogEP7AK6R4ueuEpi47ww8DwYuHJxvZJl4uvyLjfxOtT9TXC
+	 5tZCmcfbujtL2K8BPbTxj2HZI9r4EujkhP2uoKgrmA8CTm0aPuWXyoiIRziWDbPtp4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Mtx/B528";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ULmO+bnX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89008606A31E;
-	Wed, 25 Nov 2026 18:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B910B606A329
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 18:06:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mtx/B528
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B9C41F000C6;
-	Wed, 25 Nov 2026 18:04:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ULmO+bnX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 589871F00AD3
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 18:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795629892;
-	bh=+FVqL9ntFrkIeDACgdbPrlQAjg1IHC9YGpnQbHm+hC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Mtx/B5280bzuMoP3qJtbs2zGWXJHwkGtJ9Fb5L7cOb4oiEOvjVxiEROGKIX9GVhLF
-	 5hNN5Gp4o2liNBhXPOZvPTXUlawIfk2daOweej/ChCSti0t+/MjEtGsC0r0FUOmmd3
-	 m1RdnfbWGlqZWIktar5Uc+Mg83aWydWTp94rCKNaCXPXvCPMYnZ565w6e/klYS9oVx
-	 vQPPe+hTP8RuBVDcT3kPV7i2N69BZyXK+OgdsEL7UtGJSIe9qkx8Xi06+pJ2RaAln8
-	 otzGXANamfK4TUH5WS23meT3spAfKQmBfAcAH3NTCWy8bnLz9HfhVhE/+0q0PCZkCf
-	 0dza9LlC10z1A==
-Date: Wed, 25 Nov 2026 20:04:48 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
-	dmitry.torokhov@gmail.com
-Subject: Re: [PATCH v4 19/33] net: phy: Use the compatibility driver
- attachment API
-Message-ID: <20261125180448.GF14811@unreal>
-References: <20261124-device-trust-core-v4-0-037eb0d17b1f@nvidia.com>
- <20261124-device-trust-core-v4-19-037eb0d17b1f@nvidia.com>
- <sashiko-outbox-233056@kernel.org>
+	s=k20260515; t=1795629999;
+	bh=Vfpqfghp8rtJ0ttiLbaqibQehjgOthc7Xhwq+CR89LA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ULmO+bnXi7PFZD226VAWRBnKz5WR4LDSEbP0tNUK+LrfDOFb7VrGIgBLTgZGWZBky
+	 Y4usFC9BXJanyoFrP8UTW4Rh6SaaXE48vhC7qmUNQQTbslCe6tP75JWGBtpbDKkWmX
+	 AR66ew6g7FKpr6fp5uCp2H5QSBFwjOpCoUPZapAPbvbL6/lst4xm6+sE8K7frf/1ro
+	 cUB6yl+h9J2/elGh8HFk+k4Js0C7ElvsDAIoUMNEsdIJRx+kIzC6bnYMAMR2ZXniOx
+	 0JlGg30LTvfbSCr0mflz55y/uMcbC394TzNv7soG6UlMFqpbZmy5XZ/tkn9Fga7aJV
+	 a25dHYFcYmG0A==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae85add512so50263951fa.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 10:06:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGIT6hJbfriVhWYK9oTI5ZzvlBq/dHBqbudUvlCr1nLqmSSJ/ia5qZdRAveuX3BJS5b8TeAFSFsFv1x2A==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/OKLCeV9/rhPsSa8kC0wXxshhBAjBvXC1JCl7raW/AQXQnvr0t
+	/EI9AAYHON/6PvRocWKvL5V5iCWCP+oHxC/mmBRLU+jPLk5ZBh5IO7T7AiB91F4p2GuFdhl4V1Z
+	9o2rqXmgJXiQX9jcI0gNaXq/Js1SBvAI=
+X-Received: by 2002:a05:6512:61aa:b0:5c0:e5:7e49 with SMTP id
+ 2adb3069b0e04-5c1bc806f13mr5272038e87.44.1795629998006; Wed, 25 Nov 2026
+ 10:06:38 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,90 +59,263 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <sashiko-outbox-233056@kernel.org>
+References: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
+In-Reply-To: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 25 Nov 2026 19:06:24 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
+X-Gm-Features: Aa3M54qrOtW7v88959U2QkIHeP3Sl4QoSZukrMhtwzQVb3_px1CPH3x87TWk2cQ
+Message-ID: <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: cs42l43: Add GPIO controlled mic/spk mute LEDs
+To: Maciej Strozek <mstrozek@opensource.cirrus.com>, Andy Shevchenko <andy@kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: brgl@kernel.org, patches@opensource.cirrus.com, linux-gpio@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 25, 2026 at 09:46:43AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] net: phy: unsynchronized phydev->irq write on error in
->   phy_attach_direct()
+Top posting to loop in more people.
+
+(Andy & Mika)
+
+On Tue, Nov 10, 2026 at 3:21=E2=80=AFPM Maciej Strozek
+<mstrozek@opensource.cirrus.com> wrote:
+
+> Add ability to use cs42l43's GPIOs to drive speaker and microphone mute
+> LEDs. The LEDs must be described using
+> 01fa-global-mute-led-(spk|mic)-mute-gpio ACPI property, which tells
+> which of the 3 available cs42l43's GPIOs to use for the respective
+> function.
+>
+> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+
+ACPI property, so Andy and Mika need to decide if this is a reasonable
+way to go about this issue.
+
+> ---
+>  drivers/pinctrl/cirrus/pinctrl-cs42l43.c | 156 +++++++++++++++++++++++
+>  1 file changed, 156 insertions(+)
+>
+> diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/c=
+irrus/pinctrl-cs42l43.c
+> index 8990fab0446cf..7e4e43783ef14 100644
+> --- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+> +++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+> @@ -5,11 +5,15 @@
+>  // Copyright (c) 2023 Cirrus Logic, Inc. and
+>  //                    Cirrus Logic International Semiconductor Ltd.
+>
+> +#include <linux/acpi.h>
+>  #include <linux/array_size.h>
+>  #include <linux/bits.h>
+>  #include <linux/build_bug.h>
+>  #include <linux/err.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/gpio/driver.h>
+> +#include <linux/gpio/machine.h>
+> +#include <linux/leds.h>
+>  #include <linux/mfd/cs42l43.h>
+>  #include <linux/mfd/cs42l43-regs.h>
+>  #include <linux/module.h>
+> @@ -29,9 +33,18 @@
+>
+>  #define CS42L43_NUM_GPIOS 3
+>
+> +struct cs42l43_mute_led {
+> +       struct led_classdev cdev;
+> +       struct gpio_desc *gpio;
+> +       u32 gpio_num;
+> +};
+> +
+>  struct cs42l43_pin {
+>         struct gpio_chip gpio_chip;
+>
+> +       struct cs42l43_mute_led spk_mute_led;
+> +       struct cs42l43_mute_led mic_mute_led;
+> +
+>         struct device *dev;
+>         struct regmap *regmap;
+>         bool shutters_locked;
+> @@ -535,6 +548,143 @@ static void cs42l43_fwnode_put(void *data)
+>         fwnode_handle_put(data);
+>  }
+>
+> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> +static int cs42l43_find_mute_gpios(struct cs42l43_pin *priv, struct fwno=
+de_handle *fwnode)
+> +{
+> +       struct cs42l43_mute_led *mic =3D &priv->mic_mute_led;
+> +       struct cs42l43_mute_led *spk =3D &priv->spk_mute_led;
+> +       int ret;
+> +
+> +       fwnode_for_each_child_node_scoped(fwnode, child_fwnode) {
+> +               struct fwnode_handle *ext_fwnode __free(fwnode_handle) =
+=3D
+> +                       fwnode_get_named_child_node(child_fwnode,
+> +                                                   "mipi-sdca-function-e=
+xpansion-subproperties");
+> +               bool mic_present, spk_present;
+> +
+> +               if (!ext_fwnode)
+> +                       continue;
+> +
+> +               mic_present =3D fwnode_property_present(ext_fwnode,
+> +                                                     "01fa-global-mute-l=
+ed-mic-mute-gpio");
+> +               spk_present =3D fwnode_property_present(ext_fwnode,
+> +                                                     "01fa-global-mute-l=
+ed-spk-mute-gpio");
+> +               if (!mic_present && !spk_present)
+> +                       continue;
+> +
+> +               if (mic_present) {
+> +                       ret =3D fwnode_property_read_u32(ext_fwnode,
+> +                                                      "01fa-global-mute-=
+led-mic-mute-gpio",
+> +                                                      &mic->gpio_num);
+> +                       if (ret)
+> +                               return dev_err_probe(priv->dev, ret,
+> +                                                    "Invalid mic-mute LE=
+D GPIO property\n");
+> +               }
+> +
+> +               if (spk_present) {
+> +                       ret =3D fwnode_property_read_u32(ext_fwnode,
+> +                                                      "01fa-global-mute-=
+led-spk-mute-gpio",
+> +                                                      &spk->gpio_num);
+> +                       if (ret)
+> +                               return dev_err_probe(priv->dev, ret,
+> +                                                    "Invalid spk-mute LE=
+D GPIO property\n");
+> +               }
+> +
+> +               return 0;
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +static int cs42l43_mute_led_set(struct led_classdev *cdev, enum led_brig=
+htness value)
+> +{
+> +       struct cs42l43_mute_led *led =3D container_of(cdev, struct cs42l4=
+3_mute_led, cdev);
+> +
+> +       return gpiod_set_value_cansleep(led->gpio, value !=3D LED_OFF);
+> +}
+> +
+> +static void cs42l43_mute_led_gpio_free(void *data)
+> +{
+> +       struct cs42l43_mute_led *led =3D data;
+> +
+> +       gpiochip_free_own_desc(led->gpio);
+> +}
+> +
+> +static int cs42l43_mute_led_register(struct cs42l43_pin *priv,
+> +                                    struct cs42l43_mute_led *led,
+> +                                    const char *function, const char *tr=
+igger)
+> +{
+> +       int ret;
+> +
+> +       led->gpio =3D gpiochip_request_own_desc(&priv->gpio_chip, led->gp=
+io_num - 1,
+> +                                             trigger, GPIO_ACTIVE_HIGH,
+> +                                             GPIOD_OUT_LOW);
+> +       if (IS_ERR(led->gpio))
+> +               return dev_err_probe(priv->dev, PTR_ERR(led->gpio),
+> +                                    "Failed to request GPIO%u for %s LED=
+\n",
+> +                                    led->gpio_num, trigger);
+> +
+> +       ret =3D devm_add_action_or_reset(priv->dev, cs42l43_mute_led_gpio=
+_free, led);
+> +       if (ret)
+> +               return ret;
+> +
+> +       led->cdev.name =3D devm_kasprintf(priv->dev, GFP_KERNEL, "%s::%s"=
+,
+> +                                       dev_name(priv->dev), function);
+> +       if (!led->cdev.name)
+> +               return -ENOMEM;
+> +
+> +       led->cdev.default_trigger =3D trigger;
+> +       led->cdev.brightness_set_blocking =3D cs42l43_mute_led_set;
+> +       led->cdev.max_brightness =3D 1;
+> +
+> +       ret =3D devm_led_classdev_register(priv->dev, &led->cdev);
+> +       if (ret)
+> +               return dev_err_probe(priv->dev, ret, "Failed to register =
+%s LED\n",
+> +                                    trigger);
+> +
+> +       dev_dbg(priv->dev, "%s LED uses codec GPIO%u\n", trigger, led->gp=
+io_num);
+> +
+> +       return 0;
+> +}
+> +
+> +static int cs42l43_mute_leds_register(struct cs42l43_pin *priv,
+> +                                     struct fwnode_handle *fwnode)
+> +{
+> +       struct cs42l43_mute_led *mic =3D &priv->mic_mute_led;
+> +       struct cs42l43_mute_led *spk =3D &priv->spk_mute_led;
+> +       int ret;
+> +
+> +       if (!is_acpi_node(fwnode))
+> +               return 0;
+> +
+> +       ret =3D cs42l43_find_mute_gpios(priv, fwnode);
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (mic->gpio_num > CS42L43_NUM_GPIOS ||
+> +           spk->gpio_num > CS42L43_NUM_GPIOS ||
+> +           (mic->gpio_num && mic->gpio_num =3D=3D spk->gpio_num))
+> +               return dev_err_probe(priv->dev, -EINVAL,
+> +                                    "Invalid or shared mute LED GPIOs: m=
+ic=3D%u, spk=3D%u\n",
+> +                                    mic->gpio_num, spk->gpio_num);
+> +
+> +       if (mic->gpio_num) {
+> +               ret =3D cs42l43_mute_led_register(priv, mic, LED_FUNCTION=
+_MICMUTE,
+> +                                               "audio-micmute");
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       if (spk->gpio_num) {
+> +               ret =3D cs42l43_mute_led_register(priv, spk, LED_FUNCTION=
+_MUTE,
+> +                                               "audio-mute");
+> +               if (ret)
+> +                       return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+> +#endif
+> +
+>  static int cs42l43_pin_probe(struct platform_device *pdev)
+>  {
+>         struct cs42l43 *cs42l43 =3D dev_get_drvdata(pdev->dev.parent);
+> @@ -598,6 +748,12 @@ static int cs42l43_pin_probe(struct platform_device =
+*pdev)
+>                 return dev_err_probe(priv->dev, ret,
+>                                      "Failed to register gpiochip\n");
+>
+> +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> +       ret =3D cs42l43_mute_leds_register(priv, dev_fwnode(cs42l43->dev)=
+);
+> +       if (ret)
+> +               return ret;
+> +#endif
+> +
+>         return 0;
+>  }
+>
 > --
-> 
-> commit 165c70c3ab9d6261f753f16524c858fcd9ab84df
-> Author: Leon Romanovsky <leon@kernel.org>
-> 
-> net: phy: Use the compatibility driver attachment API
-> 
-> This commit switches the generic PHY fallback attachment in
-> phy_attach_direct() to use device_driver_attach_unrestricted() and moves
-> is_genphy_driven management into phy_probe() and phy_remove().
-> 
-> > diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-> > index 5d4508bcfbe99..4f20b451e270d 100644
-> > --- a/drivers/net/phy/phy_device.c
-> > +++ b/drivers/net/phy/phy_device.c
-> [ ... ]
-> > @@ -1912,6 +1911,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
-> >  	struct device *d = &phydev->mdio.dev;
-> >  	struct module *ndev_owner = NULL;
-> >  	struct module *drv_owner;
-> > +	struct device_driver *drv;
-> > +	bool bind_genphy;
-> >  	int irq = phydev->irq;
-> >  	int err;
-> >  
-> > @@ -1939,16 +1940,16 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
-> >  	/* Assume that if there is no driver, that it doesn't
-> >  	 * exist, and we should use the genphy driver.
-> >  	 */
-> > -	if (!d->driver) {
-> > +	drv = d->driver;
-> > +	bind_genphy = !drv;
-> > +	if (bind_genphy) {
-> >  		if (phydev->is_c45)
-> > -			d->driver = &genphy_c45_driver.mdiodrv.driver;
-> > +			drv = &genphy_c45_driver.mdiodrv.driver;
-> >  		else
-> > -			d->driver = &genphy_driver.mdiodrv.driver;
-> > -
-> > -		phydev->is_genphy_driven = 1;
-> > +			drv = &genphy_driver.mdiodrv.driver;
-> >  	}
-> >  
-> > -	drv_owner = d->driver->owner;
-> > +	drv_owner = drv->owner;
-> >  	if (!try_module_get(drv_owner)) {
-> >  		phydev_err(phydev, "failed to get the device driver module\n");
-> >  		err = -EIO;
-> > @@ -1956,11 +1957,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
-> >  	}
-> >  	phydev->drv_owner = drv_owner;
-> >  
-> > -	if (phydev->is_genphy_driven) {
-> > -		err = d->driver->probe(d);
-> > -		if (err >= 0)
-> > -			err = device_bind_driver(d);
-> > -
-> > +	if (bind_genphy) {
-> > +		err = device_driver_attach_unrestricted(drv, d);
-> >  		if (err)
-> >  			goto error_module_put;
-> >  	}
-> > @@ -2071,8 +2069,6 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
-> >  	module_put(phydev->drv_owner);
-> >  	phydev->drv_owner = NULL;
-> >  	phydev->irq = irq;
-> > -	phydev->is_genphy_driven = 0;
-> > -	d->driver = NULL;
-> >  error_put_device:
-> >  	put_device(d);
-> >  	if (ndev_owner != bus->owner)
-> 
-> [Severity: Medium]
-> Can error_module_put overwrite phydev->irq after a concurrent driver probe?
-
-Andrew already explained it in v2 that it is not possible.
-
-Thanks
+> 2.47.3
+>
