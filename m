@@ -1,115 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795618001;
-	b=RTjItemviaU4qy1uDstiguIoA3H6p0rR6nci3sEsDnAdn7tApggc7gxYNzM2WE/yTJ1s
-	 ndbNNqR6LrjQZmrE+C/RkQQ5GofXLWOlOWIXvDRc3hJvUOkw9k+5pc5p3ACMgQG5oOY5T
-	 bqqXr/7r33N5cYyCIMr0hRyTWZhOZ58lJhVOrV03zMpHyRlB6m6kqcxddEXDCMOLRa34X
-	 r7ywHlmBHJWwUacFTL5bV6vjH9okDmx0XMEKMdsqqqv6wAqzmXcIYUZFWJ3iza14Lo4Dm
-	 s8JfXTPmRAZqDVkGmwvvIMuH9pUD+VuYYmWZ1iKfAO+atrn54GJC99ww+Q3hN6DnlzA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795618001;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=0K+lfTnBXGdNOHWIw4C2B+sRUK12wsqHUjGZseuMbks=;
-	b=Nq8n0ROD7hufPLGkx+kUVq1PLkCkKI9xW3or+2dA7ICRotgkvgKE31xj+OPpxd9EC+fy
-	 9Q8gCRSaTuqgr+EOeLTO8iZE3EQMXSYad7HKLeK6kARBr2TtpEJ7Es2c54lg96yTI7Ze2
-	 eY4opQ9JApEzS5s7BHA9T74jcO7jxMM4IQY5vlGBnogmbPct8wdNo58D0RbFKyxrqtRX5
-	 u5J1UxwbmhJuRbEx3eequLcAZUsf9rInf21niIgS83n2Cyp/8Cw3Iq/AopU3hYHLHz61b
-	 NfreE/rOQaKcIZyPBRMGrYAObK6pca5EoimLxZ83p9FNnKWUd/F38RwFm6eJYR4S8Hg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TERO2S50;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7O4JnRXS;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gtQfBaQO;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sUolb0LS;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795619255;
+	b=IYDBZAPhS11jOqIf8B+A+s5IgpKMYqzyczsyXM5igaIPZJV6sFVgRa4KBWh5plQKyQGz
+	 DyFOaU4MWUAeLoteJ6y6gPUmW646DfwtleTqzr26WtXYgUKFjx7kjpCaFerizwOjtTvNA
+	 7x4JJT5SQHA4QVMu4GP+8ZHqE8riN4Ywn3wOhjhZLYqtI8JvozRhXnnks1TZubE3/3O/3
+	 IDjH5u3svBjTpe3pgInA38VnrpgU9MzaSDLvngjlQ2uYQx8s9drbj+ooydRGvn4BeFAM3
+	 JwhzWWwklFM4dB+oMQNDDEd2pT8htJhjqdtPuxA7ulUvaSrC5f4R57ds6WTZz/q2N2Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795619255;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Cc:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=db+Ha9wyQwvqpCYlhHffmTpkau51LqeWzqMbVXiyKQ4=;
+	b=N95H4hmVizSHS9zlAudJykuZNpiynCvybF8MlrBl9ceS9hLyOa5RjMh7LF2mgQX6SgXC
+	 cLi8XN7wJXFOstLqpufvlw2T5wYc71wgosq+Q0QnRf9lHFHvnh9zCShcMEfimVG/Q712r
+	 1l9vF7Pf/uf10Ne24WNhPgl9EUP28de9FJaf1Huk/BNOZbqkGBXbEF6piFdhTBFWzxs3O
+	 f8GXIezLFpXYUSqECLz2ihVXysmepYgKINW6+dZ8pOk2qW47KdlzFuz7UZadDYW8gF66B
+	 t1Sgzkb5D+dTrlJajSLmOc59S96n0s1Vn9h8r52HmTVBTG/Sf1YvC2yyRaYCkKvp4tA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=g1iGMU5+;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=f2gFOVpc;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4420F606A32A;
-	Wed, 25 Nov 2026 14:46:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4420F606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B198606A32D
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 15:07:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B198606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TERO2S50;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7O4JnRXS;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gtQfBaQO;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=sUolb0LS
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 37FD421F5F;
-	Wed, 25 Nov 2026 14:46:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795617999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0K+lfTnBXGdNOHWIw4C2B+sRUK12wsqHUjGZseuMbks=;
-	b=TERO2S50WrlMkBdNny6JsHiPXxvckhrN/+mQTG9I3mT2sDJaEd8Q8D5co0sMuRq6x+fQxf
-	5erDLLG6xZ5bhu90EZGy6Slv02LhhGZOdv0lFWBmHvzL2L9YHCWJVZBSWEI/nl2nYWdWC6
-	3VXp2Erk9SbR1R4KzuZrm8s7Ig+MCag=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795617999;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0K+lfTnBXGdNOHWIw4C2B+sRUK12wsqHUjGZseuMbks=;
-	b=7O4JnRXSK5+9OI3ph68LYuvZPKsxEnqw0JaiWbljZzRIbs77tVw4PS4/Ygp+y1HqHZ60Og
-	/NL1N2HcFALi1RDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795617998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0K+lfTnBXGdNOHWIw4C2B+sRUK12wsqHUjGZseuMbks=;
-	b=gtQfBaQOUCUfF1zSv0L/8rdM5K8iRu7S9CWsUmxJyXB1e8HSwT4dY79omVHHC+mZ4YgdKx
-	eRpA8KVui7+6FcPILl/ZcdKvl24m1643W2A0ht84Zpv1QDT0cZB+XjqX70SlAbbs5RTZC5
-	H0/zJWvv4fXru6UXmFZYjS/yw4tAHQs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795617998;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0K+lfTnBXGdNOHWIw4C2B+sRUK12wsqHUjGZseuMbks=;
-	b=sUolb0LSOKox+5XuuY/eOfKvcCE7IiRKcihfJGSGxqYD/HPSLvr5ovMDGTrTDp5wubzPTp
-	h5bsXSy9FUGJz/Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DFF9A134CA;
-	Wed, 25 Nov 2026 14:46:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id KKhGLc30BmvOdwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 25 Nov 2026 14:46:37 +0000
-Date: Wed, 25 Nov 2026 15:46:37 +0100
-Message-ID: <87bj7d6kaa.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?0Ozqz8/o?= <xuhx@hust.edu.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Re: ALSA: asihpi: quiesce PCM timer and IRQ before freeing dpcm on close (UAF)
-In-Reply-To: <8e25ddf.57f.1a212c231fe.Coremail.xuhx@hust.edu.cn>
-References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
-	<2026102727-data-sequel-ce41@gregkh>
-	<2337e87f.262ec.1a1d4cd7b94.Coremail.xuhx@hust.edu.cn>
-	<8e25ddf.57f.1a212c231fe.Coremail.xuhx@hust.edu.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=g1iGMU5+;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=f2gFOVpc
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6APEM9Wd1158190
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 15:07:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	db+Ha9wyQwvqpCYlhHffmTpkau51LqeWzqMbVXiyKQ4=; b=g1iGMU5+iI+taWPx
+	yLKnXluxP0uaMQZ6O5vPH2iEJkzvOVHnbjFOxlUKSgN9I0PnTwKk9RPx0tz5phAE
+	cWXakaxrTlDBuo7Ig0ayxg17cVaHRUvakyzifrARLhcIgTZpCsEH6XS8Zm9/J4wZ
+	RXv0fAKx89tE2ZoK/4K+jz6tuSEyQjzpKoEat/afA6amSKDrjYvpqTeB9cRZsJbX
+	pRXFEREHLj3Q0aKAwidv2GoSEMoP/vmxEhm0axosUN/os6TTs9KZmu04624uM7Nr
+	ASb1nzQhhyAYBm/r0M49GHRkHxqW+wg42e+m20IdMGvKqw2YgnMNycX1SM6phLCC
+	sLz5Lg==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j5vvnsds9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 15:07:32 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ae7faf4ff7so7093487a91.3
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 07:07:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795619252; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sPwzwEzGES2LPMI7IpcsJW1sVMRuoGEYOEvFw5Xad9LoQevnt114D2rLtVg769gjRd
+         cFsSvGoWn25j0pmaboBXuXoy7IO6egJTAYVa9hteYCuoeLpr/Mc3gK9tP2E0AQtRC6VV
+         e7fgPJgiD4TJdyUjHYPLaFtpmD+IF26amTN022/DIYe5q/ZKTMr2JmysWV0Mu4Gr9+VA
+         p28rlWGdGw1RtZRbQEev3qtB16iurqYIdDVeb/b3jnSLbzTsibduFD7xgcBnZAnnFU53
+         XrvMoKeAlwtwfKo5VOxBaiqmyGQQA+C6BHMFwCiY6Xy++9Dd5PTcqdIP5LVatgtBLUlO
+         kuyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=db+Ha9wyQwvqpCYlhHffmTpkau51LqeWzqMbVXiyKQ4=;
+        fh=tJ5ZOyuSAs5iLUh/S6sX4D073c1Hf7FE1sThVnjOlCs=;
+        b=MlkbmHJMmPZbG8O0UeV502wglOguAUrQlSo4r4LzSHhPE3EOy3GoTXVxOLZPQvxWkx
+         BJZk2jPeshXJm/yIqQDZLrIaewC8tCN4bEp2oVjdsGX1EMkNSq1q8sy9X1+aWrdlfHHw
+         0AOTKBqWTl3yUr35Sr5ZgXzJSQ4wBsXuibSdVBkSr+ydOhwRiSZExbyKqxSS9r1nt7jy
+         hC/HIzuQkQ7hRA2snumtwXn8kHlU1kOy7HmmiVz2UGSXXMXQrvPlvQbOvcZmIdEWILNi
+         Mwl8DrHh4ShoYTjoG3iUuNhYBwdQk/NKHlfQl6DuRYV4I756D0cyWbq/Qq+sPR1KBUBe
+         VtVA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795619252; x=1796224052; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=db+Ha9wyQwvqpCYlhHffmTpkau51LqeWzqMbVXiyKQ4=;
+        b=f2gFOVpcbCOJ9yOFdfJGpHBsYXJZMz2NDVhtSnnMTPrHds3LU7u/YvvkyRZGa0LSVv
+         R7DdyC143HQvXgIkiLVGwnCNorseDG1DJtAYA5KzBqjmvGKYJicR67M6Go00IETewbuK
+         pAsEsAv6UCJ8L05g6eovbM+/d63ZUw+/UFYqIG2qovwneMZIyRG5/DSQcHnM7GLKekLM
+         SgxDoQ4qiKuXhseZDoB+hOLxVQlzZTRgCVNh3C+G32RRHBR/kUbkEdQUaNcpPG10KkHH
+         l/XBa3wj4z1eqvoDU/7sfgyVCn9S9MjcqtE8n+GbX1f5zvz+MuuKFMwk+xgh8J6mt9wX
+         B8vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795619252; x=1796224052;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=db+Ha9wyQwvqpCYlhHffmTpkau51LqeWzqMbVXiyKQ4=;
+        b=esL5KptHC/ZZw1mTQo7d9rCRgtprkCz18VsqNH75usqR0o5tNPq3woS59+lyjhzsWo
+         LYnGhg17VOEW3r9v5jZ9XAsC8IQZH8GJaID/Sd4tpPhdpm/9c4P/goHfE9TaRQ/dZcP9
+         4Sl21tEZHPcSaJbakkH+29J/4iFgBCw5Zlqu3MUuWv5YNEug7vl9/WbF2s3OfGgO0V2u
+         J9pJQQud6p4LHCqfZyHZkXgKhLE3NLj1nnve/1dxEfjULJQN6r/2dRYvrY7Ama+MByiE
+         biqIKTi4ukDIOWViezxdKNaE1Zx2+pNjCbQ+HdIa3siL1uGYFRBo3x6d6kcVxK0fNmlv
+         PPjA==
+X-Forwarded-Encrypted: i=1; AL+hErGuLJsms9TXMdR00LldhDM0CVBlEmBk5fKwUydIiIqySspL6bXLS1rs4BpQqWhsoV97nKUcXIAqcrkwLQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/T8SN8tBMuf7VkSUxrDgPXSi9sGXndsJlDA1pjlxkEM/V+JTnP
+	b5xQJNno2jQKt4mdvIoFdIhv7jrJ2JsdkAW2jvGo9k1DLUdfXpVdL4jn3WiC6k1AZeJ/g7T5MSE
+	QCfMF+EzwX0zSkgMpDKrr6vwFhNohRp/AyrEBSfD28ZLG4JxTguL3X0a1zjIapI9fKqoz+OSS7F
+	HXtpzKDwie3nuwo1NWDwK2HlVzscvyEX8mql2DZKkf
+X-Gm-Gg: AZFdTZfPWtB5WYlJaPkAPw5jQ3ac+FcA0tJOSNYFGWRgWYiNoYVckNT62pvz615g+P3
+	c3yCEFJVqJEWImE6nlkXmXaNNDwey+aQddxELzxbv/j1uI5ze6+dA6eLlRyniDiATHmEqDt1+1J
+	uvBBmyHifxesqUtfXWYXmd7sS77eJNLQRnNdIAz2waWXHlZf1Yu2yRMYcLtw==
+X-Received: by 2002:a17:90b:4983:b0:3b0:97b8:d6b7 with SMTP id 98e67ed59e1d1-3b41c931d29mr17812802a91.42.1795619251723;
+        Wed, 25 Nov 2026 07:07:31 -0800 (PST)
+X-Received: by 2002:a17:90b:4983:b0:3b0:97b8:d6b7 with SMTP id
+ 98e67ed59e1d1-3b41c931d29mr17812748a91.42.1795619251127; Wed, 25 Nov 2026
+ 07:07:31 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -118,194 +126,257 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[perex.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,hust.edu.cn:email];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[hust.edu.cn:email,suse.com:email,perex.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.30
+MIME-Version: 1.0
+References: <20261117173738.1073856-1-Frank.Li@oss.nxp.com> <20261117173738.1073856-2-Frank.Li@oss.nxp.com>
+In-Reply-To: <20261117173738.1073856-2-Frank.Li@oss.nxp.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Wed, 25 Nov 2026 16:07:19 +0100
+X-Gm-Features: Aa3M54qdNdgAc_JRldH76LdEJD_mei5kpsUzvFW9k6ee3hswc_FKGO5qrF_F3iw
+Message-ID: <CAPx+jO9RwkpSKwq6vq00uoXK-mcovJ2LMH7b_ByRnxOUj8nH8w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] PM: runtime: fix stub pm_runtime_get_if_in_use()
+ for !CONFIG_PM
+To: Frank.Li@oss.nxp.com
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Heiko Stuebner <heiko@sntech.de>, Ulf Hansson <ulfh@kernel.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Matthew Auld <matthew.auld@intel.com>,
+        Hans de Goede <hansg@kernel.org>,
+        Patrik Jakobsson <patrik.r.jakobsson@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+        Yong Wu <yong.wu@mediatek.com>, Will Deacon <will@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, Marek Vasut <marex@denx.de>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        "open list:POWER MANAGEMENT CORE" <linux-pm@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support:Keyword:mediatek" <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support:Keyword:mediatek" <linux-mediatek@lists.infradead.org>,
+        "open list:ARM/Rockchip SoC support:Keyword:b[Rr]ock[Cc]hipb" <linux-rockchip@lists.infradead.org>,
+        imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+        Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+        Matthew Brost <matthew.brost@intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Alessio Belle <alessio.belle@imgtec.com>,
+        Luigi Santivetti <luigi.santivetti@imgtec.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        dri-devel@lists.freedesktop.org, imagination@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI1MDA2MCBTYWx0ZWRfX2WnEJ/txjgas
+ hGk5wxPYwWL/XOFxVvqmraqpOrUwp+nswIP61kfDy9r866enx04BgY3nIam1A2HQoZiTaizi9F7
+ vuv6YwYBeS1EcDwn31RE+1DjD7f1kh+T2sD0ZrPZQmrN97jpxZssDmPtvAwvm4IG3QMubXpNmz5
+ zENRjdAv5NrfoC6obC4HGZF5AQNYLCpEGnA45lopWZqmBngEo2+osx0+/G/77qNn8c0D17hQPYG
+ Awhj6u5MtoxYkDADQaauIQ4dkb4af9vAKZbTF0TC0eAqL/lMWcZG2Sn56FeUnFdo4jySCfTeUFA
+ FWyWZBiQKcYOa3N+bAXMFOI53rG5iRaZLrrXbvEvKlal0csvhfNtGrsF8JbJv2zlBpWuq745AKy
+ qpxHL+/4Dggi9Tt9dljOEvHVpGORf/WC6nWxDm65Qb+Fy8L3LKb4BZyMSsDUXsANeqLHJ3gmou3
+ sT0L8dKZ/51X+FQ5oFQ==
+X-Proofpoint-ORIG-GUID: 1Kh5rsCIuL05coUBGWgQ5SqHi_aecX13
+X-Proofpoint-GUID: 1Kh5rsCIuL05coUBGWgQ5SqHi_aecX13
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI1MDA2MCBTYWx0ZWRfX/PqtGYvVWJqU
+ uQMXzwcU9wplz7sHJzdgofrYisbpconXFbJvSJ80Hyyy6praFVgtxajrJ00jhh64UAa7kuvZ9Rr
+ 3Ubt9q8+QAB6KrNvw6+geJjV2ORsy+8=
+X-Authority-Analysis: v=2.4 cv=R4mWitRX c=1 sm=1 tr=0 ts=6b06f9b5 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=_glEPmIy2e8OvE2BGh3C:22 a=8AirrxEcAAAA:8 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
+ a=GFqr32JmAAAA:8 a=pGLkceISAAAA:8 a=r_1tXGB3AAAA:8 a=iox4zFpeAAAA:8
+ a=7CQSdrXTAAAA:8 a=mpaa-ttXAAAA:8 a=QX4gbG5DAAAA:8 a=ZLGELXoPAAAA:8
+ a=P1BnusSwAAAA:8 a=zd2uoN0lAAAA:8 a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8
+ a=foHCeV_ZAAAA:8 a=Idd5WaZmN1QeKTrTtQEA:9 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22 a=ST-jHhOKWsTCqRlWije3:22 a=f02Ha7HRcztGgdyUxOxW:22
+ a=t8nPyN_e6usw4ciXM-Pk:22 a=WzC6qhA0u3u7Ye7llzcV:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+ a=AbAUZ8qAyYyZVLSsDulk:22 a=CFiPc5v16LZhaT-MVE1c:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22 a=h8a9FgHX5U4dIE3jaWyr:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-25_04,2026-11-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 bulkscore=0 adultscore=0 clxscore=1011
+ impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611250060
 
-On Wed, 25 Nov 2026 13:50:46 +0100,
-徐晗翔 wrote:
-> 
-> snd_card_asihpi_runtime_free() kfree()d the per-open
-> snd_card_asihpi_pcm while a polled timer callback or an
-> IRQ/threaded handler could still use it: the polled stop path uses
-> plain timer_delete() (no wait for a running callback), and the IRQ
-> stop path clears card->llmode_streampriv with a plain store and no
-> synchronize_irq().
-> 
-> Quiesce in runtime->private_free, which runs in process context from
-> snd_pcm_detach_substream() outside the PCM stream lock (so the
-> sleeping sync calls are allowed there): timer_shutdown_sync() for
-> the polled timer; for IRQ mode, clear card->llmode_streampriv and
-> synchronize_irq(card->hpi->irq) before the kfree(dpcm).
-
-Implement rather PCM sync_stop callback to call timer_delete_sync(),
-instead.  This assures that the timer is gone after stopping the
-stream.
-
-
-Takashi
-
+On Tue, Nov 17, 2026 at 6:38=E2=80=AFPM <Frank.Li@oss.nxp.com> wrote:
+>
+> From: Frank Li <Frank.Li@nxp.com>
+>
+> The stub for pm_runtime_get_if_in_use() under !CONFIG_PM currently
+> returns -EINVAL.  The real implementation returns:
+>   1  - device is active and its usage counter is non-zero (bumped)
+>   0  - device is not in use or not active (counter not bumped)
+>  -EINVAL - runtime PM disabled for this device
+>
+> When CONFIG_PM is not set every device is permanently "active" and
+> always considered "in use", so the stub must return 1, mirroring
+> __pm_runtime_resume() which already returns 1 in the same build.
+>
+> Returning -EINVAL breaks callers that test the return value with
+> comparisons other than "!=3D 0 / =3D=3D 0":
+>
+> drivers/gpu/drm/i915/intel_runtime_pm.c:
+>   if (intel_runtime_pm_get_if_in_use(rpm))
+>   which wraps to: ret =3D pm_runtime_get_if_in_use(); return ret > 0;
+>   With -EINVAL the wrapper returns false, causing an incorrect error
+>   path in the GT fence revocation code.
+>
+> drivers/gpu/drm/xe/xe_pm.c:
+>   if (pm_runtime_get_if_in_use(xe->drm.dev) > 0)
+>   With -EINVAL the condition is false; xe_pm_runtime_get_if_in_use()
+>   returns false, so callers believe the device is not usable.
+>
+> drivers/gpu/drm/gma500/power.c:
+>   return pm_runtime_get_if_in_use(dev) =3D=3D 1;
+>   -EINVAL !=3D 1, so the helper always returns false when !CONFIG_PM.
+>
+> drivers/gpu/drm/imagination/pvr_power.c:
+>   if (pm_runtime_get_if_in_use(...) <=3D 0)
+>   -EINVAL <=3D 0 is true, so the driver always takes the "requeue" error
+>   path instead of proceeding with the active device.
+>
+> sound/soc/sof/debug.c:
+>   if (pm_runtime_get_if_in_use(sdev->dev) =3D=3D 1)
+>   -EINVAL !=3D 1, so d3_prevented is never set, corrupting exception
+>   debug accounting.
+>
+> drivers/iommu/mtk_iommu.c:
+>   if (pm_runtime_get_if_in_use(dom->plat_dev->dev) <=3D 0)
+>   -EINVAL <=3D 0 skips the TLB flush, leaving stale IOMMU mappings.
+>
+> drivers/iommu/rockchip-iommu.c:
+>   Three call sites use WARN_ON_ONCE(err < 0) or similar patterns.
+>   -EINVAL < 0 triggers a spurious WARNING on every call.
+>
+> drivers/media/i2c/isl7998x.c:
+>   if (pm_runtime_get_if_in_use(dev) <=3D 0)  (two call sites)
+>   -EINVAL <=3D 0 causes the driver to always skip register programming
+>   when !CONFIG_PM.
+>
+> drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c:
+>   if (pm_runtime_get_if_in_use(dev) <=3D 0)  (two call sites)
+>   -EINVAL <=3D 0 prevents any debug statistics from being collected.
+>
+> Fixes: a436b6a19f57 ("PM / runtime: Add new helper for conditional usage =
+count incrementation")
+> Fixes: 3b85b7bcccf4 ("drm/xe: Fix display runtime_pm handling")
+> Fixes: 672c473576ca ("drm/gma500: Rewrite power management code")
+> Fixes: b30289e7fa92 ("ASoC: SOF: Fix runtime pm usage counter balance aft=
+er fw exception")
+> Fixes: c0b57581b73b ("iommu/mediatek: Add power-domain operation")
+> Fixes: 51ef2be546e2 ("media: i2c: isl7998x: Add driver for Intersil ISL79=
+98x")
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  sound/pci/asihpi/asihpi.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/sound/pci/asihpi/asihpi.c b/sound/pci/asihpi/asihpi.c
-> --- a/sound/pci/asihpi/asihpi.c
-> +++ b/sound/pci/asihpi/asihpi.c
-> @@ -495,6 +495,29 @@
->  static void snd_card_asihpi_runtime_free(struct snd_pcm_runtime *runtime)
->  {
->  	struct snd_card_asihpi_pcm *dpcm = runtime->private_data;
-> +	struct snd_card_asihpi *card = snd_pcm_substream_chip(dpcm->substream);
-> +
-> +	/* Quiesce the polled timer and the low-latency IRQ stream before
-> +	 * the memory goes away.  This runs in process context from
-> +	 * snd_pcm_detach_substream(), outside the PCM stream lock, so the
-> +	 * sleeping sync calls are allowed here (they must NOT be put into
-> +	 * the trigger/stop path under the stream lock).
-> +	 *
-> +	 * Polled mode: snd_card_asihpi_pcm_timer_stop() uses plain
-> +	 * timer_delete(), which does not wait for a callback that is
-> +	 * already running on another CPU -- the callback dereferences dpcm
-> +	 * throughout and re-arms itself if it observes respawn_timer set.
-> +	 *
-> +	 * IRQ mode: card->llmode_streampriv is cleared with a plain store
-> +	 * by snd_card_asihpi_pcm_int_stop(); the threaded handler may
-> +	 * already have loaded the pointer, so synchronize the IRQ line
-> +	 * after clearing before the kfree(). */
-> +	timer_shutdown_sync(&dpcm->timer);
-> +	if (card->llmode_streampriv == dpcm) {
-> +		card->llmode_streampriv = NULL;
-> +		if (card->hpi->irq)
-> +			synchronize_irq(card->hpi->irq);
-> +	}
->  	kfree(dpcm);
+> Change in v3
+> - drop tag: cbb819c363c5 ("media: rkisp1: debug: Collect input status by =
+sampling ISP_FLAGS_SHD")
+> selected PM at arch config
+> - drop tag: 0f181d3cf7d9 ("iommu/rockchip: Add runtime PM support")
+> selected PM at arch config
+> - drop tag: 9d58aa46291d ("drm/i915: Fix the GT fence revocation runtime =
+PM logic")
+> guard by CONFIG_PM
+> - drop tag 727538a4bbff ("drm/imagination: Implement power management")
+> depend on PM
+> `
+> Change in v2
+> - new patches.
+>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: linux-pm@vger.kernel.org
+> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Cc: Alessio Belle <alessio.belle@imgtec.com>
+> Cc: Luigi Santivetti <luigi.santivetti@imgtec.com>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+> Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Yong Wu <yong.wu@mediatek.com>
+> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Dafna Hirschfeld <dafna@fastmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Michael Tretter <m.tretter@pengutronix.de>
+> Cc: Daniel Baluta <daniel.baluta@nxp.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imagination@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: intel-xe@lists.freedesktop.org
+> Cc: iommu@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-sound@vger.kernel.org
+> Cc: sound-open-firmware@alsa-project.org
+> Cc: imx@lists.linux.dev
+> ---
+>  include/linux/pm_runtime.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
+> index de9e7518ecef2..1d983fe55a16a 100644
+> --- a/include/linux/pm_runtime.h
+> +++ b/include/linux/pm_runtime.h
+> @@ -276,7 +276,7 @@ static inline int pm_schedule_suspend(struct device *=
+dev, unsigned int delay)
 >  }
->  
-> 
-> 
-> > -----原始邮件-----
-> > 发件人: 徐晗翔 <xuhx@hust.edu.cn>
-> > 发送时间:2026-11-13 20:06:38 (星期五)
-> > 收件人: perex@perex.cz, tiwai@suse.com
-> > 抄送: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-> > 主题: ALSA: asihpi: quiesce PCM timer and IRQ before freeing dpcm on close (UAF)
-> > 
-> > `snd_card_asihpi_runtime_free()` frees the per-open `struct
-> > snd_card_asihpi_pcm` while a polled timer callback or an IRQ/threaded handler
-> > can still use it.  The polled stop path uses `timer_delete()` (not
-> > `timer_delete_sync()`), and the IRQ stop path clears
-> > `card->llmode_streampriv` without `synchronize_irq()`.  A normal PCM close can
-> > therefore free `dpcm` and then `runtime` while the callback is still running.
-> > 
-> > The detailed description:
-> > 
-> > * Test environment / affected version
-> > 
-> >   Linux 7.3.0 source plus a QEMU/KASAN fake-PCM harness.  No ASI6205 hardware
-> >   was available; the harness validates the ALSA core close ordering and the
-> >   exact `timer_delete`/`llmode_streampriv` lifetime pattern.
-> > 
-> > * Mechanism
-> > 
-> >   `snd_card_asihpi_runtime_free()` (`asihpi.c:495-499`) does `kfree(dpcm)` and
-> >   is installed as `runtime->private_free` at playback open
-> >   (`asihpi.c:997-1000`) and capture open (`1166-1169`).
-> > 
-> >   Polled mode:
-> > 
-> >     snd_card_asihpi_pcm_timer_start()  asihpi.c:501-513
-> >         mod_timer(&dpcm->timer, jiffies + expiry);
-> >         dpcm->respawn_timer = 1;
-> > 
-> >     snd_card_asihpi_pcm_timer_stop()   asihpi.c:515-522
-> >         dpcm->respawn_timer = 0;
-> >         timer_delete(&dpcm->timer);     /* no sync */
-> > 
-> >   `snd_card_asihpi_timer_function()` (`asihpi.c:710-896`) uses `dpcm`
-> >   throughout and can re-arm at 894-895 if it observes `respawn_timer`.
-> > 
-> >   IRQ mode:
-> > 
-> >     snd_card_asihpi_pcm_int_start()    asihpi.c:524-538
-> >         card->llmode_streampriv = dpcm;
-> >         ... set HPI IRQ rate ...
-> > 
-> >     snd_card_asihpi_pcm_int_stop()     asihpi.c:540-550
-> >         ... set HPI IRQ rate 0 ...
-> >         card->llmode_streampriv = NULL;  /* no synchronize_irq */
-> > 
-> >   `snd_card_asihpi_isr()` (`asihpi.c:898-907`) reads
-> >   `asihpi->llmode_streampriv` twice (check, then dereference), so a threaded
-> >   handler can hold the old `dpcm` pointer across the NULL store.
-> > 
-> >   Close path: `snd_pcm_release_substream()`
-> >   (`sound/core/pcm_native.c:2785-2805`) -> `snd_pcm_drop()`
-> >   (`pcm_native.c:2267-2289`) -> `snd_pcm_detach_substream()`
-> >   (`sound/core/pcm.c:978-1005`) -> `runtime->private_free()` -> `kfree(dpcm)`
-> >   and then `kfree(runtime)`.
-> > 
-> > 
-> > * Trigger model
-> > 
-> >   Local user opens a capture or playback PCM, starts it, and closes it while
-> >   the polled timer or HPI IRQ is active.  Polled mode is available on HPI6000
-> >   and HPI6205; IRQ mode requires HPI6205 in interrupt mode.  SMP/preemption
-> >   needed for the cross-CPU window.  Consequence: UAF of `dpcm`/`runtime` in
-> >   timer softirq or threaded IRQ; crash or memory corruption.
-> > 
-> > * Dynamic evidence
-> > 
-> >   `sndpci_race.c` mode `pcm`, `verification/kmod/
-> >   sndpci/pcmtest.c close 200`: `.trigger STOP` uses `timer_delete()` and
-> >   `runtime->private_free` frees `dpcm`; timer pinned to CPU0, user close to
-> >   CPU1.  Contain 35 KASAN UAF report fragments:
-> > 
-> >     BUG: KASAN: slab-use-after-free in race_pcm_timer
-> >     ...
-> >     Allocated by task: race_pcm_open
-> >     Freed by task: kfree -> snd_pcm_detach_substream -> snd_pcm_release
-> > 
-> > 
-> > 
-> > * Suggested direction
-> > 
-> >   In `snd_card_asihpi_runtime_free()` (or immediately before it), for polled
-> >   mode call `timer_shutdown_sync(&dpcm->timer)`.  For IRQ mode, first clear
-> >   `card->llmode_streampriv` (with the appropriate ordering), then
-> >   `synchronize_irq(card->hpi->irq)` before `kfree(dpcm)`.  Do not put the
-> >   sleeping sync inside the PCM stream lock; do it in the detach/private_free
-> >   process context.  Also consider quiescing before the HPI stream `.close`
-> >   (the extra HPI stream handle window is discussed in the report).
-> > 
-> > 
-> > 
-> > Please keep me in Cc; I am not subscribed to the lists.
-> > 
-> > 
-> > Regards,
-> > Hanxiang Xu
-> > xuhx@hust.edu.cn
+>  static inline int pm_runtime_get_if_in_use(struct device *dev)
+>  {
+> -       return -EINVAL;
+> +       return 1;
+
+This should be return 0, as we did not bump the usage count.
+
+>  }
+>  static inline int pm_runtime_get_if_active(struct device *dev)
+>  {
+> --
+> 2.43.0
+>
+
+Kind regards
+Uffe
