@@ -1,55 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=132.226.202.154
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611091;
-	b=S92coCrZUrm2B9UXETajtdBYx91y2X6/KxC7/asl/1JNy16N0KoQ6IEWHqmcVUWc8zy7
-	 hK6OusaZt3fuc86oug3nCQ/+BQ8UXxQ2OIdN8t6jCH8eYXa2peLneSj5Syqe7TuHytDoO
-	 EP8CIIfm4/Mgpn1s3wR1hUg+Y8I44C7DZkU19pfQmqMnFQbbRmlWm+SQi32XseUx6PC7H
-	 78GSjrAc9JV7ZuNaxkc9xFTx5QQ+fvWqGEyiiCFCMEoHeXY+olZre+A/mohZlYJEJA8dA
-	 cTul2M4x/l8x8APJJkDr+GRVwOFes6RpAB+dGflIgkJh296Vn2S7+ueQXNYKhYS13AQ==
+	t=1795611116;
+	b=3B+uqiEtDSD2NPpUpY6PT0bTwnydmV4Qy2MwIbAw164PDDbe4k6sgtS41rDi0olU7Kif
+	 QCRTV1/C7r8iVZHSQdzbZVDqi1hzpcKUq8yZA9HKiCU7Uh0zcTz3epwD49gMZlTBHCRBx
+	 52/YwsMSj28iY5LY04FoBDQC9ZASUqG108QgkPRPLy4snqlESDtODLfSG0mWdBWVNJJXJ
+	 eNItJtPSYElvR1Zaf4Y5JoF5EhAO7HaK3L/ajPoUqWjdJrG9wSO1KYdkDzxc8nc4VOYTK
+	 xnXpXqaLuK2wLbKvGBlmVMbwtDIjd5/zMpDjq1smlhz6bcqx8WJh5+iRGDsG2NbrlkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611091;
-	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
-	 To:Cc:Subject:X-Priority:X-Mailer:In-Reply-To:References:
-	 X-CM-CTRLMSGS:Content-Transfer-Encoding:Content-Type:MIME-Version:
-	 Message-ID:X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:
-	 X-Coremail-Antispam;
-	bh=X8g2e0iv5tx9nW2iYiX7QltZqTNqfnBxn3GhRq1jKXA=;
-	b=veM8nLdLZjMU+gnAhowLKhBfhOBu5J75A/On6IX/Gdz0KIEQ319qrd8t1Gg6dWPeeGPG
-	 PAdSQrNeawKh6vcc65wAiLvnTIDDptw+4DzDIEGO5PEIFWqwkrftYtq7dkcnH3k/wO43m
-	 P731ILV7y/FHTOY8+NEpZaACIhhU8R1r+xrmNDBAZdVLYGhAbW65ZMSVa9tKsKwbYt27L
-	 wrgpaoRdQ3DRNnzLGxLIPGTprYj8CWJ//Yho2x7MtvCVD3zyl6OhC90Z58f3t7Gl3J4uM
-	 18pcfYVtxr7oPJMJjbnvZry1BwInbQvCmZFNIXYTFUYUnBUCf81I+LxkZgo5we+bUdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795611116;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=YRTxq6RALpRL2HWwYopLJPfizskRSLa65FT5zmbL11o=;
+	b=1Me28HEhwg8+19NSsK5+SLEj+5LT9HJX/qAXSh72G+Q8rGK4MGWX8C6BhcDnoVGQESLC
+	 p9OHRTa85+XQr7L6Ain3mCKURz+2+TxZON28VsSLxt0C5N1bWOtolIjWUNvUQxZbRwLZi
+	 kR2q4UH0QP50yoE2aaC9RTQq538XXN6Fk2j86DO7XfboHVIhZHHhXQ2639q0z1siJC8xY
+	 auXsy+rxle7AtfzKm/Qr9BdZp6a/JiBwT8szG0Kml0jQtaw8QnGb7j389m5s+h6V15HnC
+	 t5zw9Qrlpmg+/6fW0h7MXAJdCXfCH8psQTJwdwf0li/CN6e5C3WDahy5WpW4TRKha1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=132.226.202.154
-Received: from fraori-sdnproxy-3.icoremail.net (fraori-sdnproxy-3.icoremail.net [132.226.202.154])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CB20606A32D;
-	Wed, 25 Nov 2026 12:51:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CB20606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from xuhx$hust.edu.cn ( [10.12.190.107] ) by ajax-webmail-app2
- (Coremail) ; Wed, 25 Nov 2026 20:51:19 +0800 (GMT+08:00)
-Date: Wed, 25 Nov 2026 20:51:19 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
-To: "Takashi Iwai" <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Re: Re: ALSA: ctxfi: free atimer only after the timer IRQ
- is quiesced
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
-In-Reply-To: <87ik20publ.wl-tiwai@suse.de>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cXVo6nc8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263BB606A321
+	for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 12:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cXVo6nc8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FADB1F000C4;
+	Wed, 25 Nov 2026 12:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795611115;
+	bh=YRTxq6RALpRL2HWwYopLJPfizskRSLa65FT5zmbL11o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=cXVo6nc852cUINNhPMEd71U3AjxpaPMvGQn2iTQttgSp7pCHIG9AHl8OtuRS58EwD
+	 6dT+LFh31v5ZCQktZoGhbWcGPOUMOmMgQeiawIYMAZ8j6aebbMB4cNT6e+uChnkaWF
+	 U2WWawMd89xBtT0+Yq0eTfeqz4P1R726nnFvGv4JQZkC6NEnxHhtjZYrmhrkVejF8X
+	 4XFUe21V75d8ZSq7Zk8kq3F7O7e7TcKr0CKcIqiR0/zkP7Wd24P9uQR8vd6a9fWz+T
+	 BhcMWfPRRcMqb4YLg/uLNCBOtcs8VCbOQ6L1e41IkkXchhQ8fgB7XJXmBeLwbn4N2t
+	 a1QuCo+nXptiA==
+Message-ID: <sashiko-outbox-233400@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] Re: sound: core: get_available_index() calls
+ snd_ctl_find_id()  without controls_rwsem (UAF risk)
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <35a9af21.56c.1a212be1cb2.Coremail.xuhx@hust.edu.cn>
 References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
  <2026102727-data-sequel-ce41@gregkh>
- <57529fbf.262c8.1a1d4c65987.Coremail.xuhx@hust.edu.cn>
- <87ik20publ.wl-tiwai@suse.de>
-X-CM-CTRLMSGS: =?B?gNTyJDiH6nJ5xwDR7hwMki1N8jM=
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <34dd9f9d.2ad23.1a2024081bb.Coremail.xuhx@hust.edu.cn>
+ <35a9af21.56c.1a212be1cb2.Coremail.xuhx@hust.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 25 Nov 2026 12:51:55 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,117 +62,84 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Message-ID: <48749068.582.1a212c2b537.Coremail.xuhx@hust.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:IQEQrMAG7xHI2QZrTngDAA--.4208W
-X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAQICB2sGaXQ7IwAOsg
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWkCw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
 
-Y3RfdGltZXJfZnJlZSgpIGNsZWFyZWQgaHctPmlycV9jYWxsYmFjaywgc3RvcHBlZCB0aGUgaGFy
-ZHdhcmUgdGltZXIKYW5kIGtmcmVlKClkIHRoZSBjdF90aW1lciB3aGlsZSB0aGUgUENJIElSUSBo
-YW5kbGVyIGNvdWxkIHN0aWxsIGJlCnJ1bm5pbmcgb3Igc3RhcnQgbGF0ZXI6IGEgaGFuZGxlciB0
-aGF0IGxvYWRlZCBody0+aXJxX2NhbGxiYWNrCmJlZm9yZSB0aGUgTlVMTCBzdG9yZSBjYWxscyBj
-dF90aW1lcl9pbnRlcnJ1cHQoKSB3aXRoIHRoZSBmcmVlZAphdGltZXIsIGFuZCB0aGUgc2luZ2xl
-IHN5bmNocm9uaXplX2lycSgpIGluIHNuZF9jYXJkX2Rpc2Nvbm5lY3QoKQpvbmx5IGNvdmVycyBo
-YW5kbGVycyB0aGF0IHdlcmUgcnVubmluZyBhdCB0aGF0IGluc3RhbnQgLS0gZnJlZV9pcnEoKQpo
-YXBwZW5zIGxhdGVyLCBpbiBjdF9hdGNfZGVzdHJveSgpIC0+IGRlc3Ryb3lfaHdfb2JqKCkuCgpz
-eW5jaHJvbml6ZV9pcnEoaHctPmlycSkgYWZ0ZXIgY2xlYXJpbmcgdGhlIGNhbGxiYWNrIGFuZCBz
-dG9wcGluZwp0aGUgaGFyZHdhcmUsIGJlZm9yZSB0aGUga2ZyZWUoKS4gIFRoZSBody0+aXJxID09
-IC0xIGluaXRpYWxpemF0aW9uCmNvbnRyYWN0IGlzIGtlcHQgKHRoZSBzeW5jIG9ubHkgcnVucyBm
-b3IgYW4gaW5zdGFsbGVkIElSUSkuCi0tLQogc291bmQvcGNpL2N0eGZpL2N0dGltZXIuYyB8ICA4
-ICsrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
-c291bmQvcGNpL2N0eGZpL2N0dGltZXIuYyBiL3NvdW5kL3BjaS9jdHhmaS9jdHRpbWVyLmMKLS0t
-IGEvc291bmQvcGNpL2N0eGZpL2N0dGltZXIuYworKysgYi9zb3VuZC9wY2kvY3R4ZmkvY3R0aW1l
-ci5jCkBAIC00MTcsNiArNDE3LDE0IEBACiAJaHctPmlycV9jYWxsYmFjayA9IE5VTEw7CiAJaWYg
-KGF0aW1lci0+b3BzLT5mcmVlX2dsb2JhbCkKIAkJYXRpbWVyLT5vcHMtPmZyZWVfZ2xvYmFsKGF0
-aW1lcik7CisJLyogV2FpdCBmb3IgYW4gaW4tZmxpZ2h0IElSUSBoYW5kbGVyIGJlZm9yZSB0aGUg
-dGltZXIgb2JqZWN0IGdvZXMKKwkgKiBhd2F5LiAgQSBoYW5kbGVyIHRoYXQgYWxyZWFkeSBsb2Fk
-ZWQgaHctPmlycV9jYWxsYmFjayBjYW4gc3RpbGwKKwkgKiBjYWxsIGN0X3RpbWVyX2ludGVycnVw
-dCgpIHdpdGggdGhlIGZyZWVkIGF0aW1lciwgYW5kIHRoZSBzaW5nbGUKKwkgKiBzeW5jaHJvbml6
-ZV9pcnEoKSBpbiBzbmRfY2FyZF9kaXNjb25uZWN0KCkgb25seSBjb3ZlcnMgaGFuZGxlcnMKKwkg
-KiB0aGF0IHdlcmUgcnVubmluZyBhdCB0aGF0IGluc3RhbnQgLS0gZnJlZV9pcnEoKSBoYXBwZW5z
-IGxhdGVyLAorCSAqIGluIGN0X2F0Y19kZXN0cm95KCkgLT4gZGVzdHJveV9od19vYmooKS4gKi8K
-KwlpZiAoaHctPmlycSA+PSAwKQorCQlzeW5jaHJvbml6ZV9pcnEoaHctPmlycSk7CiAJa2ZyZWUo
-YXRpbWVyKTsKIH0KIAoKCgo+IC0tLS0t5Y6f5aeL6YKu5Lu2LS0tLS0KPiDlj5Hku7bkuro6ICJU
-YWthc2hpIEl3YWkiIDx0aXdhaUBzdXNlLmRlPgo+IOWPkemAgeaXtumXtDoyMDI2LTExLTE0IDAw
-OjMwOjU0ICjmmJ/mnJ/lha0pCj4g5pS25Lu25Lq6OiDlvpDmmZfnv5QgPHh1aHhAaHVzdC5lZHUu
-Y24+Cj4g5oqE6YCBOiBwZXJleEBwZXJleC5jeiwgdGl3YWlAc3VzZS5jb20sIGxpbnV4LXNvdW5k
-QHZnZXIua2VybmVsLm9yZywgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+IOS4u+mimDog
-UmU6IEFMU0E6IGN0eGZpOiBmcmVlIGF0aW1lciBvbmx5IGFmdGVyIHRoZSB0aW1lciBJUlEgaXMg
-cXVpZXNjZWQKPiAKPiBPbiBGcmksIDEzIE5vdiAyMDI2IDEyOjU4OjUxICswMTAwLAo+IOW+kOaZ
-l+e/lCB3cm90ZToKPiA+IAo+ID4gYGN0X3RpbWVyX2ZyZWUoKWAgZnJlZXMgYHN0cnVjdCBjdF90
-aW1lcmAgd2hpbGUgdGhlIGN0eGZpIHRpbWVyIElSUSBoYW5kbGVyIGNhbgo+ID4gc3RpbGwgYmUg
-ZXhlY3V0aW5nLCBvciBjYW4gc3RhcnQgYWZ0ZXIgYHNuZF9jYXJkX2Rpc2Nvbm5lY3QoKWAgaGFz
-IGFscmVhZHkgZG9uZQo+ID4gaXRzIHNpbmdsZSBgc3luY2hyb25pemVfaXJxKClgLiAgQSBoYW5k
-bGVyIHRoYXQgaGFzIHBhc3NlZCB0aGUgbm9uLWF0b21pYwo+ID4gYGh3LT5pcnFfY2FsbGJhY2tg
-IGNoZWNrIHRoZW4gY2FsbHMgYGN0X3RpbWVyX2ludGVycnVwdCgpYCB3aXRoIHRoZSBmcmVlZAo+
-ID4gYGF0aW1lcmA7IGBmcmVlX2lycSgpYCBvbmx5IHJ1bnMgbGF0ZXIsIGluc2lkZSBgY3RfYXRj
-X2Rlc3Ryb3koKWAgLT4KPiA+IGBkZXN0cm95X2h3X29iaigpYC4gIFRoaXMgaXMgYSB1c2UtYWZ0
-ZXItZnJlZSBvbiB0aGUgdGltZXIgb2JqZWN0IGFuZCBjYW4gY3Jhc2gKPiA+IG9yIHdlZGdlIHRo
-ZSBkZXZpY2UgZHVyaW5nIFBDSSByZW1vdmFsL3VuYmluZC4KPiA+IAo+ID4gVGhlIGRldGFpbGVk
-IGRlc2NyaXB0aW9uOgo+ID4gCj4gPiAqIFRlc3QgZW52aXJvbm1lbnQgLyBhZmZlY3RlZCB2ZXJz
-aW9uCj4gPiAKPiA+ICAgTGludXggNy4zLjAgc291cmNlIHRyZWUgdW5kZXIgcmV2aWV3LiAgVGhp
-cyByZXBvcnQgaXMgc291cmNlLWxldmVsIG9ubHk6IG5vCj4gPiAgIGN0eGZpIGhhcmR3YXJlIHdh
-cyBhdmFpbGFibGUgYW5kIFFFTVUgaGFzIG5vIGN0eGZpIGRldmljZSBtb2RlbCwgc28gbm8KPiA+
-ICAgZHJpdmVyLXNwZWNpZmljIHJlcHJvZHVjZXIgd2FzIHJ1bi4gIFRoZSBzb3VyY2UgcGF0aHMv
-bGluZSBudW1iZXJzIGJlbG93IGFyZQo+ID4gICBmcm9tIDcuMy4KPiA+IAo+ID4gKiBNZWNoYW5p
-c20KPiA+IAo+ID4gICBgY3RfdGltZXJfbmV3KClgIChgc291bmQvcGNpL2N0eGZpL2N0dGltZXIu
-YzozODgtNDExYCkgaW5zdGFsbHMgdGhlIG5hdGl2ZQo+ID4gICB0aW1lciBjYWxsYmFjayBieSBk
-ZWZhdWx0IHdoZW4gYCF1c2Vfc3lzdGVtX3RpbWVyICYmIGh3LT5zZXRfdGltZXJfaXJxYDoKPiA+
-IAo+ID4gICAgIGh3LT5pcnFfY2FsbGJhY2tfZGF0YSA9IGF0aW1lcjsKPiA+ICAgICBody0+aXJx
-X2NhbGxiYWNrICAgICAgPSBjdF90aW1lcl9pbnRlcnJ1cHQ7Cj4gPiAKPiA+ICAgVGhlIFBDSSBJ
-UlEgaGFuZGxlcnMgYGN0XzIwazFfaW50ZXJydXB0KClgIChgY3RodzIwazEuYzoxODc4LTE4OTFg
-KSBhbmQKPiA+ICAgYGN0XzIwazJfaW50ZXJydXB0KClgIChgY3RodzIwazIuYzoyMDQ1LTIwNTlg
-KSBkbzoKPiA+IAo+ID4gICAgIGlmIChody0+aXJxX2NhbGxiYWNrKQo+ID4gICAgICAgICBody0+
-aXJxX2NhbGxiYWNrKGh3LT5pcnFfY2FsbGJhY2tfZGF0YSwgc3RhdHVzKTsKPiA+IAo+ID4gICBg
-Y3RfdGltZXJfaW50ZXJydXB0KClgIChgY3R0aW1lci5jOjM3OS0zODZgKSB0aGVuIHJlYWRzCj4g
-PiAgIGB0aW1lci0+b3BzLT5pbnRlcnJ1cHRgIGFuZCBjYWxscyBpdCB3aXRoIGB0aW1lcmAuICBO
-ZWl0aGVyIHRoZSBjaGVjayBub3IKPiA+ICAgdGhlIHR3byBsb2FkcyBpcyBhdG9taWMuCj4gPiAK
-PiA+ICAgYGN0X3RpbWVyX2ZyZWUoKWAgKGBjdHRpbWVyLmM6NDE0LTQyMWApIGRvZXM6Cj4gPiAK
-PiA+ICAgICBzdHJ1Y3QgaHcgKmh3ID0gYXRpbWVyLT5hdGMtPmh3Owo+ID4gICAgIGh3LT5pcnFf
-Y2FsbGJhY2sgPSBOVUxMOwo+ID4gICAgIGlmIChhdGltZXItPm9wcy0+ZnJlZV9nbG9iYWwpCj4g
-PiAgICAgICAgIGF0aW1lci0+b3BzLT5mcmVlX2dsb2JhbChhdGltZXIpOwo+ID4gICAgIGtmcmVl
-KGF0aW1lcik7Cj4gPiAKPiA+ICAgYGN0X3hmaXRpbWVyX2ZyZWVfZ2xvYmFsKClgIG9ubHkgY2Fs
-bHMgYGN0X3hmaXRpbWVyX2lycV9zdG9wKClgOyB0aGF0IGhlbHBlcgo+ID4gICBzdG9wcyB0aGUg
-aGFyZHdhcmUgb25seSBpZiBgYXRpbWVyLT5ydW5uaW5nYCBpcyBzZXQgKGBjdHRpbWVyLmM6MTM3
-LTE0NWApLgo+ID4gICBJdCBkb2VzIG5vdCB3YWl0IGZvciBhbiBpbi1mbGlnaHQgSVJRIGhhbmRs
-ZXIuCj4gPiAKPiA+ICAgYGN0X2F0Y19kZXN0cm95KClgIChgY3RhdGMuYzoxMjUwLTEyODZgKSB0
-aGVuIGNhbGxzIGBjdF90aW1lcl9mcmVlKClgIGF0Cj4gPiAgIDEyNTctMTI2MCwgY2FsbHMgYGRl
-c3Ryb3lfaHdfb2JqKGF0Yy0+aHcpYCBhdCAxMjc0LTEyNzUsIGFuZCBvbmx5IGFmdGVyIHRoYXQK
-PiA+ICAgYGtmcmVlKGF0YylgIGF0IDEyODMuICBgZGVzdHJveV9od19vYmooKWAgLT4gYGh3X2Nh
-cmRfc2h1dGRvd24oKWAgLT4KPiA+ICAgYGZyZWVfaXJxKClgIGF0IGBjdGh3MjBrMS5jOjE5Njlg
-IC8gYGN0aHcyMGsyLmM6MjE0MGAuICBTbyBgYXRjYCBpdHNlbGYgaXMKPiA+ICAgbm90IHRoZSBm
-cmVlZCBvYmplY3QgaW4gdGhpcyB3aW5kb3c7IGBhdGltZXJgIGlzIGZyZWVkIGJlZm9yZSBgZnJl
-ZV9pcnEoKWAuCj4gPiAKPiA+ICogV2h5IHRoZSBleGlzdGluZyBzeW5jaHJvbml6YXRpb24gZG9l
-cyBub3QgY2xvc2UgdGhlIHdpbmRvdwo+ID4gCj4gPiAgIGN0eGZpIGRvZXMgc2V0IGBjYXJkLT5z
-eW5jX2lycWAgYXQgYGN0aHcyMGsxLmM6MTkzN2AgLyBgY3RodzIwazIuYzoyMTA0YCwKPiA+ICAg
-YW5kIGBzbmRfY2FyZF9kaXNjb25uZWN0KClgIChgc291bmQvY29yZS9pbml0LmM6NDk1LTU2MmAp
-IGNhbGxzCj4gPiAgIGBzeW5jaHJvbml6ZV9pcnEoY2FyZC0+c3luY19pcnEpYCBvbmNlIGF0IDU0
-MC01NDEuICBCdXQgdGhhdCBjYWxsIGhhcHBlbnMKPiA+ICAgYmVmb3JlIGBjdF90aW1lcl9mcmVl
-KClgLCBvbmx5IHdhaXRzIGhhbmRsZXJzIHRoYXQgYXJlIHJ1bm5pbmcgYXQgdGhhdAo+ID4gICBp
-bnN0YW50LCBhbmQgZG9lcyBub3QgZGlzYWJsZSB0aGUgSVJRIGxpbmUuICBBIG5ldyBoYW5kbGVy
-IGNhbiBlbnRlciBhZnRlcgo+ID4gICB0aGUgb25lLXRpbWUgc3luYyBhbmQgYmVmb3JlIGBmcmVl
-X2lycSgpYC4KPiA+IAo+ID4gICBUaGUgYGh3LT5pcnFfY2FsbGJhY2sgPSBOVUxMYCBzdG9yZSBk
-b2VzIG5vdCBjbG9zZSB0aGUgcmFjZSBlaXRoZXI6IGEKPiA+ICAgaGFuZGxlciB0aGF0IGxvYWRl
-ZCB0aGUgY2FsbGJhY2sgcG9pbnRlciBiZWZvcmUgdGhlIHN0b3JlIGNhbiBzdGlsbCBjYWxsIGl0
-Lgo+ID4gCj4gPiAqIFRyaWdnZXIgbW9kZWwKPiA+IAo+ID4gICBPcGVuIGEgY3R4ZmkgZGV2aWNl
-IChuYXRpdmUgdGltZXIgcGF0aCwgdGhlIGRlZmF1bHQpLCB0aGVuIHJlbW92ZS91bmJpbmQgdGhl
-Cj4gPiAgIFBDSSBkZXZpY2Ugd2hpbGUgYW4gaW50ZXJydXB0IGlzIHBlbmRpbmcgb3IgYXJyaXZl
-cyBkdXJpbmcgdGVhcmRvd24uICBUaGUKPiA+ICAgd2luZG93IGlzIGJldHdlZW4gYGN0X3RpbWVy
-X2ZyZWUoKWAgYW5kIGBmcmVlX2lycSgpYC4gIENvbnNlcXVlbmNlOiBVQUYgcmVhZAo+ID4gICBv
-ZiBgYXRpbWVyLT5vcHNgIGFuZCB0aW1lciBmaWVsZHMgaW4gSVJRIGNvbnRleHQ7IGNyYXNoLCBz
-dGFsbCwgb3IgcG90ZW50aWFsCj4gPiAgIGNvbnRyb2wtZmxvdyBjb3JydXB0aW9uLgo+ID4gCj4g
-PiAqIFN1Z2dlc3RlZCBkaXJlY3Rpb24KPiA+IAo+ID4gICBBZnRlciBjbGVhcmluZyBgaHctPmly
-cV9jYWxsYmFja2AgYW5kIGNhbGxpbmcgYGZyZWVfZ2xvYmFsKClgLCBidXQgYmVmb3JlCj4gPiAg
-IGBrZnJlZShhdGltZXIpYCwgZG86Cj4gPiAKPiA+ICAgICBpZiAoaHctPmlycSA+PSAwKQo+ID4g
-ICAgICAgICBzeW5jaHJvbml6ZV9pcnEoaHctPmlycSk7Cj4gPiAKPiA+ICAgQWx0ZXJuYXRpdmVs
-eSwgbW92ZSBgZnJlZV9pcnEoKWAgZWFybGllciBzbyBpdCBwcmVjZWRlcyB0aGUgdGltZXIgZnJl
-ZS4KPiA+ICAgS2VlcCB0aGUgZXhpc3RpbmcgYGh3LT5pcnEgPT0gLTFgIGluaXRpYWxpemF0aW9u
-IGNvbnRyYWN0Lgo+ID4gCj4gPiAKPiA+IFBsZWFzZSBrZWVwIG1lIGluIENjOyBJIGFtIG5vdCBz
-dWJzY3JpYmVkIHRvIHRoZSBsaXN0cy4KPiAKPiBDb3VsZCB5b3UgcmF0aGVyIHN1Ym1pdCBhIGZp
-eCBwYXRjaCAod2l0aCBhIHByb3BlciBwYXRjaCBkZXNjcmlwdGlvbikKPiBmb3IgZWFjaCB5b3Vy
-IHJlcG9ydGVkIGlzc3VlPyAgWW91IGNhbiBwdXQgTGluazogdGFnIHRvIHBvaW50aW5nIHRvCj4g
-dGhlIGVhcmxpZXIgcmVwb3J0cy4KPiAKPiAKPiB0aGFua3MsCj4gCj4gVGFrYXNoaQo=
+Thank you for your contribution! Sashiko AI review found 2 potential
+issues to consider:
+- [High] ALSA: jack: recursive controls_rwsem down_read() in
+  snd_kctl_jack_new()
+- [High] sound: core: missing Signed-off-by trailer in commit message
+--
+
+commit 59c1eb09f555d07cbd4068c80f23a3bf865c7b34
+Author: =E5=BE=90=E6=99=97=E7=BF=94 <xuhx@hust.edu.cn>
+
+> sound: core: get_available_index() calls snd_ctl_find_id() without contro=
+ls_rwsem (UAF risk)
+>
+> get_available_index() walked the control id space via
+> snd_ctl_find_id() without holding card->controls_rwsem; the
+> CONFIG_SND_CTL_FAST_LOOKUP fast path does xa_load() and
+> elem_id_matches() without any lock, so a concurrent
+> snd_ctl_remove() (rwsem write, remove_hash_entries, list_del,
+> kfree) could free the kcontrol between the xa_load() and the id
+> read -- a use-after-free.
+>
+> Restore the upstream guard: hold controls_rwsem for reading across
+> the index loop in snd_kctl_jack_new(); the read side is released
+> before the caller's snd_ctl_add(), which takes the write side.
+
+[Severity: High]
+The commit message is missing a Signed-off-by trailer.
+
+> diff --git a/sound/core/ctljack.c b/sound/core/ctljack.c
+> index 36700fda79f3c..f0c7fcd663474 100644
+> --- a/sound/core/ctljack.c
+> +++ b/sound/core/ctljack.c
+> @@ -74,7 +74,15 @@ snd_kctl_jack_new(const char *name, struct snd_card *c=
+ard)
+>  		return NULL;
+> =20
+>  	jack_kctl_name_gen(kctl->id.name, name, sizeof(kctl->id.name));
+> -	kctl->id.index =3D get_available_index(card, kctl->id.name);
+> +	/* get_available_index() walks the control id space through
+> +	 * snd_ctl_find_id(), whose CONFIG_SND_CTL_FAST_LOOKUP fast path
+> +	 * reads the candidate kcontrol's id without any lock of its own.
+> +	 * Hold controls_rwsem for reading across the loop so a concurrent
+> +	 * snd_ctl_remove() cannot remove and kfree() the kcontrol between
+> +	 * the xa_load() and the id read.  The read side is released before
+> +	 * the caller's snd_ctl_add(), which takes the write side. */
+> +	scoped_guard(rwsem_read, &card->controls_rwsem)
+> +		kctl->id.index =3D get_available_index(card, kctl->id.name);
+>  	kctl->private_value =3D 0;
+>  	return kctl;
+>  }
+
+[Severity: High]
+Does this acquire card->controls_rwsem for reading a second time inside
+get_available_index()?
+
+Commit ba8c3d5fc27a ("ALSA: jack: Protect the index scan against control
+removal") already added the read guard to get_available_index():
+
+sound/core/ctljack.c:get_available_index() {
+	...
+	guard(rwsem_read)(&card->controls_rwsem);
+	while (snd_ctl_find_id(card, &sid)) {
+	...
+}
+
+Because down_read() is not recursive, every snd_kctl_jack_new() call
+triggers a lockdep recursive-locking warning and deadlocks if a writer
+queues between the two down_read() calls:
+
+CPU0                                  CPU1
+snd_kctl_jack_new()
+  down_read(&card->controls_rwsem)
+                                      snd_ctl_add()
+                                        down_write(&card->controls_rwsem)
+  get_available_index()
+    down_read(&card->controls_rwsem)  <-- deadlocks behind waiting writer
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/35a9af21.56c.1a212b=
+e1cb2.Coremail.xuhx@hust.edu.cn?part=3D1
