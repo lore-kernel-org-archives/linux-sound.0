@@ -1,117 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795679670;
-	b=gOqmWGvhKDsyR+d46LhqOGnpjPHLaMrP/9hVZLvM9ctJk2p/q2QyVpfcniEc3ZrRFM4G
-	 Jep512u4NP12UWZyTQRphZT9X58dpczmGP4EntVJdA3dG1706hde02GasdpUTTKccl1k9
-	 FQU0Btu0GWo6D2wEzpoDMf5/S3xxR6pUjFjnNobAv0QdAwKufLSK6iDrLmHzIvg+rAKjD
-	 R/4TiFGNoj6dirH3BF5Q9PQe3YpAD1ks0FXI+oVcUIBJ5PVUq3mOZvFbapEP0fO3iegqo
-	 KEFxcZ5U1YxO+WvvIPGsZ8Ci1A2OlbnAwGN0ezHkXOGRAtpDbtu7z+xNGgnIxQwFiJQ==
+	t=1795679992;
+	b=sTI5+EWYjIG4dZNcF9rLa8mXet2RH9ouoiBz60t4uYVSYAKnocfv5/Wr3a398Cj25sCe
+	 ORg/XElsgI0iBZLhVDlFw+uy/XE5ruKMNeWsZct+srCjIdWNSaPTvRxHXls0ERH0hWjdb
+	 UWZVCYATcgh0pkfTSAlUypaAX4tQqnEMu/10gcRD8gxTWYv2q+I3OYEdUehdrapI0aRa1
+	 3yfLD28/6b0veeeYs2uu+HcKRX+cmW6sv4ejx4SM4y9yAm3U4NNtRolhB4S9tBD7U3Kax
+	 5mB5tv+Vlp3B0vhVzoZgr3jjjMxu67UiDuPyW3M0Gxi2ucQz7qPieLF6GuCgd8wf5+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795679670;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795679992;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
 	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=6hZLXsshUuDSI0p3TlPqaHfIQIwhxOKGCcZCKIn+/KU=;
-	b=3dYyRhMl7MD26B0bRVPGR5J1tOs/9rstI6WLwyxNKB87hOZjE/ndQZTgEpq6OCrOnbKj
-	 q2UttMKXTep2/vvZL20+GuLg0xELBqJ373IzcqzOyw/G2yyCCxiae/bSdIFlrbTomKGos
-	 0DjMj7nyfM9ZFCLUkOP2TjpcjS7ukhBxS9SeGnlM66gSg4tTN4lEYeqQuPrGM2T7bWd2V
-	 41SA73khSFCzmM27YXzin1QevSv7eEBsE76cZ6Rgc7J10YwfwSryFqt7S+HvRSWg7j3av
-	 E9/Z1KbPW5W/w4NguoueWoO1tBhJiQQVycec97KEKius4xHPGtBAa5m2uCsZkew34eA==
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=gCPt567FbipQ8XQWwv7dIOHhbEG1keVFm7aWXmFbupg=;
+	b=pIuqcCsZPxyb2OBKUoUpdyvo79yh/UFAXwC0QLzQw3uip2zBWhQUMf8I3F5Dq4fqkfjc
+	 A6Rk5szoRkIPHNPjaRGk+lk511h/zXALdVDrDPRl8HnVKMWb+MWqSa/wc0QAcAWgXMVLs
+	 DoOV4j27maLShfNbitpXNk8dK4gf6bMH6vy7f9OQvX0fg45uXm8OMPsrvQEZbUQQE5Rz+
+	 H01GIf5zcfGHirEFJaaNr9GcyUnKgmJNVGzY3r8FbSF7t5WWYiy2FzgiV6F41BeVQTbCl
+	 EW8K6QZiDXCuNmg3JaAydwP2i+C3C1gRrm1qsggNLH5Y39kUwO7pXupLwI/sozttJTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=uFLFYMCK;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EUhe8SQa;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=OqCLVOh6;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WrBZ8OXy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MYgQ6js8;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=amPlUiyF;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MYgQ6js8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=amPlUiyF;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD72606A31C;
-	Thu, 26 Nov 2026 07:54:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AD72606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49D4606A31C;
+	Thu, 26 Nov 2026 07:59:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A49D4606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=uFLFYMCK;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EUhe8SQa;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=OqCLVOh6;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=WrBZ8OXy
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MYgQ6js8;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=amPlUiyF;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=MYgQ6js8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=amPlUiyF
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D047E22569;
-	Thu, 26 Nov 2026 07:54:26 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 662A12261F;
+	Thu, 26 Nov 2026 07:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795679668; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795679989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6hZLXsshUuDSI0p3TlPqaHfIQIwhxOKGCcZCKIn+/KU=;
-	b=uFLFYMCKgcR8Io2fURsn/s0fvj3+2pbutz9Yosw9CqC3R9g/+R/L9H9/f54UsreYmXIRn9
-	n36qAEGDVn/aXecT7rC+sCAFbqrIXa9HNDvvwGultdpI+TwZNctT2Vl3LFpEbuSQxENzvH
-	JS7ZjdZ49jsu/fVyNaYGT3RSwnCGEYA=
+	bh=gCPt567FbipQ8XQWwv7dIOHhbEG1keVFm7aWXmFbupg=;
+	b=MYgQ6js8aXpLrX4w3gZOX3/L7t6pU3fUCT7WpwXDySv6BnAjiv0JX0m+bZmchfrCBNrpHY
+	lYf4gdYrbc0UKeP5vD+4J5n+cvUguA2XOo2XQkYE+ui/nri2luoH0lzMutBKFsbZSGOCrX
+	vb+kMkBGv35RCUHE/9KCCq71Wk48nk0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795679668;
+	s=susede2_ed25519; t=1795679989;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6hZLXsshUuDSI0p3TlPqaHfIQIwhxOKGCcZCKIn+/KU=;
-	b=EUhe8SQaPQ6ZyOL9OW3hi9naPwLVOorbtnZEw5NADWpRT1X0qjA5sTyAS9Z2rCrl8Cwg+Y
-	e/nAEsTIG3sV5tCQ==
+	bh=gCPt567FbipQ8XQWwv7dIOHhbEG1keVFm7aWXmFbupg=;
+	b=amPlUiyFq26eSZasWvCZOLZoxf4F78BljD2e3knhZ1Co28BBr0ry9kuwULGwUtOhD/mSKr
+	W0PVFDx4dEBs5dCw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MYgQ6js8;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=amPlUiyF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795679666; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1795679989; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6hZLXsshUuDSI0p3TlPqaHfIQIwhxOKGCcZCKIn+/KU=;
-	b=OqCLVOh64bc0YQTiDdUhjr8FATvZq9hGEDP/YSy6hYaKbwR53p9trMxYCx8hLlfw/9eRtm
-	OhtT0/EaeFkNwR0jBObQA3zkWpRobR1XRe/7Vo5q4lPYP0MrIftLOeOQMa/oPYER/WQRQX
-	XD2plYrHlk7yHZHZmtT8nIdNL0WQfLY=
+	bh=gCPt567FbipQ8XQWwv7dIOHhbEG1keVFm7aWXmFbupg=;
+	b=MYgQ6js8aXpLrX4w3gZOX3/L7t6pU3fUCT7WpwXDySv6BnAjiv0JX0m+bZmchfrCBNrpHY
+	lYf4gdYrbc0UKeP5vD+4J5n+cvUguA2XOo2XQkYE+ui/nri2luoH0lzMutBKFsbZSGOCrX
+	vb+kMkBGv35RCUHE/9KCCq71Wk48nk0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795679666;
+	s=susede2_ed25519; t=1795679989;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6hZLXsshUuDSI0p3TlPqaHfIQIwhxOKGCcZCKIn+/KU=;
-	b=WrBZ8OXyud5Cy9sSQjPGFBNRfq1a84JNIDfnr35qeilxgZxjsDVTRnl4ILWhPCb2htIr8+
-	osTuTvE8wnwelqAA==
+	bh=gCPt567FbipQ8XQWwv7dIOHhbEG1keVFm7aWXmFbupg=;
+	b=amPlUiyFq26eSZasWvCZOLZoxf4F78BljD2e3knhZ1Co28BBr0ry9kuwULGwUtOhD/mSKr
+	W0PVFDx4dEBs5dCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7E67F13432;
-	Thu, 26 Nov 2026 07:54:26 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D14B813432;
+	Thu, 26 Nov 2026 07:59:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2q2kFLLlB2scBAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 26 Nov 2026 07:54:26 +0000
-Date: Thu, 26 Nov 2026 08:54:25 +0100
-Message-ID: <87qzg858pa.wl-tiwai@suse.de>
+	id U3/GKPTmB2vsCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Nov 2026 07:59:48 +0000
+Date: Thu, 26 Nov 2026 08:59:48 +0100
+Message-ID: <87pkvs58gb.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?0Ozqz8/o?= <xuhx@hust.edu.cn>
-Cc: "Takashi Iwai" <tiwai@suse.de>,
-	perex@perex.cz,
+To: Rongen Wang <security@nitrohex.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Re: ALSA: ctxfi: do not free a running system timer when timer_delete_sync_try() returns -1 (UAF)
-In-Reply-To: <152af2bc.a54.1a215a12cc9.Coremail.xuhx@hust.edu.cn>
-References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
-	<2026102727-data-sequel-ce41@gregkh>
-	<6776b38b.262de.1a1d4ca8711.Coremail.xuhx@hust.edu.cn>
-	<20f42cfd.589.1a212c337be.Coremail.xuhx@hust.edu.cn>
-	<87fqwp6kt8.wl-tiwai@suse.de>
-	<152af2bc.a54.1a215a12cc9.Coremail.xuhx@hust.edu.cn>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: timer: Protect the slave instance flags with the timer lock
+In-Reply-To: <20261125192053.5664-1-security@nitrohex.com>
+References: <20261125192053.5664-1-security@nitrohex.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -122,264 +114,89 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 662A12261F
 X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,hust.edu.cn:email,perex.cz:email,suse.com:email]
-X-Spam-Score: -12.30
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -12.51
 
-On Thu, 26 Nov 2026 03:13:34 +0100,
-徐晗翔 wrote:
+On Wed, 25 Nov 2026 20:21:12 +0100,
+Rongen Wang wrote:
 > 
-> Hi,
+> snd_timer_start_slave() and snd_timer_stop_slave() set and clear
+> SNDRV_TIMER_IFLG_RUNNING in timeri->flags while holding only
+> timeri_lock.  For a slave that is linked to a master, the interrupt
+> path updates the same word under timer->lock:
+> snd_timer_process_callbacks() sets SNDRV_TIMER_IFLG_CALLBACK before it
+> calls the instance callback and clears it afterwards.  Both sides do a
+> plain read-modify-write, so when they overlap one of the two updates is
+> lost.
 > 
-> thanks for the review.
+> If the set of SNDRV_TIMER_IFLG_CALLBACK is lost,
+> snd_timer_close_locked() does not wait for the callback that is still
+> running, the owner frees the instance, and the interrupt path clears
+> the flag in the freed object:
 > 
-> Also, sorry for the potentially slow follow-ups: I have been quite busy
-> lately, so I will get to the other reported issues (the rest of the sound-core series) one by one with their patches in a while.
+>   BUG: KASAN: slab-use-after-free in snd_timer_process_callbacks+0x269/0x2b0
+>   Read of size 4 at addr ffff888007e5cc10 by task poc/90
+>    snd_timer_process_callbacks+0x269/0x2b0
+>    snd_timer_interrupt+0x7b8/0x1100
+>    snd_utimer_ioctl+0x7c/0xb0
+>   Freed by task 91:
+>    kfree+0x127/0x3b0
+>    __snd_timer_
+> user_ioctl.isra.0+0xe93/0x28f0
 > 
-> Signed-off-by: <Hanxiang Xu> <xuhx@hust.edu.cn>
+> If the clear is lost instead, the flag stays set: the instance gets no
+> further callbacks, and closing it spins in the drain loop of
+> snd_timer_close_locked() with register_mutex held, which blocks every
+> other open and close of an ALSA timer.
+> 
+> Take timer->lock around the whole flag update of a linked slave, as
+> snd_timer_start1() and snd_timer_stop1() do for master instances.  The
+> callers hold timeri_lock, so timeri->timer is stable, and the lock
+> order is the one these functions already use.  A slave that is not
+> linked to a master cannot be reached from any timer and needs no
+> additional protection.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Rongen Wang <security@nitrohex.com>
 
-Please create a "full" patch and resubmit from a scratch, instead.
+The code change looks OK, but the patch can't be applied cleanly,
+as some lines are strangely broken in the middle.
 
-That is, prepare a patch containing:
-- a proper Subject line, followed by patch description text, then a
-  blank line
-- If possible, provide Fixes tag pointing to the commit that
-  introduced the breakage
-- Put "Cc: <stable@vger.kernel.org>" line
-- Put your Signed-off-by line;
-  it should be like "Signed-off-by: Hanxiang Xu <xuhx@hust.edu.cn>"
-  (no <> around your name)
-
-And submit the patch again, at best without hanging on the thread.
-
-See Documentation/process/submitting-patches.rst for details.
+Please resubmit a clean patch, at best, verify that the posted patch
+can be applied cleanly beforehand.
 
 
 thanks,
 
 Takashi
-
-> ---
->  sound/pci/ctxfi/cttimer.c |  8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/pci/ctxfi/cttimer.c b/sound/pci/ctxfi/cttimer.c
-> --- a/sound/pci/ctxfi/cttimer.c
-> +++ b/sound/pci/ctxfi/cttimer.c
-> @@ -111,11 +111,17 @@
->  
->  static void ct_systimer_prepare(struct ct_timer_instance *ti)
->  {
-> +	/* non-sleeping: also runs under the PCM stream lock */
->  	ct_systimer_stop(ti);
->  	timer_delete_sync_try(&ti->timer);
->  }
->  
-> -#define ct_systimer_free	ct_systimer_prepare
-> +static void ct_systimer_free(struct ct_timer_instance *ti)
-> +{
-> +	/* may sleep: wait for a callback running on another CPU */
-> +	ct_systimer_stop(ti);
-> +	timer_shutdown_sync(&ti->timer);
-> +}
->  
->  static const struct ct_timer_ops ct_systimer_ops = {
->  	.init = ct_systimer_init,
-> -- 
-> 
-> 
-> > -----原始邮件-----
-> > 发件人: "Takashi Iwai" <tiwai@suse.de>
-> > 发送时间:2026-11-25 22:35:15 (星期三)
-> > 收件人: 徐晗翔 <xuhx@hust.edu.cn>
-> > 抄送: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-> > 主题: Re: [PATCH] Re: ALSA: ctxfi: do not free a running system timer when timer_delete_sync_try() returns -1 (UAF)
-> > 
-> > On Wed, 25 Nov 2026 13:51:53 +0100,
-> > 徐晗翔 wrote:
-> > > 
-> > > ct_systimer_prepare() served as both the prepare callback and the
-> > > free_instance callback and ignored the -1 return of
-> > > timer_delete_sync_try() (-1 means the callback is running on
-> > > another CPU and was NOT deleted); ct_timer_instance_free() then
-> > > kfree()d the instance while ct_systimer_callback() still
-> > > dereferenced ti->substream, substream->runtime, ti->apcm and
-> > > ti->position -- a UAF on a normal PCM close with use_system_timer=1.
-> > > 
-> > > Split the callbacks: keep ct_systimer_prepare() non-sleeping (it
-> > > also runs from ct_timer_prepare() under snd_pcm_prepare()'s stream
-> > > lock, where a sleeping wait would be 'scheduling while atomic'), and
-> > > give the free path its own ct_systimer_free() that calls
-> > > timer_shutdown_sync() before the instance is removed and kfree()d.
-> > > ---
-> > >  sound/pci/ctxfi/cttimer.c | 15 ++++++++++++++-
-> > >  1 file changed, 14 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/sound/pci/ctxfi/cttimer.c b/sound/pci/ctxfi/cttimer.c
-> > > --- a/sound/pci/ctxfi/cttimer.c
-> > > +++ b/sound/pci/ctxfi/cttimer.c
-> > > @@ -111,11 +111,24 @@
-> > >  
-> > >  static void ct_systimer_prepare(struct ct_timer_instance *ti)
-> > >  {
-> > > +	/* keep the try variant here: this callback also runs from
-> > > +	 * ct_timer_prepare() under snd_pcm_prepare()'s stream lock, where
-> > > +	 * a sleeping wait would be a "scheduling while atomic" */
-> > >  	ct_systimer_stop(ti);
-> > >  	timer_delete_sync_try(&ti->timer);
-> > >  }
-> > >  
-> > > -#define ct_systimer_free	ct_systimer_prepare
-> > > +static void ct_systimer_free(struct ct_timer_instance *ti)
-> > > +{
-> > > +	/* the close/free path runs in process context and must wait for a
-> > > +	 * callback that is already running on another CPU before the
-> > > +	 * instance (and the PCM runtime / apcm it dereferences) is removed
-> > > +	 * and kfree()d; timer_delete_sync_try() returns -1 in exactly that
-> > > +	 * case without waiting, so a UAF followed.  Use the full shutdown
-> > > +	 * sync here, but do NOT route prepare through it. */
-> > > +	ct_systimer_stop(ti);
-> > > +	timer_shutdown_sync(&ti->timer);
-> > > +}
-> > >  
-> > >  static const struct ct_timer_ops ct_systimer_ops = {
-> > >  	.init = ct_systimer_init,
-> > 
-> > The code change makes sense, but please try to reduce the redundant
-> > comment text.
-> > 
-> > Then add Signed-off-by tag and resubmit.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> > > 
-> > > 
-> > > > -----原始邮件-----
-> > > > 发件人: 徐晗翔 <xuhx@hust.edu.cn>
-> > > > 发送时间:2026-11-13 20:03:25 (星期五)
-> > > > 收件人: perex@perex.cz, tiwai@suse.com
-> > > > 抄送: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-> > > > 主题: ALSA: ctxfi: do not free a running system timer when timer_delete_sync_try() returns -1 (UAF)
-> > > > 
-> > > > `ct_systimer_prepare()` is used as both the prepare callback and the
-> > > > `free_instance` callback.  It calls `timer_delete_sync_try()` and ignores the
-> > > > return value; `-1` means the timer callback is running on another CPU and the
-> > > > timer was NOT deleted.  `ct_timer_instance_free()` then removes the instance
-> > > > and `kfree()`s it while `ct_systimer_callback()` can still dereference
-> > > > `ti->substream`, `ti->substream->runtime`, `ti->apcm`, and `ti->position`.
-> > > > A normal PCM close with `use_system_timer=1` can therefore produce a UAF of
-> > > > the timer instance, the PCM runtime, and the driver's private PCM object.
-> > > > 
-> > > > The detailed description:
-> > > > 
-> > > > * Test environment / affected version
-> > > > 
-> > > >   Linux 7.3.0, source analysis plus a QEMU/KASAN primitive reproducer.
-> > > >   The reproducer uses the real exported `timer_delete_sync_try()` and a timer
-> > > >   callback; it does not call the static ctxfi functions or emulate ctxfi
-> > > >   hardware.
-> > > > 
-> > > > * Mechanism
-> > > > 
-> > > >   `ct_systimer_callback()` (`sound/pci/ctxfi/cttimer.c:63-87`) reads
-> > > >   `ti->substream`, `substream->runtime`, `ti->apcm`,
-> > > >   `substream->ops->pointer`, `apcm->interrupt`, and `ti->position`; it takes
-> > > >   `ti->lock` only near the end and may re-arm the timer.
-> > > > 
-> > > >   `ct_systimer_stop()` (`cttimer.c:105-110`) locks `ti->lock`, clears
-> > > >   `ti->running`, and calls `timer_delete()`.  `ct_systimer_prepare()`
-> > > >   (`cttimer.c:112-116`) then does:
-> > > > 
-> > > >     ct_systimer_stop(ti);
-> > > >     timer_delete_sync_try(&ti->timer);
-> > > > 
-> > > >   `#define ct_systimer_free ct_systimer_prepare` at line 118 makes the same
-> > > >   function the `free_instance` callback, and `ct_systimer_ops.free_instance`
-> > > >   is set at 120-126.  `ct_timer_instance_free()` (`cttimer.c:360-373`) calls
-> > > >   `atimer->ops->stop()`, then `free_instance()`, then `list_del()` under
-> > > >   `list_lock`, then `kfree(ti)`.
-> > > > 
-> > > >   `timer_delete_sync_try()` (`kernel/time/timer.c:1488-1492`) returns 0 if the
-> > > >   timer was not pending, 1 if it was pending and deactivated, and -1 if the
-> > > >   callback is running on another CPU.  It never waits.  The return value is
-> > > >   ignored here.
-> > > > 
-> > > >   The PCM close path is `snd_pcm_release_substream()`
-> > > >   (`sound/core/pcm_native.c:2785-2805`) -> `snd_pcm_drop()` ->
-> > > >   `snd_pcm_detach_substream()` (`sound/core/pcm.c:978-1005`).  The ctxfi
-> > > >   `runtime->private_free` is `ct_atc_pcm_free_substream()`
-> > > >   (`sound/pci/ctxfi/ctpcm.c:103-112`), which calls
-> > > >   `ct_timer_instance_free(apcm->timer)` and then `kfree(apcm)`.  Thus a
-> > > >   callback running on another CPU can use `ti`, `ti->substream->runtime`, and
-> > > >   `apcm` after they are freed.
-> > > > 
-> > > > * Why the fix cannot simply sleep in ct_systimer_prepare()
-> > > > 
-> > > >   The same callback is also `ct_timer_ops.prepare`, called from
-> > > >   `ct_timer_prepare()` while `snd_pcm_prepare()` holds
-> > > >   `pcm_stream_lock_irq` (`pcm_native.c:2042-2050`).  Replacing the try with a
-> > > >   sleeping `timer_delete_sync()` there would cause "scheduling while atomic".
-> > > >   The prepare path must keep a non-sleeping delete/try; the close/free path
-> > > >   needs a separate method.
-> > > > 
-> > > > * Trigger model
-> > > > 
-> > > >   `use_system_timer=1` (module parameter; default is false), open/prepare a
-> > > >   PCM, let the system timer callback run, then close the PCM while the
-> > > >   callback is still active on another CPU.  SMP/preemption required.
-> > > >   Consequence: UAF in timer softirq; crash or memory corruption.
-> > > > 
-> > > > * Dynamic evidence
-> > > > 
-> > > >   `sndpci_race.c`, mode `v3`, runs the real
-> > > >   `timer_delete_sync_try()`; when it returns -1 the test frees the object while
-> > > >   the callback is in `mdelay()`. Show 16 KASAN reports:
-> > > > 
-> > > >     sndpci_race: v3 iter=0 delete_sync_try=-1
-> > > >     BUG: KASAN: slab-use-after-free in v3_callback
-> > > >     ...
-> > > >     Allocated by task 86: v3_thread
-> > > >     Freed by task 86: kfree -> v3_thread
-> > > > 
-> > > > 
-> > > > 
-> > > > * Suggested direction
-> > > > 
-> > > >   Split the callbacks: keep `ct_systimer_prepare()` non-sleeping for the
-> > > >   prepare path, and add a separate `ct_systimer_free()` for close/free that
-> > > >   first clears the callback/running state and then calls
-> > > >   `timer_shutdown_sync(&ti->timer)` (or `timer_delete_sync()`), before the
-> > > >   instance list removal and `kfree(ti)`.  Do not call the sleeping helper from
-> > > >   the PCM prepare path.
-> > > > 
-> > > > 
-> > > > Please keep me in Cc; I am not subscribed to the lists.
-> > > > 
-> > > > 
-> > > > Regards,
-> > > > Hanxiang Xu
-> > > > xuhx@hust.edu.cn
