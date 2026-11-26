@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795733940;
-	b=EAHvuvK5oREVkfCP02XDffFphJuQZ+oBQwPJ1n5xQCbqy06iG6hClXAsptkE3crzseM+
-	 9QsduK4Zo7sxDF3IzuSz9/zXvdLWLzWm2Cf5wjCfcgpKgdyE8K+JpB6jLVBQSTvyYQhaS
-	 VSOcP/R2zZHiRsHz4AmBa5U0izbT6N5kBnakejlXBZgTjqGS5SBs86v1B1V2PFkt0Z+Ss
-	 jpeCYU/rWxvnMV05ivTcWWryi6h5Z7PYdDRR+t1fmNsW1NsvsLlf2TyclHawg/pFwjjIw
-	 Of3j5WRmU7gKp03HpjcbhmkjdfQiSrhF05RPsfxBjQi8K+9gTq0ErU7JqRY6aPSAKmA==
+	t=1795734851;
+	b=cuq/X8nDdGicmh6B1KaLkr26KGH++TKITrCid80RNjMANvDwrSQdlb8gfFs2wbl4vh8D
+	 9iuUKe0RJK0Kd6JfHGrd2wDG1SWk58ZARhQCopULXgyV2OGRLv71AQPwI1LcjZdZeKGU7
+	 DWgIt+ORLeNpDauWFwv3YKcdOUK+0E5u/6qD5ZbWmS7GZQGnoFU95Shb5zaCuACqrtUtB
+	 8BZF7d2mZn7OcwTX+dvIvKSHVFs/9yhPQbd4xQwKtFX/w4ad7HKipGqRc5LyKTG55somX
+	 fb67C70qQgLH7UmI05q3I8zw2BVNLRx8OpTCI3KQTV0+a9LN4czCjCtPlbKt050khZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795733940;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795734851;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=eQ3XZgcfne08OZRayaFimVT27JBgjtpxLB8nQ0J/qqM=;
-	b=JgZM87VEt3nhzzYVSTZ+KZB34eU45Jd1eKMHAtcN6zFf30zSzb9Yp+Yh3rXytjVgVbfN
-	 mHI4JitDpcX5P4fJdqUDMMkGDvo36bwo65174P8tV6gJ3aOxll4TKZpzXyz+Xoo6iCRsq
-	 DlSu2UGw4wNZhbSHph0SlwMBE6DVxlJYALCAWWlABJ3lIGGimIcTuViiD2Tm9C1rRSbCF
-	 fgcs7+8XrMRtOOFuwEBhWNGR7ta4s8W8ZJYEk++khw3YiBQv8kSO2pWTkzsyW8W14u1SB
-	 G/s0yNI7Dc3KU3vcslZay9bRu+e5eJZmDc/ejs905wIAUIPzQgvGZDSae4JnSeH7I6A==
+	bh=2V0mx8KvDSloADKsFMwUZp/ao86S1YvoNPEoPKACjso=;
+	b=jqj1GCDP7USkw/iQUXLDvucQNmDCLQ9JZZwz+07eGIaHzUHFKGsvtiyOh3wQ3jQVeGAI
+	 j+iabNMyo9ej7iTJwynXejtvHJSkk1UJVNsBfkhzIiyItuMwHk+gVKh5PllyhhCk/I2og
+	 IJMPfmeYJghewGNibndAIbLgzEgZZJnX+6O5jo5fK98GK7gZHLPKmHkZgIX4G3rX7e+6T
+	 +6bqsKc/KmkWNpzjjdlnZBzaHW6vCJnR5gDfwHQQK7gCKBvbgsutRGaV4mSXGWja2hOdg
+	 aot3eFTvNpOwNXcXED3JM3ba46hXlyLl6z/FvLt6EIAU45asDbdzFvxHMNaRX9F8sjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TgXkPu9A;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oCTLrGw1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D2B606A321;
-	Thu, 26 Nov 2026 22:58:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEB8606A31C;
+	Thu, 26 Nov 2026 23:14:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TgXkPu9A
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F4991F00893;
-	Thu, 26 Nov 2026 22:58:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oCTLrGw1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B3A1F00893;
+	Thu, 26 Nov 2026 23:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795733939;
-	bh=eQ3XZgcfne08OZRayaFimVT27JBgjtpxLB8nQ0J/qqM=;
+	s=k20260515; t=1795734851;
+	bh=2V0mx8KvDSloADKsFMwUZp/ao86S1YvoNPEoPKACjso=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TgXkPu9AB3r6g0hC4oWCUEQjM3xgTMNLEA6Q2nz1IdeklKZ7CXC5gfHgAP5F6sTVM
-	 boKQgYnLDB+DrE6DLUc1M3vKllpolDebR19FixggIj2nuS8SVlHQ8TMv3tAywv2ilz
-	 jexa3FYTPbvjfqA1h3hzF3l6a1aQjeW8FuMXjMoNQ1ltQZ96SZ/y4Bd1mhad6s007w
-	 x+eh/jdKxvUpxwwjRClXJ4IjMZibSGDZV7852C8z8NnPdR7duGcY2nXAiG+HMWpK9U
-	 kBIU50uqu9TLLkDNWtDDGVg9ZHco9SDXMLcEGwRZArVyC1eaQ47o02DqGIGbIxX/39
-	 PpCwh4sdlVU/A==
+	b=oCTLrGw1uj64SziI7K6oLwymGAPjp5MEqzlPsRxeedivzAL1Zk9amSoQ/mWGEu15A
+	 7P3sh2ri4/gxGCfPEum/uiOE7G7jT20bzxegU/SUSkwm1XcE7t9sGmyhAjPUkcGuqP
+	 30Lg7qlg1aWhCg2Xm6exSSvEaJ73enTX9KTlYXfnZTD+pkP8pFCofGyZSTUxVZlphU
+	 KZor9Wev08ly6FpYjXCiFZpzsv4jbydhnxFyhqZFS8bpJ9qqJJmuCzkV+Kplq5BbXj
+	 CAWQ7VUv7QhSePPitF0FglqicNTzxnwMPYTVw39yC3HrCIDFRXLx+fl6pBSVKPpdEi
+	 YuY4u5B1rh15g==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Stephan Gerhold <stephan@gerhold.net>, 
- Gerard Marull-Paretas <gerard@teslabs.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20261122093419.72135-1-gerard@teslabs.com>
-References: <20261122093419.72135-1-gerard@teslabs.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: awinic,aw8738: Add AW8155
-Message-Id: <179572344828.838304.1477789304494424188.b4-ty@b4>
-Date: Thu, 26 Nov 2026 20:04:08 +0000
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Perry Dale <techluddite@outlook.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <LV5PR84MB40268B01B9F458296BE453ACA7782@LV5PR84MB4026.NAMPRD84.PROD.OUTLOOK.COM>
+References: <LV5PR84MB40268B01B9F458296BE453ACA7782@LV5PR84MB4026.NAMPRD84.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH 0/2] ASoC: qcom: q6apm-dai: stop the playback queue
+ from wedging the DSP
+Message-Id: <179572375936.838304.12750230700944585596.b4-ty@b4>
+Date: Thu, 26 Nov 2026 20:09:19 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,17 +64,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1115; i=broonie@kernel.org;
- h=from:subject:message-id; bh=dN1XoFfvDhknEOK32ZaxBQfLA9V+Mi3UN3do4aJB6C8=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5dm7wCu02Feo+btBhLnL7Uqjr/m8LPn5lEMjVfSr4Z
- tLRL7ctOkpZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjARIVeGf3rlr2LUrizbsHV5
- Ucfy8KPuzbEuC5t3XVs8J1fn/fsLP4sZ/mceaWiRun7Ow06C49qssn85p8K0ue7u4pQNn5Cfw+T
- 4lBUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1588; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=9xx5kMezR5vVzYWuK+csQ5UgfhjXK4Y0X0r9cyL6JHs=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI59jroXK6P3357/ux5xy/KXNeo4lHb6PKEuzVSxejss
+ 3VRU4xPdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAimtMYGVplb125u8lzl7qD
+ 5OnX7wP9Kleorz/rHlNy5+2FyQ7c8k8Y/teKKSuURYrzuzPM7l15Vytt6QG9F+7nH95vb736VYj
+ 9HwsA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 22 Nov 2026 10:34:19 +0100, Gerard Marull-Paretas wrote:
-> ASoC: dt-bindings: awinic,aw8738: Add AW8155
+On Fri, 20 Nov 2026 11:47:23 -0800, Perry Dale wrote:
+> ASoC: qcom: q6apm-dai: stop the playback queue from wedging the DSP
+> 
+> On the AYN Odin 2 Portal (SM8550) the audio DSP stops answering GPR
+> commands when a game pauses its stream, and every later prepare times
+> out until a reboot. q6apm_dai_ack() queues one write per period of the
+> whole appl_ptr after a trigger stop has reset queue_ptr.
+> 
+> [...]
 
 Applied to
 
@@ -81,8 +89,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: awinic,aw8738: Add AW8155
-      https://git.kernel.org/broonie/sound/c/f3ea554859ba
+[1/2] ASoC: qcom: q6apm-dai: queue playback buffers only while the graph runs
+      https://git.kernel.org/broonie/sound/c/a81d29df131f
+[2/2] ASoC: qcom: q6apm-dai: keep a playback stream running across a PCM reset
+      https://git.kernel.org/broonie/sound/c/164041af6ce0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
