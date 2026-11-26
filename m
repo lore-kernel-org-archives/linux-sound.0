@@ -1,55 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.46.229.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795691704;
-	b=FW0vrTgmpprPhPIebHLG/53c6ghxtRVVZSeWZJsw6Wxnlor+pL0iTbXSpGlCyXYMvYFW
-	 cXDuPscNZvsov1P4sTf/8VlTz2HCPxr+N4G3sgbsqj+wdG7TGGIUfojFkzhN8Z5a9mHVn
-	 G2OJ+wwun9aopSSu/lMBrkAjx4rG9AG8REoec82X5ZQkgxzE7yjPGHOmvndMNHan4SiA+
-	 y3yW4htfVKMiZcsr+T8O/tQocSmj8vZVG2vcdsa42X+nPLeduQ9H6mNMEucBQsyl/8sBG
-	 pJLHe5l11V8HSpi39/FD+/KUFctVT7VcYM+SCRAcFeP18iHopow1INYh16RlkWUBD9A==
+	t=1795692034;
+	b=Z/58AvFOstWNMO1zGKaR96afX8xgTxlzYbroCIoYdLBh/T4kiXFBFO94lXdkNaO8ks6B
+	 vxtGLrPjZrj/5dc+BmQhj9pT6A7GZ3gL77w5gHbP8X1LxKc9N/HvS9LER6c/ig+/V/bGe
+	 /DuDttdjBk3k9fkYnzfvEJNKiQdlw4X93EM1b5BnUBVVzBxL5SxMcH/+j4nuUSZRLR1L6
+	 RYl1xLWm9BJmvPli26DNoiqh6An4tmD8c+jsJeWxqswnraT29qeBO+7CLAa1/ObmxNNi6
+	 A8vUm4PtTFIWycuXU5ziA+sRpiTB1+xt5vP36bE8A7xzkr+eMA7q01W5aFa6Z7H0Lyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795691704;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=3xyN48t0ziV0SQvXLQIuJo/vPyyMbfqR1L2W1ddgfIY=;
-	b=fGhNMCCHLqAIcj2Uq7HJX6XENbmwJFmeLPSNjy/FtTXD+dK3Q3HAlzuoqlnoTeNLeBR/
-	 Yfx6l37uGD1vQk9hGMJLR10ipyTKY0+dxLNCiAHCo8dh2xsSNQZtuiKzk5M1oN9lbdvxQ
-	 Q0LQ7CvBzDrkVXMIR8a5Qj9JcFXnhB5suZdrVbQgFfcAPF6Ap0NmIMA/M0+jXRydy7DDj
-	 FtrZ1lD7X7VZxQnf0VrSe4xfdFDJKCGjY29kbDMb//JE6s5tBgSTvTVMXTwa8LM0eYoth
-	 J8t9EA6BgZ//CQ2Wjfj1ju9QBLBaqYMVtrJIMxFi8hW2p4GHpUIlJD/U/gMG30HM9lQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795692034;
+	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
+	 To:Cc:Subject:X-Priority:X-Mailer:X-CM-CTRLMSGS:
+	 Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	 X-Coremail-Locale:X-CM-TRANSID:X-CM-SenderInfo:X-Coremail-Antispam;
+	bh=Yq34MxAonp8w7fkcH+HHmtU/LVeO6dwKSjZpLb84G90=;
+	b=tFLCeDix10RtZoSXRnQoFLSIjtby5afXt065ZlE38dRhFyISs2nfrGRvi9ue2BCFn+Ya
+	 S0sF+3mXplUVf9+EbmuRnmZs1EapRZ4Aadrq2DHFnFc1xAXdq2zwdzg7mK6giMcJvVU3m
+	 CPDZVQ7dJJSG1dY3S9TxZ9EZIVJ9vsKoVnOatth/+F7T17J9D8flF3yEWkhhV0BmS1Xdt
+	 xpuOyEvYsm8Fvna0fNBRpGGiablv4LOn5W5PZ+GFp+NZnj5IhNa4q8iue/si40A+AtNhA
+	 kbq0K1RkJLJnMG5p89hPLpdsOFHLZMeVje9GuE/d07PwWNmHg4+lXGwvyuHb4yxkHLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndPDXylQ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD64606A33D
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 11:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndPDXylQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA6D1F01566;
-	Thu, 26 Nov 2026 11:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795691704;
-	bh=3xyN48t0ziV0SQvXLQIuJo/vPyyMbfqR1L2W1ddgfIY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ndPDXylQrl0r7xBSVjJ2H+5svwSWDeRUAq0HZpVB9zMzrpmPPJCFzKSW9bmMsG2pj
-	 B252qooH3C/ysZopACOuK/D2VvLSOX9sDCuFTtH8lSVn68KchVMSuaUOr/QDCkVg8y
-	 28rVp0BSP6ngKIwnF3vFoY+ejV3v5WqPuHq/bs/HuAPFiG5q/Zt9Ct0M/ve4ctbxcn
-	 rSBTp+c5tqoDehn+W8+gF/tbBWufJ9rIDli9JX96sYy9dSuYEEs6dBrmsB/1zwICG+
-	 iNbxVK9npocInEBIo+3dqzub5mOgc4yf2XnYUqPGckSw4amKbc2o/QGm569W78huFS
-	 AKQWAJDbfN6gg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com
-In-Reply-To: <20261122093945.2138118-1-yung-chuan.liao@linux.intel.com>
-References: <20261122093945.2138118-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/3] ASoC: Intel: add HDMI-In DAI link support to
- skl_hda_dsp_generic
-Message-Id: <179562937762.358726.14915090334390662782.b4-ty@b4>
-Date: Wed, 25 Nov 2026 17:56:17 +0000
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=207.46.229.174
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A8DD606A68C;
+	Thu, 26 Nov 2026 11:20:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A8DD606A68C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from xuhx$hust.edu.cn ( [10.12.190.107] ) by ajax-webmail-app1
+ (Coremail) ; Thu, 26 Nov 2026 19:20:28 +0800 (GMT+08:00)
+Date: Thu, 26 Nov 2026 19:20:28 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
+To: "Takashi Iwai" <tiwai@suse.com>, "Jaroslav Kysela" <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: ctxfi: Fix UAF when freeing a running system timer
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
+ 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
+X-CM-CTRLMSGS: =?B?ucJHcTiH6nJ5xwDR7hwMki1N8jM=
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,51 +51,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
+Message-ID: <2e224b35.12c4.1a21795e092.Coremail.xuhx@hust.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:IAEQrMCGzs_8FQhrKAMRAA--.5210W
+X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAQQDB2sHuvQfwQACs-
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+	daVFxhVjvjDU=
 
-On Sun, 22 Nov 2026 17:39:42 +0800, Bard Liao wrote:
-> ASoC: Intel: add HDMI-In DAI link support to skl_hda_dsp_generic
-> 
-> This series adds HDMI-In capture DAI link support to the
-> skl_hda_dsp_generic machine driver, and prepares skl_hda_dsp_generic
-> and sof_sdw for HDMI-In links.
-> 
-> Patch 1 adds HDMI_IN to SOF_LINK_ORDER. The HDMI-In DAI links are then
-> created when SSP_MASK_HDMI_CAPTURE is set in board_quirk.
-> 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
-
-Thanks!
-
-[1/3] ASoC: Intel: skl_hda_dsp_generic: add HDMI IN DAI link support
-      https://git.kernel.org/broonie/sound/c/37149fc6e150
-[2/3] ASoC: Intel: skl_hda_dsp_generic: Limit HDMI ignore to playback FE
-      https://git.kernel.org/broonie/sound/c/d6e074890461
-[3/3] ASoC: Intel: sof_sdw: Limit HDMI ignore to playback FE
-      https://git.kernel.org/broonie/sound/c/7f3bfbf471d7
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Q3VycmVudGx5LCBjdF9zeXN0aW1lcl9mcmVlIGlzIGFsaWFzZWQgdG8gY3Rfc3lzdGltZXJfcHJl
+cGFyZSwgd2hpY2gKY2FsbHMgdGltZXJfZGVsZXRlX3N5bmNfdHJ5KCkuIFdoaWxlIGN0X3N5c3Rp
+bWVyX3ByZXBhcmUoKSBtdXN0IHJlbWFpbgpub24tc2xlZXBpbmcgYmVjYXVzZSBpdCBjYW4gcnVu
+IHVuZGVyIHRoZSBQQ00gc3RyZWFtIGxvY2ssIHVzaW5nCnRpbWVyX2RlbGV0ZV9zeW5jX3RyeSgp
+IGluIHRoZSBmcmVlIHBhdGggaXMgdW5zYWZlOiBpZiB0aGUgdGltZXIKY2FsbGJhY2sgaXMgY29u
+Y3VycmVudGx5IHJ1bm5pbmcgb24gYW5vdGhlciBDUFUsIHRpbWVyX2RlbGV0ZV9zeW5jX3RyeSgp
+CnJldHVybnMgLTEgd2l0aG91dCB3YWl0aW5nIGZvciBjb21wbGV0aW9uLiBUaGUgY2FsbGVyIHRo
+ZW4gcHJvY2VlZHMgdG8KZnJlZSB0aGUgY3RfdGltZXJfaW5zdGFuY2Ugb2JqZWN0LCByZXN1bHRp
+bmcgaW4gYSB1c2UtYWZ0ZXItZnJlZSBpbiB0aGUKc3RpbGwtcnVubmluZyB0aW1lciBjYWxsYmFj
+ay4KClJlcGxhY2UgdGhlIGN0X3N5c3RpbWVyX2ZyZWUgbWFjcm8gd2l0aCBhIGRlZGljYXRlZCBm
+dW5jdGlvbiB0aGF0IGNhbGxzCnRpbWVyX3NodXRkb3duX3N5bmMoKSwgd2hpY2ggd2FpdHMgZm9y
+IGFueSBydW5uaW5nIGNhbGxiYWNrIHRvIGZpbmlzaAphbmQgcHJldmVudHMgdGhlIHRpbWVyIGZy
+b20gYmVpbmcgcmVhcm1lZCBiZWZvcmUgdGhlIGluc3RhbmNlIGlzIGZyZWVkLgoKCkNjOiA8c3Rh
+YmxlQHZnZXIua2VybmVsLm9yZz4KU2lnbmVkLW9mZi1ieTogSGFueGlhbmcgWHUgPHh1aHhAaHVz
+dC5lZHUuY24+Ci0tLQpzb3VuZC9wY2kvY3R4ZmkvY3R0aW1lci5jIHwgIDggKysrKysrKy0KMSBm
+aWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
+L3NvdW5kL3BjaS9jdHhmaS9jdHRpbWVyLmMgYi9zb3VuZC9wY2kvY3R4ZmkvY3R0aW1lci5jCi0t
+LSBhL3NvdW5kL3BjaS9jdHhmaS9jdHRpbWVyLmMKKysrIGIvc291bmQvcGNpL2N0eGZpL2N0dGlt
+ZXIuYwpAQCAtMTExLDExICsxMTEsMTcgQEAKCnN0YXRpYyB2b2lkIGN0X3N5c3RpbWVyX3ByZXBh
+cmUoc3RydWN0IGN0X3RpbWVyX2luc3RhbmNlICp0aSkKeworIC8qIG5vbi1zbGVlcGluZzogYWxz
+byBydW5zIHVuZGVyIHRoZSBQQ00gc3RyZWFtIGxvY2sgKi8KY3Rfc3lzdGltZXJfc3RvcCh0aSk7
+CnRpbWVyX2RlbGV0ZV9zeW5jX3RyeSgmdGktPnRpbWVyKTsKfQoKLSNkZWZpbmUgY3Rfc3lzdGlt
+ZXJfZnJlZSBjdF9zeXN0aW1lcl9wcmVwYXJlCitzdGF0aWMgdm9pZCBjdF9zeXN0aW1lcl9mcmVl
+KHN0cnVjdCBjdF90aW1lcl9pbnN0YW5jZSAqdGkpCit7CisgLyogbWF5IHNsZWVwOiB3YWl0IGZv
+ciBhIGNhbGxiYWNrIHJ1bm5pbmcgb24gYW5vdGhlciBDUFUgKi8KKyBjdF9zeXN0aW1lcl9zdG9w
+KHRpKTsKKyB0aW1lcl9zaHV0ZG93bl9zeW5jKCZ0aS0+dGltZXIpOworfQoKc3RhdGljIGNvbnN0
+IHN0cnVjdCBjdF90aW1lcl9vcHMgY3Rfc3lzdGltZXJfb3BzID0gewouaW5pdCA9IGN0X3N5c3Rp
+bWVyX2luaXQs
