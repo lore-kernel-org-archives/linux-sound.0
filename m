@@ -1,119 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.68.251
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795694272;
-	b=4e8P8ERImEiK1YNSAvVBE4elBpq+UUEz1qtnOume2aUO+iQ4KI5lPOWqn8kHUN+vDN0C
-	 aIbiiGIm2SRomJxHdOc39ReqifKOrPw/SpDUhElbgtgm8Ot5yZLKaV+7xO+xOYQGBCNMb
-	 XuEh0HBH01LOf8TRrmxok55Nj3h6lhzMQ/AOnexAjRwhRV5I/jAl0TVcJMybOMKAZRH2p
-	 evIlERK9lya/j9F3Yr3e1QKJfU/JAOC5RuQurnePe4PH+RdoN8adNJhMmZlwXQ9sg5bHq
-	 VAaa7TPdxQSWmS6hAGoIuh2HjZi2B0bBcSMJ+pit+HIEpPNXChuibXVRw00vrS4smrA==
+	t=1795694492;
+	b=nJUrEuQA8EgS+a0ptW4WyOePHA3LnEBMwDKMdUtqrvBeYjBpeXsXhry7bCcMun2l+FFd
+	 Gm+kvSWAdvhr2ru1gVkqrVKabib6oH51cdpKBd0QQWZMWiPPa+V+zaHV3jattT7se9Wuj
+	 IQuaZbuhXVrJxahIxLq6giDNhcdEM+8Ub3sXCdnhCCXaiwyNEV1vhj5UasPLbYt2szp3Y
+	 7rXgXfcSsNnisf4u9hPbfOwF/TISn+RDeKWTClSMhQpChMJFKRSdll3cPbGDk29+kRVbj
+	 LBttH67F2xdKMxlbNuUjhpiB3BQBgDAeldSJhdnJHrVpbAAn0Lqh2wRbEmm+UB7OQOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795694272;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=mzQOTchH4MjU8uxQYctA0NAX5s5bjdPbyih9K0pBMKo=;
-	b=oIyNHkPJFggeg6E2cl+mEpGnLkEtAafhQ4D6YV//I5P6i+gvDMT9nctAsXQY0dSfT0HR
-	 X0YGnNzvO0mgadjkijISa7B7/3MUtW/EFAyl6qI1wlJvIprngZ7lIxGHD6iuS3plyKb9V
-	 ajE9w9n0i1CmZFCZ7PqQtV7hgda9hq6Y40h5PG+O49xhrg0N3xImECmLbgE3MNJs9g2D3
-	 ZFfNN2iJLLr/T7D0NihPnZFY86cZOMxDc0zPgMur0M8dSHn7++UGcZmEhmgBFAU0TJBIf
-	 oNO1UojzOjMjgtTzaZraQkABJxwUVSI9WaNcbpG6WygP5JV4tgWioGHTYV1gEU8q1pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795694492;
+	h=DMARC-Filter:Received:X-ICL-RepId:Dkim-Signature:
+	 mail-alias-created-date:Received:Content-Type:
+	 Content-Transfer-Encoding:From:Mime-Version:Subject:Message-Id:Date:
+	 To:Cc:X-Mailer:X-Proofpoint-GUID:X-Authority-Info-Out:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-JNJ;
+	bh=2FWvsYPr8hyqYnRtxFQ0p6mzbHF/aWf8fOYdti/L/mU=;
+	b=v796WXsQcDuFVpy/6r9ZRZDsP5KCg3cDjdEnrhdogheuykPddlNK6flbuV2qZXi8NBee
+	 C/6lquYHlAwIwyxyxofDMLWT5YQJ4PNjfBPDXHXYhdAx5GZk/81Nm15lLGw61ct4A9BvZ
+	 d4ChPWygN3oFOUIq8FQGB3qRcx9jFsHCcT7d77LzuVBvHW5mQpuImFUFLRqA6MVeMm6lX
+	 nS/gE0BUcmTixgaHvA6NprNPoGIsUlvChguoxDUhw1o8U2GGD75MqXXgFnIA/m4fP7Tz6
+	 htn8RNOKISCWohbGh5vpqat76L7A00eyxR4PP9I5uxIS5JmIcRP67DYS+ylOSG9FmNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DccJYY+R;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=TZwiGf4I;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=none header.from=tarasov.top;
+	spf=pass smtp.mailfrom=tarasov.top;
+	dkim=pass header.d=tarasov.top header.i=@tarasov.top header.a=rsa-sha256 header.s=sig1 header.b=artn5JQu;
+	arc=none smtp.remote-ip=57.103.68.251
+Received: from outbound.mr.icloud.com (mr-2002g-snip4-8.eps.apple.com [57.103.68.251])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881A7606A333
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 11:57:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 881A7606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAF7606A31E
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 12:01:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABAF7606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tarasov.top
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tarasov.top
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=DccJYY+R;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=TZwiGf4I
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AQBVQos4128637
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 11:57:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=mzQOTchH4MjU8uxQYctA0NAX5s5bjdPbyih
-	9K0pBMKo=; b=DccJYY+RcoCwcbqXk9f8jxdh/VvHJh68QcW29sMUhE6z5nMrnJw
-	Q9NkK5R8fjKAFYsouAnSToYty5k0zNWB/OQ1aG/OyQWbDohhAU0gHEuuBGcMl7JO
-	8xwqOyGkh4EmX1SzjQkbkJjhhSd33ve8re+AwRukx6fgAKyXyK97j1ezpqBWJrRz
-	lKViIQNrPPUoTQyxzP5YTOgO00cElzYvIqc2C+nln8flHLCCmvsBhJZK/G1DpCJT
-	5BFc9vlRT/JBwUXPvvVnPNh03z1Koh/5Mrm4PKdiQAn4DpbR3Kryv12EaHY1WY2V
-	q6gYHGnZ0sMZsJqmgvjcWSM22POUTiSRNjA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j62vautes-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 11:57:50 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-94975041698so1646765285a.0
-        for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 03:57:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795694270; x=1796299070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mzQOTchH4MjU8uxQYctA0NAX5s5bjdPbyih9K0pBMKo=;
-        b=TZwiGf4IZKn46HCip1eaoN/Xdi2+1pi18qgysxRmDJtRp4csp1cSGT/jQjR6AAVj0I
-         2w8/0gnXxmB/bvZsnDyed0JrkB8GSNHo09VQODOANFSK3gYaroUNUcsQVVW/DAQGWJ3E
-         VmPTJCGVkuV4Pd1XqBpb2mKbwzgLuQtqVWCL7CKuEc4Gu/yX3aqdViNH408EGBJVGoTy
-         bQN2CoXBOZpvdSIRNLwbONRF2Ud95LMApaX1LB7vQ1JLEacINr8yXfC+q4FJrL8mYh2B
-         d9QlZVEGT6Nh/NMRwr4qBsLlKuA1j1Uy0amlC7/PW9CLeaSGQ1CPkVLMJLVfm1sXTGXP
-         +CRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795694270; x=1796299070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mzQOTchH4MjU8uxQYctA0NAX5s5bjdPbyih9K0pBMKo=;
-        b=KNi1xmSh0Nf5o70nljILhR8acHspSam5YUt4VfZwyXypV157D0ECFvj21BSgWnoJVJ
-         cmsbF8dUf6nKSqM2mvPP9r2LjD+/N8MFvdZ16zEpzq3tbD1kgpYeJQecsaPE692Yeeck
-         oqCcIdiqE4XxFyYFCqjos5wSMK+z2p1K480fDpE/q6Zk6W2OwcPA0qjRM+9TkFP9vE29
-         yAvoCQwgjuaEzPGl5LG1Oae+ecEtEYCJyMb6/iR04z19P7bxBtBFET5Uml8oIUqYgFXT
-         og1OReBiOk3W7Kr2cUsd27PMDe4HJ1PxwTiw7uF+KsLS9AG1lAft0K4N6PhIQm8hY3V4
-         /kVQ==
-X-Forwarded-Encrypted: i=1; AL+hErEF2tvBocsXhyP83OsyhZpWbD+2MM9aurZZ+ya7R24Ao/73vcioftTv5N9J8qjv8qmKOCPCKmiC+230CA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Wpx3mZv5QvMnEElMjDd4SfjuQn0CQx2H5VOg22Ild8Gl12+1v
-	Dm1kwfPmW+BnVZx3ht0ZE3mkRU6vANPOcAadmyxWvp2YSsrOdgbO7kHVd9u6UdTyCvdOeytFFMc
-	Q4jLqLBkcaWTfFVDYmKkHIRDNHnc776jGQ45tIFJA89gqxhDfy2zEpkLnnsiwx2cxtQ==
-X-Gm-Gg: AZFdTZeAKgU1yF9LQTY4iHhfEOTyE+KpLL1+hdUMGs0etf6xRYQFVC1eq/QKg+LxeX8
-	wT3Aze4UUcxDQIahgfDiqQV5Xgf4K/NhJjxPDTjD2YitoOM+5j2XmeqEAEC0SU1s638qFPuF+NU
-	scdz1TShnGzLtccz9n21ziQuLwCer1fyCpflrtyI9qxa+fHqKa69YCa1qGEGmxewO9tFERL5ADz
-	s6hCB2NCpcRMTonspIbCkFIws7x2XZ3YwR7wmzQ5x0MmR5rA8v2oOxfh7vmdGBKoCa1n1m1Zdvm
-	5/Z4qRcAX/ac4dm5I2jfk+/WRsI9/yptmU+aaAAcaXLGJ+aYCc6C0wo2HoHGX1snUQ7DedWNtAF
-	E90GYd9MFPJv1y1hpQ7I3+77/rUDqwLbwKZc7WrTVVTDcl64jZuVq1F+8SyQOCoXt
-X-Received: by 2002:a05:620a:2986:b0:949:aceb:b799 with SMTP id af79cd13be357-949b357272amr3804915585a.13.1795694269609;
-        Thu, 26 Nov 2026 03:57:49 -0800 (PST)
-X-Received: by 2002:a05:620a:2986:b0:949:aceb:b799 with SMTP id af79cd13be357-949b357272amr3804910185a.13.1795694269069;
-        Thu, 26 Nov 2026 03:57:49 -0800 (PST)
-Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf6804sm39533135f8f.10.2026.11.26.03.57.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 03:57:48 -0800 (PST)
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Michael McAllister <me@michaelmcallister.org>,
-        Riccardo Mereu <r.mereu@arduino.cc>,
-        Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] ASoC: qcom: q6asm: fix 24-bit PCM level via media format V4/V5
-Date: Thu, 26 Nov 2026 11:57:37 +0000
-Message-ID: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=tarasov.top header.i=@tarasov.top header.a=rsa-sha256 header.s=sig1 header.b=artn5JQu
+Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-2a-100-percent-7 (Postfix) with ESMTPS id 6306E1809895;
+	Thu, 26 Nov 2026 12:01:30 +0000 (UTC)
+X-ICL-RepId: 01a217bb-7274-765f-82f2-a9ff6f4e8cae
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tarasov.top; s=sig1; t=1795694491; x=1827230491; bh=2FWvsYPr8hyqYnRtxFQ0p6mzbHF/aWf8fOYdti/L/mU=; h=Content-Type:From:Mime-Version:Subject:Message-Id:Date:To:x-icloud-hme; b=artn5JQu/kD3sJMbBklGQRZsaCPEORIpuV1rp7CqIkuhplGduWthBFjkU7617oKCNRNUdfr1/3InaEegG9XbwXlGwjmELDaQ3drpnnwdo9U/WgcDfb2okxLdKu4wAqJC75p13gDNdABbw2F48LRi27TsI34Um0r0SaDowU799hml4vOWd6VmDviRYFtcMKyXBKYMNmaXS0R1G05Qi6NkJszGQu0E+JOp8QtsND4QP+WgxiReaueDKAX70DNbBXg6p6f3N6lspmFGFqLqB0O7klD6ZrdMBwfnxlI0VF/Z6Njz8LHRessIolDLTTaNNovnjFxyY0GyC1Dff2ki+fE8Ww==
+mail-alias-created-date: 1779190196810
+Received: from smtpclient.apple (unknown [17.156.200.36])
+	by p00-icloudmta-asmtp-us-west-2a-100-percent-7 (Postfix) with ESMTPSA id BAF8B180015B;
+	Thu, 26 Nov 2026 12:01:29 +0000 (UTC)
+Content-Type: multipart/mixed; boundary=Apple-Mail-11CA9384-6EA2-4A28-A0EE-EC1DC28A4C11
+Content-Transfer-Encoding: 7bit
+From: =?utf-8?B?0J3QuNC60LjRgtCwINCi0LDRgNCw0YHQvtCy?= <nik@tarasov.top>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -122,452 +56,271 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI2MDA0NiBTYWx0ZWRfX6Xxxn9t2Drhv
- UvamgRSr8ye9dwbY9Wzv2lJzfsOlBhQ3kNMS0udgTzuYca24/r+9LdxXHY8LQrmeTc5HFjNjB5+
- Nxk2vq5So+wlcdRl1t/fJ9wx1CrO/uE=
-X-Proofpoint-ORIG-GUID: opwqDPjV0NQBtUbR6_cWlID7hbVYO06E
-X-Proofpoint-GUID: opwqDPjV0NQBtUbR6_cWlID7hbVYO06E
-X-Authority-Analysis: v=2.4 cv=QZPzLcbv c=1 sm=1 tr=0 ts=6b081ebe cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=CxJzD9-pnStplVTlZCgA:9 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI2MDA0NiBTYWx0ZWRfX1/XB55AGomdV
- t1wqb0wntWBHjPcUSHzEKOcQAJFZpPHMF+qDgzggocLDKUYx7IJ/D8jrWsCOUvs58drcmPqnbWG
- 0FAV6w2K9FK4uoxm+huq0bLitDpVf0VVkeRXufGNI3LXRZoUk9qwA67Oq5V3txJQcVgtdoanY5a
- 5drr4+Ih3i7vuPyn/L2QM+qroa86HmA76u5N+XYtUJQSj1oUuv4gP4P5epLwwb2WNVYWpiApBwx
- VDYmHr4aOhzkrbYrSlRXXbI0kwiEEDdv+hUIBsp7DIuoo+1Bxqecp7nWaXD+RntSsNX04m693y7
- mSClQtXIUBid46TYmM31ITPQyPPH6CHoe5PR2eJKOQQNTJdOM3MyWYSs0k2Eo1r9ZVudXETxBAV
- zpCQJK8BkTm3BtVN45MdBW4ef1SIvW9dG1EQdAIrupbfVn0Go+ZoeN5lEejSIASSl7oKKlfH+r1
- vnYrVCN3NIrXuFfNRPQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-26_03,2026-11-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0 phishscore=0
- adultscore=0 malwarescore=0 impostorscore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611260046
+Mime-Version: 1.0 (1.0)
+Subject: [PATCH] ALSA: usb-audio: Initialize Audient iD14 MkII monitor mix at unity gain
+Message-Id: <781FF3DB-B352-4B18-A42D-40AAB3A46C51@tarasov.top>
+Date: Thu, 26 Nov 2026 17:01:17 +0500
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de, mrwillporter@gmail.com, arc@gmx.li, drabik.p@gmail.com
+X-Mailer: iPhone Mail (24B156)
+X-Proofpoint-GUID: nvI_6GTzKIjPqq40p1u_H5939ZQnVxUJ
+X-Authority-Info-Out: v=2.4 cv=HbuB3SE8 c=1 sm=1 tr=0 ts=6b081f9a
+ cx=c_apl:c_pps:t_out a=9mRn2PO/+PIrVdEbaIuMPg==:117
+ a=9mRn2PO/+PIrVdEbaIuMPg==:17 a=MKtGQD3n3ToA:10 a=1oJP67jkp3AA:10
+ a=zJRp6_cAMcgA:10 a=M51BFTxLslgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=4Xuvw5ty44FKcjjuTMQI:22 a=QOASFx3vMJ8LQt1gGM8n:22 a=ZDWhmJ7kXn3eYBMlWsQA:9
+ a=CjuIK1q_8ugA:10 a=rnqpEyKOaAS2KvKcS1kA:9 a=tclcd6dtLQvEqt9_mmAA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI2MDA0NiBTYWx0ZWRfX3KWi8+eSd3Db
+ zjXxAJhnqZ3mx8d8YX7nWrUQj+srtIFbsrg/aCF5We6X+v0gVWof8lA1uorz3yD3XfJ3L5X1hM8
+ 4nwt6eSfJv9SPiOoqa2k6kR9L36Jl2h47cIcFn/Dz58XItS2vnGwfSg7bj3JhgS8wiUA3URkPUv
+ JesD9G7i5w8AiRP8OIwVpdQtWNZwPF6H4pdMDxXsztSwFBz73Oxp7QpDBs7q85EQiuPUapbHsJr
+ e/UTQm+iC9Wjvso57+d7/kERc/gLo9yp/cd4Gkl2o02fseYZXLmZ6cXv86kdzhsAng8ARtvRLFD
+ 9m7RMB5R0hkUMBB1t2B+sDOusbG0DYZ1tR3OSnZ+AdmGeiGWSdT3U0Kq3YxdLw=
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI2MDA0NiBTYWx0ZWRfX27Kyit1/yQz4
+ +EWpJTHHB76pcdtQXpedFPZCLkgwHPI518wW8fEprPYcYyGGZon6yV+oFZ7gPz8WWeUwpGHAl31
+ fV5EE17foyuSUEz8NoVRlu4fZjB+frE=
+X-Proofpoint-ORIG-GUID: nvI_6GTzKIjPqq40p1u_H5939ZQnVxUJ
+X-JNJ: AAAAAAABbwE7RQEnINnwhT4BZNRBILOCYiudi+uXEPHsUEEDqqQLBaxLPqBfQyvK0wfKvG
+ ta6IH4GGUkKKyeq4f0tvofaz6uBuhyF3jufmL90dVIhoAUE+1FQRsAHWszcJcyqZJNhMvU
+ 3PfnoeTQbDH/KxlzItdYpEbicEmHzHzOuz1TQRYnbje0ttlrr0AO0R1Z9wPCCuHzL8kUKp
+ Y0zMjeeX2pCAnCCk3Ezwsgj62b+So6RyodQSGLmm2IjzJCn9dvFRcLCaQIATd4kTDt6s/Y
+ rdMZEHNQCYatqbgp9a2nXVY43WkK0cXJz0V97bbnSp+4FvXzB6xiSJwb8K08VgcNApvOov
+ 6wStPGRAaB5I6gTTV3zj40h4TW67YN5TTYiDxe0Z2oxt/DIr4zZqbnwZM3vBL5xhuzJ8fs
+ BGv4h/A4BdqPO/sY8XS9mnsdp6e78/Ss9+tJNQC+gUnONuKTG4uAYNzjYWNiuMLSICOcwY
+ HVprDaYbKT7kyjAVxaA0AB2hYQ1zSmkGJFDpJc5cNgI02l5eR2CE3OgH1wN/5OW1uCJ4nD
+ Wzvq1n8hXIYVq/QbWBanGKIIwEaqChjjTEdkApckG50f4Bnnvqa5B5O/Iv4UAuQPVxAx6a
+ fN2/pAu8V8CXGX/Be2EI+rTKLuPZjEv5zSBjPT7sYbCHouPe166QlKZXDZ+l6W0vRXD+VX
+ eyNOdlMHUuomDdxErp6gMJM+fKLsPEuMrB9h8EXH5ndJhUIdHc9o6Et1+VaMU42DeHeRQO
+ h33UdzGrdgxLSCoSErfbykHpLBylK6pp2NzP18yQ7aZSOAGUTRZvF5k1MSsRxwMcSDZJ0l
+ kn3BaFw63O33e+FodlvzNY2EWepvPDRtUHQ8YqY8xqsAPMIhjbqSm2/LCP6Joun7B+c9hn
+ pZ3F2ol9hl4KrXU+o/cKgUTBjZ0S9PIY/77Qu0evVMEcBifyHg+W8KbXWYKMNj8lA/5hDp
+ Duf18lYkjYC9AOBjy+u4HTavP+UYtaUTnTKv6n8jJxtTpvoP9UfvoY6NEL41ffo+uaGaYg
+ l3QZRJM5w3kUlUoxqXyFjemyuSow/rWol9FpB4GwpOXcfCxlNocC8crAEKT8SxCr78PIKe
+ B1Yu6obwySFe5HtCc/FOh1t5t3WguisEzJsvCa4aOKMewIfVU4AGdQMIIBxvtbtYQEvEWh
+ ix/bDsILfCFXgH9M3nPc8495dlnxtQJga/jR+Oi33In5KbV0xt7/71KQphgBpbUWxQeHeM
+ JSOIMGQvVcFsco+ItE4669Ip75xb/l/6dTxPvmGyRhZ1AQtTgIre3m7nEOxFMfkUnbXVrw
+ PHqjsPqaFrmqPs3JiEejNDaomAMlqzN0hqgfrTaHx0zv+zZA64tYX7mxCuK1Bh2LV3DjeE
+ 1M6Wd3qZJWcdqZ11XiKe3DP9zmf4YUWUMBo5ZASp4EXT7azp0NXhM2s=
 
-q6asm uses ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2 for every LINEAR_PCM
-stream. V2 has no sample_word_size, so the DSP defaults to
-word_size = 32 and expects the 24-bit sample MSB-justified, while
-ALSA S24_LE is LSB-justified. The 8-bit shift costs ~48 dB.
 
-Switch to V4 or V5. Pick V5 when ac->q6asm->ainfo.api_version >= 2,
-V4 otherwise. Both carry sample_word_size; mode stays 0 so the DSP
-picks the default Q factor.
+--Apple-Mail-11CA9384-6EA2-4A28-A0EE-EC1DC28A4C11
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Apply on playback (q6asm_media_format_block_multi_ch_pcm,
-q6asm_open_write) and capture (q6asm_enc_cfg_blk_pcm_format_support,
-__q6asm_open_read).
+The Audient iD14 MkII (2708:0008) feeds its main monitor outputs from a
+four-channel volume feature unit (FU 12).  The unit's attenuation is
+asymmetric in the device firmware: the left main channel ignores its
+volume value while the right main channel applies it, so any value
+below 0 dB unbalances the main stereo pair.  Commit 9c0564fcc21a
+("ALSA: usb-audio: Rename the Audient iD14 monitor mix volume
+control") renamed the control so that userspace does not adopt it as a
+master volume, but nothing brings the unit to a known-good state.
 
-Drop S24_LE from the MultiMedia FE PCM. Advertise S24_3LE on
-capture, S24_3LE and S32_LE on playback. S24_LE can't be made to
-work zero-copy: the firmware ignores the Q-factor override. plughw
-converts S24_LE to S24_3LE transparently.
+In addition, the firmware silently drops volume SET_CUR requests that
+arrive while the driver is probing the device after a USB reset: the
+request is ACKed but ignored, and a GET_CUR issued immediately
+afterwards echoes the last payload instead of the actual state (the
+same shared-response-buffer behaviour reported for the iD14 MkI in the
+"ALSA: usb-audio: Audient iD14 MkI vendor controls" RFC series).
+Writes issued after probe has settled are applied reliably.
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Schedule a delayed work that writes 0 dB to all four channels of FU 12
+three seconds after the mixer is created, mirroring the startup state
+of the Audient desktop application, and cancel it on disconnect via
+private_free.
+
+Tested on linux 7.3.6 with an iD14 MkII: with FU 12 left at -25 dB,
+reconnecting the device now restores unity gain automatically.
+
+Signed-off-by: Nikita Tarasov <nik@tarasov.top>
 ---
- sound/soc/qcom/qdsp6/q6asm-dai.c |  26 +++--
- sound/soc/qcom/qdsp6/q6asm.c     | 184 ++++++++++++++++++++++++++-----
- sound/soc/qcom/qdsp6/q6asm.h     |   6 +-
- 3 files changed, 178 insertions(+), 38 deletions(-)
+ sound/usb/mixer_quirks.c | 65 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
 
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-index 384066986735..57cbce2bb0cb 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -63,6 +63,7 @@ struct q6asm_dai_rtd {
- 	uint64_t bytes_received;
- 	uint64_t copied_total;
- 	uint16_t bits_per_sample;
-+	uint16_t sample_word_size;
- 	snd_pcm_uframes_t queue_ptr;
- 	uint16_t source; /* Encoding source bit mask */
- 	struct audio_client *audio_client;
-@@ -90,7 +91,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_capture = {
- 				SNDRV_PCM_INFO_INTERLEAVED |
- 				SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME),
- 	.formats =              (SNDRV_PCM_FMTBIT_S16_LE |
--				SNDRV_PCM_FMTBIT_S24_LE),
-+				SNDRV_PCM_FMTBIT_S24_3LE),
- 	.rates =                SNDRV_PCM_RATE_8000_48000,
- 	.rate_min =             8000,
- 	.rate_max =             48000,
-@@ -113,7 +114,8 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
- 				SNDRV_PCM_INFO_INTERLEAVED |
- 				SNDRV_PCM_INFO_PAUSE | SNDRV_PCM_INFO_RESUME),
- 	.formats =              (SNDRV_PCM_FMTBIT_S16_LE |
--				SNDRV_PCM_FMTBIT_S24_LE),
-+				SNDRV_PCM_FMTBIT_S24_3LE |
-+				SNDRV_PCM_FMTBIT_S32_LE),
- 	.rates =                SNDRV_PCM_RATE_8000_192000,
- 	.rate_min =             8000,
- 	.rate_max =             192000,
-@@ -139,7 +141,8 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
- 				  SNDRV_PCM_RATE_176400 |		\
- 				  SNDRV_PCM_RATE_192000),		\
- 			.formats = (SNDRV_PCM_FMTBIT_S16_LE |		\
--					SNDRV_PCM_FMTBIT_S24_LE),	\
-+				    SNDRV_PCM_FMTBIT_S24_3LE |		\
-+				    SNDRV_PCM_FMTBIT_S32_LE),		\
- 			.channels_min = 1,				\
- 			.channels_max = 8,				\
- 			.rate_min =     8000,				\
-@@ -151,7 +154,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardware_playback = {
- 				  SNDRV_PCM_RATE_12000 |		\
- 				  SNDRV_PCM_RATE_24000),		\
- 			.formats = (SNDRV_PCM_FMTBIT_S16_LE |		\
--				    SNDRV_PCM_FMTBIT_S24_LE),		\
-+				    SNDRV_PCM_FMTBIT_S24_3LE),		\
- 			.channels_min = 1,				\
- 			.channels_max = 4,				\
- 			.rate_min =     8000,				\
-@@ -284,13 +287,15 @@ static int q6asm_dai_prepare(struct snd_soc_component *component,
- 		ret = q6asm_media_format_block_multi_ch_pcm(
- 				prtd->audio_client, prtd->stream_id,
- 				runtime->rate, runtime->channels, NULL,
--				prtd->bits_per_sample);
-+				prtd->bits_per_sample,
-+				prtd->sample_word_size);
- 	} else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
- 		ret = q6asm_enc_cfg_blk_pcm_format_support(prtd->audio_client,
- 							   prtd->stream_id,
- 							   runtime->rate,
- 							   runtime->channels,
--							   prtd->bits_per_sample);
-+							   prtd->bits_per_sample,
-+							   prtd->sample_word_size);
- 
- 		/* Queue the buffers */
- 		for (i = 0; i < runtime->periods; i++)
-@@ -507,9 +512,16 @@ static int q6asm_dai_hw_params(struct snd_soc_component *component,
- 	switch (params_format(params)) {
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		prtd->bits_per_sample = 16;
-+		prtd->sample_word_size = 16;
- 		break;
--	case SNDRV_PCM_FORMAT_S24_LE:
-+	case SNDRV_PCM_FORMAT_S24_3LE:
-+		/* 24-bit samples packed in three bytes, no padding */
- 		prtd->bits_per_sample = 24;
-+		prtd->sample_word_size = 24;
-+		break;
-+	case SNDRV_PCM_FORMAT_S32_LE:
-+		prtd->bits_per_sample = 32;
-+		prtd->sample_word_size = 32;
- 		break;
- 	}
- 
-diff --git a/sound/soc/qcom/qdsp6/q6asm.c b/sound/soc/qcom/qdsp6/q6asm.c
-index d042132caf03..ee1930e41d4b 100644
---- a/sound/soc/qcom/qdsp6/q6asm.c
-+++ b/sound/soc/qcom/qdsp6/q6asm.c
-@@ -40,6 +40,10 @@
- #define ASM_PARAM_ID_ENCDEC_ENC_CFG_BLK_V2	0x00010DA3
- #define ASM_SESSION_CMD_RUN_V2			0x00010DAA
- #define ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2	0x00010DA5
-+#define ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V4	0x0001320C
-+#define ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V5	0x00013222
-+/* ADSP ASM service API version at which the V5 PCM media format is supported */
-+#define ADSP_ASM_API_VERSION_V2			2
- #define ASM_MEDIA_FMT_MP3			0x00010BE9
- #define ASM_MEDIA_FMT_FLAC			0x00010C16
- #define ASM_MEDIA_FMT_WMA_V9			0x00010DA8
-@@ -99,6 +103,31 @@ struct asm_multi_channel_pcm_fmt_blk_v2 {
- 	u8 channel_mapping[PCM_MAX_NUM_CHANNEL];
- } __packed;
- 
-+/* Note: in V4 the channel map precedes endianness/mode (unlike V5) */
-+struct asm_multi_channel_pcm_fmt_blk_v4 {
-+	struct asm_data_cmd_media_fmt_update_v2 fmt_blk;
-+	u16 num_channels;
-+	u16 bits_per_sample;
-+	u32 sample_rate;
-+	u16 is_signed;
-+	u16 sample_word_size;
-+	u8 channel_mapping[PCM_MAX_NUM_CHANNEL];
-+	u16 endianness;		/* 0: little endian */
-+	u16 mode;		/* 0: default Q factors */
-+} __packed;
-+
-+struct asm_multi_channel_pcm_fmt_blk_v5 {
-+	struct asm_data_cmd_media_fmt_update_v2 fmt_blk;
-+	u16 num_channels;
-+	u16 bits_per_sample;
-+	u32 sample_rate;
-+	u16 is_signed;
-+	u16 sample_word_size;
-+	u16 endianness;		/* 0: little endian */
-+	u16 mode;		/* 0: default Q factors */
-+	u8 channel_mapping[PCM_MAX_NUM_CHANNEL];
-+} __packed;
-+
- struct asm_flac_fmt_blk_v2 {
- 	struct asm_data_cmd_media_fmt_update_v2 fmt_blk;
- 	u16 is_stream_info_present;
-@@ -191,6 +220,33 @@ struct asm_multi_channel_pcm_enc_cfg_v2 {
- 	uint8_t   channel_mapping[8];
- } __packed;
- 
-+/* Note: in V4 the channel map precedes endianness/mode (unlike V5) */
-+struct asm_multi_channel_pcm_enc_cfg_v4 {
-+	struct asm_stream_cmd_set_encdec_param encdec;
-+	struct asm_enc_cfg_blk_param_v2 encblk;
-+	u16 num_channels;
-+	u16 bits_per_sample;
-+	u32 sample_rate;
-+	u16 is_signed;
-+	u16 sample_word_size;
-+	u8 channel_mapping[PCM_MAX_NUM_CHANNEL];
-+	u16 endianness;		/* 0: little endian */
-+	u16 mode;		/* 0: default Q factors */
-+} __packed;
-+
-+struct asm_multi_channel_pcm_enc_cfg_v5 {
-+	struct asm_stream_cmd_set_encdec_param encdec;
-+	struct asm_enc_cfg_blk_param_v2 encblk;
-+	u16 num_channels;
-+	u16 bits_per_sample;
-+	u32 sample_rate;
-+	u16 is_signed;
-+	u16 sample_word_size;
-+	u16 endianness;		/* 0: little endian */
-+	u16 mode;		/* 0: default Q factors */
-+	u8 channel_mapping[PCM_MAX_NUM_CHANNEL];
-+} __packed;
-+
- struct asm_data_cmd_read_v2 {
- 	u32                  buf_addr_lsw;
- 	u32                  buf_addr_msw;
-@@ -912,6 +968,19 @@ static int q6asm_ac_send_cmd_sync(struct audio_client *ac, struct apr_pkt *pkt)
- 	return rc;
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 01210cc..2672f6f 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -4419,6 +4419,67 @@ static int snd_djm_controls_create(struct usb_mixer_i=
+nterface *mixer,
+ 	return 0;
  }
- 
-+/*
-+ * Both the V4 and V5 multichannel PCM media formats carry the sample word size
-+ * needed to describe e.g. 24-bit samples held in a 32-bit word. V5 is only
-+ * understood by newer ADSP firmware (ASM API version >= 2); everything else -
-+ * including when the version query is unsupported and ainfo is left zeroed -
-+ * uses V4, which the QDSP6 firmware has supported since its introduction. (The
-+ * old V2 format, which lacks the word size, is no longer used for playback.)
-+ */
-+static bool q6asm_pcm_fmt_v5_supported(struct audio_client *ac)
+=20
++struct audient_mix_init {
++	struct usb_mixer_interface *mixer;
++	struct delayed_work work;
++};
++
++static void audient_monitor_mix_work(struct work_struct *work)
 +{
-+	return ac->q6asm->ainfo.api_version >= ADSP_ASM_API_VERSION_V2;
++	struct audient_mix_init *d =3D
++		container_of(work, struct audient_mix_init, work.work);
++	struct snd_usb_audio *chip =3D d->mixer->chip;
++	/* 0 dB on all four channels (main L/R, cue L/R) */
++	const u8 target[2] =3D { 0x00, 0x00 };
++	u8 ch;
++
++	for (ch =3D 1; ch <=3D 4; ch++)
++		snd_usb_ctl_msg(chip->dev, usb_sndctrlpipe(chip->dev, 0),
++			UAC_SET_CUR,
++			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT,=
+
++			(UAC_FU_VOLUME << 8) | ch,
++			snd_usb_ctrl_intf(d->mixer->hostif) | (12 << 8),
++			(void *)target, sizeof(target));
 +}
 +
- /**
-  * q6asm_open_write() - Open audio client for writing
-  * @ac: audio client pointer
-@@ -955,7 +1024,9 @@ int q6asm_open_write(struct audio_client *ac, uint32_t stream_id,
- 		open->dec_fmt_id = ASM_MEDIA_FMT_MP3;
- 		break;
- 	case FORMAT_LINEAR_PCM:
--		open->dec_fmt_id = ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2;
-+		open->dec_fmt_id = q6asm_pcm_fmt_v5_supported(ac) ?
-+			ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V5 :
-+			ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V4;
- 		break;
- 	case SND_AUDIOCODEC_FLAC:
- 		open->dec_fmt_id = ASM_MEDIA_FMT_FLAC;
-@@ -1078,6 +1149,7 @@ EXPORT_SYMBOL_GPL(q6asm_run_nowait);
-  * @channels: number of audio channels.
-  * @channel_map: channel map pointer
-  * @bits_per_sample: bits per sample
-+ * @sample_word_size: size in bits of the word that holds a sample of a channel
-  *
-  * Return: Will be an negative value on error or zero on success
-  */
-@@ -1085,30 +1157,60 @@ int q6asm_media_format_block_multi_ch_pcm(struct audio_client *ac,
- 					  uint32_t stream_id,
- 					  uint32_t rate, uint32_t channels,
- 					  u8 channel_map[PCM_MAX_NUM_CHANNEL],
--					  uint16_t bits_per_sample)
-+					  uint16_t bits_per_sample,
-+					  uint16_t sample_word_size)
- {
--	struct asm_multi_channel_pcm_fmt_blk_v2 *fmt;
-+	bool use_v5 = q6asm_pcm_fmt_v5_supported(ac);
-+	struct asm_multi_channel_pcm_fmt_blk_v5 *fmt_v5;
-+	struct asm_multi_channel_pcm_fmt_blk_v4 *fmt_v4;
- 	struct apr_pkt *pkt;
- 	u8 *channel_mapping;
--	int pkt_size = APR_HDR_SIZE + sizeof(*fmt);
-+	int pkt_size = APR_HDR_SIZE +
-+		       (use_v5 ? sizeof(*fmt_v5) : sizeof(*fmt_v4));
- 
- 	void *p __free(kfree) = kzalloc(pkt_size, GFP_KERNEL);
- 	if (!p)
- 		return -ENOMEM;
- 
- 	pkt = p;
--	fmt = p + APR_HDR_SIZE;
- 
- 	q6asm_add_hdr(ac, &pkt->hdr, pkt_size, true, stream_id);
--
- 	pkt->hdr.opcode = ASM_DATA_CMD_MEDIA_FMT_UPDATE_V2;
--	fmt->fmt_blk.fmt_blk_size = sizeof(*fmt) - sizeof(fmt->fmt_blk);
--	fmt->num_channels = channels;
--	fmt->bits_per_sample = bits_per_sample;
--	fmt->sample_rate = rate;
--	fmt->is_signed = 1;
- 
--	channel_mapping = fmt->channel_mapping;
-+	dev_dbg(ac->dev, "%s: fmt=%s rate=%u ch=%u bps=%u word=%u (asm api %u)\n",
-+		__func__, use_v5 ? "V5" : "V4", rate, channels,
-+		bits_per_sample, sample_word_size, ac->q6asm->ainfo.api_version);
++static void audient_monitor_mix_free(struct usb_mixer_interface *mixer)
++{
++	struct audient_mix_init *d =3D mixer->private_data;
 +
-+	/*
-+	 * Leave mode=0 (default Q factors). Per the ADSP ABI the defaults
-+	 * are Q15 for 16-bit, Q23 for 24-bit packed (word_size=24), and Q31
-+	 * for 32-bit, which match every format we advertise to userspace.
-+	 * The explicit override values (15/23/31) are not honoured by every
-+	 * firmware; the default path is the safe choice.
-+	 */
-+	if (use_v5) {
-+		fmt_v5 = p + APR_HDR_SIZE;
-+		fmt_v5->fmt_blk.fmt_blk_size = sizeof(*fmt_v5) -
-+					       sizeof(fmt_v5->fmt_blk);
-+		fmt_v5->num_channels = channels;
-+		fmt_v5->bits_per_sample = bits_per_sample;
-+		fmt_v5->sample_rate = rate;
-+		fmt_v5->is_signed = 1;
-+		fmt_v5->sample_word_size = sample_word_size;
-+		fmt_v5->mode = 0;	/* default Q-factor per bps/word_size */
-+		channel_mapping = fmt_v5->channel_mapping;
-+	} else {
-+		fmt_v4 = p + APR_HDR_SIZE;
-+		fmt_v4->fmt_blk.fmt_blk_size = sizeof(*fmt_v4) -
-+					       sizeof(fmt_v4->fmt_blk);
-+		fmt_v4->num_channels = channels;
-+		fmt_v4->bits_per_sample = bits_per_sample;
-+		fmt_v4->sample_rate = rate;
-+		fmt_v4->is_signed = 1;
-+		fmt_v4->sample_word_size = sample_word_size;
-+		fmt_v4->mode = 0;	/* default Q-factor per bps/word_size */
-+		channel_mapping = fmt_v4->channel_mapping;
-+	}
- 
- 	if (channel_map) {
- 		memcpy(channel_mapping, channel_map, PCM_MAX_NUM_CHANNEL);
-@@ -1347,40 +1449,62 @@ EXPORT_SYMBOL_GPL(q6asm_stream_remove_trailing_silence);
-  * @rate: audio sample rate
-  * @channels: number of audio channels.
-  * @bits_per_sample: bits per sample
-+ * @sample_word_size: size in bits of the word that holds a sample of a channel
-  *
-  * Return: Will be an negative value on error or zero on success
-  */
- int q6asm_enc_cfg_blk_pcm_format_support(struct audio_client *ac,
- 					 uint32_t stream_id, uint32_t rate,
- 					 uint32_t channels,
--					 uint16_t bits_per_sample)
-+					 uint16_t bits_per_sample,
-+					 uint16_t sample_word_size)
- {
--	struct asm_multi_channel_pcm_enc_cfg_v2  *enc_cfg;
-+	bool use_v5 = q6asm_pcm_fmt_v5_supported(ac);
-+	struct asm_multi_channel_pcm_enc_cfg_v5 *enc_v5;
-+	struct asm_multi_channel_pcm_enc_cfg_v4 *enc_v4;
- 	struct apr_pkt *pkt;
- 	u8 *channel_mapping;
- 	u32 frames_per_buf = 0;
--	int pkt_size = APR_HDR_SIZE + sizeof(*enc_cfg);
-+	int pkt_size = APR_HDR_SIZE +
-+		       (use_v5 ? sizeof(*enc_v5) : sizeof(*enc_v4));
- 
- 	void *p __free(kfree) = kzalloc(pkt_size, GFP_KERNEL);
- 	if (!p)
- 		return -ENOMEM;
- 
- 	pkt = p;
--	enc_cfg = p + APR_HDR_SIZE;
- 	q6asm_add_hdr(ac, &pkt->hdr, pkt_size, true, stream_id);
--
- 	pkt->hdr.opcode = ASM_STREAM_CMD_SET_ENCDEC_PARAM;
--	enc_cfg->encdec.param_id = ASM_PARAM_ID_ENCDEC_ENC_CFG_BLK_V2;
--	enc_cfg->encdec.param_size = sizeof(*enc_cfg) - sizeof(enc_cfg->encdec);
--	enc_cfg->encblk.frames_per_buf = frames_per_buf;
--	enc_cfg->encblk.enc_cfg_blk_size  = enc_cfg->encdec.param_size -
--					sizeof(struct asm_enc_cfg_blk_param_v2);
--
--	enc_cfg->num_channels = channels;
--	enc_cfg->bits_per_sample = bits_per_sample;
--	enc_cfg->sample_rate = rate;
--	enc_cfg->is_signed = 1;
--	channel_mapping = enc_cfg->channel_mapping;
++	cancel_delayed_work_sync(&d->work);
++	kfree(d);
++	mixer->private_data =3D NULL;
++	mixer->private_free =3D NULL;
++}
 +
-+	if (use_v5) {
-+		enc_v5 = p + APR_HDR_SIZE;
-+		enc_v5->encdec.param_id = ASM_PARAM_ID_ENCDEC_ENC_CFG_BLK_V2;
-+		enc_v5->encdec.param_size = sizeof(*enc_v5) -
-+					    sizeof(enc_v5->encdec);
-+		enc_v5->encblk.frames_per_buf = frames_per_buf;
-+		enc_v5->encblk.enc_cfg_blk_size = enc_v5->encdec.param_size -
-+						  sizeof(struct asm_enc_cfg_blk_param_v2);
-+		enc_v5->num_channels = channels;
-+		enc_v5->bits_per_sample = bits_per_sample;
-+		enc_v5->sample_rate = rate;
-+		enc_v5->is_signed = 1;
-+		enc_v5->sample_word_size = sample_word_size;
-+		channel_mapping = enc_v5->channel_mapping;
-+	} else {
-+		enc_v4 = p + APR_HDR_SIZE;
-+		enc_v4->encdec.param_id = ASM_PARAM_ID_ENCDEC_ENC_CFG_BLK_V2;
-+		enc_v4->encdec.param_size = sizeof(*enc_v4) -
-+					    sizeof(enc_v4->encdec);
-+		enc_v4->encblk.frames_per_buf = frames_per_buf;
-+		enc_v4->encblk.enc_cfg_blk_size = enc_v4->encdec.param_size -
-+						  sizeof(struct asm_enc_cfg_blk_param_v2);
-+		enc_v4->num_channels = channels;
-+		enc_v4->bits_per_sample = bits_per_sample;
-+		enc_v4->sample_rate = rate;
-+		enc_v4->is_signed = 1;
-+		enc_v4->sample_word_size = sample_word_size;
-+		channel_mapping = enc_v4->channel_mapping;
-+	}
- 
- 	if (q6dsp_map_channels(channel_mapping, channels))
- 		return -EINVAL;
-@@ -1473,7 +1597,9 @@ static int __q6asm_open_read(struct audio_client *ac, uint32_t stream_id,
- 	switch (format) {
- 	case FORMAT_LINEAR_PCM:
- 		open->mode_flags |= 0x00;
--		open->enc_cfg_id = ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2;
-+		open->enc_cfg_id = q6asm_pcm_fmt_v5_supported(ac) ?
-+			ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V5 :
-+			ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V4;
++/*
++ * The Audient iD14 MkII main monitor outputs are fed by a four-channel
++ * volume feature unit (FU 12) whose attenuation is asymmetric in the
++ * firmware: the left main channel ignores its volume value while the
++ * right one applies it, so any value below 0 dB unbalances the stereo
++ * pair.  Ensure the unit starts at unity gain, like the Audient desktop
++ * application does.
++ *
++ * The firmware silently drops volume writes that arrive while the
++ * driver is still probing the device after a USB reset (the request is
++ * ACKed but ignored), so apply them from a delayed work once probe has
++ * settled.
++ */
++static int audient_monitor_mix_init(struct usb_mixer_interface *mixer)
++{
++	struct audient_mix_init *d;
++
++	d =3D kzalloc_obj(*d);
++	if (!d)
++		return -ENOMEM;
++	d->mixer =3D mixer;
++	INIT_DELAYED_WORK(&d->work, audient_monitor_mix_work);
++	queue_delayed_work(system_percpu_wq, &d->work, msecs_to_jiffies(300=
+0));
++	mixer->private_data =3D d;
++	mixer->private_free =3D audient_monitor_mix_free;
++	return 0;
++}
++
+ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ {
+ 	int err =3D 0;
+@@ -4557,6 +4618,10 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer=
+_interface *mixer)
+ 		err =3D dell_dock_mixer_create(mixer);
  		break;
- 	default:
- 		pr_err("Invalid format[%d]\n", format);
-diff --git a/sound/soc/qcom/qdsp6/q6asm.h b/sound/soc/qcom/qdsp6/q6asm.h
-index 6fafda5bd849..2d969dbffcff 100644
---- a/sound/soc/qcom/qdsp6/q6asm.h
-+++ b/sound/soc/qcom/qdsp6/q6asm.h
-@@ -106,7 +106,8 @@ int q6asm_open_read(struct audio_client *ac, uint32_t stream_id,
- int q6asm_enc_cfg_blk_pcm_format_support(struct audio_client *ac,
- 					 uint32_t stream_id, uint32_t rate,
- 					 uint32_t channels,
--					 uint16_t bits_per_sample);
-+					 uint16_t bits_per_sample,
-+					 uint16_t sample_word_size);
- 
- int q6asm_read(struct audio_client *ac, uint32_t stream_id);
- 
-@@ -114,7 +115,8 @@ int q6asm_media_format_block_multi_ch_pcm(struct audio_client *ac,
- 					  uint32_t stream_id,
- 					  uint32_t rate, uint32_t channels,
- 					  u8 channel_map[PCM_MAX_NUM_CHANNEL],
--					  uint16_t bits_per_sample);
-+					  uint16_t bits_per_sample,
-+					  uint16_t sample_word_size);
- int q6asm_stream_media_format_block_flac(struct audio_client *ac,
- 					 uint32_t stream_id,
- 					 struct q6asm_flac_cfg *cfg);
--- 
-2.53.0
+=20
++	case USB_ID(0x2708, 0x0008): /* Audient iD14 MkII */
++		err =3D audient_monitor_mix_init(mixer);
++		break;
++
+ 	case USB_ID(0x2a39, 0x3fd2): /* RME ADI-2 Pro */
+ 	case USB_ID(0x2a39, 0x3fd3): /* RME ADI-2 DAC */
+ 	case USB_ID(0x2a39, 0x3fd4): /* RME */
+--=20
+2.56.1=
 
+--Apple-Mail-11CA9384-6EA2-4A28-A0EE-EC1DC28A4C11
+Content-Type: application/octet-stream;
+	name=audient-id14-mkii-unity.patch;
+	x-apple-part-url=4A8820A6-8487-428E-8B33-9F3E246F0D9C
+Content-Disposition: attachment;
+	filename=audient-id14-mkii-unity.patch
+Content-Transfer-Encoding: quoted-printable
+
+=46rom b3823b4b23f4034b6b435b1a7d584be81946273d=20Mon=20Sep=2017=2000:00:00=20=
+2001=0AFrom:=20Nikita=20Tarasov=20<nik@tarasov.top>=0ADate:=20Thu,=2026=20No=
+v=202026=2016:14:56=20+0500=0ASubject:=20[PATCH]=20ALSA:=20usb-audio:=20Init=
+ialize=20Audient=20iD14=20MkII=20monitor=20mix=20at=0A=20unity=20gain=0A=0AT=
+he=20Audient=20iD14=20MkII=20(2708:0008)=20feeds=20its=20main=20monitor=20ou=
+tputs=20from=20a=0Afour-channel=20volume=20feature=20unit=20(FU=2012).=20=20=
+The=20unit's=20attenuation=20is=0Aasymmetric=20in=20the=20device=20firmware:=
+=20the=20left=20main=20channel=20ignores=20its=0Avolume=20value=20while=20th=
+e=20right=20main=20channel=20applies=20it,=20so=20any=20value=0Abelow=200=20=
+dB=20unbalances=20the=20main=20stereo=20pair.=20=20Commit=209c0564fcc21a=0A(=
+"ALSA:=20usb-audio:=20Rename=20the=20Audient=20iD14=20monitor=20mix=20volume=
+=0Acontrol")=20renamed=20the=20control=20so=20that=20userspace=20does=20not=20=
+adopt=20it=20as=20a=0Amaster=20volume,=20but=20nothing=20brings=20the=20unit=
+=20to=20a=20known-good=20state.=0A=0AIn=20addition,=20the=20firmware=20silen=
+tly=20drops=20volume=20SET_CUR=20requests=20that=0Aarrive=20while=20the=20dr=
+iver=20is=20probing=20the=20device=20after=20a=20USB=20reset:=20the=0Areques=
+t=20is=20ACKed=20but=20ignored,=20and=20a=20GET_CUR=20issued=20immediately=0A=
+afterwards=20echoes=20the=20last=20payload=20instead=20of=20the=20actual=20s=
+tate=20(the=0Asame=20shared-response-buffer=20behaviour=20reported=20for=20t=
+he=20iD14=20MkI=20in=20the=0A"ALSA:=20usb-audio:=20Audient=20iD14=20MkI=20ve=
+ndor=20controls"=20RFC=20series).=0AWrites=20issued=20after=20probe=20has=20=
+settled=20are=20applied=20reliably.=0A=0ASchedule=20a=20delayed=20work=20tha=
+t=20writes=200=20dB=20to=20all=20four=20channels=20of=20FU=2012=0Athree=20se=
+conds=20after=20the=20mixer=20is=20created,=20mirroring=20the=20startup=20st=
+ate=0Aof=20the=20Audient=20desktop=20application,=20and=20cancel=20it=20on=20=
+disconnect=20via=0Aprivate_free.=0A=0ATested=20on=20linux=207.3.6=20with=20a=
+n=20iD14=20MkII:=20with=20FU=2012=20left=20at=20-25=20dB,=0Areconnecting=20t=
+he=20device=20now=20restores=20unity=20gain=20automatically.=0A=0ASigned-off=
+-by:=20Nikita=20Tarasov=20<nik@tarasov.top>=0A---=0A=20sound/usb/mixer_quirk=
+s.c=20|=2065=20++++++++++++++++++++++++++++++++++++++++=0A=201=20file=20chan=
+ged,=2065=20insertions(+)=0A=0Adiff=20--git=20a/sound/usb/mixer_quirks.c=20b=
+/sound/usb/mixer_quirks.c=0Aindex=2001210cc..2672f6f=20100644=0A---=20a/soun=
+d/usb/mixer_quirks.c=0A+++=20b/sound/usb/mixer_quirks.c=0A@@=20-4419,6=20+44=
+19,67=20@@=20static=20int=20snd_djm_controls_create(struct=20usb_mixer_inter=
+face=20*mixer,=0A=20=09return=200;=0A=20}=0A=20=0A+struct=20audient_mix_init=
+=20{=0A+=09struct=20usb_mixer_interface=20*mixer;=0A+=09struct=20delayed_wor=
+k=20work;=0A+};=0A+=0A+static=20void=20audient_monitor_mix_work(struct=20wor=
+k_struct=20*work)=0A+{=0A+=09struct=20audient_mix_init=20*d=20=3D=0A+=09=09c=
+ontainer_of(work,=20struct=20audient_mix_init,=20work.work);=0A+=09struct=20=
+snd_usb_audio=20*chip=20=3D=20d->mixer->chip;=0A+=09/*=200=20dB=20on=20all=20=
+four=20channels=20(main=20L/R,=20cue=20L/R)=20*/=0A+=09const=20u8=20target[2=
+]=20=3D=20{=200x00,=200x00=20};=0A+=09u8=20ch;=0A+=0A+=09for=20(ch=20=3D=201=
+;=20ch=20<=3D=204;=20ch++)=0A+=09=09snd_usb_ctl_msg(chip->dev,=20usb_sndctrl=
+pipe(chip->dev,=200),=0A+=09=09=09UAC_SET_CUR,=0A+=09=09=09USB_RECIP_INTERFA=
+CE=20|=20USB_TYPE_CLASS=20|=20USB_DIR_OUT,=0A+=09=09=09(UAC_FU_VOLUME=20<<=20=
+8)=20|=20ch,=0A+=09=09=09snd_usb_ctrl_intf(d->mixer->hostif)=20|=20(12=20<<=20=
+8),=0A+=09=09=09(void=20*)target,=20sizeof(target));=0A+}=0A+=0A+static=20vo=
+id=20audient_monitor_mix_free(struct=20usb_mixer_interface=20*mixer)=0A+{=0A=
++=09struct=20audient_mix_init=20*d=20=3D=20mixer->private_data;=0A+=0A+=09ca=
+ncel_delayed_work_sync(&d->work);=0A+=09kfree(d);=0A+=09mixer->private_data=20=
+=3D=20NULL;=0A+=09mixer->private_free=20=3D=20NULL;=0A+}=0A+=0A+/*=0A+=20*=20=
+The=20Audient=20iD14=20MkII=20main=20monitor=20outputs=20are=20fed=20by=20a=20=
+four-channel=0A+=20*=20volume=20feature=20unit=20(FU=2012)=20whose=20attenua=
+tion=20is=20asymmetric=20in=20the=0A+=20*=20firmware:=20the=20left=20main=20=
+channel=20ignores=20its=20volume=20value=20while=20the=0A+=20*=20right=20one=
+=20applies=20it,=20so=20any=20value=20below=200=20dB=20unbalances=20the=20st=
+ereo=0A+=20*=20pair.=20=20Ensure=20the=20unit=20starts=20at=20unity=20gain,=20=
+like=20the=20Audient=20desktop=0A+=20*=20application=20does.=0A+=20*=0A+=20*=
+=20The=20firmware=20silently=20drops=20volume=20writes=20that=20arrive=20whi=
+le=20the=0A+=20*=20driver=20is=20still=20probing=20the=20device=20after=20a=20=
+USB=20reset=20(the=20request=20is=0A+=20*=20ACKed=20but=20ignored),=20so=20a=
+pply=20them=20from=20a=20delayed=20work=20once=20probe=20has=0A+=20*=20settl=
+ed.=0A+=20*/=0A+static=20int=20audient_monitor_mix_init(struct=20usb_mixer_i=
+nterface=20*mixer)=0A+{=0A+=09struct=20audient_mix_init=20*d;=0A+=0A+=09d=20=
+=3D=20kzalloc_obj(*d);=0A+=09if=20(!d)=0A+=09=09return=20-ENOMEM;=0A+=09d->m=
+ixer=20=3D=20mixer;=0A+=09INIT_DELAYED_WORK(&d->work,=20audient_monitor_mix_=
+work);=0A+=09queue_delayed_work(system_percpu_wq,=20&d->work,=20msecs_to_jif=
+fies(3000));=0A+=09mixer->private_data=20=3D=20d;=0A+=09mixer->private_free=20=
+=3D=20audient_monitor_mix_free;=0A+=09return=200;=0A+}=0A+=0A=20int=20snd_us=
+b_mixer_apply_create_quirk(struct=20usb_mixer_interface=20*mixer)=0A=20{=0A=20=
+=09int=20err=20=3D=200;=0A@@=20-4557,6=20+4618,10=20@@=20int=20snd_usb_mixer=
+_apply_create_quirk(struct=20usb_mixer_interface=20*mixer)=0A=20=09=09err=20=
+=3D=20dell_dock_mixer_create(mixer);=0A=20=09=09break;=0A=20=0A+=09case=20US=
+B_ID(0x2708,=200x0008):=20/*=20Audient=20iD14=20MkII=20*/=0A+=09=09err=20=3D=
+=20audient_monitor_mix_init(mixer);=0A+=09=09break;=0A+=0A=20=09case=20USB_I=
+D(0x2a39,=200x3fd2):=20/*=20RME=20ADI-2=20Pro=20*/=0A=20=09case=20USB_ID(0x2=
+a39,=200x3fd3):=20/*=20RME=20ADI-2=20DAC=20*/=0A=20=09case=20USB_ID(0x2a39,=20=
+0x3fd4):=20/*=20RME=20*/=0A--=20=0A2.56.1=0A=0A=
+
+--Apple-Mail-11CA9384-6EA2-4A28-A0EE-EC1DC28A4C11
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+
+
+
+--Apple-Mail-11CA9384-6EA2-4A28-A0EE-EC1DC28A4C11--
