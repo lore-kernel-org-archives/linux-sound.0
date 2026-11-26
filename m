@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.36
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795737508;
-	b=aH7teLDe84pY8cwL7H5/hPrMAoWi21LJwtD+9S3yxeuFNo3Popka0JkVw5U4hVlENjL9
-	 RHoZVwP5jd7dK8Cns6IbJhxaZVPP48tuI/6E76hkWl+2szBC6SpIoOQ8xh2qve8HFIUeK
-	 Vx6/qPwYfhgZPAPAIwLPcsif0cYlMeOwxs7j2tbgP5hQbBKfDrN7B3KjlY4ETIA021GAN
-	 mdVSsqkfQmAMIXAZCf0VSmCdlT8HzmEdZ9T4lrERqAm9cR8DBX234qSaKShTL4UoUhAXi
-	 zdcHMqYhb5/x0ZUZz6AM/C+rdf0jbSJeAnjraSPFXvEU3BQi5jbBR7PO6xa5Hxe9muw==
+	t=1795737515;
+	b=DtBHbO88wI3dw17qzuAhHORWIxRHvGPkdK3Zls8egaCAVBSaj6RezIcJylh1TE8jj7aP
+	 TayCENxi4AKtMlQplF8gzBqf3F1t+Y87tB/2G5UJaFoqItDdnqkbbgsWxUFeVD5I45KKM
+	 wo9gZsMXqqG9etweP72ilO7OU1MxQLr9rSvznbo0aq9oE3vEW6y7ewEug2GZCn+guINOH
+	 GFlMThOIle+VYuSiipR018tMF3oBKyyR3Cahhxgh6ESVEBMyZY/ffangd7MNey0O/+8pG
+	 L1nAUOLMszyMn1dbAVtCjYZDNkQZBNQCSuqNerv/4jliYpQ3lFUPyzlF0McvTSHpuyA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795737508;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795737515;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:
 	 Subject:User-Agent:To:Cc:In-Reply-To:References:Content-Type:Date:
 	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
@@ -24,57 +24,57 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
 	 X-MS-Exchange-CrossTenant-UserPrincipalName:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=OtYYYSi0JhzTqJObdFmTrPJ9GYp5nm+vkKx2dm4sSOM=;
-	b=iZiKOUa6hFBBobZ/8UrQgTe+olRjU78fvSydAi3deXeZTZIrPFXhs7tJlm4YRIfUz/qq
-	 G2DTOIsGxJfFeiuFpsTuMk7QSCwRzJ7wo4Z0oLbPbX5gbnzgbM5hjNqFpb/uHBXHig8j+
-	 PxruNEYubUGrPcq210nai1E+m/RhqFkqqQHB6hRNPokziLAfWz8ptfg+vibP4vDma0a69
-	 omi2N72y2iT3HhdTT/DWN4Y71wuwFMLeu/pjZPWvE1VyeTAEmKgqFUb3H+m57QXdT3Eqr
-	 pUA3fTj2LcTMoQ7FpybzYBwtJ+Sh+XCrnFDqLmESJmW60b4b2qx3GE61EjE8Tfy1eGw==
+	bh=ECMbrFbSgsfn/Mb27whrjmPqrhlNeEwBzMWMqcnLdRA=;
+	b=Naav3Dy2g1AwVjZOCEhhiTfmWMWipmpXrKhhdCoSZGW/DSdx9yaqBMEY7kXvE7CzaDzl
+	 Z+Sul94BJIZS2tiHyVzbp1pGMvf9cxgj5bW+gfjjC6HbOLWH+zYHM7QjTEv1mQnxAERxE
+	 2Sxee138Sqm7dVD7SV/T+lV/ZVRIUqbiGAIDZ9zvRYRmnn2X3OQpdhX7bbI+xFc6JHlNY
+	 riVZDxKVtYRLSlaOMVhs//VslfNnyJ/sSfWuQIasZm6ye8l6pgZe4pbRradoOxMkk7ESy
+	 8GBVZO0N3CpV0EiTjNwDnHYGhFLuws2JB0Y3GN1JJaKM7bGOwo6XcFkRTSGsp8cfQDQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=renesas.com;
 	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=byQSWuHQ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.228.18
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010018.outbound.protection.outlook.com [52.101.228.18])
+	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=edhZn3Tu;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.125.36
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011036.outbound.protection.outlook.com [52.101.125.36])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C61F606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 23:58:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C61F606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE7D606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 23:58:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BE7D606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=byQSWuHQ
+	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=edhZn3Tu
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rULIrX8DwZDoovMX6tHydcBMM93cI5lrxbvnL4X6KotbZWrtupKawsGyzP8SpdXC6pVLap3q4Mr2PdKw+PLGdkA7z9+AOAf5ik7AzpHTv9Kti3jxFotSVvz5nrDMWnS++19PsKUU4Ro9a72Al+taACYvFVZCovYGFVVzBlDrtGJ4oib9TAaJTTbsiUB6Twk5LG+suMRoYeDjdbrxmjuVgANliN032CjnC1N5lYsGAvy1P0FJdSW0G2WqtLm5o1RQSoHvcfEdoL0eX4iRsVPN7Y8WMeWUhUu8Nsehlp5rtVieS/4XayONevsd9pOcgfFjr8A3boTPZ/VFvJq2ZD5MFg==
+ b=aCYZgrfYCVmIhVMSUJGQNj38opwx7qqVNKODWtS6U2dEdAnCfX1Jg1fF7uNVkBCjm4ZL/f2n9HGHPtT6tnOg4n+Gmt2tG9WsSVrCFLrD9R4P++HzaohiV1wHCoxRWwEj/M7JcU2ymHs3AgN4W3eqQdBKkLAHP0XZVRa75uEMX6421QHtlcWsOn74Rijknwo7TOzXYcFyl6/vZLxAeU0R3egL2qkKjtvr83es9nFDzo474FI7kUCFp+pRT+t/hCuhC+j09TQGmbnBfYJsdUXaZdqp5d1HATGoSkIyqdez8YdAMh4f4sh6UmnXzrfukaw7AjlajkxaTBhp9j0MYMwA/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OtYYYSi0JhzTqJObdFmTrPJ9GYp5nm+vkKx2dm4sSOM=;
- b=HcpG/C+SmM5aizzOA2hTT4eYwMH/H7PO41+487BmwdgQUvek6KmyzrjLpu+85+Vj4yE2hV1yNiROl6+849+edH2L6UJ2mMLjgUMRx4iqabZz4uMid9M7jdahiVMNPjSKC2zveydhKyiin+CMHsSYhtKQnVJh8d0rqTFVAQhVaOP2xsuWd4MsFNMVkZhNfakpyWIHt6qZkD7q5nJdhVxIvAjiIpwRJ3coHaWvOLXW13gcjIEQTVVQxppnNmVAVZ0zYOztu/sL3Bm/mjdeMFFxBpF1vJTvQtpw7AAu3RJECAYUKBQPD8DxVpC5H/xaVEVoqW8x7B8u3nyGVbF5AHvtTQ==
+ bh=ECMbrFbSgsfn/Mb27whrjmPqrhlNeEwBzMWMqcnLdRA=;
+ b=SO+bKn1DA/LNItIvg5KiU1JbVfV+fEIoKKsLp8zIGpAKnn3KAyRPl/CDm5RvPhSNm4fLEIdtvtcPFKVQ5EO33T3m/P53npnVHHkyLr10M2SDWfKaO/iuQW86OuuULhv0APlWKfjZFeq2GnnhqxFYmgvS5NP5nrgIh6MVsFNx3S2Y+6m7ej9YQ4rjOz2DSozAi2GxPcJOVmV2czxBhoeXjPZfpd4kI1vbkpbfZGfPUqOp81/nVEaNLv6JisJUbwnXKDfimSbqgdmh3k6eNYgoa6AUg4wnSzYkvai7KHFJ6/mu1M0ZlwPGeHtw/FFPs6iyuMf9rZgDPSJfh1evZr21hA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OtYYYSi0JhzTqJObdFmTrPJ9GYp5nm+vkKx2dm4sSOM=;
- b=byQSWuHQMqZT69dh6MXJ1xGadmVURnrwzN4vSPxESzTQIMIOinF9SrUUhz11tljL2gZIjguDDRmyzMHsXUmo5+XLL8ixzGyRHzU7DC0boCHrNMT1WvIbU8Kw7MN1Pw8V7MqQzLG8zgAkad3ZVlWIf9IIqHXH1J6yH7aTB7f2sbU=
+ bh=ECMbrFbSgsfn/Mb27whrjmPqrhlNeEwBzMWMqcnLdRA=;
+ b=edhZn3Tu2PMoGvO3jbNis/FWx9jajdBWUXgIGnHSWYzW8fY9F8o+oA0+fkuqqTDkGnvz+3QmGfG7xrGQLZsfPmX4Q96LMlMItGHFThwBCUTCaLvnS/dl6JxBqDxhexJoEUgWbD3pO/rN7yREsjG+2Nl2TpnM5tT3WJNed9S93qI=
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from OSOPR01MB749128.jpnprd01.prod.outlook.com
- (2603:1096:604:4ba::14) by TY7PR01MB17984.jpnprd01.prod.outlook.com
- (2603:1096:405:3a0::9) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:1096:604:4ba::14) by TYCPR01MB9643.jpnprd01.prod.outlook.com
+ (2603:1096:400:197::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.9; Thu, 26 Nov
- 2026 23:58:26 +0000
+ 2026 23:58:33 +0000
 Received: from OSOPR01MB749128.jpnprd01.prod.outlook.com
  ([fe80::6a3b:d29c:c743:5180]) by OSOPR01MB749128.jpnprd01.prod.outlook.com
  ([fe80::6a3b:d29c:c743:5180%3]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
- 23:58:26 +0000
-Message-ID: <87ld6fqh5q.wl-kuninori.morimoto.gx@renesas.com>
+ 23:58:32 +0000
+Message-ID: <87jylzqh5j.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 07/11] ASoC: soc-dapm: rename list to dobj_list
+Subject: [PATCH 08/11] ASoC: soc-dapm: rename list to widget_list
 User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org, Alvin =?ISO-8859-2?Q?=A9ipraga?=
@@ -82,9 +82,9 @@ Cc: linux-sound@vger.kernel.org, Alvin =?ISO-8859-2?Q?=A9ipraga?=
 In-Reply-To: <87v75jqh7j.wl-kuninori.morimoto.gx@renesas.com>
 References: <87v75jqh7j.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 26 Nov 2026 23:58:26 +0000
-X-ClientProxiedBy: TYCP286CA0109.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::6) To OSOPR01MB749128.jpnprd01.prod.outlook.com
+Date: Thu, 26 Nov 2026 23:58:32 +0000
+X-ClientProxiedBy: TY4P301CA0085.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:37a::15) To OSOPR01MB749128.jpnprd01.prod.outlook.com
  (2603:1096:604:4ba::14)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -96,305 +96,244 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OSOPR01MB749128:EE_|TY7PR01MB17984:EE_
-X-MS-Office365-Filtering-Correlation-Id: bec1d43b-8308-46ac-889e-08df4c19296d
+X-MS-TrafficTypeDiagnostic: OSOPR01MB749128:EE_|TYCPR01MB9643:EE_
+X-MS-Office365-Filtering-Correlation-Id: 053c1e7a-ec77-4b1a-1d56-08df4c192d4a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|52116014|38350700014|10067099003|56012099006|261028144727099003|261026121527099003|261026140227099003|261022105027099003|261021121427099003|261022075727099003|261021123027099003|261102123227099003|261102130727099003|261009223027099003|11063799006|22082099003|18002099003|6133799003;
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|23010399003|261009223027099003|18002099003|22082099003|56012099006|11063799006|261028144727099003|261102123227099003|261026140227099003|261026121527099003|261021121427099003|261022105027099003|10067099003|261022075727099003|261021123027099003|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	T/y9cuHA650Q4zQWsIBo9au+DJ9Ype+Kpy9UAT8qDBSUZQ2SD4qf0KPrteW904b/79ozeYKq+wCBhzVneScJO277y+99O51I76VbaR3ia2frLgu9cJMaVnSMbGqQcTPIGzilvBcyyemL8Hj299iYP64PeRf2qdkqIslXMPEJzW7eKUCjUpV32RTgP8qR9v2DwXzVvbrytZYRrsQoQHrPX2YdTM1ttRjjML3o5Wpd8Fwg6EbNZVpmP05JVeCNbALSXbnaVXVLwYZWjDlyaC4v9GJwQZmUpbbVgVtN/0u0FFPpeGtynjVv8PIuzQcCa7mYA92DdWEPYXkg9JIDq1f31pIrxgcO/NyCgkH/AXPO+elgD6yI8M0JNZz6QUpCe80gGTtTYrz85MgFBJCB5Rx/3alfbyvgq/oZnIyZGnibMR47yNL5xlCsJNiaGLVPprUF4cI8Rfus8m1evOErn/zFiT+nRiFOfajl+kO/gajX7yoRMTj8pLmuB3VzG9r1w8OqGkzmN0DUs7WHQ+2UosYfvIQN7Ah9cPZM4vmPzM2E2amLJQHfg6T46f7GFlhQidDqQYm5VtozTNeMGIFPnuZRRw930ACI1xpNMjXv6Z0E5JrcUwx41lvEhWxkYV0AfRPzEUPeHWu99hlmsVpRWEjy2gC1V+1M40vNAOsSsceMAYFTYIl8oV0u7Wkoay3gPWAZgLqDLytFMa3bs5YE77khod/EuPth2XUDGWCozoB/3qQ=
+	TnrtlE4mqPLi3SXGN2o8zMO2capWiNhJSm+vKjt/shg8AGqmN70Ky6VRcknljdpWER2RNhY76+hd2HdC5haAS/SzYkTjI3fZI1U2P5ZBHk1TTYWK8zJUcvOEvQQjMLo1ZGYJ33JLjLQ3rL1PPzOc0czzbe4EdzS9H5QKCSey+nEi9y94Emy992nLb5ggfLEiV/cdYFMdu1qK89JM1eOEcN5hmVmh3jltj8Bz/cEOCce+lOKso4oPZ8H9qJI+4+bo9CyZJgP7KS6+F0FWvPCmna1qFRq4IWssFIs+jqIgx3LShlMFfIT8lOKhJnUYyczYWrbrrUGyF5hGezlbq48j3SzMNR4pKkxbnHy6p3k1v6CQjcxWjtE+PsdM9fgWVkxR7XngTf/9n5iQ26CgxmSS6TTkuzaIF46Uoot/Uz+OTwAGQh9auZCU99nzeYTSfbXKcdHyB9icpab064k+RbSKL/JSCkwAlMuMdJJQVPOjRe0iAUcvcXQGQ16wtpilLirzCv3zZbJa4Uj4KmCXOPEUHNIK/QiVDy7a1xcfytbwW6T/lf6O8WNvnFn8lYEitQivA677wKMKCW9vJeZ1YeDcW/WEUM8/ONiyKsDRqD+8V0GRnb/j3YxJHjOAlkUhEOKlXzCKzz/G0qZ6YUiApALRp6U+v9mPeOScPE7gHFD+GZS1uxooo0/Dhfcm2izU3uEFxqsEiKmz/+0yzyr+3+iPoA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSOPR01MB749128.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(52116014)(38350700014)(10067099003)(56012099006)(261028144727099003)(261026121527099003)(261026140227099003)(261022105027099003)(261021121427099003)(261022075727099003)(261021123027099003)(261102123227099003)(261102130727099003)(261009223027099003)(11063799006)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSOPR01MB749128.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(23010399003)(261009223027099003)(18002099003)(22082099003)(56012099006)(11063799006)(261028144727099003)(261102123227099003)(261026140227099003)(261026121527099003)(261021121427099003)(261022105027099003)(10067099003)(261022075727099003)(261021123027099003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Zaou3P6Rb/vM9bMVfkgbIONiyKs6C46UawMfd5YwPAlV36CpL5yMDYO4240K?=
- =?us-ascii?Q?MhbpI4Qp7zMYNUF7wCSnean4ZTgSfpa4Qko8uISzMQhz20vEt1YGc45Pq7mk?=
- =?us-ascii?Q?Q21L1/TaDvnlZCOeDRN1wvuguUL40CLIfFY2XlCpRz9jnv+yCJ/TXOIXcz2e?=
- =?us-ascii?Q?LUa0lde92j5s1eobhz+PUs1EWZC5E6nD8Vi+sPyZddh4bv9eQqAJePvOR0ft?=
- =?us-ascii?Q?smcMQEwP46NtTys3lzbKH7v0ztspNF7qfYeB1o7eSeBYZCLGNo345NCnmSV6?=
- =?us-ascii?Q?IzlDgZpoBkceO2/dM+/cn+uTGX6qV1SCdoTdA5wxIWN3vATXC89tb7qa8QBh?=
- =?us-ascii?Q?4eXr1V67k6T1/bio0mNp2q98mZNx/eEBfO7i14W8N3tgT+n072E6OWDyhYlC?=
- =?us-ascii?Q?pcFdaG7U9lHaZ2ydW2T01OevX+wKSTJTdfopZ+39wLhP+bOOtHCy3y3+NOvE?=
- =?us-ascii?Q?Pn+1U+8E8lV3yNYDVWqmnT1YcfPnvoNJPyWY3174KsLFA1qCkiJCkW5n3XMl?=
- =?us-ascii?Q?T9hCEPcFQ1xYdQsWcKILDa90nC7G4qGerPNz9WlCW71t7INZkT8qtHf8Dp40?=
- =?us-ascii?Q?MLPsUU5UVhrWPWPQmtNaFkeBBcVb7pvOR87sKZ4uISuvPtJZiKrG8xdeDz8U?=
- =?us-ascii?Q?t5oqUGsjnbxbTl99RNYhgCqPETqVN2Qhj0CLFPXeIoB4En01J5E5KlRvbLBX?=
- =?us-ascii?Q?DmsUQVVUqjccTAUic50qIaHRHMkcUTbas+RRdju9zZS2/osWCC3HVWKfynxm?=
- =?us-ascii?Q?pLE3TDHsvEdXJtw2Wzac2m4zTK4V1J6tann38UdKqabbylBB4UqAheOYuelD?=
- =?us-ascii?Q?J26y/FeJezUqpzANDJPZzGHDPmaIUtC6zrmddLUL/YO9GH/VDvQN2JWapNel?=
- =?us-ascii?Q?psgRgir1ZNBR5XFae2CmHJlkZhdNuY7Wj/Xaon/L83TQQmE3NTmADzYZtiAf?=
- =?us-ascii?Q?omXtFOi0IdlK9grtOdFpJhqJ935xtGUbT+7D6U6ZsHi4zJ6afWibzSGbSy73?=
- =?us-ascii?Q?VLLjuKZqGHEU927lbktsD4Bi7qq9oN57D1bTVPzITsl0EeIMmr5uZy9531ZH?=
- =?us-ascii?Q?hupPt1vrVPRiJGY1A6XrRvk0ix5M2COVTP0XquMcKfzKe50T9Ll19Dg8EqtP?=
- =?us-ascii?Q?KKi1KNG+UlEcFjfWZ/EJpLMJOZSx5C/mdKWpXXmzkGhZoUzt97nAeRy+dmSv?=
- =?us-ascii?Q?xj2AKV4r+7cEqLJz0nph/Z+xfgjyJbFU+Mwy2cxvfJ9FVqKEUF38kv+r48Cv?=
- =?us-ascii?Q?9cEdcrD1jutbk1w+Nqq8Ucy9b4GrZClhlC86eSSvC++R7c8lBzr5W76ZKSax?=
- =?us-ascii?Q?am/HDk0uRfetvJxjZ4oelhQ0/055ahxmcUw9n+tQLUmdFwxpy/uQkc1wl727?=
- =?us-ascii?Q?Pg4+JMmV0zgqXgko0gOn9EHPWCLEhGyoEB2yHpkGKP5OKGFX7J8JIslzlIMC?=
- =?us-ascii?Q?ZBlE9zXMS1slYGiwnNfJBWTtMUxSa0guh+pv5Jx6ABDVKiqamsF794qsm1LS?=
- =?us-ascii?Q?Tp2lsLSvWcTHY5uu3Tm7AO2DU/1JT50dcOHHnO7OREZe9NNxZ3X4yEjOD22J?=
- =?us-ascii?Q?6tJP5e7cJBvO3Vhvic+3YTdnQq35GIexnyPIIQN2EZgr3aCtE2QJnvves+sH?=
- =?us-ascii?Q?qTiYRwGgXoICx3mikNiRdJATYytwk0gXNpWcbDk4W6rJPQohI4He+Ib7GNiZ?=
- =?us-ascii?Q?pzjPc5fCoDVLu/tm5vk/q7urXEYwmKzbGVGQq/N3cNoq7SwRclq/j6VO8xSp?=
- =?us-ascii?Q?QdQmpBpYp5TjBx3pdyeLH1FlUvP0210=3D?=
+	=?us-ascii?Q?Gtr+TO7oT5lyuMC2tj14gYsqEWNf8nIas5DPhr2kd2jTfpnh7VQECjF+1S1J?=
+ =?us-ascii?Q?HOSIBXgMG5IsLidsvN7gpav/hzQQ5dgfe6UVEMoWvQNDEBVWixGCpQrjPgAL?=
+ =?us-ascii?Q?vYISz/PYUNpkTogwUiImzPoc2gvhag2BxSEp2O39kSRb4ghWO91fEAYLgyGu?=
+ =?us-ascii?Q?lItZU8YwikT9Pi8jnP7v10ZFX4driN6jGshfc0tyTYVeeDF6M35lDd1gEjzn?=
+ =?us-ascii?Q?C/W5t0M0t3Ut1OWQC0EcQ//NrHOoEGSBqKIBss1VqgMl7a8ItOdXA7sD7WAw?=
+ =?us-ascii?Q?OEZCN+CxTV+CNQi2p/1pwRuj4ZK1SUXJfM/0ccM3lw0z+BfOW4MiHIm5poDG?=
+ =?us-ascii?Q?cKnMKIYHRkYkYZfQLjMtmq5BycGwJ1WASKFpwlL58tkfA+yC/DIc4FjiT5nm?=
+ =?us-ascii?Q?/3LgTw0WbsaSD1+OXU52TePvE4+tmFEZVEWKlmeBYtl11/EG0GAa0m5VGoli?=
+ =?us-ascii?Q?tk87/p7MOzzTDAVLZvKa8zrmzYALjrz3oLnf2Y7QrRy+zr/o9ci6o0VOKGrG?=
+ =?us-ascii?Q?4BQsNUULkJf8ZXKIRRh1AD95Kl/ZdvKy09dQ73kk5egnm4xCEnjQGO5QnkPl?=
+ =?us-ascii?Q?gPrKrBtUH/gnE23U8P3enXnCWqjUja2M6KzsbZVefP/rReAxkbX7QKts0ACo?=
+ =?us-ascii?Q?9IXBmkmspbv+lkk0fQ5fhoqwXXnuVaCC7tSL1QPiLQ2f0M+yQIdDKw2pIwbn?=
+ =?us-ascii?Q?zFKC1FvyLLQqyeob744vnMrYcFHX+VMlDLDryg+TzM87AQxWj4Rz0bLZ5OLt?=
+ =?us-ascii?Q?Qt2LX/Afno1u+rAOHeeRNHM+hEb6LOMc18+jIpem5NppmZanNdF4U5/Xh1q9?=
+ =?us-ascii?Q?sh8SnazrWGGOF7+84rFr5DDke6Z3HnLvsw5rQDdWtDEzxmWHRpNrSM/toDKE?=
+ =?us-ascii?Q?BtkB/2wzFZc1uQdSbYqUgK8Dfrx3kV8HRUFIXLrYLT9LiE5hjSmYvJIT3RJI?=
+ =?us-ascii?Q?9expqpNVxiy3VnIaOPHigPSaFQo7Uk4obpKpJckTRCAJt3WXz+Jbx7Cg8ZSL?=
+ =?us-ascii?Q?Lsw9mXSOy3rJ+5pCEytpNDAh6wQLJ2SuEE+9JzzuRJIP4Tpyy8lGoWwz9Jzg?=
+ =?us-ascii?Q?Ga/8VBlJkwlCgvTH5t2364KQK4sIo6r7cuMsPaB7oHXFw44odd6zfNYoJ3Wp?=
+ =?us-ascii?Q?vDQcTTeG2dFhaHVCtdtvaeeOqmxGj9pFN16ndDro+G/3kSH1W4KIY2l4NRFt?=
+ =?us-ascii?Q?XfaWWermFZb/gWTFbOpVT6Uzn2NjDHNMITGEYUzvLqqSJ+g/FiMW2gqySvmO?=
+ =?us-ascii?Q?NLW8ASkHcLcqGP0lFIVh0Pw2lExpoGOdE7k4vpj46SVrvyWm5wEGLm9UdSyI?=
+ =?us-ascii?Q?UM0VEKV7R7lcsNlAPepbTwNECX99jLurBHYIH9dtWoUv8XViHUpJj2Vbbr/X?=
+ =?us-ascii?Q?oJ7cLdDrQA2BZ/62uNAkcFx79mV/RlGKgjG1nqo0iJg5t6n4hhpCfTPgP151?=
+ =?us-ascii?Q?5vX3f9ncu4HFn3XgJzL3724ji6fNTz7AtGYDeJc8TUHSyT05gAYdhJjlYTRg?=
+ =?us-ascii?Q?tFqZDFZ8ZQsLMlzMCY6wzQyOCplUaSKuO4pLA1ARYPPU+ECy5OT5X9pGNadb?=
+ =?us-ascii?Q?84h8q9dNgb3VvpL4MaepnDp3oQmgz9HAO1v9R19sn1tvWWRN71t+w7d1VUFZ?=
+ =?us-ascii?Q?rhQnKxrPdUmpL6rcPt/RVSV5HgzA48Hw5eXTzD+Jo+znRfYd9JGpdcsHf7an?=
+ =?us-ascii?Q?Qpu1mIkAhLK/aGBSQHqgb9mm3Oel2calQ/x2lpeCY7oHMi+QspAU+E8ERjP6?=
+ =?us-ascii?Q?pIopPQ58s0WEdGV0YEzjiLeF1PQYcfg=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bec1d43b-8308-46ac-889e-08df4c19296d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 053c1e7a-ec77-4b1a-1d56-08df4c192d4a
 X-MS-Exchange-CrossTenant-AuthSource: OSOPR01MB749128.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 23:58:26.3500
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 23:58:32.8843
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gCsNomSPUyWRMMTqfzXGXhX8dNkQKY8QY7jSIM2SIukIrT0ewqqEu3mkgtXJ4YOlURSmcRdADuUhFasVtZvlo7aL58ufqO/RT9bnnggDZ5lvVkqB+LR3NHkgWWS9yiS7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB17984
+X-MS-Exchange-CrossTenant-UserPrincipalName: AZKaqC+52GJLdrUat4mpaVLMj4X3XalAaleBB+oe60FKYcNU6RiEWzz/gFFAtWZ+Wi9onYja8njqHR2TRaZyAJn2mOIasA2NdDnVmvQqcDhAb2aoi/xx2AeLQEfePifd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9643
 
-Current DAPM is using "list" to connecting to "donj_list".
+Current DAPM widget is using "list" to connecting to "widgets".
 
 It is unclear and confusable naming. Let's rename it as
-"dobj_list" and "dobj_list_head".
+"widget_list" and "widget_list_head".
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- include/sound/soc-component.h |  5 ++---
- include/sound/soc-topology.h  |  2 +-
- sound/soc/soc-component.c     |  2 +-
- sound/soc/soc-topology.c      | 42 +++++++++++++++++------------------
- 4 files changed, 25 insertions(+), 26 deletions(-)
+ drivers/staging/greybus/audio_helper.c   |  8 ++++----
+ include/sound/soc-dapm.h                 |  2 +-
+ include/sound/soc.h                      |  7 ++++---
+ sound/soc/codecs/wm8960.c                |  2 +-
+ sound/soc/intel/atom/sst-atom-controls.c |  4 ++--
+ sound/soc/soc-core.c                     |  2 +-
+ sound/soc/soc-dapm.c                     | 10 +++++-----
+ 7 files changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 875c532034652..cba4657b0882c 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -221,6 +221,8 @@ struct snd_soc_component {
- 	struct list_head component_total_list;
- 	struct list_head component_list;
- 	struct list_head aux_list;		/* for auxiliary bound components */
-+
-+	struct list_head dobj_list_head;	/* attached dynamic objects */
- 	struct list_head dai_list_head;
- 	int num_dai;
+diff --git a/drivers/staging/greybus/audio_helper.c b/drivers/staging/greybus/audio_helper.c
+index b4873c6d6bed0..0de46577090c0 100644
+--- a/drivers/staging/greybus/audio_helper.c
++++ b/drivers/staging/greybus/audio_helper.c
+@@ -20,7 +20,7 @@ static void gbaudio_dapm_link_dai_widget(struct snd_soc_dapm_widget *dai_w,
+ 	struct snd_soc_dai *dai = dai_w->priv;
  
-@@ -232,9 +234,6 @@ struct snd_soc_component {
+ 	/* ...find all widgets with the same stream and link them */
+-	list_for_each_entry(w, &card->widgets, list) {
++	list_for_each_entry(w, &card->widget_list_head, widget_list) {
+ 		if (w->dapm != dai_w->dapm)
+ 			continue;
  
- 	struct mutex io_mutex;
+@@ -62,7 +62,7 @@ int gbaudio_dapm_link_component_dai_widgets(struct snd_soc_card *card,
+ 	struct snd_soc_dapm_widget *dai_w;
  
--	/* attached dynamic objects */
--	struct list_head dobj_list;
--
+ 	/* For each DAI widget... */
+-	list_for_each_entry(dai_w, &card->widgets, list) {
++	list_for_each_entry(dai_w, &card->widget_list_head, widget_list) {
+ 		if (dai_w->dapm != dapm)
+ 			continue;
+ 		switch (dai_w->id) {
+@@ -92,7 +92,7 @@ static void gbaudio_dapm_free_widget(struct snd_soc_dapm_widget *w)
+ 	struct snd_soc_dapm_path *p, *next_p;
+ 	enum snd_soc_dapm_direction dir;
+ 
+-	list_del(&w->list);
++	list_del(&w->widget_list);
  	/*
- 	 * DO NOT use any of the fields below in drivers, they are temporary and
- 	 * are going to be removed again soon. If you use them in driver code
-diff --git a/include/sound/soc-topology.h b/include/sound/soc-topology.h
-index cf5c9bd1037e2..c46cc2ac68d43 100644
---- a/include/sound/soc-topology.h
-+++ b/include/sound/soc-topology.h
-@@ -62,7 +62,7 @@ struct snd_soc_dobj_widget {
- struct snd_soc_dobj {
- 	enum snd_soc_dobj_type type;
- 	unsigned int index;	/* objects can belong in different groups */
+ 	 * remove source and sink paths associated to this widget.
+ 	 * While removing the path, remove reference to it from both
+@@ -121,7 +121,7 @@ int gbaudio_dapm_free_controls(struct snd_soc_dapm_context *dapm,
+ 	for (i = 0; i < num; i++) {
+ 		/* below logic can be optimized to identify widget pointer */
+ 		w = NULL;
+-		list_for_each_entry(tmp_w, &card->widgets, list) {
++		list_for_each_entry(tmp_w, &card->widget_list_head, widget_list) {
+ 			if (tmp_w->dapm == dapm &&
+ 			    !strcmp(tmp_w->name, widget->name)) {
+ 				w = tmp_w;
+diff --git a/include/sound/soc-dapm.h b/include/sound/soc-dapm.h
+index 33c4a3e9c1d4a..ca456e3ac9e56 100644
+--- a/include/sound/soc-dapm.h
++++ b/include/sound/soc-dapm.h
+@@ -518,7 +518,7 @@ struct snd_soc_dapm_widget {
+ 	enum snd_soc_dapm_type id;
+ 	const char *name;			/* widget name */
+ 	const char *sname;			/* stream name */
 -	struct list_head list;
-+	struct list_head dobj_list;
- 	int (*unload)(struct snd_soc_component *comp, struct snd_soc_dobj *dobj);
- 	union {
- 		struct snd_soc_dobj_control control;
-diff --git a/sound/soc/soc-component.c b/sound/soc/soc-component.c
-index 10f9b61fef656..5dce8af9e7553 100644
---- a/sound/soc/soc-component.c
-+++ b/sound/soc/soc-component.c
-@@ -1783,7 +1783,7 @@ struct snd_soc_component *snd_soc_component_new(struct device *dev, const char *
- 	component->driver = driver;
++	struct list_head widget_list;
+ 	struct snd_soc_dapm_context *dapm;
  
- 	INIT_LIST_HEAD(&component->dai_list_head);
--	INIT_LIST_HEAD(&component->dobj_list);
-+	INIT_LIST_HEAD(&component->dobj_list_head);
- 	INIT_LIST_HEAD(&component->component_list);
- 	INIT_LIST_HEAD(&component->aux_list);
- 	INIT_LIST_HEAD(&component->component_total_list);
-diff --git a/sound/soc/soc-topology.c b/sound/soc/soc-topology.c
-index 7e53e84292205..8440438bea80a 100644
---- a/sound/soc/soc-topology.c
-+++ b/sound/soc/soc-topology.c
-@@ -358,7 +358,7 @@ static void soc_tplg_remove_kcontrol(struct snd_soc_component *comp, struct snd_
- 		dobj->unload(comp, dobj);
+ 	void *priv;				/* widget specific data */
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index e8e256b7a0fa6..13ad3d4f81e53 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -1039,8 +1039,9 @@ struct snd_soc_card {
  
- 	snd_ctl_remove(card, dobj->control.kcontrol);
--	list_del(&dobj->list);
-+	list_del(&dobj->dobj_list);
- }
+ 	/* lists of probed devices belonging to this card */
+ 	struct list_head component_list_head;
++	struct list_head widget_list_head;
++
+ 	struct list_head unbind_list;
+-	struct list_head widgets;
+ 	struct list_head paths;
+ 	struct list_head dapm_list;
+ 	struct list_head dapm_dirty;
+@@ -1091,9 +1092,9 @@ struct snd_soc_card {
+ 	list_for_each_entry(dapm, &card->dapm_list, list)
  
- /* remove a route */
-@@ -371,7 +371,7 @@ static void soc_tplg_remove_route(struct snd_soc_component *comp,
- 	if (dobj->unload)
- 		dobj->unload(comp, dobj);
+ #define for_each_card_widgets(card, w)\
+-	list_for_each_entry(w, &card->widgets, list)
++	list_for_each_entry(w, &card->widget_list_head, widget_list)
+ #define for_each_card_widgets_safe(card, w, _w)	\
+-	list_for_each_entry_safe(w, _w, &card->widgets, list)
++	list_for_each_entry_safe(w, _w, &card->widget_list_head, widget_list)
  
--	list_del(&dobj->list);
-+	list_del(&dobj->dobj_list);
- }
  
- /* remove a widget and it's kcontrols - routes must be removed first */
-@@ -393,7 +393,7 @@ static void soc_tplg_remove_widget(struct snd_soc_component *comp,
- 		for (i = 0; i < w->num_kcontrols; i++)
- 			snd_ctl_remove(card, w->kcontrols[i]);
- 
--	list_del(&dobj->list);
-+	list_del(&dobj->dobj_list);
- 
- 	/* widget w is freed by soc-dapm.c */
- }
-@@ -416,7 +416,7 @@ static void soc_tplg_remove_dai(struct snd_soc_component *comp,
- 		if (dai->driver == dai_drv)
- 			snd_soc_unregister_dai(dai);
- 
--	list_del(&dobj->list);
-+	list_del(&dobj->dobj_list);
- }
- 
- /* remove link configurations */
-@@ -432,7 +432,7 @@ static void soc_tplg_remove_link(struct snd_soc_component *comp,
- 	if (dobj->unload)
- 		dobj->unload(comp, dobj);
- 
--	list_del(&dobj->list);
-+	list_del(&dobj->dobj_list);
- 
- 	/* Ignored links do not need to be removed, they are not added */
- 	if (!link->ignore)
-@@ -456,7 +456,7 @@ static void remove_backend_link(struct snd_soc_component *comp,
- 	 * We however need to reset the dobj type to its initial values
+ static inline int snd_soc_card_is_instantiated(struct snd_soc_card *card)
+diff --git a/sound/soc/codecs/wm8960.c b/sound/soc/codecs/wm8960.c
+index 7c24c992ffbea..d77397d8efcba 100644
+--- a/sound/soc/codecs/wm8960.c
++++ b/sound/soc/codecs/wm8960.c
+@@ -518,7 +518,7 @@ static int wm8960_add_widgets(struct snd_soc_component *component)
+ 	 * list each time to find the desired power state do so now
+ 	 * and save the result.
  	 */
- 	dobj->type = SND_SOC_DOBJ_NONE;
--	list_del(&dobj->list);
-+	list_del(&dobj->dobj_list);
- }
+-	list_for_each_entry(w, &component->card->widgets, list) {
++	list_for_each_entry(w, &component->card->widget_list_head, widget_list) {
+ 		if (w->dapm != dapm)
+ 			continue;
+ 		if (strcmp(w->name, "LOUT1 PGA") == 0)
+diff --git a/sound/soc/intel/atom/sst-atom-controls.c b/sound/soc/intel/atom/sst-atom-controls.c
+index bac54c6211266..69b98f3a768d1 100644
+--- a/sound/soc/intel/atom/sst-atom-controls.c
++++ b/sound/soc/intel/atom/sst-atom-controls.c
+@@ -1480,7 +1480,7 @@ static void sst_fill_linked_widgets(struct snd_soc_component *component,
+ 	struct snd_soc_dapm_widget *w;
+ 	unsigned int len = strlen(ids->parent_wname);
  
- /* bind a kcontrol to it's IO handlers */
-@@ -890,7 +890,7 @@ static int soc_tplg_dbytes_create(struct soc_tplg *tplg, size_t size)
- 	/* register dynamic object */
- 	sbe = (struct soc_bytes_ext *)kc.private_value;
+-	list_for_each_entry(w, &component->card->widgets, list) {
++	list_for_each_entry(w, &component->card->widget_list_head, widget_list) {
+ 		if (!strncmp(ids->parent_wname, w->name, len)) {
+ 			ids->parent_w = w;
+ 			break;
+@@ -1497,7 +1497,7 @@ static int sst_map_modules_to_pipe(struct snd_soc_component *component)
+ 	struct snd_soc_dapm_widget *w;
+ 	int ret = 0;
  
--	INIT_LIST_HEAD(&sbe->dobj.list);
-+	INIT_LIST_HEAD(&sbe->dobj.dobj_list);
- 	sbe->dobj.type = SND_SOC_DOBJ_BYTES;
- 	sbe->dobj.index = tplg->index;
- 	if (tplg->ops)
-@@ -901,7 +901,7 @@ static int soc_tplg_dbytes_create(struct soc_tplg *tplg, size_t size)
- 	if (ret < 0)
- 		return ret;
+-	list_for_each_entry(w, &component->card->widgets, list) {
++	list_for_each_entry(w, &component->card->widget_list_head, widget_list) {
+ 		if (is_sst_dapm_widget(w) && (w->priv)) {
+ 			struct sst_ids *ids = w->priv;
  
--	list_add(&sbe->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&sbe->dobj.dobj_list, &tplg->comp->dobj_list_head);
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 7f21fd1e0182f..16f1e097dd538 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1276,7 +1276,7 @@ int snd_soc_register_card(struct snd_soc_card *card)
  
- 	return ret;
- }
-@@ -924,7 +924,7 @@ static int soc_tplg_dmixer_create(struct soc_tplg *tplg, size_t size)
- 	/* register dynamic object */
- 	sm = (struct soc_mixer_control *)kc.private_value;
+ 	dev_set_drvdata(card->dev, card);
  
--	INIT_LIST_HEAD(&sm->dobj.list);
-+	INIT_LIST_HEAD(&sm->dobj.dobj_list);
- 	sm->dobj.type = SND_SOC_DOBJ_MIXER;
- 	sm->dobj.index = tplg->index;
- 	if (tplg->ops)
-@@ -935,7 +935,7 @@ static int soc_tplg_dmixer_create(struct soc_tplg *tplg, size_t size)
- 	if (ret < 0)
- 		return ret;
+-	INIT_LIST_HEAD(&card->widgets);
++	INIT_LIST_HEAD(&card->widget_list_head);
+ 	INIT_LIST_HEAD(&card->paths);
+ 	INIT_LIST_HEAD(&card->dapm_list);
+ 	INIT_LIST_HEAD(&card->aux_list_head);
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index 3ef13d2b1f5e9..f2e739ad8f31b 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -1023,11 +1023,11 @@ static struct snd_soc_dapm_widget *
+ dapm_wcache_lookup(struct snd_soc_dapm_widget *w, const char *name)
+ {
+ 	if (w) {
+-		struct list_head *wlist = &w->dapm->card->widgets;
++		struct list_head *wlist = &w->dapm->card->widget_list_head;
+ 		const int depth = 2;
+ 		int i = 0;
  
--	list_add(&sm->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&sm->dobj.dobj_list, &tplg->comp->dobj_list_head);
+-		list_for_each_entry_from(w, wlist, list) {
++		list_for_each_entry_from(w, wlist, widget_list) {
+ 			if (!strcmp(name, w->name))
+ 				return w;
  
- 	return ret;
- }
-@@ -958,7 +958,7 @@ static int soc_tplg_denum_create(struct soc_tplg *tplg, size_t size)
- 	/* register dynamic object */
- 	se = (struct soc_enum *)kc.private_value;
+@@ -2876,7 +2876,7 @@ void snd_soc_dapm_free_widget(struct snd_soc_dapm_widget *w)
+ 	if (!w)
+ 		return;
  
--	INIT_LIST_HEAD(&se->dobj.list);
-+	INIT_LIST_HEAD(&se->dobj.dobj_list);
- 	se->dobj.type = SND_SOC_DOBJ_ENUM;
- 	se->dobj.index = tplg->index;
- 	if (tplg->ops)
-@@ -969,7 +969,7 @@ static int soc_tplg_denum_create(struct soc_tplg *tplg, size_t size)
- 	if (ret < 0)
- 		return ret;
- 
--	list_add(&se->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&se->dobj.dobj_list, &tplg->comp->dobj_list_head);
- 
- 	return ret;
- }
-@@ -1077,12 +1077,12 @@ static int soc_tplg_dapm_graph_elems_load(struct soc_tplg *tplg,
- 			}
- 		}
- 
--		/* add route dobj to dobj_list */
-+		/* add route dobj to dobj_list_head */
- 		route->dobj.type = SND_SOC_DOBJ_GRAPH;
- 		if (tplg->ops)
- 			route->dobj.unload = tplg->ops->dapm_route_unload;
- 		route->dobj.index = tplg->index;
--		list_add(&route->dobj.list, &tplg->comp->dobj_list);
-+		list_add(&route->dobj.dobj_list, &tplg->comp->dobj_list_head);
- 
- 		ret = soc_tplg_add_route(tplg, route);
- 		if (ret < 0) {
-@@ -1238,7 +1238,7 @@ static int soc_tplg_dapm_widget_create(struct soc_tplg *tplg,
- 	if (tplg->ops)
- 		widget->dobj.unload = tplg->ops->widget_unload;
- 	widget->dobj.index = tplg->index;
--	list_add(&widget->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&widget->dobj.dobj_list, &tplg->comp->dobj_list_head);
- 
- 	ret = soc_tplg_widget_ready(tplg, widget, w);
- 	if (ret < 0)
-@@ -1438,7 +1438,7 @@ static int soc_tplg_dai_create(struct soc_tplg *tplg,
- 	dai_drv->dobj.type = SND_SOC_DOBJ_PCM;
- 	if (tplg->ops)
- 		dai_drv->dobj.unload = tplg->ops->dai_unload;
--	list_add(&dai_drv->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&dai_drv->dobj.dobj_list, &tplg->comp->dobj_list_head);
- 
- 	/* register the DAI to the component */
- 	dai = snd_soc_register_dai(tplg->comp, dai_drv, false);
-@@ -1569,7 +1569,7 @@ static int soc_tplg_fe_link_create(struct soc_tplg *tplg,
- 		goto err;
+-	list_del(&w->list);
++	list_del(&w->widget_list);
+ 	list_del(&w->dirty);
+ 	/*
+ 	 * remove source and sink paths associated to this widget.
+@@ -3906,10 +3906,10 @@ snd_soc_dapm_new_control_unlocked(struct snd_soc_dapm_context *dapm,
  	}
  
--	list_add(&link->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&link->dobj.dobj_list, &tplg->comp->dobj_list_head);
+ 	w->dapm = dapm;
+-	INIT_LIST_HEAD(&w->list);
++	INIT_LIST_HEAD(&w->widget_list);
+ 	INIT_LIST_HEAD(&w->dirty);
+ 	/* see for_each_card_widgets */
+-	list_add_tail(&w->list, &dapm->card->widgets);
++	list_add_tail(&w->widget_list, &dapm->card->widget_list_head);
  
- 	return 0;
- err:
-@@ -1804,7 +1804,7 @@ static int soc_tplg_link_config(struct soc_tplg *tplg,
- 	link->dobj.type = SND_SOC_DOBJ_BACKEND_LINK;
- 	if (tplg->ops)
- 		link->dobj.unload = tplg->ops->link_unload;
--	list_add(&link->dobj.list, &tplg->comp->dobj_list);
-+	list_add(&link->dobj.dobj_list, &tplg->comp->dobj_list_head);
- 
- 	return 0;
- }
-@@ -2205,8 +2205,8 @@ int snd_soc_tplg_component_remove(struct snd_soc_component *comp)
- 	for (pass = SOC_TPLG_PASS_END; pass >= SOC_TPLG_PASS_START; pass--) {
- 
- 		/* remove mixer controls */
--		list_for_each_entry_safe(dobj, next_dobj, &comp->dobj_list,
--			list) {
-+		list_for_each_entry_safe(dobj, next_dobj, &comp->dobj_list_head,
-+			dobj_list) {
- 
- 			switch (dobj->type) {
- 			case SND_SOC_DOBJ_BYTES:
-@@ -2242,7 +2242,7 @@ int snd_soc_tplg_component_remove(struct snd_soc_component *comp)
- 	}
- 
- 	/* let caller know if FW can be freed when no objects are left */
--	return !list_empty(&comp->dobj_list);
-+	return !list_empty(&comp->dobj_list_head);
- }
- EXPORT_SYMBOL_GPL(snd_soc_tplg_component_remove);
- 
+ 	dapm_for_each_direction(dir) {
+ 		INIT_LIST_HEAD(&w->edges[dir]);
 -- 
 2.53.0
 
