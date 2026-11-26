@@ -1,107 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.64
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795688585;
-	b=VE9H7voECjGL4M9s08PFJjbGx4RP9MvmAeRYzqtblSAzTxXUGsqDRwZ9K3/Qn16M8va9
-	 BhjZuYPCohkK1d+BUQoAqJg53/zJ+ekwMQi08CsHuz7O88WTRGNv5QrX3u+YzXz7CWxOC
-	 Cuur0+ZloxqxUmHFZUb0KQU4O4Ppcsmyf2ZKsxyS9zujKSyJpgKZGAC69asqipJf/TJNO
-	 QlOjQSQCw82lTW4JHYPe2xLVU5R/FQ5vnaO0HvN3XQIY8AagOeb9s4ZxToUuneCTOrZ9O
-	 dAfLHD89WizFa1pFJkVShsRPtqlpzFOt4DQx9Jk4buVKMQVDNAdYM5H5ZL6TJy5TuaA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795688585;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:Content-Transfer-Encoding:Content-Type:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=PdIfBK4bvQ+R1sXnwg2amgIh3hh/cQJKgAOw/QMCquY=;
-	b=Gv0ZN6TQfFDCad+kxsxNMoK6yUF0Z0IK/W0Q3L+OEIC+TGkdH2IEANgwlGUYtlGO2LNm
-	 swoIrnEHseJgemGIDkKnK74lIGeGBtvwn7U5GKUnp7XlCCrLkXb7hmxELLAcyjiCE3yJj
-	 OplqoKxdJLsOy75lMhkmWtP+R1Y7pdPCIafQ4nsS2a3F1hGPveTqO0l96LqNv02LSOyoR
-	 a5ENit3rvkGGZMbg4OKNxRfAgKSGeAbh5caUL092RE3oU36wCmBI+Bi6eZGLXSSNawhxq
-	 X95JZf/15Yy7MQsn8CkjNJ6PUnDsLYO7pGc2PsFKHyYVaTeLwmDmOiiVvsLOFgBNmcQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b="H/kzC8aK";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.64
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013064.outbound.protection.outlook.com [40.107.162.64])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795688854;
+	b=DOyrhAU6maaUfZsiEeeJjIn8/0IxUSVRbTlyxHS50a1i0qpLjVWsUIAVCEQPp7p6Hzfy
+	 NgNVDI4PRyoySURUVJSawnlvJ2IdKmhPjsqnOjycd/ACJQ+MfjIGvDHtqRDWRvG2R5tlV
+	 CTzv01APijtwkqjvbX879bP96UHktk43Ssjj/Mq3lBbt70ealUJzOoCzpra+naWu3h6Oc
+	 M9yi0OI5afL3OEtWC3VmbwY3VzS2+KX1CRDUdrt29MNlVbMRCWovfYqgF0ieEeWGERRKf
+	 n9Eoo5Co0jhQygb8R3C5ItEyM0xzoZRsp/dIzIbnGzORz/ieuAKYU4PC30bSYN5T1gw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795688854;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=XeZpiPemRmNTxja52dSpjuEOTC+OXqCETz+H4aGtRyw=;
+	b=gM0wjii7XuEOfQLNFcbIS3+BPkeyLjvfxnn80NFktMylSZG/bjIBA0fmHIYvcj/qvZMj
+	 kzVO8RR5yh+PPn2udIHlCibI0V0eIH1bC7+opU84lRlNb/S9iTH7tlx4P/X2zFVi46yn3
+	 RsJaA+4MdzjAuP/9HYRsPNWN5gpeLR/8jCdLicZNgoszqpeNWjuey6XtI2PV8odaiuVVW
+	 Gx4CbGyGjWutWCsTQvdwSno6unN7yJV31kLz9drFPACLtWs/poevsLqBs+gHkwRqJHAZ9
+	 HE0Vu4yDuSArjU1h862k2dnvCBl/ea67DTEI8dX/MSderhkrMz71AgCJH4aRFnbixtg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ftkc5cOm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B45B606A323
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 10:23:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B45B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8273606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 10:27:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=H/kzC8aK
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w9A/T2H8FHPoL0Sq5W7IyjABTmP/aO0snQs1yZtYkuFmiYK0L8IhnSJ9lNLzAIkR85wgr0xdLNRwdTa8rvcRZ2Dk76beHMXYMWhGUffJyj9AwnZiq/n+I7I+le+F2lqYeeco6ljCKpL92LKwTm/rhPgckKCDwiOm0PzBhhXpUMmggv0lN/1kHBpklFCLYdXWTKZsAYvohRzKEf23PNz1YFrHhl/pWRUgUvBL0wmNn+CjhpYWzr5X7A/WUWjIThxT1bKSZAQ9TnrVCC4rnxD9Rr2iZpSC/tU1M3/cVfK08FynPw0eKrN5UIOr7bAuJbR0xzDcmznHNTQefXx2n0dmmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PdIfBK4bvQ+R1sXnwg2amgIh3hh/cQJKgAOw/QMCquY=;
- b=pQJAHHLu827X8blJP9/8bjNKLtjPNhNERZ3RDLQH+NIiME1vDd2nY583o95W7oYg79TM5yma0fNjfZH68GRWCPwU2lsCEhjQXLhl5XAMcLaW0zQU3JWy4M9wGPD/gjwz875iR2Y4xiDRk6snRIyHLcu3gIJagHzJoySujGgXkmk4l53q70UKEciwyrp4+JUUDDhU23w6Nbr6uKSKaag+hDG2kJcETJ60RSSK09RM3atHxzAEfQyabs3J6wN93pndKglVC3ejbWnglBebCA47KGY+5lIO1qHqLV659eHqL7bR1HCs0mZYY1OPKiCK46bid8NYPu2pNNxp+FRVc/+z4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PdIfBK4bvQ+R1sXnwg2amgIh3hh/cQJKgAOw/QMCquY=;
- b=H/kzC8aK9AbIVXs3OBlFMo9DbsqPgB7tzCnh62daaCwZhnu22IsFNBFTP1LfAbLcwlYADuoxc6sUqwMVqayDZMYfry3lN2MPs2U+ntT5B0h6yKs7321RL0WECbiHqipWAketfHinxzM6UTMofjm3GyMg6hS0sEAagayFiuhgLdbZM9AUgBvOJqF7eiPtVOYF+FpiiDbAXxCk8EElp34Ya418D+eDGrguk/NI4G0xye9AFz05FQDMOuGVT8GMuQneoKhDV8Vqw/KhZzWGWr3nfG4JySYv0lwDA3ChWSRDjvxABFrNDQH1iaaqsGhklnetAFZ+xDc6qEtCyobTCWrncQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by GV2PR04MB11861.eurprd04.prod.outlook.com (2603:10a6:150:2f7::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Thu, 26 Nov
- 2026 10:23:00 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%5]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
- 10:23:00 +0000
-From: shengjiu.wang@oss.nxp.com
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: [PATCH v2] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset framework
-Date: Thu, 26 Nov 2026 18:25:27 +0800
-Message-Id: <20261126102528.1531824-1-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SIAPR04CA0006.apcprd04.prod.outlook.com
- (2603:1096:4:28a::31) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ftkc5cOm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 091741F000CA;
+	Thu, 26 Nov 2026 10:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795688854;
+	bh=XeZpiPemRmNTxja52dSpjuEOTC+OXqCETz+H4aGtRyw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ftkc5cOmhKiwR4S1H1zWKQghEKkw0dX4C9apsGP7AcUqm6PygbLmypwU0yKVEUOT3
+	 pYzGTRnfA/8HKP1glA/lv7i5X44fQyx+U1SfIfjtsJt+UDopck+GilJAXhufqVwpcT
+	 2PO+f/WXXw/rgHDptvhLJ3NttdaczKxx7MtqrpG9UyCggASmKhhE0wI0VnmqayZR0f
+	 1yJnIysZyqFltKsOxlS3AHE+RZhnjPVGYPhiJEcyoTbuRjmSyJNxLYA70Ex7mceqsR
+	 n6QcX9m+PA+k8JbK10HX537nR8Ksg8cqp1ge2eqBQvL+boGA+7QZVsH8dg6IuiAlMP
+	 ykKSp6e3gH6qQ==
+Message-ID: <sashiko-outbox-235289@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix mute LEDs on ThinkPad X1 Carbon
+ 6th
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Zhang Heng" <zhangheng@kylinos.cn>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261126100731.903504-1-zhangheng@kylinos.cn>
+References: <20261126100731.903504-1-zhangheng@kylinos.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Nov 2026 10:27:33 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -110,205 +59,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|GV2PR04MB11861:EE_
-X-MS-Office365-Filtering-Correlation-Id: 53936614-4d92-4623-3391-08df4ba73f18
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|366016|376014|19092799006|23010399003|921020|10067099003|261028144727099003|11063799006|261021121427099003|56012099006|261021123027099003|261026140227099003|261022105027099003|261026121527099003|261102123227099003|261009223027099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	uKW15JOdSplKw7LoAySeEiJ4DQl4phGlN/oShJy+NESLK7G5QH3EAL72hV4EIu39lMCNHfesYLqoOYymBWa/S6MQrbd3uFyiwhkDqVpO035vdDKBpGKMUTfaH63+0tRF3hgLyc18xCaxM0pHbVLvg2AvV5S1tXjoSU/Ql3JAN/TBYknLddiOQh30RZ44xc+12Uu3c5m2N+I9STYN+gK3ku4yBZk9Qi1fk8rJPUIY8PIoBuOv96eu9GFVouX6waB7WJWx4pHIkUqGaXxVYj3u+RqFYIH13aC45S/F90VSJPBqYTv8HMnAq6DIWDInmjxEI15unLS92Vv/heHiEEB7CVuq7SReRPsmODUMWQ55Am3O1BhISajFr83NdLAJw5DOAdaa99tnQnBlft1ZhRQMrjbiu6IVgcMpFVz4BXAA1+OGDL2LOjAHqGW5IDTX7SZ+PmtXynx1VP0NkCtcOKMXsk6Bpprxge+dsGhOyYkvxUYP7rjndkYHUv8OGR0YTLapQY3c0Lhyf80cxfU8Unx2E56FabfCpFsn0O4blg/1PUh6of2mTPRpbrvfg0LDcnBoAQi2w/91fbnSkg07bKRAxjgQ3/8Srikzh7iGjuajS28u5nhjTcT/zM1JNIpxuzHjx8u3Zzk4tk+dLTNJENxD4kPs7fVVvetXIqax70nkDDWm+s0r+eW6bMHhjyL68+SajJcnL5xcsyFtGusWDshSkg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(19092799006)(23010399003)(921020)(10067099003)(261028144727099003)(11063799006)(261021121427099003)(56012099006)(261021123027099003)(261026140227099003)(261022105027099003)(261026121527099003)(261102123227099003)(261009223027099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?dCgubgTk2iml1y0pitBqqxyGXRnbhmwkOJu7rdnFYZEA92BaTka7LacHbi/m?=
- =?us-ascii?Q?HdVgUEZzTHKGyRYYCEM+xvxrmfqVN7dXRiwis0gxxvmEMnPLbwfLTCU5gCeQ?=
- =?us-ascii?Q?gec4el12rZhTUqz2ZO9iKyMPhdtF/oilub+qoZZJ/5OjxQG1dhRfyHvQlnGX?=
- =?us-ascii?Q?VN3tT3EOGuAEZ3tywGdUhsWHtqq1rlUoKzZm1nMDj2/XnXlJHIENPBVWOD/l?=
- =?us-ascii?Q?CCH0kT4TmVtm8V6LJR2tzsz2kINo+AVfbqB0EVQb01U5ftqBay9aT13Qmgfw?=
- =?us-ascii?Q?XUc+fKUAphIzDq0LhDg0UcYOXw4sxmn6oOwV2OxxO3q7a5YF/dEHEPEZreeN?=
- =?us-ascii?Q?GeiTwu9/6WFER/bJHJwUPOSbWGSIqXx0ycsxWTI6V6h6iEiEuiCKueHdi4fe?=
- =?us-ascii?Q?i2guR3yrmOs0JkL8vSM4R/ghcHXHISk/5vM5OgEsklB0uUrxfF46Rm6d632W?=
- =?us-ascii?Q?hlrNKvDe7BysSxw+XesEE2dWtcpySSbsGWplQIIQcrlReWNdzEyPjq1WI/3v?=
- =?us-ascii?Q?2LU3R6dZjsVmksmN/Y65pRnfiXSAQQZVTJDQH85kdkI2JkI9pKVMZD/7n+o/?=
- =?us-ascii?Q?/D9nno20BBDJh3lPrfRTyYUGP1NQwPFCZb4x6FcpkXk9Ga4R3YZLLYZak3DS?=
- =?us-ascii?Q?S+2xopSt+BNPOSDa6wvqVbP7Ugm1+aJ31doQCWOLSYjkKyD81rRftgYjEZR2?=
- =?us-ascii?Q?jFo0rqiYD8eRO4bLVJEaHlfY1+IAoZi1Xahay/4OqY9jQ4plZjow8TbWIiz7?=
- =?us-ascii?Q?LF+1ujrRxn69Gn6Y8Vd2KJOttS2DIJIeUux74jSuN7f4OKJfvZQ91YAPn/z1?=
- =?us-ascii?Q?asFMIlaUTY4jifWx+A8/0i8+S9mTSbls0eOTSFXsL39aE/5yUEvB1ijILnub?=
- =?us-ascii?Q?7DqGeSTnKlBs9bRyIgIwwT1Cj90w3XFDZC+UTPDr7aZH/GFlKhgxopU+OZ4t?=
- =?us-ascii?Q?//m0SvxcqpgLD0EWZKQvrN5VIW2gyvIvgvkidKUUxTkY4rsouPh9ZdFefr8S?=
- =?us-ascii?Q?yRGKTnecsEXhHWdj0tupW7fH108joqVsCgUjVq9SOrb3sufHTwMYdkjRCQ2n?=
- =?us-ascii?Q?ypVuF257wOlRLOPFa2vzfEhe/zOpTEFgGahx08Z3EbTyk9XkuxXya7ZoNcy1?=
- =?us-ascii?Q?libs8nxoK7GpMujqbLFNyrwhvjPvQ2VqJgkCGzCtw854Mhpopn60aHX1KZYD?=
- =?us-ascii?Q?iVJMMEUViZf45PDb85q+sod1P+MkOd83cAFdt7wOwim/nTTmFJ7LpFSyPQ6l?=
- =?us-ascii?Q?rH+YURP3kG9m2z37prdjOQnfJBcfm3S1Vxlyk+6IGeGMiIZmMB950X+HDRu1?=
- =?us-ascii?Q?MQGgvOtACmfInZhd0tgK3rjO0HzF/UNAXXigTSoE7/3co9JTMX+TEEPgV2HO?=
- =?us-ascii?Q?vdtNuLNj8w3nrm3z+p4d4KW5fgSE8/I+VD3eMlaXclJOhheKjSWqwK/fRpeX?=
- =?us-ascii?Q?cNdb2AOCWX78wQ9WqKfPmkRowdPj6oTClkejtELJ1UcbADy9QNqyvVQu76SJ?=
- =?us-ascii?Q?C0QQnGqFVKH5za0aare4mwN7xDs/e0VyD278KS3UV7GEe3mbyK9Of1CuzFKf?=
- =?us-ascii?Q?TFcqcCmYwqBHUoaml2jg/z1n7DzNxUnU0H26p7cn8ga8TG6Bx8SRCp+grPh2?=
- =?us-ascii?Q?7V2qrkFfMY+hJx9dJVVIGqnu9kXsl+88j8eQ9n5qnATJeY5j3u2wJ3uvgkAL?=
- =?us-ascii?Q?OOc4uFz50Klecx7BlCrVEoMzmo0YLUTO1R88+h8To9kqs6OeLxv3w2P3zaGS?=
- =?us-ascii?Q?qSqcyqUDz2yprcDgTtj/nH84wDL/Uq25SzoYWpR+i6AstRoEhRJG?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53936614-4d92-4623-3391-08df4ba73f18
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 10:23:00.3074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EEnZe8Uj8y+SiSU4WnZeWgJ0w/Bn3Kf+2P/ShbW+bz0DVUpWowpjfUOjQtDjxNp+/WuRd1Y6psr5fJyAxsTCFL/CI0N4bLraBTOFFRKkCd94u7LeEbMKa26XvztN42t0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR04MB11861
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] ALSA: hda/realtek: ALC285_LENOVO_DAC_RENAME chain skips noise
+  fixups
+--
 
-Replace direct syscon regmap accesses for i.MX8ULP DSP reset control
-with the standard kernel reset controller framework.
+commit 4c036af7c1383440b00bb1ed09a1398a8257668b
+Author: Zhang Heng <zhangheng@kylinos.cn>
 
-Use named reset controls: runstall to stall and unstall the DSP core,
-softreset to reset the DSP core, and dbgreset to control the DSP debug
-logic. Remove the direct DSP clock-gate writes; the corresponding
-SIM_LPAV clocks are managed through the common SOF clock handling.
+ALSA: hda/realtek: Fix mute LEDs on ThinkPad X1 Carbon 6th
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
----
-Changes in v2:
-- Reword the commit message to clarify that the patch adopts the
-  standard reset controller abstraction. 
-- Remove one comment line in code.
-- Add Reviewed-by from Daniel
+This commit chains ALC285_LENOVO_DAC_RENAME to ALC269_FIXUP_THINKPAD_ACPI
+to restore the mute and mic-mute LEDs on the ThinkPad X1 Carbon 6th Gen.
 
- sound/soc/sof/imx/imx8.c | 72 +++++++++++++++++++++-------------------
- 1 file changed, 37 insertions(+), 35 deletions(-)
+> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek=
+/alc269.c
+> index f906fce39c111..e54fd1b414715 100644
+> --- a/sound/hda/codecs/realtek/alc269.c
+> +++ b/sound/hda/codecs/realtek/alc269.c
+> @@ -7578,6 +7578,8 @@ static const struct hda_fixup alc269_fixups[] =3D {
+>  	[ALC285_LENOVO_DAC_RENAME] =3D {
+>  		.type =3D HDA_FIXUP_FUNC,
+>  		.v.func =3D alc285_lenovo_dac_rename,
+> +		.chained =3D true,
+> +		.chain_id =3D ALC269_FIXUP_THINKPAD_ACPI,
+>  	},
+>  	[ALC287_FIXUP_YOGA9_SPEAKER2_TO_DAC1] =3D {
+>  		.type =3D HDA_FIXUP_FUNC,
 
-diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 5cd3f44c90d2..80326d2eb1fc 100644
---- a/sound/soc/sof/imx/imx8.c
-+++ b/sound/soc/sof/imx/imx8.c
-@@ -26,19 +26,18 @@
- 
- /* imx8ulp macros */
- #define FSL_SIP_HIFI_XRDC       0xc200000e
--#define SYSCTRL0                0x8
--#define EXECUTE_BIT             BIT(13)
--#define RESET_BIT               BIT(16)
--#define HIFI4_CLK_BIT           BIT(17)
--#define PB_CLK_BIT              BIT(18)
--#define PLAT_CLK_BIT            BIT(19)
--#define DEBUG_LOGIC_BIT         BIT(25)
- 
- struct imx8m_chip_data {
- 	void __iomem *dap;
- 	struct reset_control *run_stall;
- };
- 
-+struct imx8ulp_chip_data {
-+	struct reset_control *run_stall;
-+	struct reset_control *soft_rst;
-+	struct reset_control *dbg_rst;
-+};
-+
- static int imx8_shutdown(struct snd_sof_dev *sdev)
- {
- 	int ret;
-@@ -202,42 +201,31 @@ static int imx8m_probe(struct snd_sof_dev *sdev)
- 
- static int imx8ulp_run(struct snd_sof_dev *sdev)
- {
--	struct regmap *regmap = get_chip_pdata(sdev);
-+	struct imx8ulp_chip_data *chip = get_chip_pdata(sdev);
- 
--	/* Controls the HiFi4 DSP Reset: 1 in reset, 0 out of reset */
--	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, 0);
-+	reset_control_deassert(chip->soft_rst);
- 
--	/* Reset HiFi4 DSP Debug logic: 1 debug reset, 0  out of reset*/
--	regmap_update_bits(regmap, SYSCTRL0, DEBUG_LOGIC_BIT, 0);
-+	/* Release HiFi4 DSP Debug logic */
-+	reset_control_deassert(chip->dbg_rst);
- 
--	/* Stall HIFI4 DSP Execution: 1 stall, 0 run */
--	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, 0);
-+	/* Run HIFI4 DSP Execution */
-+	reset_control_deassert(chip->run_stall);
- 
- 	return 0;
- }
- 
- static int imx8ulp_reset(struct snd_sof_dev *sdev)
- {
-+	struct imx8ulp_chip_data *chip = get_chip_pdata(sdev);
- 	struct arm_smccc_res smc_res;
--	struct regmap *regmap;
--
--	regmap = get_chip_pdata(sdev);
--
--	/* HiFi4 Platform Clock Enable: 1 enabled, 0 disabled */
--	regmap_update_bits(regmap, SYSCTRL0, PLAT_CLK_BIT, PLAT_CLK_BIT);
- 
--	/* HiFi4 PBCLK clock enable: 1 enabled, 0 disabled */
--	regmap_update_bits(regmap, SYSCTRL0, PB_CLK_BIT, PB_CLK_BIT);
--
--	/* HiFi4 Clock Enable: 1 enabled, 0 disabled */
--	regmap_update_bits(regmap, SYSCTRL0, HIFI4_CLK_BIT, HIFI4_CLK_BIT);
--
--	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, RESET_BIT);
-+	reset_control_assert(chip->soft_rst);
- 
- 	usleep_range(1, 2);
- 
--	/* Stall HIFI4 DSP Execution: 1 stall, 0 not stall */
--	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, EXECUTE_BIT);
-+	/* Stall HIFI4 DSP Execution: */
-+	reset_control_assert(chip->run_stall);
-+
- 	usleep_range(1, 2);
- 
- 	arm_smccc_smc(FSL_SIP_HIFI_XRDC, 0, 0, 0, 0, 0, 0, 0, &smc_res);
-@@ -248,16 +236,30 @@ static int imx8ulp_reset(struct snd_sof_dev *sdev)
- static int imx8ulp_probe(struct snd_sof_dev *sdev)
- {
- 	struct imx_common_data *common;
--	struct regmap *regmap;
-+	struct imx8ulp_chip_data *chip;
-+
-+	chip = devm_kzalloc(sdev->dev, sizeof(*chip), GFP_KERNEL);
-+	if (!chip)
-+		return -ENOMEM;
- 
- 	common = sdev->pdata->hw_pdata;
- 
--	regmap = syscon_regmap_lookup_by_phandle(sdev->dev->of_node, "fsl,dsp-ctrl");
--	if (IS_ERR(regmap))
--		return dev_err_probe(sdev->dev, PTR_ERR(regmap),
--				     "failed to fetch dsp ctrl regmap\n");
-+	chip->run_stall = devm_reset_control_get_exclusive(sdev->dev, "runstall");
-+	if (IS_ERR(chip->run_stall))
-+		return dev_err_probe(sdev->dev, PTR_ERR(chip->run_stall),
-+				     "failed to get dsp runstall reset control\n");
-+
-+	chip->soft_rst = devm_reset_control_get_optional_exclusive(sdev->dev, "softreset");
-+	if (IS_ERR(chip->soft_rst))
-+		return dev_err_probe(sdev->dev, PTR_ERR(chip->soft_rst),
-+				     "failed to get dsp softreset reset control\n");
- 
--	common->chip_pdata = regmap;
-+	chip->dbg_rst = devm_reset_control_get_optional_exclusive(sdev->dev, "dbgreset");
-+	if (IS_ERR(chip->dbg_rst))
-+		return dev_err_probe(sdev->dev, PTR_ERR(chip->dbg_rst),
-+				     "failed to get dsp dbgreset reset control\n");
-+
-+	common->chip_pdata = chip;
- 
- 	return 0;
- }
--- 
-2.34.1
+[Severity: Medium]
+Should ALC285_LENOVO_DAC_RENAME chain to
+ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE rather than directly to
+ALC269_FIXUP_THINKPAD_ACPI?
 
+Before 108704eecab9 ("ALSA: hda/realtek: Rename Line Out control to
+Headphone on ThinkPad X1 Carbon 6th") added the 0x17aa:0x225c entry to
+alc269_fixup_tbl, this machine matched alc269_pin_fixup_tbl:
+
+sound/hda/codecs/realtek/alc269.c:alc269_pin_fixup_tbl[] {
+    ...
+	SND_HDA_PIN_QUIRK(0x10ec0285, 0x17aa, "Lenovo", ALC285_FIXUP_LENOVO_PC_BEE=
+P_IN_NOISE,
+		{0x12, 0x90a60130},
+		{0x14, 0x90170110},
+		{0x19, 0x04a11040},
+		{0x21, 0x04211020}),
+    ...
+}
+
+That pin quirk chains ALC285_FIXUP_LENOVO_PC_BEEP_IN_NOISE (which disables
+PCBEEP-IN passthrough noise via COEF 0x36) ->
+ALC285_FIXUP_LENOVO_HEADPHONE_NOISE (alc285_fixup_invalidate_dacs(), which
+disables DAC 0x03 to prevent headphone click noise) ->
+ALC269_FIXUP_THINKPAD_ACPI.
+
+Chaining directly to ALC269_FIXUP_THINKPAD_ACPI still skips both noise
+fixups.  Because "Line Out Playback Volume" is only created when
+alc285_fixup_invalidate_dacs() forces Speaker and Headphone to share DAC
+0x02, alc285_lenovo_dac_rename() is currently a no-op.  Also, once DAC
+0x02 is shared between Speaker and Headphone, renaming "Line Out Playback
+Volume" to "Headphone Playback Volume" causes PipeWire/PulseAudio ACP to
+mute "Headphone Playback Volume" when switching to the Speaker port,
+silencing the internal speakers (unlike a port-neutral name as used in
+alc285_fixup_thinkpad_x1_gen7()).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126100731.9035=
+04-1-zhangheng@kylinos.cn?part=3D1
