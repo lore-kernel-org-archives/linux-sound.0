@@ -1,45 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=49.12.200.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795731299;
-	b=vv25FnICctY/tRynectJiNXwlfwlU4554J+0vMq1kP9vVJhPakoNhF6Zx+vTGp7jQ4cM
-	 MK8Ch39UUPELhcwT5aSeVp/8Z0liTs0tabHUZ2WTeJ0YPS5Bra3+UJY6b7n1Bf8VcNQQb
-	 yaIazDEy22Q2IPimfiTuYu2wThOtsXS2VYHCHcrIEJnyC2kluZyjywL55mLAdnJ1A4+fp
-	 TsJuDagVw1Yvafmdnt8f2SQ5Xc2Ew8ip+A5gXDfrKdKk7ch7qfFKWW4ZSE+sdfqlDVVOo
-	 XEyj0WGk1KKp3r1rrf3PhNLQIk77EXJRg0S6dgW4er4N3aEaJLQ4tqm9Xsbah++dxUw==
+	t=1795732448;
+	b=vxyt03u0HJmESZtejfJncaH88p++CSrsmzYevg3PUOo2ka3VdzwARzxtqom9qcDHImWh
+	 OpmVFErDxeXA+/AMjp2k39/tj6AqgguLA+lCt/INDS52L5aKHE10GR+7MLFGZYCaZjWhS
+	 G+I+A/tDRyDd7FLxCnjJzJ201ZfjAdlYgwDf5kMQmMs7hac9Qw0hU7+Tg5SjmP1BXoHg7
+	 0LTO9cSIlfYttp/aIuoUsiPGfRorwEz8eMYc/ISPo8MlwoZzPjfIoUuCnn05VleVjuREJ
+	 HoUD1c132+cSKaUKT22eqH8gAO/NGCCX2ylVJ+zHkIyZ5EcusIAwn2oeXi/3iTOw69Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795731299;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=lRS+sPalX3iPRJ04ezITgBCUZ5dvVe3IrVJM6Oq6w1g=;
-	b=Zuvlhr5rymOtRaEpZJ0ghHU1twcLxTdjEFmNS7yis+mmP9uwZl216Rkyk5DhOTUT0gZd
-	 Y8mtBr4mU8c/kb2s10t88AVeGpDeNhZdvPhU6iDvZTEP5/qKCJlbxfDKBy3oUXBy3fvH7
-	 FutWNVkjcOqVR/ElgHfsCoMcvh+uxoT2XZgMla4pOKcfz7f4zgCSD8h0Tr65hSVZaowi4
-	 TToQuKVr5tn74lR3vAsZ+wK7+QuqacxbvBEYtjPKBw/DYTQB9YmJhqtME4AOvxrYbLAgy
-	 lxRs4NDLczvQnr5jWXX5zuE1DcrXlEYHOSuTtwUv6Hi1b8g8UlSos31SNp2E9kdoyeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795732448;
+	h=DMARC-Filter:Message-ID:DKIM-Signature:Date:MIME-Version:Subject:To:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Spamd-Bar;
+	bh=11FD/p6QINVjHDRvHXvjog2NdwJ1xN/iIY+wHcZ1uIQ=;
+	b=Zs5chvSYcNomCGs48qBhYhYZaNq/fgpZ2YSx8Hp/7efUGtCOLSsxXrT5bkIeuECups4S
+	 QF5ezMu0tG05RA2P2T5gbYR9HxKk667FGKCUQsyP22nE487mmskyUxOkbCpOcy7JrnfcD
+	 XFz5XIcF5RkT1nL0wC6ivqWAJLAFRFszNUB71LQE9W3sqnP91TdPfWe3E2kqa91FzbMTg
+	 EdiqMHW4+nOHsiNiMI2Gi8L6Sz70XtY7rAq3OucaBiCVWsL3cfdrKzTE+1enXUHSYLVKU
+	 Eg595/uPus0LzHbvK7HfDuVe0J7GWdN1UTfg0rRf1otm56OgjDlAXD4BHccTxKZKGOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WKaHfFvf;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=rondom.de;
+	spf=pass smtp.mailfrom=rondom.de;
+	dkim=pass header.d=rondom.de header.i=@rondom.de header.a=rsa-sha256 header.s=dkim header.b=dGANsqts;
+	arc=none smtp.remote-ip=49.12.200.44
+Received: from non.nonmodosedetiam.net (non.nonmodosedetiam.net [49.12.200.44])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39569606A31C;
-	Thu, 26 Nov 2026 22:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C973F606A68F;
+	Thu, 26 Nov 2026 22:34:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C973F606A68F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rondom.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rondom.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WKaHfFvf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B09D1F000C1;
-	Thu, 26 Nov 2026 22:14:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795731298;
-	bh=lRS+sPalX3iPRJ04ezITgBCUZ5dvVe3IrVJM6Oq6w1g=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=WKaHfFvfGKlW3OZvIm4Q30MymZZltSs4JK2vI00I3KaXLLo9lrlSvApx2hdmv1vPR
-	 sNmFOXKRo7mGdW7sv14lNmJJXqxndZ51mYgkChoL8UMGWc7qh+te71B7nKjDHrxkQd
-	 phXFa0Am4Ch3hW8dLYzPwVh2SyJ0TgjC52RvMzsCU8M0Ravy2ciqeqxaQn160n0SWs
-	 1IotD3+Jbqc47r4+y5H9Q5TMSghO3R6aOCODnXy7oMMQ1+e5PIMjTHsjGE1lJgvKhn
-	 pK+N/KNqj7BmPmo3f9dCb0U7/c61y/uGBmhR0kfL36u3eWrHD5mJ+B6Llkh24Az9dX
-	 o2KRY2xa8HLdg==
+	dkim=pass (2048-bit key, unprotected) header.d=rondom.de header.i=@rondom.de header.a=rsa-sha256 header.s=dkim header.b=dGANsqts
+Message-ID: <cd519b00-247e-4dab-8b0f-b339b1908859@rondom.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rondom.de; s=dkim;
+	t=1795732433;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=11FD/p6QINVjHDRvHXvjog2NdwJ1xN/iIY+wHcZ1uIQ=;
+	b=dGANsqtsaAhnqI7KAiZcKoyfyTtO1dYGp1kz2zALU+lkIpVkKyFUDdlxUvmdbiEIBspkrJ
+	XzhfVx2CZPEfHQevIXqxBgXVRjF9+yZF02P2wFWAQ5MqXz/xZ5E+0KKm+Ya9yyLiXsI7qE
+	zlJeM26O4PStQupQ4GMaJ/boPa73vKRkx4mz3dleLyHqLAw130jnL1epHH47ZxLiigBdN5
+	FM8DCe1+ypCAB8YayY0+39tJ992RfVS2JPKR17i+iIx/5R/BYFE6Y35/mmSlXtI8mpgyfQ
+	+xFD6hii6eEEHBfKCFTyNL0lwn74JE3TSCj/4pFfJZb1EnDaQDIpIVZTInug/Q==
+Authentication-Results: non.nonmodosedetiam.net;
+	auth=pass smtp.mailfrom=rondom@rondom.de
+Date: Thu, 26 Nov 2026 23:33:51 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -49,41 +58,75 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v7 2/2] ASoC: airoha: Add support for AN7581 PCM driver
+To: Christian Marangi <ansuelsmth@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261120234640.169279-1-ansuelsmth@gmail.com>
+ <20261120234640.169279-3-ansuelsmth@gmail.com>
+Content-Language: en-US
+From: Andreas Gnau <rondom@rondom.de>
+In-Reply-To: <20261120234640.169279-3-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v1 1/3] ASoC: tegra: Consolidate remaining separate
- codec machine drivers into tegra_asoc_machine
-From: Mark Brown <broonie@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org
-In-Reply-To: <20261116093805.73715-2-clamor95@gmail.com>
-References: <20261116093805.73715-1-clamor95@gmail.com>
- <20261116093805.73715-2-clamor95@gmail.com>
-Date: Thu, 26 Nov 2026 22:14:52 +0000
-Message-Id: <179573129232.838304.962697835199951671.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=413; i=broonie@kernel.org;
- h=from:subject:message-id; bh=t04cI2pjFilwfzrJQHZY/pA5FFsg9MzDWsfcp+FY1Fg=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI51sc52lf3bxGVWMCdm1+cpVB6wVZ7ycmAqC3MJVvub
- +q44/O2o5SFQYyLQVZMkSUui/tlfcnrNXwHF7bBzGFlAhnCwMUpABNpE2T4Kxn3lMf8Muu93B2C
- mhsr7n+Y2/DDPlS9q7tNZ/oHs0SBrYwMR0+eeL4vNr1UI6WX+ZSt5osLDrbbdv0WF7gbUZCXXB/
- KDgA=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Spamd-Bar: -
 
-> Merge individual machine drivers for WM8903, WM8962, and WM8994 codecs
-> directly into tegra_asoc_machine.c, removing separate driver source files
-> (tegra_wm8903.c, tegra_wm8962.c, tegra_wm8994.c) and simplifying the build
-> system. This follows the unified machine driver approach used by other
-> Tegra audio machines.
+Hi Christian,
 
-This needs a rebase against current code.
+On 21/11/2026 00:46, Christian Marangi wrote:
+> The Airoha AN7581 SoC provides a PCM interface for VoIP applications,
+> supporting playback and capture at sample rates of 8 kHz and 16 kHz.
+> The driver configures the PCM bit clock to 2.048 KHz and supports
+> 8-bit and 16-bit samples, with up to 32 channels.
+> 
+> Add an ASoC platform driver for the AN7581 PCM controller configured for
+> ZSI attached voice chip.
+> 
+> Signed-off-by: Christian Marangi <ansuelsmth@gmail.com>
+> ---
+>   MAINTAINERS                   |   7 +
+>   sound/soc/Kconfig             |   1 +
+>   sound/soc/Makefile            |   1 +
+>   sound/soc/airoha/Kconfig      |  11 +
+>   sound/soc/airoha/Makefile     |   3 +
+>   sound/soc/airoha/an7581-pcm.c | 929 ++++++++++++++++++++++++++++++++++
+>   6 files changed, 952 insertions(+)
+>   create mode 100644 sound/soc/airoha/Kconfig
+>   create mode 100644 sound/soc/airoha/Makefile
+>   create mode 100644 sound/soc/airoha/an7581-pcm.c
+> 
 
--- 
-Mark Brown <broonie@kernel.org>
+ > <snip>
+
+> +	if ((unsigned long)rate * channels * bit_width > AN7581_PCM_DEFAULT_BCLK * HZ_PER_KHZ) {
+> +		dev_err(rtd->card->dev,
+> +			"%u channels at %u Hz and %d-bit exceed %u KHz BCLK\n",
+> +			channels, rate, bit_width,
+> +			AN7581_PCM_DEFAULT_BCLK);
+> +		mutex_unlock(&priv->user_lock);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (priv->users <= 1) {
+> +		/* one bit delay for ZSI */
+> +		regmap_set_bits(priv->map, AN7581_PCM_PICR, AN7581_PCM_ONE_BIT_DELAY);
+
+Sorry for coming so late with this and maybe it is not a big issue and 
+maybe you already thought about this:
+
+ZSI (Zarlink Serial Interface) is a Microsemi/Microchip/Zarlink protocol 
+that multiplexes the control channel of the SLIC over the PCM pins.
+Assuming that a conventionally connected SLIC (i.e. control via SPI and 
+voice via plain PCM) does not require this "one bit delay for ZSI", how 
+would we add support for it, without introducing a regression for 
+ZSI-attached SLICs? I mean, there is nothing in the device-tree telling 
+the driver that there is a SLIC attached via ZSI and this code here 
+suggests that the driver hardcodes some behaviour only desired when ZSI 
+rather than plain PCM+SPI is used.
+
+Best Regards,
+Andreas Gnau
