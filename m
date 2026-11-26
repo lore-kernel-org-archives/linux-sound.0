@@ -1,100 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795727693;
-	b=yCInyAUzF8fEaTPef19ehauGKyrqwOmASa733PwlIZR+RY+xCIViFualuH2Aq4hO6bE+
-	 DDWkeFTwSeyydxqdhH/rYONxR7oxxqfVtEaCh0YRG9RcgzXJRTKeRPtA0MI9/mPDW+55C
-	 +sAf5sKZ7YbNarFGMl1vOscDn/rMA811FCeeqECFtY+6x1QbBk4SN9zaDvD8z+p/8PLwX
-	 7l8ECte5uEQ3pTNK37jWKoI3BewSc28pK9xCOJazSDx/XCQcJqx6VzpvkogbkXZEsfcDk
-	 u51miIJ3r21c7nF4qB8/eWKf9gSB0u4f/n5IYeWB/8Wiz8oBEfd7jGMGt1kCCVUmR4g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795727693;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:MIME-Version:From:
-	 In-Reply-To:References:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=ckt2njikgL1ic3W1hR7aCLqud/UP1BsggMEUROxgHHA=;
-	b=fRyKm6Na/oUWhXmNd2IUs1T6ed9DgKBWbO9zqHcDb8yM6YXmohK6mzJdIAF/89Xu1Y5Z
-	 zNRWJbGIi+1AdbftP8vLCoci6OP0HNrYIkGj5mMK40/44ph9roiidPNdLOWGu218ZZumx
-	 No93ABpkXlaMwtONdCUvA8HiGud8t1RCASg4yeoAUDi69bPGA/NIQTdTnF0PYsVHgiVar
-	 TXUDggFYI2m55iGgmVX4vvXDTBgHcKQlB0CUPYNms+B+tN3PT4ZTbGjt8MDnqVdw4AQAD
-	 7HjFBkBVMDp+E612IhgZgHw+scZlljRNZVGNugx32lMKvwkZuRzSYzalJ4z6R0HlEnA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yTDHDmtE;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.178
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795728198;
+	b=SvgkhBA0aEQ/lPQpvxrvimEwed5uIqGifhouGzbf5i2avNhJ9TnksID9BfryQBtxM8fK
+	 U36woN8IGT9g4aV+sa9ieJwiQ5RXlmK7ty4+97VfLGyyy/gHw8qRP8JDkYnMQInPuFQ1V
+	 WhMjJMivZ4eJ56b9aeYW6evLYR0FM9khNdhEsoqiJK79s5ZowGa2QdGuA2U65yFVJl8NG
+	 C7X2B5TCeSZgr8yzwfJJe0x58JJpQa/XVz6mdamSbWxL35IlGmt2knEQhoPqPWlbtBRYc
+	 rcdptwyG1ozTxvINXmNqSfQVl+0LE3yuZt4WVrKZoj5uR7V7TTPhCIUV9ZAp7ijk1tA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795728198;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=5Kzpid4RLm/541vknBbiSpsgz96CflLOK7rHjgv23pI=;
+	b=jRU1m/3JxFYNv7+4Ch0DyQ5U6pEclSAHEfKHvQmzdFndKBTv2XegYvuOTilbmnyluTF1
+	 poGR2DuB3iIxMxWIle3+L839eJIZYhNgAMCD1JqR44oUsdcQkQDruqjR0gQebUIMB4Pcl
+	 Q6HCOLmiaXh0MTlzmsHbdKfU6EbWAr/YfW1hbA0L0wg42QBARDjtwhc98+6h5bOkvfUSY
+	 OCs9AyQBVhUe6cgufrNpUJAZdqfVPZqxzMd2O9nbcmu2M3TuRgJmTIMvoHWspNbVYK7zQ
+	 YK9QN/i6Ihy995mi2dLgnV2KTO5oicHiZLnt/Lvk9P8i87jsHgA1fCKlVcowN7myE0Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BCaiHIt6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17035606A321
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 21:14:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17035606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4BE606A31E;
+	Thu, 26 Nov 2026 21:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yTDHDmtE
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2f037bc348dso59029425ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 13:14:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795727692; cv=none;
-        d=google.com; s=arc-20260327;
-        b=crByOwejrZ/Z+v1gqKpbhiUgW/hTSY297Bwa1nuWb484nyWjg8VuXPAScudVsvqlDQ
-         Mpya8muNuRYADWABxlCsIXiZd3rAqCX6D8jhHdHrZ/qfFneWv0WWqk9JZY1fQ0S9hBo7
-         pyFAVn/1aToB+TAwTvC6I/aH4g70I5HWNMVYhlxCas1UbMZ1UdI2x0lZ5mTOMHFZkMbd
-         ukd4jtKxRlr19WYErBdq0sERrdHp7iI37rFZDg5xAXCRs6wjDHgyVXQ28L6AAYLCXd4/
-         cqhlA4UObsBqy2H7mzEYVX4TXK7vBrOp1KD9vlIXeXTQSbPAtqQZRFSk4iXjflsN87y+
-         04Zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:references:in-reply-to:from
-         :mime-version:dkim-signature;
-        bh=ckt2njikgL1ic3W1hR7aCLqud/UP1BsggMEUROxgHHA=;
-        fh=8PKdHDcuBWg8G9aaCVsvm0zVHBYD1WPYrDQJI+zZqGI=;
-        b=BCBiBZAfVOWEPmQ6rBGIC/tpj4vXN+RcNZowyFdnILfBo9+yKhWnnhLfuDfFdBF6ly
-         sPD7lq9zGlGMBCduhfTh1e55SQS2JZkJ55hXCi8Op67bV5mZcBEsv9qjSQuFg/gz/9c3
-         CGAM09g49hZ2J8uZd6/myxEZmyQPXcet3srsJafIi70XqRaKuE0QEka2qPnt6UCXeV9D
-         C77XubEswyHFhTNWavBLBQFZrq4GUkKnPyiRMhBnbaJulFrs2LSlPYq0HydHF+2Koev9
-         r+PRJr9XlovFl4accUbZ/e1PKXvc9MD9XA8ERnXIIy6TAtpirDb4yGQGEnFBIJL98cU7
-         7I0w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795727692; x=1796332492; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ckt2njikgL1ic3W1hR7aCLqud/UP1BsggMEUROxgHHA=;
-        b=yTDHDmtEIhGp/MlMHSfRdK7pgePUUr/nY8uCLVZk05+NWtqqGTm6L0OFmqluBZ49U4
-         sKxJB3UdAWkrmvg2yAUejWQ2fh7pCXEAtcY2fOJe+/1b53OdvDvoWaGm37zHsSqjPjS+
-         64+/4Hw0bO9pseEBTjjDWBlrsrYXdc40/JmrjQ3pS/V3nDa8saT95p2wfh+Pzx0TiMPV
-         VnqzhyfHi6GrZasm1taY20q4HdLuWAVz+3DTXRvF0aiLiwEMXz8B2dMhjKYXbuSI/QiY
-         pI1vYOWS/hFvpUXZ5cQjArK77E7J7U/zsohM2lj0J0Ux7ytKnyyyvq/MgjOc6essXYbd
-         Y3lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795727692; x=1796332492;
-        h=content-type:cc:to:subject:message-id:date:references:in-reply-to
-         :from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ckt2njikgL1ic3W1hR7aCLqud/UP1BsggMEUROxgHHA=;
-        b=Vs2aE0TRt2KVF4R2/vUs2OIJCrs+eHHjiH66EDC2DFUYbhoJ0pMGj4VeHUByGuhIIt
-         amCHAZwvnL9GB7jgTnTPaqoVpI7LQTHg0HC4GvCSxIcy5wBwLE4pFGHv05UlQPXspwhU
-         EZ0+UVGaDq4wak5la4sT0hXn3whAQSteAgwU8xv8adC6rKccK14Q4O2Uovl6fwwtSb+t
-         2HxlMf08UTrIqhDyr0A0mWi2xqTTW7HlYG+OAjLfNnZTOlfFAiVnWq3a3WIAicgiQWm+
-         0242KYtlQY51a+KMXy2VoyOw9Da2UYlLyVH7mqj7NAq2BONaK+yIwKmjLeEyzgWhhIsP
-         s9yw==
-X-Gm-Message-State: APuU4Z9n4/WwM4hB24IH4k95c+K8Jx+vgWJ28ZTirS4DR4ynSTKhjT+D
-	LDfOPa48KCFhP211qx0YsCF8nzSpx+6z2VIjZB037Kh1q+UVbaAVkHaBpqvg5zfTWwZRO7A9nZ+
-	qBImn8d5oZjTODBs5UhBX527AhDp3sh0=
-X-Gm-Gg: AZFdTZdIoN48VULYOagt1zhaeAv15sio6PrArEhO2djBvQGe2L7n+7xDzAlxA0ry3us
-	C8vVaKjyK63jXaZXKIXpXAWTf4TdaABL5F9NsJ6Wyo2vs5m8EcTyTeM64ZQC/kqlJ1g8OQHY9/p
-	s+jjqg/sHV32aB4CVGPho9LFa5LlpwVIMQmmdlB1gkaTnaHg5dEgoFg0YGEFntUW7q3LM+5eYgC
-	bidMsOKjugy1OvRn5xUwpahIdSsYdTu1dWRZ6J1zVMlAoYUn8/MDgd7vmVLRbFlHi9JbKfWB58t
-	oYHbnaf8Lh1wbZTFF1Ld+Uu67g2wEcmyhVRPMK1FchOjoWeSEUyLS8jZ84MOq3m/jg2/XtZtrBZ
-	FC2bxzlyC839pgayPl2a23meVKgsiL4oaQA==
-X-Received: by 2002:a17:902:e5c5:b0:2ed:a96:8a03 with SMTP id
- d9443c01a7336-2f03f27e77amr206374105ad.55.1795727692234; Thu, 26 Nov 2026
- 13:14:52 -0800 (PST)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 26 Nov 2026 15:14:50 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BCaiHIt6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C2B61F00897;
+	Thu, 26 Nov 2026 21:23:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795728197;
+	bh=5Kzpid4RLm/541vknBbiSpsgz96CflLOK7rHjgv23pI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=BCaiHIt6JQl0pKTeR7oir9kH6/VRwOk66jC8Lakml5kQXxM/bsIIulL6wNEiFYTNL
+	 v7c5FpxDbbQROOP6Egyukx7h6LD0Ef38w09+5qGiT9sO2+aOxOuC9Ojpb2Ie0Xxkzf
+	 b+wnzDj1eiFI1WOiIfYoO7YvAFYWS/pQJa3w0COFDMzDi9ALyxjEqyhWHPKWg8s77a
+	 NRdRxtBcARIGZlJ67E5B0clv2xurFlI3SiWCSM7MOjhIoUoGINhIIiEW8lXsUO59TQ
+	 utoBiuD1GLAmTPn8kQtSijHrtY44+QY9I+eVGEm6kcSYRFGWABr00qrKEQrcQd/5On
+	 x4Ihv1Wn47D4Q==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Elkin Cruz <elkin@google.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ llvm@lists.linux.dev, irogers@google.com
+In-Reply-To: <20261120192237.2870582-1-elkin@google.com>
+References: <20261120192237.2870582-1-elkin@google.com>
+Subject: Re: [PATCH 0/2] ASoC: mediatek: clear afe->regmap on
+ devm_regmap_init_mmio() error
+Message-Id: <179572175011.838304.10101662458233835065.b4-ty@b4>
+Date: Thu, 26 Nov 2026 19:35:50 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,142 +63,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: flv.giacchetti@gmail.com
-In-Reply-To: <CACKiateKEggvx60zugZt_C1ejcLv55OiL6Hyv=DkF72370FU1Q@mail.gmail.com>
-References: <CACKiatc1Bj2et4kcXDJiYx28XXxoo6iHPc9nYt3GhTCxUmdnsA@mail.gmail.com>
- <20261125203211.76029bf0.michal.pecio@gmail.com> <CACKiateKEggvx60zugZt_C1ejcLv55OiL6Hyv=DkF72370FU1Q@mail.gmail.com>
-Date: Thu, 26 Nov 2026 15:14:50 -0600
-X-Gm-Features: Aa3M54pqAbUFR54EeJrok3NlplyzTGh_qB0asFD2VpdsVTGnDkBxrS2IGMdtoOQ
-Message-ID: <CACKiatdTKoyWu6gphWm1Zb8kF6pFBNfcN42zW7-sNMUdYvbDrg@mail.gmail.com>
-Subject: Re: [REGRESSION] Creative Sound Blaster X3 (041e:3264) fails USB
- audio probe on Fedora 7.3.4
-To: linux-usb@vger.kernel.org
-Cc: linux-sound@vger.kernel.org, regressions@lists.linux.dev, 
-	regressions@leemhuis.info, michal.pecio@gmail.com, oneukum@suse.com, 
-	tiwai@suse.com, perex@perex.cz
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1579; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=3p1Ore9hafy1yDB9rebMEMzGAj4tc6cIfEocpWtEBT4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5FjsybN5705/rolj9xORgjeXptw9ufuP1qkqbsTAk/
+ 8VZrqe9HaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE9gQLk4BmIjlVUaGxx++dvV2X39dtkm7
+ Tnst18HwVXHca796TZoocVB527bWWEaGF6xpOw+1WFXt12dbe55x5fwZSw1nPbt/f9OC24vOLTJ
+ 8wwMA
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Michal, Thorsten, and ALSA maintainers,
+On Fri, 20 Nov 2026 19:22:35 +0000, Elkin Cruz wrote:
+> ASoC: mediatek: clear afe->regmap on devm_regmap_init_mmio() error
+> 
+> I am trying out a new Clang static analysis linter for ERR_PTR/NULL
+> handling, and it flagged this code as possibly buggy. The findings were triaged
+> and fixed with an AI coding assistant, then checked against linux-next (not
+> runtime-tested on hardware).
+> 
+> [...]
 
-I reproduced the high-speed failure again after a Creative App reset on
-macOS and captured usbmon from before plugging in. The following tests
-used the same X3 (041e:3264, bcdDevice 10.90), cable, rear port (1-10),
-Intel xHCI controller (8086:7ae0 rev 11), and stock Fedora
-7.3.4-300.fc45.x86_64. The device enumerated at 480 Mb/s.
+Applied to
 
-With the default driver settings, device and configuration descriptors
-completed normally. ALSA then sent a UAC2 SET_CUR to clock selector
-0x22 on AudioControl interface 3. The X3 descriptor gives this selector
-a single input, clock source 0x21. The selector write and read-back
-completed. A subsequent clock validity GET_CUR for source 0x21
-returned -EPROTO. The next SET_INTERFACE timed out, followed by more
-control requests. The key usbmon setup packets and completion results
-were:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-  21 01 0100 2203 0001   SET_CUR selector 0x22         success
-  a1 01 0100 2203 0001   GET_CUR selector 0x22         success
-  21 01 0100 2103 0004   SET_CUR sample frequency     success
-  a1 01 0100 2103 0004   GET_CUR sample frequency     success
-  a1 01 0200 2103 0001   GET_CUR clock validity       -71
-  01 0b 0001 0004 0000   SET_INTERFACE (if 4, alt 1)  -2 after 5.08 s
+Thanks!
 
-With ctl_msg_delay (20 ms) alone, the write to selector 0x22 again
-completed. Its immediate read-back timed out in that run, before the
-first sample-frequency write. The -2 completions are consistent with
-usbcore cancelling timed-out transfers.
+[1/2] ASoC: mediatek: mt8196: clear afe->regmap on devm_regmap_init_mmio() error
+      https://git.kernel.org/broonie/sound/c/4d5ed6cd0a14
+[2/2] ASoC: mediatek: mt8189: clear afe->regmap on devm_regmap_init_mmio() error
+      https://git.kernel.org/broonie/sound/c/18246650ab69
 
-With only skip_clock_selector, two consecutive hot-plugs registered
-the X3 in ALSA, with cdc_acm still bound as ttyACM0. Clock-validity
-requests succeeded. The first PCM playback altsetting advertised
-48/96/192 kHz at 16 bits, but the subsequent 24- and 32-bit playback
-altsettings returned only 48 kHz. The trace showed the driver
-activating the first altsetting before querying the next one's range.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-I then added skip_iface_setup. With both flags, all three sample rates
-were advertised for S32_LE. I saved the following modprobe option and
-repeated the unplug/replug test:
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-  options snd_usb_audio
-quirk_flags=041e:3264:skip_clock_selector|skip_iface_setup;
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-ALSA registered the X3 again at 480 Mb/s. I played a silent stereo
-stream through PipeWire at each rate and checked ALSA hw_params and
-status while running. The hardware PCM was S32_LE at 48, 96 and
-192 kHz, with no further USB audio timeouts in the kernel log.
-
-One other symptom may be relevant to USB core. During the failed
-probe, Unity's main thread was waiting in serial_show while reading
-the Intel root hub's sysfs serial attribute. It proceeded when the
-old device was finally removed, about ten minutes after enumeration.
-The USB hub worker was still handling probe timeouts after physical
-unplug.
-
-These results identify a reproducible workaround on this unit. I
-still have to test mainline, and I have no first bad commit or evidence
-that distinguishes device firmware from host/controller behavior. The
-earlier cdc-acm RFC remains withdrawn. Would a device-specific
-snd-usb-audio quirk be appropriate, or would you prefer a targeted
-xHCI trace or another controlled test first?
-
-Feel free to reply here or contact me directly at this address. I can
-reproduce the issue on this hardware, share sanitized traces and
-descriptors, and test a patch or an upstream kernel build.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Flavio
+Mark
 
-
-On Thu, 26 Nov 2026 00:17:40 +0100, Flavio Giacchetti
-<flv.giacchetti@gmail.com> wrote:
-> Hi Michal,
->
-> Yes. The earlier Fedora 7.3.3-300.fc45 logs show the X3 enumerating
-> at high speed and cdc_acm binding to interface 1 as ttyACM0 without
-> the rate-query errors. Audio worked. In a later 7.3.3 boot the same
-> unit enumerated at full speed (12 Mb/s), so that later run did not
-> establish a working high-speed baseline.
->
-> The failure also reproduced with Fedora 7.3.5-300.fc45 and its stock
-> USB and ALSA drivers, with a different known-good cable. At 480 Mb/s,
-> the X3 disconnected and re-enumerated, then failed to answer USB audio
-> sample-rate and mixer requests. On 7.3.4 the same high-speed failure
-> also occurred with my experimental cdc-acm module loaded and the ACM
-> interface unbound. Please disregard my IGNORE_DEVICE RFC as a fix.
->
-> On the failing 7.3.5 run, the USB hub worker was blocked in
-> usb_start_wait_urb -> usb_control_msg -> usb_get_string, called from
-> get_term_name during snd_usb_create_mixer. A 30-second usbmon trace
-> showed repeated endpoint-0 GET_DESCRIPTOR (string) and class
-> control requests. For several requests, the next completion came
-> about 5.12 s later with status -2 and zero bytes, consistent with
-> cancellation after the timeout. In a separate 7.3.4 run, the Intel
-> xHCI driver logged two "Event dma ... not part of TD" messages at
-> disconnect.
->
-> When the old probe finally unwound and a different rear port was
-> enumerated, the unit briefly appeared as Creative 041e:6007
-> ("X-Fi UltraDSP"), with HID and CDC interfaces and no USB audio
-> interface. A targeted USB reset completed but left it at 6007. It
-> later returned to 041e:3264 and still failed the audio probe. I
-> have not identified what the 6007 state represents. Separately, a
-> local WirePlumber rule forced 32-bit PCM and hid the output when the
-> X3 enumerated at 12 Mb/s. Removing that rule restored 16-bit/48 kHz
-> playback in that mode, but did not fix the high-speed USB failure.
->
-> I then reset the X3 using Creative App on macOS. Back on Fedora
-> 7.3.4-300.fc45 with the original cdc-acm module and without the
-> experimental USB quirk, the X3 briefly disconnected on the first
-> plug-in, then enumerated again at 480 Mb/s as 041e:3264. ALSA
-> registered it and I verified active stereo playback with S32_LE at
-> both 96 and 192 kHz. There were no further USB errors after the
-> successful re-enumeration in that test.
->
-> This is one successful test after resetting the device. I have not
-> isolated a bad kernel commit or reproduced the issue on upstream
-> mainline. I can provide a sanitized USB trace and kernel stack. If
-> it recurs after the reset, would a good/bad usbmon comparison
-> starting before plug-in help distinguish what happens at the first
-> disconnect?
->
-> Thanks,
-> Flavio
