@@ -1,54 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795692994;
-	b=XL5d8dHqehdRAoUlkXOPxtcyXh188QH+F57JOJxMLPcPpIrOxPDgpGPzL185bL+XxJRX
-	 Pj41A3LmQptaXjDc/tGbrVOJq59RQre06/lFdr4HaQzSoTH/zlNUYnRST0griWZgoWwEH
-	 xW0BE21jxjnS2JFWkt9kDhPBgt3qnoooqttDYesyWHc4y/IebSYt9LOCvq3K8O+ZlHFqI
-	 vZSjyXEWsHPZ+Lc/Xn4t5tosUmuobg8uMZYiw6YqlEFGywUp2svAwQ28H28GX6Yq1SHs1
-	 p7icoDu737Rtgl8vLd6o6RlwwxWJAymXY0lX51T3gvmrgoCvusFR5/YdlZX5oJ3Rd9g==
+	t=1795693260;
+	b=VEikRkIZWtmNJ4zGXhhcMi9N6cAxAAn0xkk65Az21MhzKxpEnZu5M+bOXS6OBPdJyXel
+	 N5vqAEXQ3ZXRm4W4PCvE/uyOi6PBMyfLBA6bOl/MpyKyI/Vkv1gJKhTbiu9LieXxxQjkT
+	 KBqIq5oxFYR8lWGDW/HetwGZ7bCT73qiSYncjbPgRxD+PsjuyMFJPt7Cf8ulu4u+S6ZOn
+	 H4kDSi2pbUONGvtksipYaR0DVjw7mIaVHaq+RIiiz2xcPTllixlPJdVfHLhcKCe3meTEQ
+	 6FuMwi99PK9YCIJCrE5UOMN8Ub0yt0arG323s+9qGhcWB83MOuMopmvyR6ydbi/jqvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795692994;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=y8GWKjPOZm2T1wgFUJLhVUphNuwxMNBqS8hRfotybog=;
-	b=AtndpBs9EM7dW4YOHW28uCcbpSLmW3D7oWrjgRrKgSwjWL36R/Op2LSxXJl3F0ftyyBM
-	 5DIPg4Rof5DuTEMymaaN3KR0Umiztw+uF1bHXq+p7xZopB0C1xcXKfASH8g2ftESPxTsV
-	 jIbRpI+qZUkdMF7ZlkZ7EQJMd11tTItj3jnXypA+wcH42bcmMp8lbyPbbykIkoJhV6rBT
-	 5OlRuruJAb1qojfzEn1F/lcvIaK+HaMncDVzeE8LnElq7vCSZGbSSB/EOgLMy8Gjs6Da1
-	 iShDT1hhxsleNBjZTqyOk77sGD43rvoY4W3miFYGqcPTmnsJLn3psuP/CBWB3U5bwZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795693260;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:
+	 X-Spam-Score;
+	bh=Ly8yrFBVa2P9olk+BKa0vu+hyswyvclZd/LftFXVWeI=;
+	b=siLS3YRXZEUmfhJRAa0mlS0XiNxO/tPWAU5cxWv1ZostnH91naxSUhsxd5Ic7Omb9rp2
+	 4SkQjWOiMWPZtTJd8YLKFQbu5pdozILc1WHitlgJ0Kv1WOawXgh/prNFU25M34JOsalLf
+	 //Ncb6MQiCZpckHgsDm9B8FH+YN0gFEXMr33640beXVCVVnEQid/h7zptWsbpISR0Fs/k
+	 3xgTZUlHpXfabuz8yURmZjW17PmbLftTvPqe3n5iY+oMyvarO7gHp3q6V9iAjhkjZ45GY
+	 SCTqmA+O92Terp/Zl3LHfUFPBw0pMCEgeR3R9jEVO2aff5s/nJb1LPKWZskbafOg39w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EtXwJN0+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DK8jR8d4;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/R5vCsX0";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DK8jR8d4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="/R5vCsX0";
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AC6606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 11:36:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527C8606A31E;
+	Thu, 26 Nov 2026 11:40:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 527C8606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EtXwJN0+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B89EE1F000C6;
-	Thu, 26 Nov 2026 11:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795692993;
-	bh=y8GWKjPOZm2T1wgFUJLhVUphNuwxMNBqS8hRfotybog=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=EtXwJN0+3rPBTDKMR8z8vsbL98MFess+Cs1Dq9cUZgkKk9yEvXdVGxQ5hbAiAqRTs
-	 ef1+uu30Ll/0O/wDZi7zZeWGj3iESgSyP3406oCWeCpe68cHUp1iCD1bReBJVCxCjp
-	 1dt9gnzhAG5PL+0Eow4WCAR0NYfTu3OMKCEBToymqHsbojDEK+4xLrEhFojhT2p61E
-	 AxQZPV1UoHe9aOSQMAEOXba98Y+g+LmRKN2c9z802lJR9rGxWmZh+QRzXTa1RzyBrA
-	 yEnVec5QLAq2tyKkgWrPvGTxATHC6qDxqQvZ1JKzB5fcgonlrZ0hp184vjDpTrRO43
-	 IV6LttNnroR0A==
-Message-ID: <sashiko-outbox-235383@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/5] ASoC: tac5xx2-sdw: add tac5272 support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Niranjan H Y" <niranjan.hy@ti.com>, linux-sound@vger.kernel.org
-In-Reply-To: <20261126112023.29054-1-niranjan.hy@ti.com>
-References: <20261126112023.29054-1-niranjan.hy@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 11:36:33 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DK8jR8d4;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/R5vCsX0;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DK8jR8d4;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=/R5vCsX0
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6489F22553;
+	Thu, 26 Nov 2026 11:40:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795693257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ly8yrFBVa2P9olk+BKa0vu+hyswyvclZd/LftFXVWeI=;
+	b=DK8jR8d4gsb7RFhImjSZHJINArUsqizBIYuSyq5qJ8p38kt/FtBm+0FFrUxBeElePZyysB
+	1FYAlODt+1xuZsnVFfntRb12uo5E/hU8HkQf9U0/Xgn45x++/3HFmaSp9iRSjL36c0X3KV
+	B3jlZeR7IEluu68W/2t1dWnzgx9sWGs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795693257;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ly8yrFBVa2P9olk+BKa0vu+hyswyvclZd/LftFXVWeI=;
+	b=/R5vCsX090rDt4UTs620bgrla6z1uw0FbQ/y4HkZvpSAKdXtY1jINJTnGlzfikdYmMbhiA
+	t3WiJPgXuHveLqDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795693257; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ly8yrFBVa2P9olk+BKa0vu+hyswyvclZd/LftFXVWeI=;
+	b=DK8jR8d4gsb7RFhImjSZHJINArUsqizBIYuSyq5qJ8p38kt/FtBm+0FFrUxBeElePZyysB
+	1FYAlODt+1xuZsnVFfntRb12uo5E/hU8HkQf9U0/Xgn45x++/3HFmaSp9iRSjL36c0X3KV
+	B3jlZeR7IEluu68W/2t1dWnzgx9sWGs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795693257;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ly8yrFBVa2P9olk+BKa0vu+hyswyvclZd/LftFXVWeI=;
+	b=/R5vCsX090rDt4UTs620bgrla6z1uw0FbQ/y4HkZvpSAKdXtY1jINJTnGlzfikdYmMbhiA
+	t3WiJPgXuHveLqDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1D770134C3;
+	Thu, 26 Nov 2026 11:40:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QHyROcgaCGujcAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Nov 2026 11:40:57 +0000
+Date: Thu, 26 Nov 2026 12:40:56 +0100
+Message-ID: <87cxrr6cs7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?GB2312?B?0Ozqz8/o?= <xuhx@hust.edu.cn>
+Cc: "Takashi Iwai" <tiwai@suse.com>,
+	"Jaroslav Kysela" <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: ctxfi: Fix UAF when freeing a running system timer
+In-Reply-To: <2e224b35.12c4.1a21795e092.Coremail.xuhx@hust.edu.cn>
+References: <2e224b35.12c4.1a21795e092.Coremail.xuhx@hust.edu.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -57,118 +115,99 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,hust.edu.cn:email]
+X-Spam-Score: -12.30
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] ASoC: tac5xx2-sdw: tac_component_probe() registers speaker
-  path on tac5272
---
+On Thu, 26 Nov 2026 12:20:28 +0100,
+ÐìêÏÏè wrote:
+> 
+> Currently, ct_systimer_free is aliased to ct_systimer_prepare, which
+> calls timer_delete_sync_try(). While ct_systimer_prepare() must remain
+> non-sleeping because it can run under the PCM stream lock, using
+> timer_delete_sync_try() in the free path is unsafe: if the timer
+> callback is concurrently running on another CPU, timer_delete_sync_try()
+> returns -1 without waiting for completion. The caller then proceeds to
+> free the ct_timer_instance object, resulting in a use-after-free in the
+> still-running timer callback.
+> 
+> Replace the ct_systimer_free macro with a dedicated function that calls
+> timer_shutdown_sync(), which waits for any running callback to finish
+> and prevents the timer from being rearmed before the instance is freed.
+> 
+> 
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Hanxiang Xu <xuhx@hust.edu.cn>
 
-commit fd04f2d835d7450161d1e9e240c16a2e7cecb8a0
-Author: Niranjan H Y <niranjan.hy@ti.com>
+Now better, but not quite yet.  You've put two blank lines in the
+above, and it can be a single blank line.
+Also, it'd be helpful if you use the same From: tag as Signed-off-by:
+tag.
 
-ASoC: tac5xx2-sdw: add tac5272 support
+But, the biggest problem is ...
 
-This commit adds support for the tac5272 SoundWire codec variant and
-refactors tac_component_probe() to dynamically register common and UAJ
-DAPM widgets, routes, and controls based on the part ID.
+> ---
+> sound/pci/ctxfi/cttimer.c |  8 +++++++-
+> 1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/pci/ctxfi/cttimer.c b/sound/pci/ctxfi/cttimer.c
+> --- a/sound/pci/ctxfi/cttimer.c
+> +++ b/sound/pci/ctxfi/cttimer.c
+> @@ -111,11 +111,17 @@
+> 
+> static void ct_systimer_prepare(struct ct_timer_instance *ti)
+> {
+> + /* non-sleeping: also runs under the PCM stream lock */
+> ct_systimer_stop(ti);
+> timer_delete_sync_try(&ti->timer);
+> }
+> 
+> -#define ct_systimer_free ct_systimer_prepare
+> +static void ct_systimer_free(struct ct_timer_instance *ti)
+> +{
+> + /* may sleep: wait for a callback running on another CPU */
+> + ct_systimer_stop(ti);
+> + timer_shutdown_sync(&ti->timer);
+> +}
+> 
+> static const struct ct_timer_ops ct_systimer_ops = {
+> .init = ct_systimer_init,
 
-> diff --git a/sound/soc/codecs/tac5xx2-sdw.c b/sound/soc/codecs/tac5xx2-sd=
-w.c
-> index 43584bebdafee..a541f95e4cc5b 100644
-> --- a/sound/soc/codecs/tac5xx2-sdw.c
-> +++ b/sound/soc/codecs/tac5xx2-sdw.c
+... your mailer broke the spaces and tabs completely, hence the patch
+can't be applied cleanly at all.  Please try to fix your mailer setup
+and resubmit.  Or, at best, use git send-email for submission.
 
-[ ... ]
+It's better if you can test submission and verify in your side at
+first; i.e. try to submit to yourself, and test whether your can apply
+it via "git am".
 
-> @@ -1353,40 +1387,78 @@ static struct snd_soc_dai_driver tas2883_dai_driv=
-er[] =3D {
->  static s32 tac_component_probe(struct snd_soc_component *component)
->  {
->  	struct tac5xx2_prv *tac_dev =3D snd_soc_component_get_drvdata(component=
-);
-> +	u32 part_id =3D tac_dev->part_id;
->  	int ret;
-> =20
->  	ret =3D pm_runtime_resume(component->dev);
->  	if (ret < 0 && ret !=3D -EACCES)
->  		return ret;
-> =20
-> -	if (!tac_has_uaj_support(tac_dev))
-> -		goto done_comp_probe;
-> +	switch (part_id) {
-> +	case 0x2883:
-> +	case 0x5272:
-> +	case 0x5572:
-> +	case 0x5672:
-> +	case 0x5682:
-> +		ret =3D snd_soc_dapm_new_controls(snd_soc_component_to_dapm(component),
-> +						tac5xx2_common_widgets,
-> +					ARRAY_SIZE(tac5xx2_common_widgets));
-> +		if (ret) {
-> +			dev_err(component->dev, "Failed to add common widgets: %d\n", ret);
-> +			break;
-> +		}
-> =20
-> -	ret =3D snd_soc_dapm_new_controls(snd_soc_component_to_dapm(component),
-> -					tac_uaj_widgets,
-> -					ARRAY_SIZE(tac_uaj_widgets));
-> -	if (ret) {
-> -		dev_err(component->dev, "Failed to add UAJ widgets: %d\n", ret);
-> -		return ret;
-> -	}
-> +		ret =3D snd_soc_dapm_add_routes(snd_soc_component_to_dapm(component),
-> +					      tac5xx2_common_routes,
-> +					      ARRAY_SIZE(tac5xx2_common_routes));
-> +		if (ret) {
-> +			dev_err(component->dev, "Failed to add common routes: %d\n", ret);
-> +			break;
-> +		}
-> =20
-> -	ret =3D snd_soc_dapm_add_routes(snd_soc_component_to_dapm(component),
-> -				      tac_uaj_routes, ARRAY_SIZE(tac_uaj_routes));
-> -	if (ret) {
-> -		dev_err(component->dev, "Failed to add UAJ routes: %d\n", ret);
-> -		return ret;
-> -	}
-> +		ret =3D snd_soc_add_component_controls(component, tac5xx2_snd_controls,
-> +						     ARRAY_SIZE(tac5xx2_snd_controls));
+Last but not least, at the next submission, use either "v2" or
+"RESEND" prefix to indicate it's a resending to the subject, e.g.
+  Subject: [PATCH RESEND] ALSA ctxfi: ....
 
-[Severity: Medium]
-Does registering tac5xx2_common_widgets, tac5xx2_common_routes, and
-tac5xx2_snd_controls for case 0x5272 still register the speaker path on
-tac5272?
 
-Although tac5272_dai_driver omits tac5xx2-aif1 ("DP1 Speaker Playback"),
-those three tables still bundle the Port 1 speaker widgets, routes, and
-SmartAmp controls alongside the DMIC definitions:
+thanks,
 
-sound/soc/codecs/tac5xx2-sdw.c:
-static const struct snd_kcontrol_new tac5xx2_snd_controls[] =3D {
-	SOC_DOUBLE_R_RANGE_TLV("Amp Volume", TAC_AMP_LVL_CFG0, TAC_AMP_LVL_CFG1,
-			       2, 0, 44, 1, tac5xx2_amp_tlv),
-	TAC_DOUBLE_Q78_TLV("DMIC Capture Volume", SM, FU113),
-	TAC_DOUBLE_Q78_TLV("Speaker Volume", SA, FU21),
-};
-...
-static const struct snd_soc_dapm_widget tac5xx2_common_widgets[] =3D {
-	/* Port 1: Speaker Playback Path */
-	SND_SOC_DAPM_AIF_IN("AIF1 Playback", "DP1 Speaker Playback", 0,
-			    SND_SOC_NOPM, 0, 0),
-	SND_SOC_DAPM_PGA("FU21_L", FU21_L_MUTE_REG, 0, 1, NULL, 0),
-	SND_SOC_DAPM_PGA("FU21_R", FU21_R_MUTE_REG, 0, 1, NULL, 0),
-	SND_SOC_DAPM_PGA("FU23_L", FU23_L_MUTE_REG, 0, 1, NULL, 0),
-	SND_SOC_DAPM_PGA("FU23_R", FU23_R_MUTE_REG, 0, 1, NULL, 0),
-	SND_SOC_DAPM_OUTPUT("SPK_L"),
-	SND_SOC_DAPM_OUTPUT("SPK_R"),
-
-On tac5272, this exposes dangling speaker DAPM widgets/routes and
-non-existent "Amp Volume" and "Speaker Volume" mixer controls that access
-unimplemented SmartAmp SDCA registers when read or written from userspace.
-
-Should the speaker widgets, routes, and controls be split out from the
-DMIC entries so that 0x5272 only registers the DMIC and UAJ paths?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126112023.2905=
-4-1-niranjan.hy@ti.com?part=3D1
+Takashi
