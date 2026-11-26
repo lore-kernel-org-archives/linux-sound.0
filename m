@@ -1,97 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.179
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795676659;
-	b=ty4hbVtAC6UQNiPz/yqFoG20tXm3iNo1E5XMyg3/7EsUBC/zdV807gHIvzEWE7Pd+8g3
-	 Oyk5XN71DsuI4fKWmSTMsME8IYMYUg4yH+4Oz4L21OxDvyOJmFTShHBxVBdKSKay41RsZ
-	 F2jFgC8zYh0Xqo+/tdMQYLJSSQn5dO8Y5lkFSSXJZLa2pgsTput9L6bhIZEllysNjVJjc
-	 oMyPW0p7HmG0uNiXvtjp9ZkSqJFuxJk1mE12FlHWTAUOZPDRMQKB2vhnJaMENV7UQSEeu
-	 C/Ip12H48osL7FMQ4xlY1yl8hVaOfNwrzHuPn0mEgtc0rB4lvF80LX5qBXdCEWQEYRg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795676659;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795677774;
+	b=S0GAZgBvTIy/AWyf9U5aEoeid0smWjzDIodOZL3A/txqPXBDBejzSUr2k4dbJjl2LPOW
+	 cqbVzyev9lRYA7eqOskz7c8vtxG5meTPzKYk7EvMZxNHzgWtR1d1+JEXqFYGddt71KgGG
+	 smPXzr2p6t9RZdwnJVtKPmWK0OSVXWomI84QMWptl/UJFH7B3nKK6asYy+ZtBkobUonN5
+	 YQ1yKhOiST3YFrjKdpWGxwFNGGTh0kQY9w5SchlLwUk9vTLBsz8Wnv4HOqPM5Mk431aZS
+	 Y5azyVVTrozy2sttelgZ8QZ2R4TeYxQMaFUAhXwTMHIwyRr8RkX5BYprJ4YjIR6B+9A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795677774;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
-	 X-Gm-Features:Message-ID:Subject:To:Content-Type;
-	bh=yGvBvYGWK+mC71ObyxvpPB7MWSlsSJBWFVbyDYkaqO4=;
-	b=VBfcUsJzcgV4wkFqcxGVDTRC0QC7/OH0lMl1a7UFpo7cg79ALyWfF1yCty2IthLfLrrj
-	 XecNAcCy7hRVdVCKu6beAirdWgmpqg7f2sh6v+THjjgyO9xWRYSAaTS2t2byVMyrlUqzt
-	 sYmjHzjCs9cMd7kp2yKJmcsruSX3t5qdF6/mV6Ft0bgyUq8xRXQzzJ/F355ZUB+HNpcsP
-	 /SJsv86Ll1Lc990DkLkaKHUy9xZ0jNNZWeqUlY+4cT8gmLnkikuMLZFO+z+4VUOxXqX28
-	 wz1QTCbTtq7t4USMpwduFMPzW/4QkPVfClR0h0nl8xcCbz5zE0/H5BEU90J0WNiLkrw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=tyDcKx9CSg/sf/Q8nvmg2kdcVjW3+Ux75hmWCkkVGgY=;
+	b=fwEYhZZIzOmWulodw5EccWA7IovWgLrkmjQ7RM0ZC4lraUov6n+mTFPtIFYRydNNOzeL
+	 htWq3umWQf1kLfsoOn+QYVuAFQ5D0b9VMspuCr3h8jn48zv6mg7v3DeNa8J0MaBZ3Xlol
+	 KzVyrfGvJreaZdgciepOWB6FY8LfSKk+YoQco6yXr+9KtzXaQEobenooFinjUZe4swpcz
+	 mla4wgLikb8cRBCt6TGIySVTQ04bQVbHv0JLKx66ObJgwNDyj+7UT/h5Wk8euP2gNxnPC
+	 6tL6ODVbFpcCzgs6doR5bffWZTnSjL7zlrevljUFXNQTscEY1mquwyZAvdrtmzg/tjQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y2KxQ3sp;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.179
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zFSxe0tK;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584C7606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 07:04:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 584C7606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE31606A323
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 07:22:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE31606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y2KxQ3sp
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cdeaf4ea5e0so893791a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 23:04:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795676659; cv=none;
-        d=google.com; s=arc-20260327;
-        b=J9w4VdBFFSJBmhxu2HAu3dSZEm6tiW39j/jJUMsT5PNiQz2gjbbw5G/zowrwmiN4VN
-         yOzyPLzsGexTAQKhWVIXUnjSYP+9WsWAnFJR434yrdBMAnrguN5TGndTIfvkYKvoLzER
-         eC2qIJg14pQsJTERUjTvdsGOTxzR6ijM/C8L4fNspzQJuKfTTlbhl+MxmRRH2GBSJucY
-         N4seb5ifOkF2vNnSIi/LbpvEjoaAc7o4Pc6Zy3vsDcgt/pTUldlbJUueMTvtIzp2s1cy
-         rep93BtwY9bR0rFK6Df2w7NX8QlWJd6V+Vhmm0+Y0qbgzn58XJrojeKEnmARvfh3YFwE
-         Zp3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=yGvBvYGWK+mC71ObyxvpPB7MWSlsSJBWFVbyDYkaqO4=;
-        fh=7xL33lZ3DZeA6adqGVHVFCb+oWnTbg0PgQbJ47YnPsI=;
-        b=Gb1GqnfpHm4GFrIZGH9FEh//RW/D1Vib3thCJEw7/+3Y9n7x/sStAgKHA7zYAySFs8
-         zL1vsj/jTijt0aKXKS/l32nch35oSgvMkLocDv/5bc5AdmFnGdKjOs4TUKBjcfR3VFuN
-         QuGhqQr8GN5+2pyq5KjJF3W7lVj+RD3CTgU2Bq0OtutY20H3/O4ohGfJF/8bsRE8O31B
-         xcEDQsdock/2Zm877f3pRNavbFHpG6NBVSNm86trXJGY50vT1fXvgi5IQ/2T0ui6CJ97
-         Ya8vi6hgtRDgcyp4iPjkFfylXBbZBQJTgL9+K1IbNHNqOk6qSSFvZFS4jNz5kclWMuuo
-         QpcA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zFSxe0tK
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1b244fb7fffso7073369c88.1
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 23:22:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795676659; x=1796281459; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=yGvBvYGWK+mC71ObyxvpPB7MWSlsSJBWFVbyDYkaqO4=;
-        b=Y2KxQ3spksYOEmuEUyR6NkBrzFfof6DfBqf5ft5VC1wgYpbOhZ/jenhe8W2hm+JGLT
-         EewNzuFZtr0M8WJU1RjbM8pk07X3DROwZ9yV5gkiwMNsB3N3bezEccH9JZDJKhqhlI+i
-         5nBbfqz87qvjlLAiceLVeQ9Gov5TYJbijUoCCGxe920c55WZkCc87qzH2Xdz2f3fRUlK
-         sYH9HT3M3qii63znrHtmJSMMhdhPssB5MHGgKPU1GPRbFsinyY/j+c6VbGEKVK3aY4DH
-         cQeyfVD+xYaVNsfTaGdwcuV6w1ft9lU+VY0iDcCfezVYQea8vxre7lb2Vj9eXGVDW7AN
-         G1DA==
+        d=gmail.com; s=20260707; t=1795677772; x=1796282572; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tyDcKx9CSg/sf/Q8nvmg2kdcVjW3+Ux75hmWCkkVGgY=;
+        b=zFSxe0tKCFqn8MxIMSdTCjZ9UDplsJ4eIz93lwm3oztmDyLdglyn7ek/tGsuMComAb
+         VkCPLPWJ4jJrIZXmRUsfOZQOdVEpevIRHfOGCRIYt8hAxadjdH8caxLLbe/o7Bg9ItXD
+         dR+1txKolmO5CHnbxPohxEEa/EECJPNnJT6qhxz2TSJsNL2ZZmFg00ouoUbeElwAJ5wB
+         QCPe48AYiAf8MnI1K2eN4X2RISOVwuveasiaOURpl4bpABxHGTTYOqtXT37WRyuqFcZa
+         Bv7JCo6M5jSZbbkiR1VS/VobJzzG4tPW+y8IoYgqut8R4uumr4FGFglHhvLmwNZbNYSY
+         I0Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795676659; x=1796281459;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yGvBvYGWK+mC71ObyxvpPB7MWSlsSJBWFVbyDYkaqO4=;
-        b=ooMG+D16vgPMrOB2+m1aG6m9MdkxUUZp0Pfmh/SPf/mgHyAWYfZNir8UMsC+wFUvxz
-         cNI9xG38RU2Kf0mihp06qOBEZOkAn7yDo/ck6miAyRnpKtg5lw1FmUvtpylfR6wdcdr2
-         mFHuXeNzHAf5fmxBuZplsGngm+RD6OUN7mSYOlNB10xJ37NpUNNnFE5NZPljFfCpFzdI
-         Qe9OeDg9AfY3Jhyvkg6zGITrh3erZPOknL8OIHC4kd7l/kdZxUKiGrfCNNLYekgyAPf5
-         78gMH0IMGcDm1l173xjsD0dduEeKtTK/+/FFTJD3TbMZ39m9QiMGr2r3kWl8ZOayqxPS
-         Dkfw==
-X-Gm-Message-State: APuU4Z+cAYXChaXxJD6pDbbWBoi+dZUfMd//touLt6gLdXrptnrVLcyr
-	wu0WTyROnW6ydvW73JtO8ZrIAznT3xKr251hI+Z770CRNFYMgPRbJ5gT8BmrhSMh/hlDh1eVYO5
-	JcJjFbCJbQ+ftz8C2QGau2Oyt5ZiEaE/xl7hq
-X-Gm-Gg: AZFdTZek7s4kcpPYN+0/WHuvQS1K2dscCrbWxEkRj5S4Woxn3bWXAoSGxqn1yG9ZZNq
-	eocm2MvyLHyTgxMAKNXB+WZF0gg72H+thykkbfHAcjrkmlCIjhg/9Z1zahyd1W9914wJCqr02ZS
-	eNAlFwMnpUB+6CNQXGRfVmwOn7GSBkJcDvfdWXtMzq2KPZw5gCT4ybuv9CmUY0mOMwUIxo9DGd3
-	X+AZRd5BU8dXApVtqD/dlG/UtzgyfXxhWj9i+IX9bmJdkMNz95aG9VaxeSgdYr8tXyVCzptaOki
-	2FSweOUgfrucMS7EOP9xULXgC5dgwrjzm2qkUNITp+0O46GzaGtl9J2j0uF/5MwdWEw0YKCiaBg
-	G/IF/fhp6WOfTmbnqcGtmfqQaF4CkEzrHSGUutJrOlCaXsMOdX0uhPtGfHL3LGkHjaJGAr1QaCm
-	P8+Td1QJdZTt8C4Kw7UTYTxjBoRhz4XyRHxX4M2m4HIqDv+OvGHjt1dWpCCg7tJ/C/XqWjXUH1E
-	SjU/llkVhTeksOyR4+DKkqaFkRV+Myjyuv30zamHA==
-X-Received: by 2002:a17:90b:4406:b0:3ac:36c7:c144 with SMTP id
- 98e67ed59e1d1-3b41c93cbfdmr12643941a91.28.1795676658435; Wed, 25 Nov 2026
- 23:04:18 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795677772; x=1796282572;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tyDcKx9CSg/sf/Q8nvmg2kdcVjW3+Ux75hmWCkkVGgY=;
+        b=f+qlzrk0mGQEtF+ABwrP/AmqKu7CkyJjaaT7zq8XuZShPOG8QSubmD2HZ/e8lfX+gu
+         ZAoj9VsSytFUa0VpuW16i3ZsZWQb7GPIZC04pdVJRAb/Lv+oJJHLh3w+UnoSjTvCExDa
+         KG4OOoa/dO7YEKUVnRFLbTfYfH1in7I5DAd/Hq4NSOy0V2rZaek1NikhP+X05BBsyxNb
+         FLq5tdhi5DFErKtHEsWvuDshMZMqQulSMsQg07Tj40di94neTgvPyy2N8Ayw0l5tcPr3
+         SBcSTw6hfMvvKKqsxOnL041tA/AoDimzBEBuwxtMvjNGuW4ZtDlzXU6xhZ0KN4qpc2hC
+         HpKw==
+X-Forwarded-Encrypted: i=1; AL+hErEUI6fcApxKsAUR+M0M9oualXDiXKTHS4tsgbbAc89ZLjQMmNRIOiv99jiVLiQxfCJc0fGPL949j++6ig==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/hN6jkxytTckgi1+NAVbRhUG4VZHn1dXsIQeGT2D3uxgHOWHkI
+	pxCAXMVMV6G2vqzq8k0+wCimmO+fjO5bHTpdH1d/fxI8WD8RayVw+mSs
+X-Gm-Gg: AZFdTZcPJQpPlSekVj82StZbSoR+dNZw28S79uwfRNWLlrOwwwnQyUpsmnDlUElfFwl
+	GWhA+YU1Vm8i9RHg1IgbCvymMxC9eSYBluNufzbnMyfG465SCEd3G0JMZgu3dGtwM7Luc4etorF
+	R03VB3BSGoB9X9b1TgELsNpFGmVKJ7mQwEYR/SlchDzxifa/RxOQdhhDPRukrgIU7TGQESd8d0C
+	jldhwIXGrA7UiHPrpDpnrjUC0yEeMWmNYTPac8lTvaph+hKUJJTDDLVgYllt3ZC/dRaFy1EgbtY
+	9v67iAZ3HccieiBhD9HOVDOoowT6QLxC9KNYpLdBW7pLINwrOQCdtgUqfQauwlkRfeXsvV4lE0z
+	NNkc0rmvCSqjsnAEZJtJGD2uf2gaEOZTlSm+DDcvcl6LAk2Br3dx1TwyFo8+0fN2YqeuCzZLsod
+	UUbvaKntui7eU1dFwfLSlsI72SVGkKsC1zNLaR5pBymck7YKtmkQnUqLJnLVpHc7QsyLWESdXoH
+	xkEU8/H7UVIrxc5yteTMMwg8ylLH6MOIYBwk+iB/jFTPBLsyKAFjgBn8PbgM6EM4R1z0wX1pmPE
+	MIi/MOe1j1sasBLUzVyL3P6DulXNDzQP9vQ6q07dIZVb1THfZFdJ3uxnIHiuZH+sl1Oeor1G
+X-Received: by 2002:a05:693c:8843:b0:386:b429:fe0 with SMTP id 5a478bee46e88-386b429175cmr10099537eec.16.1795677772417;
+        Wed, 25 Nov 2026 23:22:52 -0800 (PST)
+Received: from localhost.localdomain ([103.179.230.77])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567ea2cc5sm55674215eec.29.2026.11.25.23.22.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 23:22:51 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] ALSA: vmaster: Retry follower initialization on failure
+Date: Thu, 26 Nov 2026 07:22:20 +0000
+Message-ID: <20261126072220.4496-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,71 +96,39 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-From: dahmane dahim <dahmanedahim04@gmail.com>
-Date: Thu, 26 Nov 2026 08:03:41 +0100
-X-Gm-Features: Aa3M54qceJ8DXVVBRcMnQvCRk_fcu7VQMgRV1I2LAv0LtgcImmPlsuh6ygGAe8k
-Message-ID: <CAM8-Xq_80fp-Tv4R5aoyKtVhH8On=TMOxZY66goYtQDP9o1XDA@mail.gmail.com>
-Subject: ALSA: hda/conexant: HUAWEI HKD-WXX (152d:1350) speakers driven by
- headphone amp
-To: linux-sound@vger.kernel.org, tiwai@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Reset the follower count when the initial follower update
+fails.
 
-(Resending: my first message was rejected by the list because my mail
-client added an HTML part.)
+This allows follower initialization to be retried on the
+next access.
 
-On my HUAWEI laptop (board HKD-WXX-PCB, BIOS 1.22 of 2023-08-30,
-Conexant CX11880 under sof-hda-dsp, kernel 6.18.65-1-lts) the internal
-speakers are only audible while "Headphone Playback Switch" is on.
-"Speaker Playback Switch" has no audible effect.
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+ sound/core/vmaster.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-This looks like the same wiring reported for a MACHD-WXX9 in
-alsa-ucm-conf issue #863, which was closed there as a kernel driver
-problem. Mine is a second affected model.
+diff --git a/sound/core/vmaster.c b/sound/core/vmaster.c
+index f43144ba2797..d97d7bb33e16 100644
+--- a/sound/core/vmaster.c
++++ b/sound/core/vmaster.c
+@@ -102,7 +102,14 @@ static int follower_init(struct link_follower *follower)
+ 	follower->info.min_val = uinfo->value.integer.min;
+ 	follower->info.max_val = uinfo->value.integer.max;
+ 
+-	return follower_update(follower);
++	err = follower_update(follower);
++	if (err < 0) {
++		/* allow initialization to be retried */
++		follower->info.count = 0;
++		return err;
++	}
++
++	return 0;
+ }
+ 
+ /* initialize master volume */
+-- 
+2.55.0
 
-IDs:
-  codec vendor 14f1:1f86, subsystem 152d:1350
-  card long name: HUAWEI-HKD_WXX-M1010-HKD_WXX_PCB
-
-Autoconfig:
-  line_outs=1 (0x17) type:speaker, speaker_outs=0, hp_outs=1 (0x16)
-  pin 0x16: 0x03211040 (HP Out, Ext Left)
-  pin 0x17: 0x91170110 (Speaker, Int Rear, NO_PRESENCE)
-  pin 0x17 connection list: 0x10 0x11*  (0x11 selected)
-
-Measurements while playing a tone (speaker-test -D plughw:0,0) with
-Headphone switch off, Speaker switch on:
-  Node 0x10 Amp-Out [0xac 0xac] (muted), Converter stream=1
-  Node 0x11 Amp-Out [0x48 0x48] (unmuted), Converter stream=1
-  -> no sound
-
-After "amixer -c 0 sset Headphone unmute":
-  Node 0x10 Amp-Out [0x2c 0x2c], Node 0x11 unchanged
-  -> tone audible
-
-With Speaker Playback Switch off and Headphone Playback Switch on, the
-tone is still audible. So the audible path goes through the Node 0x10
-amp, even though pin 0x17 reports Node 0x11 as its selected input.
-
-Volume: Headphone Playback Volume (default 44/74, -30 dB) sets the
-speaker loudness. Speaker Playback Volume only changes the audible
-level in roughly the bottom 6% of its range and has no audible effect
-above that.
-
-Jack: with a headphone plugged in, the jack is detected, but the
-internal speakers keep playing. "Auto-Mute Mode" is Disabled by
-default; I have not yet tested enabling it. This matches the behavior
-in #863 (speakers and headphones share one amplifier).
-
-Userspace sees this as the speakers being silent after boot, because
-the stock UCM Speaker profile does not enable the Headphone switch.
-I believe the codec controls should be fixed in the driver instead.
-
-Would a quirk for subsystem 152d:1350 in patch_conexant.c be the right
-approach? I'm happy to test patches or run further tests, and can
-provide the full /proc/asound/card0/codec#0 and alsa-info output on
-request.
-
-Thanks,
-Dahmane
