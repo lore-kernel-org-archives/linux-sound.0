@@ -1,45 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795710684;
-	b=WNR6V7l6XGMBRgRUKVlt+w9aml+jraDDHaqigo0O5lR5btNFSxOF0ZcAIuZYEzfHnERy
-	 e+EP9lAzXmwaNVFBhA0TPUeOeZrry53JDJBQVMa8ncIeRXSAKeqv3BPTOw1q/bR7H0+IZ
-	 1Ru1dC6jYdu1FHO5uGbdWe0jfIcNfFGaKpIp+BnpuS2GCmoosU0DQ01/C9cjErJztQ9s6
-	 Om6AT3AfYwIN2ucUIDDCpBxVzwVhsBc3j+zn6Nftfmfs7QAcFheeiw/BupWe+6qzLozEb
-	 bYPC5+kvVweWrQQebUELCc7lFi49bIU+ZonyUsMAIhyP5r1RvfKjM8LvuBBqBcA2oow==
+	t=1795711225;
+	b=frP1j2rabLFGVUYASpUFJadi63nFBAuJ0cxD2I62gvY0Hqs4rRP84osfudex5Z0PfCzF
+	 DDvwWcZFbf9LFhp0cfQhCkNFQtqugcuOAJtvbrCOSaVLAlCkH5/xbzZGfxVql+7mFD4RU
+	 JJQJnBx8tfG5Xa9ijbsmYqsRqeZx0rohTOlYpugS3n7BqmOOUgZ8mHc2uSC5xLGebV1Y9
+	 Bwcuwy6+yD+00NpZ+VZclKYZbLSQhHqRbiHIerTVxNIX/XsjAdLBEfin2UDIfwJoYtZ5v
+	 h/wi1FpZ5wQAeuYZvxev5wdHmRzBNEWzwcTdvJbOv8zt8nniYIUs2+aSI1tZ64BSWHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795710684;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Y6mwa6JaipxYZmHI1pVYp6bqhfhFFRSWiRYySf+vbvE=;
-	b=5rmARhz1lgJVKOa7C1sMppZSjUIEHdgRr/cCfXFEBcXIcZlmc/H2I8AJhwczcY67uJpF
-	 7iA/1309hnMwdGJFJO8J9MYjPuOv3y+6bs8MoxGId6MYN2BJtxt6TLOyleK4mboxISdQR
-	 fTZgpCtGkHpwtQvTG+1AH1900PDbE9fA7SB57EvGHMsx4MLQvuiBXhYiDzdGKvXkaUEdV
-	 JAESpGwQN9UudGOA9ou5W4AA4pSm5kSNN6SEa43iNrFQlhlHLf7uMPi7JCY/6IXWbVdWA
-	 scvlBy490qjCnemyERHlG8Duff+gSoeL4sdsHnUiMcKurfBArEkfUg+eZ8sv3jjtCwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795711225;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=9VkLvgIRZ68OJ/WXBBOGnWxuaTZtPsMPLbexEcJ6x+Y=;
+	b=HCQzgMZwupQz4EL3t3oHzUdNQ9fT9QP58sCkpqaIXbs5pvMEAN+klJ85awUa5IVgf5Y1
+	 s4bwdxwWpzqs7NSlM3V9ZsmIJKbTAZklOrJXj9qi/wlj+w+7olU8v/gNb1yXOlWSkVcIV
+	 xsd3ffs2NfX21gADu/EGj0xMp26CF9pPVJyRxxJONnOFT95B6gxKTNb9oiCUE2mqzi2S6
+	 3A/mLLRUoywKGt776hBOrIha4XK53lyTAIvtWO2pSp5WBQJ4vlhtqvn80jTF51aNJsIXn
+	 yIO89s4JduMPRvbE9q4Mfi/voLIWGxu3prp6ccO3rQKx1hC4uwRbmUwNVpasoBpDmyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DWh4xd6u;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A29Bi3kz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCC0606A31C;
-	Thu, 26 Nov 2026 16:31:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FF1606A31C;
+	Thu, 26 Nov 2026 16:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DWh4xd6u
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DB01F000E1;
-	Thu, 26 Nov 2026 16:31:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A29Bi3kz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7600D1F000C6;
+	Thu, 26 Nov 2026 16:40:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795710684;
-	bh=Y6mwa6JaipxYZmHI1pVYp6bqhfhFFRSWiRYySf+vbvE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=DWh4xd6ubEnn4fzLORytu8P385JM5+HCk2KLPQs5ErqqUiXwf9nf3PmMGR3IC5rXK
-	 BjoBi6R+VIOrG9idFWwsdptjfJG57/q0zwVTFF3qIQyypzMsvj683lXBlpPPA6dvqs
-	 OmjDQOw7NCL5OQoiYeRiEEDMUYD9gb0Z5RKksSLRCGGvaA3cQ+c5PGLQGquvWhHsqa
-	 /EAMujDDPWHMMdU6KPni3pBfi4X4DSFnhIM8nn3F8JrqBmAhdLx9NA9c3Jrvicko6Q
-	 VES+f8/HmcID0ngvbH7nfQZzlE0/Vmgkao0AQ+humBvUV+dTi1K2vZGEVkKyAvMKfu
-	 qiQQVSD3wYf/w==
+	s=k20260515; t=1795711224;
+	bh=9VkLvgIRZ68OJ/WXBBOGnWxuaTZtPsMPLbexEcJ6x+Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=A29Bi3kz/30CE1dNFXHf4kLa/Dpn/G8daYCIjDvAR+RGqGbLoPF6+sxCmEtkL2NFv
+	 i08s99/+ecunIy0vTFW3eNDGVnEJ5UxxXGGmWsUd/TeJ4MSqVGXc/7sThKZaRPvqJe
+	 3MMzRYL1yd0jooOvqw4HpieSAE+QedDg6CqaQPG8z+zFphRLLWzqFmYu9BzilV8lgg
+	 ienBWfVlAZezbvg1h6mLEUkqtcw567rM0ju+i8yEgObjbwLZG2pnehIgi4d40Fxibj
+	 5AuHqG3FIgF74HtPC1S2ItDXsaYbj9kYc2F4+o0smYSZ0AGFNKHpIiPR77oHMTERVK
+	 Z2ZwbS7EVFlfg==
+From: Mark Brown <broonie@kernel.org>
+To: Marco Giunta <marco_giunta@outlook.it>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <SN6PR19MB23038B66A212CA32A4B6B3CCFC472@SN6PR19MB2303.namprd19.prod.outlook.com>
+References: <SN6PR19MB23038B66A212CA32A4B6B3CCFC472@SN6PR19MB2303.namprd19.prod.outlook.com>
+Subject: Re: [PATCH] ASoC: aw88399: fix register used to disable I2S TX
+Message-Id: <179570289314.142532.6108383649171354943.b4-ty@b4>
+Date: Thu, 26 Nov 2026 14:21:33 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,48 +61,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] ASoC: hdmi-codec: Clear the parsed ELD on unplug
-From: Mark Brown <broonie@kernel.org>
-To: Roy <rongh7426@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261126103757.655758-1-rongh7426@gmail.com>
-References: <20261126103757.655758-1-rongh7426@gmail.com>
-Date: Thu, 26 Nov 2026 16:31:19 +0000
-Message-Id: <179571067964.142532.4165076016076340495.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=996; i=broonie@kernel.org;
- h=from:subject:message-id; bh=LgnXw2XvaXIyFLlF9cwitJAMbyTGh6SNmDkHMxM2HzQ=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI54m68XFLJfPWPJkfNv7+75NMdjm25P++vyYMk5imWb
- +rsP6SpdZSyMIhxMciKKbLEZXG/rC95vYbv4MI2mDmsTCBDGLg4BWAiXjsYGdql9GNuS168oTBx
- j+vP89Gakx5mn8969cpfZ+FUn/8LXmxmZPhkrPLiYOI8hVmeAj/O5l8Q5khvzGbpkj58cvP7SW6
- fAlkB
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1118; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=SB5/cfXUGdvfXqKupjXdFaOohRU8JpGABUi1HnhLQ4s=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5Er4unRnntSBCzyFt2etbiWoLPx6Yn/3jw1tvscZL6
+ 7lPP81/3lHKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJWE1lZHjH2aMjVhFYvZHX
+ Nv6e9FuWgM/JWRUOUz5uf3vjY53UutcM/4vN9tqv0Zkq5KMxb7m+5we3n8Z777LXrqrXuSO4l/n
+ ODh4A
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> When the sink goes away, plugged_cb() clears the raw ELD but leaves
-> hcp->eld_parsed as it was. The eld#N procfs file prints eld_parsed, so
-> after an unplug it keeps showing the monitor that was last connected
-> until something is plugged in again.
+On Sat, 21 Nov 2026 08:05:10 +0100, Marco Giunta wrote:
+> ASoC: aw88399: fix register used to disable I2S TX
 
-> Fixes: 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs")
-> Signed-off-by: Roy <rongh7426@gmail.com>
+Applied to
 
-Can you please fill out more of your name, see submitting-patches.rst.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-> +++ b/sound/soc/codecs/hdmi-codec.c
-> @@ -973,6 +973,7 @@ static void plugged_cb(struct device *dev, bool plugged)
->  	} else {
->  		hdmi_codec_jack_report(hcp, 0);
->  		memset(hcp->eld, 0, sizeof(hcp->eld));
-> +		memset(&hcp->eld_parsed, 0, sizeof(hcp->eld_parsed));
+Thanks!
 
-We should probably do the update before the notification, otherwise
-userspace could get the notification and read the ELD before it's
-updated (this is preexisting but the more we're updating the easier it
-is to hit the race).
+[1/1] ASoC: aw88399: fix register used to disable I2S TX
+      https://git.kernel.org/broonie/sound/c/1e5a677a5c53
 
--- 
-Mark Brown <broonie@kernel.org>
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
