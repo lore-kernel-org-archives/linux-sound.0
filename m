@@ -1,56 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795689191;
-	b=1rW7pheEtMXaPHCTnt4LpCDKPbNxkstFBVuxPdAKKie4iM7Up079VA+R02FUPFHr7k/s
-	 qihneef6bDQhcfsEcLyeT7gq7BbkWYBfbloPtDozUXlvITjjCrNjLu0hpfq0okwBWKTui
-	 puuaSvPRCb3H+yC1wboy7GH/0/dLb922/VNGex3zN+QeyaHyED+TIGmjOU9vXNOpjyFrs
-	 teUo1/81IuPwUbVMGGa1KDiLZ/i+WBEbx/CwmypWTwGCxA+ZNV169z1ermFMFa8wrNlYO
-	 V6pJPCQ2Rx5ObtR0PXvHRu5z2ZvnFOUCh+dgAz0CPXKAymRN5wzEBdHaHSbDr40Yg0g==
+	t=1795689483;
+	b=HIkiwhQxmyEaH4lQPplJV8VZnfamYAmpUX6Yq4mHdvBFD2ssB7aBgnkMsm0pBQqWb/YO
+	 vAoLdtqLuQ9kSK5cWxD/wm2S2t9Cjbq3pbaoZB6N2U9ermsBMtCX9AgK6Nb55oFKwrPH0
+	 UFxmNN6ES/luSZw0DGRGWetdpUk1LyPdG+jAbDqaDkV4guwP4zoyGJq00wc8iPCHvaZkG
+	 5v+CAxy9kbBbyvQAiODJG0qP/+SXtgxqPjJ5wFsdukq6f8DB6zIBaYSf89JphfGOTkiJ0
+	 ti6BzQy/8B8OEsCfAHVbdv1HOWOSopxLk6HFLSd+KgjCq56Vni7TjPqp35NdG/U8R4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795689191;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=URBTmVc5HIt3ARgLVG0dLuL2usV497Fl4XWuyk4JQdg=;
-	b=rwydPpiBlVjiOPSa5NMiA+CdfdKRRbo3DzCHMI5X5Ne10Z+Ejqa9wCpDQ3ZzuWyhOoLz
-	 Znw3ZogIE2EhWQ6L5CqRXracrDEIBUVoY2lRLEYIt/LUg3UStfGpbaNYRdAz8aAmciPTW
-	 D1S+taU18cyjfCTrbC6BWpQjhsRSbaXECZ1IuBhpItt5EAnH7mH6wdsd7v+C5Q+j6/0lU
-	 bQncImgm6A2jKSn6xYndX0Yn6pSz0dRDOfUMqGcZ6eI7W2+dsSUmLNGlj8JJkRZjZhski
-	 7ifmGAEx+gK7umt01EBBZe3NDZ9ddzU0H+tK9kU+QOp7EXAGUIRCG/dJkZl50ifoiwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795689483;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=WNHMtOeOE2A38FnJhD72GmJVVL0KvDefcFaN8fCeJcM=;
+	b=mNfijtDEnraejyl9t7HLW0d8n7z6L9uNl36y5ZaUrskXszP6xw/UQJHFLluVBrFlp9n3
+	 1oxr56ro1tc6azlGJc39QIea+Epot/FAgMiCEPR+GRoinZAgmbsirc2EiSvyuArLiKQb7
+	 RjbQG5dHMjYs4DrTTE9TaJ5a+VF6YV19dOcPqTpERM4lITEVm5bgQ/jWzycow4oWTQQVh
+	 QqAw4fy/OpI4+zL3KuS7Vq25aP6iER3uHUjrveHCNXjtmB2cpnQS2UUZIcSrYSu2GWcUM
+	 nYTKiOzmJoGYko/U589HB9FgoVM1KSO6TCsNMIuD7TKEswXLeWT+ZsxASU0cdeLgUsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BB2g20zR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uw51CuDv;
+	arc=none smtp.remote-ip=209.85.215.171
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DF7606A31C;
-	Thu, 26 Nov 2026 10:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2721606A31E
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 10:38:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2721606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BB2g20zR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EEB51F000C6;
-	Thu, 26 Nov 2026 10:33:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795689191;
-	bh=URBTmVc5HIt3ARgLVG0dLuL2usV497Fl4XWuyk4JQdg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BB2g20zRswiZ9KqntoR35uyxA8IZjI/qZYq6s5sEHxf7usYcPLx2Yk+UKSrPiznjR
-	 wM7p+bucwVEVGZ0YwtPfwxnA4nBLkEYPO0I4OB/8p1Lw3jhltc/YEYVWC7VIj22d/g
-	 T0VL96mGwscsmLrCPksM4auxji3DzDZhuz9p8CaX71uhliYfcLb6oLleYBldcG56yx
-	 47lGlrZFaIxZY2eP1t7qRe8nDpokGAJSY+eayrqcbrlfKeae8xE3/JvTIbfn3SUeHO
-	 X0/Funxcg/XlyXpu0xKEvagcbPtAZoHfn51e3Cl2QOweYJwaLI3kw0iIXlUlP5n9to
-	 5aiUKjSvs0t2A==
-Message-ID: <sashiko-outbox-235295@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset
- framework
-Reply-To: sashiko-reviews@lists.linux.dev
-To: shengjiu.wang@oss.nxp.com, linux-sound@vger.kernel.org, imx@lists.linux.dev
-Cc: Frank.Li@kernel.org
-In-Reply-To: <20261126102528.1531824-1-shengjiu.wang@oss.nxp.com>
-References: <20261126102528.1531824-1-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 10:33:09 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uw51CuDv
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cde5a7d79b0so3522938a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 02:38:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795689482; x=1796294282; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WNHMtOeOE2A38FnJhD72GmJVVL0KvDefcFaN8fCeJcM=;
+        b=uw51CuDv8IIVh1o0UAMHIqZ9bdSbg59VfCGMkmhdiSRYFTG2Vv+76CA6LtbSTOeoiU
+         x56l6KNkIUrA97M2EysjDqezr6DXn7vsUQYHkrDPC9gJsZgJkJVR0juBLytYQTeOyM6c
+         wEFxjHKjbzfKjY5lOiLXKs/tE5HUjri05HD7JhoadzycAZC0TTpho2Rc2VrhIyN0Y4K3
+         +8SpwmyUUV8ALNA+rDejT90Zs8OCjkDIwR4gF3/r2NARfl3q4ZGWHPpg1YijXXGLxCjs
+         m4lcBId90UkvEgtezG0FXr9+hJ8bhSc0BLjxir9jE8RTcusWKWahw5XpiM9VfbuWRv6K
+         8t0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795689482; x=1796294282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WNHMtOeOE2A38FnJhD72GmJVVL0KvDefcFaN8fCeJcM=;
+        b=srOZosTRRo0lIFN1+i9p/lFXbLeLU8461xSA9a2CvUMEQMYykcvELDUTbNKzpaThr0
+         OcISzBDSbt6rYuJwZ5c3Aul0ovL7Q2j/ZrtM4PbhCbZbnZmUu1x8rDwDkoxXoddBqy4b
+         55fpXZRYmGD4dtQKcg3REkTPCHuvqR4zjLzqXWOMJvJp6sjt+X2CaEhBkleYQ0B02gUE
+         K7h/84lR+dPUMdTjq1ZTY6DiK9YHq0XgAWy8YVg86/umKYno7eb9BQ0606jVbfrrJFEK
+         cEOKE5zfJjgXmTnMEFgLHXtNj2VztSutZ4v8vV/STBOCCh6YcT50vkS23O7HJrnzGzMB
+         A6hg==
+X-Forwarded-Encrypted: i=1; AL+hErEL8CPsrv4FJn5HNXRg04UbmVvSMsSa0O/itZ/mo0lHm17PApZW3kktUwQWFjU72PRiQiD8h14SLRV4MQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9zR4Heu1v5B++t3Gaa+QuV9r4cPJc9dmkZryVz8yQ0BWdavxJN
+	yzRbsCP4qsrnxfWf75fNI32czp1PUPpqmTBKwZi/y4BI+tdtQrmvMT1Tu98WrqQG
+X-Gm-Gg: AZFdTZfvx+Pr9L1xMFYUWAUik28MsoTJqrbXLk9+W9f5/hkVDSrifdhCsccgTNrKJvy
+	UnuAx6xyIUwUiBNZZDiwZp/qI26xlUk29ZPicawuLK8PLq8bxiHBLqeZNo+Xkk6CdhTQUE9jvn4
+	tGNJlZVbwq1ESaSnrGeO9/+GmvnCa4xg0P7Zp2PGQIyIUFGN+UKdGUHwmufhQdHMu3fsEQyx4YQ
+	2BB0Afg8L/clOUWj7T6VVhtW8kfYgPImGjx76pFp1/IrXVig9HGdSc0IwIoscIi3TG6vvtymSOP
+	y4eBcDiYOMhWadw+qv1G/Ldtv76ojbUQ3mRdr+PSHkwilbL02SN3rJDCCELPamFFGY1AX45n3Bu
+	+Y8uE93fl+lON6AN9wOBnrvubiVY+e1YTFZPJOvyl6dHgGVP4NVd0VHQ70+21+WahprXbvRXvQD
+	rXPb28Brr9SzxnHSM8H5XYEXOeQojwAQoYOWTYebzoMqIBv1YqvA4u+WIZMjKyNcRUFLJpqx8RI
+	dSVn3rXfElYDsQAqDfN7+tHw9V4mASTW4Hqd5YPy87yP8iYVF/84SpKABqtVZKXVLBxUmk0Y1y9
+	B3jhjPv26BngKE9dTbL51ZfIHhdei3hHqdsXDtfM8r1uJi8i0Lhjma4vnYugjet35nXDWZm1IXB
+	p0OQ00lbwrlR/ToXfgMeDx1wLUbpvKEA=
+X-Received: by 2002:a17:90b:2f8f:b0:3b3:bd07:665b with SMTP id 98e67ed59e1d1-3b41c9325b1mr19483392a91.40.1795689481744;
+        Thu, 26 Nov 2026 02:38:01 -0800 (PST)
+Received: from DESKTOP-TPPBPA1 (36-226-201-204.dynamic-ip.hinet.net. [36.226.201.204])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b420e1307csm31181694a91.7.2026.11.26.02.37.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 02:38:01 -0800 (PST)
+From: Roy <rongh7426@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Roy <rongh7426@gmail.com>
+Subject: [PATCH] ASoC: hdmi-codec: Clear the parsed ELD on unplug
+Date: Thu, 26 Nov 2026 18:37:57 +0800
+Message-ID: <20261126103757.655758-1-rongh7426@gmail.com>
+X-Mailer: git-send-email 2.51.1.windows.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,144 +99,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] ASoC: SOF: imx8: undocumented dbgreset and optional resets in
-  imx8ulp_probe()
---
+When the sink goes away, plugged_cb() clears the raw ELD but leaves
+hcp->eld_parsed as it was. The eld#N procfs file prints eld_parsed, so
+after an unplug it keeps showing the monitor that was last connected
+until something is plugged in again.
 
-commit e612ef7d377466215d3164c95469326c85ff2571
-Author: Shengjiu Wang <shengjiu.wang@nxp.com>
+On a Raspberry Pi 5 (vc4 HDMI), forcing the connector off through
+/sys/class/drm/card1-HDMI-A-1/status leaves /proc/asound/card0/eld#0
+at:
 
-ASoC: SOF: imx8: Switch imx8ulp DSP control to reset framework
+  monitor_name		WaveShare
+  eld_version		[0x2] CEA-861D or below
+  sad_count		1
 
-This commit replaces direct syscon regmap accesses in the i.MX8ULP SOF
-DSP driver with the reset controller framework using named reset controls.
+Clear eld_parsed together with the raw ELD, as hdmi_codec_startup()
+already does when it finds an empty ELD. eld_parsed is only used for the
+procfs file and the log message in plugged_cb(), so nothing else
+changes.
 
-> diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-> index 5cd3f44c90d2b..80326d2eb1fc0 100644
-> --- a/sound/soc/sof/imx/imx8.c
-> +++ b/sound/soc/sof/imx/imx8.c
-[ ... ]
-> @@ -202,42 +201,31 @@ static int imx8m_probe(struct snd_sof_dev *sdev)
-> =20
->  static int imx8ulp_run(struct snd_sof_dev *sdev)
->  {
-> -	struct regmap *regmap =3D get_chip_pdata(sdev);
-> +	struct imx8ulp_chip_data *chip =3D get_chip_pdata(sdev);
-> =20
-> -	/* Controls the HiFi4 DSP Reset: 1 in reset, 0 out of reset */
-> -	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, 0);
-> +	reset_control_deassert(chip->soft_rst);
-> =20
-> -	/* Reset HiFi4 DSP Debug logic: 1 debug reset, 0  out of reset*/
-> -	regmap_update_bits(regmap, SYSCTRL0, DEBUG_LOGIC_BIT, 0);
-> +	/* Release HiFi4 DSP Debug logic */
-> +	reset_control_deassert(chip->dbg_rst);
-> =20
-> -	/* Stall HIFI4 DSP Execution: 1 stall, 0 run */
-> -	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, 0);
-> +	/* Run HIFI4 DSP Execution */
-> +	reset_control_deassert(chip->run_stall);
-> =20
->  	return 0;
->  }
-> =20
->  static int imx8ulp_reset(struct snd_sof_dev *sdev)
->  {
-> +	struct imx8ulp_chip_data *chip =3D get_chip_pdata(sdev);
->  	struct arm_smccc_res smc_res;
-> -	struct regmap *regmap;
-> -
-> -	regmap =3D get_chip_pdata(sdev);
-> -
-> -	/* HiFi4 Platform Clock Enable: 1 enabled, 0 disabled */
-> -	regmap_update_bits(regmap, SYSCTRL0, PLAT_CLK_BIT, PLAT_CLK_BIT);
-> =20
-> -	/* HiFi4 PBCLK clock enable: 1 enabled, 0 disabled */
-> -	regmap_update_bits(regmap, SYSCTRL0, PB_CLK_BIT, PB_CLK_BIT);
-> -
-> -	/* HiFi4 Clock Enable: 1 enabled, 0 disabled */
-> -	regmap_update_bits(regmap, SYSCTRL0, HIFI4_CLK_BIT, HIFI4_CLK_BIT);
-> -
-> -	regmap_update_bits(regmap, SYSCTRL0, RESET_BIT, RESET_BIT);
-> +	reset_control_assert(chip->soft_rst);
-> =20
->  	usleep_range(1, 2);
-> =20
-> -	/* Stall HIFI4 DSP Execution: 1 stall, 0 not stall */
-> -	regmap_update_bits(regmap, SYSCTRL0, EXECUTE_BIT, EXECUTE_BIT);
-> +	/* Stall HIFI4 DSP Execution: */
-> +	reset_control_assert(chip->run_stall);
-> +
->  	usleep_range(1, 2);
-> =20
->  	arm_smccc_smc(FSL_SIP_HIFI_XRDC, 0, 0, 0, 0, 0, 0, 0, &smc_res);
-> @@ -248,16 +236,30 @@ static int imx8ulp_reset(struct snd_sof_dev *sdev)
->  static int imx8ulp_probe(struct snd_sof_dev *sdev)
->  {
->  	struct imx_common_data *common;
-> -	struct regmap *regmap;
-> +	struct imx8ulp_chip_data *chip;
-> +
-> +	chip =3D devm_kzalloc(sdev->dev, sizeof(*chip), GFP_KERNEL);
-> +	if (!chip)
-> +		return -ENOMEM;
-> =20
->  	common =3D sdev->pdata->hw_pdata;
-> =20
-> -	regmap =3D syscon_regmap_lookup_by_phandle(sdev->dev->of_node, "fsl,dsp=
--ctrl");
-> -	if (IS_ERR(regmap))
-> -		return dev_err_probe(sdev->dev, PTR_ERR(regmap),
-> -				     "failed to fetch dsp ctrl regmap\n");
-> +	chip->run_stall =3D devm_reset_control_get_exclusive(sdev->dev, "runsta=
-ll");
-> +	if (IS_ERR(chip->run_stall))
-> +		return dev_err_probe(sdev->dev, PTR_ERR(chip->run_stall),
-> +				     "failed to get dsp runstall reset control\n");
-> +
-> +	chip->soft_rst =3D devm_reset_control_get_optional_exclusive(sdev->dev,=
- "softreset");
-> +	if (IS_ERR(chip->soft_rst))
-> +		return dev_err_probe(sdev->dev, PTR_ERR(chip->soft_rst),
-> +				     "failed to get dsp softreset reset control\n");
-> =20
-> -	common->chip_pdata =3D regmap;
-> +	chip->dbg_rst =3D devm_reset_control_get_optional_exclusive(sdev->dev, =
-"dbgreset");
-> +	if (IS_ERR(chip->dbg_rst))
-> +		return dev_err_probe(sdev->dev, PTR_ERR(chip->dbg_rst),
-> +				     "failed to get dsp dbgreset reset control\n");
-> +
-> +	common->chip_pdata =3D chip;
-> =20
->  	return 0;
->  }
+Tested on a Raspberry Pi 5 (Raspberry Pi OS kernel 6.18.39, with this
+change applied to its snd-soc-hdmi-codec module), forcing HDMI-A-1 off
+and back on twice:
+- before: eld#0 still shows WaveShare after each unplug
+- after: eld#0 shows an empty ELD (eld_version [0x0], sad_count 0) after
+  each unplug and WaveShare again after each replug
+- HDMI audio playback still works
 
-[Severity: Medium]
-Does requesting "dbgreset" here match the fsl,dsp.yaml Devicetree binding,
-and should chip->soft_rst and chip->dbg_rst be optional on i.MX8ULP?
+This change and its description were written with the help of an AI
+coding assistant (Claude); the testing above was done on real hardware.
 
-Documentation/devicetree/bindings/dsp/fsl,dsp.yaml only allows "runstall"
-and "softreset" in reset-names:
+Fixes: 0ecd24a6d8b2 ("ASoC: hdmi-codec: dump ELD through procfs")
+Signed-off-by: Roy <rongh7426@gmail.com>
+---
+ sound/soc/codecs/hdmi-codec.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  reset-names:
-    minItems: 1
-    items:
-      - const: runstall
-      - const: softreset
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index bc59da2..ff4fa9f 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -973,6 +973,7 @@ static void plugged_cb(struct device *dev, bool plugged)
+ 	} else {
+ 		hdmi_codec_jack_report(hcp, 0);
+ 		memset(hcp->eld, 0, sizeof(hcp->eld));
++		memset(&hcp->eld_parsed, 0, sizeof(hcp->eld_parsed));
+ 	}
+ }
+ 
+-- 
+2.51.1.windows.1
 
-A Devicetree conforming to that schema cannot specify "dbgreset" (and may
-omit "softreset"), leaving chip->dbg_rst or chip->soft_rst NULL so
-reset_control_assert() in imx8ulp_reset() and reset_control_deassert() in
-imx8ulp_run() become no-ops instead of toggling the SIM_LPAV SYSCTRL0 DSP
-reset and debug reset bits.  In addition, removing the fsl,dsp-ctrl
-syscon lookup without a fallback breaks compatibility with existing DTBs
-that still use fsl,dsp-ctrl, and leaves the linux/mfd/syscon.h include in
-sound/soc/sof/imx/imx8.c unused.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126102528.1531=
-824-1-shengjiu.wang@oss.nxp.com?part=3D1
