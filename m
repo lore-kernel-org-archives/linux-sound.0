@@ -1,56 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=132.226.202.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795695304;
-	b=obOl3zu8R2BwgB9nrj7Ob2Y5Xjdxd/5+eYWdbzhpY4LLcVxWXLBKDI11QbhHUd2RfYN8
-	 2gOTwC8MjjAaC3jTBmO+FOHmWxGj/UsjuLFjOchAwXtse9ubFCx6Y8xWsSOOmSWhQpjTx
-	 +4FsDbfIQvxd3QDEifKazQbI10dqC3wWUDelDjpLYaDaxfx7OV8Y7+90KZkWsjbWD/5hO
-	 bwx36CeSPV10A0TIyrmEJp10Tun5efM5UIiR8XlI4A6iGUoGobK1yYpUV/TGQa4Y0Fo+d
-	 o7sXsszpdBAQXwT3vfUcNlQGbmI6OYbfAb2Mo75sBb6mZlr+BmoZdocZS13SrY3WiGQ==
+	t=1795696559;
+	b=3lbxPtI9BQicN8rCepturjXE/DqkQNjlEvZkDrDZwVggotZk6pAD5oKEsddoTtL83icD
+	 YWmUqFFcnmfHgrU07a1/aTmHxKdcWdtDZY8bzajsyDvFjjlfOFzjP6i0hrRFmA2hfIkA5
+	 ESysVfEfFjMAMI+TSLHz4jvjUxXK9jHXT9/FGPFcZUG3cV6Me6t/hWebQjVHH5uKJ9JwK
+	 EOb7RutqGCwOz+G9rh1c9zXNz4mmjhEvfkf1BCJ3eBbSWMJyD7Z+ikkZMImwq3oKZsRYg
+	 II4DHMmlrSJTJ314nKqq2Wh/Q3/WTuRJwyQk/ez/Ul7Pp7KYxNBQSAVmpjG6IOZVQYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795695304;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UqfwYi3BvoGEq4TlyCqJjXHz/Lli8WyF++GuuVAoXBI=;
-	b=tx4aWACkiZx96Q+69nyg3zFsSbrxVpjEy/V1RlfjYpFbAnmrHQ8ETve9WD30x9Jn9R9H
-	 62a+xEHl+LQwmC6uBqcrrqge7oDliuN5I6/165H8BnNmxrqlx1lNXPPHZaGxC7/l6+eOe
-	 9nK2LoDAzpgfXza05v0if8Zroybi+exK2UgnddYvySyn8i1+CZYqRXKfZCVoyzU2/pPXW
-	 BA5IJqppBvvOp7RI+5QIKXbwcpRg7PDNftT7IBpDZ4E12epSj8X0OKBeNsXTQC/C5ufdl
-	 GVYO4Xs7Tj7ypvjdEx+2HqWQHw3x1xRh6HXvzpdnTIaK67IGKrsoS7vj5Iu3XDWpUoQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795696559;
+	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=OmsM6s2j2Da5/TTXWuUxbvyNAAwghqaC+fHkUhJp2bc=;
+	b=Gu5uoTl1HlBPDce5CLBITmukerVjpaso4ClTSlUz9I716WqY66kZT8WmOKzZhKjh8coJ
+	 DUd2ydHVz8+25KBTTgHzBZBLSrfWezutYajjTCQ4V1ead39yDkYUUeuvbuVuxVkk4lQ6T
+	 HCYSZXr1DXOsAiSM/+N7Rj6W8WxNKY61tKuTUeOfIQYkQVgOssCVrIxcEZTyB2HcQrz2Q
+	 8R+D85KIfc16EaUlkR231FWi4cxSs4Re/3SRCbggBSxZcyG4aV/ib+61H7UeE+vJwo1W+
+	 w2niz54XcDpxLl0jF+nkQEkfNP0K11+sJjJ4euijvuo/cSaFzstekAkf9PjvUs/o+Dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hfKc8Sz1;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961D5606A323
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 12:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hfKc8Sz1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86671F000C0;
-	Thu, 26 Nov 2026 12:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795695303;
-	bh=UqfwYi3BvoGEq4TlyCqJjXHz/Lli8WyF++GuuVAoXBI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hfKc8Sz11h86519jofiQPLhvLL1O1OKs0glqbVzm7FGrq1iXN0lPEwbz88TZqQzHO
-	 t24lqu2X61uZX74WoDzkwiOqAI3l/k+kJB6Q0U/m9vsXzmi4HNB0uYUxyJ9HvKLAE7
-	 1cw74qCwn8UDKJ3QQ0XmuMyh2tt52gmw6kE/BOZt+HzW6PWasZWdnoiyPOy3hMX9xG
-	 HLLzq/cfKFnFMEaZE1RUetCMuSRrR4Q8PJfc/pBwQO4WlbAFpQnB/LV7qHVgtuC1n3
-	 73iGP0RHqgzuiqLdO+4516WPJIWCuNkbet8+s0A3NyeJYox8jbRQHegOFRobC19FGc
-	 KlgsHNXrGQ9bQ==
-Message-ID: <sashiko-outbox-235483@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] ASoC: qcom: q6asm: fix 24-bit PCM level via media
- format V4/V5
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
-References: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 12:15:03 +0000
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=132.226.202.154
+Received: from fraori-sdnproxy-3.icoremail.net (fraori-sdnproxy-3.icoremail.net [132.226.202.154])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CC57606A321;
+	Thu, 26 Nov 2026 12:35:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6CC57606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMC2_c6nJwhrf4YRAA--.62814S2;
+	Thu, 26 Nov 2026 20:35:51 +0800 (CST)
+Received: from [222.20.126.109] (unknown [222.20.126.109])
+	by gateway (Coremail) with SMTP id _____wCngRamJwhrb7IjAA--.18280S2;
+	Thu, 26 Nov 2026 20:35:50 +0800 (CST)
+From: Hanxiang Xu <xuhx@hust.edu.cn>
+To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: ctxfi: wait for a running system-timer callback in the free path
+Date: Thu, 26 Nov 2026 20:25:18 +0800
+Message-ID: <20261126202600.1-1-xuhx@hust.edu.cn>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,129 +47,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IAEQrMC2_c6nJwhrf4YRAA--.62814S2
+Authentication-Results: app1; spf=neutral smtp.mail=xuhx@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF4xKFy8JFW8Gw4rXr1DWrg_yoW8Zrykp3
+	98uw1aqw18Zr40k3s7WrWDJ34kArZ3Aa4UGFn5GwnayFnxWw18tFW7KF12yF47ZrWv9Fy2
+	y340va98Ar45JFJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9mb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzx
+	vE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VACjcxG62k0Y48FwI0_Gr1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7V
+	CY1x0262k0Y48FwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l
+	c2xSY4AK6svPMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2
+	IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
+	6r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
+	AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IY
+	s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+	0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07bcwZcUUUUU=
+X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] ASoC: qcom: q6asm-dai S24_3LE and S32_LE formats break DPCM
-  backends
-- [Low] ASoC: qcom: unused V2 PCM media format macro and structs in
-  q6asm.c
-- [Low] ASoC: qcom: missing Fixes trailer on q6asm 24-bit PCM bug fix
---
+Currently, ct_systimer_free is aliased to ct_systimer_prepare, which
+calls timer_delete_sync_try(). While ct_systimer_prepare() must remain
+non-sleeping because it can run under the PCM stream lock, using
+timer_delete_sync_try() in the free path is unsafe: if the timer
+callback is concurrently running on another CPU, timer_delete_sync_try()
+returns -1 without waiting for completion. The caller then proceeds to
+free the ct_timer_instance object, resulting in a use-after-free in the
+still-running timer callback.
 
-commit 881370cd9680d91d1348c565e596cf8d97c2b69b
-Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Replace the ct_systimer_free macro with a dedicated function that calls
+timer_shutdown_sync(), which waits for any running callback to finish
+and prevents the timer from being rearmed before the instance is freed.
 
-> ASoC: qcom: q6asm: fix 24-bit PCM level via media format V4/V5
->
-> q6asm uses ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2 for every LINEAR_PCM
-> stream. V2 has no sample_word_size, so the DSP defaults to
-> word_size =3D 32 and expects the 24-bit sample MSB-justified, while
-> ALSA S24_LE is LSB-justified. The 8-bit shift costs ~48 dB.
->
-> Switch to V4 or V5. Pick V5 when ac->q6asm->ainfo.api_version >=3D 2,
-> V4 otherwise. Both carry sample_word_size; mode stays 0 so the DSP
-> picks the default Q factor.
->
-> Apply on playback (q6asm_media_format_block_multi_ch_pcm,
-> q6asm_open_write) and capture (q6asm_enc_cfg_blk_pcm_format_support,
-> __q6asm_open_read).
->
-> Drop S24_LE from the MultiMedia FE PCM. Advertise S24_3LE on
-> capture, S24_3LE and S32_LE on playback. S24_LE can't be made to
-> work zero-copy: the firmware ignores the Q-factor override. plughw
-> converts S24_LE to S24_3LE transparently.
->
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Hanxiang Xu <xuhx@hust.edu.cn>
+---
+Changes in v2:
+ - Set From: to Hanxiang Xu <xuhx@hust.edu.cn> matching Signed-off-by:
+ - Use a single blank line before Cc: <stable@vger.kernel.org>
+ - Format cleanly with git format-patch to preserve tabs and spacing
 
-[Severity: Low]
-Since this fixes 24-bit PCM level handling in Q6ASM, should it carry
-Fixes tags?
+ sound/pci/ctxfi/cttimer.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-  Fixes: 68fd8480bb7b ("ASoC: qdsp6: q6asm: Add support to audio stream api=
-s")
-  Fixes: 2a9e92d371db ("ASoC: qdsp6: q6asm: Add q6asm dai driver")
+diff --git a/sound/pci/ctxfi/cttimer.c b/sound/pci/ctxfi/cttimer.c
+index 9d6f5df..fea9d61 100644
+--- a/sound/pci/ctxfi/cttimer.c
++++ b/sound/pci/ctxfi/cttimer.c
+@@ -111,11 +111,17 @@ static void ct_systimer_stop(struct ct_timer_instance *ti)
+ 
+ static void ct_systimer_prepare(struct ct_timer_instance *ti)
+ {
++	/* non-sleeping: also runs under the PCM stream lock */
+ 	ct_systimer_stop(ti);
+ 	timer_delete_sync_try(&ti->timer);
+ }
+ 
+-#define ct_systimer_free	ct_systimer_prepare
++static void ct_systimer_free(struct ct_timer_instance *ti)
++{
++	/* may sleep: wait for a callback running on another CPU */
++	ct_systimer_stop(ti);
++	timer_shutdown_sync(&ti->timer);
++}
+ 
+ static const struct ct_timer_ops ct_systimer_ops = {
+ 	.init = ct_systimer_init,
+-- 
+2.43.0
 
-> diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6as=
-m-dai.c
-> index 3840669867351..57cbce2bb0cb7 100644
-> --- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-[ ... ]
-> @@ -139,7 +141,8 @@ static const struct snd_pcm_hardware q6asm_dai_hardwa=
-re_playback =3D {
->  				  SNDRV_PCM_RATE_176400 |		\
->  				  SNDRV_PCM_RATE_192000),		\
->  			.formats =3D (SNDRV_PCM_FMTBIT_S16_LE |		\
-> -					SNDRV_PCM_FMTBIT_S24_LE),	\
-> +				    SNDRV_PCM_FMTBIT_S24_3LE |		\
-> +				    SNDRV_PCM_FMTBIT_S32_LE),		\
->  			.channels_min =3D 1,				\
->  			.channels_max =3D 8,				\
->  			.rate_min =3D     8000,				\
-> @@ -151,7 +154,7 @@ static const struct snd_pcm_hardware q6asm_dai_hardwa=
-re_playback =3D {
->  				  SNDRV_PCM_RATE_12000 |		\
->  				  SNDRV_PCM_RATE_24000),		\
->  			.formats =3D (SNDRV_PCM_FMTBIT_S16_LE |		\
-> -				    SNDRV_PCM_FMTBIT_S24_LE),		\
-> +				    SNDRV_PCM_FMTBIT_S24_3LE),		\
-
-[Severity: High]
-Does replacing SNDRV_PCM_FMTBIT_S24_LE with SNDRV_PCM_FMTBIT_S24_3LE and
-adding SNDRV_PCM_FMTBIT_S32_LE break DPCM backends on boards whose
-be_hw_params_fixup callback does not override SNDRV_PCM_HW_PARAM_FORMAT?
-
-dpcm_be_dai_hw_params() copies the frontend hw_params to each connected
-backend before calling snd_soc_link_be_hw_params_fixup().  Because
-apq8096_be_hw_params_fixup() and sc7180_qdsp_be_hw_params_fixup() only fix
-up rate and channels, SNDRV_PCM_FORMAT_S24_3LE and SNDRV_PCM_FORMAT_S32_LE
-propagate directly into the backend hw_params callbacks.
-
-In sound/soc/qcom/qdsp6/q6routing.c, routing_hw_params() only handles
-SNDRV_PCM_FORMAT_S16_LE and SNDRV_PCM_FORMAT_S24_LE (and commit "ASoC:
-qcom: q6dsp: add S24_LE and S32_LE to MI2S playback DAIs" later in this
-series only adds SNDRV_PCM_FORMAT_S32_LE), leaving
-session->bits_per_sample unset (0 or stale) for S24_3LE when
-q6routing_stream_open() calls q6adm_open():
-
-sound/soc/qcom/qdsp6/q6routing.c:routing_hw_params() {
-	...
-	switch (params_format(params)) {
-	case SNDRV_PCM_FORMAT_S16_LE:
-			session->bits_per_sample =3D 16;
-		break;
-	case SNDRV_PCM_FORMAT_S24_LE:
-			session->bits_per_sample =3D 24;
-		break;
-	default:
-		break;
-	}
-	...
-}
-
-Similarly, in sound/soc/qcom/qdsp6/q6afe-dai.c, q6slim_hw_params() rejects
-SNDRV_PCM_FORMAT_S24_3LE with -EINVAL, and q6hdmi_hw_params() only handles
-S16_LE and S24_LE, leaving hdmi->bit_width uninitialized for both S24_3LE
-and S32_LE.
-
-> diff --git a/sound/soc/qcom/qdsp6/q6asm.c b/sound/soc/qcom/qdsp6/q6asm.c
-> index d042132caf034..ee1930e41d4b6 100644
-> --- a/sound/soc/qcom/qdsp6/q6asm.c
-> +++ b/sound/soc/qcom/qdsp6/q6asm.c
-> @@ -40,6 +40,10 @@
->  #define ASM_PARAM_ID_ENCDEC_ENC_CFG_BLK_V2	0x00010DA3
->  #define ASM_SESSION_CMD_RUN_V2			0x00010DAA
->  #define ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2	0x00010DA5
-> +#define ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V4	0x0001320C
-> +#define ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V5	0x00013222
-
-[Severity: Low]
-With both playback and capture switched to V4/V5,
-ASM_MEDIA_FMT_MULTI_CHANNEL_PCM_V2, struct
-asm_multi_channel_pcm_fmt_blk_v2, and struct
-asm_multi_channel_pcm_enc_cfg_v2 are now unused and can be removed.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126115738.1765=
-949-1-srinivas.kandagatla@oss.qualcomm.com?part=3D1
