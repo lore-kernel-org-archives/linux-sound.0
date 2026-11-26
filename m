@@ -1,101 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795665340;
-	b=f2FZYhIsATHLM1LBNGc9lBftsoMESNKBwIYAk5RlOAm1WRGdpipJCfgNfS455RsDlGl9
-	 8wDGwPrACXqcUYXtrETQnVnj/OEGLIqxIq1s8sJ92rZZOkCFuP0sJY2anZgKZJGGRHacV
-	 3LeWV8AH+p5YmkiEWsnF3gznwcdLlE5cQ1IqzlaNbPs+OQuXaqoZW5DV/4H1PaWs6dnHV
-	 zzmInATPoLwgaqaKzAsMwxeeruhlKlnz1gAGXy9yuoG+n+idEZ/hO/nDQLlj8bK3ScKLy
-	 hsmi11a5gunfxh+FXiyBapVfvnrDJngBXPElwDQLQdRxye/W2BVNCAHvzn41c0okj+Q==
+	t=1795670293;
+	b=mjZpxwH6uyuwWZ86YmXsUPPDESjLu9KZ7PHWcAF0gOPJBcbxH/ox0qARQB7R2DT2rW0r
+	 BTE/5dS+Jp67S4elk/y9ikov6LTN4MIW4uEVldSmax0rVWayx/zPAUN7CrOIlVkz+DTtU
+	 b3XW2oSdJlj3j8uEp8s5iKRt333Wx/S7oMLg4mlyQGhm/SwjKFkojJuOUXhxL3BvrtNNG
+	 lxlFDPLLDqvSEsZ0uqnKYmwxS2IjtQ7iGe83e+BEhm+BKwZBXnkWP39ZeLkEb6Nmu+HB+
+	 4D18pGbrE2XRpWmNREk9QZlqgwvj7TiRa4ESnM+dW9BYLi0bryDCQyOXm1/n8Xh8Bcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795665340;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795670293;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=tjCe/C21ycUvCHGAx37nFv572V9SXkb5hmDpSktqSgU=;
-	b=MEDDrm+sv24X88QhhB9p5ALonaFVuuPi/c1eqFTgXc503VlPDytcpOjU+OE4Ur0K9fTp
-	 OOC54c/rfVo7J+351vqjr5xeOBhp0BxWpTgN5CAOg0BkyUKa+gJZjMOaMTR4JeBjd/2/V
-	 zaqKyRsa8JNZ9/hVaWQir04lcz1y0ExC0v6nbFF7dCKgC+xp2YK1yVJr0KsY1jVDIbJuO
-	 1jUPX/1ZSfQBBHDTEi3U+us0uRpornJYmCDiX08PmGf9RUnjSNU7xidfeGgqyt1W4bfc+
-	 Bg/zGIa5tiHTNUGgLTpAutCXzRiw3uN6dEXYxhxpabpzJASH4LvQaBxG853M8qamNyQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=YSdNyUgtJmI7PwDkbgXgw82KdpgvmE0VKK9YY9Y1cvI=;
+	b=YqIxjpMkC0vkkWd0YrM983RpqdRSkVf10e/+J9/Wmmo45v5oTzIEP1nNudUZpJxGahBx
+	 80xcfV6R7qMhHlrPWOeZzyBk2QEpLh005R0TkY3kUYgSaxNC7w/nt1ybMWYXmUWhE3517
+	 ut6kIvXi8ZZmUl084ssLn5YD52Bo7+kza1LeuXocrZg7vpqPy3f3DAvrhV+U4WLTz1JXL
+	 a13JMgov4zqiIkZofHRl4Sa7ZA/BgP93RCFH30seSiw44YmDuNJjgH2q1yXHQuWM8VGEV
+	 q8yiknZt5PATbtwS99zS3LJaqITFCDDLFyFgd4dQBcEAVKxP+Kw20im7wsoCgNWY2tQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WPismLtF;
-	arc=none smtp.remote-ip=209.85.215.174
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OyUqbDLW;
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B865B606A31E
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 03:55:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B865B606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB621606A323
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 05:18:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB621606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WPismLtF
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-cdebab6fdb3so453049a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 19:55:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OyUqbDLW
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-3866a784546so9032555eec.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 21:18:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795665339; x=1796270139; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tjCe/C21ycUvCHGAx37nFv572V9SXkb5hmDpSktqSgU=;
-        b=WPismLtFq5Vzdw8Nn3x6+EU4wIRclxtaK1grWHOPmfnwoDAUZzfXUDY4nq9NAKCLMj
-         GANIvj9Y+FG28A4kXgbmKtWCNMIpcvYZaienVronBs5N3qZ4bo1tguMF7frVTREuTtyv
-         fb5fzAuumNzc3XJwPZjidpRPRYH78Av7k7lkgw9d8WYkpYqrI/TJTmZb63Qne4izOLYO
-         pgNmZByACdJHj5GMwEwH/FZIx4fZlnAiJGnzisoJvAcP8kZwXBXSTGtJrC55kFFdx1a6
-         YwNpePuveMVYnzZ5mQbz9t2LsQOD/clS1vuZIOrz/ZqZvTE1kahiiSnis3MG2byNyVMW
-         qJsA==
+        d=gmail.com; s=20260707; t=1795670292; x=1796275092; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YSdNyUgtJmI7PwDkbgXgw82KdpgvmE0VKK9YY9Y1cvI=;
+        b=OyUqbDLWPEHL8Fqc11/23WQbFDoFF+mCpIRdztARiwDJUZ4cc7BrZnSFF/ozJlMkSC
+         BC3CdXAuar+pasfjNCFMsF7LeT5zIfOLhlnQ0UxqNFxAFUtgP9e1u9xFwOda7G3xuk1S
+         Bsiq3cUCE4lkpZkg7FupQ0kGj/y3PKPe7co2UFcnQkLTdP39uivPDiRRKKdET5RNF7hI
+         m9zMn3TkMFFfn7tOz88N0cujR1xqvj+kDezXoUVNKKgi9xX3wpbasuPPr0Md9I6giFMW
+         fFBsskCUgk4ca3t34fjIeUKqyCivrH6rpquHLDFPWcKbUoFT62oIt2KC5H7AAmwciFLA
+         Idnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795665339; x=1796270139;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tjCe/C21ycUvCHGAx37nFv572V9SXkb5hmDpSktqSgU=;
-        b=mi3K48Mw7Zz/2BSheauwK4QOkYXj9Y+I5yCFb0hIIuO5XVoZgOiQZ2Hoio2SwRrxKF
-         97hcaSgpJynoQ8cjyB3Itk3esEcGPmmFnryTQqgl3tIj9+KF6K0hsdsXz68Z7bgdnIPl
-         ajrIbL8Uwn770u17gUvNRC6OrR6fdJFxPMNIQT3T9J/kUsBXflySrjl7N3+rXp+hs3XX
-         suCSAXG/qujpS6OhDBaKYLSYi4Av5t6i6D6Zcw9D/7Ay4g8szg8ZdRtIPODwhy/2mTIn
-         arWbCvQKMtYHzZFjaZgcllYCJevPxJivXUg6ycBj+V7GJQmA91t1918b4dQ3AAqT11l0
-         2XcQ==
-X-Forwarded-Encrypted: i=1; AL+hErEgTwG3gMubSGH/1qQcc31wWAEczMQIxpaKA+GGbILZIA+QCAuqXyp287ZTltMRau4aOkVnRyTNitfJPQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ZaWk7enUq2uk6XtoFI7cM/Wv7pd4wTdlGsUByzwKUCWxm0znU
-	u0MrsI6yAC8Fvo5c1tmQJM6vUPA1/UkXmdVrs22dA4NigXbS4Q+ExmAd
-X-Gm-Gg: AZFdTZflSgPH7kAPcFkA4rnKnOaijujEFxof6LbgKihYDgnZl+VVRi5Cs95aYdVQl8c
-	m/YO8daGtUqJiBULC7mtxHwnp7hUKjMZSDyf1QqqKmGqXoRpgZT38tPSWYJuKwiwO037UsZIEH1
-	avXiLYdAvxByIbxJCHDftPzkIt3aQDmc73vS85wvq0DhDEeOk/nseN5xsTI1PHUFrM1oig6HU2J
-	hZNyB+2hVZnbv/dgtD77B9v1wfh1SweK90bZqqKXEtnHIm7b1B5Y5hCMoY6Qr49UFJDnzCRrAXg
-	+YXLVrYqFHNGZFi9wpDLMh47jGe1xK72Z2Ngp81wfLJ240y4w6oT//zGbegLylwSMjorsPS9UHI
-	OgqlCuUTKIvMF16VDdkKkqkafYkJeA6PfjTu/PWt0DXxsKk+YF6NhBJmEo/l6P5VAe8e7dTsyzx
-	teGxYxjAN/LCy2KGXFOd1yFXRnP/y1JRG95Hnp7EYboqc5an3eAAVQIs2dPDG/K68U2uPa3tfR1
-	MCM6NhSfa6PmaYRMRr//WPtLc9gPuMX75bDzsvIGHF80dti8jg71CwITmYvR1iAg7OYejgJjKe6
-	k+1jRZIZKofNRFvE7XDM/ByaLmR4RteSW9AGkZvulwCl20VyeQi5QRLSMl2cKl8THYDWFjlVNtg
-	KC31kUnaKf397V3zv0hYVmE3V6Aljy5xFq9jBpj7JKIcsesSY7izPumfvzhfQrg==
-X-Received: by 2002:a17:90b:57c4:b0:3b0:9cc6:62ba with SMTP id 98e67ed59e1d1-3b41caead33mr17622224a91.38.1795665339096;
-        Wed, 25 Nov 2026 19:55:39 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41adcfe23sm30295729a91.15.2026.11.25.19.55.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 19:55:38 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Shuah Khan <shuah@kernel.org>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Ben Copeland <ben.copeland@linaro.org>,
+        d=1e100.net; s=20260707; t=1795670292; x=1796275092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YSdNyUgtJmI7PwDkbgXgw82KdpgvmE0VKK9YY9Y1cvI=;
+        b=Sb5q0AuxvYgIHeM9VZwnseGH7+7q4RXWBQm/opHyrnxYO0Qm2JOZ6jwJARPyj27CQW
+         yR/QPrJ8DQhHCfhTowc2w2uHZIG+GVKR4TM1LBVxhqFzpyaTju6nKC9C09zj/5xusLP2
+         RY15DAs7HtH+a3q2oHtu6Kg3BbxC2QmNAc+aIeJ72B3VnQZC2yTSTiauCHdp/F3irlt4
+         nIzbGwe6CU1kfllW3Lv9i/Zh9LL/Pn6dOJSgwUrOcH9ADJ9w175uvWqPUYTqnZ7YTvlW
+         DZN73jj6xEdLwLF5AfpGaV4rhSaIrMRwKm7+9OxS1xzKoo/pnLgtl+GyHVAA6zSuERbD
+         n+2A==
+X-Forwarded-Encrypted: i=1; AL+hErGBu/Hui35NHJxqO7Bm3JNtCt7G0mYjVzq4S8fuqm8OebuJLumHjxuI/1pmbqVxN1Tl5/odVKe3DqAcHQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z8RTaEU7s63A4sbdx2BZAFwjvFLdTfnMnJfsi7r3xw9v1l8eks/
+	8PCkgK9qHkEiKVhoE3KPr64/MDHODrw9L+wa8+gAYcbka5ZW4d3P+kw=
+X-Gm-Gg: AZFdTZfqKwi/UFv7wTj4TtNcASyPQOkkYMa9aJ3TfkRMrWFCHKyIgM/q8GNzkPLuJ0E
+	T6pnGDygEy9+lnH3v1fv59yWNSJzeU1+tukjjFZJ0ivmHXW9qPl335b4c1fTeOTQ/jOwRqGf+FP
+	0gFE0YfWdpCbaG84/daRnc1jlOn5VebQAWNqmuAo1ccWc3f6JQgx3IIQPH6RZMF9vwZZjxbNUby
+	+8vmRLQARVP3D2vduNwIbXNSoV6OQ5Vc2Yy6jzBVm9yBz6Iw540oDhVXTn1eCbC818LSBA+BLSX
+	1BZcRXArAUrSRL21sghuKtD1uaKWFP9zjKXARj6jAaN2KCVLqoC3qnJRTSZhx8nNLhaTiIEeWrF
+	Bvzs7jLjMaKIpN2SNKGXuqdIVR0FGhZQuqspNmDyJPInXiWm1FyRgFV74NGvRk5IUaubXWb4qgW
+	2Qii7GeDTi+YEOCnHxOd/uZ3mD0gbypNG6SrHMZNwKuoVyjUKZcq9tOf4XOfTA6IFCNCQTbA+Wh
+	7HKN5tdrsjS7716DaV1Kou3VqxH4lptohEYJ+3wItO2SajfApcDVZzfayghO7cN481L+PsEDEy0
+	7Kcfr6TLX2jifZoPAxJne+aIrVJgQLxynhmlmcMa7uWWVF4ENNHST+W3aget1YvDWDgvOygJIM4
+	2+F9dQ2TGCRqS
+X-Received: by 2002:a05:7301:7004:b0:386:c5b8:960b with SMTP id 5a478bee46e88-386c5b89f9emr6662695eec.17.1795670291931;
+        Wed, 25 Nov 2026 21:18:11 -0800 (PST)
+Received: from localhost.localdomain ([2406:3003:2002:639c:a06e:23f:85ed:4cfe])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e96bdsm54973501eec.7.2026.11.25.21.18.09
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 25 Nov 2026 21:18:11 -0800 (PST)
+From: Yige Jiang <yigejiang86@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	bo liu <bo.liu@senarytech.com>,
+	"qianghua.wang" <qianghua.wang@senarytech.com>
+Cc: Yige Jiang <yigejiang86@gmail.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
 	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH 1/2] selftests/alsa: Add a config file for the test-only options
-Date: Thu, 26 Nov 2026 12:55:24 +0900
-Message-ID: <20261126035526.1779288-2-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261126035526.1779288-1-sammiee5311@gmail.com>
-References: <20261126035526.1779288-1-sammiee5311@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] ASoC: sdw_utils: Drop senary_sdca_jack codec device reference on exit
+Date: Thu, 26 Nov 2026 13:18:06 +0800
+Message-ID: <rc-b1-20261110-vc-07b-67948988e977@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -107,37 +105,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some of the ALSA selftests need kernel options that a normal config does
-not enable. test-pcmtest-driver needs the pcmtest driver, seq-ump-test
-needs CONFIG_SND_SEQ_UMP, utimer-test needs CONFIG_SND_UTIMER, and
-aloop-test needs snd-aloop. Without them these tests skip.
+asoc_sdw_senary_sdca_jack_init() takes a reference on the SoundWire
+codec device with bus_find_device_by_name() and stores it in
+ctx->headset_codec_dev, whatever the jack source quirk is. But
+asoc_sdw_senary_sdca_jack_exit() returns early when SOC_SDW_JACK_JDSRC()
+is zero, so then the reference is never dropped. One reference on the
+codec device leaks each time the card fails to register (including
+-EPROBE_DEFER) or the machine driver is removed, when the quirk has no
+jack source (DMI quirk entries without one, or the quirk module
+parameter).
 
-CI systems build their kselftest kernels with make kselftest-merge, which
-merges the config file of each selftest directory, and alsa has none. On
-the KernelCI arm64 kselftest kernel all four options are off, and every
-test-pcmtest-driver case skips.
+This helper follows asoc_sdw_rt_sdca_jack_exit() and has the same
+problem. senary_sdca_jack_add_codec_device_props() adds no software node
+when the jack source is not set, so use the check to skip
+device_remove_software_node() only, and always drop the reference and
+clear the pointer.
 
-Add a config file with only these options. mixer-test and pcm-test check
-whatever sound drivers a system has, so no drivers are listed.
-
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+Fixes: 77272ecd96d7 ("ASoC: sdw_utils: add Senary SN624x helpers and codec_info")
+Signed-off-by: Yige Jiang <yigejiang86@gmail.com>
 ---
- tools/testing/selftests/alsa/config | 6 ++++++
- 1 file changed, 6 insertions(+)
- create mode 100644 tools/testing/selftests/alsa/config
+Based on linux-next next-20261109 (630059a5a632).
+Compile-tested: arm64, GCC 14.2.0, W=1, COMPILE_TEST=y, SND_SOC_INTEL_SOUNDWIRE_SOF_MACH=y, SND_SOC_SDW_UTILS=y; soc_sdw_senary_sdca_jack_common.o built before and after, no new warnings.
+No hardware or runtime test was performed.
+The path needs a Senary SN624x jack codec and a quirk with no jack source; it runs on card registration failure (including -EPROBE_DEFER) and on machine driver removal.
 
-diff --git a/tools/testing/selftests/alsa/config b/tools/testing/selftests/alsa/config
-new file mode 100644
-index 000000000000..67fa26a87217
---- /dev/null
-+++ b/tools/testing/selftests/alsa/config
-@@ -0,0 +1,6 @@
-+CONFIG_DEBUG_FS=y
-+CONFIG_SND_ALOOP=m
-+CONFIG_SND_PCMTEST=m
-+CONFIG_SND_SEQUENCER=m
-+CONFIG_SND_SEQ_UMP=y
-+CONFIG_SND_UTIMER=y
--- 
-2.43.0
+ sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c b/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
+index 1dab6f99877d..6954041b7962 100644
+--- a/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
++++ b/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
+@@ -150,10 +150,9 @@ int asoc_sdw_senary_sdca_jack_exit(struct snd_soc_card *card, struct snd_soc_dai
+ 	if (!ctx->headset_codec_dev)
+ 		return 0;
+ 
+-	if (!SOC_SDW_JACK_JDSRC(ctx->mc_quirk))
+-		return 0;
++	if (SOC_SDW_JACK_JDSRC(ctx->mc_quirk))
++		device_remove_software_node(ctx->headset_codec_dev);
+ 
+-	device_remove_software_node(ctx->headset_codec_dev);
+ 	put_device(ctx->headset_codec_dev);
+ 	ctx->headset_codec_dev = NULL;
+ 
+
+base-commit: 630059a5a632377b9b7b487baccde92b7ae1dd47
