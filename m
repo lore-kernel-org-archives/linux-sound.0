@@ -1,95 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795674782;
-	b=y5NL3jb/Y9cYQWBK7NEWEOIEh5rKnO8tdb6NAbyCj7qzqjjBZKoKXnQYk3pkiD/TFYa7
-	 p5XoYx3Ab0e2DZoORV0MAC/tYs38LVaye9fWbTs5Z8Fwszl7cvDi6Yh2j4jYI1mIy41Gl
-	 jnKmrPuA7xYItNQN+/CpfnUXySpygSoL7dtkKomT4ZwiY0vctOeEaYm3Ub0rHqsRHcc2m
-	 mqYznW+vV/K8Uta2dXoHhVnv86Y0WHgt/uZ8Dlm8r+nlBuZjRIB8tAQlFINsxH3DJrf1c
-	 LiwyfMUT5Of1CGrTwahSXnJ9Grc3IMTpAmWCEZkaMDliGyMVOrfKau+IIpV+7UwHAZg==
+	t=1795676050;
+	b=rT+WtDG3/kOpdy8bF/+T/76JtU+5VtHEkeiS0h7ap3wZ3G69nR0mAZOzIlMQNn1UJrZM
+	 nVZAivKUhvMXhIZU+nor/D/uOqNl02WHTSVKopG0DafIhlt5AwSnCAW76nhI7LE6QI3OK
+	 dHFqI/RAOP0r4pszLstkaA2OA3IM62z3dtMDU4izapyBTWwo/ATNZMdIlOCUgufb/z0Xs
+	 b3etd8OugmUDlk/YfYmh77Tlzak8saLePYfCIz47IJKlgc9FUPNTacjZNSMg+dpO/AfyA
+	 x+M2ijlxt+QuUfzAcT8sVx9J270CNcXBgrljbWQO1YO8dmHZ9e3mvJ5+HAxBWOXr8+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795674782;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795676050;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=lRVIMYvdf6lF/95MD5+qUVrsPegHxOugjRhGDq12MEI=;
-	b=OgOHuOk3nqWeUnxEejYUWl71c5ByC9Ow7/O1DaqhDZDGsBZFO1uyEBjxrVusTqhMrha2
-	 BuCNM8/AevMUWC0k6ayyaLUJuO+McTYQYqhBK0ZmGlhfGdFgmrCVIGledHCIXdOs/Qwds
-	 lcZlsHd/wOHUNfWT8YbtIsfU/L1D/pDSoUTVNBmig5LEn5u2IyM/ULJRfVEOGys2zsPrj
-	 Ppg5FV8aeEyOvc38mJX3A07ZrVIWak0q9BMVw6TlN8H0oQsqgR8gfNV0pnpzdd9ftYkTg
-	 HAodLSfqg9xZhvHp531HRXzi7gnACSFserhMiZ2T75NAsg6rS8feTk0P/c09BNA/LQA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=EwyJCNE1Q7H8bIeTNVXKHO12xLLgxBEZMkKMexqwnPE=;
+	b=SiOZggDAVBYurOe2YAsZlIdMWbBzDYdE0gg0emetQAx3KH9mGovMaxfa9ZolbvLvZhr9
+	 ZTKOUJwjislgXxGQW+48NWjWz4ryBSgVNSkNUOEhGw3sAu6mt11ThYR7aroYZg+a8RqP2
+	 n3LNw4Ww81+/qVSSdQYGwVI9LtqFctnbcq3F+10eBdjPaz2XzPMIRVFtXFpJCwcKZzhH0
+	 nZp6cOdlsCnOOliYx2maG+K4vDCHbSvi2lWagDQXN6KOdrWY9tGP9oKoVbzbUQVAqBcMn
+	 uzqptbZ6SWuq4CMKUZx82vH0KS3l2Dlcl/KyDHeYqcbgFCuxi8/fFGeEETJFLQOTgGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l0sP36HN;
-	arc=none smtp.remote-ip=74.125.82.54
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wp+yySQ8;
+	arc=none smtp.remote-ip=74.125.82.43
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C312606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 06:33:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C312606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC26606A31E
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 06:54:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEC26606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=l0sP36HN
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1b244fb7fffso7030272c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 22:33:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wp+yySQ8
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-170135e43c7so10376589c88.0
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 22:54:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795674781; x=1796279581; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lRVIMYvdf6lF/95MD5+qUVrsPegHxOugjRhGDq12MEI=;
-        b=l0sP36HNYMiijmhcqdtbL2X+/zWUx85UFFKGYk1Di07BB+WlgxTHPsfW1zKRBl3HE7
-         HmpT7YRdNQxI4ESP0kM6GsnW6JildF7J/2D1Xor8SAEQOLkN4mhARWCPmcmXevpW/gqr
-         Iw3q6DfJkfOMd04PrtIdEUNwyuO+iiQ4H6SrBeX6TmBksIghkJ5clK/6Bzb3VHQdZ0oE
-         8FX078sj0vUflTIQAm02ClwgqGr/Xgr1AOb+w02vUfuPkWwQ730biRKa+mMpx+sTyJQL
-         EQOGDbPk+gBlQaFuDCNniuiznMBZJoHh0g16Lxj8W7ym7pYgPxsbIcXln3nLwjqCJsFy
-         Dsyw==
+        d=gmail.com; s=20260707; t=1795676049; x=1796280849; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EwyJCNE1Q7H8bIeTNVXKHO12xLLgxBEZMkKMexqwnPE=;
+        b=wp+yySQ8dPkHoU2xelbw26IvuaCNsJXy6YaftZDrhW6c+hXrOBnmoVsOVY9IupjB33
+         oJIKHnX5aX7UGHmkeExTnUteVh1iWjSIpCKH9rcJ4YhCaCpQOCZ0Nt2P6HRD3y9Yfmcn
+         Wzu1S7FKgPuG2IT0tMTIYtmPlkzgyx5TVvfcj4CyTX/veDcNXFgyzZIdTvAPtc06RSiV
+         Nh09Kpbswr8stxH2wAf/cppYWmlTzYaQOey5s7DMsnKyHAYVan1Rjg+Fg/UXkh4Vw2vH
+         DMlxgKAJbhMYTPJcYc1zSR7nitEtyUWrTVZG0IKVmgHVwKuT3xCMud5qRaKO3rdnOZy1
+         EB7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795674781; x=1796279581;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lRVIMYvdf6lF/95MD5+qUVrsPegHxOugjRhGDq12MEI=;
-        b=WAEQMg7gOCmnPRsmCc/GyYEQuubAKWUjRl88hgrpC6XAzWvFwiJTV9StwhL8YOJvm0
-         C45CdtAiIjepjZk1d3z0/YM4GjBDGSIY6K1uBFeIDYyR7ZOX7oljFGCexLInENMMlhKU
-         uRF/R9fge+l1n+WRybU2BuhQ1WCUM4tzA5FtoeH6QnwOICoiNIj4YDc6oQkK6kSkHklI
-         g/0lubBoMksMO9F3CykzMuoL1f+ARglYOYNbiW4Yh/82gWuMod4614ydoiIsFGggVvlL
-         vJk5Jpwge6M5tD1OKvpZMVjTwAaH9Zeo2tHM+pLfgdnFsMdSdO9yU5Dd5QXkhYxsW1IN
-         wYTQ==
-X-Forwarded-Encrypted: i=1; AL+hErFQnnffDwo4B6fT9RH72l9MiVaq0Nlu+lxl9MyIjIhwUz7k9eHflWMN/hSAvDT35ZFuCl7pHbGvQscRYQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/7AFko6/iMmMZ4aoGLdDzB7Ynrf6z2iHvEEkHGdjWDiHXBp1sf
-	juUea4fdylc88cEG94BmeDqd6tzC1POJT4w+Ldejnwlkau7VN3LXNZk4
-X-Gm-Gg: AZFdTZcQjeWYTQPJ/RWB1+6FJqBCPRDy90AtGlvYbQ6D+N0VNssmO29kgouNRCC5anf
-	ZCPFKovcRx3IOlmp69QUfLAmDCyyapVmmazdkZvXivez1ImH7+xrSOMyWDm5K3DUbE5ezjoctni
-	yDXFYHaV5FSoNil3ReMs1Ne18NItnC2ZN9aJNg0kAzrPvEBF0bZLnsH6S05NpaYDa7kDyDDP10Z
-	GKCig29ScR3YRgZD3AeXvA6wqMVEjF6Vm1o3CG4M5CcMFmxMO0CTB9NfIphdkMzl/Bh8M7NZei+
-	UfcxtQ0vBOyoWM7fmg7FZwXEmnpG/CJSNSb/VSN+bkZrNXlRL+tPQeG/7DadzzrvZKlwaydqafr
-	q/sDKy5p7GBwwIG/ahWCs+C5BnQ1qD8zUdAsPWby3ajr1rJcuQ6dwAz20je/baB5OY+naJ/hojd
-	/wewBAm0VF+2OUsfEtAtAYfXB4XMzpolEte2mVAwF+E4ul51C2ajO45CT9rc0Llnt+4jiLlIN8b
-	d6cbSzKSWlKV1WaA/ibsQ6YeSdglM0JvEhhfeQTlVRsrSdCKbfKdNJTEOEtY0pfrJkVbkRfoRLq
-	Jq1D+hktpu73FNSyvI/ar6xRg1EAWmo2eCiaT/3wF4qdJQgESaY=
-X-Received: by 2002:a05:701a:ccda:20b0:1b5:9075:232d with SMTP id a92af1059eb24-1b590752372mr1359447c88.29.1795674780587;
-        Wed, 25 Nov 2026 22:33:00 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795676049; x=1796280849;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EwyJCNE1Q7H8bIeTNVXKHO12xLLgxBEZMkKMexqwnPE=;
+        b=2fYQjCInI7Na/sgh5iwhQUD7b50/TgfRypuBB88fuzOSDpbUj2rwAA3QC89h8+DrrU
+         9574gJe+7lJn+94ixsZz6IPQrzd2pFawR6XJfTJXHlGDKyYJ7Ar2GvQ5bkrGZkPCU3SI
+         px7SzoirTwp2t8i6oubSqinmdNpsz9i0pABV9IGqWNoXBBhILFk10RGRZo0CXnRR5t8X
+         TnB+YsBP++4kMbfN9/BHsQ9LkRsaApZEKQnEAu+O8ZglWTFPbV5eWW4EzoTuM2xA9iXu
+         FOS1iOEDDs/4Y+sPnVvk3xXff4Yhc8WGsk2B3cHfy/S+motO1Z7uLFrO2ejVx6yDYumG
+         VOzQ==
+X-Forwarded-Encrypted: i=1; AL+hErGhdy8dI/nwb8f8mdwyQWJAhXr9pkAZwSZqXc9GNaAjf+VgIouvH7O0x/xUekFf5/R+5aA4ng+xqsoe2Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+7/pcs1JqyLmG4rcZxCd5w0JxTZXH5Y+32/TAaDefg90zlBKqo
+	Op4BLYMQeQ2UOMrNIMmpV+e/ziHxcTD9S3LKjD/OgA8pERdkX6jyCzgb
+X-Gm-Gg: AZFdTZc8oTa7oPZCBg5QRgF8+o1pT1CFcd5BGDwYFDqE6Ebdmhc8BzyrANexuTk0aPy
+	YSFciF/iw4qeNRQst0v/LMJsqRC+PElp3ZV9wTHPnCGzhQXbF5HF5gNzj0RTyfwFhJbeoZui5v3
+	SF7I1T+695RjBOAF+JdNXxp4HXI2wySRvQ5XZOUEwyZwHYE7Q1t/3OJkv/u+YDTAlf5gUz5Z9xc
+	4TG88cNPLvOwE12dY1OpTyWLb7RTBgzCCR4s/udCPxU41uhA7UH92nwLcmIlO2f/w5kfvgJVOlK
+	QyvGMz4bQQOsAGObfNY7AJsFM5CyzHudTabu0AsZUy7oitBQ73AdqMIuL7AaQU0+6FxwG0IkJ0h
+	LmGUy//bjx677OriZ5ZQfhNLRqtyimgset6dkY/yy/h7nk/hryXtLKmWUMHTZfc2ov7xS9uSWBc
+	LIOzzMXVpSm6uMSeiiQm029etelukRG3BgqacBkqc5oNQkzygzdi1w1LHdlaBoC81bluQMmDcIp
+	boczC/2rfA7e+JyWJapAXRmZjQU3QiIvhrahBR2pT1Ctcm5kGa9wdMNp4eK9x35t/Bd7i/Ar0AR
+	sY082leOjkphI6kAZjsxdAuLoiSeYIJKzuJ8eaOKq+tz5QyhHK0=
+X-Received: by 2002:a05:7300:c00f:10b0:381:1eb7:938e with SMTP id 5a478bee46e88-3856c9a61c1mr24744995eec.4.1795676048840;
+        Wed, 25 Nov 2026 22:54:08 -0800 (PST)
 Received: from localhost.localdomain ([103.179.230.77])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556829d31sm76423745c88.9.2026.11.25.22.32.58
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567daaf70sm61874754eec.28.2026.11.25.22.54.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 22:33:00 -0800 (PST)
+        Wed, 25 Nov 2026 22:54:08 -0800 (PST)
 From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com,
-	perex@perex.cz,
+To: perex@perex.cz,
 	tiwai@suse.de
 Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2] ALSA: vmaster: Restore follower values on put failure
-Date: Thu, 26 Nov 2026 06:32:25 +0000
-Message-ID: <20261126063225.3166-1-sreekuttan2156239@gmail.com>
+	linux-sound@vger.kernel.org,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] ALSA: vmaster: Check follower callback errors
+Date: Thu, 26 Nov 2026 06:53:10 +0000
+Message-ID: <20261126065310.3451-1-sreekuttan2156239@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261126061910.2840-1-sreekuttan2156239@gmail.com>
-References: <20261126061910.2840-1-sreekuttan2156239@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -101,60 +98,51 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Restore the cached follower values when the underlying put
+Check the return values of follower_get_val() and
+follower_put_val() in sync_followers().
+
+Stop synchronization and return the error when either
 callback fails.
 
-Otherwise, a retry with the same value may be skipped
-because the cache already contains the requested value.
-
-Fixes: 3b0a5f22d464 ("[ALSA] Add virtual master control helpers")
 Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 ---
-v2:
- - Add Fixes trailer.
-
- sound/core/vmaster.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ sound/core/vmaster.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/sound/core/vmaster.c b/sound/core/vmaster.c
-index f43144ba2797..f5cc11eba25d 100644
+index f43144ba2797..88b38ee5ba5f 100644
 --- a/sound/core/vmaster.c
 +++ b/sound/core/vmaster.c
-@@ -193,7 +193,7 @@ static int follower_put(struct snd_kcontrol *kcontrol,
- 			struct snd_ctl_elem_value *ucontrol)
- {
- 	struct link_follower *follower = snd_kcontrol_chip(kcontrol);
--	int err, ch, changed = 0;
-+	int err, ch, changed = 0, old_vals[2];
+@@ -345,17 +345,27 @@ static int sync_followers(struct link_master *master, int old_val, int new_val)
+ 	struct link_follower *follower;
+ 	struct snd_ctl_elem_value *uval __free(kfree) =
+ 		kmalloc_obj(*uval);
++	int err;
  
- 	err = follower_init(follower);
- 	if (err < 0)
-@@ -204,6 +204,10 @@ static int follower_put(struct snd_kcontrol *kcontrol,
- 			return -EINVAL;
+ 	if (!uval)
+ 		return -ENOMEM;
+ 	list_for_each_entry(follower, &master->followers, list) {
+ 		master->val = old_val;
+ 		uval->id = follower->follower.id;
+-		follower_get_val(follower, uval);
++		err = follower_get_val(follower, uval);
++		if (err < 0)
++			goto error;
++
+ 		master->val = new_val;
+-		follower_put_val(follower, uval);
++		err = follower_put_val(follower, uval);
++		if (err < 0)
++			goto error;
  	}
- 
-+	/* save the original cached values */
-+	for (ch = 0; ch < follower->info.count; ch++)
-+		old_vals[ch] = follower->vals[ch];
+ 	return 0;
 +
- 	for (ch = 0; ch < follower->info.count; ch++) {
- 		if (follower->vals[ch] != ucontrol->value.integer.value[ch]) {
- 			changed = 1;
-@@ -213,8 +217,13 @@ static int follower_put(struct snd_kcontrol *kcontrol,
- 	if (!changed)
- 		return 0;
- 	err = follower_put_val(follower, ucontrol);
--	if (err < 0)
-+	if (err < 0) {
-+		/* restore cached values on failure */
-+		for (ch = 0; ch < follower->info.count; ch++)
-+			follower->vals[ch] = old_vals[ch];
- 		return err;
-+	}
-+
- 	return 1;
++error:
++	master->val = old_val;
++	return err;
  }
  
+ static int master_put(struct snd_kcontrol *kcontrol,
 -- 
 2.55.0
 
