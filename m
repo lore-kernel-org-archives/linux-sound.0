@@ -1,61 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795724247;
-	b=l+DrEJlipqP4HnC8KGOj7o2u2ePKXeT+YgubrmtAZetHHQ5ebSIaGfPJ+pQ9Pr/45xbD
-	 qS8JzLy0pBP9BMQ9OTKeso2QqHRD+axkumqlzQo8WYnz6t81zQkkmvjUZpDgd6V2kAs4F
-	 LX0GXwMsjokg9NlBBOPOawj96gKfexu1dppFhKEAumtoDV3TXy8syOGkVy1scKFCg7FIC
-	 hH2G695mPV96a+oQkzUB0uSmkU7kwQS5SWUInHHE/lKAhW0aBFn2cW5BFobf19UC5TAWF
-	 zbTl4J6kiZesYOqeYvb/V1QjxeaPEIdHHvvXNvKqsvLMJhcAPNULmgW3J5HRhaEqbTA==
+	t=1795724254;
+	b=iLfl/We5XiRc5vIWt/bWMzFBwbzxOIByxxsCpGVCbkMUDPPHpO44cwnw83CPMSO0D2Au
+	 cm+1UZ8N3EKfO843pzLzpbhZe39pOVVdlFAeul+/If58QI6quCOVVJKb4XGsbaFEDQzt+
+	 6R1OF9J+TPd5nasfSVdkSNCaYRC4z6cu/1SJjDeJtdedrhI1QAipTEO+F4HbZ7xxJoBqP
+	 c5IuHHpqcHKMjj3Ak4TmflKXpD0z8RQd0ULY1phpp0GPH23OFBQGFr3mNAKcLSa7ATVdP
+	 1KduuTjYYkMqtb6y59UT7mwUE94HC0Jb/fCBlkCpkbY0unmP2btlHC+03oJ6A3w5PFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795724247;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795724254;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=OrAN9c3tynY/DpBuJ7vG5TphyhARolPWNJXd2naUKI8=;
-	b=OfFe9vK4VrFilRlHS7FLNhVw0fsfgF4b8DOsnjvXlBugf5LLr4XpAeTcizbbxjkTr9WJ
-	 USH8z///QjXqyHBBUsde+CY69WZKTwD0IAXKxK9XTaa8EZDeVMTj/F5JVtOT3oQGswm5F
-	 4xONc+ERzcxX9yu5w2BfyNS9cQa7Ak3Vo7YM04pXctu9xFB5mSu9YkJvmt+YTinb9v7cw
-	 YIJy7b/Eh/2vTUd30rHkAKqpBwJ/i4TNtCE6c56//jNduycR3FqnuDukasQpJexF5HFvA
-	 6awqKGwmyIaeUpcagkkyObEcb6BDW6835DsWnrn+Lz1v+DF8clsrmaHeNuO6Rd/9H2g==
+	bh=+YqA/EUQPSROfYWDD2Mvnwhj+ldCwxHuIMAYVYFeAJo=;
+	b=3+MwJVQZubz6nMfb9pCRMlCOY8gjKHsdn8JJXXOXbgCbYCsKOmguFDJqwbMAK0aSxrFK
+	 AngkKDt9SQIvsTrG4iW9hmOXMKcPjm6EnRl3bh2FqBjCuVs0/oj4RauZb3MpnCvLME1FB
+	 Gy6BeZKFT0frh2OxNAk7vwfigIsmCGjNlQQMGsFl3F+eSoxDbuSQvzbQTgDW2NppNEWVW
+	 OcSGzQqZJ1qKEynpggi4HpIPvTmaRK4eqqrEyBMWQV1M2dzUvHGNUgeBKY4uLoXSdkZcv
+	 ew5JHaYViZoxhKVcReK+D2d0YgsA5xEJyp1mGtO4X3cNw9US9PTbPhlZZF+jE4BLMMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Wpk/g2h4";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m86bHrey;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7678C606A31C;
-	Thu, 26 Nov 2026 20:17:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B04606A32E;
+	Thu, 26 Nov 2026 20:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Wpk/g2h4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 483461F00896;
-	Thu, 26 Nov 2026 20:17:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m86bHrey
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B32C91F00895;
+	Thu, 26 Nov 2026 20:17:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795724246;
-	bh=OrAN9c3tynY/DpBuJ7vG5TphyhARolPWNJXd2naUKI8=;
+	s=k20260515; t=1795724253;
+	bh=+YqA/EUQPSROfYWDD2Mvnwhj+ldCwxHuIMAYVYFeAJo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Wpk/g2h4Spij0ntaXkGy+6B6FhE4nWLv1vbJr7qStLGWSUJkrQqqxJPQDITUqNtsw
-	 7F5PxaE1zo3M+4C5RUnED7/5eZV0ZvzEJ+VIPXRkSX008mBIbrPliHgPT1gC2HS0Yc
-	 /+MXTQaiUZzslkL/khjo58qJkl0Mkkmx4Yr40nJjLoYyNIaUXcczwEW2fNlxzf1z/a
-	 R+/Neq5gTnUusAGwX78cx4UjOZ4zcM0W827iokfM45t0e9Cegi7UeJwgu2fTGLPKaL
-	 1lWGtkF+OMbQEjU+ImGgzdfn8ljZaIz7A4fxzvWiJr025iwi7mtf5/viNDd98wD6pQ
-	 sTn6uWWw95XwA==
+	b=m86bHreyKf05alTxdTLfpkfpZ4/iohEt/1ajg350dyq1y9g0miHep87fG2nEkyt32
+	 Xlvbf++C3rjA8sFUGax3rchbcF6/F4oRnA7ePWnHB1aTIVY+5U5CtkNcHmmyE7q9Dw
+	 Hkr72NTQu/YJILk0Z1pLWMh1bXZ2aWbNIccWYCPYjBxglQPh2cDn7YDQUPfWg1aJwe
+	 eLbNxStJ2vT1nWHK+9uzWNJ2BmLIrBR+iwS3EjEENj82nBNivaKqdFsU0oTe5uEj/h
+	 ZNdehegeXabDpbXFU21ohmQDC+Krjl873lvbirL18IoAzLrOHO6jYDbNo4kTEzrj9a
+	 uhBENFISGI9Tw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Srinivas Kandagatla <srini@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261125171831.1458954-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20261125171831.1458954-1-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH 0/2] ASoC: Glymur LPASS macro codec support
-Message-Id: <179571303906.142532.12603531757351486618.b4-ty@b4>
-Date: Thu, 26 Nov 2026 17:10:39 +0000
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ shengjiu.wang@oss.nxp.com
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20261126102528.1531824-1-shengjiu.wang@oss.nxp.com>
+References: <20261126102528.1531824-1-shengjiu.wang@oss.nxp.com>
+Subject: Re: [PATCH v2] ASoC: SOF: imx8: Switch imx8ulp DSP control to
+ reset framework
+Message-Id: <179570816156.142532.252987832768462132.b4-ty@b4>
+Date: Thu, 26 Nov 2026 15:49:21 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -68,24 +74,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1516; i=broonie@kernel.org;
- h=from:subject:message-id; bh=F1An95lPGxcReO+L4LVto08RyreBaE5IgrZNODBMBZE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5Jl/6daWqceJ+JZMGTvsnNTqKB9K1doh2ZdWqzuENV
- F/3d/+njlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEykNpSR4dpnt+A/W89flNQu
- vf5U1f7TT1fPuKSl91Saz3aX7GjMucvIMPNOYeaqX4vvZP0IvXlsZ9R8Y0mmM59fMCWtUukQ+Jq
- 5nwUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=fqUxoi0I4me6jqtgp/a5cIp3cTRehPE5dY23SN1KjSM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5Jt94fGBx/r3sgj8XAo86ee8PPZD0pzWtR/Sk7SflL
+ 2b/pzqu6ShlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBELroz/Hefluxa0rXxYdWD
+ G1N/FMfLyLecV7ZT+XyzQdTc5cCeRysY/juqZuu6h6gEnXcvvBq5RDp7Ud7Bt6/YBBuPap85pvp
+ nAQsA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 25 Nov 2026 17:18:29 +0000, Srinivas Kandagatla wrote:
-> ASoC: Glymur LPASS macro codec support
-> 
-> Teach the LPASS RX macro driver about LPASS_CODEC_VERSION_2_9 (the
-> version reported by Glymur's RX macro) and add the matching
-> qcom,glymur-lpass-rx-macro and qcom,glymur-lpass-tx-macro
-> compatibles to the existing rx-macro / tx-macro bindings.
-> 
-> [...]
+On Thu, 26 Nov 2026 18:25:27 +0800, shengjiu.wang@oss.nxp.com wrote:
+> ASoC: SOF: imx8: Switch imx8ulp DSP control to reset framework
 
 Applied to
 
@@ -93,10 +92,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: lpass-rx-macro: handle LPASS_CODEC_VERSION_2_9
-      https://git.kernel.org/broonie/sound/c/d8764bc050af
-[2/2] ASoC: dt-bindings: qcom: Add Glymur LPASS macro codecs
-      https://git.kernel.org/broonie/sound/c/9efa4eac7819
+[1/1] ASoC: SOF: imx8: Switch imx8ulp DSP control to reset framework
+      https://git.kernel.org/broonie/sound/c/50529c05b08b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
