@@ -1,79 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795678550;
-	b=g/HlwbRfMdB3a4KZazSTvzxZ0fkhZHaA6GqFEGRkj+3Bj6DWWWbCNQPyod84xpiSrUaW
-	 mic56Yi2+1ir6PUzppHDLKuWQxcp/MeVjghThdPzUW1hNAOQEuUH7b40kFtrpLl+KlEq3
-	 JZu5uBWOtOmLTfQk3br31LtvSbBSzDQ+Spxpcun57p2/u9qH5s+kpP9fOH4NMqoc5Pzrl
-	 CJiNrQTgYFUZx7hZ82IzLlb7MybxM7y6gciBcbrZ1poql8VjjlZ/GHc2s85S/zhXlUnnT
-	 vC/efEYvPmjyO548ESPQrb+85tguDhB3b8j1sYgD0RtHP1XzGjg8Yfo72UsLKc/G/+w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795678550;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=2eugPvCFuopdM2cplxwflGqsU9A8QEDx/1U3R4WAaHc=;
-	b=d8f6zaXFw3udZ9xIxqym02ONkfPqEcKYrQ8Xb595NAR3kSKRnMg8TflJrQR9M9fU85nA
-	 +he6C3h6qBWkLzd0TPeRfmaHzwgX1XAEbLMD3ty1Ck3lr1FOweJAk09ZcERBABWClTC7w
-	 ToEleBFWAltvYyAcEULhTzeAadIrszboAnPXBgbGkLdrIH6RWutxzpL7C0Q/DNHp0s9Oe
-	 WmZZvvhUpGXZk3wL9ryicpi/ZXx7zqx+jqaHrb1r9Qj1Mg2x2nsPsv16myAYuOyH0ZVKj
-	 COP7LjBqOoRU4yTg6GIXGEyfuT61BpYJ2bEhkZaO8qAJLQ9vpw3CGY2UeUpzHqGsj1w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IuYmYDsN;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.182
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795678735;
+	b=4/WO6F8aJwbRJsLwa+riKTIbb77dm1ukZAcGujTn7K/p3mcg4NSoUXivd6noflA7W+5i
+	 Hk/+ZxTBWTZhHCIqsxDP3pdyvCOekPXN3QS+EyvjaYPgZeU7YEeGPpWuF5kLihQJKRZdG
+	 mGgalyy0mVNgyvdbsQjun8A0MJj4r4dn9eKJSoKDorYRKSkp+yUbXhg1S8VeDTVHJOe93
+	 OsALuTImIwtLxytHtoCeFmkDQyJFtCf+1NSU1UGm0AdZkOtnqLKZJ8lniQf+LtxIL9kEs
+	 vfqH0+9pDgCsr8jVDF3bm01cZyV1JGvvQLXLHoRmhg/QNM7lLzKvaZH8QcI9Kueno7g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795678735;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=weIG7gj6LW/JNMRsx8MpzybnF6HLQu5qJLDoyOk7TzQ=;
+	b=IIFGkKrJ82juVKJ6eYFvPo/QuczHDY/D+vGTdj8pFyQSJ/jWGU/hCAg1sIl9L03gdoy7
+	 pv7zRudMt945/9oNixtx8OO2RaSBgEQkqYV6z8qUv9Ye4r/7LgKLllh70fAj1MlM1iWzo
+	 R7/Y64/lQ8/KoFpFFIu8SHd7IAr3WMYlFk5fjIG81ZMoaComxJ40rByM3IS63DvouCLVn
+	 aVpOr2F50bcLUxyklEQz+54DzrAekHaJAgBiiWQKhPDEgJSzccVnBLm0PTBcM+Rfk6/SX
+	 FNpLQnRp0M87/oma1Y5fem1mUpnaI3vQz4gwP5Lwl1uHfqBJiQZXABK5jf4WMrQSLbA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cPDDSZPb;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459CE606A31C;
-	Thu, 26 Nov 2026 07:35:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 459CE606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE92606A31C
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 07:38:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AE92606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IuYmYDsN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795678549; x=1827214549;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=frTDRGBtprvjeW8e1zSOPrw9hbhdOFAeRBZMQNXbmgE=;
-  b=IuYmYDsNpnXuBbIQm3P80s5f2xDdVNPbIrdb+Ge7aoRTiWjl9X3JPwgA
-   NV3JtGKTWs+jmNSShTujnaGyCC/JSUrIuVK3EtELfMHe+RjcxsEJ8FZCL
-   28ZaOLt4wBi1c5j0bSGMJKiqPiFZmHS62V1jhvRzgT+QRfn0kjy8RSIIH
-   45VfA4jtwBq2F85ffqF07LpR4gxOBmmO63SgnBoFGMlkPUOC+garFNxKu
-   S35JXhYbrBylaSPZ4ICn8wi98W0IENzr2Qwzb/GLSCDcpZO//dlBUtADT
-   A4xX6qbonhdNkxsoUp6YoOhOz6QLxryHa936oXTxcgCckbbljOrn9NqZ/
-   w==;
-X-CSE-ConnectionGUID: 3sQMpprJSV6e8KfLb4P18Q==
-X-CSE-MsgGUID: lIz7evS+TuuFyZzUSPlsaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4565351"
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="4565351"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:35:48 -0800
-X-CSE-ConnectionGUID: IAfJMe5YRzKfrVeBeUuE0A==
-X-CSE-MsgGUID: uEOi2c1+QeGm5wuDaRGuKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
-   d="scan'208";a="11880657"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 25 Nov 2026 23:35:47 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id B1F1098; Thu, 26 Nov 2026 08:35:45 +0100 (CET)
-Date: Thu, 26 Nov 2026 08:35:45 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Andy Shevchenko <andy@kernel.org>, brgl@kernel.org,
-	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] pinctrl: cs42l43: Add GPIO controlled mic/spk mute LEDs
-Message-ID: <20261126073545.GM191152@black.igk.intel.com>
-References: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
- <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cPDDSZPb
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2f03f3631b2so36176945ad.2
+        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 23:38:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795678734; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FeM4QArsL25i3Reug9eyxgyJSwHrP5rQo8+ar4g1VDYDvwaxm45LZJ/Iq08zYzyWCa
+         YprJvHnmUJX6BrBrj8mDWoCSFxOg/tJviEII6IKAQY52oEpVvpf5Hd8DMZp1hvJ6X1QI
+         a+3YpKgrIvZ0IMmcB1yEocdt/W8YCqkptbBVdxDVVMNaupVWgmxRZEbaKyLjTXPfuUW3
+         se2azs+EUZS1BzcRniIGFSqfLwmC7b7mspUVm6E46A5QEAD6FyEQFhAUHPVZdUxZpSwD
+         deECS7mSDMMb6ipgUObuJSUsqc6BFvUpC1s4kWX6m3Ws9MAnl4Q720nMhUr9VNyeSSWi
+         4uVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=weIG7gj6LW/JNMRsx8MpzybnF6HLQu5qJLDoyOk7TzQ=;
+        fh=7xL33lZ3DZeA6adqGVHVFCb+oWnTbg0PgQbJ47YnPsI=;
+        b=sLi/exDX4zoihTyktKYEPEZIj7pjBlGqcOGqvWnAvsokkI4qpExluyOmw0TsGo2VBu
+         6ZpSfHzDhdWIcATkAiAeEafGroQmdmKxVmtznf+oNi0mL1hjhNmgbIyYmH0X6N7vjyUK
+         AzGEL1bbNvPXMoM4Qbx56EH18XV6HcqqO9h4evSIvLdVgKNfQTiyKT21ZbjxW+SndUc3
+         mFe7X8SmIJ1oPWQ8jHM9gKUF5tpYsOmy6BiE1yeXtp9Pec/iGpo1FA0nume11jeIyjFU
+         LiSM0lbFHcRFCfb0UuE2JX6/C27AAwJnAtSbHzUtY2OFWhHC2XqbSfKliG2Ve/UX4a2/
+         Jllw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795678734; x=1796283534; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:to:subject:message-id:date
+         :from:in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=weIG7gj6LW/JNMRsx8MpzybnF6HLQu5qJLDoyOk7TzQ=;
+        b=cPDDSZPbRSTMZDTfkSWiHDngt46OzwmHG5WTuU/9oHWsU5fvb+9H8k73RSu5aO7xO7
+         WEsv64xHbzRNb5o6hSFiOcMSSe3mrAwrjcW63bbbj9qtekNJ6mEvN772kiFmBEAtu8OU
+         z+Qbldj2mbASiC1FRSiTIs+0qLoz2OrsaUQfu/8FehmqGCG2IHJjBoPAhqbpDffQXPBV
+         Bs9FsxMa4udeE47cdlyBBtcad2yI/H8GoV3GEVhvCGJt0QlaEsAXSN8VuZ1CTkp6BiTf
+         hpOVbMhKQhdzcMi99vUksSUD5kvhMm3xDNYATjNWGZcDGAuTJj4XsxSgmZKHNJ+6+lXF
+         udJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795678734; x=1796283534;
+        h=content-transfer-encoding:content-type:to:subject:message-id:date
+         :from:in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=weIG7gj6LW/JNMRsx8MpzybnF6HLQu5qJLDoyOk7TzQ=;
+        b=pcrDpw1BU2bLJMtfT6S+Vl8DqA3srf5dG+rOHH3gsZuOuAC/M9+TcXzOcta2YrMjPD
+         +7KMg5QgrIe8OeRQx9Xdc/2dIQEkoQlJ4uVftfqn1zGLzE6NCRfxH1CaLeS8no0NY2rn
+         FsdzQyHfqKVOhQqlPEOe5CVG7M+8GBGO7/BxUawTvbh19N/yzY4nyoh09ivZEu9UWc10
+         hdavyscAKXwrHmx2WQhDhUsx89IHhCthRq+eJnQB6HD4yCGdYY4GkRBq3CH1EKr/xRRJ
+         XG7nC/D9yWwJ9Vk3V5wLb53V7O4yzWTw/MGcKMS4n4CIN1pK9/WsNzDaCBsvlob7eMqT
+         eeyA==
+X-Gm-Message-State: APuU4Z/P5My1Rvh5yM+jqwoKznSTXV9R4sGD79Ctia8weK7oc/XQJ2Ql
+	QNWaDkU2R+TBzB0P7FQc4XluIZ6TbZR+3rBO5evhxco7oR1BY+Ik+isGUAMkwfQgPX+7hDtNaDP
+	tpXvOLouI6S02wUFVwFqSstjbJutm6o8dFaO8
+X-Gm-Gg: AZFdTZev5GcFY00vbu+f9w29Mh4PITcwdiJA19X4HWTj8Z3Wud5NhsnawrXEbYpm4Xs
+	1VFkqeLA/EKCdNGUJPBkRKkWxoU0EJ2CBxFrZsg8hd/ND3y5E76Sl2xmmllgrikTVmx1JHg90xl
+	Qw63oCuSTTX7Xavc592LiRrjSeCz5BaLDtwUeu0/g/heXWLPXLDnS6HF8aguVVMBSEczDNEXEFZ
+	vUh74KoyxW99vGQ4XgvVAmnW4d97yYbQ5pLHevEckOWo1cdxnlEeetZAAllq2KtybjRB+WMTDlA
+	bfPIdm9CnnjkKqQdYX0CqwEukNjPiGOFr3+e1LHrIhhLg9DR0VDfMOMN5H7fkdM8j/WpUcKrI5r
+	jIxe6ncgH1T7UENXdwtxv7eDdMh6T1zwnSVaVJV/IBboCloiJyGHUVdTrBtAAaHsD5kty/AAJhr
+	ZQEP1c2jLfnfhM+qo/TNmKT4FCrso2/tPZqEaTk6N6s1uFabV2RhbeakXHvdBjcmGOiWMaD1Sv7
+	de9A+iZCgB9jRLwFQOQPOg15We7s8Ua6ApxUB9Oqg==
+X-Received: by 2002:a17:903:2f90:b0:2e8:422e:19c5 with SMTP id
+ d9443c01a7336-2f03f249c41mr198634445ad.55.1795678734313; Wed, 25 Nov 2026
+ 23:38:54 -0800 (PST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,254 +104,301 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
+References: <CAM8-Xq_80fp-Tv4R5aoyKtVhH8On=TMOxZY66goYtQDP9o1XDA@mail.gmail.com>
+In-Reply-To: <CAM8-Xq_80fp-Tv4R5aoyKtVhH8On=TMOxZY66goYtQDP9o1XDA@mail.gmail.com>
+From: dahmane dahim <dahmanedahim04@gmail.com>
+Date: Thu, 26 Nov 2026 08:38:17 +0100
+X-Gm-Features: Aa3M54qqC_WR1anPiXFE8tbE6_7xuBTwofFpv3BrCHENInq8Aejx-fedawoJCkY
+Message-ID: <CAM8-Xq8EiNkdpcv=qeYHLfkf8Uzxzm8rYQc2z=D8gPDqk5f8BQ@mail.gmail.com>
+Subject: Re: ALSA: hda/conexant: HUAWEI HKD-WXX (152d:1350) speakers driven by
+ headphone amp
+To: linux-sound@vger.kernel.org, tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Follow-up on my earlier report (HUAWEI HKD-WXX, subsystem 152d:1350).
 
-On Wed, Nov 25, 2026 at 07:06:24PM +0100, Linus Walleij wrote:
-> Top posting to loop in more people.
-> 
-> (Andy & Mika)
-> 
-> On Tue, Nov 10, 2026 at 3:21 PM Maciej Strozek
-> <mstrozek@opensource.cirrus.com> wrote:
-> 
-> > Add ability to use cs42l43's GPIOs to drive speaker and microphone mute
-> > LEDs. The LEDs must be described using
-> > 01fa-global-mute-led-(spk|mic)-mute-gpio ACPI property, which tells
-> > which of the 3 available cs42l43's GPIOs to use for the respective
-> > function.
-> >
-> > Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> 
-> ACPI property, so Andy and Mika need to decide if this is a reasonable
-> way to go about this issue.
+Codec: Conexant CX11880
+Address: 0
+AFG Function Id: 0x1 (unsol 1)
+Vendor Id: 0x14f11f86
+Subsystem Id: 0x152d1350
+Revision Id: 0x100100
+No Modem Function Group found
+Default PCM:
+    rates [0x540]: 48000 96000 192000
+    bits [0xa]: 16 24
+    formats [0x1]: PCM
+Default Amp-In caps: N/A
+Default Amp-Out caps: N/A
+State of AFG node 0x01:
+  Power states:  D0 D1 D2 D3 D3cold S3D3cold CLKSTOP EPSS
+  Power: setting=3DD0, actual=3DD0
+GPIO: io=3D5, o=3D0, i=3D0, unsolicited=3D1, wake=3D1
+  IO[0]: enable=3D0, dir=3D0, wake=3D0, sticky=3D0, data=3D0, unsol=3D0
+  IO[1]: enable=3D0, dir=3D0, wake=3D0, sticky=3D0, data=3D0, unsol=3D0
+  IO[2]: enable=3D0, dir=3D0, wake=3D0, sticky=3D0, data=3D0, unsol=3D0
+  IO[3]: enable=3D0, dir=3D0, wake=3D0, sticky=3D0, data=3D0, unsol=3D0
+  IO[4]: enable=3D0, dir=3D0, wake=3D0, sticky=3D0, data=3D0, unsol=3D0
+Node 0x10 [Audio Output] wcaps 0xc1d: Stereo Amp-Out R/L
+  Control: name=3D"Master Playback Volume", index=3D0, device=3D0
+    ControlAmp: chs=3D3, dir=3DOut, idx=3D0, ofs=3D0
+  Control: name=3D"Master Playback Switch", index=3D0, device=3D0
+    ControlAmp: chs=3D3, dir=3DOut, idx=3D0, ofs=3D0
+  Amp-Out caps: ofs=3D0x4a, nsteps=3D0x4a, stepsize=3D0x03, mute=3D1
+  Amp-Out vals:  [0x3a 0x3a]
+  Converter: stream=3D0, channel=3D0
+  PCM:
+    rates [0x540]: 48000 96000 192000
+    bits [0xa]: 16 24
+    formats [0x1]: PCM
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+Node 0x11 [Audio Output] wcaps 0xc1d: Stereo Amp-Out R/L
+  Amp-Out caps: ofs=3D0x4a, nsteps=3D0x4a, stepsize=3D0x03, mute=3D1
+  Amp-Out vals:  [0x0e 0x0e]
+  Converter: stream=3D0, channel=3D0
+  PCM:
+    rates [0x540]: 48000 96000 192000
+    bits [0xa]: 16 24
+    formats [0x1]: PCM
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+Node 0x12 [Beep Generator Widget] wcaps 0x70000c: Mono Amp-Out
+  Control: name=3D"Beep Playback Volume", index=3D0, device=3D0
+    ControlAmp: chs=3D1, dir=3DOut, idx=3D0, ofs=3D0
+  Control: name=3D"Beep Playback Switch", index=3D0, device=3D0
+    ControlAmp: chs=3D1, dir=3DOut, idx=3D0, ofs=3D0
+  Amp-Out caps: ofs=3D0x07, nsteps=3D0x07, stepsize=3D0x0f, mute=3D0
+  Amp-Out vals:  [0x03]
+Node 0x13 [Audio Input] wcaps 0x100d1b: Stereo Amp-In R/L
+  Control: name=3D"Capture Volume", index=3D0, device=3D0
+    ControlAmp: chs=3D3, dir=3DIn, idx=3D1, ofs=3D0
+  Control: name=3D"Capture Switch", index=3D0, device=3D0
+    ControlAmp: chs=3D3, dir=3DIn, idx=3D1, ofs=3D0
+  Amp-In caps: ofs=3D0x4a, nsteps=3D0x50, stepsize=3D0x03, mute=3D1
+  Amp-In vals:  [0x80 0x80] [0x50 0x50] [0x80 0x80] [0x80 0x80]
+  Converter: stream=3D0, channel=3D0
+  SDI-Select: 0
+  PCM:
+    rates [0x540]: 48000 96000 192000
+    bits [0xa]: 16 24
+    formats [0x1]: PCM
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+  Connection: 4
+     0x18 0x19* 0x1a 0x15
+Node 0x14 [Audio Input] wcaps 0x100d1b: Stereo Amp-In R/L
+  Amp-In caps: ofs=3D0x4a, nsteps=3D0x50, stepsize=3D0x03, mute=3D1
+  Amp-In vals:  [0x4a 0x4a] [0x4a 0x4a]
+  Converter: stream=3D0, channel=3D0
+  SDI-Select: 0
+  PCM:
+    rates [0x540]: 48000 96000 192000
+    bits [0xa]: 16 24
+    formats [0x1]: PCM
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+  Connection: 2
+     0x1a* 0x15
+Node 0x15 [Vendor Defined Widget] wcaps 0xf0050b: Stereo Amp-In
+  Amp-In caps: ofs=3D0x4a, nsteps=3D0x4a, stepsize=3D0x03, mute=3D1
+  Amp-In vals:  [0x4a 0x4a] [0x4a 0x4a]
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+  Connection: 2
+     0x10* 0x11
+Node 0x16 [Pin Complex] wcaps 0x400581: Stereo
+  Pincap 0x0001001c: OUT HP EAPD Detect
+  EAPD 0x2: EAPD
+  Pin Default 0x03211040: [Jack] HP Out at Ext Left
+    Conn =3D 1/8, Color =3D Black
+    DefAssociation =3D 0x4, Sequence =3D 0x0
+  Pin-ctls: 0x40: OUT
+  Unsolicited: tag=3D02, enabled=3D1
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+  Connection: 2
+     0x10* 0x11
+Node 0x17 [Pin Complex] wcaps 0x400501: Stereo
+  Pincap 0x00010010: OUT EAPD
+  EAPD 0x2: EAPD
+  Pin Default 0x91170110: [Fixed] Speaker at Int Rear
+    Conn =3D Analog, Color =3D Unknown
+    DefAssociation =3D 0x1, Sequence =3D 0x0
+    Misc =3D NO_PRESENCE
+  Pin-ctls: 0x40: OUT
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+  Connection: 2
+     0x10 0x11*
+Node 0x18 [Pin Complex] wcaps 0x40048b: Stereo Amp-In
+  Amp-In caps: ofs=3D0x00, nsteps=3D0x03, stepsize=3D0x2f, mute=3D0
+  Amp-In vals:  [0x00 0x00]
+  Pincap 0x00001324: IN Detect
+    Vref caps: HIZ 50 80
+  Pin Default 0x40f001f0: [N/A] Other at Ext N/A
+    Conn =3D Unknown, Color =3D Unknown
+    DefAssociation =3D 0xf, Sequence =3D 0x0
+    Misc =3D NO_PRESENCE
+  Pin-ctls: 0x00: VREF_HIZ
+  Unsolicited: tag=3D00, enabled=3D0
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+Node 0x19 [Pin Complex] wcaps 0x40048b: Stereo Amp-In
+  Control: name=3D"Mic Boost Volume", index=3D0, device=3D0
+    ControlAmp: chs=3D3, dir=3DIn, idx=3D0, ofs=3D0
+  Amp-In caps: ofs=3D0x00, nsteps=3D0x03, stepsize=3D0x2f, mute=3D0
+  Amp-In vals:  [0x03 0x03]
+  Pincap 0x00001324: IN Detect
+    Vref caps: HIZ 50 80
+  Pin Default 0x03a11030: [Jack] Mic at Ext Left
+    Conn =3D 1/8, Color =3D Black
+    DefAssociation =3D 0x3, Sequence =3D 0x0
+  Pin-ctls: 0x20: IN VREF_HIZ
+  Unsolicited: tag=3D01, enabled=3D1
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+Node 0x1a [Pin Complex] wcaps 0x40048b: Stereo Amp-In
+  Amp-In caps: ofs=3D0x00, nsteps=3D0x03, stepsize=3D0x2f, mute=3D0
+  Amp-In vals:  [0x00 0x00]
+  Pincap 0x00000024: IN Detect
+  Pin Default 0x40f001f0: [N/A] Other at Ext N/A
+    Conn =3D Unknown, Color =3D Unknown
+    DefAssociation =3D 0xf, Sequence =3D 0x0
+    Misc =3D NO_PRESENCE
+  Pin-ctls: 0x00:
+  Unsolicited: tag=3D00, enabled=3D0
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+Node 0x1b [Vendor Defined Widget] wcaps 0xf00000: Mono
+Node 0x1c [Vendor Defined Widget] wcaps 0xf00000: Mono
+Node 0x1d [Vendor Defined Widget] wcaps 0xf0058b: Stereo Amp-In
+  Amp-In caps: N/A
+  Amp-In vals:
+  Unsolicited: tag=3D00, enabled=3D0
+  Power states:
+  Power: setting=3DD0, actual=3DD0
+  Connection: 0
+Node 0x1e [Vendor Defined Widget] wcaps 0xf0058b: Stereo Amp-In
+  Amp-In caps: N/A
+  Amp-In vals:
+  Unsolicited: tag=3D00, enabled=3D0
+  Power states:
+  Power: setting=3DD0, actual=3DD0
+  Connection: 0
+Node 0x1f [Vendor Defined Widget] wcaps 0xf0058b: Stereo Amp-In
+  Amp-In caps: N/A
+  Amp-In vals:
+  Unsolicited: tag=3D00, enabled=3D0
+  Power states:
+  Power: setting=3DD0, actual=3DD0
+  Connection: 0
+Node 0x20 [Audio Output] wcaps 0x611: Stereo Digital
+  Converter: stream=3D0, channel=3D0
+  Digital:
+  Digital category: 0x0
+  IEC Coding Type: 0x0
+  PCM:
+    rates [0x540]: 48000 96000 192000
+    bits [0xe]: 16 20 24
+    formats [0x5]: PCM AC3
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+Node 0x21 [Pin Complex] wcaps 0x400701: Stereo Digital
+  Pincap 0x00000010: OUT
+  Pin Default 0x40f001f0: [N/A] Other at Ext N/A
+    Conn =3D Unknown, Color =3D Unknown
+    DefAssociation =3D 0xf, Sequence =3D 0x0
+    Misc =3D NO_PRESENCE
+  Pin-ctls: 0x00:
+  Power states:  D0 D1 D2 D3 EPSS
+  Power: setting=3DD0, actual=3DD0
+  Connection: 1
+     0x20
 
-I think the properties themselves are already "known" so that should be
-okay (but let's see if Andy has any comments), there is though a tiny
-observation below.
+A pin override makes the speakers work:
+  0x16 0x90170110  (Speaker, Internal)
+  0x17 0x411111f0  (Not connected)
+The driver then autoconfigures line_outs=3D1 (0x16) type:speaker, and a
+single "Master" control drives the speakers correctly.
 
-> > ---
-> >  drivers/pinctrl/cirrus/pinctrl-cs42l43.c | 156 +++++++++++++++++++++++
-> >  1 file changed, 156 insertions(+)
-> >
-> > diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-> > index 8990fab0446cf..7e4e43783ef14 100644
-> > --- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-> > +++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
-> > @@ -5,11 +5,15 @@
-> >  // Copyright (c) 2023 Cirrus Logic, Inc. and
-> >  //                    Cirrus Logic International Semiconductor Ltd.
-> >
-> > +#include <linux/acpi.h>
-> >  #include <linux/array_size.h>
-> >  #include <linux/bits.h>
-> >  #include <linux/build_bug.h>
-> >  #include <linux/err.h>
-> > +#include <linux/gpio/consumer.h>
-> >  #include <linux/gpio/driver.h>
-> > +#include <linux/gpio/machine.h>
-> > +#include <linux/leds.h>
-> >  #include <linux/mfd/cs42l43.h>
-> >  #include <linux/mfd/cs42l43-regs.h>
-> >  #include <linux/module.h>
-> > @@ -29,9 +33,18 @@
-> >
-> >  #define CS42L43_NUM_GPIOS 3
-> >
-> > +struct cs42l43_mute_led {
-> > +       struct led_classdev cdev;
-> > +       struct gpio_desc *gpio;
-> > +       u32 gpio_num;
-> > +};
-> > +
-> >  struct cs42l43_pin {
-> >         struct gpio_chip gpio_chip;
-> >
-> > +       struct cs42l43_mute_led spk_mute_led;
-> > +       struct cs42l43_mute_led mic_mute_led;
-> > +
-> >         struct device *dev;
-> >         struct regmap *regmap;
-> >         bool shutters_locked;
-> > @@ -535,6 +548,143 @@ static void cs42l43_fwnode_put(void *data)
-> >         fwnode_handle_put(data);
-> >  }
-> >
-> > +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> > +static int cs42l43_find_mute_gpios(struct cs42l43_pin *priv, struct fwnode_handle *fwnode)
-> > +{
-> > +       struct cs42l43_mute_led *mic = &priv->mic_mute_led;
-> > +       struct cs42l43_mute_led *spk = &priv->spk_mute_led;
-> > +       int ret;
-> > +
-> > +       fwnode_for_each_child_node_scoped(fwnode, child_fwnode) {
-> > +               struct fwnode_handle *ext_fwnode __free(fwnode_handle) =
-> > +                       fwnode_get_named_child_node(child_fwnode,
-> > +                                                   "mipi-sdca-function-expansion-subproperties");
-> > +               bool mic_present, spk_present;
-> > +
-> > +               if (!ext_fwnode)
-> > +                       continue;
-> > +
-> > +               mic_present = fwnode_property_present(ext_fwnode,
-> > +                                                     "01fa-global-mute-led-mic-mute-gpio");
-> > +               spk_present = fwnode_property_present(ext_fwnode,
-> > +                                                     "01fa-global-mute-led-spk-mute-gpio");
-> > +               if (!mic_present && !spk_present)
-> > +                       continue;
-> > +
-> > +               if (mic_present) {
-> > +                       ret = fwnode_property_read_u32(ext_fwnode,
-> > +                                                      "01fa-global-mute-led-mic-mute-gpio",
-> > +                                                      &mic->gpio_num);
-> > +                       if (ret)
-> > +                               return dev_err_probe(priv->dev, ret,
-> > +                                                    "Invalid mic-mute LED GPIO property\n");
-> > +               }
-> > +
-> > +               if (spk_present) {
-> > +                       ret = fwnode_property_read_u32(ext_fwnode,
-> > +                                                      "01fa-global-mute-led-spk-mute-gpio",
-> > +                                                      &spk->gpio_num);
-> > +                       if (ret)
-> > +                               return dev_err_probe(priv->dev, ret,
-> > +                                                    "Invalid spk-mute LED GPIO property\n");
-> > +               }
-> > +
-> > +               return 0;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int cs42l43_mute_led_set(struct led_classdev *cdev, enum led_brightness value)
-> > +{
-> > +       struct cs42l43_mute_led *led = container_of(cdev, struct cs42l43_mute_led, cdev);
-> > +
-> > +       return gpiod_set_value_cansleep(led->gpio, value != LED_OFF);
-> > +}
-> > +
-> > +static void cs42l43_mute_led_gpio_free(void *data)
-> > +{
-> > +       struct cs42l43_mute_led *led = data;
-> > +
-> > +       gpiochip_free_own_desc(led->gpio);
-> > +}
-> > +
-> > +static int cs42l43_mute_led_register(struct cs42l43_pin *priv,
-> > +                                    struct cs42l43_mute_led *led,
-> > +                                    const char *function, const char *trigger)
-> > +{
-> > +       int ret;
-> > +
-> > +       led->gpio = gpiochip_request_own_desc(&priv->gpio_chip, led->gpio_num - 1,
-> > +                                             trigger, GPIO_ACTIVE_HIGH,
-> > +                                             GPIOD_OUT_LOW);
-> > +       if (IS_ERR(led->gpio))
-> > +               return dev_err_probe(priv->dev, PTR_ERR(led->gpio),
-> > +                                    "Failed to request GPIO%u for %s LED\n",
-> > +                                    led->gpio_num, trigger);
-> > +
-> > +       ret = devm_add_action_or_reset(priv->dev, cs42l43_mute_led_gpio_free, led);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       led->cdev.name = devm_kasprintf(priv->dev, GFP_KERNEL, "%s::%s",
-> > +                                       dev_name(priv->dev), function);
-> > +       if (!led->cdev.name)
-> > +               return -ENOMEM;
-> > +
-> > +       led->cdev.default_trigger = trigger;
-> > +       led->cdev.brightness_set_blocking = cs42l43_mute_led_set;
-> > +       led->cdev.max_brightness = 1;
-> > +
-> > +       ret = devm_led_classdev_register(priv->dev, &led->cdev);
-> > +       if (ret)
-> > +               return dev_err_probe(priv->dev, ret, "Failed to register %s LED\n",
-> > +                                    trigger);
-> > +
-> > +       dev_dbg(priv->dev, "%s LED uses codec GPIO%u\n", trigger, led->gpio_num);
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static int cs42l43_mute_leds_register(struct cs42l43_pin *priv,
-> > +                                     struct fwnode_handle *fwnode)
-> > +{
-> > +       struct cs42l43_mute_led *mic = &priv->mic_mute_led;
-> > +       struct cs42l43_mute_led *spk = &priv->spk_mute_led;
-> > +       int ret;
-> > +
-> > +       if (!is_acpi_node(fwnode))
-> > +               return 0;
-> > +
-> > +       ret = cs42l43_find_mute_gpios(priv, fwnode);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       if (mic->gpio_num > CS42L43_NUM_GPIOS ||
-> > +           spk->gpio_num > CS42L43_NUM_GPIOS ||
-> > +           (mic->gpio_num && mic->gpio_num == spk->gpio_num))
-> > +               return dev_err_probe(priv->dev, -EINVAL,
-> > +                                    "Invalid or shared mute LED GPIOs: mic=%u, spk=%u\n",
-> > +                                    mic->gpio_num, spk->gpio_num);
-> > +
-> > +       if (mic->gpio_num) {
-> > +               ret = cs42l43_mute_led_register(priv, mic, LED_FUNCTION_MICMUTE,
-> > +                                               "audio-micmute");
-> > +               if (ret)
-> > +                       return ret;
-> > +       }
-> > +
-> > +       if (spk->gpio_num) {
-> > +               ret = cs42l43_mute_led_register(priv, spk, LED_FUNCTION_MUTE,
-> > +                                               "audio-mute");
-> > +               if (ret)
-> > +                       return ret;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +#endif
+Note that "reconfig" in sysfs fails on this machine ("Codec reset is
+not supported with ASoC"); unbinding and rebinding ehdaudio0D0 from
+snd_hda_codec_conexant applies the stored overrides instead.
 
-If you do this:
+Limitation: with this override there is no headphone detection.
 
-#else
-static inline int cs42l43_mute_leds_register(struct cs42l43_pin *priv,
-					     struct fwnode_handle *fwnode)
-{
-	return 0;
-}
-#endif
+Since 6.17 the quirk table is in sound/hda/codecs/conexant.c. I can
+test patches and run further tests, including GPIO probing for an
+amp-mute line if that would help.
 
-> > +
-> >  static int cs42l43_pin_probe(struct platform_device *pdev)
-> >  {
-> >         struct cs42l43 *cs42l43 = dev_get_drvdata(pdev->dev.parent);
-> > @@ -598,6 +748,12 @@ static int cs42l43_pin_probe(struct platform_device *pdev)
-> >                 return dev_err_probe(priv->dev, ret,
-> >                                      "Failed to register gpiochip\n");
-> >
-> > +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
-> > +       ret = cs42l43_mute_leds_register(priv, dev_fwnode(cs42l43->dev));
-> > +       if (ret)
-> > +               return ret;
-> > +#endif
+Thanks,
+Dahmane
 
-then this reads better:
-
-	ret = cs42l43_mute_leds_register(priv, dev_fwnode(cs42l43->dev));
-	if (ret)
-		return ret;
-
-> > +
-> >         return 0;
-> >  }
-> >
-> > --
-> > 2.47.3
-> >
+=E2=80=AB=D9=81=D9=8A =D8=A7=D9=84=D8=AE=D9=85=D9=8A=D8=B3=D8=8C 26 =D9=86=
+=D9=88=D9=81=D9=85=D8=A8=D8=B1 2026 =D9=81=D9=8A 8:03 =D8=B5 =D8=AA=D9=85=
+=D8=AA =D9=83=D8=AA=D8=A7=D8=A8=D8=A9 =D9=85=D8=A7 =D9=8A=D9=84=D9=8A =D8=
+=A8=D9=88=D8=A7=D8=B3=D8=B7=D8=A9 =E2=80=AAdahmane
+dahim=E2=80=AC=E2=80=8F <=E2=80=AAdahmanedahim04@gmail.com=E2=80=AC=E2=80=
+=8F>:=E2=80=AC
+>
+> Hello,
+>
+> (Resending: my first message was rejected by the list because my mail
+> client added an HTML part.)
+>
+> On my HUAWEI laptop (board HKD-WXX-PCB, BIOS 1.22 of 2023-08-30,
+> Conexant CX11880 under sof-hda-dsp, kernel 6.18.65-1-lts) the internal
+> speakers are only audible while "Headphone Playback Switch" is on.
+> "Speaker Playback Switch" has no audible effect.
+>
+> This looks like the same wiring reported for a MACHD-WXX9 in
+> alsa-ucm-conf issue #863, which was closed there as a kernel driver
+> problem. Mine is a second affected model.
+>
+> IDs:
+>   codec vendor 14f1:1f86, subsystem 152d:1350
+>   card long name: HUAWEI-HKD_WXX-M1010-HKD_WXX_PCB
+>
+> Autoconfig:
+>   line_outs=3D1 (0x17) type:speaker, speaker_outs=3D0, hp_outs=3D1 (0x16)
+>   pin 0x16: 0x03211040 (HP Out, Ext Left)
+>   pin 0x17: 0x91170110 (Speaker, Int Rear, NO_PRESENCE)
+>   pin 0x17 connection list: 0x10 0x11*  (0x11 selected)
+>
+> Measurements while playing a tone (speaker-test -D plughw:0,0) with
+> Headphone switch off, Speaker switch on:
+>   Node 0x10 Amp-Out [0xac 0xac] (muted), Converter stream=3D1
+>   Node 0x11 Amp-Out [0x48 0x48] (unmuted), Converter stream=3D1
+>   -> no sound
+>
+> After "amixer -c 0 sset Headphone unmute":
+>   Node 0x10 Amp-Out [0x2c 0x2c], Node 0x11 unchanged
+>   -> tone audible
+>
+> With Speaker Playback Switch off and Headphone Playback Switch on, the
+> tone is still audible. So the audible path goes through the Node 0x10
+> amp, even though pin 0x17 reports Node 0x11 as its selected input.
+>
+> Volume: Headphone Playback Volume (default 44/74, -30 dB) sets the
+> speaker loudness. Speaker Playback Volume only changes the audible
+> level in roughly the bottom 6% of its range and has no audible effect
+> above that.
+>
+> Jack: with a headphone plugged in, the jack is detected, but the
+> internal speakers keep playing. "Auto-Mute Mode" is Disabled by
+> default; I have not yet tested enabling it. This matches the behavior
+> in #863 (speakers and headphones share one amplifier).
+>
+> Userspace sees this as the speakers being silent after boot, because
+> the stock UCM Speaker profile does not enable the Headphone switch.
+> I believe the codec controls should be fixed in the driver instead.
+>
+> Would a quirk for subsystem 152d:1350 in patch_conexant.c be the right
+> approach? I'm happy to test patches or run further tests, and can
+> provide the full /proc/asound/card0/codec#0 and alsa-info output on
+> request.
+>
+> Thanks,
+> Dahmane
