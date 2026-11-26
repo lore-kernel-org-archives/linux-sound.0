@@ -1,78 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795711317;
-	b=fLWPKGYnpcAectFSTvTgVLB/kFrCTMw0w7FcNrd8rbMgQtkMos5zC8OUXRUi2hbPFNqx
-	 ze8bI+Eoueux1cbjCpV2+W5Xm/y5Idxdj683VA/W2TIxG6QBqm8gkERgPLnh/ZRnocZUt
-	 tG3c5E15SgLVZjnBhQ6eBvTSi5n4FHl31BDUcO2x+ap94y4TaopAx13oukHJZDOo7zXZW
-	 UzzFAjh0AvizdD+zdP9Zqz0bOXDqZRl1wE3QayPhXtwOKyu5kdfVSsmN9Eel4ySEx6uAW
-	 cxVQP0jMywJoohfDjaHnM01Q9cAGdvNzJCwL80Y+ImwUNADHVXxvdi71WPTXSBBSPQQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795711317;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GB/YmXtPYHAHuLLZ5ld0C3UDGWd9OcABzGQ9vd++Fq4=;
-	b=HusBWLQEyt7nzqhGUNREFYapwerL9bGkb3GWId3kho4cQPT5BPrSzkH+yLUXGyeUWKFm
-	 BHXbdd5tFC6SnAF7WES2P/J0mfLaMBPx4JFTNfBkgxingtot/ML7wG0HnlofjqaS0omMJ
-	 XkX6HQP6rvuVCfN9zHcLCsPfG0gbAGn0T9tcx3zBVWkjcSDCKww7+L1CW7YxF/Od+1xfv
-	 rIkkLbZtS8XdlQYa1DjaEEazNG8GloyRKQF8BDh1yyO946Ju1RBb7qBbI8v/sDEhMY/i7
-	 wT4G5Ly3eCq1AKB1gXBhBzl3Bo2G0ftI/UgZK9pYxCPErPIBVFGxAFgKs/zXUEURJkA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TLcDpf3j;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795712400;
+	b=f5OjaRQpMriM5tZVqT6R2lilL6Gwp9eeiUo6TmxVw+S/Ow0NThOY5PEgk438wAbxqYHu
+	 dR2EW4R0wYE2Nnpha+Ns4FCwyTbX+CpCpty9ydBv7jWN/7NThFXxxGk4AKHuQT36rE+Ez
+	 VXkRpL6mjJEGDM1Ttd0JoIwAbneCyH71OTsws8AI5pgLpxSHDzCoILvZvgekd5FKA97Kr
+	 Z+VbAFXVz/KYmNefwhxTYS+k4nqLBYdEiUmjtgnrA/9eVQ2pvVg5R39f6RvhEmhNRJgts
+	 GNEfJ5uYHB0I1QD2Xk3kY6UkybC0MZcfapy14mz69xHpRUGDIXJWy2UIpowXtgSP5vA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795712400;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ArVPK6BKpDUZcAFpoyGnP6MOmVeqaCHP2/9qAGR6yYA=;
+	b=rEnCoPAUH+wPzp+QUaMV2tRXsnUVVBFx7l4mSlQqlvpzukQnVQhy7plIHedvHSOEniKF
+	 RYfvRJqx4VYl5RN2XA9HfQtcABNvaJoqlFukQa5HXncbXek6wlwqkjeDUNt5proAtBR9z
+	 P/oukSZhTNqPUYZezXg21Nie9Km1Pwwt+4gppoCkRnBU0GkE6qj8KpsQpgid11SwpJThO
+	 YvTwy9qRMdH5+FVzw9c+3yJCB4J3Huiqk8WDGTu4f8vX1BBx0gTJ0Gk/fLXEZgUS8wNIh
+	 GDzxFMw3/fHokfuUFvIq+J2NP3sp8+QGa1ztao+t2iNhUZaHgaA3x/aYulHDMnN7z3Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NKLG/c1Q";
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CC6606A31E;
-	Thu, 26 Nov 2026 16:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60B4606A32A;
+	Thu, 26 Nov 2026 17:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TLcDpf3j
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795711317;
-	b=lwbxooZ+KNJwR449E05HOnKJoc4MsYccGn7hzU1XUm1eu4MZ/2oj/WNqleRgiLXTTIiV
-	 odyogrl0JA5D1fyg02YpMKbSsnZOz1qpGhzVpyEoY+ploouOx+C0CkBYMbPXte9T3bhd0
-	 1FYWRDqCQB7UcqrZfiENWh7kQC4fHw6WVJrE493BeBFqs3Aay7VlQ4CncT/RahEVpMynJ
-	 7iBqqXyryJWe1luhl3P8lgAaqG+6swUy+Sz0tVb5fDmcTm3lrH+T9J2ie1TXeRPMfSNEP
-	 F2/k5qYUgsgNSXGklT4miMG2QHG1i6ztc1X97+t8NB+NVDrlCjdZKUNL1gqY8jAwVpQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795711317;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GB/YmXtPYHAHuLLZ5ld0C3UDGWd9OcABzGQ9vd++Fq4=;
-	b=IjG1FJr4izMIH2nzVtLtfZsfx6ecsex6nVfWqrIyqytD1EQAggkHrFtH6iG0c5d8rIvu
-	 ttXIDdUgW3bKDb63+SM0LWUIc8jrCoyh5l9NR+eXXhrCAwU787RDYvfW8gQebgSRL4EQS
-	 tUteR2gX7dzSe73ils8/C3onwKvIkEXBCtFd+GaxfaiLe3DD1DmTfbByT7SolY17rih8O
-	 Tzjhc/7cdfeSKtBhfN5YQSFFEiIk0P/4uNqtxQoKzMz4gtpwtJ3JA0GS53ZPPX8IuiIVI
-	 /H0Hhx11+293Xt1RFE6i1Y8Y8om4yLYhWX1eOWP1sAVL598YVbK9u0SMNUUpQW/IASg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id A03201F000C4;
-	Thu, 26 Nov 2026 16:41:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKLG/c1Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC851F000C4;
+	Thu, 26 Nov 2026 16:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795711317;
-	bh=GB/YmXtPYHAHuLLZ5ld0C3UDGWd9OcABzGQ9vd++Fq4=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=TLcDpf3jxolQzMuWAu6eHotjKW8BisPzHn9H3sRAKsYOumptR5YbpMLPlftncis6q
-	 V8SS+cbgMrdlMdpccg1ghfu1xLMgxQfLeW+/5iv/R5V8E/kndY9jw/eQToKM703ceH
-	 uDbA0dUdJScejtTsBEa3YX2IGKFYA1/HBUNu0JjuFl4jI9KSUDLekBcll1uIeVrPuK
-	 LLN+toFGy+jgsjBxnj7pGD8GTPcT/3CJPD2WJjVpKjJ9RRj6uPbe9yWlBe2vkwUnCH
-	 NCpIcTfg8ZKC2hT9LGvokz+/J9vnFwmvjmR6UsA6AwDW1E+rxPCRgmynj52EIhcAvj
-	 +eFtPnX2x6kXA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 224074D71B;
-	Thu, 26 Nov 2026 16:41:46 +0000 (UTC)
-From: Felipe Pesce via B4 Relay <devnull+coding.fpesce.com@kernel.org>
-Date: Thu, 26 Nov 2026 13:41:46 -0300
-Subject: [PATCH] ALSA: hda/cirrus: Control SPDIF out pin on MacBookPro 11,1
+	s=k20260515; t=1795712400;
+	bh=ArVPK6BKpDUZcAFpoyGnP6MOmVeqaCHP2/9qAGR6yYA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=NKLG/c1QN2Scs8+qoJdavof3eQ+1oZRCah7zQ3XxaYeMJPt2fWZEu9ujrFrasfcoO
+	 yqOFr/1Zlj3DnmOX+2bMPR6l3Yk9k7QGTpSx6qHhlDxMg9gFo9M/gOrkJQ+FUTgOKD
+	 wjr3wPpgmyqAV6ZhXyQbJNX5WufHndIFPy60jsKkshTIXofIoHsZ6UzXqE5+kpqDTc
+	 eTm2Bgrzt7X4RSMsoRgShl7TUwTVV9el5c8Gh8TPQBzLck4o0L7tU2tnr8xQu2vyst
+	 ILSoLNhp5ipidg+TRNTpt446Em4N9gLcd4V/Lxqndnmhpt3wWHN5Hbt+2MBRQH43+O
+	 wesAUBG/qzP2g==
+From: Mark Brown <broonie@kernel.org>
+To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Andrei Simion <andrei.simion@microchip.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261119103413.31729-1-phucduc.bui@gmail.com>
+References: <20261119103413.31729-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/4] ASoC: atmel: mchp-spdifrx: Improve driver cleanup
+ and error handling
+Message-Id: <179570252647.142532.8118528768282595011.b4-ty@b4>
+Date: Thu, 26 Nov 2026 14:15:26 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -83,71 +64,61 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261126-macbookpro11-1-spdif-v1-1-8316370457f8@fpesce.com>
-X-B4-Tracking: v=1; b=H4sIAElhCGsC/x3MTQrCMBBA4auUWTvoRJKCVxEX+Zm0gzQJExGh9
- O5Gl9/ivR06q3CH27SD8lu61DJApwni6svCKGkYzMU4IuNw8zHU+mxaiZCwtyQZ3TXYNFv2ds4
- w0qac5fPf3h/DwXfGoL7E9TerKouU8+b7ixWO4wuOkJ4khgAAAA==
-X-Change-ID: 20261126-macbookpro11-1-spdif-63b5d75ea57f
-To: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Felipe Pesce <coding@fpesce.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795711305; l=1846;
- i=coding@fpesce.com; s=20261126; h=from:subject:message-id;
- bh=aXC3IyVGZ218SrwScWZYu42Cdp/Cm3nySQ3+C2EcmKw=;
- b=iMepBdKxNB1cmw4S796X9Ifw/WumI8mu62kXExFL4hHOpT38pMgmSjyE23TM0pMDfcNawrTH8
- yshixN97rbkDAvAbKcXtnVrNlQ644MwPqsFdRNuNRO7IJ2M5CK0MNQo
-X-Developer-Key: i=coding@fpesce.com; a=ed25519;
- pk=cQ6L0+gycqDMWGyg+5rl+808vU//qlaPY0zjUWM2Two=
-X-Endpoint-Received: by B4 Relay for coding@fpesce.com/20261126 with
- auth_id=1655
-X-Original-From: Felipe Pesce <coding@fpesce.com>
-Reply-To: coding@fpesce.com
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1786; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=jAqLfns8tJYxcs2fnPmiZAEiggeYiEvvhYnmI0s4E8g=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5UnsKpxwW/n9Fs0hhQYq2HWO9RI3TW0cRL379WlbJF
+ 7d8Js7sKGVhEONikBVTZInL4n5ZX/J6Dd/BhW0wc1iZQIYwcHEKwET61RkZ9nrX8Ifc+jFvRYrN
+ S55P87XTwpab8EWu03xje/RCoVv2SYb/SXYZts8y13itVv/rr5pwePPT9HY7vx9BHQfvNa7dsUS
+ AAQA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Felipe Pesce <coding@fpesce.com>
+On Thu, 19 Nov 2026 17:34:09 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: atmel: mchp-spdifrx: Improve driver cleanup and error handling
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series improves probe error handling and runtime PM cleanup,
+> adjusts IRQ registration order, and fixes error propagation in the
+> ulock get callback.
+> 
+> [...]
 
-The MacBookPro 11,1 (CS4208, codec SSID 0x106b5d00) has the same
-combo headphone / mini-TOSLINK jack as the MacBookPro 11,2, but is
-missing from cs4208_mac_fixup_tbl, so it only gets the default GPIO0
-fixup. As a result the "IEC958 Playback Switch" does not touch the
-SPDIF pin (0x21), whose pin control stays at PIN_OUT, and the red
-optical light in the jack turns on whenever the codec is powered up,
-even with no optical cable plugged in.
+Applied to
 
-Apply the CS4208_MBP11 fixup to this model as well. Tested with
-model=mbp11 on a MacBookPro11,1: turning off the IEC958 switch now
-clears the pin control and the light stays off across runtime
-suspend/resume, while analog headphone, speaker and mic are
-unaffected.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-Signed-off-by: Felipe Pesce <coding@fpesce.com>
----
-The codec SSID was read from /sys/class/sound/hwC1D0/subsystem_id on a
-MacBookPro11,1 (DMI product_name) running Debian 6.12.
----
- sound/hda/codecs/cirrus/cs420x.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks!
 
-diff --git a/sound/hda/codecs/cirrus/cs420x.c b/sound/hda/codecs/cirrus/cs420x.c
-index 85c2ecf46d3834984d17bc8c67b274ac1938502c..160c4e10714e81fb4de0a25e4835c4387f184c39 100644
---- a/sound/hda/codecs/cirrus/cs420x.c
-+++ b/sound/hda/codecs/cirrus/cs420x.c
-@@ -576,6 +576,7 @@ static const struct hda_quirk cs4208_fixup_tbl[] = {
- 
- /* codec SSID matching */
- static const struct hda_quirk cs4208_mac_fixup_tbl[] = {
-+	SND_PCI_QUIRK(0x106b, 0x5d00, "MacBookPro 11,1", CS4208_MBP11),
- 	SND_PCI_QUIRK(0x106b, 0x5e00, "MacBookPro 11,2", CS4208_MBP11),
- 	SND_PCI_QUIRK(0x106b, 0x6c00, "MacMini 7,1", CS4208_MACMINI),
- 	SND_PCI_QUIRK(0x106b, 0x7100, "MacBookAir 6,1", CS4208_MBA6),
+[1/4] ASoC: atmel: mchp-spdifrx: Improve probe error handling
+      https://git.kernel.org/broonie/sound/c/3c762dbdc06d
+[2/4] ASoC: atmel: mchp-spdifrx: Use devm helpers for runtime PM
+      https://git.kernel.org/broonie/sound/c/0918434ce540
+[3/4] ASoC: atmel: mchp-spdifrx: Move IRQ request after runtime PM setup
+      https://git.kernel.org/broonie/sound/c/e3414e02d7fe
+[4/4] ASoC: atmel: mchp-spdifrx: Propagate runtime PM errors in ulock get
+      https://git.kernel.org/broonie/sound/c/648e08bdb51c
 
----
-base-commit: 40212b29a6f718d4e7fb3275cede181cb8e137cf
-change-id: 20261126-macbookpro11-1-spdif-63b5d75ea57f
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best regards,
--- 
-Felipe Pesce <coding@fpesce.com>
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
