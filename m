@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795712400;
-	b=f5OjaRQpMriM5tZVqT6R2lilL6Gwp9eeiUo6TmxVw+S/Ow0NThOY5PEgk438wAbxqYHu
-	 dR2EW4R0wYE2Nnpha+Ns4FCwyTbX+CpCpty9ydBv7jWN/7NThFXxxGk4AKHuQT36rE+Ez
-	 VXkRpL6mjJEGDM1Ttd0JoIwAbneCyH71OTsws8AI5pgLpxSHDzCoILvZvgekd5FKA97Kr
-	 Z+VbAFXVz/KYmNefwhxTYS+k4nqLBYdEiUmjtgnrA/9eVQ2pvVg5R39f6RvhEmhNRJgts
-	 GNEfJ5uYHB0I1QD2Xk3kY6UkybC0MZcfapy14mz69xHpRUGDIXJWy2UIpowXtgSP5vA==
+	t=1795713648;
+	b=A6nJQJPjSM95GhFLf1Jznv05B+2oA51wc42Wflr7ns8JwzpTTwjxJi9ee0d6xGadezJ0
+	 tN9UAWFIOLqKHx/jkuWLd0okloJ/orgwpJbMWmqPqMb+falKtUMnzeHD/8onlg/TX0lTq
+	 HxtYPOX7YPfWm7FAnKHFWvS/0igtLU/EyfX1H9j0p5YdmlYxhOTGvsiZEVu3abNcs+2+9
+	 u75UCiIZVYdx+Wk/ybu/nalDI3d5OjTqFZY98JfDToyIKg9SWtfZOitfDrLfBa7Fogu1I
+	 E1xNfQDSBYmNfsxDZmgdMUuRbAocWI3rBKrCQsZY4pZBsjDpraLmHHZuF9irHEr3gmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795712400;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713648;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ArVPK6BKpDUZcAFpoyGnP6MOmVeqaCHP2/9qAGR6yYA=;
-	b=rEnCoPAUH+wPzp+QUaMV2tRXsnUVVBFx7l4mSlQqlvpzukQnVQhy7plIHedvHSOEniKF
-	 RYfvRJqx4VYl5RN2XA9HfQtcABNvaJoqlFukQa5HXncbXek6wlwqkjeDUNt5proAtBR9z
-	 P/oukSZhTNqPUYZezXg21Nie9Km1Pwwt+4gppoCkRnBU0GkE6qj8KpsQpgid11SwpJThO
-	 YvTwy9qRMdH5+FVzw9c+3yJCB4J3Huiqk8WDGTu4f8vX1BBx0gTJ0Gk/fLXEZgUS8wNIh
-	 GDzxFMw3/fHokfuUFvIq+J2NP3sp8+QGa1ztao+t2iNhUZaHgaA3x/aYulHDMnN7z3Q==
+	bh=b2C1CVimNes2c9yCOhSsSfuW6qBdbjlb3OJoRytVRmE=;
+	b=YEhhWhHMbqpQFFTkcpo+CtKtoAEHSJVyMY0AGoA/mOujjmwnYO4rH+QaJXLwNfXx86kN
+	 U92Q6zjnYDmCZciJc7cM2kr/3vTETbwD4Pa5umC1U+LfUwl7YWistE3v3v6CGY/3etXtk
+	 AzhXgb6mH6qCd2EZVM5rhXfLo1jEnGHFl3AUyjTcbD67pxJylkLvnWWS4OZA7NOahse+1
+	 X3Mt6vlZa4xi9imnJHtRkv/npbDtJbv7ktN5aYombzzRqOs2aun7tOZ3AuTtAXSuN5Ezf
+	 cMcjmdyB3ZbWuywhausoJhgddNDCLByWboQXhfeXUsx3FsVsVN7WMDGBe4W53+RoX9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NKLG/c1Q";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=li+Igiae;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60B4606A32A;
-	Thu, 26 Nov 2026 17:00:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A19606A31E
+	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 17:20:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NKLG/c1Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC851F000C4;
-	Thu, 26 Nov 2026 16:59:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=li+Igiae
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31D831F000C6;
+	Thu, 26 Nov 2026 17:20:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795712400;
-	bh=ArVPK6BKpDUZcAFpoyGnP6MOmVeqaCHP2/9qAGR6yYA=;
+	s=k20260515; t=1795713647;
+	bh=b2C1CVimNes2c9yCOhSsSfuW6qBdbjlb3OJoRytVRmE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=NKLG/c1QN2Scs8+qoJdavof3eQ+1oZRCah7zQ3XxaYeMJPt2fWZEu9ujrFrasfcoO
-	 yqOFr/1Zlj3DnmOX+2bMPR6l3Yk9k7QGTpSx6qHhlDxMg9gFo9M/gOrkJQ+FUTgOKD
-	 wjr3wPpgmyqAV6ZhXyQbJNX5WufHndIFPy60jsKkshTIXofIoHsZ6UzXqE5+kpqDTc
-	 eTm2Bgrzt7X4RSMsoRgShl7TUwTVV9el5c8Gh8TPQBzLck4o0L7tU2tnr8xQu2vyst
-	 ILSoLNhp5ipidg+TRNTpt446Em4N9gLcd4V/Lxqndnmhpt3wWHN5Hbt+2MBRQH43+O
-	 wesAUBG/qzP2g==
+	b=li+Igiae12ds35r2S6u6F+QPetBcDPHZ8KqyLNqVNFs7hk4ZLRPECWt2VJ6HAgtSP
+	 oS+4CizKj5Zay/9W2aNjpz260r3me1h7N8ZXIDIlXPSdr2E4Yyvj7TDJtsDavZ5hk3
+	 3kX0gGxLG8bLaKuZkU8AzFcFxZPwB68M550SgHT5+MSmezqAYgXybnF2j/blAaBR9C
+	 siKMs/oiHH4Nf8q2nOraXX6+IhwDCoIKaP8efRA3DJICVEG1StQtjNYOjFw2+GTTeg
+	 1d2HmWGFe30QfSMtZYjB4jxqliwgTEhwIj7tn5NvoxAZqZ7C1B68aUT+chzHXPS9qM
+	 fkjn15dXM6C3g==
 From: Mark Brown <broonie@kernel.org>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Andrei Simion <andrei.simion@microchip.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, phucduc.bui@gmail.com
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261119103413.31729-1-phucduc.bui@gmail.com>
-References: <20261119103413.31729-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/4] ASoC: atmel: mchp-spdifrx: Improve driver cleanup
- and error handling
-Message-Id: <179570252647.142532.8118528768282595011.b4-ty@b4>
-Date: Thu, 26 Nov 2026 14:15:26 +0000
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ linux-sound@vger.kernel.org, 
+ =?utf-8?q?Alen_Ti=C5=A1ljar?= <alen.tisljar@gmail.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org
+In-Reply-To: <20261124182329.20428-1-alen.tisljar@gmail.com>
+References: <20261124182329.20428-1-alen.tisljar@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for HP 255R G10 (board
+ 8D22)
+Message-Id: <179570533321.142532.15788602041527539127.b4-ty@b4>
+Date: Thu, 26 Nov 2026 15:02:13 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -64,44 +64,28 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1786; i=broonie@kernel.org;
- h=from:subject:message-id; bh=jAqLfns8tJYxcs2fnPmiZAEiggeYiEvvhYnmI0s4E8g=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5UnsKpxwW/n9Fs0hhQYq2HWO9RI3TW0cRL379WlbJF
- 7d8Js7sKGVhEONikBVTZInL4n5ZX/J6Dd/BhW0wc1iZQIYwcHEKwET61RkZ9nrX8Ifc+jFvRYrN
- S55P87XTwpab8EWu03xje/RCoVv2SYb/SXYZts8y13itVv/rr5pwePPT9HY7vx9BHQfvNa7dsUS
- AAQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5yOjnzlFbAMLdCfFAmdAJ8dDdT1ZTjDyJj1f2pSw/bs=;
+ b=kA0DAAoWL+9zsLPQOIkByyZiAGsIamyjfqKjYMmF79kGEoEhmC46agAZ+8kdK3WDV0RlL1Ep7
+ oh1BAAWCgAdFiEEXmoL6X9066wOwaGGL+9zsLPQOIkFAmsIamwACgkQL+9zsLPQOIk64gEAwEol
+ eks75YRTX2e5D2o0nP0hK8F2A/g4uVOAu2b29voA/RJFqm9E3ZBv8HfiRPNvjKCEbNUNIq1cUOF
+ was+VcEoO
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 19 Nov 2026 17:34:09 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: atmel: mchp-spdifrx: Improve driver cleanup and error handling
-> 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Hi all,
-> 
-> This series improves probe error handling and runtime PM cleanup,
-> adjusts IRQ registration order, and fixes error propagation in the
-> ulock get callback.
-> 
-> [...]
+On Tue, 24 Nov 2026 19:23:29 +0100, Alen Tišljar wrote:
+> ASoC: amd: yc: Add DMI quirk for HP 255R G10 (board 8D22)
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
 Thanks!
 
-[1/4] ASoC: atmel: mchp-spdifrx: Improve probe error handling
-      https://git.kernel.org/broonie/sound/c/3c762dbdc06d
-[2/4] ASoC: atmel: mchp-spdifrx: Use devm helpers for runtime PM
-      https://git.kernel.org/broonie/sound/c/0918434ce540
-[3/4] ASoC: atmel: mchp-spdifrx: Move IRQ request after runtime PM setup
-      https://git.kernel.org/broonie/sound/c/e3414e02d7fe
-[4/4] ASoC: atmel: mchp-spdifrx: Propagate runtime PM errors in ulock get
-      https://git.kernel.org/broonie/sound/c/648e08bdb51c
+[1/1] ASoC: amd: yc: Add DMI quirk for HP 255R G10 (board 8D22)
+      https://git.kernel.org/broonie/sound/c/b4378764a589
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
