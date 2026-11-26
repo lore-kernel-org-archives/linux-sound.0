@@ -1,62 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795721840;
-	b=OJ9bUg2hgIQiPw89+mBjdqj5HRJ3JFUTAqdjNl0B+wW+SZcYSwtzZrCfkN4nx+ffT96P
-	 zVc4qu4tyEj81maZ81KUy5vtR1EcpL1feW733rDZ/w1k3NNXy3OIz0HfOITNMcqO8IGRN
-	 /8BCkR7Jr2BKaFCKY7ctv+flxQjW/YJ0jhlzg2APc8ubzr2KcddjwiNFRkU1MiE9ZeXX/
-	 CyDfap0kdwxGG11Zg3p9b0BUEf7Xe+QajbcQ/FWUB0twlc5ze+yR3qn6tN2zyrSZIpy30
-	 p6EW8uyEb+w6saGiQLhAicdNJqMVPgB8A9tsTgBysmk3NfZbSNco6RloS/kPgPeHEIw==
+	t=1795722756;
+	b=hnb/+0Lgr7yLfpNcXrzn1UW9YFzxt7ntsRbyANQlVOhXRT4Xvj88dEcE5XfW0FcbXTbj
+	 FoT9VDH8gvtGfWsWWElrP97bcfAIRrUudoFLdm0n/OrJPWV/TEgdqQ9ZnWJoCXKjcvwCh
+	 aVdlgpydbzXYAgIlAdXwbqiunWqzoudCQuZ+r31taSkFLP93ZVpmYj4OzlvnddAEd00h/
+	 rq92rltuJSH3/iSVVr2qxsPbYA/RcGa7vLnvWFm95w7ekJef8zR0aaMGluR+1+1Y+h4OO
+	 fK8gQc6WvXYDLpV+nNl3vv0jik8dNdmbB/EmAHWcOJl6W4E7LSub+A/amoDNy3v9CEQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795721840;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795722756;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=9E8o5SfIyKaPd78A3F4RTmEK7EyCjBEXZB5/Gk55Hw4=;
-	b=dIeUXd6Ur7fvPd4A/kzk9ZRp27hHiS03lmxkZRg2UtGmVEXzgemM14u/PZNtkmkzxMID
-	 UsYw3RiphXofm6H3XzQMoJzCj4aUZKdfluqUjpU7jta5qLUuE3Etq/XBk2WQ8Qm+bqsLn
-	 FDoiGrG1dC0NaR6BThQ8sh3FX1IQ/K0vdoRNLc+eoD7Ye419biHVDcgio5sbEQDEOFydd
-	 QxYLDejo5b2z2E9kVaKcKiMCcRbV+xXrjac5cbzs1wTwYTxtgl5gvaidCnjSJup6ra/QY
-	 QhwfNF1QE14bZJgPKxhcH38BmehHFaxGnBRfH0I/VTfhu8lOuHNLUkcpHhF1Q/G68Fg==
+	bh=ajvyWW3DQr1rCnfZEzkj7OTvm1pagyyvWLXifOTGWgs=;
+	b=UlCzxDHQ8/XXiJH1by64pu+BW47MXi5UPh4/TJbMX4S8kHZjLOimibTGBzlZRfAcTCUX
+	 03MmXF8zYEs6zQFrZtIAUufjhW+CpUK6htD67ZCjs4bTL89QrxcripO6EPF0y9JR6IAm2
+	 +/hy56TIYJRGbEZfUAv1GKku5+HhET2T+0fdLEVzo3ApsrqkobI7ObMYEznAjcK72Do5/
+	 sobxqnEp+w+7YQNvnXe4Obh+lky97lwqT8SgHWe5v6hK1e6DKFHYhA+8EM0Ta9R2aN+hX
+	 9XvvpJFdIJB9DzxOuqF0uX/mHFgS+wxHlSaLM3nrJJFZpxZWQdsP+9pZYuwnMVNrfbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gJbuvR6v;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=euu3ZruD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFE4606A31C;
-	Thu, 26 Nov 2026 19:37:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23FB606A31C;
+	Thu, 26 Nov 2026 19:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gJbuvR6v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209F51F000D4;
-	Thu, 26 Nov 2026 19:37:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=euu3ZruD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9403D1F000C6;
+	Thu, 26 Nov 2026 19:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795721840;
-	bh=9E8o5SfIyKaPd78A3F4RTmEK7EyCjBEXZB5/Gk55Hw4=;
+	s=k20260515; t=1795722756;
+	bh=ajvyWW3DQr1rCnfZEzkj7OTvm1pagyyvWLXifOTGWgs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=gJbuvR6vsGMMv+rJmQFqQG56BOFTrcoqP+qoKVL+yar8hbPTteL61CvmpXh0crSHd
-	 2xE83vce0eF/sUWhSpk5wx6HXVkW7d3gM0TOgKpFXsnrlEFXE5Tv2GjlsO0qYbsmJt
-	 FZHjjKSl0s0RCd2YL6QDfuAPbzzIAdGZ6HGQbePTLjCEZeqNg/g0lVu7aBFbPg/hwd
-	 74fDxE2wakSnsMobmq00f8EEmKrBoszh8J+IIxJo4Dsj1Etp4RJWXckNgzS0SOQ90/
-	 2E2QQjoc/votGYiSz55tO1nRrOEnYr/6lh6wW9xSKb3xPj1Fl1f0v7hhj/38sOFMTI
-	 gUCf+tOp4k1ig==
+	b=euu3ZruD/jO/Cz59b2NnQ2b1peKqrTn8kO+SefyayWS1KE4BmNliv+1SGG32IJluR
+	 HE+Wnt4lNs2O+p0Sb7CBioN1hsFPgnPtOEqBick/8fnOwSZMmIJMF11Dp8ZQA2W4pn
+	 I2nCxfnJ29minJKzmridkdPEuF4ZbJZ32VtmElZZ49wUfn7NcM95JitWOUqKHZwjxz
+	 77EG/q/IMuqZJSZC8cSKn6XLotVbvPmi8H6TTceQsPDWbv2NQ62Q0V7G9lIEpN3P/J
+	 Tyfuaerh/opGBOb1bUIykjFwNy2VSxqeXCsBKh/QlVUq7sKIj9nq3/0jwh5bigr2dR
+	 Odj7yaMCZ4Bag==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Michael McAllister <me@michaelmcallister.org>, 
- Riccardo Mereu <r.mereu@arduino.cc>, 
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
- Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
-References: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] ASoC: qcom: q6asm: fix 24-bit PCM level via media
- format V4/V5
-Message-Id: <179570763254.142532.5474593579002750428.b4-ty@b4>
-Date: Thu, 26 Nov 2026 15:40:32 +0000
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Jiebing Chen <jiebing.chen@amlogic.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org, 
+ jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com
+In-Reply-To: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
+References: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
+Subject: Re: (subset) [PATCH v8 0/5] Add support for S4 audio
+Message-Id: <179570534680.142532.3364346752372243512.b4-ty@b4>
+Date: Thu, 26 Nov 2026 15:02:26 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -69,17 +71,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1278; i=broonie@kernel.org;
- h=from:subject:message-id; bh=HAh3+iYtedJD2HXcN9Sa//olSZAk38ABWA4rHycwvb4=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5unLcz62ctymJtWfZSZXMlcrZ1U6bBTuNbUrOFWy5+
- rBHYAVzRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACayLY7hf4K+m/qen0J/A5uf
- /s84lX3zXuoB+c8yy7/FbNxsoSH76S7DP4OD4sEPbLf+2ffsWo1fYV7inoiKV167mLclJ2Vkr9a
- TZAIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1516; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dN2PQHo40OLUF6RS5mHEqX2pS3hO9wRkmfDDYCTRwMA=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5ev/9cO3b/bdZ+OzM2NssB23Y2pT+fPqzJFJbtbWXL
+ 8b16UadjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAExk8itGhv+by9Ott92ZrXBs
+ 4/Viz6+Xqv6mv3+xtfzMctunJ3y1baQZGZ55TVU4+9H2qNDMKgtH3wmTa5vna26RtplRJ/Hn9+a
+ kMA4A
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 26 Nov 2026 11:57:37 +0000, Srinivas Kandagatla wrote:
-> ASoC: qcom: q6asm: fix 24-bit PCM level via media format V4/V5
+On Tue, 10 Nov 2026 10:28:23 +0800, Jiebing Chen wrote:
+> Add support for S4 audio
+> 
+> This series completes the end-to-end audio support
+> for S4 SoC from hardware bindings to driver implementation
+> and system integration.
+> 
+> 1 Device Tree Bindings Updates
+> Added audio power domain and S4 audio clock support for S4 SoC.
+> Added S4 audio tocodec binding support.
+> 
+> [...]
 
 Applied to
 
@@ -87,10 +99,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: qcom: q6asm: fix 24-bit PCM level via media format V4/V5
-      https://git.kernel.org/broonie/sound/c/f29b683543cc
-[2/2] ASoC: qcom: q6dsp: add S24_LE and S32_LE to MI2S playback DAIs
-      https://git.kernel.org/broonie/sound/c/e03e85ff7500
+[2/5] dt-bindings: Asoc: axg-audio: Add S4 audio tocodec
+      https://git.kernel.org/broonie/sound/c/145707a7d371
+[3/5] ASoC: meson: g12a-toacodec: Add S4 tocodec driver
+      https://git.kernel.org/broonie/sound/c/61802135f743
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
