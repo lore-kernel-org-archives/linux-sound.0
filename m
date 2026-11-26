@@ -1,92 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795677774;
-	b=S0GAZgBvTIy/AWyf9U5aEoeid0smWjzDIodOZL3A/txqPXBDBejzSUr2k4dbJjl2LPOW
-	 cqbVzyev9lRYA7eqOskz7c8vtxG5meTPzKYk7EvMZxNHzgWtR1d1+JEXqFYGddt71KgGG
-	 smPXzr2p6t9RZdwnJVtKPmWK0OSVXWomI84QMWptl/UJFH7B3nKK6asYy+ZtBkobUonN5
-	 YQ1yKhOiST3YFrjKdpWGxwFNGGTh0kQY9w5SchlLwUk9vTLBsz8Wnv4HOqPM5Mk431aZS
-	 Y5azyVVTrozy2sttelgZ8QZ2R4TeYxQMaFUAhXwTMHIwyRr8RkX5BYprJ4YjIR6B+9A==
+	t=1795678550;
+	b=g/HlwbRfMdB3a4KZazSTvzxZ0fkhZHaA6GqFEGRkj+3Bj6DWWWbCNQPyod84xpiSrUaW
+	 mic56Yi2+1ir6PUzppHDLKuWQxcp/MeVjghThdPzUW1hNAOQEuUH7b40kFtrpLl+KlEq3
+	 JZu5uBWOtOmLTfQk3br31LtvSbBSzDQ+Spxpcun57p2/u9qH5s+kpP9fOH4NMqoc5Pzrl
+	 CJiNrQTgYFUZx7hZ82IzLlb7MybxM7y6gciBcbrZ1poql8VjjlZ/GHc2s85S/zhXlUnnT
+	 vC/efEYvPmjyO548ESPQrb+85tguDhB3b8j1sYgD0RtHP1XzGjg8Yfo72UsLKc/G/+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795677774;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=tyDcKx9CSg/sf/Q8nvmg2kdcVjW3+Ux75hmWCkkVGgY=;
-	b=fwEYhZZIzOmWulodw5EccWA7IovWgLrkmjQ7RM0ZC4lraUov6n+mTFPtIFYRydNNOzeL
-	 htWq3umWQf1kLfsoOn+QYVuAFQ5D0b9VMspuCr3h8jn48zv6mg7v3DeNa8J0MaBZ3Xlol
-	 KzVyrfGvJreaZdgciepOWB6FY8LfSKk+YoQco6yXr+9KtzXaQEobenooFinjUZe4swpcz
-	 mla4wgLikb8cRBCt6TGIySVTQ04bQVbHv0JLKx66ObJgwNDyj+7UT/h5Wk8euP2gNxnPC
-	 6tL6ODVbFpcCzgs6doR5bffWZTnSjL7zlrevljUFXNQTscEY1mquwyZAvdrtmzg/tjQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795678550;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=2eugPvCFuopdM2cplxwflGqsU9A8QEDx/1U3R4WAaHc=;
+	b=d8f6zaXFw3udZ9xIxqym02ONkfPqEcKYrQ8Xb595NAR3kSKRnMg8TflJrQR9M9fU85nA
+	 +he6C3h6qBWkLzd0TPeRfmaHzwgX1XAEbLMD3ty1Ck3lr1FOweJAk09ZcERBABWClTC7w
+	 ToEleBFWAltvYyAcEULhTzeAadIrszboAnPXBgbGkLdrIH6RWutxzpL7C0Q/DNHp0s9Oe
+	 WmZZvvhUpGXZk3wL9ryicpi/ZXx7zqx+jqaHrb1r9Qj1Mg2x2nsPsv16myAYuOyH0ZVKj
+	 COP7LjBqOoRU4yTg6GIXGEyfuT61BpYJ2bEhkZaO8qAJLQ9vpw3CGY2UeUpzHqGsj1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zFSxe0tK;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IuYmYDsN;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE31606A323
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 07:22:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE31606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459CE606A31C;
+	Thu, 26 Nov 2026 07:35:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 459CE606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zFSxe0tK
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1b244fb7fffso7073369c88.1
-        for <linux-sound@vger.kernel.org>; Wed, 25 Nov 2026 23:22:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795677772; x=1796282572; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tyDcKx9CSg/sf/Q8nvmg2kdcVjW3+Ux75hmWCkkVGgY=;
-        b=zFSxe0tKCFqn8MxIMSdTCjZ9UDplsJ4eIz93lwm3oztmDyLdglyn7ek/tGsuMComAb
-         VkCPLPWJ4jJrIZXmRUsfOZQOdVEpevIRHfOGCRIYt8hAxadjdH8caxLLbe/o7Bg9ItXD
-         dR+1txKolmO5CHnbxPohxEEa/EECJPNnJT6qhxz2TSJsNL2ZZmFg00ouoUbeElwAJ5wB
-         QCPe48AYiAf8MnI1K2eN4X2RISOVwuveasiaOURpl4bpABxHGTTYOqtXT37WRyuqFcZa
-         Bv7JCo6M5jSZbbkiR1VS/VobJzzG4tPW+y8IoYgqut8R4uumr4FGFglHhvLmwNZbNYSY
-         I0Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795677772; x=1796282572;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tyDcKx9CSg/sf/Q8nvmg2kdcVjW3+Ux75hmWCkkVGgY=;
-        b=f+qlzrk0mGQEtF+ABwrP/AmqKu7CkyJjaaT7zq8XuZShPOG8QSubmD2HZ/e8lfX+gu
-         ZAoj9VsSytFUa0VpuW16i3ZsZWQb7GPIZC04pdVJRAb/Lv+oJJHLh3w+UnoSjTvCExDa
-         KG4OOoa/dO7YEKUVnRFLbTfYfH1in7I5DAd/Hq4NSOy0V2rZaek1NikhP+X05BBsyxNb
-         FLq5tdhi5DFErKtHEsWvuDshMZMqQulSMsQg07Tj40di94neTgvPyy2N8Ayw0l5tcPr3
-         SBcSTw6hfMvvKKqsxOnL041tA/AoDimzBEBuwxtMvjNGuW4ZtDlzXU6xhZ0KN4qpc2hC
-         HpKw==
-X-Forwarded-Encrypted: i=1; AL+hErEUI6fcApxKsAUR+M0M9oualXDiXKTHS4tsgbbAc89ZLjQMmNRIOiv99jiVLiQxfCJc0fGPL949j++6ig==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/hN6jkxytTckgi1+NAVbRhUG4VZHn1dXsIQeGT2D3uxgHOWHkI
-	pxCAXMVMV6G2vqzq8k0+wCimmO+fjO5bHTpdH1d/fxI8WD8RayVw+mSs
-X-Gm-Gg: AZFdTZcPJQpPlSekVj82StZbSoR+dNZw28S79uwfRNWLlrOwwwnQyUpsmnDlUElfFwl
-	GWhA+YU1Vm8i9RHg1IgbCvymMxC9eSYBluNufzbnMyfG465SCEd3G0JMZgu3dGtwM7Luc4etorF
-	R03VB3BSGoB9X9b1TgELsNpFGmVKJ7mQwEYR/SlchDzxifa/RxOQdhhDPRukrgIU7TGQESd8d0C
-	jldhwIXGrA7UiHPrpDpnrjUC0yEeMWmNYTPac8lTvaph+hKUJJTDDLVgYllt3ZC/dRaFy1EgbtY
-	9v67iAZ3HccieiBhD9HOVDOoowT6QLxC9KNYpLdBW7pLINwrOQCdtgUqfQauwlkRfeXsvV4lE0z
-	NNkc0rmvCSqjsnAEZJtJGD2uf2gaEOZTlSm+DDcvcl6LAk2Br3dx1TwyFo8+0fN2YqeuCzZLsod
-	UUbvaKntui7eU1dFwfLSlsI72SVGkKsC1zNLaR5pBymck7YKtmkQnUqLJnLVpHc7QsyLWESdXoH
-	xkEU8/H7UVIrxc5yteTMMwg8ylLH6MOIYBwk+iB/jFTPBLsyKAFjgBn8PbgM6EM4R1z0wX1pmPE
-	MIi/MOe1j1sasBLUzVyL3P6DulXNDzQP9vQ6q07dIZVb1THfZFdJ3uxnIHiuZH+sl1Oeor1G
-X-Received: by 2002:a05:693c:8843:b0:386:b429:fe0 with SMTP id 5a478bee46e88-386b429175cmr10099537eec.16.1795677772417;
-        Wed, 25 Nov 2026 23:22:52 -0800 (PST)
-Received: from localhost.localdomain ([103.179.230.77])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567ea2cc5sm55674215eec.29.2026.11.25.23.22.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 23:22:51 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] ALSA: vmaster: Retry follower initialization on failure
-Date: Thu, 26 Nov 2026 07:22:20 +0000
-Message-ID: <20261126072220.4496-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=IuYmYDsN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795678549; x=1827214549;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=frTDRGBtprvjeW8e1zSOPrw9hbhdOFAeRBZMQNXbmgE=;
+  b=IuYmYDsNpnXuBbIQm3P80s5f2xDdVNPbIrdb+Ge7aoRTiWjl9X3JPwgA
+   NV3JtGKTWs+jmNSShTujnaGyCC/JSUrIuVK3EtELfMHe+RjcxsEJ8FZCL
+   28ZaOLt4wBi1c5j0bSGMJKiqPiFZmHS62V1jhvRzgT+QRfn0kjy8RSIIH
+   45VfA4jtwBq2F85ffqF07LpR4gxOBmmO63SgnBoFGMlkPUOC+garFNxKu
+   S35JXhYbrBylaSPZ4ICn8wi98W0IENzr2Qwzb/GLSCDcpZO//dlBUtADT
+   A4xX6qbonhdNkxsoUp6YoOhOz6QLxryHa936oXTxcgCckbbljOrn9NqZ/
+   w==;
+X-CSE-ConnectionGUID: 3sQMpprJSV6e8KfLb4P18Q==
+X-CSE-MsgGUID: lIz7evS+TuuFyZzUSPlsaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11977"; a="4565351"
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="4565351"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2026 23:35:48 -0800
+X-CSE-ConnectionGUID: IAfJMe5YRzKfrVeBeUuE0A==
+X-CSE-MsgGUID: uEOi2c1+QeGm5wuDaRGuKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,234,1787036400"; 
+   d="scan'208";a="11880657"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa008.jf.intel.com with ESMTP; 25 Nov 2026 23:35:47 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id B1F1098; Thu, 26 Nov 2026 08:35:45 +0100 (CET)
+Date: Thu, 26 Nov 2026 08:35:45 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Andy Shevchenko <andy@kernel.org>, brgl@kernel.org,
+	patches@opensource.cirrus.com, linux-gpio@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: cs42l43: Add GPIO controlled mic/spk mute LEDs
+Message-ID: <20261126073545.GM191152@black.igk.intel.com>
+References: <20261110142058.354518-1-mstrozek@opensource.cirrus.com>
+ <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -96,39 +83,254 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD++jLmUNxbVBLXg1aGysRGCjcQFjo=JSwx4-=8TWa7bj-iXuA@mail.gmail.com>
 
-Reset the follower count when the initial follower update
-fails.
+Hi,
 
-This allows follower initialization to be retried on the
-next access.
+On Wed, Nov 25, 2026 at 07:06:24PM +0100, Linus Walleij wrote:
+> Top posting to loop in more people.
+> 
+> (Andy & Mika)
+> 
+> On Tue, Nov 10, 2026 at 3:21 PM Maciej Strozek
+> <mstrozek@opensource.cirrus.com> wrote:
+> 
+> > Add ability to use cs42l43's GPIOs to drive speaker and microphone mute
+> > LEDs. The LEDs must be described using
+> > 01fa-global-mute-led-(spk|mic)-mute-gpio ACPI property, which tells
+> > which of the 3 available cs42l43's GPIOs to use for the respective
+> > function.
+> >
+> > Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
+> 
+> ACPI property, so Andy and Mika need to decide if this is a reasonable
+> way to go about this issue.
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- sound/core/vmaster.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+I think the properties themselves are already "known" so that should be
+okay (but let's see if Andy has any comments), there is though a tiny
+observation below.
 
-diff --git a/sound/core/vmaster.c b/sound/core/vmaster.c
-index f43144ba2797..d97d7bb33e16 100644
---- a/sound/core/vmaster.c
-+++ b/sound/core/vmaster.c
-@@ -102,7 +102,14 @@ static int follower_init(struct link_follower *follower)
- 	follower->info.min_val = uinfo->value.integer.min;
- 	follower->info.max_val = uinfo->value.integer.max;
- 
--	return follower_update(follower);
-+	err = follower_update(follower);
-+	if (err < 0) {
-+		/* allow initialization to be retried */
-+		follower->info.count = 0;
-+		return err;
-+	}
-+
-+	return 0;
- }
- 
- /* initialize master volume */
--- 
-2.55.0
+> > ---
+> >  drivers/pinctrl/cirrus/pinctrl-cs42l43.c | 156 +++++++++++++++++++++++
+> >  1 file changed, 156 insertions(+)
+> >
+> > diff --git a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+> > index 8990fab0446cf..7e4e43783ef14 100644
+> > --- a/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+> > +++ b/drivers/pinctrl/cirrus/pinctrl-cs42l43.c
+> > @@ -5,11 +5,15 @@
+> >  // Copyright (c) 2023 Cirrus Logic, Inc. and
+> >  //                    Cirrus Logic International Semiconductor Ltd.
+> >
+> > +#include <linux/acpi.h>
+> >  #include <linux/array_size.h>
+> >  #include <linux/bits.h>
+> >  #include <linux/build_bug.h>
+> >  #include <linux/err.h>
+> > +#include <linux/gpio/consumer.h>
+> >  #include <linux/gpio/driver.h>
+> > +#include <linux/gpio/machine.h>
+> > +#include <linux/leds.h>
+> >  #include <linux/mfd/cs42l43.h>
+> >  #include <linux/mfd/cs42l43-regs.h>
+> >  #include <linux/module.h>
+> > @@ -29,9 +33,18 @@
+> >
+> >  #define CS42L43_NUM_GPIOS 3
+> >
+> > +struct cs42l43_mute_led {
+> > +       struct led_classdev cdev;
+> > +       struct gpio_desc *gpio;
+> > +       u32 gpio_num;
+> > +};
+> > +
+> >  struct cs42l43_pin {
+> >         struct gpio_chip gpio_chip;
+> >
+> > +       struct cs42l43_mute_led spk_mute_led;
+> > +       struct cs42l43_mute_led mic_mute_led;
+> > +
+> >         struct device *dev;
+> >         struct regmap *regmap;
+> >         bool shutters_locked;
+> > @@ -535,6 +548,143 @@ static void cs42l43_fwnode_put(void *data)
+> >         fwnode_handle_put(data);
+> >  }
+> >
+> > +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> > +static int cs42l43_find_mute_gpios(struct cs42l43_pin *priv, struct fwnode_handle *fwnode)
+> > +{
+> > +       struct cs42l43_mute_led *mic = &priv->mic_mute_led;
+> > +       struct cs42l43_mute_led *spk = &priv->spk_mute_led;
+> > +       int ret;
+> > +
+> > +       fwnode_for_each_child_node_scoped(fwnode, child_fwnode) {
+> > +               struct fwnode_handle *ext_fwnode __free(fwnode_handle) =
+> > +                       fwnode_get_named_child_node(child_fwnode,
+> > +                                                   "mipi-sdca-function-expansion-subproperties");
+> > +               bool mic_present, spk_present;
+> > +
+> > +               if (!ext_fwnode)
+> > +                       continue;
+> > +
+> > +               mic_present = fwnode_property_present(ext_fwnode,
+> > +                                                     "01fa-global-mute-led-mic-mute-gpio");
+> > +               spk_present = fwnode_property_present(ext_fwnode,
+> > +                                                     "01fa-global-mute-led-spk-mute-gpio");
+> > +               if (!mic_present && !spk_present)
+> > +                       continue;
+> > +
+> > +               if (mic_present) {
+> > +                       ret = fwnode_property_read_u32(ext_fwnode,
+> > +                                                      "01fa-global-mute-led-mic-mute-gpio",
+> > +                                                      &mic->gpio_num);
+> > +                       if (ret)
+> > +                               return dev_err_probe(priv->dev, ret,
+> > +                                                    "Invalid mic-mute LED GPIO property\n");
+> > +               }
+> > +
+> > +               if (spk_present) {
+> > +                       ret = fwnode_property_read_u32(ext_fwnode,
+> > +                                                      "01fa-global-mute-led-spk-mute-gpio",
+> > +                                                      &spk->gpio_num);
+> > +                       if (ret)
+> > +                               return dev_err_probe(priv->dev, ret,
+> > +                                                    "Invalid spk-mute LED GPIO property\n");
+> > +               }
+> > +
+> > +               return 0;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int cs42l43_mute_led_set(struct led_classdev *cdev, enum led_brightness value)
+> > +{
+> > +       struct cs42l43_mute_led *led = container_of(cdev, struct cs42l43_mute_led, cdev);
+> > +
+> > +       return gpiod_set_value_cansleep(led->gpio, value != LED_OFF);
+> > +}
+> > +
+> > +static void cs42l43_mute_led_gpio_free(void *data)
+> > +{
+> > +       struct cs42l43_mute_led *led = data;
+> > +
+> > +       gpiochip_free_own_desc(led->gpio);
+> > +}
+> > +
+> > +static int cs42l43_mute_led_register(struct cs42l43_pin *priv,
+> > +                                    struct cs42l43_mute_led *led,
+> > +                                    const char *function, const char *trigger)
+> > +{
+> > +       int ret;
+> > +
+> > +       led->gpio = gpiochip_request_own_desc(&priv->gpio_chip, led->gpio_num - 1,
+> > +                                             trigger, GPIO_ACTIVE_HIGH,
+> > +                                             GPIOD_OUT_LOW);
+> > +       if (IS_ERR(led->gpio))
+> > +               return dev_err_probe(priv->dev, PTR_ERR(led->gpio),
+> > +                                    "Failed to request GPIO%u for %s LED\n",
+> > +                                    led->gpio_num, trigger);
+> > +
+> > +       ret = devm_add_action_or_reset(priv->dev, cs42l43_mute_led_gpio_free, led);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       led->cdev.name = devm_kasprintf(priv->dev, GFP_KERNEL, "%s::%s",
+> > +                                       dev_name(priv->dev), function);
+> > +       if (!led->cdev.name)
+> > +               return -ENOMEM;
+> > +
+> > +       led->cdev.default_trigger = trigger;
+> > +       led->cdev.brightness_set_blocking = cs42l43_mute_led_set;
+> > +       led->cdev.max_brightness = 1;
+> > +
+> > +       ret = devm_led_classdev_register(priv->dev, &led->cdev);
+> > +       if (ret)
+> > +               return dev_err_probe(priv->dev, ret, "Failed to register %s LED\n",
+> > +                                    trigger);
+> > +
+> > +       dev_dbg(priv->dev, "%s LED uses codec GPIO%u\n", trigger, led->gpio_num);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static int cs42l43_mute_leds_register(struct cs42l43_pin *priv,
+> > +                                     struct fwnode_handle *fwnode)
+> > +{
+> > +       struct cs42l43_mute_led *mic = &priv->mic_mute_led;
+> > +       struct cs42l43_mute_led *spk = &priv->spk_mute_led;
+> > +       int ret;
+> > +
+> > +       if (!is_acpi_node(fwnode))
+> > +               return 0;
+> > +
+> > +       ret = cs42l43_find_mute_gpios(priv, fwnode);
+> > +       if (ret)
+> > +               return ret;
+> > +
+> > +       if (mic->gpio_num > CS42L43_NUM_GPIOS ||
+> > +           spk->gpio_num > CS42L43_NUM_GPIOS ||
+> > +           (mic->gpio_num && mic->gpio_num == spk->gpio_num))
+> > +               return dev_err_probe(priv->dev, -EINVAL,
+> > +                                    "Invalid or shared mute LED GPIOs: mic=%u, spk=%u\n",
+> > +                                    mic->gpio_num, spk->gpio_num);
+> > +
+> > +       if (mic->gpio_num) {
+> > +               ret = cs42l43_mute_led_register(priv, mic, LED_FUNCTION_MICMUTE,
+> > +                                               "audio-micmute");
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +
+> > +       if (spk->gpio_num) {
+> > +               ret = cs42l43_mute_led_register(priv, spk, LED_FUNCTION_MUTE,
+> > +                                               "audio-mute");
+> > +               if (ret)
+> > +                       return ret;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> > +#endif
 
+If you do this:
+
+#else
+static inline int cs42l43_mute_leds_register(struct cs42l43_pin *priv,
+					     struct fwnode_handle *fwnode)
+{
+	return 0;
+}
+#endif
+
+> > +
+> >  static int cs42l43_pin_probe(struct platform_device *pdev)
+> >  {
+> >         struct cs42l43 *cs42l43 = dev_get_drvdata(pdev->dev.parent);
+> > @@ -598,6 +748,12 @@ static int cs42l43_pin_probe(struct platform_device *pdev)
+> >                 return dev_err_probe(priv->dev, ret,
+> >                                      "Failed to register gpiochip\n");
+> >
+> > +#if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> > +       ret = cs42l43_mute_leds_register(priv, dev_fwnode(cs42l43->dev));
+> > +       if (ret)
+> > +               return ret;
+> > +#endif
+
+then this reads better:
+
+	ret = cs42l43_mute_leds_register(priv, dev_fwnode(cs42l43->dev));
+	if (ret)
+		return ret;
+
+> > +
+> >         return 0;
+> >  }
+> >
+> > --
+> > 2.47.3
+> >
