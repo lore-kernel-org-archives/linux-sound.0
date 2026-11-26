@@ -1,56 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795721831;
-	b=d8338k3COThDOe6JwayHuPNxBu52W+CcRrfCWGPMl8emErgxd91Uw5Cwaozek2S8R97o
-	 MGyeNB//o4XmDM6Jvrh6pRPwY6DH14y8UA8LpsTzN97OFUGCVjQ3h21RKlwZQdWGoClUj
-	 1ilNXwuhMjWel9nkwU9apiI9OpgWtaWuxfFWKWqub46zb3PcG34PSe3mWyBojD0RBhjt4
-	 BwUNJhG55XuDx6755lXDNBk14oBL+8XcLUVW3r4JkJviwhEcMZy8pURMchCe6UAVwYDL5
-	 H5lr9bLUOjB4eAFg8NcX2g3IqTO2iyt1etJSCPc3N8cRtJ04+EsXvNSRrViSS55Fg6w==
+	t=1795721840;
+	b=OJ9bUg2hgIQiPw89+mBjdqj5HRJ3JFUTAqdjNl0B+wW+SZcYSwtzZrCfkN4nx+ffT96P
+	 zVc4qu4tyEj81maZ81KUy5vtR1EcpL1feW733rDZ/w1k3NNXy3OIz0HfOITNMcqO8IGRN
+	 /8BCkR7Jr2BKaFCKY7ctv+flxQjW/YJ0jhlzg2APc8ubzr2KcddjwiNFRkU1MiE9ZeXX/
+	 CyDfap0kdwxGG11Zg3p9b0BUEf7Xe+QajbcQ/FWUB0twlc5ze+yR3qn6tN2zyrSZIpy30
+	 p6EW8uyEb+w6saGiQLhAicdNJqMVPgB8A9tsTgBysmk3NfZbSNco6RloS/kPgPeHEIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795721831;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795721840;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=z60gty6+p+vwF3kd/m2FkOe+0F6XrOOsj0gxf8kQRdY=;
-	b=TFpEjZJHn/QP5jfUva6+Fu4p9amVNDOMCamkxcofC8BTlqKm+aVIMmUkVvRjgo/pl2ou
-	 PdFfvQlW2LyTSerA4/JizCvDYrPuCV4UV8rch/XjJ0/20NW0qui1AYhEQPQSGvZyZUMSN
-	 SwPjMxRFSAfsbGQc3Abf+ZKfsYw2wt6feC5SxdtofEkyfotTwaxhuI+q7lce0OMNkkPJy
-	 75OhmxrtqCsUm6UT8Y07OvBHD110jsUhdwMpvbVYJgHtmYGDGAPK7xWK90y35FKD3m0xH
-	 +UYkI/HFSHfPQvMZelxWAA8JSSlkNrp+qTr/FWnv2AVA0xk1pocf0jfOHw8sJSFbyXA==
+	bh=9E8o5SfIyKaPd78A3F4RTmEK7EyCjBEXZB5/Gk55Hw4=;
+	b=dIeUXd6Ur7fvPd4A/kzk9ZRp27hHiS03lmxkZRg2UtGmVEXzgemM14u/PZNtkmkzxMID
+	 UsYw3RiphXofm6H3XzQMoJzCj4aUZKdfluqUjpU7jta5qLUuE3Etq/XBk2WQ8Qm+bqsLn
+	 FDoiGrG1dC0NaR6BThQ8sh3FX1IQ/K0vdoRNLc+eoD7Ye419biHVDcgio5sbEQDEOFydd
+	 QxYLDejo5b2z2E9kVaKcKiMCcRbV+xXrjac5cbzs1wTwYTxtgl5gvaidCnjSJup6ra/QY
+	 QhwfNF1QE14bZJgPKxhcH38BmehHFaxGnBRfH0I/VTfhu8lOuHNLUkcpHhF1Q/G68Fg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPjhMIPP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gJbuvR6v;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFF9606A31C;
-	Thu, 26 Nov 2026 19:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFE4606A31C;
+	Thu, 26 Nov 2026 19:37:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mPjhMIPP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1461F000CA;
-	Thu, 26 Nov 2026 19:37:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gJbuvR6v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209F51F000D4;
+	Thu, 26 Nov 2026 19:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795721830;
-	bh=z60gty6+p+vwF3kd/m2FkOe+0F6XrOOsj0gxf8kQRdY=;
+	s=k20260515; t=1795721840;
+	bh=9E8o5SfIyKaPd78A3F4RTmEK7EyCjBEXZB5/Gk55Hw4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=mPjhMIPPfv7IdOpL1YlY1P9IlmMl1nhaC5uw8yqYQcvhBZ8snMMhvDbvOvqLLu+pc
-	 MJW/DBCSXSfTkSlSr5jClVsF7jrdDIvbvDUtC+0OMncAw7fpm2m1F94dA7KokJ3cU9
-	 zYKGK4o89XMVGLjA2qRT222Bnd3zaza8C/UodIwi4TYPWhJu+Foes4AkQXBzxIW31D
-	 kfkfZa9DigLo0CMEnn2m4bPuCbE1OTpkOpgavSvTjHTjCaS//Wpy11SCJ4L15BvUxW
-	 rmH6t7XXn4GInme7rzq7ed0bw4d2myTqwSDhc4WYn9FMENU+MRc/hG6Rf5vq7CrDxL
-	 cl0rbc33Ppt8Q==
+	b=gJbuvR6vsGMMv+rJmQFqQG56BOFTrcoqP+qoKVL+yar8hbPTteL61CvmpXh0crSHd
+	 2xE83vce0eF/sUWhSpk5wx6HXVkW7d3gM0TOgKpFXsnrlEFXE5Tv2GjlsO0qYbsmJt
+	 FZHjjKSl0s0RCd2YL6QDfuAPbzzIAdGZ6HGQbePTLjCEZeqNg/g0lVu7aBFbPg/hwd
+	 74fDxE2wakSnsMobmq00f8EEmKrBoszh8J+IIxJo4Dsj1Etp4RJWXckNgzS0SOQ90/
+	 2E2QQjoc/votGYiSz55tO1nRrOEnYr/6lh6wW9xSKb3xPj1Fl1f0v7hhj/38sOFMTI
+	 gUCf+tOp4k1ig==
 From: Mark Brown <broonie@kernel.org>
-To: Marco Giunta <marco_giunta@outlook.it>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Michael McAllister <me@michaelmcallister.org>, 
+ Riccardo Mereu <r.mereu@arduino.cc>, 
+ Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
+ Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  linux-kernel@vger.kernel.org
-In-Reply-To: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
-References: <SN6PR19MB2303E8188DC58BDC07645705FC792@SN6PR19MB2303.namprd19.prod.outlook.com>
-Subject: Re: [PATCH 1/5] ASoC: aw88261: fix sign bit check in
- aw88261_dev_get_vcalk()
-Message-Id: <179570329744.142532.7395623740715138052.b4-ty@b4>
-Date: Thu, 26 Nov 2026 14:28:17 +0000
+In-Reply-To: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
+References: <20261126115738.1765949-2-srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] ASoC: qcom: q6asm: fix 24-bit PCM level via media
+ format V4/V5
+Message-Id: <179570763254.142532.5474593579002750428.b4-ty@b4>
+Date: Thu, 26 Nov 2026 15:40:32 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -63,17 +69,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1603; i=broonie@kernel.org;
- h=from:subject:message-id; bh=VGOaLeGuQvlrCwUC84zcYzmqwdatVWsRSWRO4cRMl48=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5upIvb9qw6pPDmokrbWMKTVc8NI1mieEXCX9qtYbLj
- d2koOZDRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACZyl5WRofvzwt+azyy326ha
- ripcEh7EWNLxoiuvTyXWOnGLs1m4JsP/qqUnPLL62dwmc5znM7ojLmfMnjL9vb/x50sOf9NmyVW
- zAwA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1278; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HAh3+iYtedJD2HXcN9Sa//olSZAk38ABWA4rHycwvb4=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5unLcz62ctymJtWfZSZXMlcrZ1U6bBTuNbUrOFWy5+
+ rBHYAVzRykLgxgXg6yYIktcFvfL+pLXa/gOLmyDmcPKBDKEgYtTACayLY7hf4K+m/qen0J/A5uf
+ /s84lX3zXuoB+c8yy7/FbNxsoSH76S7DP4OD4sEPbLf+2ffsWo1fYV7inoiKV167mLclJ2Vkr9a
+ TZAIA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 19 Nov 2026 17:30:12 +0100, Marco Giunta wrote:
-> ASoC: aw88261: fix sign bit check in aw88261_dev_get_vcalk()
+On Thu, 26 Nov 2026 11:57:37 +0000, Srinivas Kandagatla wrote:
+> ASoC: qcom: q6asm: fix 24-bit PCM level via media format V4/V5
 
 Applied to
 
@@ -81,16 +87,10 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: aw88261: fix sign bit check in aw88261_dev_get_vcalk()
-      https://git.kernel.org/broonie/sound/c/b824fb3c0844
-[2/5] ASoC: aw88399: fix sign bit check in aw88399_dev_get_vcalk()
-      https://git.kernel.org/broonie/sound/c/e18570e9cee3
-[3/5] ASoC: aw88166: fix clearing of SYSCTRL bits
-      https://git.kernel.org/broonie/sound/c/da290cad79b6
-[4/5] ASoC: aw88399: fix clearing of SYSCTRL bits
-      https://git.kernel.org/broonie/sound/c/9deb0f9e7028
-[5/5] ASoC: aw88399: rename AW883XX_* macros to AW88399_*
-      https://git.kernel.org/broonie/sound/c/a860c9588b94
+[1/2] ASoC: qcom: q6asm: fix 24-bit PCM level via media format V4/V5
+      https://git.kernel.org/broonie/sound/c/f29b683543cc
+[2/2] ASoC: qcom: q6dsp: add S24_LE and S32_LE to MI2S playback DAIs
+      https://git.kernel.org/broonie/sound/c/e03e85ff7500
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
