@@ -1,101 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795687678;
-	b=d9bkRZoVhONDmGM+fLaX2/ylpwkqpHyKTLhjrhkzIRpN1wrOAPp6+z3bckxWtkyKz9AR
-	 neoLLZisDxmFrmktDwcXmLl8iALPzX+smF0ip4ziIz4smTFqCx2J/Eb4QrAA8rSuWNtaf
-	 a+B5J2zcZ54Cw7BbdjpEU31NhZagobt3KEFdAHci9Y1efcSMeHdim4pLr7Si9Bm9NfD+R
-	 qDGmiSWxk4eS6MAXYuG+nynhGOqMBIKP7qyuwwOj+6kuY8szqiU/5R1ffs2EkkqVwnbJN
-	 guytfsEDaRhx+Uoee8lfx/74u2gXdWsSDPeADcb+/OevrtZW+fB2WycSsN3f+qIb47w==
+	t=1795688017;
+	b=GI2U2+9D8EYBTsxAefCorXiEmycSQNtUeDqkz+iLYNfeS8HFxP/GwIdrF1l1vkOxZQx1
+	 JXwshphEBSQneX/T/Mv7v2JEOJqWLfwD1VQtTdikv5rsfA2aRnHEBYwwUR8AqLIIoljLC
+	 S15/Xb9fYakbsYG5maCA3jrGPvY+9FuZfRKLCDN6OthcqhiZAPs280ifR95cTlKiZAIm3
+	 kEKoOxcg5vGX+9dlx0rTOGH/MZCVIvfWF+B1AjFJTP7vza4JpT9OaWwiRuEINCP8AdT3W
+	 WG2JhoAEfwC+xtANKD5lq4IIo99Gs2ivnjP244oxfRE6dZ5leajbSfAMx2KAS3i6h1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795687678;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ArMJaHbGKbGUeWN7hQdiXN3NlwJTftX/zR/PjftffQQ=;
-	b=3uzJWxC9BsKCs5BeFt7beZbGxIliOZyGXaSEgxanXfCXdXSyhHsozNracCSqCl+OYTKb
-	 iG8gG9qpcKZwVXgVLXpXUBRZkFOwmxuZJLly3gzcU/Ojq700Dq5u8Yt1CPQHyCvpntu9g
-	 I3mZQQPZppWg4oOuX1rR10SGqvJrdbSnM9ceH+H52tRuILMD2jqvOtw2CqgByS4okSHji
-	 jdygHWccD5NevL0XzbkwYKAHNX+2kPeetpb2CGxtdUr/VrAgW0thRGhM2YMtI+gG/r7PV
-	 d20ibPm8e9pPWO0XcbHWfqqXBhGiXogB+3TKg1Fh/7kuoK4P/b87tilaDaXLe7osCFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795688017;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=QjmQWDOhXjPduQCPFEYnWWElx9QajV47LMWbsl16/a0=;
+	b=EX+zm1Djjn3AzOErvFNmsETBa8Q9rDZFn/yAZM3vUoPnmBL+VZtaXEcd5dG92/bzpGVP
+	 wf6d9VPnLdxG9GXZk204vMyOq1J1M/4jDLabE7RJlchLQ3V103QmmTzWeH0gxuQfnMxqi
+	 mqVFgZUp6GOc5vykyRRajPCwhUmQbkQgfkFfft5ttVZVyV2Ue/nPuc7GRMyTLS0dled1+
+	 0tyWOs011euKRzCawmZsMG87LxvWjXrCeY0EmEBwjWjitUAx0FG+PNDWuxSAajEEq3hQb
+	 8EUZFHZh/9pryzs6QNiDl5vdE/pV89dPWnfIfDb43JUvwBrbIGGcFGh1MLpJ5vl5ucg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w46mzF5J;
-	arc=none smtp.remote-ip=209.85.215.181
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=o5ytL25S;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NtxCwrv7;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IiP1dU5h;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=L3wKBgHc;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9872D606A31C
-	for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 10:07:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9872D606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18121606A330;
+	Thu, 26 Nov 2026 10:13:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18121606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=w46mzF5J
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cc4be0e5351so4769104a12.0
-        for <linux-sound@vger.kernel.org>; Thu, 26 Nov 2026 02:07:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795687677; x=1796292477; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ArMJaHbGKbGUeWN7hQdiXN3NlwJTftX/zR/PjftffQQ=;
-        b=w46mzF5J+Zb3vlWvyPSfXQBrGfJNedr2fndhCnZ5+RIxtlJODp1cYYmGnYRtQ/6NKN
-         n6PTJJcC7yI6+wa/NUD8DqgA0c1qGLfqsZ9aHyMlEcTBv8qCQWJIpWxrzBo7bm3JUYOt
-         KfJW7S3RbgJW65qqhzlvAwEVLMcDLUen/90e7csP4Q2yfLV+M+BxwvC5BYUWFCr70VZ1
-         2qIRW7ZnW5IiQqwhhtcFVFFB00vB2ch8yp9X/7TfEoLgzhS+Uc57T87BAdc/tHE88R1O
-         koApybaHMm4CEEVl23oaFCkp8wS++kfkkgj0QtucMMuK38ixWPGLDMYj7FQAjYzFSQ0h
-         gSRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795687677; x=1796292477;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ArMJaHbGKbGUeWN7hQdiXN3NlwJTftX/zR/PjftffQQ=;
-        b=GZyOABN6Rl9yuClELfdQ2ndHCIWBqgj2ZXBKF7ZPQMjUq0qob05no/dLZFV4lyEd3A
-         kIls8PqIaNG8cQ8nAEAVFMaIMc4yfTX0tqzXCFnZdI3Qvszb13UY65Tv3q1ganKPtifR
-         4JbU6MSVwUWoJ0bn2LyMbcvRbH2ubTs2jez9rd0JZDFfECMADLUGCVTMM7Z2eqdMZgwn
-         aZq+WqeWqT8Td8tV8EI4w2i9XrpWbYCAVhphdGY+CmdfLS4RR+mV9wyHgh01XWn3BlS2
-         zLOsTCYkx+LJVDY673xkC9pqIzwsZ5E1MiqewxCIBp4lp2OktcDBiIlz/Zoz8I56WvqC
-         edDg==
-X-Forwarded-Encrypted: i=1; AL+hErFCz18MruDiqUTGX89IzjpOCkRMRO6prPVqlJRN6C1GhwvKFgjzKrlI31wtI8uHvl2rULVHtgngXpjDQA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+14ChI4bPj8Lc8KV2gLX4oCj1NFu6ZLMsKQnUcCPulJ1n2JRR8
-	JT3IcQ3EX9cWP/MCUkxx9QGNk46sy1Z7QUqnIuo4Fb4xZRPUpSlQXvVKxgoSDA==
-X-Gm-Gg: AZFdTZe925e6p9qFGzEyjJd4cTHmvgRPcem3GvQo5tZ588Ffqe7Xp2wf0MBciKztTeP
-	vuMma1NC7oSeSLH5ISJkb59MbOkiiCutaxLoCdaga7Jh0hLqxiethKynXqrKYFu112Ixn+Q9jwE
-	k0zJeGxSI3TKGSLZZht/N2ADp39B1eWBYIvl67H9iniRQmAExzGYakjV8phrMtIi6VHiFEKflzL
-	9FM9V60tc4e7AWj3W2dnsOOJJm0ia2VYs2WHn+bBKcaSiSIWc2Jb5OFD3WU/Ctor6mw7A5IKoGQ
-	YuCFAgltlcW+4jnxLPiZU/lzuf69PTBGR4alfhBFyr/xosRmLfki3Wym4JbflxCsTLU/K/mW8Aa
-	R1LODbA6OE4MOskoVeberFsSPLEaudRvzFR1WK89qyR3phR+jTxrMEn13RbLnSkI6ViGGC8tkiv
-	NWZxInCux2pOEOA41RA3zbZDg+v9Q3eAMPcOK/6tHJcp32ihPEU9ozeK0mQRE6L3AoUfm94v76y
-	WYAVLpH5Sw4vCohq0q9n7Jk4GsgAGoFYjIx6GQ3keGvdwz9VBw4V4W6jDG7b5YiXYZZaEW4rIqI
-	wLLcg38aWr9MPsFIU9AU2WhkoyvO7rP6bNZ2/kqXLWA4/TrtC+Wlu/K33n0/xMRLJPwyTd75kFu
-	48OsJITPt+NIsVmXlwMf2tdERj/1JHnRpry2rKbCQ1auY
-X-Received: by 2002:a17:90b:5109:b0:3ac:9c37:942e with SMTP id 98e67ed59e1d1-3b41c953f98mr21178436a91.49.1795687676930;
-        Thu, 26 Nov 2026 02:07:56 -0800 (PST)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b792474sm15034992a91.3.2026.11.26.02.07.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 02:07:56 -0800 (PST)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=o5ytL25S;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=NtxCwrv7;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=IiP1dU5h;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=L3wKBgHc
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CAF112205E;
+	Thu, 26 Nov 2026 10:13:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795688015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QjmQWDOhXjPduQCPFEYnWWElx9QajV47LMWbsl16/a0=;
+	b=o5ytL25S74zKhzoZ+L/MmCeIxYsfUDPsFQP8U264cGDR1xf0onaNgdHG+2VLIlR+ZAwtiA
+	bJoqzQ98O8ROY31N3bBORfnSToqhC6V2bp5kETYPtq8UbeWeN/V21Ucplr23W4vTDJTCkh
+	JdYg8siazbSwqolJwmEbhaI1wh4gP00=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795688015;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QjmQWDOhXjPduQCPFEYnWWElx9QajV47LMWbsl16/a0=;
+	b=NtxCwrv7S/7ynap1/6hIKZcPkRolv5tpyFexw5xFuZ7Rz9DIQh+qfhxRxdDXaJ235ZlwtD
+	5wVhn/FC2gu7fBAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795688013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QjmQWDOhXjPduQCPFEYnWWElx9QajV47LMWbsl16/a0=;
+	b=IiP1dU5hX4g8bwJC6G4XdxRX3Ye4+mP2b2tVxWSeRG7gEegmbobQBdYwmnufQYAltmQnbM
+	ByWBF1kisbSYJZmqpzyvuaQ7tWm5jtVnYKhMBeEU8Nt+p1oHPsjqDBCGjbb3DT83Neh35c
+	cV2gcZKIYkhf8s4mr141KWy7H7vf0yc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795688013;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QjmQWDOhXjPduQCPFEYnWWElx9QajV47LMWbsl16/a0=;
+	b=L3wKBgHcTaNAimRxwcOFSX+v3MGgugkzImqkeNlY9rvttELYhq2/13uEOWDjph+1xfE46W
+	YYOFwFka7y5eULAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AF8D13432;
+	Thu, 26 Nov 2026 10:13:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0a8XFU0GCGtcFQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 26 Nov 2026 10:13:33 +0000
+Date: Thu, 26 Nov 2026 11:13:33 +0100
+Message-ID: <87ik1j6gtu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Hengyu Liang <hengyul@cs.unc.edu>
+Cc: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Pavel Hofman <pavel.hofman@ivitera.com>,
 	linux-sound@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: stm: stm32_adfsdm: Use devm helpers and drop remove callback
-Date: Thu, 26 Nov 2026 17:07:30 +0700
-Message-ID: <20261126100730.10594-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: pcm: oss: Refine slave hw_params after setting format
+In-Reply-To: <20261125181005.3683575-1-hengyul@cs.unc.edu>
+References: <20261125181005.3683575-1-hengyul@cs.unc.edu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -104,79 +112,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[unc.edu:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Wed, 25 Nov 2026 19:10:05 +0100,
+Hengyu Liang wrote:
+> 
+> Commit 93d7d38fa61d ("ALSA: aloop: add DSD formats") added DSD_U8 to
+> the formats of snd-aloop. Before that, its narrowest format had 16 bits.
+> 
+> However, snd_pcm_oss_change_params_locked() sets the slave format with
+> _snd_pcm_hw_param_set(), which does not refine the parameters, while
+> the access, rate and channels before it are set with refining helpers.
+> snd_pcm_oss_period_size() then reads a buffer size maximum that is
+> still computed for the narrowest format, now DSD_U8, so the OSS period
+> doubles. With the default U8 client format, the doubled period no
+> longer fits in the format plugin, and snd_pcm_plugin_alloc() returns
+> -ENOMEM. As of now, an OSS program that asks snd-aloop for 8 channels
+> at 192 kHz gets ENOMEM from SNDCTL_DSP_SPEED and from every later
+> ioctl on the same file.
+> 
+> The issue can be reproduced with this program, where card 1 is
+> snd-aloop:
+> 
+>     #include <fcntl.h>
+>     #include <stdio.h>
+>     #include <sys/ioctl.h>
+>     #include <sys/soundcard.h>
+> 
+>     int main(void)
+>     {
+>             int fd = open("/dev/dsp1", O_WRONLY | O_NONBLOCK);
+>             int ch = 8, rate = 192000, blk = 0;
+> 
+>             ioctl(fd, SNDCTL_DSP_CHANNELS, &ch);
+>             if (ioctl(fd, SNDCTL_DSP_SPEED, &rate) < 0)
+>                     perror("SNDCTL_DSP_SPEED");
+>             if (ioctl(fd, SNDCTL_DSP_GETBLKSIZE, &blk) < 0)
+>                     perror("SNDCTL_DSP_GETBLKSIZE");
+>             printf("block size %d\n", blk);
+>             return 0;
+>     }
+> 
+> Before that commit, it prints "block size 65536". After that commit,
+> the result is:
+> 
+>     SNDCTL_DSP_SPEED: Cannot allocate memory
+>     SNDCTL_DSP_GETBLKSIZE: Cannot allocate memory
+>     block size 0
+> 
+> This patch will set the format with snd_pcm_hw_param_set(), which
+> refines the parameters, as is done for the channels just before.
+> 
+> Fixes: 93d7d38fa61d ("ALSA: aloop: add DSD formats")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Hengyu Liang <hengyul@cs.unc.edu>
 
-The components are registered with devm helpers, but the remove
-callback unregisters them explicitly. Use devm_pm_runtime_enable()
-and drop the remove callback.
+Applied now.  Thanks.
 
-Also get the IIO channels first and register the PCM component
-before the DAI component.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
-
-Note: Compile-tested only.
-
- sound/soc/stm/stm32_adfsdm.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
-
-diff --git a/sound/soc/stm/stm32_adfsdm.c b/sound/soc/stm/stm32_adfsdm.c
-index 083dc4c26274..cd54fd071b2b 100644
---- a/sound/soc/stm/stm32_adfsdm.c
-+++ b/sound/soc/stm/stm32_adfsdm.c
-@@ -336,12 +336,6 @@ static int stm32_adfsdm_probe(struct platform_device *pdev)
- 
- 	dev_set_drvdata(&pdev->dev, priv);
- 
--	ret = devm_snd_soc_register_component(&pdev->dev,
--					      &stm32_adfsdm_dai_component,
--					      &priv->dai_drv, 1);
--	if (ret < 0)
--		return ret;
--
- 	/* Associate iio channel */
- 	priv->iio_ch  = devm_iio_channel_get_all(&pdev->dev);
- 	if (IS_ERR(priv->iio_ch))
-@@ -357,19 +351,17 @@ static int stm32_adfsdm_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	ret = snd_soc_register_component(&pdev->dev, &stm32_adfsdm_soc_platform, NULL, 0);
-+	ret = devm_pm_runtime_enable(&pdev->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_snd_soc_register_component(&pdev->dev, &stm32_adfsdm_soc_platform, NULL, 0);
- 	if (ret < 0)
- 		return ret;
- 
--	pm_runtime_enable(&pdev->dev);
--
--	return ret;
--}
--
--static void stm32_adfsdm_remove(struct platform_device *pdev)
--{
--	snd_soc_unregister_component(&pdev->dev);
--	pm_runtime_disable(&pdev->dev);
-+	return devm_snd_soc_register_component(&pdev->dev,
-+					       &stm32_adfsdm_dai_component,
-+					       &priv->dai_drv, 1);
- }
- 
- static struct platform_driver stm32_adfsdm_driver = {
-@@ -378,7 +370,6 @@ static struct platform_driver stm32_adfsdm_driver = {
- 		   .of_match_table = stm32_adfsdm_of_match,
- 		   },
- 	.probe = stm32_adfsdm_probe,
--	.remove = stm32_adfsdm_remove,
- };
- 
- module_platform_driver(stm32_adfsdm_driver);
--- 
-2.43.0
-
+Takashi
