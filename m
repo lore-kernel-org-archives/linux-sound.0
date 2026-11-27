@@ -1,95 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795773118;
-	b=prUbtibgkC88k6ChMPjssU15WzmYJoN7I32zmjWXubLXjaFwQpVTh69EXTVr5JgTKdj0
-	 n4wiCVairjsuiy49Mz0e/rO6vFfPiA7RFQiOcAz7gGGY0gkD6PP+YQ19AGjPu0Cfvkq18
-	 4XVuD9AOHve3SqP362d10EOSG8hG3UO35M/PqhihsZba7Qx6AB6kF2iIxN/sz7Y3Chqs8
-	 8OH5EnfxkXzERj16k+B+Nb9jQcPdY+VQMzT7K5qpFn2EYSmFwKiVgl23A4H2iOfcfuoBc
-	 4qBNyzOUtpxXfY1j7gmCFap6xwIhFax14omgiGaKZrCc4EhSMmzVjI3TXr6GQDq5f6w==
+	t=1795773123;
+	b=fcsLAzHFpiwAE282PRsYcHcDwWU6inKK/fjuus/GUTbK0fpcmNzYFCODoBJrPTajRBKk
+	 xlkaciVf2cb+qdzRNxSSA4OHGb1shJ2ABtJ948N8jHHsHWDXwHbP7fJAsSr/mR7dCvZOe
+	 dRHYdQ8i042dIr2gYHcI+sUTnZpaKeb25aghVCYmXJe36bPsDZaJhq2oPEI+OJ75kdFGO
+	 U6kOHgOHZvYBl/AcNGv+wlrEYnn1Fox3+CsEqOTwJ6P1qdTILqfOtM5StQKAzXrZeH/w4
+	 YUyibqaJ4Y/BIGC23+oMeKaRXeC3GmMebSpWqZX9y2Bc8DeIKzXmRENpIlD7+RFXV9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795773118;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=iWPHJy9iFbePXvxdAN2Vzrm7k7bmXFBAq/ZLtmQXYUM=;
-	b=Tgo/+fNF98glT4Rr0jcMUj8ughR8AGm1W1w/3yobzEWU2YBS2Cw+ZnENb3vOa1iNOOj+
-	 s+DGQTk9yi3L7bCr9msRQrAPoYXdadSWzWGOK7uxB0UMLskTgVM5M65sH0I35ioWULSZo
-	 f+VACktTD6fYouB61y7HF2S+BQs5zgmmeky4num5xSA0D0uW8JAK9l4jB7d7m4CPGhXn4
-	 khEPPw/2YgNi3/7Wc+CTPQt12hb/KOYXf2hJ8dKBZw+vXpoTHfr4FxKNBuirxv520gN2N
-	 rfagGhUkvYNz6RtT8uua9DzvoK8aNblwlCcOboEdnqFiqN5mNs7Z+SDRZYfziFhF2pg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795773123;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=PjPTqWnvIamPM9Ups0KMlBv18X4d4v7KC1zyehi+ktY=;
+	b=e4arJzEsaWSJwKnmwOZ9+t7L+ZkCOEWlIxTElgjs2wUojcWH+DsRs+52ahiEuy91yZb4
+	 jj6UpyLPaCC0AveGONLz2R6GC+IHuLjyPNMam2XPIaz8qF9H3cN1yHR7Jy0xDfQM7lvh5
+	 w29IjMMrvrH92XlmaZx/iQqk6cz2cDcIK5qVKQH4UI6uXp9EqQjDmlioy/WLyklh2MxVz
+	 Syb6Wrqb35Ypl8izGuk4/7aF0AN4swdN5U7GkwUP/sUQmUVMlU0UVtWNcrVP984cr7Dqv
+	 XnrFQNcKNLDyzpZolC0/0GPhhksrZkB+6ATRQuG++MZT7APfh9O2wnXB/F10zPHSYVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kzaZFBqv;
-	arc=none smtp.remote-ip=74.125.82.49
-Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZrBP5ORw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0C6606A32A
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 09:51:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C0C6606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB0C606A32A;
+	Fri, 27 Nov 2026 09:52:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kzaZFBqv
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-1b5786e099cso6716547c88.0
-        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 01:51:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795773117; x=1796377917; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iWPHJy9iFbePXvxdAN2Vzrm7k7bmXFBAq/ZLtmQXYUM=;
-        b=kzaZFBqvVJ1n0WS3G172UXYxvJKiscfG4ZP6abKEXwtGDQ3XzuyUxz5VOG00PQGwte
-         jo7S3tIjrM01nKxb90xf6i0eGB5uHzEzS2vbcS0ckp4W8Fh2KIGUXtZWlQa4MeBTUQdb
-         Cw6UIkVR+BksWEifBD73LZI6ij2jBwbEP8UnG471LDR+u6v1n1OXvCGmGUmBG4DNwtIw
-         5Fx3m3Dx1rRxcswObLEv3qJoPNcVP2bagkgUMeuBH2bbO8uEfgpXp2Blz+oNtHXSsjQy
-         5lxS2l9E4URZwm5b9HUrAwr2guuPJSCgifvrW8pB8X+PmxmIedB7e+6TiToBx+FkEnD9
-         6ubA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795773117; x=1796377917;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iWPHJy9iFbePXvxdAN2Vzrm7k7bmXFBAq/ZLtmQXYUM=;
-        b=ueUUdXlkomOM/4SYmcbaVlfiT7aozh70vz1CtrC4bDG+n37cH2lBo9v1iOXoznVyYN
-         cMMHhe9ED9I7QnNi+v6YMKkvJ9E3sZy3pY+PlJJsOKc1UCOx6v1vXo31TGOy3kciKxSa
-         +Lm3wXpIhvrdD54+hqgWS1UpsjXXYy8czSpd12lgYx27NjtJ4KlR+cW0bEXLG3TE4032
-         zGmSvqrjqBl5DU+2yxzCid+1Nl9LX9A9BNw1CJD7ux6oVSsQis6M4gbllpi4EbEW5l5K
-         384RguEE9U/BVYfkPW/gJQgr/B2hXjaTrt94f6JO/TTgO3HENO5/pAEvWLjeL0D1tHJE
-         msfA==
-X-Gm-Message-State: APuU4Z9SrSTwlsc/O1U1gYNgruKsIsf44diMRRE5o4hO3FQq0fmEk1J2
-	GUWZ08+QuTkqS0IjyxHUs0fnPbgB04YteYLa21oe58ThFLyFc2wsGoZwAcQo2w==
-X-Gm-Gg: AZFdTZd1sLzBPLIbfkSlLwZMhFPZS9pTQ0IzHJeTlQ7AzdfL4YJc8GBOTqQHxiz+tr4
-	CzCnrIjbxklGEzs3xrJ7gTqRy+0tajm1Us7z8wrzArDo4a6MFh7KR8AXxGU4cBcOocFwM8s2mFr
-	7kwRVYb6nSlQffaAG70Rz9fFHwgpEiNxUp1tLiO70zOls0zztLq3KRfbJFyg9KwUYgT55SvcAw5
-	jbFTkFJGwCJH2yjFECxqHHug6YkJ5X5xl0K8QPp0N2nxCvwMGQGKV5LdrE3owEd/1tjENyjU/YY
-	uFUTeosI8JdIXhfpUrIgBvAXOoRM95LQwknc3HdFP0TzisDvnLufbS0SZTVJQNRV5FAWpqunzDx
-	neYNjFlfst6rZsz3b86Lwqg4Xmqo6GhZCVVEb4Cgqklku/ByJDS5M2whApAZluBbfGD53nr8n4e
-	9XDGDzTmDMHaoQ4TXZ0RVF3EfbtGU65WrrqrtdagPYYPNFdQIw8+bJ++IjV3ECDRd0zCLCucv3G
-	1C6T/fQGySJzaKXSkbZcFX0S/4qJKjfoJAF18P9WBOTiGsKJA6mnSEE024khEK12uA94Ij7F7DS
-	Sa/pO6BOCM646BpwVTFxmB9eb55xriW6IRzh6q5AihBwnR8iMXZenXE3aX3Udz0wQFzyglVSiw=
-	=
-X-Received: by 2002:a05:701b:2901:b0:1b2:529c:5b6c with SMTP id a92af1059eb24-1b563e5cbafmr20921407c88.14.1795773116771;
-        Fri, 27 Nov 2026 01:51:56 -0800 (PST)
-Received: from localhost.localdomain ([103.177.252.209])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm63459721c88.6.2026.11.27.01.51.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 01:51:56 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.de,
-	nicolas.ferre@microchip.com,
-	claudiu.beznea@tuxon.dev,
-	alexandre.belloni@bootlin.com
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-Subject: [PATCH] ALSA: atmel: ac97c: fix reset GPIO error handling
-Date: Fri, 27 Nov 2026 09:50:29 +0000
-Message-ID: <20261127095029.3280-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZrBP5ORw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5092D1F0089A;
+	Fri, 27 Nov 2026 09:52:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795773123;
+	bh=PjPTqWnvIamPM9Ups0KMlBv18X4d4v7KC1zyehi+ktY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ZrBP5ORwQoM0DziMdayXiLFW/01wWPi8Ng8JVcUqk5UweoHHHaiAcjNrBtPxInKtW
+	 9zTV/SHgWhzErFgqz5eJmlTYq5W4JyMWa6FmfkZ9OY3ybavw2R72y+fu3dlu3YqdA0
+	 3k5fbvOe191cMjwLURrHwDJ/tNtxRxpryjcTOXq/u0/vTTSHoNcREJbTYpjWRqkMTS
+	 Uadx5+De7GE0733zJ8jXWPqaC1Dz/VTGX7EthFphtOsZfYZp8LxSdqS1gc4+KwrWOs
+	 14nriZmUjDlyWf9PK/vfhXuegbczShKsYjGK9HRM6THUJnJbXV4n0ux8cpmLohNxgg
+	 3SdGvzSlBUA3A==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, mfd@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20261120145115.2256537-1-ckeepax@opensource.cirrus.com>
+References: <20261120145115.2256537-1-ckeepax@opensource.cirrus.com>
+Subject: Re: (subset) [PATCH v2] mfd: cs42l43: Stop using legacy SoundWire
+ IRQ callback
+Message-Id: <179577312209.50005.10107814136641055755.b4-ty@b4>
+Date: Fri, 27 Nov 2026 09:52:02 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,55 +59,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
-The driver currently ignores errors returned by
-devm_gpiod_get_index() and continues probing. This can cause problems
-when the GPIO provider is not ready and the function returns
--EPROBE_DEFER.
+On Fri, 20 Nov 2026 14:51:15 +0000, Charles Keepax wrote:
+> When removing the cs42l43 driver on SoundWire the core will warn of
+> too many retries on the SoundWire alert. This is caused by the use
+> of the legacy SoundWire IRQ callback to clear INT_STAT_GEN1. This
+> implementation defined SoundWire alert bit is used to tie the cs42l43
+> internal interrupts into the SoundWire alert mechanism. However,
+> the legacy SoundWire IRQ callback is gated by the probed flag inside
+> the core and that is cleared before the driver's remove callback
+> is called. This means that any IRQs triggered during the driver
+> remove process will not clear INT_STAT_GEN1 leading to the device
+> being stuck in the alert state until it is removed from the bus.
+> 
+> [...]
 
-Use devm_gpiod_get_index_optional() to handle the reset GPIO as
-optional. If the GPIO is not available, the driver can continue using
-the internal reset mechanism. If GPIO acquisition fails for another
-reason, return the error using dev_err_probe().
+Applied, thanks!
 
-Also, check the GPIO descriptor for NULL in atmel_ac97c_reset(),
-because the optional GPIO API returns NULL when no GPIO is assigned.
+[1/1] mfd: cs42l43: Stop using legacy SoundWire IRQ callback
+      commit: 597bd4ba343df842694bf0b761ffcd3e3caff985
 
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
- sound/atmel/ac97c.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
-index 234549e17351..3ab6ddb3259f 100644
---- a/sound/atmel/ac97c.c
-+++ b/sound/atmel/ac97c.c
-@@ -670,7 +670,7 @@ static void atmel_ac97c_reset(struct atmel_ac97c *chip)
- 	ac97c_writel(chip, CAMR, 0);
- 	ac97c_writel(chip, COMR, 0);
- 
--	if (!IS_ERR(chip->reset_pin)) {
-+	if (chip->reset_pin) {
- 		gpiod_set_value(chip->reset_pin, 0);
- 		/* AC97 v2.2 specifications says minimum 1 us. */
- 		udelay(2);
-@@ -743,9 +743,13 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
- 	chip->pdev = pdev;
- 	chip->regs = regs;
- 
--	chip->reset_pin = devm_gpiod_get_index(dev, "ac97", 2, GPIOD_OUT_HIGH);
-+	chip->reset_pin = devm_gpiod_get_index_optional(dev,
-+							"ac97", 2,
-+							GPIOD_OUT_HIGH);
- 	if (IS_ERR(chip->reset_pin))
--		dev_dbg(dev, "reset pin not available\n");
-+		return dev_err_probe(dev,
-+				     PTR_ERR(chip->reset_pin),
-+				     "failed to get reset GPIO\n");
- 
- 	atmel_ac97c_reset(chip);
- 
--- 
-2.55.0
+--
+Lee Jones [李琼斯]
 
