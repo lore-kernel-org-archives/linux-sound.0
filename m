@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795773123;
-	b=fcsLAzHFpiwAE282PRsYcHcDwWU6inKK/fjuus/GUTbK0fpcmNzYFCODoBJrPTajRBKk
-	 xlkaciVf2cb+qdzRNxSSA4OHGb1shJ2ABtJ948N8jHHsHWDXwHbP7fJAsSr/mR7dCvZOe
-	 dRHYdQ8i042dIr2gYHcI+sUTnZpaKeb25aghVCYmXJe36bPsDZaJhq2oPEI+OJ75kdFGO
-	 U6kOHgOHZvYBl/AcNGv+wlrEYnn1Fox3+CsEqOTwJ6P1qdTILqfOtM5StQKAzXrZeH/w4
-	 YUyibqaJ4Y/BIGC23+oMeKaRXeC3GmMebSpWqZX9y2Bc8DeIKzXmRENpIlD7+RFXV9Q==
+	t=1795773537;
+	b=0A0njJT0KHAxpmabjPLNeZEeGTlsE5EqwB4ekUagf7wn6SsA9ei1RegSDiTuogYUK2Xq
+	 aPUORRQG+wsF3gNBEbmP+SYt9Cc3MFI7oZuHyHt/JOx+7qa0Rty6AlgYM8CFx2BfAIAuA
+	 HddmS1S4v5GW4h0LN1zdbx3R5ywUYJvHb9O99RMlwe0P+1HqlfOLCoByKXLHRCJf3wn1t
+	 Du1ICPL7Fimq8yz4hiHtHLF518kVQVQb1LcQJ8ROsM8mJd158YNdGvVp0JUf/EeZKZdoB
+	 vHAFnMOnu0fACiI19mMcX/Qrd2E1ym+dEkkiOALAx2Of1VCGlB+L6mZDn9tMzo9q5kA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795773123;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=PjPTqWnvIamPM9Ups0KMlBv18X4d4v7KC1zyehi+ktY=;
-	b=e4arJzEsaWSJwKnmwOZ9+t7L+ZkCOEWlIxTElgjs2wUojcWH+DsRs+52ahiEuy91yZb4
-	 jj6UpyLPaCC0AveGONLz2R6GC+IHuLjyPNMam2XPIaz8qF9H3cN1yHR7Jy0xDfQM7lvh5
-	 w29IjMMrvrH92XlmaZx/iQqk6cz2cDcIK5qVKQH4UI6uXp9EqQjDmlioy/WLyklh2MxVz
-	 Syb6Wrqb35Ypl8izGuk4/7aF0AN4swdN5U7GkwUP/sUQmUVMlU0UVtWNcrVP984cr7Dqv
-	 XnrFQNcKNLDyzpZolC0/0GPhhksrZkB+6ATRQuG++MZT7APfh9O2wnXB/F10zPHSYVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795773537;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ySxbTEasYpmUknu3HYlfPmP5niyJht+kxuadd4MscMo=;
+	b=APe51GQpuBfyCaxRMkKfQxkksjeWjYvrkb44Hte/FYWWXnpFTj8QLsW56lQVH+WVCKUs
+	 Hzl6C/UXEK4CHbAxCkGOU1SEkKddNQU0m+t/DFK/xKvH6sh4sx2IuymH/Igd7wnJxtDEu
+	 m0CxPOHdTLPIcxl9ONfrxOVWkySfMncgF6m2va8ex8ioW2pI6Bl/anaj902omIec2U6MZ
+	 i6EFO4wj9hLDxVmB8mmvzp5cacqtLLc4THjOOmyxl0hm7zvK6Wzt+na5pY0q6H1k/LYTB
+	 mV2pWV0FzihVJ4W5jok5tZ8PfzbbmHQe9hMRXpfakzVbUXo9Yg1ck3zXmJobB5FNbIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZrBP5ORw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="A5y3/23w";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB0C606A32A;
-	Fri, 27 Nov 2026 09:52:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3D7606A6A6
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 09:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZrBP5ORw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5092D1F0089A;
-	Fri, 27 Nov 2026 09:52:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A5y3/23w
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CFA51F00930;
+	Fri, 27 Nov 2026 09:58:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795773123;
-	bh=PjPTqWnvIamPM9Ups0KMlBv18X4d4v7KC1zyehi+ktY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ZrBP5ORwQoM0DziMdayXiLFW/01wWPi8Ng8JVcUqk5UweoHHHaiAcjNrBtPxInKtW
-	 9zTV/SHgWhzErFgqz5eJmlTYq5W4JyMWa6FmfkZ9OY3ybavw2R72y+fu3dlu3YqdA0
-	 3k5fbvOe191cMjwLURrHwDJ/tNtxRxpryjcTOXq/u0/vTTSHoNcREJbTYpjWRqkMTS
-	 Uadx5+De7GE0733zJ8jXWPqaC1Dz/VTGX7EthFphtOsZfYZp8LxSdqS1gc4+KwrWOs
-	 14nriZmUjDlyWf9PK/vfhXuegbczShKsYjGK9HRM6THUJnJbXV4n0ux8cpmLohNxgg
-	 3SdGvzSlBUA3A==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, mfd@lists.linux.dev, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20261120145115.2256537-1-ckeepax@opensource.cirrus.com>
-References: <20261120145115.2256537-1-ckeepax@opensource.cirrus.com>
-Subject: Re: (subset) [PATCH v2] mfd: cs42l43: Stop using legacy SoundWire
- IRQ callback
-Message-Id: <179577312209.50005.10107814136641055755.b4-ty@b4>
-Date: Fri, 27 Nov 2026 09:52:02 +0000
+	s=k20260515; t=1795773536;
+	bh=ySxbTEasYpmUknu3HYlfPmP5niyJht+kxuadd4MscMo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=A5y3/23w2C1xYYuAJdgykOn/uazCBQj9C2ZobR7ztEr+2MwsuOLzcYzpnYgGPgP/5
+	 /2AalQF+UdhaIIz3DieKLkuN3IecnBWQcVyUxEN6XsvWNMMTzpmtvYhcwLDyT+ggLB
+	 7923nwrKVrzPI87Mz52RtI8Eh1NDUQLTVGFxLfXAN2P/ZZnynJUjALkqj/zWuhtqC+
+	 vjBGPt1ubNm0IwXg8VeNR+GrQlWAJO832P2oMr9RXO3ZGQ/MSrGdim2h2WKGbMi7F2
+	 Sa5HPnvGaoQTLYJ+0MYBdt3Zxs0nKqjQSK/PQfxW1zVhFge6o7ozOpuyuY/ctw7enE
+	 rRrpdgn16Fa5w==
+Message-ID: <sashiko-outbox-237035@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ALSA: atmel: ac97c: fix reset GPIO error handling
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sreeraj S Kurup" <sreekuttan2156239@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261127095029.3280-1-sreekuttan2156239@gmail.com>
+References: <20261127095029.3280-1-sreekuttan2156239@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2026 09:58:56 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -58,30 +58,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
 
-On Fri, 20 Nov 2026 14:51:15 +0000, Charles Keepax wrote:
-> When removing the cs42l43 driver on SoundWire the core will warn of
-> too many retries on the SoundWire alert. This is caused by the use
-> of the legacy SoundWire IRQ callback to clear INT_STAT_GEN1. This
-> implementation defined SoundWire alert bit is used to tie the cs42l43
-> internal interrupts into the SoundWire alert mechanism. However,
-> the legacy SoundWire IRQ callback is gated by the probed flag inside
-> the core and that is cleared before the driver's remove callback
-> is called. This means that any IRQs triggered during the driver
-> remove process will not clear INT_STAT_GEN1 leading to the device
-> being stuck in the alert state until it is removed from the bus.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] mfd: cs42l43: Stop using legacy SoundWire IRQ callback
-      commit: 597bd4ba343df842694bf0b761ffcd3e3caff985
-
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ALSA: atmel: ac97c: missing Fixes trailer for reset GPIO error
+  handling fix
 --
-Lee Jones [李琼斯]
 
+commit 656d7dbe132930b3438ef77f14be3d7acdf72afa
+Author: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+
+> ALSA: atmel: ac97c: fix reset GPIO error handling
+>
+> The driver currently ignores errors returned by
+> devm_gpiod_get_index() and continues probing. This can cause problems
+> when the GPIO provider is not ready and the function returns
+> -EPROBE_DEFER.
+>
+> Use devm_gpiod_get_index_optional() to handle the reset GPIO as
+> optional. If the GPIO is not available, the driver can continue using
+> the internal reset mechanism. If GPIO acquisition fails for another
+> reason, return the error using dev_err_probe().
+>
+> Also, check the GPIO descriptor for NULL in atmel_ac97c_reset(),
+> because the optional GPIO API returns NULL when no GPIO is assigned.
+>
+> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+
+[Severity: Low]
+This fixes the devm_gpiod_get_index() call and ignored error return
+introduced during the gpiod conversion.  Should the commit message include:
+
+  Fixes: 5f10e84934e4 ("ALSA: atmel: convert AC97c driver to GPIO descripto=
+r API")
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127095029.3280=
+-1-sreekuttan2156239@gmail.com?part=3D1
