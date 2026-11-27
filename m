@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795771455;
-	b=NCG4mKNd12K3PohljFo/TIX+1dHYeEMbkLiY99In/QUKJzPBFbbYzXWyY+c5Xjoy4F2P
-	 rQWoVB1ogxng6d3UsGK5kPOk0Bvn5ipInkB5FuqVMZ0j8FkGvtemxpbMR2X8Ea/eJsk9w
-	 VbnilpSs+PY1qY45VfLvCFefohiyOF5szirRRT5keryOaU5MLNptDeXli0+JJI/HtwjLh
-	 LibYCWz29dj3h0C/sbPyymdvzrWPDgf8QF+ZxjNzTRmISIbUheSzQxiQBTSWi5VyBzZ95
-	 brx5ZIS/CBiwz2FZEmvdHDA+K893tTS+i4+2ZfkSnbFJx3Kll8WMrJY7XwGDLlKUDcQ==
+	t=1795771460;
+	b=F52+I1QAllTd2dqT0tw4eoO0MZmlivht99cYUQhiRDWo+PyeGAFJo1aNwgOJqchRpimR
+	 H0545nXXujgzApGm9iynwQGn0I7j1lxP6c/mMcIVlA0jMRYqnKNYUFFcTiWB7oHo4hTvM
+	 /ZwqUFC8WexVvwuuf/4m05jlVyzIFm5K5hqetvdnbfuP0XJkMERher7Rud1VDMOFQSPgZ
+	 Ez10dBmlsorznedhZ8XBmdhjkp4pV7YDnxDSBu+wKUOMUERoHek+oDHygRf/DF5Dck/o9
+	 w8TWo9U4drT1J3pz03zdhd6IFvyDVy2KpT6UZvycKMScY/cT6u0Tb5l8yO7q+d39j0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795771455;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795771460;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Cld24QN+1u4mT2MWMiCkwvVZkrkgbkV47el//g55Ho8=;
-	b=UqIUVEDUM3oDVvPJypaKcQy2pk99Tqc+AD7pZ+yPkBI4jhUu7bSlccNkoLYZTF0dCCk0
-	 uqoVXcXJsVWlIUEfSKKfVckU7Xndq8+vB/QHB26SQM/aG2JxAn5hyRycmP9MIMNdWnZKZ
-	 ZG3F1OqHyrLrywXBgSmw8JFRvZQJyn+z0HVt74bwgICuMGdNIjv0x6QjdARLD7UEDf3KT
-	 YAlj9HQCk2Q/+4DkJ9uI0iOjXLIzOehZ3la9+MB4Oorohb1mdodUA9Q5K+YNOFklKT78g
-	 kVW90Q6vgSlhfTSIFAKUTFoRs+2sytZ2LUcZ4SmI97FK8c60dj/1GgCho/uOL5UF63w==
+	bh=sIlYxHLSdQtSPp876GteXWV9v1qfiA7qZg4ralsrU7I=;
+	b=uhtdrZGcG2dxo47zDGbIGjLT5ewzMJpIqi/VNpE473oDkNXGWu2QtnJiG+1Hsm+vfAQ8
+	 U00I4dQV0WHuuY1SyOSxmFUYeK6PCtu5bInugTy58tGtuISQ+FwvxLZIPjuzeVNGGqgEE
+	 fy+2+hl8uqtFPzsvr0v5TTTlQyxr2+8p3p1FUJsIGbPVup99HWcnaebYWGJhFdBDR7Zfw
+	 up6yFKVUXUjv2wB+hw8DCQh3/3clXvDl4n9S3OWuaVeFCRsnBO/G1CjdHmwKUPB6RyePh
+	 SGU2jJ7cjRh/dFxsZtKhHFPVeA7N7C3cEYKYM9kH+6+Yhbc5n+ziiRaA5itSl3ftBcA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0VzaBXUD;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tDgQCC5e;
+	arc=none smtp.remote-ip=209.85.216.48
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AFB606A336
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 09:24:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18AFB606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645D9606A31C
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 09:24:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 645D9606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0VzaBXUD
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3ae691283ecso3748587a91.0
-        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 01:24:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tDgQCC5e
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3ae691283ecso3748614a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 01:24:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795771454; x=1796376254; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795771460; x=1796376260; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Cld24QN+1u4mT2MWMiCkwvVZkrkgbkV47el//g55Ho8=;
-        b=0VzaBXUD8WB0iWlBy4v86adm/c6ahxfqJnsJ1AcqDkW+B0pBuBorrKGhCWVYa/6mFS
-         9X2Rqzpx6BDaA398M0ntAYHDZtzMcxoRvm4pFwzaK+e92KmaUZrXLBZrl4yYep5/yUoH
-         i5iVKxjzTb/2Dvl+hiUH4ATL9IJ0znnKzXeKoWylBs/GV2CCYP4Gdi58jbmVBfuOY42s
-         yrRvGgPoKcV1Aq7N/Ci9pQwjhU2It/y91paqOgNLkNtXSjTg5D2IYfyeY64Qi6w98++T
-         yj/qK8of2nBJL7RZVJ8ik4vYiIEqeVlUsSQ+rWtdBYJRTNHF+lGzWAKqFWobBeTA+Nnm
-         I4tg==
+        bh=sIlYxHLSdQtSPp876GteXWV9v1qfiA7qZg4ralsrU7I=;
+        b=tDgQCC5eO/Jw4U04QZZTgXghQ1FMpydPtxmFZUV3G8ZbHVTDSZ9XGVnjSwHG93q1DP
+         YIT9CVb9xKaW2lxsTexy0ck4/QTnT8156kUNsfyDrSWBGb+ax/FM8d2CYkdCjl+QkYCO
+         S3prNXumUdqtq3uFTnu2ocOi3jZzHv6IPz0yqktK3GESWtgxn5rn0dTTg6Wg8qtvZDGq
+         EGvVdW0WhBL+UUkqJFLQLds4xW0arK55qsVx92W1VEGKe/hR9WgD4fPrXmHBcwvWskBj
+         cGUwUsvt9eI6y0Tb7rsu8LxF+Y7dU/HkNARbItYl5/JTTRMN2lSJoDQQMeD+66kFLrrO
+         EK1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795771454; x=1796376254;
+        d=1e100.net; s=20260707; t=1795771460; x=1796376260;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Cld24QN+1u4mT2MWMiCkwvVZkrkgbkV47el//g55Ho8=;
-        b=WCX+SIcIwAU5e0wGHSDhWyLsMovG81NiKUXo+LIGJrMU6IULsfSjlxPhj52cTWhrt9
-         t2f/o1FcUfRjCuzcGNhSJ35ZlgsfG5ciSj5cI+B0dtwQkbJXn1ccms0mPBC1LHwLwPZG
-         D7r6oucS+fAtTsgn6vIjWPJoqHdlycYhoYwRkgGULyVYCHy7Qp2sX2PZANpRhqiozZRd
-         I6owHVwyY3c80f4+FhDNbts0pGx3CK1VlegXUPXHr3fo8prQuh42GQQ5UHsn9N5f0oK4
-         nBkQURZQCTpQWjRPH1/3uPISp89b+cQEM+kp10uI/l2n5YwilNdupZn31w+iu57p0vZm
-         pHsw==
-X-Forwarded-Encrypted: i=1; AL+hErEPwIzXRPrKNbb46nzUKVQIweJsUld3hiXVw/hT1JbOsQkK+qNKG9m0dcl4IB7l4rLbEwbYKR4XN4grdw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/IBw/Tq6ZTkwvE/L/hfYEbdd2p2+erB6zgjf7iHV8n2n+AGP+Z
-	u+jET5Mv7nSwgS5SQWf+Ykj7EaJD1uMfAike2eP0aCXXP0nHxQrA57yy
-X-Gm-Gg: AZFdTZer2sEw8+Uk9C6IkOW702h+wNtUC4Koe8QoPYSvP8wPI3i5zYx5X2QVOXlmDcv
-	jfHdtdTo4SUPpj6sw6Jwh0SGPXPZVS4lHK/hHgwf+wmxl0AXqJWK61V6VTxOc8OBXYifSwr8Q63
-	5PyeRh7QsrW7QJ2o9SIqLSOU0Q+Fm8qNMwxvV1NAO/oneISRf59iTIaJ+azNQCu04mFhVivK1k+
-	YXfBtpLkWnQwCCgMM0qAwVVC4sNmm64r328OHoSEVeGxRCaSfA1RfMxRpuRNY8Pz3vUo4hcLbGj
-	Of5XDU0KwCuxRFU1UnWyA1LUwueRQFEuM0RVXrA32lRxqu28fK+OTYikw8AuzoHXWriVIfs4Hio
-	8hnbjdsv56q1jGWUbEox7yh4pn30m9tSWWCId1DyXSvmwm4qpU5NNiE6PeNaRx1i0V2IbO6z/oz
-	Uo5Qb9+fJ29uDg6B7y0MT4VVPsMNpDl34n3wNpkw04kL/DWFFaGAnpyT2ugKedM7wvthlAP7qt0
-	WbEAzNJMvC6dihLRfODJwOnQ0IUrZLF1l6StTbm7e50O7kCQnNMKj1GSr+VnQ+8rkfHtnt+R8+3
-	rdOuu1fmkFKLT4od0n64dgh6inSUFi9YzyJmoYGo66xuFyxSTAad3IggQi9Vvo6h3PlcfXV3els
-	71HKvDgkeSyTO1MIweDWtOq6bSsSrk0uhJxp5o86xlGPw
-X-Received: by 2002:a17:90b:5407:b0:3ac:9ad9:6afe with SMTP id 98e67ed59e1d1-3b41c961ed9mr15001842a91.39.1795771454306;
-        Fri, 27 Nov 2026 01:24:14 -0800 (PST)
+        bh=sIlYxHLSdQtSPp876GteXWV9v1qfiA7qZg4ralsrU7I=;
+        b=fypzJj9m9TyGWYysCS2Rj3LvY2YK/6gkadtmU8B10M4fcLv6tyy2EigFCncic1uVvL
+         rTv51966ahehUqXApW3TEI6HtYcZE5vV5EuqhCXXvmw13iiod9PC0MfFdbWpaiG+D4Aj
+         FmreiYjjgUEL4Kva1d1IymwiQFJEJRBPXd3j4wzXvlANibRwLRKsPBCKNWyYXijqItAl
+         nExoGObtCT1XutFsgKQTzbiMlefHv82KVIie17LXdkytYGWT9ENszRSJaP1ceyEHc6p5
+         GsYjo8i+nhaYkS8wmIpmyL0nueCo8sXmLiNKH/dQjY7NvAJT718F9eKgKFH2F+aARh1r
+         mAIA==
+X-Forwarded-Encrypted: i=1; AL+hErGpp2gKMwlmXVde/6BpD/Lt6sfbOS/Si1hTwGI+MeKdvUpy+oJ5hq3Ijzc0Q2hWN8QNA8lxgrzTTU2d1Q==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/mLBRZRXsriLxWP796k5sEzVpWKXbqQqXKAp05srOwTQZGvCHF
+	g9zHGorpVMYbfjh+rhl+/+EhjZe16J/H2SpkrSV/3ZBOCoMKdLp1Cviw
+X-Gm-Gg: AZFdTZeqknO7xKCYJNSmWLpKcf/vwJtfgg2a7MDDK3ymQIxbCTKAuJ2Xx/s3P+88zUK
+	o0cIVYT6YU4wHeI8lN5H+BzwUPYXZPbBuzxkykT+XwWV67N+MUzpFlmbIcpbvRyVmlqGA3oAXIe
+	N+iGgwAyzwHDgU2Bzsh8qOBl8+PPxCIdedURAc5or0EJwYOIuDh7CUFCCjLtb8fMeu8tnPCqZGy
+	xzU92bA5x3kO+VBbiRWYjyIH9E5/YNyLwOtZBHLr+ue4m+xwBHdCj6XOl3QzM+QjG/rQi4RH0JI
+	UfhqqYUXatbdwyAFgdmI9Ye6EX9//SHBXrE92N+ZeWqQpgZ2+HGiOITD0f4CxNLOXX0bG1qrqlP
+	L0VxUqrq1+Wh6XEVHCwZbwDYVefPxW+kbGIj6aJl7EpaKQYmUp6mX87kNeCaUmnM4p0XZPkk0nb
+	hxk5vfS12LeKwSl7Z4C7x9dckOTjWc+eUYAqgiPXiUXwe7ZSexhWdJHo/qAdnhxSEDQWIEO3jWP
+	d6NMafEyFWTHRYX+TGLjsiouz34E5Y1eNJ63SFy6HbnvBcD2C9ZxIHQDCGROitWH0oGHIQqwlTH
+	J33oGmulMXx7iKTesttTBgtcsHyzJNcO7W8TyfR4pmB6jUzn/vuDMl2M+NM9PZly96nBsC1KGPZ
+	WpAsZx8TnF4fQGz1+pRWlXwQqtlzORpymDYxD3xVqadvh
+X-Received: by 2002:a17:90b:57c6:b0:3a8:786a:cfed with SMTP id 98e67ed59e1d1-3b41c9617ffmr16825117a91.37.1795771459702;
+        Fri, 27 Nov 2026 01:24:19 -0800 (PST)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0a33fsm37942052a91.6.2026.11.27.01.24.10
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0a33fsm37942052a91.6.2026.11.27.01.24.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 01:24:14 -0800 (PST)
+        Fri, 27 Nov 2026 01:24:19 -0800 (PST)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Olivier Moysan <olivier.moysan@foss.st.com>
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/3] ASoC: stm32: spdifrx: Fix refcount on sync failure
-Date: Fri, 27 Nov 2026 16:23:44 +0700
-Message-ID: <20261127092345.12383-3-phucduc.bui@gmail.com>
+Subject: [PATCH 3/3] ASoC: stm32: spdifrx: Enable clock before setting substream
+Date: Fri, 27 Nov 2026 16:23:45 +0700
+Message-ID: <20261127092345.12383-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261127092345.12383-1-phucduc.bui@gmail.com>
 References: <20261127092345.12383-1-phucduc.bui@gmail.com>
@@ -112,35 +112,40 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Roll back the refcount when starting synchronization fails.
-Disable interrupts if no users remain.
+Enable the clock before assigning the substream to avoid leaving
+a stale substream pointer if clock enabling fails.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/stm/stm32_spdifrx.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ sound/soc/stm/stm32_spdifrx.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/sound/soc/stm/stm32_spdifrx.c b/sound/soc/stm/stm32_spdifrx.c
-index 467c3c583a00..ba6c715750aa 100644
+index ba6c715750aa..1d62a6fdc472 100644
 --- a/sound/soc/stm/stm32_spdifrx.c
 +++ b/sound/soc/stm/stm32_spdifrx.c
-@@ -358,9 +358,15 @@ static int stm32_spdifrx_start_sync(struct stm32_spdifrx_data *spdifrx)
- 		cr_mask |= SPDIFRX_CR_SPDIFEN_MASK;
- 		ret = regmap_update_bits(spdifrx->regmap, STM32_SPDIFRX_CR,
- 					 cr_mask, cr);
--		if (ret < 0)
-+		if (ret < 0) {
- 			dev_err(&spdifrx->pdev->dev,
- 				"Failed to start synchronization\n");
-+			spdifrx->refcount--;
-+			if (!spdifrx->refcount)
-+				regmap_update_bits(spdifrx->regmap,
-+						   STM32_SPDIFRX_IMR,
-+						   SPDIFRX_XIMR_MASK, 0);
-+		}
- 	}
+@@ -753,14 +753,16 @@ static int stm32_spdifrx_startup(struct snd_pcm_substream *substream,
+ 	struct stm32_spdifrx_data *spdifrx = snd_soc_dai_get_drvdata(cpu_dai);
+ 	int ret;
  
- 	return ret;
++	ret = clk_prepare_enable(spdifrx->kclk);
++	if (ret) {
++		dev_err(&spdifrx->pdev->dev, "Enable kclk failed: %d\n", ret);
++		return ret;
++	}
++
+ 	scoped_guard(spinlock_irqsave, &spdifrx->irq_lock)
+ 		spdifrx->substream = substream;
+ 
+-	ret = clk_prepare_enable(spdifrx->kclk);
+-	if (ret)
+-		dev_err(&spdifrx->pdev->dev, "Enable kclk failed: %d\n", ret);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ static int stm32_spdifrx_hw_params(struct snd_pcm_substream *substream,
 -- 
 2.43.0
 
