@@ -1,57 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795800613;
-	b=PMTKWkiLaXk7PFCnimiq24H606TI7OqUrnY8jHrJlf/2tDgEpz5xlcy6viSoZNLZ5zKx
-	 QA3CxiNA9sSMt0W7MDGuiHCVNX7MAIFSouvvwzpBGeBLpAFC6CrbX9akk3gFiaVGt9mLK
-	 qfvCUumyfJy2Wg+4rINvAiWFo4YQDLhwFc+OZlpqmX/TVRKM1nxhpRnLdESgRi/qTI6x5
-	 k8DumSO2Hv5DsyaSOTlKXak37BFz+59zpmKuYBfigFsv/9MafUueqPK2i+2S9feKAUse4
-	 wh0kKdUodXNFus6UT55REGTIsXebHh3v1BzwyadIbHD8WeWdQOwToqajh+qFjSLALQw==
+	t=1795800638;
+	b=OOqUesuMRDyEfCEy3tp9ZiYettCHqanThju1GOwGzAsRe5ojUGVVsH7LWez+RLS5e74P
+	 CYmI6MWUtS8vM68I42ioXDnc2dOfQI8QO27/uQzahK7LJxP+3DBZHI2TJk4mPnG37YqUz
+	 YsXYZwq/2sEK6YhHVejfNHGUAgWW7P+jpChzurPtp+C5HfsBHf1Skz4frq/tSFm+OoqVa
+	 8/R0/SjyGDWAPYFxzmRedZ92k+7DB9Vi95bmhhQKbzCVF0kNFGlNtJrmqcUlLKVixys+v
+	 NdOfDWAKxXnutVzH6XKB5P4R8KyhejfhYr1hVlVpO7KH1UHwdOBQJM28lgXwfyUo31w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795800613;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=L/SbaRr1xq76xeToM9gAgZ5AHU9q6Uf+OoAWdSS5yJs=;
-	b=x/WxKv+picJpQjWBEsY+nyGbM2GfUixd0n/DogtJnZWAwxiXggDjEsD+S0Pb8JK6hw3/
-	 HRFyafIvZ0zkvQj4Mxgl026S8tlUOfLW43ER8LJA8VyYEKlD492eoslPHo//1dmfWEd+s
-	 akPM6k2l3XBzJ3PQx3okVG/mJgzWq4RwXAQWJEa6Gi3Tx+aL3thx+71M8P/pgrY7d3ncy
-	 C/UZOZhcmmT+9GH07sqAggi/YhnK8U591t+YKtIabpsFmP32Z9oLbfZ8rVgOjorru6NG+
-	 nmqEeRz1tD+FHha45k6/FQaUHE6mlhoU28n5MwRWwrV/lBveHxNtfKEHJlwpVrvLQWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795800638;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=lkm/eUMn8PAKpmAnkqBFPkUDZBmD1AQMpMPV+UJ+R1Q=;
+	b=WZNrR+YkNz/oOnf+A3asOoOqZgKwgwL4Si7imc0nlhLx3mhpWAgbDN8wObYyVgZaJWSD
+	 uMs8IQlB1inCv7mYBUUsZXalO6ImxdoX41JYui87JPnJ09II8Cc9a5xMEUCJGRNLU9BHo
+	 KcLXYqoMAHhuaLU5o3acJrJZasb6O5Sj++WGMp6a2rq6OZofV4cUFXVeSEAXTkN7qtQS1
+	 vAt3xBCrugiFXgFleUIb0lmpG/w3lEb94kY/XMYyfwsAbuzogSm9Mfq6/hUsxdqQM7vHn
+	 HD8CRGB68z/MAqTp0coNYrLRLRGEN9qVyoWcvON7gZmv07NqWvskA/4Kyk/63nZ3bnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6U5TZ4H;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="LMq/oXJt";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="7giT/FCY";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="LMq/oXJt";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b="7giT/FCY";
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BF3606A321
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB56606A31E;
+	Fri, 27 Nov 2026 17:30:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EB56606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6U5TZ4H
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8BF1F000C1;
-	Fri, 27 Nov 2026 17:30:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795800613;
-	bh=L/SbaRr1xq76xeToM9gAgZ5AHU9q6Uf+OoAWdSS5yJs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=S6U5TZ4H6w3Hl6B3JfQR9wGBwUGbgTPwcvNYxZefWyRiIAkXu302Nk7z6EAXQjpYz
-	 4HvYwt1A9kvaXL4wML9+27Ygu7LcpY+X1yw0HNuaAsW9BsQD1xOGC+kqIb6kvsYDZi
-	 cKZ8tJu24ZGXyz29+G3tIGZ6qRIYbE2BXaP+EdZNxQ/XwO2mw6NJ6hHaVWSFHl5Hxz
-	 PN9sbmSIBlOxb0p/uCm+KiWulzrLncl0r7roQytMs4yKhY2EY5Iz8WMv3Oapu/5BkP
-	 4Lp0jh8L4aCFIfexWk7dmYaQyzgkpA3tTc0Bb3vsJKy9AbZzpjTGmya1r8UkinGcw1
-	 jFV1AzXXRa9xQ==
-Message-ID: <sashiko-outbox-237992@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] ASoC: wm8962: fix interrupt mis-firing during
- runtime_resume()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Laurentiu Mihalcea" <laurentiumihalcea111@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261127170039.663-4-laurentiumihalcea111@gmail.com>
-References: <20261127170039.663-1-laurentiumihalcea111@gmail.com>
- <20261127170039.663-4-laurentiumihalcea111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 17:30:12 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LMq/oXJt;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7giT/FCY;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=LMq/oXJt;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=7giT/FCY
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 37746223B8;
+	Fri, 27 Nov 2026 17:30:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795800636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lkm/eUMn8PAKpmAnkqBFPkUDZBmD1AQMpMPV+UJ+R1Q=;
+	b=LMq/oXJtdF5U9xNuk7NOPuXAQ8XCRe+8XvvkodKozur4Z252/AngJ3AvdrXeM6crbvZZ/H
+	UyQ7D4AWV2y0U1WioRj3kenJr8v5rcfSgR1XDja9BOkOVg7fNYdScVmwwPmH2c5kfouM5Q
+	MZTZD6mzY4sV9t+Ihb22/hvMTePZokE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795800636;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lkm/eUMn8PAKpmAnkqBFPkUDZBmD1AQMpMPV+UJ+R1Q=;
+	b=7giT/FCYYorwnnphwfMG01YfNZjC1dXN5nw7eSegykab9yTqoXpIZEmXjnzJGgnUPe3Xx0
+	cZhtVeXru/evbyCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795800636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lkm/eUMn8PAKpmAnkqBFPkUDZBmD1AQMpMPV+UJ+R1Q=;
+	b=LMq/oXJtdF5U9xNuk7NOPuXAQ8XCRe+8XvvkodKozur4Z252/AngJ3AvdrXeM6crbvZZ/H
+	UyQ7D4AWV2y0U1WioRj3kenJr8v5rcfSgR1XDja9BOkOVg7fNYdScVmwwPmH2c5kfouM5Q
+	MZTZD6mzY4sV9t+Ihb22/hvMTePZokE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795800636;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lkm/eUMn8PAKpmAnkqBFPkUDZBmD1AQMpMPV+UJ+R1Q=;
+	b=7giT/FCYYorwnnphwfMG01YfNZjC1dXN5nw7eSegykab9yTqoXpIZEmXjnzJGgnUPe3Xx0
+	cZhtVeXru/evbyCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5E12134E8;
+	Fri, 27 Nov 2026 17:30:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I3FtLju+CWsLDwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Nov 2026 17:30:35 +0000
+Date: Fri, 27 Nov 2026 18:30:35 +0100
+Message-ID: <87ik1imbb8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: vmaster: Restore follower values on put failure
+In-Reply-To: <20261126063225.3166-1-sreekuttan2156239@gmail.com>
+References: <20261126061910.2840-1-sreekuttan2156239@gmail.com>
+	<20261126063225.3166-1-sreekuttan2156239@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,122 +111,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] ASoC: wm8962: deadlock between wm8962_runtime_suspend() and
-  wm8962_irq()
-- [High] ASoC: wm8962: disabling IRQ in wm8962_runtime_suspend() breaks
-  idle IRQs
-- [Medium] ASoC: wm8962: irq_set_status_flags() called on IRQ 0 in
-  wm8962_i2c_probe()
---
+On Thu, 26 Nov 2026 07:32:25 +0100,
+Sreeraj S Kurup wrote:
+> 
+> Restore the cached follower values when the underlying put
+> callback fails.
+> 
+> Otherwise, a retry with the same value may be skipped
+> because the cache already contains the requested value.
+> 
+> Fixes: 3b0a5f22d464 ("[ALSA] Add virtual master control helpers")
+> Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 
-commit 917ccfcd5e1f9cc84d87be9fd3e359058c229f93
-Author: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Applied to for-next branch now.  Thanks.
 
-ASoC: wm8962: fix interrupt mis-firing during runtime_resume()
 
-This commit requests wm8962->irq with IRQF_NO_AUTOEN and IRQ_DISABLE_UNLAZY,
-and enables or disables the IRQ across runtime resume and runtime suspend to
-avoid spurious interrupt assertions during power transitions.
-
-> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-> index 3bbaacb08aafa..8c9523d60219b 100644
-> --- a/sound/soc/codecs/wm8962.c
-> +++ b/sound/soc/codecs/wm8962.c
-> @@ -4021,7 +4021,7 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
-> =20
->  		ret =3D devm_request_threaded_irq(&i2c->dev, wm8962->irq, NULL,
->  						wm8962_irq,
-> -						trigger | IRQF_ONESHOT,
-> +						trigger | IRQF_ONESHOT | IRQF_NO_AUTOEN,
->  						"wm8962", &i2c->dev);
->  		if (ret !=3D 0) {
->  			dev_err(&i2c->dev, "Failed to request IRQ %d: %d\n",
-> @@ -4039,6 +4039,15 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
->  			/* enable GPIO IRQs if need be */
->  			wm8962_init_gpio_irq(wm8962);
->  		}
-> +
-> +		/*
-> +		 * we are forced to keep interrupts disabled while doing runtime_resum=
-e().
-> +		 * Otherwise, we may end up with some unwanted transitions on the inte=
-rrupt
-> +		 * line. Some interrupt controllers may not implement the .irq_disable=
-()
-> +		 * callback. In such cases, the interrupts will only be masked if
-> +		 * IRQ_DISABLE_UNLAZY is set.
-> +		 */
-> +		irq_set_status_flags(wm8962->irq, IRQ_DISABLE_UNLAZY);
->  	}
-
-[Severity: Medium]
-Should irq_set_status_flags() be inside the else branch above?  When
-devm_request_threaded_irq() fails, the error path sets wm8962->irq =3D 0
-and treats the failure as non-fatal, so execution falls through and
-calls irq_set_status_flags(0, IRQ_DISABLE_UNLAZY) on IRQ 0.
-
-> @@ -4131,6 +4140,10 @@ static int wm8962_runtime_resume(struct device *de=
-v)
->  				   WM8962_MSTR, WM8962_MSTR);
->  	msleep(5);
-> =20
-> +	/* keep this last - keeps the interrupt line from mis-firing */
-> +	if (wm8962->irq)
-> +		enable_irq(wm8962->irq);
-> +
->  	return 0;
-> =20
->  cache_sync_err:
-> @@ -4147,6 +4160,9 @@ static int wm8962_runtime_suspend(struct device *de=
-v)
->  {
->  	struct wm8962_priv *wm8962 =3D dev_get_drvdata(dev);
-> =20
-> +	if (wm8962->irq)
-> +		disable_irq(wm8962->irq);
-
-[Severity: High]
-Can disable_irq() in wm8962_runtime_suspend() deadlock with wm8962_irq()?
-
-sound/soc/codecs/wm8962.c:wm8962_irq() {
-	...
-	ret =3D pm_runtime_resume_and_get(dev);
-	if (ret < 0) {
-	...
-}
-
-If an interrupt fires just before disable_irq() masks the line, the two
-contexts wait on each other:
-
-CPU0                              CPU1
-rpm_suspend()
-  runtime_status =3D RPM_SUSPENDING
-  wm8962_runtime_suspend()
-                                  wm8962_irq()
-                                    pm_runtime_resume_and_get()
-                                      rpm_resume()
-                                        /* waits for RPM_SUSPENDING */
-    disable_irq()
-      synchronize_irq()
-        /* waits for wm8962_irq() */
-
- *** DEADLOCK ***
-
-[Severity: High]
-Does keeping wm8962->irq disabled while runtime suspended prevent GPIO
-interrupts from firing when the codec is idle?
-
-soc_component_dev_wm8962 does not set idle_bias_on, and neither
-wm8962_init_gpio() nor wm8962_irq_chip holds a runtime PM reference
-while child GPIO IRQs are active.  Whenever no audio stream is active
-(and after wm8962_gpio_get() drops its temporary runtime PM reference),
-the codec stays in RPM_SUSPENDED with wm8962->irq masked at the parent
-interrupt controller, so asynchronous GPIO5/GPIO6 events such as jack
-detection cannot wake the device via wm8962_irq().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127170039.663-=
-1-laurentiumihalcea111@gmail.com?part=3D3
+Takashi
