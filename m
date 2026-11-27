@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795737840;
-	b=P3D7eEw7mk1olk8omapuLV3e5gOSi9oflvBMzAfDYyQxx406Av98495CQ9vLGUKm/Lfb
-	 AeePlmKVRpWxRbUASTl4e6gWOVIUr4dkc8YN2zleE3wvoF2+dBNxecO8Pq7lzwUrU2V16
-	 lo9Zcxh5Z9bPAjbz8TrXl7Fn42RAEGHmMMgjuPVaoIlqMFCt+LoAPtuTHReKG9nCFVvMO
-	 lUKDyVGqzT84ng7JW3/IzXnMyJZX30UEkuAcX0Z+V9v9OiMorex0Uu3LjVyhxCbzvGQKe
-	 88LvY7HDVinN4I2lXYBJUFeAxZ6aovCBQ+kiXc7dnPR4oTNjPsNkdtj0s00ZMDJotAA==
+	t=1795737927;
+	b=dADGXHFoWzaCGtSbrBzcfBLwbKXIjJC+UPVwZBC1OGVEsXOAIJddaortKRaJ3hVasAvE
+	 pAny6xRBPC0d+xPCAcaOId1MyDiKrJN+78Ew/izRMIY+wpdQHfli1Upf5DZom7AoMrLxp
+	 ttdf3DZjizHgInKN7yXWTPZse6fs5xz/fhq6l/QN9Uqpr/5QHpnSxLGVxnTsK7MI9tAJE
+	 I33C3oS74oKGEKF9JYUFBBAm0T6IE/K5/74GObWfpQ1RVZRvUJsCCWJQM35xQ2pOmSLoz
+	 v+DiRsRNQn7GrWn7BTUrRaDUBTb/76rqYY8P77Iw9LI8NzWiDz0ki+datlCPYtKCmww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795737840;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795737927;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=n21k4scSIqsK0DFvddS8DuuNYF30hYuUWAtUbjtE5BU=;
-	b=gvdotOLYaxvkB0PVFUhzvAePLJmdldST1gmGSF0EgyxKJ6oY+hxA7I1xU+HUmaKB4ktQ
-	 HXoUd13bMjsmY7FX8i7+SXpnXjkrBMYONfdjMNs/9OpKL72HCm1MsCqqcuOYkqYEB7G8Z
-	 rRUfIak1lQfDotZemx5ihSreHJgXLPyvG1BZzbIf8yEiyRypNq5O+ho9X1D2QCGdNk+nf
-	 tPY4m9XQunlBwPXfnKduftOeDBD7mhJKBVjCtvZZZIIqgiy9I6TC/dKp6nNKaqWskqch5
-	 BnJtOHyYd4+QZa1q7Im/HMySjwakrtlUlOx3nsdnX+KHWwXPnvRvosu7PktLa82ZXQQ==
+	bh=LJi/gVs3qYhPRWd4oDO1/xtMVkUCr8dBwVNMkqr05Hs=;
+	b=TR4EU/hRKr7IKS10Rv87IpC9cwSoj6ieAzkmeblHDRcArytdFhWbMBvSiEI1U9ahGwYV
+	 J/ESnI7mPx1mq9jkJbx1v0wS7flLKT/GwVM2Z6dWTvPFuP611IxhvIOiIwejgkGrbGpvQ
+	 K5+/COJVnIP6h3iwN52mUu6YalGKqmEr0W4MU9EglyZUhw1ssdSGSG39mb7M9+GXFytXr
+	 +Lrpgndskf6JZs+YKQpmcLfFMJGLPKhgQGUJ6l9mOMI/mKZLa6cFiiZxx7W7KEMnYyyAu
+	 dZ0/MjhSh70W1Z+kZIG6H2zhhzbtc0YUXT3wgNIeoHm42h3WLVA/wWwfywM1tBilVcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMvVom4X;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HjwNAqav;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735B6606A31C
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 00:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949B9606A31C
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 00:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BMvVom4X
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B221F00893;
-	Fri, 27 Nov 2026 00:03:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HjwNAqav
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBCE51F00893;
+	Fri, 27 Nov 2026 00:05:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795737840;
-	bh=n21k4scSIqsK0DFvddS8DuuNYF30hYuUWAtUbjtE5BU=;
+	s=k20260515; t=1795737926;
+	bh=LJi/gVs3qYhPRWd4oDO1/xtMVkUCr8dBwVNMkqr05Hs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BMvVom4XwBJx9AQrK1b/LbxkdwV2ENVrk4IbH/BD0ITpGuEjXqsAD8oV4HI6NxERq
-	 vQSFquBJ3IchtH9EEzhdgyuR1bYzAYesRUJuGzHZdaSNqEImnxw48tOYPT2ApcF2Hm
-	 5LGdLdm0ZWxMynUuR4ByF+niHblLHhklqTCK7LHAZNjbeVitij8aGXWB/rZC0lxu/O
-	 AfoRjyu0aGt3MUygIn6VDDx24zDMvru/YHT0bT4V8Zl605XluoVPcx3YYJ2zrFbWCK
-	 o8ZDATu3t2QwZZ5GfRGyv9ITbgefkz0lyyCefZPFjRqj6H67fzDdcbNdIzR+dUCI18
-	 3FdATkXcot2AA==
-Message-ID: <sashiko-outbox-236353@kernel.org>
+	b=HjwNAqav8dLtLjY2jM4dqzM2cjyWS9qyf8lE3p1qwzX9rjlTR1QIru8FHybG6nLPY
+	 lgLKFSnv8P+8QuoYXkoVr7sjfxgtO/Pb1EqRUkhNmuKan1oNMKNnYMq+b9LS1xmPKP
+	 zThGvw8FnTR0m5XerUZv+0OcnZVN1toy7Rd2To0um2uNzk90s8GtlrwvLs7xg63CrY
+	 hSXMDpEhWHzFDWTaAmpXkShZjOXFhc9nMtDo8OaPFmI+QG22pPUytlAczKuRUGtAxa
+	 RFS/qDSxrj+DIbS7RK4w/vMJ24ulA0HMFbLOM4/9tQbF6zOtPcv/bR9CtNcxmzg05H
+	 a80dqK5zid8RA==
+Message-ID: <sashiko-outbox-236361@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 06/11] ASoC: soc-core: rename list to unbind_list
+Subject: Re: [PATCH 11/11] ASoC: soc-dapm: rename darty to dapm_darty_list
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>
 Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87mrqvqh5v.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87fqwnqh51.wl-kuninori.morimoto.gx@renesas.com>
 References: <87v75jqh7j.wl-kuninori.morimoto.gx@renesas.com>
- <87mrqvqh5v.wl-kuninori.morimoto.gx@renesas.com>
+ <87fqwnqh51.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 00:03:59 +0000
+Date: Fri, 27 Nov 2026 00:05:26 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,67 +60,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] ASoC: core: premature devres_destroy() in
-  devm_snd_soc_bind_card() [1]
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] ASoC: soc-dapm: commit title and message misstate renamed dirty
+  list fields
 --
 
-commit b28ef687acfb86f7ec423e7fb74b4c460388a35d
+commit 853b08aef84d7c42b39243cd553801ada341f30d
 Author: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-ASoC: soc-core: rename list to unbind_list
+> ASoC: soc-dapm: rename darty to dapm_darty_list
+>
+> Current DAPM widget is using "dapm" to connecting to "dapm_darty".
+>
+> It is unclear and confusable naming. Let's rename it as
+> "dapm_darty_list" and "dapm_darty_list_head".
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-This commit renames struct snd_soc_card's list member to unbind_list and
-unbind_card_list to unbind_list_head to clarify their purpose.
-
-> diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
-> index e0f617077ee80..951ae9ff13557 100644
-> --- a/sound/soc/soc-card.c
-> +++ b/sound/soc/soc-card.c
-
-[ ... ]
-
-> @@ -1093,7 +1093,7 @@ void snd_soc_card_rebind(void)
->  {
->  	struct snd_soc_card *card, *c;
-> =20
-> -	list_for_each_entry_safe(card, c, &unbind_card_list, list)
-> +	list_for_each_entry_safe(card, c, &unbind_list_head, unbind_list)
->  		snd_soc_card_bind_call(card);
->  }
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but can a failed
-devres_alloc() during rebind leave a devm-registered card on
-unbind_list_head without its release callback [1]?
-
-sound/soc/soc-card.c:devm_snd_soc_card_bind() {
-    ...
-	devres_destroy(dev, devm_snd_soc_card_bind_release, NULL, NULL);
-
-	ptr =3D devres_alloc(devm_snd_soc_card_bind_release, sizeof(*ptr), GFP_KER=
-NEL);
-	if (!ptr)
-		return -ENOMEM;
-
-	ret =3D snd_soc_card_bind(card);
-    ...
-}
-
-When snd_soc_card_rebind() calls snd_soc_card_bind_call() ->
-devm_snd_soc_card_bind() for a card on unbind_list_head, the existing
-devm_snd_soc_card_bind_release entry is destroyed before devres_alloc().
-If devres_alloc() fails, devm_snd_soc_card_bind() returns -ENOMEM before
-snd_soc_card_bind() removes card->unbind_list from unbind_list_head and
-without re-adding the release callback.  When the card device is later
-unbound and card is freed, snd_soc_unregister_card() is not called, leaving
-a dangling entry on unbind_list_head and causing a use-after-free on the
-next list traversal.
-
-[1] https://sashiko.dev/#/bug/linux-3f727b31-7250-473d-8b80-c09bf6f2bb4c
+[Severity: Low]
+The commit subject and message misspell "dirty" as "darty" throughout and
+refer to the old widget field as "dapm" instead of "dirty".  The patch
+actually renames struct snd_soc_dapm_widget.dirty to dapm_dirty_list and
+struct snd_soc_card.dapm_dirty to dapm_dirty_list_head.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/87v75jqh7j.wl-kunin=
-ori.morimoto.gx@renesas.com?part=3D6
+ori.morimoto.gx@renesas.com?part=3D11
