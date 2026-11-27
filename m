@@ -1,58 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795763863;
-	b=kauF8oO1BlFRvinS9rKxGYzIIUgFi3+u2GnsB0qmfsiFegJTrcihsku5jZi09wTb/pEZ
-	 UCI92ZMJOGnnUSdIWpCJXU1/RRNae/nHJ4BPe4jgvN++1JtxEwn1w4CcQDvkp31lPGfi9
-	 ybsG8wiEjAOfBckKlVW2Ii3runX9Kcc+LE21SqZm2ABVr45H3tPgM5/sMVZFNu15OOrJD
-	 TV4gM2sX4qs7GRYQoY4EOugwAUQ4QTtfYqvxZ1Y90ke0uKQ0G9UPSJSNVL6hEi+hxUkuW
-	 J7s4IcjrkJ2a/6IZOo4B1kwuXXWdUTQPnG0i0JPtufTohJdgtaxeLD/tfe7GB4Yg/TA==
+	t=1795764487;
+	b=dN0Ks2oPI5xboO7NoJqHiVBmt4QGDmskA4AEpUv/RM3z/VDYGNuVyu5f4QbM2OJcRsUF
+	 FLfb02lmtcmkKsTe699HFW+F2V7JX0puIg3fEaQ6V2KuCuPqX0NTCXFkvt8/4TGYt/+iu
+	 /hzLrAT33HL1MzuENrNWT3FW6KwAfzUv41If4p2nffqEe/f+IGOB1GygHbVcms6Cg0KV9
+	 oKum3KDzhxdsYnYZeaqfG9c0MwAdAm3PilMIji4/UmdN/Ec/HJocSXyc/maPlu9BMCI8z
+	 VprO2kdXLq64yrBKo73FGHdDnfflVSkZ3zCkQLe+2F3mIS6sJcTZ2sP3CO+XoRoLXyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795763863;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=ZDxWq3H+nQgSm2N5ZS0dn18NbG9MPkdtWJ8/RojaxCM=;
-	b=aRVGlnR206YQ9fYj06xoZZvADUki51cyyNjCqlD6fuCjGvj/AMuczJ90cw7N00IACP2f
-	 eMxt4KrbnhRA3lpTUkVKrwqqIdJGq0XSKJMlvlid1uQBPnvFAJj2SIxWijvwyx7+GL5vt
-	 lMqUlaxRjEUe4YbZC/0E8rvJeSRGKee3Rsl+yaDsQzQ8mxyCL9BHNeq1ZYrjoEkWrqCPg
-	 gSbEhbKMplGVsUtnvsyfcIZNFSW3Jt0GYVXyhZl9hIRxcURW2T1WMi0NFFUXbnXGTKdeX
-	 lq/xDPI5jqfz2BKGw3W4FwlDd5IiI5Pe9+H0m5Vaq1vTl/ms7uynZfAC8ghDtSEryoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795764487;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=uCHYnKWdXBzFKgXQ2sEIjTFEuNAmZ3VEH0yuYh5/fHQ=;
+	b=rrtSj3F0N0kI2tNv+MvLGt6TGZ2ZExpX/2wDSWU/TakCxKy1pRIiV10CxzVRhKLMY+A9
+	 TkYaCw6hT+l/ws2PqXgHga+YMgYvWdvLgKh4HCMpGGQhpV2rTuN0cy7TNWrJo2j0KIgFi
+	 JKe8I1hmqqZH3zkrLbs7ON3F0F87BfXd57fNkkzOSEXJExR5LLxG0uHu+prV57D4PCLhm
+	 gV3eIkQ8Bt/VLVjragYB/H6u2Jq+l88uUi1y+cwC8oxNNFhA0oYfGWbS5uEsf3Cv5aDQv
+	 pOEpZd51WnddZ7JLRJFVTlpq2nkFyAhOynol6uqa5xXbmak/tqVx7UpBT2GTfXVlSNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36DC8606A31C;
-	Fri, 27 Nov 2026 07:17:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36DC8606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:Content-Type:
-	Content-Transfer-Encoding; bh=ZDxWq3H+nQgSm2N5ZS0dn18NbG9MPkdtWJ
-	8/RojaxCM=; b=ZUygs/Xl33DYSeoJRJON5ZzAyhOfmRBwV7niP8Ydvb/rxM7CCi
-	Is/SOvIt/J/G41J6PVOSti31am0Y78Onh0hahp77u3AfMzxZOFv+Jl9aHZ06u/f1
-	ChKf+MzQeCdpZzbeJPzHhGYlVszdSEOMhnEZcHFf4PO8Mk0oidMHCxOok=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.43])
-	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkDW2fx+LglrOi1RAg--.138S2;
-	Fri, 27 Nov 2026 15:17:20 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot ci <syzbot+ci4a0a685a2ad8288a@syzkaller.appspotmail.com>,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>,
-	YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-Subject: Re: [syzbot ci] Re: ALSA: line6: Stop URBs synchronously via sync_stop callback
-Date: Fri, 27 Nov 2026 15:17:18 +0800
-Message-Id: <20261127071718.3004-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <6b0921f3.1492ceaa.187240.0078.GAE@google.com>
-References: <6b0921f3.1492ceaa.187240.0078.GAE@google.com>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ElhfX4pQ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3AA606A31E;
+	Fri, 27 Nov 2026 07:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ElhfX4pQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543991F00898;
+	Fri, 27 Nov 2026 07:28:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795764487;
+	bh=uCHYnKWdXBzFKgXQ2sEIjTFEuNAmZ3VEH0yuYh5/fHQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ElhfX4pQduB/uZ07AlX65RJcAzlWweGE5Akhv/8cWMibzgEPHQKKlLtmK+t7xGxD8
+	 ypUlIRN4cs6nQ3IMbvyZ+VzpU7RjSoCICwukDlHOBM3CPKvFw90kUHey8o66wFJVEG
+	 H8BwyTSuFbQVIKIMCFFcyM9me8bpwZkEdIIeLBBK1hqD9ErUJLeMe2mxFWrm9XONIH
+	 NBqykgB2Xbs1CDXtJb/zXV5CxxvRiMzTaBzz2yuXgi3d8JK+tVZFEwybbb7O3STZGG
+	 GuMkRrKonwIPvVVR1Noh8864NMX+gbmuyGNjR/TVU39Dlq5bjJR62/teSxqytLxJhB
+	 7nW2mqjk+dnaQ==
+Message-ID: <sashiko-outbox-236803@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC 1/2] ALSA: usb-audio: Add Windows volume scale quirk
+ for EPOS GSX 1000 v2
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Andrei Aleksandrov" <aladex@gmail.com>
+Cc: linux-input@vger.kernel.org, linux-sound@vger.kernel.org, dmitry.torokhov@gmail.com
+In-Reply-To: <20261127-gsx1000-v1-1-833554c37b82@gmail.com>
+References: <20261127-gsx1000-v1-0-833554c37b82@gmail.com>
+ <20261127-gsx1000-v1-1-833554c37b82@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2026 07:28:06 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -61,46 +60,86 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BbQMCkDW2fx+LglrOi1RAg--.138S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrAw13tw1DJFyfJF48Cw4kWFg_yoWxXFb_ua
-	4DXF93Ww4UXrn2ga1UKF17tr9xGr48Wr17XrykKrZrAr9ayF9rWFZ8KFyrCryI9ws2vrW5
-	JwnIv34xZw12yjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
-	0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
-	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
-	W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
-	0VAGYxC7MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
-	evJa73UjIFyTuYvjfUY3kuUUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUJD2sIS1kirAAEs5
 
-Hi,
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [High] ALSA: usb-audio: vol->lock deadlock on autoresume in
+  snd_gsx1000_vol_write()
+--
 
-Thanks for the report.  This crash is from v4 of the series, which lacked
-the guard for the URB array in the probe failure path: line6_init_pcm()
-publishes line6->line6pcm before creating the URBs, so a failing probe
-reaches line6_pcm_disconnect() with pcms->urbs == NULL.
+commit 2cdf48294d1e8337d55eb62590e00ec94a1f72ea
+Author: Andrei Aleksandrov <aladex@gmail.com>
 
-v5 and v6 already contain the fix:
+ALSA: usb-audio: Add Windows volume scale quirk for EPOS GSX 1000 v2
 
-	/* May be called when the URB creation failed during the probe */
-	if (!pcms->urbs)
-		return;
+This commit replaces the standard Feature Unit 12 volume control on the
+EPOS GSX 1000 v2 with a mixer quirk control that writes the Windows volume
+table values to channels 1 and 2.
 
-	v6: https://lore.kernel.org/all/20261122104039.7160-1-25031212351@stu.xidian.edu.cn
+Link: https://github.com/Aladex/epos-gsx
 
-v6 applies to the reported base (9437ee8b6cf6) and passes the compile
-check, so no separate fix is needed.
+> diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+> index 4c7d68311f204..6e96e80208558 100644
+> --- a/sound/usb/mixer_quirks.c
+> +++ b/sound/usb/mixer_quirks.c
 
-Thanks,
-YuanZhe Liu
+[ ... ]
 
+> +/* Caller holds vol->lock */
+> +static int snd_gsx1000_vol_write(struct snd_gsx1000_vol *vol)
+> +{
+> +	struct snd_usb_audio *chip =3D vol->list.mixer->chip;
+> +	__le16 buf;
+> +	int ch, err;
+> +
+> +	CLASS(snd_usb_lock, pm)(chip);
+> +	if (pm.err < 0)
+> +		return pm.err;
+
+[ ... ]
+
+> +static int snd_gsx1000_vol_set(struct snd_gsx1000_vol *vol, unsigned int=
+ value)
+> +{
+> +	guard(mutex)(&vol->lock);
+> +	return __snd_gsx1000_vol_set(vol, value);
+> +}
+
+[ ... ]
+
+> +static int snd_gsx1000_vol_resume(struct usb_mixer_elem_list *list)
+> +{
+> +	struct snd_gsx1000_vol *vol =3D to_gsx1000_vol(list);
+> +
+> +	guard(mutex)(&vol->lock);
+> +	return snd_gsx1000_vol_write(vol);
+> +}
+
+[Severity: High]
+Can calling CLASS(snd_usb_lock, pm)(chip) under vol->lock deadlock when
+the device is runtime-suspended?
+
+snd_usb_lock_shutdown() calls snd_usb_autoresume(), which invokes
+usb_autopm_get_interface() and runs the resume callback synchronously on
+the calling thread:
+
+snd_gsx1000_vol_put()
+  snd_gsx1000_vol_set()
+    mutex_lock(&vol->lock)
+    __snd_gsx1000_vol_set()
+      snd_gsx1000_vol_write()
+        snd_usb_lock_shutdown()
+          snd_usb_autoresume()
+            usb_autopm_get_interface()
+              ...
+                usb_audio_resume()
+                  snd_usb_mixer_resume()
+                    snd_gsx1000_vol_resume()
+                      mutex_lock(&vol->lock)  <-- self-deadlock
+
+Taking CLASS(snd_usb_lock, pm)(chip) before acquiring vol->lock avoids
+entering runtime resume with vol->lock held.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127-gsx1000-v1=
+-0-833554c37b82@gmail.com?part=3D1
