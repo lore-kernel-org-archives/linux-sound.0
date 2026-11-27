@@ -1,112 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795800476;
-	b=5teUba/LiEuVYbcz+1661+mWbmm35Okyoifv66exZtqXH/w9eaSxHDOwh0Wr1euvUvfE
-	 Dl8300uTurlFC3gRjPISKEcKEX9l/qrCL17UqxJEg9soodIkXSTuIfZDeu4VckwFhSAv9
-	 jS3p/fVRvMrAI8n/D42KHktIM2jL4jTKPYJAtpFwATv+iikydqa1IDJvLPsmO59+rnbsk
-	 fkRRTHQYqTgeEJ30zv9X9jkVdibneek5S+dtM1YtI8GF7SzSlru7mHRdvjFWjRSVGXhBg
-	 ImZMoYiecPnwWLKlM4ArmAMC5zJiJ5424j10VnsrXO1yDQQUutfeSYcy48WacdWqYtg==
+	t=1795800613;
+	b=PMTKWkiLaXk7PFCnimiq24H606TI7OqUrnY8jHrJlf/2tDgEpz5xlcy6viSoZNLZ5zKx
+	 QA3CxiNA9sSMt0W7MDGuiHCVNX7MAIFSouvvwzpBGeBLpAFC6CrbX9akk3gFiaVGt9mLK
+	 qfvCUumyfJy2Wg+4rINvAiWFo4YQDLhwFc+OZlpqmX/TVRKM1nxhpRnLdESgRi/qTI6x5
+	 k8DumSO2Hv5DsyaSOTlKXak37BFz+59zpmKuYBfigFsv/9MafUueqPK2i+2S9feKAUse4
+	 wh0kKdUodXNFus6UT55REGTIsXebHh3v1BzwyadIbHD8WeWdQOwToqajh+qFjSLALQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795800476;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
-	b=FQYI2nnL1ZzOppfKV6deFdIpbvCYSPzzO+1gX1vCnJVmkuPCHqb0Iu1RLn85O8Z3nF8s
-	 ju7B/TcCm2oZTybe1uwtLAEm5EUEEX+0OpnsPzxtIaw/n6NGIEtACp+H2m7L43UVP89rX
-	 4DzuZ4gOluLPa3GFw7s66uGYJtU6QLkjK4FhXCmln8yjlxIrOeL2LasanpM0Sn0VSaBCW
-	 n3RHJiUfIpDJBCoycsxK+fESLqBB4TehTSk/nkegkJARR7e6YDltQbEB7dKpXeDUXdxRn
-	 fL2FzwddAdwQGoyl51ASLWdgGONuHyEIYMRx+SoFfmsB9dUqi635NKYySVq+qJks5YQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795800613;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=L/SbaRr1xq76xeToM9gAgZ5AHU9q6Uf+OoAWdSS5yJs=;
+	b=x/WxKv+picJpQjWBEsY+nyGbM2GfUixd0n/DogtJnZWAwxiXggDjEsD+S0Pb8JK6hw3/
+	 HRFyafIvZ0zkvQj4Mxgl026S8tlUOfLW43ER8LJA8VyYEKlD492eoslPHo//1dmfWEd+s
+	 akPM6k2l3XBzJ3PQx3okVG/mJgzWq4RwXAQWJEa6Gi3Tx+aL3thx+71M8P/pgrY7d3ncy
+	 C/UZOZhcmmT+9GH07sqAggi/YhnK8U591t+YKtIabpsFmP32Z9oLbfZ8rVgOjorru6NG+
+	 nmqEeRz1tD+FHha45k6/FQaUHE6mlhoU28n5MwRWwrV/lBveHxNtfKEHJlwpVrvLQWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6U5TZ4H;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D40606A31C
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:27:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65D40606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BF3606A321
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A01981F46E;
-	Fri, 27 Nov 2026 17:27:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795800474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
-	b=VSNp2O2bE/USYq8jeaVKPraz8LdhFqMxc449s5++DLCTLAhF7/3hCf3GKhG80gRo6RE/W8
-	TOikFC1s/gpdgbU1RHb/gfIHQSc4NfxkrfvJ6rqXRoYT7EMbk1HkB0NSNG5+Yb3nQcu/h0
-	0Rg9aZEfWKWxQ4+Uv/qbv4Z27bgHuFM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795800474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
-	b=cB5srzyRXHwhVtgHI2zmh/6gsC4H8NxU2pkXZOfIQTeif3GCNCHRR6P9WUnkH3xtmUtGKD
-	HIeF6Fhu2nxPXkDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1795800474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
-	b=VSNp2O2bE/USYq8jeaVKPraz8LdhFqMxc449s5++DLCTLAhF7/3hCf3GKhG80gRo6RE/W8
-	TOikFC1s/gpdgbU1RHb/gfIHQSc4NfxkrfvJ6rqXRoYT7EMbk1HkB0NSNG5+Yb3nQcu/h0
-	0Rg9aZEfWKWxQ4+Uv/qbv4Z27bgHuFM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1795800474;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
-	b=cB5srzyRXHwhVtgHI2zmh/6gsC4H8NxU2pkXZOfIQTeif3GCNCHRR6P9WUnkH3xtmUtGKD
-	HIeF6Fhu2nxPXkDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2BF3913432;
-	Fri, 27 Nov 2026 17:27:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id es8WAZq9CWuzDAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 27 Nov 2026 17:27:54 +0000
-Date: Fri, 27 Nov 2026 18:27:53 +0100
-Message-ID: <87jylymbfq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Carmel Okun <Carmel@aperio.ai>
-Cc: "shenghao-ding@ti.com" <shenghao-ding@ti.com>,
-	"kevin-lu@ti.com"
-	<kevin-lu@ti.com>,
-	"baojun.xu@ti.com" <baojun.xu@ti.com>,
-	"sen@ti.com"
-	<sen@ti.com>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	"linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>
-Subject: Re: ALSA: hda/tas2781-spi: NULL pointer dereference in tas2781_hda_remove() on sysfs unbind
-In-Reply-To: <AS2PR02MB10038DB2CE8CAE659D35B9F1AC8792@AS2PR02MB10038.eurprd02.prod.outlook.com>
-References: <AS2PR02MB10038DB2CE8CAE659D35B9F1AC8792@AS2PR02MB10038.eurprd02.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6U5TZ4H
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A8BF1F000C1;
+	Fri, 27 Nov 2026 17:30:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795800613;
+	bh=L/SbaRr1xq76xeToM9gAgZ5AHU9q6Uf+OoAWdSS5yJs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=S6U5TZ4H6w3Hl6B3JfQR9wGBwUGbgTPwcvNYxZefWyRiIAkXu302Nk7z6EAXQjpYz
+	 4HvYwt1A9kvaXL4wML9+27Ygu7LcpY+X1yw0HNuaAsW9BsQD1xOGC+kqIb6kvsYDZi
+	 cKZ8tJu24ZGXyz29+G3tIGZ6qRIYbE2BXaP+EdZNxQ/XwO2mw6NJ6hHaVWSFHl5Hxz
+	 PN9sbmSIBlOxb0p/uCm+KiWulzrLncl0r7roQytMs4yKhY2EY5Iz8WMv3Oapu/5BkP
+	 4Lp0jh8L4aCFIfexWk7dmYaQyzgkpA3tTc0Bb3vsJKy9AbZzpjTGmya1r8UkinGcw1
+	 jFV1AzXXRa9xQ==
+Message-ID: <sashiko-outbox-237992@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/3] ASoC: wm8962: fix interrupt mis-firing during
+ runtime_resume()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Laurentiu Mihalcea" <laurentiumihalcea111@gmail.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20261127170039.663-4-laurentiumihalcea111@gmail.com>
+References: <20261127170039.663-1-laurentiumihalcea111@gmail.com>
+ <20261127170039.663-4-laurentiumihalcea111@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2026 17:30:12 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -115,73 +60,122 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.30 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
-X-Spam-Score: -12.30
 
-On Thu, 19 Nov 2026 10:08:48 +0100,
-Carmel Okun wrote:
-> 
-> Hi,
-> 
-> Same machine as in my other report (HP EliteBook 8 G2i, 103c:8ed5,
-> TXNW2781 on SPI), kernel 7.2.6-200.fc44. While trying to re-initialize
-> the silent amps, I unbound them via sysfs:
-> 
->   echo spi0-TXNW2781:00-tas2781-hda.0 > /sys/bus/spi/drivers/tas2781-hda/unbind
->   echo spi0-TXNW2781:00-tas2781-hda.1 > /sys/bus/spi/drivers/tas2781-hda/unbind
-> 
-> Each unbind first logs a WARNING in component_del(), then oopses in
-> __pm_runtime_resume() with a NULL device:
-> 
->   WARNING: drivers/base/component.c:839 at component_del+0x149/0x170, CPU#9: tee/374653
->   Call Trace:
->    tas2781_hda_remove+0x16/0x60 [snd_hda_scodec_tas2781]
->    device_release_driver_internal+0x19e/0x200
->    unbind_store+0xa4/0xb0
->    kernfs_fop_write_iter+0x178/0x200
->    vfs_write+0x281/0x560
->    ksys_write+0x7b/0x110
->    do_syscall_64+0xe2/0x570
->   ---[ end trace 0000000000000000 ]---
->   Oops: general protection fault, kernel NULL pointer dereference 0x1d1: 0000 [#1] SMP NOPTI
->   RIP: 0010:__pm_runtime_resume+0x1a/0x90
->   Call Trace:
->    ? component_del+0x149/0x170
->    tas2781_hda_remove+0x23/0x60 [snd_hda_scodec_tas2781]
->    device_release_driver_internal+0x19e/0x200
->    unbind_store+0xa4/0xb0
-> 
-> A later "echo ... > bind" then hung in D state, and only a reboot
-> cleared it. The same thing happened for both devices (oops #1 and #2).
-> The full log is attached (oops-unbind-7.2.6.txt). I have not
-> re-tested this on 7.3.4.
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [High] ASoC: wm8962: deadlock between wm8962_runtime_suspend() and
+  wm8962_irq()
+- [High] ASoC: wm8962: disabling IRQ in wm8962_runtime_suspend() breaks
+  idle IRQs
+- [Medium] ASoC: wm8962: irq_set_status_flags() called on IRQ 0 in
+  wm8962_i2c_probe()
+--
 
-Could you verify with the latest sound.git tree (or the upcoming
-7.4-rc5) later?  It might have been addressed.
+commit 917ccfcd5e1f9cc84d87be9fd3e359058c229f93
+Author: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
+ASoC: wm8962: fix interrupt mis-firing during runtime_resume()
 
-thanks,
+This commit requests wm8962->irq with IRQF_NO_AUTOEN and IRQ_DISABLE_UNLAZY,
+and enables or disables the IRQ across runtime resume and runtime suspend to
+avoid spurious interrupt assertions during power transitions.
 
-Takashi
+> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+> index 3bbaacb08aafa..8c9523d60219b 100644
+> --- a/sound/soc/codecs/wm8962.c
+> +++ b/sound/soc/codecs/wm8962.c
+> @@ -4021,7 +4021,7 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
+> =20
+>  		ret =3D devm_request_threaded_irq(&i2c->dev, wm8962->irq, NULL,
+>  						wm8962_irq,
+> -						trigger | IRQF_ONESHOT,
+> +						trigger | IRQF_ONESHOT | IRQF_NO_AUTOEN,
+>  						"wm8962", &i2c->dev);
+>  		if (ret !=3D 0) {
+>  			dev_err(&i2c->dev, "Failed to request IRQ %d: %d\n",
+> @@ -4039,6 +4039,15 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
+>  			/* enable GPIO IRQs if need be */
+>  			wm8962_init_gpio_irq(wm8962);
+>  		}
+> +
+> +		/*
+> +		 * we are forced to keep interrupts disabled while doing runtime_resum=
+e().
+> +		 * Otherwise, we may end up with some unwanted transitions on the inte=
+rrupt
+> +		 * line. Some interrupt controllers may not implement the .irq_disable=
+()
+> +		 * callback. In such cases, the interrupts will only be masked if
+> +		 * IRQ_DISABLE_UNLAZY is set.
+> +		 */
+> +		irq_set_status_flags(wm8962->irq, IRQ_DISABLE_UNLAZY);
+>  	}
+
+[Severity: Medium]
+Should irq_set_status_flags() be inside the else branch above?  When
+devm_request_threaded_irq() fails, the error path sets wm8962->irq =3D 0
+and treats the failure as non-fatal, so execution falls through and
+calls irq_set_status_flags(0, IRQ_DISABLE_UNLAZY) on IRQ 0.
+
+> @@ -4131,6 +4140,10 @@ static int wm8962_runtime_resume(struct device *de=
+v)
+>  				   WM8962_MSTR, WM8962_MSTR);
+>  	msleep(5);
+> =20
+> +	/* keep this last - keeps the interrupt line from mis-firing */
+> +	if (wm8962->irq)
+> +		enable_irq(wm8962->irq);
+> +
+>  	return 0;
+> =20
+>  cache_sync_err:
+> @@ -4147,6 +4160,9 @@ static int wm8962_runtime_suspend(struct device *de=
+v)
+>  {
+>  	struct wm8962_priv *wm8962 =3D dev_get_drvdata(dev);
+> =20
+> +	if (wm8962->irq)
+> +		disable_irq(wm8962->irq);
+
+[Severity: High]
+Can disable_irq() in wm8962_runtime_suspend() deadlock with wm8962_irq()?
+
+sound/soc/codecs/wm8962.c:wm8962_irq() {
+	...
+	ret =3D pm_runtime_resume_and_get(dev);
+	if (ret < 0) {
+	...
+}
+
+If an interrupt fires just before disable_irq() masks the line, the two
+contexts wait on each other:
+
+CPU0                              CPU1
+rpm_suspend()
+  runtime_status =3D RPM_SUSPENDING
+  wm8962_runtime_suspend()
+                                  wm8962_irq()
+                                    pm_runtime_resume_and_get()
+                                      rpm_resume()
+                                        /* waits for RPM_SUSPENDING */
+    disable_irq()
+      synchronize_irq()
+        /* waits for wm8962_irq() */
+
+ *** DEADLOCK ***
+
+[Severity: High]
+Does keeping wm8962->irq disabled while runtime suspended prevent GPIO
+interrupts from firing when the codec is idle?
+
+soc_component_dev_wm8962 does not set idle_bias_on, and neither
+wm8962_init_gpio() nor wm8962_irq_chip holds a runtime PM reference
+while child GPIO IRQs are active.  Whenever no audio stream is active
+(and after wm8962_gpio_get() drops its temporary runtime PM reference),
+the codec stays in RPM_SUSPENDED with wm8962->irq masked at the parent
+interrupt controller, so asynchronous GPIO5/GPIO6 events such as jack
+detection cannot wake the device via wm8962_irq().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127170039.663-=
+1-laurentiumihalcea111@gmail.com?part=3D3
