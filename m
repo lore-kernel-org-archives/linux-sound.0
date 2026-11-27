@@ -1,128 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795779666;
-	b=Oz0hjYRhwg+Ewo4UJGuLnggz0NcHPLpjW2P2p7+j/tOapqdrnVnYjmPjoCqiYXxsCQxt
-	 lJ8h+ImXoYU5lIxryC+I1ZhpZ2yExGkF7pTlD2bGzPITOpV8wzUSteqMjEcS7S7T5DziT
-	 SHjdPKx+N0IfJVjsZhbYTL9HletAzcNZMdtSQCdt5p4mXO00GDUbp2AvCv4AOByEVhXvL
-	 z54Cw9/xKegQHBItTCw0Znn1Qq5tmWelL9R8PqCPOsnhqChCDdbcFBCKd/JCSz2HC5xIC
-	 +KnfRqpx/3azPv0zFwY1B/KgLcd5BsWBWBlyq6Nei/Cico51163DlnZVz+aejtppSZg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795779666;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
-	 Received:Received:X-MS-Exchange-Authentication-Results:Received-SPF:
-	 Received:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:Content-Type:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-OriginatorOrg:X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Reason;
-	bh=uwZKOWmrxQ1RhEC8F1wlp+QZSbPD3qw/bAhwRQhriVc=;
-	b=mB3lSCUbRGglvXy4mYt7wOOt2Wh1PFfUsAQhpgJzuzRQh7+cy+bJA09cnkIxk+Mw4e9B
-	 5aRWocGRAA83EVxnONRnnPLSqG9dW78dVbxd7B3AsHHFAFfA5DrVMETlSx3znF+7ozLNK
-	 XXXbfPSe2gU6r37dvFx8AcFKCuiND53P6zoNuIklHi3amw/d1++b4HuvRS0txF5UxDa5x
-	 7tWJjH99B0eRSZA/1zllZJvRZU+5Cqe+SRPh2qmwDjCCwehPA2m3QH9zjpmtisjslw4BY
-	 sl/m96OCPuy7sFEFTuEhtrR9ROtLqn6OFjG9kslM+7kLlan8pTPfijhP+5WbjU3WLxg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=opensource.cirrus.com;
-	spf=pass smtp.mailfrom=opensource.cirrus.com;
-	dkim=pass header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=GzGvPyGw;
-	dkim=pass header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=Gq0c08vp;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.149.25
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795781922;
+	b=1EYQPyjhADV9n9QatxrRTjiJoIhrf1GBME9YHWJ3xie3pL9nm7mAC5DGUmZFA4LE34xX
+	 xgIujej63uVt3s+4yvPl6ixfYt+DYkk//QbgK2L2Yw36vVcsPl9ipJHbULcpXig9KJ3xp
+	 SRUZOIUCrYRPX1fhNUj7V7/wXvKHX7QaO7Dd3x8VQ+hpTBqo3fkjFeqRc8FUGsZkeCVpk
+	 FuRSpHMiYelijjfKrY6svQVKxImKKiz3SjRlR20/lHzEOjq55ex9N/zmlaswmwbynfd/E
+	 if0p28coi7GXzU1/xTX5DUNJxZofTKohwXRPXbsoP6KglzCMYUWUUZGlX/QBJRcqufg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795781922;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=M3+53CL9E7t0kgo4XELs9bJ+0tvf7YuCDNZDOGzql0s=;
+	b=WMnSynSJN+G5Vo3LohVkqUjQvj2plXFKxrRH0vPsRKTdCvwvcURJpKx5Y7IP555VUp11
+	 qTB8nqQ1j87Dv+x5P4PoBePzd3/Q8Eu+rDsL/Qp39KwgOE6XPU2Lsa+/xOs7SnQGHj1db
+	 NReq9yBLUbvBO89Kz1IbsPM8jd0w608WTPxsVMLZp8scmwuhtemwpqoaPK8Mpwd/owH44
+	 //FfeElK7SJY/ssKF8gFXRVPn+vFi+EVxxaP1YpVDrhN9dDk8dLMCsF+7qhOYxyN7EgKc
+	 M2DdHhAvLjSGfwN3o2cQ8Pr4br/IydLTpCheYXZXznx/MAUk+/vTeigZhODcc7KCVGw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=UornJokS;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB3A606A31E;
-	Fri, 27 Nov 2026 11:41:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FB3A606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB617606A31E
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 12:18:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB617606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.a=rsa-sha256 header.s=PODMain02222019 header.b=GzGvPyGw;
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.a=rsa-sha256 header.s=selector2-cirrus4-onmicrosoft-com header.b=Gq0c08vp
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARBKvgP2197730;
-	Fri, 27 Nov 2026 05:40:44 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=uwZKOWmrxQ1RhEC8F1wlp+QZSbPD3qw/bAhwRQhriVc=; b=
-	GzGvPyGwbfRNCGLRqUw8Y5zRJ9TowIQMq0ddyQ+TrCuSW6lR9fTERoGAf2d7mRxw
-	zTkt6yLrtX/HojK/gKjkA6UMzMoxw8HIfcKB5rV0HLRkoAo9j86WMWBvWJUx8yhE
-	2XxubbAjb3QEDjp4qOocwiCje/oMF0Q3RJkNuI+S5ny7zFRMQKdiKT2eumK9J0as
-	e92p3fTbSn0c9S9plyUIYfKmbY0JirzG3bxMM5+N7kPBqlnle+3vSD/dku8cHWi+
-	djozlZ4T4h2bEVwMxh3Q5gnQsNRgYutIY/8S5JbAL/lEbFqDJ0jEH8nQ0sVQLNhw
-	E0hjKAQ67xaxpcBOdk0dgA==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022102.outbound.protection.outlook.com [52.101.48.102])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4j51885bj3-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 27 Nov 2026 05:40:44 -0600 (CST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iC2LiuEaxAwAEWdsinAyYDmGtzzdxZHl0DhBcNFVZ7AzhIoVoNau1AO6HUynMGJ48XXkRH4BBkPx02+8CxXC6fmOS60dTaNgTm4SMcFnGVjAqovK3bU9Lp7ssuTLFcDSdeyfzxT3fnBS79elGkArmpOHX9+DtkiRz3mOaeiQcx23nvONpTGSFZiR1CwW57lzCfn9OY4X0dZENsmjn3z4DWB9i9muvS9B8/8hX6AhvPI3OFiXlWldIkk/Sc1dIs8SfyzCBN4XS9kMsrQN6Y1va3zIf2eYtAJvy+J0Ie25GmXQitrVkWsTB+tDYYP2ckrVNec2ZviIPsqiVOp5lHWqlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uwZKOWmrxQ1RhEC8F1wlp+QZSbPD3qw/bAhwRQhriVc=;
- b=MAZWDJjoZCMP9RSy689zuLTcotiNUPOimzoGCA3E+sLMyssR0gnNJ7IApfrlrI8+mYzzByJWe5xe/sYh7Z91L4boVWELDniWUVPedjXMP7ev1USojCogDApDUpzkk4o+9bhVhANTmYdb2YgprJeymnSrXCKt+eZ2x/orC2FI3P1kV9JUw9khKjqDXHfC2GBrRXXNttKP+pGF+Ioq8tkjfyMYUA52ZAM5e/fS0dStue6Qxcx7ju2B/0jRlMuN0iisUWPbv8eVklOt4MoMYE58zNyE1vMZi938KQ+elY811WxfRs6uv8ZxEmC/cKj/adT3FgOpd2R7f3WHMerQANnydA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=UornJokS
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so65740885e9.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 04:18:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uwZKOWmrxQ1RhEC8F1wlp+QZSbPD3qw/bAhwRQhriVc=;
- b=Gq0c08vpylPH3nsIZ6plCpDkN+9JxKcQQkAE8fN+5ZYwVlYiGar7mNrAkIqN6Pxt0eiNqDJkjQjTshFbmJ0cc809DSuWZadvswnCvTr5QSQOQIjZLvzrDlTv+LsNpa8B/I6u31vudSPBmEl9E+5rUX4QRpl7V8b8Itnk1bDY5x8=
-Received: from PH7PR10CA0001.namprd10.prod.outlook.com (2603:10b6:510:23d::23)
- by PH0PR19MB4808.namprd19.prod.outlook.com (2603:10b6:510:23::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.9; Fri, 27 Nov
- 2026 11:40:40 +0000
-Received: from SJ5PEPF00000208.namprd05.prod.outlook.com
- (2603:10b6:510:23d:cafe::2) by PH7PR10CA0001.outlook.office365.com
- (2603:10b6:510:23d::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.10 via Frontend Transport; Fri,
- 27 Nov 2026 11:40:40 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=softfail (sender
- IP is 84.19.233.75) smtp.mailfrom=opensource.cirrus.com; dkim=none (message
- not signed) header.d=none;dmarc=fail action=oreject
- header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ5PEPF00000208.mail.protection.outlook.com (10.167.244.41) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.688.5
- via Frontend Transport; Fri, 27 Nov 2026 11:40:39 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 027C5406552;
-	Fri, 27 Nov 2026 11:40:38 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.12])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id ED5D6822542;
-	Fri, 27 Nov 2026 11:40:37 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH 1/2] firmware: cs_dsp: Resize members of cs_dsp_coeff_ctl to save bytes
-Date: Fri, 27 Nov 2026 11:40:36 +0000
-Message-ID: <20261127114037.2010271-2-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261127114037.2010271-1-rf@opensource.cirrus.com>
-References: <20261127114037.2010271-1-rf@opensource.cirrus.com>
+        d=suse.com; s=google; t=1795781920; x=1796386720; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=M3+53CL9E7t0kgo4XELs9bJ+0tvf7YuCDNZDOGzql0s=;
+        b=UornJokS8IYPV9d7V2a6CZ6XLo6DuCTtRj2CTDIAxkxk4kfr4Wk8FKmaTj2pvlCOGE
+         YZKKK5KjIhjJblAMPrbQZlpOjt6g+pMUaWZflLbabgSbzMcET+h/0jzTkOE0tnOGK6lb
+         +cVHzQEciVJryKz3zGWDQgjWVgujC7QUmsUiIu9mCqJk6S5kX+I78+JgwlAa6mh9b5cO
+         GER4FqMZqd7aTNGs+jkeiZr2Ngo0FYA1sG6Wfn/a1NcNw8UZDBTbM2T5h3OuMSTf4lVX
+         2hINVmQej1Ia7Lk6YJAvIIwMcvUfeGkKI/ekLPAU4xkvcPq86TIono1eluNqI93P8Et9
+         Za1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795781920; x=1796386720;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=M3+53CL9E7t0kgo4XELs9bJ+0tvf7YuCDNZDOGzql0s=;
+        b=BVGZEGtoyhMg+mVLRMSfGakR3kUInLN+dnw/H5pycpwAltkJOzctfrhbO9KQpOETZQ
+         yLMxCqfozCA+tsS1XwdWYBRqs+mpeJZEcAj96raBmuE58YXEHCP+OYcwdbmouaKQ10Ki
+         GhbmZLUEkD3UrFlWFQ4PMLTVf4XQul8SqwdqD2fUco0TwvNMZGiOyltjLh1JbdaIbU76
+         4J99lFbUYFx+CK27L2GMaVvR04ZyVb8mJG0k8rvqPAI02j5+hRn1eYaJ9aMQ4W/023h5
+         zBvqQi1DFplvpD14wnguhdHEjuk13Yaa6Hy7tazinWnpJFtZLHqtkMUO7lH+R5Oy88OZ
+         oqig==
+X-Forwarded-Encrypted: i=1; AL+hErF7NtSyDOl+tntFFh5Xlam1/pGQuLu64cgrsDn0EGmdIDp601ghLtWSP+LnixK8tLXCw+2zJ0et5EpAEQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z+tX41JVrALE+7JOJF5m1MgzfsvzTfge8VntRcuCHCcdKNMt7ag
+	iK3TIsMaalFWBHxP+zJHfXkhHT+7df0ihzKJBcK9/JwVQ60NxDG9aR/N7KHrS2yipdI=
+X-Gm-Gg: AZFdTZdv7JcP9n9U1I4mM6wOD3uVsmzA79KCPYUxNOJwvc9F+4YzCQ4CNJ50p7jGmU5
+	tfWlztjikS6wdTBBTX4ifa4NVEWxm8dNMpZupmq2eGO+xISSXQ0+Gt+3ai2OxgHEP2JK1cAEr7G
+	Nu5SOdX48qxpu+JVacCE+luiRm0oK1dbkQETafyKEfuUw+oYvMoxNI72qjA1AAf+lw98ZxiGWgO
+	aKtIiqtO7AxBVFdNC/eutci/IYqBPPvkHMKRgmHj9Yf6XsdUn3SqnVfLqwx6k5d+chy0xQXFT1k
+	r8foR+Us0MQ9PUENsG1G1KEegKQkqd2KljlhiCWDz5FuWIsTLP7ZWVMjbz+f/juWMTONu5YDgwY
+	TYiLFGglgYkwjmD2G2L2dfc63E3rr0vasV8vq26FkUmPmFKpgqpdFjkFizJT9OwWKLBAmc5Lr1w
+	l4/wnAbXQ9gQLAFO2iHXwq2h5gb/zP1HHveKAKPlmVY1Tf/05sHhx7f9xoSVqN+h30yv/6Y+E6Z
+	Kt/yzT2eQtJVLRg229iWHXJqtYXAD5X5kF1Rs42f6OXzjJGvKu83WHCU0vurbZwb9FDnrkPTDkI
+	x7ggckqwH/GkjRwKjorUMXc2fZ0H2+h/cELSzw2xeECrTQbdpg==
+X-Received: by 2002:a05:600c:4584:b0:4a7:c366:d791 with SMTP id 5b1f17b1804b1-4bb887e266amr473913555e9.1.1795781919627;
+        Fri, 27 Nov 2026 04:18:39 -0800 (PST)
+Received: from localhost ([195.94.148.180])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884a15absm627117115e9.9.2026.11.27.04.18.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 04:18:39 -0800 (PST)
+From: Andrea della Porta <andrea.porta@suse.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Frank Li <Frank.Li@kernel.org>,
+	dmaengine@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Saenz Julienne <nsaenz@kernel.org>,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dom Cobley <popcornmix@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	David Airlie <airlied@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-mmc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Mark Brown <broonie@kernel.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Ulf Hansson <ulfh@kernel.org>
+Subject: [PATCH v4 00/28] dmaengine: bcm2835: add BCM2711 and BCM2712 40-bit DMA support
+Date: Fri, 27 Nov 2026 13:21:50 +0100
+Message-ID: <20261127122236.4976-1-andrea.porta@suse.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -133,158 +128,242 @@ List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000208:EE_|PH0PR19MB4808:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 4ae3de6c-dfa0-4cd9-bccf-08df4c7b42f1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|376014|36860700016|23010399003|82310400026|10067099003|56012099006|11063799006|261021123027099003|261021121427099003|261022075727099003|261009223027099003|261102123227099003|16102099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	cClR1B+qYKYnG7TwlzZ+IkBrXIz7HnwT1oORGyTm+oTSpbo84NXRbsHuXQzbschgib6GrJshCsotWQEmQmsoA81oOFYMvOsV/tdeKaueymS1ifbW1KeFmKV71YugLFU7+MFduKvwsOokDK53G7IqIMm55MJDEBlt2kaET8H8FdSAaNPldDCI52jAnEYG8qIceDm8ELfc9fUiD/VpwdaYJp+0t50vSExB7hWyEIFzGShWumX7Qm+j50IXeX3d0GU44Ynr6aRXws34PyPycbtnkp8PgMlcux1lBPbU5SsYag9cfdT3LeuuXGXBmchsEhE9DCimp65IOo3bZ/RaYaIDYN3z1f+yZ20doEndbXaoQoo/LJEoP548MELNIymuZdSg8GhFttpXKclj2SpIpWCO9K06bZCPjq3gK+mfWCAhClytk4K78IK0kExJQ1ENcXIyoFJaqQsthXN0okDRknqmhSldEyUpD9GJU8XEJtQ6I+xvrCOuLhJydUzS7ll/2KZaP88wT70gUV82HqlcPMmdi+/xIgUu+XRW7riVMPofXVq325qnvV14cyRtMExNbCTAsGI6h0zzWY+hdMAvKxCWEBeDoPeipdKvXLEsfV207rHOAQ94nOzlKN3h55cHzPAc9h1IRKlf7M5kQ4/uATevJckD6r960INhFiEj2MOnAM1muBY0ku30TqNz2nFseIi1qcT95QsBUX1FqODidZYYFQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(376014)(36860700016)(23010399003)(82310400026)(10067099003)(56012099006)(11063799006)(261021123027099003)(261021121427099003)(261022075727099003)(261009223027099003)(261102123227099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	5qG0QzfJY/+QmkjaMMBEb08u8eRJ5KglluwewWlT5tpYHQ5IP10fPbbbUNE97z39hvRSan1aKQDm7g2EKV9hghdB+43VdK/5vspgk+ql0FkKw42ty2B7U6vJdZI2BlDTl2wA9VV8KFUj5UfxMYzTQFJ20U4O0XSCC3MbqE1qJkHHA1qIyhUKIfl++Yi0D/F5CQF7xAoNS8eunFmbkrFPVYip26jxMxgsAiNh8E/mNi8NiQtuRptRZy/BRcZ9IbBU2rOy/ze4MshFZpM8UCR6NZsWod/AJHt9/mVzTOgwFt+kaVB0BjKtl9cnI5GnnMnER5iZSMkkmhiHtLmHCYfTiT7G9ti9oSjXCAn4jNl2ATLQrze1DXq1jRx74NBh4PFWwhzISOadTw5ZgTr1FSfB07Jc/OIGhuB4amo3rTOCzq/kj1+e5Mm4LvT8s/YEskI2
-X-Exchange-RoutingPolicyChecked:
-	PKxh2m3O7RiCsvzbhRxAug6ZWkuLx4nfDd06R1mg8Ey/bJACfT7n3OCRgpBGMRBgO54B3dtqZpAb3HXDZhmYjyAvZe3vRIpG8VWuZUzidhr9zsEP9UinX3YtIZorPuZOTCnQu8R506I0vjR1u0yD+tz4T+y/GT85mr+p7yUrltw2+oyHwn+KAkuXUtAM19NwnMonzOwuQ8KeqTXVJcxuYxWNVL64UcVKUN8c+xy4lNAypPJRpdwG2ce/L9PdvMKVODu/GoAdoJ2vLTbOHe1JaXF/XCa7HjcuJvuVZs6qZbf7ScfUtu5ENliXL/CvH6hPLXg69Lytb+2KW2MLmgpS+g==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 11:40:39.4484
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ae3de6c-dfa0-4cd9-bccf-08df4c7b42f1
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF00000208.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR19MB4808
-X-Proofpoint-ORIG-GUID: hE19Qn8nDnWKbO2HpvYp9MJcG04nFtUe
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA0NiBTYWx0ZWRfX7y95YGFn109J
- vTL3mRv0Ng8jMp6cy5+BMxR1viD4mw8wH9dCeXn/rQxjS0onNWkjQEqQCUz27EqVvviTWg30xzT
- vRukcCVvSYu/jlsRwDEimvuu8UvsdgF9KaTrQ1hgEZjGvAud3Jz1sF7y9HG/CI2BcF1LTwzAv4f
- Lpn0PIMmgVpjywsuLYU6TsgtBqsn/6+8SZawhVP28CR4+vaO+aoukLYT2cLQ3l25kx00UtfPbGx
- NjJTfAw+cGWIGm5PMeOiuwUAlFUle4CK8e6zbyK+q2Wh/EvYoIq//2se1ll4vS58NpQJfQ5KjNu
- aLFE3UXe04qBz4ClvFfM8QunEw3xZi2BSIGidGL2g6PTIhowzyUOGTYwKT/oxH/Zyw7S2Npwycf
- A0wt/AVNowUrGkTeDzwmCnEVvy2ZJHFh48p1A+meiDRkQGYtxBBvu79c0VNTfv5eIKCbKIbXKqm
- hzfcgkL+NYH+A2j0OYg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA0NiBTYWx0ZWRfX8gumgoIEtXDj
- BXwJcRAwnvS3rVm9ACxSszYErDi/rE1ZS6EJHEYw+nn6K7kDSEmnNaksSeFus2/sJo8mvDbtG+8
- 0ZO51eaWnSHaz0t+IaSEujPIpTYmE98=
-X-Proofpoint-GUID: hE19Qn8nDnWKbO2HpvYp9MJcG04nFtUe
-X-Authority-Analysis: v=2.4 cv=BuEIUoX5 c=1 sm=1 tr=0 ts=6b096c3c cx=c_pps
- a=V3pMW8GKM1ePhxMQJcf1Tg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=zJRp6_cAMcgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=Xfgjl66bu2JEPtsuBdoA:9
-X-Proofpoint-Spam-Reason: safe
 
-Reduce the size of some members in struct cs_dsp_coeff_ctl to the size of
-the data they are storing. On an x86_64 build this saves 8 bytes per
-control.
+The BCM2711 has 4 DMA channels with a 40-bit address range, allowing them
+to access the whole memory of a Pi 4, and the BCM2712 has 6 of them. This
+series adds support for them to the bcm2835-dma driver, on top of the
+platform abstraction from Stefan Wahren and some features from the
+downstream Raspberry Pi kernel.
 
-- The subname_len string can never be more than 16-bits. In V0 and V1
-  firmwares it is a 256-character array, and in later firmwares it is an
-  8-bit field. (In any case it is impractical to have a control name
-  >65535 characters long.)
+The main change since v2 is the handling of the slave (peripheral)
+addresses, as requested in the v1/v2 discussions [1][2][3]: instead of
+hardcoding the 0x4_0000_0000 offset of the 40-bit channels and relying on
+clients passing pre-translated VideoCore bus addresses, the clients now
+pass CPU physical addresses and the DMA driver translates them with
+dma_map_resource(). Since the conversion of dma_map_resource() to
+dma_map_phys() with DMA_ATTR_MMIO, the dma-direct implementation honours
+the dma-ranges of the device, which was the open question raised by
+Robin in [1].
 
-- Control type and flags are 16-bit values in the firmware.
+To keep old device trees working (they only describe the RAM in
+dma-ranges), the driver detects at probe time whether the peripheral
+window is described in dma-ranges, by looking up its own registers, and
+otherwise falls back to reverting the translation given by the ranges of
+the parent bus, as suggested by Dave in [3]. Addresses outside of the
+ranges are passed through, so that out of tree clients still providing
+bus addresses keep working with old device trees. The same fallback
+works for the BCM2712 40-bit channels, whose bus maps the peripherals
+1:1, while the BCM2711 40-bit channels see the peripherals 16 GiB above
+their VideoCore bus address, which cannot be derived from the ranges:
+they require dma-ranges, which all the device trees describing them
+(the downstream ones and the one added here) provide.
 
-- Type is relocated adjacent to subname_len to avoid introducing
-  alignment padding bytes after subname_len
+Structure of the series:
 
-The ctl_type and flags fields in struct cs_dsp_coeff_parsed_coeff have
-been changed to match these widths.
+  1:     coding style
+  2-5:   flags of the DREQ cell (binding and header) and their support
+         from downstream (per-channel flags, wide accesses, bursts)
+  6-7:   generic dma-channel-mask property
+  8-13:  hardware abstraction (Stefan Wahren)
+  14-19: slave address translation with dma_map_resource(), conversion
+         of the clients (spi, mmc, ASoC, vc4 HDMI) and dma-ranges of
+         BCM283x
+  20-23: BCM2711 40-bit channels
+  24-26: BCM2712 40-bit channels
+  27:    DMA flags for the HDMI audio of BCM283x
+  28:    HDMI audio on BCM2712 through the 40-bit channels
 
-The arguments to cs_dsp_create_control() have been changed to the same
-types so that consistent widths are used.
+Changes in v4:
+- Drop "dmaengine: bcm2835: Fixes for dma_abort": it brought back the
+  NEXTCONBK/ABORT sequence that commit 9e528c799d17 ("dmaengine: bcm2835:
+  Fix abort of transactions") replaced, and it is not needed for the
+  40-bit channels, which have their own abort sequence (sashiko, Frank).
+- Do not add the peripheral window to the dma-ranges of the BCM2711 soc
+  bus: it would raise the limit computed by of_dma_get_max_cpu_address()
+  and thus the arm64 ZONE_DMA beyond the 1 GiB the legacy DMA masters
+  can reach. The BCM2711 legacy controller keeps using the ranges
+  fallback (sashiko).
+- Map the slave FIFOs with the direction of the accesses of the DMA
+  controller (DMA_TO_DEVICE for the source, DMA_FROM_DEVICE for the
+  destination), they were swapped (sashiko).
+- Keep the slave address translation across device_config() calls when
+  the address does not change, instead of remapping it at every MMC
+  request (sashiko).
+- Clear the dreq of a channel when it is released, so that a later
+  memcpy user does not inherit the DT flags of the previous client
+  (sashiko).
+- Pass the prep flags to bcm2835_dma_prepare_cb_extra() for cyclic
+  transfers in the patch introducing it, which disabled the period
+  interrupts until a later patch (sashiko).
+- Translate the S_IGNORE/D_IGNORE bits into the IGNORE bit of the
+  SRCI/DESTI registers of the 40-bit channels (sashiko).
+- Add include/dt-bindings/dma/brcm,bcm2835-dma.h defining the flags of
+  the DREQ cell and use it in the driver and in the device trees
+  (Frank).
+- Split the binding patch: the flags of the DREQ cell are now documented
+  before the driver patches using them, the generic dma-channel-mask in
+  a separate patch (Stefan).
+- Use FIELD_PREP()/FIELD_GET() for the register fields (Frank).
+- Make need_src_incr()/need_dst_incr() only consider the supported
+  directions (Frank).
+- Reword the deprecation warning of brcm,dma-channel-mask (Frank).
+- Describe all the CS flags in the commit message of the per-channel
+  flags patch, and explain that the specifier flags are never written to
+  the hardware as they are (Frank).
+- Fix the commit message of the first patch, the typo had already been
+  fixed (sashiko).
+- Document the cfg member of struct bcm2835_dmadev in the patch adding
+  it.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- drivers/firmware/cirrus/cs_dsp.c       | 15 +++++++++------
- include/linux/firmware/cirrus/cs_dsp.h |  8 ++++----
- 2 files changed, 13 insertions(+), 10 deletions(-)
+Changes in v3:
+- Drop the hardcoded addr_offset, translate slave addresses with
+  dma_map_resource() in device_config() and unmap them on
+  reconfiguration and when freeing the channel.
+- Convert spi-bcm2835, mmc/bcm2835, bcm2835-i2s and vc4_hdmi to provide
+  CPU physical addresses, and describe the peripheral window in the
+  dma-ranges of the BCM283x/BCM2711 soc bus.
+- Put the BCM2711 40-bit controller in its own bus, whose dma-ranges map
+  the peripherals at 0x4_7c000000, instead of the scb bus, to not change
+  the DMA configuration of PCIe and GENET and to avoid refactoring the
+  entire DTS to fit the cell size.
+- Fix the abort sequences, which were swapped between the legacy and the
+  40-bit channels, breaking terminate_all on all the Raspberry Pis.
+- Fix the interrupt acknowledge of the 40-bit channels, which used the
+  INTEN bit of the TI register instead of the INT bit of CS.
+- Make the abort sequence a platform callback, drop the CS/TI masks only
+  used by it.
+- Keep the period handling of bcm2835_dma_create_cb_set_length(), which
+  v2 changed to flag every control block of cyclic transfers.
+- Use the platform cb_append_extra() callback for every control block,
+  and convert every control block address with to_cb_addr().
+- Preserve the width and burst settings of SRCI/DESTI when setting the
+  addresses of slave_sg transfers.
+- Fix the argument order of cb_init() in the patch introducing it, to
+  keep the series bisectable.
+- Fix the free_irq() cookie, which did not match the request_irq() one.
+- Derive the first channel of an instance from the physical register
+  address instead of the ioremap()ed one, initialize all the IRQ array
+  entries, and split this into its own patch.
+- Refuse to probe the 40-bit channels if dma_addr_t is 32-bit wide, and
+  avoid shifting dma_addr_t by 32 bits.
+- Include linux/bitfield.h, fixing COMPILE_TEST builds.
+- Drop the unused bcm2835_dma_count_frames_for_sg(), resurrected by a
+  rebase, and the dead code and duplicated defines of the 40-bit patch.
+- Split out the style changes from the 40-bit patch (Stefan), reword the
+  subject of the first patch (Florian).
+- dt-bindings: sort the compatibles (Krzysztof), document the flags in
+  the DREQ cell (Stefan), allow the generic dma-channel-mask, constrain
+  the interrupts of the new compatibles. The Acked-by of v2 has been
+  dropped because of the additional changes.
+- Use the generic dma-channel-mask in the new nodes (Krzysztof).
+- Use the DMA specifier flags for the HDMI audio channels of BCM283x,
+  so that patches 2-4 have in-tree users (Stefan)
+- Describe in the platform data which channels of the DMA block use its
+  programming model and ignore the others, so that nodes describing
+  channels with another model under the same compatible (as the
+  downstream BCM2712 device tree does) are not driven with the wrong one.
+- Add BCM2712 support.
 
-diff --git a/drivers/firmware/cirrus/cs_dsp.c b/drivers/firmware/cirrus/cs_dsp.c
-index abf9196db883..b9e4b9283df1 100644
---- a/drivers/firmware/cirrus/cs_dsp.c
-+++ b/drivers/firmware/cirrus/cs_dsp.c
-@@ -1044,8 +1044,8 @@ static void cs_dsp_free_ctl_blk(struct cs_dsp_coeff_ctl *ctl)
- static int cs_dsp_create_control(struct cs_dsp *dsp,
- 				 const struct cs_dsp_alg_region *alg_region,
- 				 unsigned int offset, unsigned int len,
--				 const char *subname, unsigned int subname_len,
--				 unsigned int flags, unsigned int type)
-+				 const char *subname, u16 subname_len,
-+				 u16 flags, u16 type)
- {
- 	struct cs_dsp_coeff_ctl *ctl;
- 	int ret;
-@@ -1162,9 +1162,9 @@ struct cs_dsp_coeff_parsed_coeff {
- 	int offset;
- 	int mem_type;
- 	const u8 *name;
--	int name_len;
--	unsigned int ctl_type;
--	int flags;
-+	u16 name_len;
-+	u16 ctl_type;
-+	u16 flags;
- 	int len;
- };
- 
-@@ -1312,6 +1312,9 @@ static int cs_dsp_coeff_parse_coeff(struct cs_dsp *dsp,
- 	blk->offset = le16_to_cpu(raw->hdr.offset);
- 	blk->mem_type = le16_to_cpu(raw->hdr.type);
- 
-+	static_assert(sizeof(blk->ctl_type) >= sizeof(raw->ctl_type));
-+	static_assert(sizeof(blk->flags) >= sizeof(raw->flags));
-+
- 	switch (dsp->wmfw_ver) {
- 	case 0:
- 	case 1:
-@@ -1319,7 +1322,7 @@ static int cs_dsp_coeff_parse_coeff(struct cs_dsp *dsp,
- 			return -EOVERFLOW;
- 
- 		blk->name = raw->name;
--		blk->name_len = strnlen(raw->name, ARRAY_SIZE(raw->name));
-+		blk->name_len = (u16)strnlen(raw->name, ARRAY_SIZE(raw->name));
- 		blk->ctl_type = le16_to_cpu(raw->ctl_type);
- 		blk->flags = le16_to_cpu(raw->flags);
- 		blk->len = le32_to_cpu(raw->len);
-diff --git a/include/linux/firmware/cirrus/cs_dsp.h b/include/linux/firmware/cirrus/cs_dsp.h
-index 6aa1e1b2b4a5..16542bdce5c4 100644
---- a/include/linux/firmware/cirrus/cs_dsp.h
-+++ b/include/linux/firmware/cirrus/cs_dsp.h
-@@ -84,9 +84,9 @@ struct cs_dsp_alg_region {
-  * @fw_name:		Name of the firmware
-  * @subname:		Name of the control parsed from the WMFW
-  * @subname_len:	Length of subname
-+ * @type:		One of the WMFW_CTL_TYPE_ control types defined in wmfw.h
-  * @offset:		Offset of control within alg_region in words
-  * @len:		Length of the cached value in bytes
-- * @type:		One of the WMFW_CTL_TYPE_ control types defined in wmfw.h
-  * @flags:		Bitfield of WMFW_CTL_FLAG_ control flags defined in wmfw.h
-  * @set:		Flag indicating the value has been written by the user
-  * @enabled:		Flag indicating whether control is enabled
-@@ -100,11 +100,11 @@ struct cs_dsp_coeff_ctl {
- 	const char *fw_name;
- 	/* Subname is needed to match with firmware */
- 	const char *subname;
--	unsigned int subname_len;
-+	u16 subname_len;
-+	u16 type;
- 	unsigned int offset;
- 	unsigned int len;
--	unsigned int type;
--	unsigned int flags;
-+	u16 flags;
- 	unsigned int set:1;
- 	unsigned int enabled:1;
- 	struct cs_dsp_alg_region alg_region;
+Backward compatibility with installed device trees:
+- Upstream device trees without the peripheral window in dma-ranges keep
+  working through the ranges fallback, which yields the same bus
+  addresses the clients used to provide. This includes the BCM2711
+  legacy controller with the new device trees, as its peripheral window
+  is not added to dma-ranges.
+- Downstream Raspberry Pi device trees already describe the peripheral
+  window in dma-ranges (for both the soc and scb buses), and their
+  40-bit controllers are handled through dma_map_resource().
+- The node of the downstream BCM2712 device tree describing channels 0-5
+  is rejected instead of being driven with the wrong programming model.
+- The current upstream device trees do not describe any 40-bit DMA
+  controller, so the new compatibles have no legacy to support. A
+  brcm,bcm2711-dma node without dma-ranges makes the probe fail instead
+  of programming wrong addresses.
+- Older kernels booted with the new device trees are not affected: the
+  extra dma-ranges entries do not change the DMA limits of the existing
+  devices and the new nodes use compatibles unknown to them.
+
+Not supported yet: No device tree consumer is converted to the 40-bit
+channels either.
+
+This patchset has been tested on Rpi3/4/5 with both downstream and
+upstream DTBs. The upstream DTBs have been customized to allow for several
+peripherals (SPI, I2S, HDMI audio, mem2mem) to be tested against dma40,
+an example of which can be found in patch 28.
+Future patches will convert said consumer nodes to use the new dma
+controller.
+
+This version has been prepared with the help of an AI coding assistant
+(Claude Opus 5.5).
+
+[1] https://lore.kernel.org/linux-arm-kernel/ee19a95d-fe1e-4f3f-bc81-bdef38475469@arm.com/
+[2] https://lore.kernel.org/all/CAPY8ntCcz7ysTq_78Rb8ohLLETTYZeoZ3DXdPFvDLAkPc9jPWw@mail.gmail.com/
+[3] https://lore.kernel.org/all/CAPY8ntByJYzSv0kTAc1kY0Dp=vwrzcA0oWiPpyg7x7_BQwGSnA@mail.gmail.com/
+
+Previous versions:
+v3: https://lore.kernel.org/all/20261123145728.29082-1-andrea.porta@suse.com/
+v2: https://lore.kernel.org/all/cover.1710226514.git.andrea.porta@suse.com/
+v1: https://lore.kernel.org/linux-arm-kernel/cover.1706948717.git.andrea.porta@suse.com/
+
+Andrea della Porta (25):
+  dmaengine: bcm2835: Fix coding style issues
+  dt-bindings: dma: brcm,bcm2835-dma: Document the flags of the DREQ
+    cell
+  dt-bindings: dma: brcm,bcm2835-dma: Allow the generic dma-channel-mask
+  dmaengine: bcm2835: Support common dma-channel-mask
+  dmaengine: bcm2835: move CB info generation into separate function
+  dmaengine: bcm2835: move CB final extra info generation into function
+  dmaengine: bcm2835: make address increment platform independent
+  dmaengine: bcm2835: drop info parameters
+  dmaengine: bcm2835: pass dma_chan to generic functions
+  dmaengine: bcm2835: introduce multi platform support
+  dmaengine: bcm2835: Use dma_map_resource() to translate slave
+    addresses
+  spi: bcm2835: Pass the CPU physical address of the FIFO to the DMA
+    engine
+  mmc: bcm2835: Pass the CPU physical address of SDDATA to the DMA
+    engine
+  ASoC: bcm2835-i2s: Pass the CPU physical address of the FIFO to the
+    DMA engine
+  drm/vc4: hdmi: Pass the CPU physical address of MAI_DATA to the DMA
+    engine
+  ARM: dts: broadcom: Describe the peripheral window in dma-ranges
+  dmaengine: bcm2835: Support channel subsets in a controller instance
+  dt-bindings: dma: brcm,bcm2835-dma: Add BCM2711 40-bit DMA
+  dmaengine: bcm2835: Add BCM2711 40-bit DMA support
+  ARM: dts: bcm2711: Add the 40-bit DMA controller
+  dt-bindings: dma: brcm,bcm2835-dma: Add BCM2712 40-bit DMA
+  dmaengine: bcm2835: Add BCM2712 40-bit DMA support
+  arm64: dts: broadcom: bcm2712: Add the 40-bit DMA controller
+  ARM: dts: broadcom: Set the DMA flags of the HDMI audio channel on
+    BCM283x
+  arm64: dts: broadcom: bcm2712: Enable HDMI audio
+
+Dom Cobley (1):
+  dmaengine: bcm2835: Support dma flags for multi-beat burst
+
+Phil Elwell (2):
+  dmaengine: bcm2835: Add support for per-channel flags
+  dmaengine: bcm2835: Add NO_WAIT_RESP, DMA_WIDE_SOURCE and
+    DMA_WIDE_DEST flag
+
+ .../bindings/dma/brcm,bcm2835-dma.yaml        |   89 +-
+ arch/arm/boot/dts/broadcom/bcm2711.dtsi       |   32 +
+ .../arm/boot/dts/broadcom/bcm2835-common.dtsi |    5 +-
+ arch/arm/boot/dts/broadcom/bcm2835.dtsi       |    3 +-
+ arch/arm/boot/dts/broadcom/bcm2836.dtsi       |    3 +-
+ arch/arm/boot/dts/broadcom/bcm2837.dtsi       |    3 +-
+ .../boot/dts/broadcom/bcm2712-d-rpi-5-b.dts   |   15 +
+ arch/arm64/boot/dts/broadcom/bcm2712.dtsi     |   31 +
+ drivers/dma/bcm2835-dma.c                     | 1217 ++++++++++++++---
+ drivers/gpu/drm/vc4/vc4_hdmi.c                |   16 +-
+ drivers/mmc/host/bcm2835.c                    |   20 +-
+ drivers/spi/spi-bcm2835.c                     |   27 +-
+ include/dt-bindings/dma/brcm,bcm2835-dma.h    |   27 +
+ sound/soc/bcm/bcm2835-i2s.c                   |   19 +-
+ 14 files changed, 1259 insertions(+), 248 deletions(-)
+ create mode 100644 include/dt-bindings/dma/brcm,bcm2835-dma.h
+
 -- 
-2.47.3
+2.51.0
 
