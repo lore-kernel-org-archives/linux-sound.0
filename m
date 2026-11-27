@@ -1,56 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795800124;
-	b=47ylmfJNpJyvfMYRpqxKnNzCnD02AYfa91d9cNj/Yhk9+z4LBPQFV6MkxhVVm2Q9pMK1
-	 0NWteNHYntcwfZY0GIVYFl8hnqv89JIF9fII5Zlg7Ns3RgyQ6GVvS5nNHoJYkR4jsF/jq
-	 Np3lx2GPtwm1XIx6mGPeUtFkh0F9CTJJ1Kx9klxWsE//EgXkFSvXRLeIPe3CeXNNY6LHH
-	 2ANEu4ZXaIJnqFTxpOkiEPwcHiCQFDH/Pex/I8/X+BH5mK4cSy0Eqo58NShQrdrik6rWO
-	 hijpeBLZ0vHceciCBf3Mg9xng81IczM55MZTh3SizXeEkFRO7X8e7+dcbdXJGzjoq3A==
+	t=1795800476;
+	b=5teUba/LiEuVYbcz+1661+mWbmm35Okyoifv66exZtqXH/w9eaSxHDOwh0Wr1euvUvfE
+	 Dl8300uTurlFC3gRjPISKEcKEX9l/qrCL17UqxJEg9soodIkXSTuIfZDeu4VckwFhSAv9
+	 jS3p/fVRvMrAI8n/D42KHktIM2jL4jTKPYJAtpFwATv+iikydqa1IDJvLPsmO59+rnbsk
+	 fkRRTHQYqTgeEJ30zv9X9jkVdibneek5S+dtM1YtI8GF7SzSlru7mHRdvjFWjRSVGXhBg
+	 ImZMoYiecPnwWLKlM4ArmAMC5zJiJ5424j10VnsrXO1yDQQUutfeSYcy48WacdWqYtg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795800124;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=V7hCu4Y4C7yOIs66CQoFdlm1Ar9QDEilAMSBdtmcGjY=;
-	b=fBnmuzEs9+eWTc7As0eLhgOb7xEWk+fmZdF8SP9bUCQt47j7Wdj6yWDxJO2R4BShlQW+
-	 ozo3gogKHX7FJTiODKpP1qtUKSyFwHhRAy5e6tXhRPvyQZT7O1JSiwU9FnHPcKW5VLbV2
-	 WgD9O/36CsoRl+/n1f0W3atdJAYsU3zpDBgnVSLcS5Om7HhUk/A0WBmycKYcqk9oV4CH5
-	 ZECneRVkMPsREJG3806oCctBPKKAyZLJyQQjJmRIDP74pq7nNTmaeZvZa9TELlva44h2J
-	 EIdf6GUKXCIQUyVe/1TMhcmI33adcHKqftdPiYaSo3zxLiV2ac74gSis1guRqkGqHCQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795800476;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
+	b=FQYI2nnL1ZzOppfKV6deFdIpbvCYSPzzO+1gX1vCnJVmkuPCHqb0Iu1RLn85O8Z3nF8s
+	 ju7B/TcCm2oZTybe1uwtLAEm5EUEEX+0OpnsPzxtIaw/n6NGIEtACp+H2m7L43UVP89rX
+	 4DzuZ4gOluLPa3GFw7s66uGYJtU6QLkjK4FhXCmln8yjlxIrOeL2LasanpM0Sn0VSaBCW
+	 n3RHJiUfIpDJBCoycsxK+fESLqBB4TehTSk/nkegkJARR7e6YDltQbEB7dKpXeDUXdxRn
+	 fL2FzwddAdwQGoyl51ASLWdgGONuHyEIYMRx+SoFfmsB9dUqi635NKYySVq+qJks5YQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DjZANxMj;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6664606A337
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:22:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D40606A31C
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:27:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 65D40606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DjZANxMj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3B7E1F0089F;
-	Fri, 27 Nov 2026 17:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795800123;
-	bh=V7hCu4Y4C7yOIs66CQoFdlm1Ar9QDEilAMSBdtmcGjY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DjZANxMjmW7f0rGg5IE7dJM/WEeV4FyNzGNufsgVAPdPkph/Yne9dfa2EAFPFNyVC
-	 BQCiP152b/cLhge4OUiZCYjLL257ecX+iUw/vf3ixVdCw2tOVejApGQwGcXWaXkiBK
-	 gXWvXFKNFrCK1/V3MJv3mY6/uAPIT4zp1cEDl7uvtX5gkh49HSmtEva4/ox3vIH/cl
-	 0Quu9DIvEsTkxNVE2kKvG7YEKd6MRp+VBxuesgbAHpPWfLShUixGTwLCP31zSao9bL
-	 Cn4D2SnbZDMwz1dM85llSiQsCcrN/sFIyajfDSbVM24XjnDuSul4bQlR60yaDdCJmo
-	 caePZ/w2Uqa4Q==
-Message-ID: <sashiko-outbox-237987@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/3] ASoC: wm8962: implement GPIO .get callback
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Laurentiu Mihalcea" <laurentiumihalcea111@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261127170039.663-2-laurentiumihalcea111@gmail.com>
-References: <20261127170039.663-1-laurentiumihalcea111@gmail.com>
- <20261127170039.663-2-laurentiumihalcea111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 17:22:03 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VSNp2O2b;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=cB5srzyR
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A01981F46E;
+	Fri, 27 Nov 2026 17:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795800474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
+	b=VSNp2O2bE/USYq8jeaVKPraz8LdhFqMxc449s5++DLCTLAhF7/3hCf3GKhG80gRo6RE/W8
+	TOikFC1s/gpdgbU1RHb/gfIHQSc4NfxkrfvJ6rqXRoYT7EMbk1HkB0NSNG5+Yb3nQcu/h0
+	0Rg9aZEfWKWxQ4+Uv/qbv4Z27bgHuFM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795800474;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
+	b=cB5srzyRXHwhVtgHI2zmh/6gsC4H8NxU2pkXZOfIQTeif3GCNCHRR6P9WUnkH3xtmUtGKD
+	HIeF6Fhu2nxPXkDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795800474; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
+	b=VSNp2O2bE/USYq8jeaVKPraz8LdhFqMxc449s5++DLCTLAhF7/3hCf3GKhG80gRo6RE/W8
+	TOikFC1s/gpdgbU1RHb/gfIHQSc4NfxkrfvJ6rqXRoYT7EMbk1HkB0NSNG5+Yb3nQcu/h0
+	0Rg9aZEfWKWxQ4+Uv/qbv4Z27bgHuFM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795800474;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VR0uH1F3b6mTGi6lgL5A4cX1F/jrWocQf8pwCPqd+uk=;
+	b=cB5srzyRXHwhVtgHI2zmh/6gsC4H8NxU2pkXZOfIQTeif3GCNCHRR6P9WUnkH3xtmUtGKD
+	HIeF6Fhu2nxPXkDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2BF3913432;
+	Fri, 27 Nov 2026 17:27:54 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id es8WAZq9CWuzDAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Nov 2026 17:27:54 +0000
+Date: Fri, 27 Nov 2026 18:27:53 +0100
+Message-ID: <87jylymbfq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Carmel Okun <Carmel@aperio.ai>
+Cc: "shenghao-ding@ti.com" <shenghao-ding@ti.com>,
+	"kevin-lu@ti.com"
+	<kevin-lu@ti.com>,
+	"baojun.xu@ti.com" <baojun.xu@ti.com>,
+	"sen@ti.com"
+	<sen@ti.com>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>
+Subject: Re: ALSA: hda/tas2781-spi: NULL pointer dereference in tas2781_hda_remove() on sysfs unbind
+In-Reply-To: <AS2PR02MB10038DB2CE8CAE659D35B9F1AC8792@AS2PR02MB10038.eurprd02.prod.outlook.com>
+References: <AS2PR02MB10038DB2CE8CAE659D35B9F1AC8792@AS2PR02MB10038.eurprd02.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,152 +115,73 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
+X-Spam-Score: -12.30
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [Medium] ASoC: wm8962: missing direction_input callback on
-  wm8962_template_chip
-- [Medium] ASoC: wm8962: wm8962_gpio_get() rejects valid output pins
-  GPIO2 and GPIO3
---
+On Thu, 19 Nov 2026 10:08:48 +0100,
+Carmel Okun wrote:
+> 
+> Hi,
+> 
+> Same machine as in my other report (HP EliteBook 8 G2i, 103c:8ed5,
+> TXNW2781 on SPI), kernel 7.2.6-200.fc44. While trying to re-initialize
+> the silent amps, I unbound them via sysfs:
+> 
+>   echo spi0-TXNW2781:00-tas2781-hda.0 > /sys/bus/spi/drivers/tas2781-hda/unbind
+>   echo spi0-TXNW2781:00-tas2781-hda.1 > /sys/bus/spi/drivers/tas2781-hda/unbind
+> 
+> Each unbind first logs a WARNING in component_del(), then oopses in
+> __pm_runtime_resume() with a NULL device:
+> 
+>   WARNING: drivers/base/component.c:839 at component_del+0x149/0x170, CPU#9: tee/374653
+>   Call Trace:
+>    tas2781_hda_remove+0x16/0x60 [snd_hda_scodec_tas2781]
+>    device_release_driver_internal+0x19e/0x200
+>    unbind_store+0xa4/0xb0
+>    kernfs_fop_write_iter+0x178/0x200
+>    vfs_write+0x281/0x560
+>    ksys_write+0x7b/0x110
+>    do_syscall_64+0xe2/0x570
+>   ---[ end trace 0000000000000000 ]---
+>   Oops: general protection fault, kernel NULL pointer dereference 0x1d1: 0000 [#1] SMP NOPTI
+>   RIP: 0010:__pm_runtime_resume+0x1a/0x90
+>   Call Trace:
+>    ? component_del+0x149/0x170
+>    tas2781_hda_remove+0x23/0x60 [snd_hda_scodec_tas2781]
+>    device_release_driver_internal+0x19e/0x200
+>    unbind_store+0xa4/0xb0
+> 
+> A later "echo ... > bind" then hung in D state, and only a reboot
+> cleared it. The same thing happened for both devices (oops #1 and #2).
+> The full log is attached (oops-unbind-7.2.6.txt). I have not
+> re-tested this on 7.3.4.
 
-commit b87e152ac0d0fb816585617c6713e1d54f3b94a7
-Author: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Could you verify with the latest sound.git tree (or the upcoming
+7.4-rc5) later?  It might have been addressed.
 
-ASoC: wm8962: implement GPIO .get callback
 
-This commit implements the .get callback for the WM8962 gpio_chip to support
-reading the logic level of GPIO5 and GPIO6.
+thanks,
 
-> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-> index 1832685aca40d..7122d93a742c5 100644
-> --- a/sound/soc/codecs/wm8962.c
-> +++ b/sound/soc/codecs/wm8962.c
-> @@ -3505,12 +3505,63 @@ static int wm8962_gpio_direction_out(struct gpio_=
-chip *chip,
->  	return 0;
->  }
-> =20
-> +/*
-> + * If your input pins have debouncing enabled, then make sure DBCLK is e=
-nabled
-> + * before using this function! Otherwise, the value returned by this fun=
-ction
-> + * may not be correct!
-> + *
-> + * TODO: can we work around this limitation by force enabling SYSCLK bef=
-ore
-> + * attempting to read the pin's state? Is SYSCLK's source clock guarante=
-ed
-> + * to be configured by the time this function is called?
-> + */
-> +static int wm8962_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	struct wm8962_priv *wm8962 =3D gpiochip_get_data(chip);
-> +	struct snd_soc_component *component =3D wm8962->component;
-> +	unsigned int val;
-> +	int ret;
-> +
-> +	/*
-> +	 * only GPIO5/GPIO6 can be used as inputs! Note the difference between =
-the GPIO
-> +	 * index and the register offset.
-> +	 */
-> +	if (offset !=3D 4 && offset !=3D 5) {
-> +		dev_err(component->dev, "Only GPIO5/GPIO6 can be used as inputs!\n");
-> +		return -EINVAL;
-> +	}
-
-[Severity: Medium]
-Should wm8962_gpio_get() also accept output pins GPIO2 (offset 1) and GPIO3
-(offset 2)?
-
-gpiolib calls .get() on requested output lines too, such as from
-gpiolib_dbg_show() when reading /sys/kernel/debug/gpio or when querying an
-output's state via gpiod_get_value_cansleep().  WM8962_GPIO_2 and
-WM8962_GPIO_3 are readable registers and expose WM8962_GP2_LVL and
-WM8962_GP3_LVL at bit 6 just like GPIO5 and GPIO6, so rejecting offsets 1
-and 2 here breaks output value readback and logs a dev_err() whenever
-/sys/kernel/debug/gpio is read while GPIO2 or GPIO3 is requested.
-
-> +
-> +	/*
-> +	 * we are forced to resume the device and bypass the regmap cache for t=
-he
-> +	 * read operation. This is because the GPIO level could change at any t=
-ime.
-> +	 * Remember that the GPIO registers are still marked as cacheable. This=
- is
-> +	 * because the configuration bits and the GPIO LVL bits share the same =
-registers.
-> +	 */
-> +	ret =3D pm_runtime_resume_and_get(component->dev);
-> +	if (ret < 0) {
-> +		dev_err(component->dev, "Failed to resume device: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret =3D regmap_read_bypassed(component->regmap, WM8962_GPIO_BASE + offs=
-et, &val);
-> +	if (ret < 0) {
-> +		dev_err(component->dev, "Failed to read GP%d_LVL: %d\n", offset + 1, r=
-et);
-> +		pm_runtime_put(component->dev);
-> +		return ret;
-> +	}
-> +
-> +	pm_runtime_put(component->dev);
-> +
-> +	/* mask is intentional! We (ab)use the fact that GPn_LVL fields share t=
-he same mask */
-> +	return (val & WM8962_GP5_LVL) >> WM8962_GP5_LVL_SHIFT;
-> +}
-> +
->  static const struct gpio_chip wm8962_template_chip =3D {
->  	.label			=3D "wm8962",
->  	.owner			=3D THIS_MODULE,
->  	.request		=3D wm8962_gpio_request,
->  	.direction_output	=3D wm8962_gpio_direction_out,
->  	.set			=3D wm8962_gpio_set,
-> +	.get			=3D wm8962_gpio_get,
->  	.can_sleep		=3D 1,
->  };
-
-[Severity: Medium]
-Does wm8962_template_chip also need a .direction_input (and .get_direction)
-callback to support GPIO5 and GPIO6 as inputs?
-
-When both .get_direction and .direction_input are NULL,
-gpiochip_add_data_with_key() marks every line with GPIOD_FLAG_IS_OUT at
-registration time, even though GPIO5 and GPIO6 default to inputs in hardwar=
-e,
-causing consumers that request them with GPIOD_ASIS or lock them as IRQs via
-gpiochip_lock_as_irq() to fail with -EIO.  In addition,
-gpiod_direction_input_nonotify() becomes a software-only flag clear when bo=
-th
-callbacks are absent:
-
-drivers/gpio/gpiolib.c:gpiod_direction_input_nonotify() {
-    ...
-	if (guard.gc->direction_input) {
-		ret =3D gpiochip_direction_input(guard.gc,
-					       gpiod_hwgpio(desc));
-	} else if (guard.gc->get_direction) {
-		dir =3D gpiochip_get_direction(guard.gc, gpiod_hwgpio(desc));
-    ...
-	}
-	if (ret =3D=3D 0) {
-		clear_bit(GPIOD_FLAG_IS_OUT, &desc->flags);
-		ret =3D gpio_set_bias(desc);
-	}
-}
-
-As a result, calling gpiod_direction_input() on GPIO5 or GPIO6 never sets
-WM8962_GP5_DIR or WM8962_GP6_DIR in hardware if the pin was previously driv=
-en
-as an output, and requesting output-only pins GPIO2 or GPIO3 with GPIOD_IN
-silently succeeds instead of returning -EINVAL.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127170039.663-=
-1-laurentiumihalcea111@gmail.com?part=3D1
+Takashi
