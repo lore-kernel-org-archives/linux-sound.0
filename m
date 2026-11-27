@@ -1,101 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.83
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795769671;
-	b=o7SdK08a1H16doqJ8uFzKtPWuqXWsgRwf8oFFLsHUQrk9Gwp59xHlRmZ3girNz6ZM0NH
-	 6MWb0OopVnYHnp/3KncoKPHy5T2vmO/GopDO0i3cuwprOUAXBslDO/43Zq7YZyb+sxxdv
-	 LiwWwp+ev7yeur9o4fHWXs8p5S8LKDPIDLrKiR6MsbasSIMOVjDBCSCB3H2PUT8eQW16+
-	 iRYnaSaj679R2YyjKqV2qC2Eh4iaShHiqfl0Ay1MPaj2IR2ko7ZoTwA4JWMnEV6kymFJL
-	 A+wt8i92fMtd1kQeevgJ1WCtTFZMagrFL23Cw1PjLGR2Ojq+8AY/bKxz8CNtmmZydaQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795769671;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-TrafficTypeDiagnostic:X-MS-PublicTrafficType:client-request-id:
-	 request-id:X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=T3qLaCwib+7pykyfh1QYb8xQLqsZY1jXwoFqmVtj3+g=;
-	b=RIcoujx64LtdFv2amuX/DJI6hyNflRJ1/PAu2NeGXMr7HBiLwuD8vdeG4xQ5sILqlC/7
-	 zKcrVt7M9BosR6xYhi1vBxVeP0T2/Tq1UwiSDZ34WV2uv4w9M9UEbkSPRSrprGrp3Mk4Y
-	 lNObSMCSO9Qy/pHVzlsGWP4kZBrY4WZC/ofT/574PT3A+Sk2ZMKqXIfYh8t7XzKiZBNOH
-	 1/4ni7i4Jh8uZ6N74ahTBaZJv8KdR6SE8VDWjTQ98NDlL5iFQRgzqkAOe8POjYKfFXJM4
-	 jlBQPclQ089t87wQsiFdCA9phrCRpBZ1zn/K6C4V0efB1y5fDuivXHN+yYtqlH1MkJA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amlogic.com;
-	spf=pass smtp.mailfrom=amlogic.com;
-	dkim=pass header.d=amlogic.com header.i=@amlogic.com header.a=rsa-sha256 header.s=selector1 header.b=xmJiQmx7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.44.83
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023083.outbound.protection.outlook.com [40.107.44.83])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.29.242.92
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795770249;
+	b=P+v54ALEHNGR5whK3tnzW5NXnA3zjuW5QtLSJ5nLmy/hgcSbRXwrhXtst4FJNbeZOvg/
+	 VyjoSSPSkeMhJ2nASAPH3G/cTS/4hNXW9SB0xcFEPDHicdfbBC5bMoe4TUbUQbSiAvSAO
+	 SN0gxafSGu/jPQT7xqEUMgWgo40VRdIKAvKbWrigsk5csIO8Sp/ySy+cJysmiH0f5M68n
+	 znJYDOo2HroRBXyiVbxSRwqhQfCxco9216lv39/6ga5zvGhfNcHXsmwV0k9HcZTBzt1LJ
+	 mVldkZjEBOXBZsTNbB3LeLSBHgDIqIsvpyKqlAP4lQBiHiC6mBeoqyxgDw7eUa7mwog==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795770249;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
+	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=CKQYmYdLzPGW4NIZtjZ0yL03aQP6pahDoX1PWP7h3UQ=;
+	b=ngKnnfYL51U1b1zK2y36lmtvpQ6sKKx5IrDAdMSWSQEe5aCzIH651fW0m/ci4f/s6i3a
+	 lvrAy2LYiPn0S/fK33wOPJdOIoIuywlnxBagXTtieRib7WFg3JkhG0h4qQAVuBBwmRfbk
+	 Net98tY2fEhkrjRI7pgZ3qMcwWxPpXV4W7fa/qclrA7BJ31dtyBjfV/rnyvlZnITQHZn8
+	 NTvbpYInU/jsERrpE47QiWGEoXxiuIxzyAHOqRVAZqCFOjELgso3y2rUDKkOoCdKHWadZ
+	 a3hUjFARY2vVSdVqHP0GIsAX3dBrCEIdFoDwXHLbTqs1iVKxjxjak/Yh/D/10eCdpLg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=davidgow.net;
+	spf=pass smtp.mailfrom=davidgow.net;
+	dkim=pass header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=gIF9Q5+e;
+	dkim=pass header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=rniDJ3Tg;
+	arc=none smtp.remote-ip=203.29.242.92
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BF2606A31C;
-	Fri, 27 Nov 2026 08:54:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58BF2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlogic.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17D4606A338;
+	Fri, 27 Nov 2026 09:04:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B17D4606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amlogic.com header.i=@amlogic.com header.a=rsa-sha256 header.s=selector1 header.b=xmJiQmx7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lw8v1hhO0EJevFYcjVoAh6FgOV9hEq7JIKh+JrSz0lNn6PYD2gnWZ3fKTcIOFK6utIZpTFXUpQvLUxgzz8jyGCR0KN7790YwXlLBkXVrGc+fXlexXMPsK7zI8NABKn2usIAGT2mQ1nYkZiT+BjyAq6m1DXhqVVDVSwSnlbu6ARbepSzEgU2AsqVyKRyR5eXYyVVv17M3/Upj9dqnFY0GCI3Vh55bjLJPibcjzBV9f+PsdH7FofSnmd512HLfMug8VEtu9PtWK5hrjfQMjc3JSiw5uJ7YxCabjlW2P+7NIZEHvmvfeRFDpfoj73oxx1bAhK19jaGDWpbGBhSeX2ZcqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T3qLaCwib+7pykyfh1QYb8xQLqsZY1jXwoFqmVtj3+g=;
- b=TjyEvWRNK5pwAHSh/yRFZhzUq7ZhHm8YeGnKoCRd/YF3T5VFKqAzsTu1N6ZYUam1TYzEP1OFUdIsNc+GTJ8yby7RoPb4fxmeGes7ihmyWhC4kXP/mHyDFOODlkDk22+2XppumzKJq+9fto61FWnNxOqdsB837FXZOz+WUSh1bhOENajgd07AkqYAWQj6WYcCkAV0DqkJFOfOQWqPDDzSztskGjSJMZLUGl6g47vG/8zcflRgM69fWgzkLXtjUa0T0F+/RUfcqvj/12KmxlWaacoIsr8yvVpZMIYMZajkHFw8W/L1tWB6dSlhytXvf1w8b389gEAZErIqD83Xuh7oGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3qLaCwib+7pykyfh1QYb8xQLqsZY1jXwoFqmVtj3+g=;
- b=xmJiQmx7qbz9R/4czrtP7exfgiRKAe/aQtaDTzGZ31wpkOutC0wTlL4/UWIHmO26Cya5dSCffNlQ7m2PhJ/HHYzFx522tt0Htt43K0l7c9wchr42UKf+DkUdCzFFyN9VkY+snLBesblb6Ao45R0w4VPy7Sl7hogIZI70g1kb6qqy6YnWE8hUEqO/9MVHeBERGEDW3lM3fqHgzfH2IrxODqWgCrZ+u5FI3NROnpHV1LtbQuMe3J8lhhtbQcoOhPSw6RgR6Hfhp8EDHJ9s3t7KwN8M2NUq+13QWFWXY8E1L3uvMR07RP8eSeH9aKduDWUqmRmMn5yLBOWTer/5DQ1q0Q==
-Received: from TYNPR03MB10226.apcprd03.prod.outlook.com
- (2603:1096:405:3c1::21) by JH0PR03MB8290.apcprd03.prod.outlook.com with HTTP
- via P2P; Fri, 27 Nov 2026 08:54:26 +0000
-Received: from TYNPR03MB10226.apcprd03.prod.outlook.com
- ([fe80::ff5:e524:cf10:5d7]) by TYNPR03MB10226.apcprd03.prod.outlook.com
- ([fe80::ff5:e524:cf10:5d7%6]) with mapi id 15.21.0662.004; Fri, 27 Nov 2026
- 08:54:25 +0000
-Message-ID: <71eb9aa8-b630-439a-a9bd-227e3334b7d5@amlogic.com>
-Date: Fri, 27 Nov 2026 16:54:19 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 5/5] arm64: dts: amlogic: Add Amlogic S4 Audio
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-clk@vger.kernel.org,
- jian.xu@amlogic.com, shuai.li@amlogic.com, zhe.wang@amlogic.com
-References: <20261110-audio_drvier-v8-0-1489241e4c83@amlogic.com>
- <20261110-audio_drvier-v8-5-1489241e4c83@amlogic.com>
- <179536111581.2728475.9919460533427781841.b4-review@b4>
- <832c4090-d6d7-4c3b-85e7-ed7dfb8c85c4@amlogic.com>
- <1j5wxi3bor.fsf@starbuckisacylon.baylibre.com>
-From: Jiebing Chen <jiebing.chen@amlogic.com>
-In-Reply-To: <1j5wxi3bor.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TP0P295CA0042.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::10) To TYNPR03MB10226.apcprd03.prod.outlook.com
- (2603:1096:405:3c1::21)
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=gIF9Q5+e;
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=rniDJ3Tg
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1795770243;
+	bh=qe+fYdFmjTXOSHvIUmF7GbFC2uXBH5esHQ+bDkFMz+8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=gIF9Q5+eUt4nXeKucKBmuJqL20/NOP8FeccpVQmdAjw434fX/3R4tvhb6BAIkbxsi
+	 /MOwGGlSmO4JSUpT4AFjmx7nXnkjCIQc7mQZBRR5M9tOONMUdvPkYjjBWQMZpTDGq1
+	 php2KSc9aQcvvowb2AenuaQl4E9wq3CL4Nr3SoCg/3fk1JZ0jajprk+UCvWsJzknAS
+	 JQIwQ9/070oUTcfwxnHHfa9CvNronRQ3un7oX9hsuza71SrdHmBUCqr+TGctiqiPAw
+	 2ZZihYkxnph3izTFJdaRKSFpgERMOsFeLyGukFJWsOsY5MjMtzipG/ZgG7RwOwiTVf
+	 drAZvKjdOvmd+iCUztFCiP2Q9LU6jju7Fcc6GZxwOqq2OzguEAv5LLh+Quzr9OxyPv
+	 9ZrmSOZ60tkBGnrAbnC3+WXBTT5eBf2w/bNQbCXIkiJHIixtoHjSXNVP4xS0BFphBv
+	 4FLhHdegwFnqee9yxTn0OKxGyH7YKvqlJUi6kh+SVSv1n8xmF1LCV3Talvg6wcY5t6
+	 qkkfJQal28V6/Z5JYJiA4fnU430NkPpI187QXQuT0CRy6JOb3OwpOpAVgLJDcC5Rel
+	 id1+6TS371tevyuWVpJcZ7SufRESLiahyT6hqLU3dYDwJLHQqWAo637dwCxRkaFv5C
+	 LKcTV0g/ZojcCjYds+Mw6mw0=
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id 78506200200; Fri, 27 Nov 2026 17:04:03 +0800 (AWST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1795770238;
+	bh=qe+fYdFmjTXOSHvIUmF7GbFC2uXBH5esHQ+bDkFMz+8=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=rniDJ3TgcHPqvDJl5CDWlunExUwbUZvdVBE87q7P4hgdkJMpKcShK4SOG1HbdH7LH
+	 geyZe9ks8z9oUIl8cMtfJODuC2ZimT9hfyqYWULP5jFgXZosMybRLVe0y9nkiGMZfg
+	 0PMNqVd6BBnzPjc6hDjULBDyenOlHulxOKsDRK10h0w0Bd9FpE7NNulqhjBSUIT7xX
+	 Yi4xD2PsLReeLF15Oq29TlsF+iNebaWKB93iiyto2gG/FvOzdK3OZFCG+C0LR8vMsi
+	 fULPDgd/e/eff68uyCViiv9h9kIxDzip9NyGzqIrbAnZBBzrYfJzYDsVlPuj3DkQCZ
+	 wObMPwEkPv00TUShaXr8qxc3sECn9ovkHDktGF0hcT3+iq40OBaVsF4KoSeb3u1RS2
+	 GZCwbz6P9HfJsLpZd6Pa9YVQvbQ6oP+5KVZUOxMMaFq0KBPl19Dx1pqWQAcIEqULZo
+	 8r5BELlqbNJQRMffwG9N08G7SwEBp7/gi/R1pTAIEyg4BGlqFjjm5nx+MAMOokqwsT
+	 4OPIUmpZy6a8zbjLDIYEQDDvXzMbaVeZtsJutZ51eYtgTiQrOFNsV7DoqxkKVRA2bU
+	 nLPxJuU2/H7EfDta5KzZR5ebZQVQKn5QCnZW54kDK8G5rSXCVQiwthTOIVJeNd0Yij
+	 v2QRmgr6cr7Kk/bwUffS+BCE=
+Received: from shelley.lan (unknown [IPv6:2001:8003:8802:7000::41b])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 2DDA82001E1;
+	Fri, 27 Nov 2026 17:03:58 +0800 (AWST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,95 +82,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: TYNPR03MB10226:EE_|JH0PR03MB8290:EE_
-X-MS-PublicTrafficType: Email
-client-request-id: 2bb94401-40fd-4f8f-b785-72d4358515bb
-request-id: 8842210a-71c0-459c-9f6f-08df4c6409d0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|10067099003|56012099006|261026121527099003|261026140227099003|261028144727099003|261022113327099003|261022105027099003|261021121427099003|261102123227099003|5023799004|18002099003|22082099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	1+cK5bkFedkhzg5mFHRAaZV57xRK5jkk0wdT14W4s9M40ztJtCZYM9ozSqQUoOYIVKMZjTa5uzekb5tieL0opcTbmIjGsaHnOz5zgrSB0vVMNJTIVqkrH8nJnF6kYD5FKEH5Hn+B5sae+eTteyOH5DMq8Tt6IL7YikRzvqkstzsg1QZWWAUMGqPQ2DpazIe7q8SBWTTPitYyESEbIO/VlHOKkF6/RSzHfkFbnexMxSUvek86W59mVo75Kd6B9TISYTCTdfxfJwoAE43DnZTmSDY84l3pPjrcpgnJvdAM6eO2QBjbm/aNeyzL7u4vgYFxZq/DbVZjDJ1yZOxxSopXdPnlhAhrEJYoP1A+C0rgw+0aHqwrvXU4tlTnDt+CO+H/spMk09uwmiqO3mjhSCS2Kw4pAhTkgGcbkvvwQe/u1fbWuGxaT088jeilrDU0bF0MYbjqBSO3rI7totwnCh3PjslmOwS/ps0jej2kicxXb4QQFWf1mt2Py2hWZDckQwCXxYC/EOgf9tc9aUFsYTuYqvOM06mewXpK8R7v28B32USSlyiOzGUyZC08Urx+1yAUn6EMLfgHsVsSItmtzipg6fjc1L7b48FJfU0C5XCKmYXK7J6lLXU9k+547yc2p0BiQ71/fClhtExisLPOOuR/lBX5PzRgb+tfJwuyxzo/P+4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10067099003)(56012099006)(261026121527099003)(261026140227099003)(261028144727099003)(261022113327099003)(261022105027099003)(261021121427099003)(261102123227099003)(5023799004)(18002099003)(22082099003)(11063799006)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WjVWeFpnRXNPVzhJZWRhSzhMRzlRam12dmlsVVdQZk1jK21xbllWTXNWS2Zl?=
- =?utf-8?B?VDlFS2xZTXk5VmxlVGlDNXd5dE8rUDJrdHBuUlZQeCsrL2NMMWFoUWF5MXdW?=
- =?utf-8?B?Yk5nU3lJWWVyQWZzbjF6b09tZDhmcStxSWhrOVNVM1BUbUI0bkk0MzhsaTlS?=
- =?utf-8?B?ZDQzS3ZwVnl3L2F0N2crVktaOVprR1pHL1cvT2tnSkVmRUc3eTFZRnAvWVo4?=
- =?utf-8?B?NnIyT0JaMFlLVUx3TWp0cjBxK0VDOVAvTEg4c2NIK0dsbmk4MEp2clc1VEMv?=
- =?utf-8?B?ek8rRHYwWW1SUkdrMlMvcFA1aTlBa0praDFDem43WUFUZWYwVnNpL2dlS1BW?=
- =?utf-8?B?N2pGTzVqN1k3YlhZSjJ3MVhOWVJpdUJsS1B1SDJnbWJSd1J6QWdtamtjVE9N?=
- =?utf-8?B?WFgrdThnMEtmQlJlTHJ0ZElMMmdQTExLMlNSNzB1Ukp6UWROQzk1TmFJc1hV?=
- =?utf-8?B?V0NQNTJxcy8wNmFieG0wdXk3ODYrRkRSV0RHV2Y5bDhQaXhLU3RHYUozc0dM?=
- =?utf-8?B?eGhKRm93QmtjVlNwSEx5ajl4Q0J1aG9nK3A5eWp5ZXROdmQwckxRa05KNDNs?=
- =?utf-8?B?OXRibmN5WCtnTkMwMDRyMEQ4eUc4cmdXTkRPSStybVNFRGJMRy9aaXZBVDJI?=
- =?utf-8?B?UGpGSytiWkd2Y2tzR25yb3BNaXVSVmQzY1EzN3NCaVBuSjVRendqbU9YWFdO?=
- =?utf-8?B?bVJHWHVEcERKN2x3aTFMUGdqQ2hqSDJHSXBwL0xyVnc5TVh3RDBoNThnczIy?=
- =?utf-8?B?c3NURUdYVWtEc0RZdE1xZGR5VVUzaS9XczdicFZjN0JWdTlCaWtWV2Y4cGVn?=
- =?utf-8?B?SWNjL2lxditUVkJtOUhiOFpqb0ZtdVBDczhmeWltUWRZMWYxMVRHeWc0T3Zp?=
- =?utf-8?B?NVVidFhVL01sbXhnNktKNklCck5adnA2bjRLNHNRNW94YWlTdU44cWk3UmIw?=
- =?utf-8?B?UjMvOEY5SERBMWpQaFpyRGVsZkVOYTc0clAzZ29RTE9RTFBtaDNCNS9uZGl4?=
- =?utf-8?B?Zy9wa0ZVQlVvQll4dkxCVC9nRXYzemE2VXNRZ0RYQmxLNmlWaDBsN2FLcDNz?=
- =?utf-8?B?bTV5Vys1bjFQVmEyK3FWOUkzYUJ0SktpU0pUdlBIYXB6OStYU0ZBNjlkNU5S?=
- =?utf-8?B?N1BvSjI5cGZGNStUSmVZdk44WFdQV1VGb09CQXFqalFTNzJRRDN3cDhwVUVV?=
- =?utf-8?B?TjFMRXdKMlFWVTlpaUtNNnlNWWh5eURSNFBEbFBuVFFia2QrUjROc1pYMzBN?=
- =?utf-8?B?a3AyTjE2bHZ5K0Q3Z1Y3NGx5YTBGMGNIdGpTUEZ3cytGSVlBMjhyek1MQ21U?=
- =?utf-8?B?bWxjOFJGZWwxc2tKc3ZZcnlyTGFBOWFkYXc4UUtiWjBsdURUdG5DY2hCdGZu?=
- =?utf-8?B?dXZXMlpnY0lNRlk5NmhrTDJQc05DaFJOakFEQzl0UU1wVDFDU0RzM2tXaDRV?=
- =?utf-8?B?M3pIZUxqcjJ0QVNSQ2Z6MWhiMzMxNXN5eTBLdTBORXlRN20rU3JWM1VqZFEz?=
- =?utf-8?B?M3BrKzZrMjJ0M2QrS0xlZEdDUEhNbkpiUnJPMXd6bjZtdlRkZ0E3YVhiTG45?=
- =?utf-8?B?bmsveHF2d29zTFljSVZ2TFBBdjJFOVJNVnBUdTdLYUFiK0tqcE52SUJQTXhy?=
- =?utf-8?B?WHEwOS8raGJHYm5nY3JEbXpxMjJuM0tOV29NUG5CRDJMM3h6aDl6MDF6d1pq?=
- =?utf-8?B?QUNsMGFtVzYva1VjSExIckhTdnRXL2NIYzRvSXpIWjNmYWVyRFlSdVFiRjht?=
- =?utf-8?B?MXAwTVZWOU1GVTV4RlJLWS9yTno2dTF3TW02R3owdlMzc2g2VVJDZERtWExr?=
- =?utf-8?B?dVRnc1Y2TmgyUTdyUkNJQ0pmRWhkSjh6Q3RvdytKeENaZTJoNmY0U1pCWEpT?=
- =?utf-8?B?Yi9zR0FuUVkwb29saS96dGFSd0ZVQVVONVd5Y213WUcvT3EyNExacWFCaW9C?=
- =?utf-8?B?OXQvdEdiNlI2cTFxa0RLY1hwTEpjQ01tSHY5bUlxVlgzNVJrWEhzRkgzOHNz?=
- =?utf-8?B?YjhaNWVzVzAxTUF1eWEwYUNtSnNyancrM2dQZndFcjNDc2UvbThWbW4yQ3Z1?=
- =?utf-8?B?Tk82NzlsVC8yU0xDbUxzN0t2UXdNbDNSVWNBRVAwT0tTbjlPMFlQTG1mYXFw?=
- =?utf-8?B?b2djbHJsc1M3MUZ5ai84Vk5NT0RjSng4cEtISGJXbXBQbVVTb0Z5VG85MlRj?=
- =?utf-8?B?TUhMblRKd1cyeGJMdHRJKzcyKzRJbzFXSUFBbndMQlBvRXZkWmV0N1QwbUlJ?=
- =?utf-8?B?ZGs3SnFzMDlVbzVySk1VdCszSDhUTk9tWUplczJXbysyU0t4aVZpNEpkZ2FJ?=
- =?utf-8?B?S284RVpXYkRSYlZXQUJ4Z1Vta3hrNGVTRVMrc2pkQU5hZHhCdFBJWklUa21B?=
- =?utf-8?Q?2KetpbFpa0gzYrxA=3D?=
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8842210a-71c0-459c-9f6f-08df4c6409d0
-X-MS-Exchange-CrossTenant-AuthSource: TYNPR03MB10226.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 08:54:25.6172
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6Xn0D7TmvxT9BNUl1k6iD6rmtdC7nmai3Nv8GS1kfEr9R1jzVl64LJFEOeKWcMbpn3rZeYOC+ct9NtgIhGGj+QUWeJRSX/A+SnHnsgwt2Eg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB8290
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 1/9] firmware: cs_dsp: Run the wmfw payload error
+ tests with invalid block types
+From: David Gow <david@davidgow.net>
+To: Mark Brown <broonie@kernel.org>
+Cc: Simon Trimmer <simont@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, 
+ Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+ Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20261105-kunit-param-names-v2-1-765b3d5275d2@kernel.org>
+References: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
+ <20261105-kunit-param-names-v2-1-765b3d5275d2@kernel.org>
+Date: Fri, 27 Nov 2026 17:03:34 +0800
+Message-Id: <179577021427.2515039.1567105103102888614.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=647; i=david@davidgow.net;
+ h=from:subject:message-id; bh=qe+fYdFmjTXOSHvIUmF7GbFC2uXBH5esHQ+bDkFMz+8=;
+ b=owEBiQJ2/ZANAwAIAcYipzoZDNtCAcsmYgBrCUdyk0WUhfaSsyZX7oxg9FXGhepFL4v8J7N4/
+ DfQ10bYoFeJAk8EAAEIADkWIQSmmTCaqhqZOsxDGC7GIqc6GQzbQgUCawlHchsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQxiKnOhkM20LeHw//YHgYZk2awJKU8g5rSMycrvizLB3Gpzk
+ k4E1+XTiF402HPEL7skLkmDaSqLugGZ1LqsVb45+ZwRcOaOtoEmomPGpAgHSYgO8u31Z1mmWWo0
+ n/MYmlNnA9CiFXjTpN361D2PsCkH0Wpa904Hx5NVCnPhHD0aTNc9kx/F8Zb1v0249wK8WAb8K2R
+ UxAu6CI/+xSqc34bHRYPRk22JSKKMivh9D87NmmE4UWu9KRw3/aoRzeNmCRL46JtxwmPVzUtmol
+ 5erDZTyAM2ZVL2AjAc8DeUn38sqopiSLqmxc3gOYFTUUWUvkID79EYJ1OiVcD++Rpfc7xuXzb/f
+ QqN6KhwTtvvNjGeIqSZeZbfDJ4LFSiSkwKdp1yJHZ1iaPXJrZJ7bwt1xCvwQtk1AmakoLQE2w8n
+ Qjc0sn1Wh4RYErPn16RP8MaZtHDGS5GoReJf+BUqJmgNVAQeGeQyYz16UTKlniDn7iiY7LI8HPv
+ +uFS/gp4j+pCQVCQzOnz1VwCMJSX9MTl/FK33C/7bHK9YAD8POX0G4Gq+2TO9PVqQnbA2/QFpcg
+ OTS5/rokVNeBX1uwQFcf2k2//nRKl4r7BHox0i1cZSUxjz2cyPr6EpIGeYMhIFjSMwaoCZN+tbU
+ WmYPu91GeXGyxHvR13k7iznTVFKTofV2CBDR+ERZ0LINUjpYXhdE=
+X-Developer-Key: i=david@davidgow.net; a=openpgp;
+ fpr=3B0A53B1D9DF6AAC59C230322A821C5AD66AB03F
 
+On Thu, 05 Nov 2026 16:00:28 +0000, Mark Brown <broonie@kernel.org> wrote:
+> Each of the wmfw error suites lists the truncated block header, truncated
+> block payload and garbage payload length tests twice, once with valid
+> block types and once with invalid block types. For the payload and
+> garbage length tests the second entry names wmfw_too_short_for_block_header
+> rather than the test on the preceding line, so the block header test is
+> run four times with invalid block types while the other two are only ever
+> run with valid ones.
+> 
+> [...]
 
-在 2026/11/27 16:45, Jerome Brunet 写道:
-> [ EXTERNAL EMAIL ]
->
-> On lun. 23 nov. 2026 at 10:48, Jiebing Chen <jiebing.chen@amlogic.com> wrote:
->
->>>> +
->>>> +&spdifin {
->>>> +     status = "okay";
->>> ... as sashiko pointed out, you are indeed missing a pinctrl for it.
->>>
->>> With sashiko remarks handled
->> AP222 does not have an SPDIF IN port. I will remove it and update the
->> interrupt number for SPDIF IN.
-> If you need an immutable branch for the clock changes, I need you to
-> submit them in a dedicated series. Let me know
-I will submit the clk-related changes as a standalone patch series based 
-on the new baseline. thanks
->
->>> Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
->>>
->>> --
->>> Jerome
->>>
-> --
-> Jerome
+Acked-by: David Gow <david@davidgow.net>
+
+-- 
+David Gow <david@davidgow.net>
