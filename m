@@ -1,117 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795781948;
-	b=KKllkQecGJ6hs60R8uLU78Xu2RHh4Sv9NSekggeWjorp1QUDg9LUD4NiFzopF5mHWPOW
-	 mZhbi7f/Vpqd312B+IbOBcTqe62l1H9/Plqtjdz6rQzGd34M0qtVA9uok0jkg4HrPqItB
-	 SyDIEIcFA2gXx+NQ+CsIRhCBAc/8pGlrA7PNCLINu7IP7dczsU0bCuPkcIWiQcXqb9PGa
-	 3f7Db0qSxtRLCCY7Rxlwif7RKkifMCLelkqO+XRkX1UQW4u98YJOc9EhPoV9DO5ivII4C
-	 SXYUb5l0XSF81y4800PX2Ezst8a++iHHlLe4YQnTFmfkLYBYAx6U9IeLC+eGSyn0qYw==
+	t=1795782459;
+	b=mZW+lttjt+ZOasBRGJajJ0ViWoNSe9qFgsFJW/WSGOoMk3Yz3HaiXbNi8jide2sLlZ6A
+	 FmTQnSqsKhWLVDDd+d5X4xjSQQmrczGscHmO7V9gHk6TsLiUml2+F/EDp6AugWTM0BlH4
+	 MvLG7mVVMTuiUrhmshX86c/6s/5GDggguwoKwdIAUFCuM+L8E9yJeaokCzl8wk0fi8QXw
+	 qdbfbxL2GATHHsMhXYF6+hBOSpRq1MbMF7+X2/kFbF3Q97UxE6dMenDj+O0aMJACtMngx
+	 RbwKvD1IPtQHAKT/lpJbPF1AAfAuHEhB9w5hm4FuX5fwXyRt7hB0ao3UhWWW1CkQh9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795781948;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=R4tDEGiURQM1Arylz9v3qFzT8K+oOXwhYEhcFQrcNqk=;
-	b=lwvJb2SUE9gUh4F5cQrkCwi6ALE6//eImPF40AQJbSf4nU/jpwporw46ubf4UNDrW3lK
-	 fvMYzx2IseAus3ThsQDGc6E5eLn6w8eXdDSeSNwuVvf0YgwW0ThmKsggcPRqwOST6jw7i
-	 D2thQ2k1PYjkc3kMIFhLgo75Ne7Vf3ic4Cp+3rdGy568GHX62EtcUc91KfrqysVvUg9ZS
-	 YSBDH06bxLfP4ckgw1R+18ujnDrBouoE1RAwWJOCTv5SrH3huwCkeLCEMaIJcCl3AUx7n
-	 Dbm9bsI+h6FXLI6f5dA4NLyUzfzhKguXq36og5sZdIaP0BZI6yGjPa4QY7VHLzWJBPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795782459;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=11n06xHUhUpNy9Ekpged7IOoqkR+QpoFDE5ZoaESnLY=;
+	b=qYcD/9QfgTDk7S52CgyBePdWksfhR37kmJtd5icJaZXy+/IhcpVpZsL0luFkAKquC+Gf
+	 DEQcJCx+BZBKX3JnXynH0+K8AoFM2lbmcrbiJAqm9dlti4BZYaxSPM8h50u/t06CHReas
+	 ArrzbkNx290E6QO8/+HljVOzii9CsC/XVItK3upJyR9wdjJPsOV6NK9QdDWKF1WWnD7+d
+	 cY3hw24lk3Ol5nQJ4usBMtUD+z2BY3hTjYsBUt0l8DU5/Iqy0NwXDu/DR6Pztxat1ZGoK
+	 vZDxqdyfSH1dtQa+ZnoFltSN8yzTZFqOlZ3GonND0LGtE7yN1Sb6yY/KNXPJSsqrH5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=cK7VwD4l;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FjKDdGF7;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=brLOI2dl;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4763660A5BE1
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 12:19:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4763660A5BE1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B586606A31E
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 12:27:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B586606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=cK7VwD4l
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so5447123f8f.3
-        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 04:19:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FjKDdGF7;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=brLOI2dl
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARApJJQ273462
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 12:27:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	11n06xHUhUpNy9Ekpged7IOoqkR+QpoFDE5ZoaESnLY=; b=FjKDdGF7X+XkRq9/
+	MXyrQkko/PPi4y8oYop6EuxujwZUSXM6+dGJa/2bPE+BBUlPn9xFIImt4pYelgrP
+	UDqemhTPiX/2tiOnRI9gMsYib3VWGheswEuCpHEN1RSJ1T4LnCOPfAG9p9cSdoGh
+	TgL597+3q0WmLfIt4N8C4Rby7zInxKJqxfROs9Smsmx272Yod/JtvvVgsFrZIpSC
+	SX5RwWNxLIop4hbUW2kL1T7DHts1GZvtpyByMs1Mpb+Dv/FtpbH5Xw3dDFoWy+Xc
+	DJ78loK5RgPiPvobQMvh0mKhT1wwKHSmh+FfNSP/T3ZtAIexCaOg2z/lfpJRKB/J
+	rtdUTA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j6u49aycu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 12:27:38 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93edac5877bso109346285a.1
+        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 04:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1795781946; x=1796386746; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=R4tDEGiURQM1Arylz9v3qFzT8K+oOXwhYEhcFQrcNqk=;
-        b=cK7VwD4lhiEURNmrx0uRZYLZwsRUZX9XwpeDLu685DQ/eBv0y4nmUjDgVBok9vrqJ2
-         MRZlocRElF4uFOlhpGZfJJxce2M5zbNRfdcwhh7wZDUq553Swtkac8kwNq30pCLl9ecT
-         8JGfgoPQZIWpohDlOHOT0Ph7vonifkWou1dg0DiBOO/rohzEnjuy7ynFTXsTELHq2ezB
-         J6aG05JPBIVhfXAfcwnBDaT0luBHM5Q0MsN4qZXR3rsnaRq0ycmZqy3mpcd9QuGyH/vC
-         AHcgkQ5LHT1bQadT69LdoRYEYXonfOJHMLzfwwjB+UgW4INoXSxIx4IGucob/t6iJibi
-         yO8Q==
+        d=oss.qualcomm.com; s=google; t=1795782458; x=1796387258; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=11n06xHUhUpNy9Ekpged7IOoqkR+QpoFDE5ZoaESnLY=;
+        b=brLOI2dlMBcvSa0oj4XrWcI49biEwBn/hxERcZUpXyz3eGr5mkBwTXAnG1XzG/gMCh
+         9oJl+AM+vkwVdtglbC7efEaZwdLdh5C2C2Sf1LcFxFtd82WCiGKvWeTxJl461bH7Ayzd
+         7Y3J0kU4c7GA89yE8DLPYc3RPOTQwy3PeMtoiIphfVF56F6KVPQPCydS0wkn47030BpM
+         9mP39vjxQkz2HxnBIMtgnkfg0BHEk/AKH2SX8zmUSoE9iHOAK9W1j6sJccT5h2bLofzH
+         5dGrZ2OAKmoHVmUSgZjmJNa9jNdCbAulFAYmZIwmjT/Ndv3c5ixyuWCqubcrUSYYZb6f
+         EHbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795781946; x=1796386746;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=R4tDEGiURQM1Arylz9v3qFzT8K+oOXwhYEhcFQrcNqk=;
-        b=pX1XvXSTFBeU7wpxrw9AvEcPxaTdfyrb6qtp7e8sthwNl9Y/IErXuF0r88un9thE8P
-         qORgUh9nTYQenqxHGu+pW0RnvZyZ450VsoVx0RnF5mXgWiTN3M5kRy1s527i4WkiofFt
-         qHH+ULHAay3BKD6A6Pj4LIf6XWRs7gM0q8+wUopLH90fuZU8wRaUUMNCLQ5ckInhPLZ/
-         cFBgoxQewTX2gh1RjuXY5gKYdAqqg3ooSJGsu7pDyncvFHLqEJ8pQuCJA/Brv4atza0e
-         m8uydP13RnAbvbqzcWb4AS/cNc2K9E7agfYkuXgFQJcCVL5eP86qMSiUzghlMxeFIHgu
-         iLxg==
-X-Forwarded-Encrypted: i=1; AL+hErFOpVo1+gxhqfN7AL9HhGREM35tEDWYaqrh3YK75xLb1ed6T2+lI/xFDHOjRWafp6XX+wTZ9TIZsjK3Qw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+SEi5d7GqOlJgRqAa78xNUh5hg4nRXG0r6dsIFh8N0CeI8hi0E
-	iPdZIn2JXuONQFZqpT35XF1k2YUpreQipdAVrtBkXkHB9Wes7EEUUutzQPBl8x8Qwr0=
-X-Gm-Gg: AZFdTZcU/utb4p/ki/ZeBrrXGAiI/woKQI0jdE5b2aHLZ0o8Gy87owPFgqpEuGIaU8z
-	dxzwNlk1OuKMN8Szc0xcjd6r+wUDk1c5AFXhsykEavtDl+z7zPgT4Ks1xioPpQyGvWTfDzZSBQ4
-	aAqwAPXbucZa0gtRl/WQc473vnvLVB+sTxg7M+0ce0I3P5p/+OT+caQsMMJPHKWr1TaLEFL2ruo
-	PCBuQ0lM68bVuM74yo+eM2iFdRBD4COzbL49/Ymr8MSNAfgtUR8B1LY4wbj2wyNFrxrGtwbgzeY
-	Y9/T9iqXAFVpVpr7ZRs08FCUkcKRbB21BinQl+p2NRyM1APYDmprNq2LIStlDqKFbQNEknBookm
-	+CJzfDQkNa3jLkSqQLlj2RhqM4rS322PqgUz9U91HaBo3g6VK8TIMvTcbiG0NGqGXJyirGmYNC1
-	AJ9xpCJVZ4S/lLTb7cdODafXiqEzXikrOC0rdrYcQ3TsZEPuC2gMakFsLFElVWrIfcEPUBMjJlq
-	D4SnTWbYic4yROeIpDRLKoQbR3F9gisk4Hh6II/CEPM7yBcGFuA/97ESV2rbfUJelW8mfRYSWL4
-	D/xNMsmPiWNZvpmEpkN82vGESPMR
-X-Received: by 2002:a05:6000:2685:b0:4bc:9b4e:62c7 with SMTP id ffacd0b85a97d-4bc9b4e64ccmr8999178f8f.45.1795781945689;
-        Fri, 27 Nov 2026 04:19:05 -0800 (PST)
-Received: from localhost ([195.94.148.180])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4bef07f9e0dsm3454109f8f.53.2026.11.27.04.19.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 04:19:05 -0800 (PST)
-From: Andrea della Porta <andrea.porta@suse.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Frank Li <Frank.Li@kernel.org>,
-	dmaengine@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Saenz Julienne <nsaenz@kernel.org>,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dom Cobley <popcornmix@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Andrea della Porta <andrea.porta@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v4 17/28] ASoC: bcm2835-i2s: Pass the CPU physical address of the FIFO to the DMA engine
-Date: Fri, 27 Nov 2026 13:22:07 +0100
-Message-ID: <20261127122236.4976-18-andrea.porta@suse.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20261127122236.4976-1-andrea.porta@suse.com>
-References: <20261127122236.4976-1-andrea.porta@suse.com>
+        d=1e100.net; s=20260707; t=1795782458; x=1796387258;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=11n06xHUhUpNy9Ekpged7IOoqkR+QpoFDE5ZoaESnLY=;
+        b=EX6S5a0YuYhGL57mTvl7xfs2N0eEcP+ZEf7AG3zdrXcqiUZOG8qAqDNuq2zLjx5csz
+         NfR7RtXOGRXBm/03KsLzRJfJv+zwC595fs3Gn0IyVtQ9ABbqrDKn2ayT35jLLXwgkHGb
+         AICijJIxm8CjBijGzCP/7okCFril47NJMG6F9eB1nHsB0H9s2BdU0kUKLpidekoYs16c
+         MJsBeLtBPt9mpGc+WNc7ylwYhFHYTXayg3gF5s/e4QI9Q2A3FOKojalthfsmwZTa43+E
+         Pp5slNG4JvJ9+s8w2GmTegqVTcBr+ZZnatZxKjgEiqEX6JrOUDl+SvJeEMYoyxFyf4KJ
+         ZtGw==
+X-Forwarded-Encrypted: i=1; AL+hErH41TsKMnnfOwdHNbt0kGXYGAyr9of4Ki/UctrjzVdPkSTw7miWI16c3bVDX7l3GD4DNROsVVgz80UMhw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z9jyEuzU9674iOGPOb7jgdJhlsTEbFa7uQdXO65XOMMcOB3YiqR
+	DAixAeyXZtbRxKrvvZnyer7+1bIkwZ5uNDDOpuzd3DxWubNkeyNmqT7B0FC4G04Ljb3ashfwOuP
+	Cb6RxCiqxg4IpC9o0xKF2G6pQXa7WuCnnB54LE9OELpisq3f5mw3BtlLGXfSI7doWsg==
+X-Gm-Gg: AZFdTZcTpeH3gbrx+5nxabTTlW6AopGrXFcA2qlMPfqNjN6SOBDceLOcxJrkovnWtEU
+	9ou0qNwqBkZ9wwD0Y8xKXxMImZUwsZkSUB/HyNdiZWU/rGo+6Fl9ZfWqPPgu9H1Z3le0yZWKFpS
+	az4J4cyv3dxbtyFdXZtvHf5/KFtHYRS3AiywI5p9KEO+OuLQPu8UffMkTfALIzkzO6+RFzrtAj3
+	mtzHebH37lu2bhHOHZjXZSkvFt0RM8pdyGy8RrzTWDn1du1xUbvbDXyw2yUQ40fNG23+ncNg/CO
+	893rYA/yg8vbBMmvrq5AY2F0pOmMysEfAT7iUlS0Uqm0hsUeRKgrv8PJYG44D7P9UgavqBZdBOa
+	DFwqapcTdFQay8S7cJUASudwy2KH0w1dp1BMzBJa+z8NgSpQ7xE1CE3QsrFpAo2a9fnbjh+I=
+X-Received: by 2002:a05:620a:5632:b0:949:a1be:c22a with SMTP id af79cd13be357-949ba9dfabamr3985057985a.3.1795782457711;
+        Fri, 27 Nov 2026 04:27:37 -0800 (PST)
+X-Received: by 2002:a05:620a:5632:b0:949:a1be:c22a with SMTP id af79cd13be357-949ba9dfabamr3985054085a.3.1795782457281;
+        Fri, 27 Nov 2026 04:27:37 -0800 (PST)
+Received: from [192.168.226.72] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ba36e355easm10501705a12.3.2026.11.27.04.27.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Nov 2026 04:27:36 -0800 (PST)
+Message-ID: <765f3451-0f2e-4783-9a7e-893c06b2a735@oss.qualcomm.com>
+Date: Fri, 27 Nov 2026 13:27:34 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -121,78 +115,80 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/2] arm64: dts: qcom: sdm845-google: Add basic audio
+ support
+To: david@ixit.cz, Srinivas Kandagatla <srini@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        David Rhodes <drhodes@opensource.cirrus.com>,
+        Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>
+Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
+        devicetree@vger.kernel.org, phone-devel@vger.kernel.org
+References: <20261111-pixel3-audio-v7-0-ecf28efc5c33@ixit.cz>
+ <20261111-pixel3-audio-v7-1-ecf28efc5c33@ixit.cz>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20261111-pixel3-audio-v7-1-ecf28efc5c33@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 7tGfjY0D3KxE3V_ZJM2ow-sj1zU71CUX
+X-Proofpoint-ORIG-GUID: 7tGfjY0D3KxE3V_ZJM2ow-sj1zU71CUX
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA0OSBTYWx0ZWRfX5wGIz3E+sR9S
+ ngZuhSpRm7sGKRkSl9luhsMxvRmNaMz11EDd1zsP5k19gvp1Dk0DWUsGPhWeI7H2frTDfjvy574
+ sUoLblxsLxStkIbMVRJilOZSiix6Crg=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA0OSBTYWx0ZWRfX6e2oiDDftnOJ
+ G5X5v3zEZ7sOPYQE/bo6LMG2ZXQeZIvDed5niK83H0TYOpanUMqfj5KE7Jo5u+rHrhNcVQ0aK6s
+ 74FkZVMKr9hWt1hRr6PvOI37zoFL6T8YBos1zjqi2nVj6lW50/vE0lnxorrlNUtnIib4Lyw/7I3
+ veytrenJQtWs8Stt+V1FNw7ijGxAKVCK2KUj9V+/btLR7LO2ZCndp9/kcNWvFHZT/t13l92vzrQ
+ h2m+da8zD6VB4QUnL+ezRd8AfSKB7nB2Wltce3v9taVd/HMF5UwRkkZngdPlEE02VjHZzSn1uNz
+ lkUEBW2eDAJu66uO2rKWlYek4pPYmtz/e1Y8oQjGABnA/marhzI0oiOVITWjXFS25ZnhNJMWkrk
+ kW4cfostYQyRkupuuZd2YFFzSpCLsgf2B/Y0ugXpVBRZ+nYd6D26D/X64PBbxb3WVM7XSypgowq
+ eEd28ywPXS4aVOs1+CQ==
+X-Authority-Analysis: v=2.4 cv=A875rKWG c=1 sm=1 tr=0 ts=6b09773a cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=DuBmnH7L3UKxGZjpEfMA:9 a=QEXdDO2ut3YA:10
+ a=zgiPjhLxNE0A:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-27_02,2026-11-26_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 adultscore=0 clxscore=1015 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270049
 
-The address of the DMA slave is handed to the DMA engine through the
-dma_slave_config, where it is meant to be a CPU physical address that
-the DMA controller driver translates into its own view of the bus. The
-driver instead reads the untranslated address out of its reg property,
-which only happens to be what the BCM2835 DMA controller expects because
-the DMA engine driver used the address verbatim.
+On 11/11/26 6:41 PM, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
+> 
+> Introduce support for sound card and wire two CS35L36 audio codecs for
+> top and bottom speakers.
 
-Now that the DMA engine driver translates slave addresses itself, use the
-CPU physical address of the register resource, which also gets rid of
-the open coded parsing of the DT node.
+[...]
 
-Signed-off-by: Andrea della Porta <andrea.porta@suse.com>
----
- sound/soc/bcm/bcm2835-i2s.c | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+> +&sound {
+> +	compatible = "qcom,sdm845-sndcard";
+> +	model = "Pixel 3";
+> +	pinctrl-0 = <&quat_mi2s_active>, <&quat_mi2s_sd0_active>,
+> +		    <&quat_mi2s_sd1_active>;
+> +	pinctrl-names = "default";
+> +
+> +	/* mm[0-9]-dai-link nodes must be positioned first regardless of sorting */
 
-diff --git a/sound/soc/bcm/bcm2835-i2s.c b/sound/soc/bcm/bcm2835-i2s.c
-index 208977828254..ad95412cc8b5 100644
---- a/sound/soc/bcm/bcm2835-i2s.c
-+++ b/sound/soc/bcm/bcm2835-i2s.c
-@@ -30,7 +30,6 @@
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
- #include <linux/slab.h>
- 
- #include <sound/core.h>
-@@ -843,8 +842,7 @@ static int bcm2835_i2s_probe(struct platform_device *pdev)
- 	struct bcm2835_i2s_dev *dev;
- 	int ret;
- 	void __iomem *base;
--	const __be32 *addr;
--	dma_addr_t dma_base;
-+	struct resource *res;
- 
- 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev),
- 			   GFP_KERNEL);
-@@ -859,7 +857,7 @@ static int bcm2835_i2s_probe(struct platform_device *pdev)
- 				     "could not get clk\n");
- 
- 	/* Request ioarea */
--	base = devm_platform_ioremap_resource(pdev, 0);
-+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
- 
-@@ -868,19 +866,12 @@ static int bcm2835_i2s_probe(struct platform_device *pdev)
- 	if (IS_ERR(dev->i2s_regmap))
- 		return PTR_ERR(dev->i2s_regmap);
- 
--	/* Set the DMA address - we have to parse DT ourselves */
--	addr = of_get_address(pdev->dev.of_node, 0, NULL, NULL);
--	if (!addr) {
--		dev_err(&pdev->dev, "could not get DMA-register address\n");
--		return -EINVAL;
--	}
--	dma_base = be32_to_cpup(addr);
--
-+	/* Set the DMA address, the DMA engine translates it */
- 	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr =
--		dma_base + BCM2835_I2S_FIFO_A_REG;
-+		res->start + BCM2835_I2S_FIFO_A_REG;
- 
- 	dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].addr =
--		dma_base + BCM2835_I2S_FIFO_A_REG;
-+		res->start + BCM2835_I2S_FIFO_A_REG;
- 
- 	/* Set the bus width */
- 	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr_width =
--- 
-2.51.0
+Could you try the patch in 
 
+https://lore.kernel.org/linux-arm-msm/655212ed-4812-4747-ba5a-f0093bf05411@oss.qualcomm.com/
+
+?
+
+Konrad
