@@ -1,77 +1,77 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.29.242.92
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795770251;
-	b=v1oFaakLFKI3riwYgVKiJJyETbReJlsrOiiYbf/MYcNANZ7ckO2Wqy5a7v/07QVMZKCB
-	 jQSfkzdGr9reZyM46+Cv9f4lg8A3l3s6sp0KuKCusRjtDss8Xm90db3M6bc+Hydpa9+BY
-	 PRYfXSy1G55vzMe82yW0e0tpkj16H65DDdTWVf8URAu/lldfFnq46j/Yp/wXYsx/r92LF
-	 M9mxuWMWYlNeI+FxJLB1k6mus29qcc7vHPEhOvvSkC1ddnp+wWnqwhN+vecixuFy3GStv
-	 kVCTJtyjEAOx3cZAeJy9R4rylOOI2Zt6OLkMN0pDLDwOI44O4OyMC40C8tqOdpus3dg==
+	t=1795770253;
+	b=1TXsPaRbpoKYllsKjCBvZ9cRMn+Kcb2KgQFM5/LbHiMPSdz2ZjwajEElGEy9WOunWSv0
+	 7L8ek75ncIhvrZtEG4wX7pHYw2crcI8u+o9cw3PdFpA3xyPLJAMkI21jD8NlcPoQJdral
+	 DYM0arFbLnln4kT6uW93oI0pLefaRjs7Qz5+4vqlc1rrT8ISPLtGDalBBKkzDmpUw5Ii5
+	 FWDnPynETVtYfAzi2rRSSudWkNPbSflViBwGUUNEzI6zrx9FXkwVLUmDXUZbo9TZqsnpi
+	 j04TRLoOhmyGxJV3BTmU+PpJO0qp+TiI1Bot3RyaEIeh89DZwDh6ZPHzSImnwUzkPqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795770251;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795770253;
 	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
 	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
 	 References:Date:Message-Id:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=LcCUZZ2quD+PZzlcirOXMexuueBPCDrUp6fJvIUCbPg=;
-	b=zBDhaBI5/rOetK4o0BDomfpgbzacyRZnEyo+ZC2Px0U0sH5zTR82EyPlH51hubXU95Zz
-	 /A2e15LHnr1s5zUF6Rrm8o5Amqm1lp3IJcoTj6Q4cX8Y6jBBcQMzEU9NnRMVcB1LhLvKL
-	 1UzyIcGbzqAQf4V75A8jHS6pSkU2R3Xyh0VZuaCx69mj6WPz6Yp0i2slf6jBGVU6up76i
-	 4+SAaBD5xSJvtS8IhgNNBdHwhoShbL6L8ekpDcFPol0gv7hW/9JnorEGC0h8tAqs0zPUG
-	 LRrVrfY2PbOGLoYY3A5blB5WWc2o3nK3H2TDqwMaaIiPR/uQtQxS08SvOw8McZ4wASw==
+	bh=4yo5+bJTkR2GBlokbheYyh+82e4bW2sTNcYpJe3cwCY=;
+	b=rmXlvCx+O3OFmTgF3Chk8cUp98ve9ygAyBpzOb1uoffxhGPrUBxbTt6A8GHSq0ytSP+x
+	 bIg90/rvM4BMcpfcMm8MjEyYFHXVP78F2CAAfX5UgvI4Br81aXx/PgqTQ6mQTTZDSn2OO
+	 c35Digpu9tJIxeD8ikQbnE0NmXncdPsmcDlvNfDHx1fJB2VW1Pk1fQo55SyZrvCSxKrue
+	 X9Ja6TcEv/g3z0Y5n6jpRtXzm9DB5km7+ipxqZugEqz8MydhOeS+wsBAykxDJzUrtc3Ie
+	 3H6K1+bPqV5q3Yju5OJGeZ4KI36CY3qc/MhijtQg5tjhGA6ThhSlOFW2EAiSYF7Bk9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=davidgow.net;
 	spf=pass smtp.mailfrom=davidgow.net;
-	dkim=pass header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=WnLYqFTc;
-	dkim=pass header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=inW9P+pg;
+	dkim=pass header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=P9m6+azV;
+	dkim=pass header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=qI2XjGYz;
 	arc=none smtp.remote-ip=203.29.242.92
 Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B00E606A33A;
-	Fri, 27 Nov 2026 09:04:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B00E606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23241606A332;
+	Fri, 27 Nov 2026 09:04:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23241606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=WnLYqFTc;
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=inW9P+pg
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=P9m6+azV;
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.a=rsa-sha256 header.s=201606 header.b=qI2XjGYz
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1795770247;
-	bh=i/CqDa5BdBRGfiEpFJeHEfKIix2XPR+QtimFlz2bk4I=;
+	s=201606; t=1795770251;
+	bh=ZBbdVU5fbYlYguDvKqeMhKTzbMkCpTEkjuYwpOoVqFE=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=WnLYqFTcrCGSXoX3j484RQQKWLkaqT+nsWPQOcYiTuAwiEuUcYS/E3TtJlcGs2X1y
-	 B3TljWNYA7dLiBs/HQclYfLNGLZpuuhBFXTo/umoQ3YmJGhQqNVUZW+nZe2RO18U1Z
-	 Y2qlQlAqIkZQ4h71NdxeVl24qIFOk2eS+cE9bEJN1tRG/48j3ifEuqsdVT+3w92rDE
-	 Kb9ZXM6aC2zYL9dfGn93EEy4xyXHSZQlNA9BG4wXXP8/LxEue9U6AWttPvAwkCYLTL
-	 MzLonFBGdMiWcDup1xuT1ffxvLi1Ov7MXnlkTFEQl6c2w5LHb88FPIx4u+AM/E2Dv2
-	 hHamf11TdJjALgJCVtkz9Wl/n+WqCtfprlSFd/S7yWHcRrOUffP0p22VoOUzv+HIM6
-	 4EdZfT/StoTSCwLY/FEBlcVxEQFL+odyHLO9eObKtjIcyZG0MfRYD9SMqrTCCYG+vR
-	 2zHIFi6NckOwjzofdhGbS1zUW0ohbmmkkYP+TiymqNuXBvBEY0GGVj2KPlgtef0j2I
-	 Fluin6ujd6l2xtsiR2/wJlhp6YCCCWqQlFcQ4JU8qgeC9QUAMmK9vMN/jnq3DgzwJQ
-	 rDiBRJrr0fkwap5zP3XxNcDgIeDae4zVJs+sn3MisP7JM9F7OMZhYuffgHhVzljyIh
-	 yUAxUNdl0iRnkzqRZKL6Dcus=
+	b=P9m6+azVVewuEGbDqdecdIGIVnPXAmnO848uEbyg4ulqHyTcK0n7YzydCdvNVZUwI
+	 xOq2SE/0DJ0ZR6v8xJXn7vuVSX4+CS8ACrf9Tm2MsVFxosUJL79A83wJITs3q8NnOU
+	 EpkKwc/Eawm4Dw2A4DZ0rXghotlQGrT3H2FWE+gAP8DHeaxenSVfByYxm2qZNKfXxX
+	 IxBOJch/pBmEjVUxyg6JBKl3+YM0d7yAd02ABdgOudw8nuKYvmDPlyDK/1d81PrDOc
+	 LaMhdhf7zRysGVNV8XZakgvoI7/RzfbNZb4CFTQfmcameOJaTycaM4a4rfff4qcSjz
+	 SM7rEtP2fQdbcKBRHlAo7oPdIEXeITKiJWuhoX6ufSD0wQHj23VU0JIFqAW57HYYK3
+	 nsVAJG4dKH6LB5+ycl/8+I5hja9n2RqRovUeCZ1zsCQenvAQAdHw/NSB/ZB1hWUdtQ
+	 4hTncHj/3dWm51CWYQyS7l8Pe/Y6aAiWUNzlKl1oiwPWEgvhYnyuTzgRBYZYmKUg35
+	 7RYgytotzv3ZdF62adrYBKWcmhIOkW+EL4gxsL48MRP+JWWXY8dOniOjdP6MmeCkzz
+	 3sUhlaTmToHbYH19RAYazNePOOsKHPbprsbGoSQk5b3CJXx1m2z95XilRdYP6EXFnx
+	 bCWOYCdWpzBc0TsxXvvbJnQI=
 Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id 64B7F200207; Fri, 27 Nov 2026 17:04:07 +0800 (AWST)
+	id 40C5520020A; Fri, 27 Nov 2026 17:04:11 +0800 (AWST)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
 	s=201606; t=1795770238;
-	bh=i/CqDa5BdBRGfiEpFJeHEfKIix2XPR+QtimFlz2bk4I=;
+	bh=ZBbdVU5fbYlYguDvKqeMhKTzbMkCpTEkjuYwpOoVqFE=;
 	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=inW9P+pgOrOW7QJLBOEOQVZD5doEfQZ6LDA7/WzAB0EoEH30lR2KS2L1/VVQ9/+1y
-	 7+MY+zkEQ/eASMJygs8tm7aXAd8CK/RuroC4PmYbEe5Y2pKJ8gr3m+Cx7unbQrfZZC
-	 wqB7PXOepWlrb49kqa9aPWqYFmk1y6EQBYcT1RYQN3D6T7/F2Q1dyvCPLI83hBbhiT
-	 cCqesDO7+csVGBMBoU8HmZENjDwrA8vwmtQ8HeJ4WnOcG0g9uXMIKARsPAfbyGccVz
-	 NtF1ze8oU66mw93urq2Kx0jTtfv5qzh6cpHDfcMAF+P8KBOsxybN9fZY7RZGe/qEOs
-	 T+uvt6vU+LAMcEndq4z5JtCU1WBuEwfAYUgUkiM6kngPmh2nQQ9iu7oY8ehRcmuNg9
-	 NeYackLz4KtqiMBCBpfjnwp2BucAU/9rNmOcG3yT4suwc+TjzkpZUCnKIWRDDWMdTb
-	 8nqzwRKN5vfWnh+hXjkEJJVssCx+Ew3B7zR7UsQjJvm4WzArhTJGdR6fkrCG8z0/lE
-	 hgB6/qjndtFSXsT8SGSh/PPMAY5xzkISVYq2rIjQe1oI7OBOhnFDHcoXDbLRWXAFI/
-	 QeY2aNzaD74PQv2BDzHkCChWExku8JqbtMRJXHTuY9Cqy/k5n/8PMGtcYsb6OtSOwR
-	 ZjW45MvmbhZTNq0dr2itNwsA=
+	b=qI2XjGYzPob/43bPoGDiMopMiweCg3IQxIAXXC3vQasEeyOZU/Y0QyI3bDvW0iP62
+	 sb7EgfmruAGo4lmTV5ligqvQuE6DMZY0u1+tP/iArdifllB3ChmdUVuFBsi2lBaV3W
+	 Fvh3vwTba4iVDqdAdvLwRpbISAruXqQpUUPCCytXhkeHcj1+VVyCG6EIBNxSRgiFQs
+	 2gzJIZkr9Q6XQ5wzXCx534EZivkKqq568xnHHPv216/guBo0Eed8Lw7sYSAIq1NIRl
+	 BS4nxBe5Qk4UzfFJNxNaUnT1Yjs7ocai/6mfgs9tFlh4ClhvXCoyowQ1rd+Zn5vmnP
+	 sc/NQISmQ3mZ9FEdvuqOvn12fm+KSNyM/fEMCjBGjnDbEP+5altqQETvsJyCysBluP
+	 3nWvg7x4j2BkbfUDBasjK/rbXeRZFqbE3OF3AD6w/hxTpsMswcn0Fd9muM7C/qulKl
+	 RNY6G5U5nlWN1g8dPb8+TZ3hTbmenZ9gsxzn8Viu6FtN2J7je5jKDhK/fESSrgvxyA
+	 eIH49l1DNImjqBWewXrgHaSfAkvqq7N6+B/FdKlpugm4CM2C+zG2KsyY1pFc/4pn/X
+	 1lwk/Txc1Dv88EEfcm0CkRg9E59oPyuOPbnguBnCwj6gh+jUGWV7+df1E47BDkyULq
+	 Xx1Me57J/W2MoAk0V6X6h+eo=
 Received: from shelley.lan (unknown [IPv6:2001:8003:8802:7000::41b])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id 52E722001E2;
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 880382001E3;
 	Fri, 27 Nov 2026 17:03:58 +0800 (AWST)
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,8 +84,8 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 2/9] kunit: Add KUNIT_CASE_PARAM_UNIQUE() and
- KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+Subject: Re: [PATCH v2 3/9] ext4: Give the extents KUnit cases distinct
+ names
 From: David Gow <david@davidgow.net>
 To: Mark Brown <broonie@kernel.org>
 Cc: Simon Trimmer <simont@opensource.cirrus.com>, 
@@ -105,65 +105,72 @@ Cc: Simon Trimmer <simont@opensource.cirrus.com>,
  linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  kunit-dev@googlegroups.com, linux-doc@vger.kernel.org, 
  linux-ext4@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20261105-kunit-param-names-v2-2-765b3d5275d2@kernel.org>
+In-Reply-To: <20261105-kunit-param-names-v2-3-765b3d5275d2@kernel.org>
 References: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
- <20261105-kunit-param-names-v2-2-765b3d5275d2@kernel.org>
+ <20261105-kunit-param-names-v2-3-765b3d5275d2@kernel.org>
 Date: Fri, 27 Nov 2026 17:03:34 +0800
-Message-Id: <179577021428.2515039.572546302708567368.b4-review@b4>
+Message-Id: <179577021428.2515039.4493251096187566741.b4-review@b4>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1762; i=david@davidgow.net;
- h=from:subject:message-id; bh=i/CqDa5BdBRGfiEpFJeHEfKIix2XPR+QtimFlz2bk4I=;
- b=owEBiQJ2/ZANAwAIAcYipzoZDNtCAcsmYgBrCUd0CebrAgqUjWkDQ+sKrIs23bu1K5z8MwOyq
- LEYDHhAhb6JAk8EAAEIADkWIQSmmTCaqhqZOsxDGC7GIqc6GQzbQgUCawlHdBsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQxiKnOhkM20JnRQ//RWD5KA0bq8VfeuvZ8IQEAuHqftyivGF
- v8KSOjQrGQf6P6110IyJ8qAPM89PVxEqydkFylL1Xg/C1DIlbF6qnTfCYVUDMYzlO4TmXafXR4R
- AlKGpMUCFzwqZRqlR+xmp3Lfcln/GN7x5ZAQeroBDloQkx/VmLNgB+6y4qTOBlAtG1217dONJW1
- 2thkwar2iW/cQUePqW6I+yJR9MLA/f3rVzuSSVEK0eP3URWhUDbxWkdf77sVmRbxFGHdZ/8wgBD
- qrgNFemu27n350w5SjLqPg5mdUm3cqBDtLNB86Fnj3JcuMCcB6Zr6OuUiStHSUAGNlFv+2c7pNv
- TtG+iE3HOJpZDI2dSgqlt/HyCfhw9v4LqH1sZcyy5NtgbjPCzRy+axxQ44kUiXA30BEW5OauB1g
- XEXmjgfYk+k3iMTKJGRxYZnN3LIUVQdKi9wrHWtoEhtpxBCMmerWlqEfyu95VSioqWxp01FiR2x
- z8S3SquIegcDVaehDoOo9QeXyFaSAApvys/tAxva8jGmdjLbzH5ua4Vwvat3Y7NRkcbBKYSvVGD
- QAcvidZ4WzRe2SK/WQ5liuVJ3/amI4+mOaJckGSzteOFjxaCHwpsG5BpmGYzPBo08ZE16zN+XAH
- UqRvwrtq6t7n/QyjlQGkVHIJYDIuYwHyB08ATy4+dGHHdRTzo/aM=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2123; i=david@davidgow.net;
+ h=from:subject:message-id; bh=ZBbdVU5fbYlYguDvKqeMhKTzbMkCpTEkjuYwpOoVqFE=;
+ b=owEBiQJ2/ZANAwAIAcYipzoZDNtCAcsmYgBrCUd15U8vQqWtnvAJYnmInZK62SdrgbhMQ1pWn
+ CuQCWCZG5qJAk8EAAEIADkWIQSmmTCaqhqZOsxDGC7GIqc6GQzbQgUCawlHdRsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQxiKnOhkM20IXfA//Z5lm/C1Mlme/QeMYkXgvePUTiIrc9Dw
+ YCo85Em6ZuQns7qwMsP+fsVne1+toaG2S4U4nEALrwcp4AQtt+UtzTnCdmzcvnv50iQ8n9CrCOx
+ qMH/zg8cWS+aQgBPPnJyJRo672aZKZvA8BkRvIcrNcvGJiCkOpLuKE5gP7IXp9wHSCr42Fhx4GN
+ NRbVnHa0U6noYdaQ/Z4aYgTpw9cDZ4XrsH622+i4g1PxmYe3ft7/WfQSzP9lL4m0YUENtisa6iQ
+ JmYWLysLMouSV8sKMZZ8wkGNICD+VhnaWDD92/JiSfQPWT20kog/V3wAMeTJhjpBaUxWBWVeak5
+ p0YCqfHUKDNLsFyhs6NI4GUjF1fmt9A7qDrPyS90knw3mDvEm58CVC3ip+OvZWtUgVWv1riUIkM
+ F1VTsi2gHb9cpgGjMqPwg0Bo1cMScCSNNNgNRmZo4894DPrwIycPeDNMvRhFbvGlGRIKIHCH0p2
+ VkWv78cmGfX7R8EPHB+Jl43XgWVT4MsJ2sYNE1BWklCFixhnJsDHA8JnoDjBU7v1XjbXzmqy/PK
+ NqNQoKbAvjDczDSJ2X53Ty8bRM77G1SPxv4nDa+dT/7tgAuo17zpBj4h/S5lK0HJRKlBdI1jiNe
+ QFH2MgmGx3ZZDWe0oelVblLrOYaQ6MATFTTTSzJqSsOtJyJQxTS0=
 X-Developer-Key: i=david@davidgow.net; a=openpgp;
  fpr=3B0A53B1D9DF6AAC59C230322A821C5AD66AB03F
 
-> KUNIT_CASE_PARAM() and KUNIT_CASE_PARAM_WITH_INIT() name the test case
-> after the test function. Several suites reuse one test function with
-> more than one parameter generator or param_init() function, listing it
-> once per set of parameters, which leads to multiple tests being created
-> with the same name. Same-named cases cannot be told apart in the results
-> and cannot be selected individually with kunit.filter_glob=, so kunit.py
-> --run_isolated=test boots a kernel for every entry and each kernel runs
-> all of the same-named cases.
+> The ext4_extents_test suite runs test_split_convert() against three
+> different parameter arrays by listing it three times with
+> KUNIT_CASE_PARAM_WITH_INIT(), which names each case after the function.
+> All three cases are therefore called test_split_convert, so they cannot
+> be told apart in the results.
 > 
-> We could fix this by having the KUNIT_CASE_PARAM() macros always include
-> the parameter name but this would not only rename all existing users but
-> also result in some awkwardly named tests. Instead introduce some new
-> macros for use in cases where we need to disambiguate.
-> 
-> Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
-> which behave identically to the existing macros but include the name of
-> the parameter generator or the param_init() function in the name of
-> the case, giving names such as sha1_test-sha1_gen_params. The
-> param_init() function is used for the WITH_INIT variant since currently
-> all the tests which register parameter arrays from param_init() all
-> share the generic kunit_array_gen_params() generator.
+> Use KUNIT_CASE_PARAM_WITH_INIT_UNIQUE() for these entries so that each
+> case is also named for the param_init() function which registers its
+> parameter array, for example
+> test_split_convert-test_convert_initialized_param_init.
 > 
 > Signed-off-by: Mark Brown <broonie@kernel.org>
+
+Note: This is probably going to have a conflict with all of the changes to
+the ext4 tests which have just landed. It still applies cleanly to the
+kselftest/kunit brach for the moment, though.
+
 >
+> diff --git a/fs/ext4/extents-test.c b/fs/ext4/extents-test.c
+> index 2e997f228330..ebef078e292f 100644
+> --- a/fs/ext4/extents-test.c
+> +++ b/fs/ext4/extents-test.c
+> @@ -1045,12 +1045,12 @@ static int test_handle_unwritten_init(struct kunit *test)
+>   * https://lore.kernel.org/linux-kselftest/aULJpTvJDw9ctUDe@li-dc0c254c-257c-11b2-a85c-98b6c1322444.ibm.com/
+>   */
+>  static struct kunit_case extents_test_cases[] = {
+> -	KUNIT_CASE_PARAM_WITH_INIT(test_split_convert, kunit_array_gen_params,
+> -				   test_split_convert_param_init, NULL),
+> -	KUNIT_CASE_PARAM_WITH_INIT(test_split_convert, kunit_array_gen_params,
+> -				   test_convert_initialized_param_init, NULL),
+> -	KUNIT_CASE_PARAM_WITH_INIT(test_split_convert, kunit_array_gen_params,
+> -				   test_handle_unwritten_init, NULL),
+> +	KUNIT_CASE_PARAM_WITH_INIT_UNIQUE(test_split_convert, kunit_array_gen_params,
+> +					  test_split_convert_param_init, NULL),
+> +	KUNIT_CASE_PARAM_WITH_INIT_UNIQUE(test_split_convert, kunit_array_gen_params,
+> +					  test_convert_initialized_param_init, NULL),
+> +	KUNIT_CASE_PARAM_WITH_INIT_UNIQUE(test_split_convert, kunit_array_gen_params,
+> +					  test_handle_unwritten_init, NULL),
+>  	{}
+>  };
+>  
 
-Thanks very much: I hadn't tried this with --run-isolated=test, so missed
-that part of it.
-
-This is definitely long overdue (and while I'm not completely sure
-'UNIQUE' is the best possible name for it, I couldn't think of a better
-one, so let's go with it)!
-
-Reviewed-by: David Gow <david@davidgow.net>
-
-Cheers,
--- David
+Acked-by: David Gow <david@davidgow.net>
 
 -- 
 David Gow <david@davidgow.net>
