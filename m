@@ -1,56 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795800972;
-	b=pIykXfsf3XHE9OL5UU0lJat2xEF36yYfPWOkFrdcDwQD5hEWy6fINxkkMapWj/dy0dt/
-	 ht2ioNqzHCRy0Mf6PoJi+7WU9ZGgQFYKhqdsfyuhnVnBRAZ7kkhPzbgB+WWmh29Bpx9Kx
-	 +floRILIbCxiiXn4xPiXwY7LREchzPIf/U2vAE/O2v3kr4EKhcgKU4d1nlq/pE8m6ewch
-	 UVUZL9PjiYeAwM28OMqd4NSmckTKPlqfv21XfWKo/KOyE8Nf1JB2BD39k4ATwOG+d/PNb
-	 2xFfTlqlK+f9IaD3ooYZ/yqET7DRqJz2Oq8Ag5jBn47WpjdkRfHxOzZi3+wL92eqixQ==
+	t=1795800996;
+	b=FXEaOUELY3WERRUPa3BAtdM4vfzuuFh0uI8EPjRw4VOd9C60l5Lkn/8LD68K4ytoAS0j
+	 EzGY7a814kVJIPBYiWmQiSLBKvNOiF7KTxPZSxoNC8Coxh9PjuBoNCg/msoI3gzzQ5AbD
+	 gDFgfvV5e9kVZ/8CIWPe74llBIO6Vpt9pRjvKyNsN/wVr/dLmF+gUr8BLvFZC8kJbFgLx
+	 KtMjdbOVYkcWgEKjxNSqPAc/9ue5rz+qdK/BZ7vEVSNIyAyM6iV+PeaVl06pmca26xvJA
+	 MbGO9j07k+uNzefl3xUK8Sr1LCICPom4/b6twsv7uHeSLaq/LoIQcby9OyFOijxMtxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795800972;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=xnYiWk7zt992092X5vo27PgJ23tP1VfNcWFJjUoHnYY=;
-	b=sMKjfOtZ4AZtAA+V3heU9jBIbKHRARGqzatYbLb3mkeothDUyLlIoTpLx3zRwjfoQnM8
-	 YKwKVgr1020//t1xXU/BQruKV0kbQuaak29Fctz70h6MfrKKUoZhad2jmUElDZiNmNlCF
-	 RpIlPKxivsKf+/wWbd1AZZINoxBqXAzcIoQcU1qQW0wldUY6z34xkM1egDIqbeU+Zc+EH
-	 0nxqls21O/DAdulxtx3v17boz8xUs24y6tTrwm2AaDyBKFC0pRUsqP92UhoMJSD2hNIhz
-	 TnyZ+6OOkMDvTJLpYgwpACNv0YCxJJJJ7xb/0WIlwg9mEuqueCFwpyirD1cVGawWgdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795800996;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
+	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=fHiM3zVHAe++cXO6bb2Ybft72sA2VeiwEznSHkx5iqo=;
+	b=cbzLPzsvGHyq5KkhBAeX9EnSpw7XdGR26akkEsUOo9Igl2giuSssjfy4/TDxfhhOuYGT
+	 KWHyOyKezqvf6rUDsbOJ3Ppq4UXlAgck04nM8Gx5pSW/DffoKfMCXS18yt2Pw6y05DZxH
+	 HuibA/e9WkqUIJAmU01dwwxASgNGuXQ0gx0LZFRZ6XTRfUzQS67gCsllz+eNPr8ojdQlo
+	 6Fdy96bs347qXKtOko2xOd/RXt9Hw5Iz6oUR4QG4qCOVwrTB3gMnV+kxJDWgqC98EO1hH
+	 czw9RPV9esDDm6lmLU5Wk9hoM8M6z85U6pCMAZqT9KIyV5ymAQ6kRaNArAW1K7GtukA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M9EdMz43;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=j3sKz0ou;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=amOoe+FB;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=iHww++HO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EC6WdMl2;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ED9606A688
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:36:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A30606A324;
+	Fri, 27 Nov 2026 17:36:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35A30606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=M9EdMz43
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 152081F00925;
-	Fri, 27 Nov 2026 17:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795800972;
-	bh=xnYiWk7zt992092X5vo27PgJ23tP1VfNcWFJjUoHnYY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=M9EdMz43izO7SrWm8q1Id/0qiAr67/5LwVhkiYo5CTYhMWhlMgfdbQxGrXvypPzkG
-	 n6YXg/E7PahQFEVcuDQkKy4+WTMm46yS8airJqE6CPYlbFZ9Lj2fqtAz08Z8fO3IcX
-	 QP9JfDqbZDo6QYS3bqwrWP4wiw1svGnfS6T7imlZQHs/mvFqFDj6jPL2XJrQ2xUgL4
-	 tC75UzDKfIrV4kbkNzzl7D+vfrmSh8sSQ+8pxMAQdLMVCQF335ihjj47amB0ByBxc9
-	 xv04SNwVZUnl5DUkKAJaIwfdCKFH20KIeJiNiRGd9VKYY5V58A7wMGQ/ARHGyhtEP5
-	 FfybiNoGPJ3vw==
-Message-ID: <sashiko-outbox-237999@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] ASoC: wm8962: add GPIO interrupt controller support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Laurentiu Mihalcea" <laurentiumihalcea111@gmail.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261127170039.663-3-laurentiumihalcea111@gmail.com>
-References: <20261127170039.663-1-laurentiumihalcea111@gmail.com>
- <20261127170039.663-3-laurentiumihalcea111@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 17:36:11 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=j3sKz0ou;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=amOoe+FB;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=iHww++HO;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=EC6WdMl2
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 237FC1F7F2;
+	Fri, 27 Nov 2026 17:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795800993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fHiM3zVHAe++cXO6bb2Ybft72sA2VeiwEznSHkx5iqo=;
+	b=j3sKz0oud/CrD1mnrNGYvuilSyUXSmYzNdQY2I77/OnZk8npKeSsui98eg4Lv36MAegJE+
+	yonA/frN2d+0B0lUUNngIrDK0+ptWZvb03JP2sfvCTg6KiOw1IF95TaBuIawE4BKjYzVlE
+	k+xc55iERJA2k06uXj+3syu81gaWfdk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795800993;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fHiM3zVHAe++cXO6bb2Ybft72sA2VeiwEznSHkx5iqo=;
+	b=amOoe+FBrN5vFg57KX3YDO81j29ECLESd4Kg6lrktlPo/LbDCDtDwDyBagcDyJwRjibeyJ
+	pdrwpes4fvuE66Dg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iHww++HO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EC6WdMl2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795800992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fHiM3zVHAe++cXO6bb2Ybft72sA2VeiwEznSHkx5iqo=;
+	b=iHww++HO9ugseibTePjnWeYQRRDI+3j/8vsVrnyTfIt3qErxmHOOGR0nA1tXc91eEyYlMg
+	J9QfqtbececEcEBiLeSjzlqZOO/7rzONpTkzRAmYOM+gfrwXb6ZIpGDhbrpNKLUowd14bg
+	yanKdZRrOoHnR/y48kpDB09tjVGF+Vw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795800992;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fHiM3zVHAe++cXO6bb2Ybft72sA2VeiwEznSHkx5iqo=;
+	b=EC6WdMl2cVMPQ8qsJWBE3luLboRq84vPW8b1qU6qjWOrqQ4J+5MTVC8ktJdB6JS6KKBKdZ
+	/IwccqsgXN9z4LCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB85A134E8;
+	Fri, 27 Nov 2026 17:36:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iDoHJJ+/CWvxFAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 27 Nov 2026 17:36:31 +0000
+Date: Fri, 27 Nov 2026 18:36:31 +0100
+Message-ID: <87a4mumb1c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Masanori Suto <suto@geek-masa.com>
+Cc: "tiwai@suse.de" <tiwai@suse.de>,
+	"londongrad@gmail.com" <londongrad@gmail.com>,
+	"xmei5@asu.edu" <xmei5@asu.edu>,
+	"clemens@ladisch.de" <clemens@ladisch.de>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	"regressions@lists.linux.dev" <regressions@lists.linux.dev>
+Subject: Re: [PATCH] ALSA: ua101: clamp playback packet sizes instead of rejecting UA-1000
+In-Reply-To: <010101a21bc150d7-627da1ea-4ebf-499d-9ae0-edf88db3e063-000000@us-west-2.amazonses.com>
+References: <CANd6TdKdRftWyo5Cg_85-fBVGW3oHAntEY-DdCpQCDSyRpOprw@mail.gmail.com>
+	<20261127064615.40817-1-suto@geek-masa.com>
+	<010101a21bc150d7-627da1ea-4ebf-499d-9ae0-edf88db3e063-000000@us-west-2.amazonses.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,236 +118,120 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 237FC1F7F2
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,asu.edu,ladisch.de,perex.cz,vger.kernel.org,lists.linux.dev];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,linuxmusicians.com:url,geek-masa.com:email]
+X-Spam-Score: -12.51
 
-Thank you for your contribution! Sashiko AI review found 6 potential
-issues to consider:
-- [High] ASoC: wm8962: build failure when CONFIG_GPIOLIB or
-  GPIOLIB_IRQCHIP is disabled
-- [High] ASoC: wm8962: setting gpio_chip.init_valid_mask disables GPIO2
-  and GPIO3
-- [High] ASoC: wm8962: lifecycle mismatch and UAF on gc->irq.domain in
-  wm8962_irq()
-- [High] ASoC: wm8962: lost GPIO IRQs due to runtime suspend and reset
-  in wm8962_irq()
-- [Medium] ASoC: wm8962: bitwise AND with WM8962_GPIO_FN_IRQ in
-  wm8962_init_gpio_irq()
-- [Medium] ASoC: wm8962: missing direction_input/get_direction breaks
-  direct GPIO IRQ use
---
+On Fri, 27 Nov 2026 07:46:23 +0100,
+Masanori Suto wrote:
+> 
+> Commit 86f86e6fdedc ("ALSA: ua101: reject mismatched capture/playback
+> packet sizes") rejects a device at probe time when a capture packet of
+> wMaxPacketSize bytes would carry more frames than fit into a playback
+> packet.  It assumed that genuine hardware declares proportional packet
+> sizes, but the UA-1000 does not:
+> 
+>   capture  EP 0x81: 12 ch x 4 bytes, wMaxPacketSize 720 -> 15 frames
+>   playback EP 0x02: 10 ch x 4 bytes, wMaxPacketSize 560 -> 14 frames
+> 
+> so the UA-1000 now fails to probe with
+> 
+>   playback packet size 560 too small for 15 capture frames
+> 
+> In practice the device sends about rate/8000 frames per packet at high
+> speed (6 at 48 kHz, 12 at 96 kHz), which always fits the playback
+> packet.
+> 
+> The out-of-bounds write has a single source: capture_urb_complete()
+> stores the received frame count in rate_feedback[], and both
+> start_usb_playback() and playback_work() take their packet sizes only
+> from that FIFO.  Clamp the value there to what fits into one playback
+> packet, so the playback URB buffer cannot be overrun whatever the
+> descriptors say, and relax the probe check to require only that one
+> packet at the nominal rate fits.
+> 
+> Tested on a UA-1000 (0582:0044): the device probes again, and playback
+> and capture both work.
+> 
+> Fixes: 86f86e6fdedc ("ALSA: ua101: reject mismatched capture/playback packet sizes")
+> Cc: stable@vger.kernel.org
+> Reported-by: London grad <londongrad@gmail.com>
+> Closes: https://lore.kernel.org/all/CANd6Td+b6ituLFzkhvX09vricCY541fQapNOk3rTa=74zWA5LA@mail.gmail.com/
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=222261
+> Signed-off-by: Suto, Masanori <suto@geek-masa.com>
+> ---
+> Hi Takashi,
+> 
+> To answer your question earlier in this thread: on my UA-1000
+> (0582:0044, bcdDevice 1.07), reverting 86f86e6fdedc alone makes the
+> device work again. It is registered in /proc/asound/cards, and playback
+> and capture both work. Without the revert it fails to probe with
+> "playback packet size 560 too small for 15 capture frames", as in the
+> earlier report. So the commit is confirmed as the cause.
+> 
+> A plain revert would reopen CVE-2026-98741, so this patch keeps the
+> protection by clamping the packet size where it is produced instead of
+> rejecting the device. With this patch applied, playback and capture also
+> both work. Tested on linux-zen 7.3.6-zen1; sound/usb/misc/ua101.c there
+> is identical to mainline.
+> 
+> To check that the 15-frame worst case does not happen on real hardware,
+> I captured the isochronous traffic with usbmon: 60 s of simultaneous
+> playback and capture at each rate the UA-1000 supports, about 480000
+> packets each. Frames per packet, from the actual capture length
+> (EP 0x81) and the submitted playback length (EP 0x02):
+> 
+>   rate       capture frames per packet           max
+>   44.1 kHz    5: 48.76%   6: 51.24%                6
+>   48 kHz      5:  1.14%   6: 97.74%   7: 1.12%     7
+>   88.2 kHz   10:  1.04%  11: 95.45%  12: 3.52%    12
+>   96 kHz     11:  0.08%  12: 99.86%  13: 0.06%    13
+> 
+> Playback used exactly the same distribution at every rate. The maximum
+> is 13 frames at 96 kHz, which fits the 14-frame playback packet. The
+> 15 frames assumed from wMaxPacketSize never occur: the device stays
+> within one frame of rate/8000. The clamp warning added by this patch
+> never appeared in the kernel log during these runs.
+> 
+> The same breakage was also reported on LinuxMusicians:
+> https://linuxmusicians.com/viewtopic.php?p=189180
+> 
+> #regzbot ^introduced: 86f86e6fdedc
 
-commit 836469865b058b5ef16dbf8d43d225333a1a1717
-Author: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Applied now.  Thanks.
 
-ASoC: wm8962: add GPIO interrupt controller support
 
-This commit registers a GPIO irqchip on the WM8962 codec so that GPIO5 and
-GPIO6 can be used as interrupt sources by consumer devices.
-
-> diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-> index 7122d93a742c5..3bbaacb08aafa 100644
-> --- a/sound/soc/codecs/wm8962.c
-> +++ b/sound/soc/codecs/wm8962.c
-> @@ -3141,13 +3141,34 @@ static void wm8962_mic_work(struct work_struct *w=
-ork)
->  			    WM8962_MICD_IRQ_POL, irq_pol);
->  }
-> =20
-> +static int wm8962_irq_status_masked(struct wm8962_priv *wm8962,
-> +				    unsigned int status_reg,
-> +				    unsigned int mask_reg,
-> +				    unsigned int *status)
-> +{
-> +	int ret;
-> +	unsigned int mask;
-> +
-> +	ret =3D regmap_read(wm8962->regmap, mask_reg, &mask);
-> +	if (ret !=3D 0)
-> +		return ret;
-> +
-> +	ret =3D regmap_read(wm8962->regmap, status_reg, status);
-> +	if (ret !=3D 0)
-> +		return ret;
-> +
-> +	*status &=3D ~mask;
-> +
-> +	return 0;
-> +}
-> +
->  static irqreturn_t wm8962_irq(int irq, void *data)
->  {
->  	struct device *dev =3D data;
->  	struct wm8962_priv *wm8962 =3D dev_get_drvdata(dev);
-> -	unsigned int mask;
-> -	unsigned int active;
-> -	int reg, ret;
-> +	unsigned int active_1, active_2;
-> +	struct gpio_chip *gc =3D &wm8962->gpio_chip;
-> +	int reg, ret, nirq;
-
-[Severity: High]
-Does this fail to build when CONFIG_GPIOLIB or CONFIG_GPIOLIB_IRQCHIP is
-disabled?
-
-SND_SOC_WM8962 neither depends on GPIOLIB nor selects GPIOLIB_IRQCHIP.
-wm8962_priv.gpio_chip is only declared under #ifdef CONFIG_GPIOLIB, and
-gpio_chip.irq as well as GPIOCHIP_IRQ_RESOURCE_HELPERS are only available
-under CONFIG_GPIOLIB_IRQCHIP, so referencing wm8962->gpio_chip,
-gc->irq.domain, and wm8962_irq_chip breaks builds without those options.
-
-> =20
->  	ret =3D pm_runtime_resume_and_get(dev);
->  	if (ret < 0) {
-> @@ -3155,43 +3176,51 @@ static irqreturn_t wm8962_irq(int irq, void *data)
->  		return IRQ_NONE;
->  	}
-> =20
-> -	ret =3D regmap_read(wm8962->regmap, WM8962_INTERRUPT_STATUS_2_MASK,
-> -			  &mask);
-> +	ret =3D wm8962_irq_status_masked(wm8962,
-> +				       WM8962_INTERRUPT_STATUS_1,
-> +				       WM8962_INTERRUPT_STATUS_1_MASK,
-> +				       &active_1);
-
-[Severity: High]
-Are GPIO5 and GPIO6 interrupts lost whenever the codec is runtime
-suspended?
-
-Nothing holds a runtime PM reference on the codec while a GPIO IRQ is
-requested (for example via irq_domain_set_pm_device()).  When the codec is
-idle in RPM_SUSPENDED and a GPIO interrupt fires, pm_runtime_resume_and_get=
-()
-runs wm8962_runtime_resume() -> wm8962_reset(), which resets the hardware a=
-nd
-clears WM8962_INTERRUPT_STATUS_1 before wm8962_irq_status_masked() reads it.
-In addition, commit "ASoC: wm8962: fix interrupt mis-firing during
-runtime_resume()" later in this series disables wm8962->irq in
-wm8962_runtime_suspend(), preventing GPIO interrupts from firing at all whi=
-le
-suspended.
-
-[ ... ]
-
-> @@ -3226,6 +3255,22 @@ static irqreturn_t wm8962_irq(int irq, void *data)
->  				   msecs_to_jiffies(250));
->  	}
-> =20
-> +	if (active_1 & WM8962_GP5_EINT) {
-> +		nirq =3D irq_find_mapping(gc->irq.domain, 4);
-> +		if (likely(nirq > 0))
-> +			handle_nested_irq(nirq);
-> +		else
-> +			dev_warn(dev, "Unmapped GP5 interrupt\n");
-> +	}
-> +
-> +	if (active_1 & WM8962_GP6_EINT) {
-> +		nirq =3D irq_find_mapping(gc->irq.domain, 5);
-> +		if (likely(nirq > 0))
-> +			handle_nested_irq(nirq);
-> +		else
-> +			dev_warn(dev, "Unmapped GP6 interrupt\n");
-> +	}
-
-[Severity: High]
-Can irq_find_mapping() dereference a freed gc->irq.domain or pass NULL
-before the ASoC component is bound?
-
-wm8962_irq() is requested in wm8962_i2c_probe() and wm8962_init_gpio_irq()
-unmasks GP5 and GP6 interrupts immediately, whereas gpio_chip is added in
-wm8962_probe() and removed in wm8962_remove() -> wm8962_free_gpio().
-Before wm8962_probe() runs, gc->irq.domain is NULL, which causes
-__irq_resolve_mapping() to fall back to irq_default_domain.  When the sound
-card unbinds, gpiochip_remove() frees gc->irq.domain while GP5/GP6
-interrupts remain unmasked and wm8962_irq() is still active, causing a
-use-after-free on subsequent GP5/GP6 interrupts.
-
-[ ... ]
-
-> @@ -3555,6 +3600,18 @@ static int wm8962_gpio_get(struct gpio_chip *chip,=
- unsigned int offset)
->  	return (val & WM8962_GP5_LVL) >> WM8962_GP5_LVL_SHIFT;
->  }
-> =20
-> +static int wm8962_init_valid_mask(struct gpio_chip *chip,
-> +				  unsigned long *valid_mask,
-> +				  unsigned int ngpios)
-> +{
-> +	bitmap_zero(valid_mask, ngpios);
-> +
-> +	/* only GPIO5/GPIO6 can be used as interrupt sources! */
-> +	bitmap_set(valid_mask, 4, 2);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct gpio_chip wm8962_template_chip =3D {
->  	.label			=3D "wm8962",
->  	.owner			=3D THIS_MODULE,
-> @@ -3562,13 +3619,42 @@ static const struct gpio_chip wm8962_template_chi=
-p =3D {
->  	.direction_output	=3D wm8962_gpio_direction_out,
->  	.set			=3D wm8962_gpio_set,
->  	.get			=3D wm8962_gpio_get,
-> +	.init_valid_mask	=3D wm8962_init_valid_mask,
->  	.can_sleep		=3D 1,
->  };
-
-[Severity: High]
-Does setting wm8962_init_valid_mask on gpio_chip.init_valid_mask disable
-GPIO2 and GPIO3 as output GPIOs?
-
-gpio_chip.init_valid_mask restricts which GPIO lines exist for all gpiolib
-operations, so clearing everything except offsets 4 and 5 causes
-gpiod_request_commit() to reject GPIO2 (offset 1) and GPIO3 (offset 2) with
--EINVAL.  To restrict only which lines can be mapped as interrupts, this
-callback should be assigned to girq->init_valid_mask instead.
-
-> =20
-> +/*
-> + * TODO: implement mask()/unmask()/bus_sync() if required. At the moment=
-, we
-> + * operate under the assumption that the pins' function is set to IRQ us=
-ing
-> + * the "gpio-cfg" DT property. The interrupts are unmasked regardless of=
- the
-> + * pins' function!
-> + */
-> +static const struct irq_chip wm8962_irq_chip =3D {
-> +	.flags			=3D IRQCHIP_IMMUTABLE,
-> +	GPIOCHIP_IRQ_RESOURCE_HELPERS,
-> +};
-
-[Severity: Medium]
-Can gpiochip_lock_as_irq() succeed when wm8962_template_chip defines
-neither .direction_input nor .get_direction?
-
-During gpiochip_add_data_with_key(), gpiolib sets GPIOD_FLAG_IS_OUT on every
-line when both .get_direction and .direction_input are NULL.  When a consum=
-er
-requests a GPIO5 or GPIO6 interrupt, GPIOCHIP_IRQ_RESOURCE_HELPERS calls
-gpiochip_lock_as_irq(), which sees GPIOD_FLAG_IS_OUT set and rejects the
-interrupt request with -EIO.
-
-> +
-> +static void wm8962_init_gpio_irq(struct wm8962_priv *wm8962)
-> +{
-> +	unsigned int val =3D ~(WM8962_IM_GP5_EINT | WM8962_IM_GP6_EINT);
-> +	unsigned int mask =3D WM8962_IM_GP5_EINT | WM8962_IM_GP6_EINT;
-> +
-> +	if (!(wm8962->pdata.gpio_init[4] & WM8962_GPIO_FN_IRQ))
-> +		val |=3D WM8962_IM_GP5_EINT;
-> +
-> +	if (!(wm8962->pdata.gpio_init[5] & WM8962_GPIO_FN_IRQ))
-> +		val |=3D WM8962_IM_GP6_EINT;
-
-[Severity: Medium]
-Should these checks mask with WM8962_GP5_FN_MASK / WM8962_GP6_FN_MASK and
-compare equal to WM8962_GPIO_FN_IRQ instead of using a bitwise AND?
-
-GP5_FN and GP6_FN are 5-bit function codes where WM8962_GPIO_FN_IRQ is 3,
-so testing with & WM8962_GPIO_FN_IRQ matches any non-IRQ function with bit
-0 or bit 1 set (such as WM8962_GPIO_FN_LOGIC or WM8962_GPIO_FN_MICD) and
-unmasks GP5/GP6 interrupts when the pins are not configured for IRQ output.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127170039.663-=
-1-laurentiumihalcea111@gmail.com?part=3D2
+Takashi
