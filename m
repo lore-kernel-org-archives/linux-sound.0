@@ -1,78 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795740608;
-	b=KMgmoeosVE96HpBTjLudq0QHWr+nynp4qrpNbFxM4JvPjRQv+iRKDAL68DS+4GjRVX9u
-	 CVjURua7WaTJ1yYs59zrB4clcZyCO+GWlzFqDRLkFX6l1lb22Bj2E3K0YF8jdxV/Q6Gz+
-	 RCdlUlZfF/pnEB417Vtg/1ICbQ19+xfrH4KQztKMwFojbBDMAR1VhW9YyUwntNwNqRRd0
-	 QFsbQ2STiCM9es1UJ7xE/X5eHjGBYC4kWXf+fjeuq0sf2CSf+SnvadnC89eJg+qf6BUwI
-	 dECDcNUxvGlsUv2xA4xP1KL5MdmJpYOm1Q6BUM60+KT1v+1oonpFRlxs69v5Frmo6LA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795740608;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=+XwHuAguT2sSdswu4ba9iVZNOZyswWEjpnXOHZUZLs8=;
-	b=G8PTKkMYCgX5fAVzRsT5BwqZZa93NrGeb3v1ri247IjorAuPTzdFUfoEJcOBzLgAuOgC
-	 vdrQs9d3CCFWaOJpgOL7Elo4G36MDRq6dGJxMs4J7BDbjMem8jwH14Pqe6EwptAS/nKur
-	 DutbU785/f+zn9lG5t/XAt9D20b//+CXTKqdaI7y8ye2NSs5hUk5EIEq1gRmdlBxH6rh7
-	 nPsuZ4T5RHYn+5bvvsFf4hu1I5EfcFk31JLIAl4jv9OyV3k0mT6Op28LxsVs1hJZo0w+8
-	 1C3hMoBUXfKLRSbAvzMvwgOSDTWzISheP0gDuPHznj6vxc/7bwwu7zuY8Xj0DNHtsYg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IuM0gLM2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795743768;
+	b=VhQoh+4PuzaUaC6FUYVkH7VEBnOxhZRzH1wkCqKMCg/qzA6AM3LkhO8qll05+b5H66Dm
+	 PxGAnzFnY8qfgcNMu0sqzJIcJbUk9TAiufQp6pUI/bnF2Z5wKqxzImrHXHLiIDVujHyf6
+	 PShcJDqf28YLE5Wo7PpYtwCpNryvbc86H/kOHoue2PcwEcDizJBV3M8F7G2vKB+/Bm3sC
+	 YGVuwfxyFt/PcCci15ZNfAg25XHIfVzm9R/kKrEIogcrrPytQj3K9rjDNhu4Mv2bjUwhp
+	 Jdl39HR2nyu4ptfYWnxxGYhgRdzQZjxaIziDENvB3/lOxoDImHWS+UPAcIl6dMqsBug==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795743768;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=XQbp+iYf+670Cjd0nc3KeQiLuIKrITL/6+mOjWe48x4=;
+	b=w2+L1FJYkq7j6C3Ozb89Legej91XttOk8cScu9r7dAfP5r2zgrP9ncThY12/e4USftiu
+	 GgnNcyQLzW+tP9Z69lx+Z8+FqeThux01sXwYCDTTrr1jMqA9A/0Rc1hAn6PidtHWZhMBo
+	 mtncGcU4EO5xSCyCtZGgeIRDJZTo2sijOSaK+d/E+MofhOyjdFV4e7c77zB/ZeWQNdbiw
+	 kL+sST86NuXEJ6fgKspO4lx9oynVffn0o9ktxVPxAshNHXvYTFd5mHjXSgV1ckR8wb07r
+	 8zsfWT5DpBD+UzOVKRWvFTnL+m9H65P3fW7fffyD7HlqEJ9sSy7yqGbXy9dPfPTknlg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cte8CXDh;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ECF606A31C;
-	Fri, 27 Nov 2026 00:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB82F606A31C;
+	Fri, 27 Nov 2026 01:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IuM0gLM2
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795740608;
-	b=RACpnMrTGdVI8Tlzqy8tUoWGK7SNWYWoK9lpN3uhz/rqBobHm+cCfaGy1WmvRXFBoy2F
-	 Rs4rW644zfjgxlfoUVuAKx4AE5qyE7miQxITkG9ZJ3SgHADK0Cc+9FfSFzvM1Ws+ylz+D
-	 owtQ2ptF9jKgPj66JIk4FEE9U2s4w4nGQwDsCXF9QUJiGNGR2tFf2CN+mn6OURegdeT95
-	 Oq0Kj3KwzUZEokfewnI7o9dm5np/9AhWQkScDkCbtIpgY7+pymHigW4L3rAc9U/KFHTtL
-	 IkPo3EhbhfUDvv6AEwwEU+2+Z+uZnGijZRB6joaBNQQa2lIAFAFMWbpv/Bfh1lH2JAw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795740608;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=+XwHuAguT2sSdswu4ba9iVZNOZyswWEjpnXOHZUZLs8=;
-	b=WlmSZScItuvj1Sn86PuQlzfTFD5d2W9pWvca+p9bO/xP/9B0x7zoZPLRQsBV3+pJMoEB
-	 NUli2a4+cAc0dkbXg/DqIc6gyjflJeb7KAA4o2QnFn88RbOEExhrdlsQS+qhrwBEJqWdr
-	 tHqi2H0Gk/e7/Z+47hCSVppe3rNbDfOAd47pqqk++534kI6YXg4uaqOP0MDEyLq3McGWH
-	 qI7yY/Mppcx+SNEYuxqcYmg8RgnT4qOp2IR+Rynd2mF7UjbKs6Ahrm8azroJDsBH/UCGy
-	 CKi9HF2EJZnxV2bAN6F7aPWXKDWaD+elNovyF3SX50neOKkLGU9TYYQxt66sT/8m6Ug==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F10A11F00897;
-	Fri, 27 Nov 2026 00:50:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cte8CXDh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126811F0089B;
+	Fri, 27 Nov 2026 01:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795740608;
-	bh=+XwHuAguT2sSdswu4ba9iVZNOZyswWEjpnXOHZUZLs8=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=IuM0gLM28ty7O0WemRDfekvsH8BCcP0/WmQKRE9d5rr3KXMCYJBv4QbPqIbg1Ur8G
-	 tEUTChjchmvfiEiK9oobr9ERYkqaN4WG8Z/m9Ccf7VFCX4fSbapS+cPzFb7a7hAzQu
-	 b0OhDX45tysVgYmYD1FAv67fZxUukQll/egNpHd6N5bUeA9lat/NT9unHVFwMTsK+Z
-	 1zys6BSDYxUGMxgldg7Q0EK0GsinVlsK9+JhEL92jACNQBJdvAxOyvmmWdQmlGtJmr
-	 GLewHihxi7LF/+Cqdq9v/9Oic4szSDXp5t1Onq3Jeijh532dND9hooSZTdfXkDQnLP
-	 As2l15+3MoNzQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 7189A4B4AB;
-	Fri, 27 Nov 2026 00:50:05 +0000 (UTC)
-From: Demeter Barna via B4 Relay <devnull+me.fromdisposition.org@kernel.org>
-Date: Fri, 27 Nov 2026 00:49:41 +0000
-Subject: [PATCH] ASoC: qcom: sm8250: Add SM8350 sound card
+	s=k20260515; t=1795743768;
+	bh=XQbp+iYf+670Cjd0nc3KeQiLuIKrITL/6+mOjWe48x4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Cte8CXDh4YKfZj+U0TA+dURXZ/vAlvQ/kLh9gS6a4N9b665NhTA2+ndJtTOCH7aPh
+	 sZXxQhTaNFcWI+9GCrPpjLGDt8pG5qmku2zQ6y3qQN4qSqmMh+elTU0raGINHv1EJq
+	 1qzH6RIzG0V4q2SD18mWSF0HJlEBwKzoHjtsKSthTMjmRrnsqxmlgIoSS5ASXWHwFp
+	 X3llXG0PUbtzkeF+rsaG9mGyWiJBegAM/n1gJLrE3+AMQ4+YuXOWSWPcn6wKgzoLfg
+	 LlezuEsuVsWKIOt8pSSmIvJxnq8fomex1LaG4qoSI0AnYhM9C5LkPnAL5h2AP4bQCP
+	 OS8zA9awTY71Q==
+Message-ID: <68d1f55c-ddcf-4081-8111-9773c484ca07@kernel.org>
+Date: Fri, 27 Nov 2026 02:42:43 +0100
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,63 +51,74 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261127-sm8350-sndcard-v1-1-50cbf3db3cb0@fromdisposition.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrA2YiUbxKtKFJpM6glEybRHEu
- 5u2y7f4/wShxCTQFyck+rDwFjN0WYCbx/gkxT4bsEKrNbZK1s40lZLo3Zi8CmhsG+rGdh4hR3u
- iwMdvODz+lve0kHt9L3BdN+9fkRdyAAAA
-X-Change-ID: 20261127-sm8350-sndcard-f2367f4568d2
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Demeter Barna <me@fromdisposition.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795740603; l=989;
- i=me@fromdisposition.org; s=20261012; h=from:subject:message-id;
- bh=l+setiCU0+OrwLSvwV20cOvWy7hUFpop6hCa7bB/D/A=;
- b=AltFMW1XNwO+2+LBNBGdAAQvrRf7cfvJfXrIswCfQtiQgL/YZ0H6E9aJSwSTdZOoa+67UvSpq
- lqLnz9F5XjyA3JVjG//wp7kpKozWHAUoW946+XasIn5A3RPg5118co1
-X-Developer-Key: i=me@fromdisposition.org; a=ed25519;
- pk=S0QFlGq1BQEaAtPPdAH8YKEOXMeRuSkTgctXuvtU+1Y=
-X-Endpoint-Received: by B4 Relay for me@fromdisposition.org/20261012 with
- auth_id=1163
-X-Original-From: Demeter Barna <me@fromdisposition.org>
-Reply-To: me@fromdisposition.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/7] arm64: defconfig: enable SDCA class driver and
+ WCD9378 codec
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ andersson@kernel.org, konrad.dybcio@oss.qualcomm.com, abel.vesa@linaro.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261126183806.172485-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261126183806.172485-8-srinivas.kandagatla@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20261126183806.172485-8-srinivas.kandagatla@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-From: Demeter Barna <me@fromdisposition.org>
+On 26/11/2026 19:38, Srinivas Kandagatla wrote:
+> Enable CONFIG_SND_SOC_SDCA, CONFIG_SND_SOC_SDCA_CLASS and
+> CONFIG_SND_SOC_WCD9378_SDCA so Qualcomm Glymur-based laptops have
+> working headset audio out of the box.
 
-Give the SM8350 sound card its own driver name, so UCM files can tell
-it from SM8250.
+All of them? This is board specific, not SoC, thus please name at least
+few upstream examples.
 
-Signed-off-by: Demeter Barna <me@fromdisposition.org>
----
-The qcom,sm8350-sndcard binding this matches is already in for-7.5
-(a5b5d062b40c).
----
- sound/soc/qcom/sm8250.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index d0015e5f5..ba0aaf428 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -231,6 +231,7 @@ static const struct of_device_id snd_sm8250_dt_match[] = {
- 	{ .compatible = "qcom,qrb5165-rb5-sndcard", .data = "sm8250" },
- 	{ .compatible = "qcom,sdm660-sndcard", .data = "sdm660" },
- 	{ .compatible = "qcom,sm8250-sndcard", .data = "sm8250" },
-+	{ .compatible = "qcom,sm8350-sndcard", .data = "sm8350" },
- 	{}
- };
- 
-
----
-base-commit: 0fe506c81cc421509660163da72dac79adfb959a
-change-id: 20261127-sm8350-sndcard-f2367f4568d2
 
 Best regards,
---  
-Demeter Barna <me@fromdisposition.org>
-
-
+Krzysztof
