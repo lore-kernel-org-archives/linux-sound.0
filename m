@@ -1,68 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795875606;
-	b=HfQvVs2IyodUt1Ulpf6beJiZq0xRUXPGHscQh3MJVkYTk00oaiz9ATfCujpdEJ5nUmxS
-	 3aQlsMJF9+ZEcj8oSVaLBbqrPrUWC63JorP9ilyM9OWLNbp7t2xq5fV6TNDnkjDNX/Z1C
-	 AgXFPva8WH8JzZl1wgxZG9n6Fbwxy6e/Ep/9GLpgJgeBU0XICuDTPVHNpnk4HpgnqhxLI
-	 BCfha1nBgNylhfqxNzQxyvbC6zyWEhoOMx0l6EgLfTU9aPbFvyQadxYASxn2cz1nl6zNU
-	 S3RKkc4R0giZJSd5oKz4f/LSgRJX+kLn1l4CELhK+MESFgaiP9hoUbU40ZALRrTHT7A==
+	t=1795877630;
+	b=0LtsZTEZZbCZ7j1iU56UryGZ3Q3d2/sTUH2rSErM8NON92k1ptXZiXYbsjCkuvG/OY/4
+	 vnhRlkg32JPslZHYnmJcfuMdfyNJK6zpolQK+YkgKI7d7Bsdhaq0+gxT9ASQKS+vNps44
+	 gyagPtCEvMedsX4xoDuc0gqkqHs4KO0Q5by8Acvr0bc7k8LdfFgHXKONUxVYmQNfeTw77
+	 IWFa3JPI+uZXKqcC4xCMy0aM46yB1zNBFngO4Edt0H69AWlp0vD4c9we5MBfQ7PlVB3eX
+	 E7oXVkz+4j1lIG3wwYZQcpngpzzZn0f5ykGtTnFBHaUmR7hQbiBwFOFGpZWXN96fA4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795875606;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Cookie;
-	bh=p6RETe2n9nSFkgmwbwxPDMILbC3h00DQnWP3gt1J/Cc=;
-	b=Pw+sdfBGYcIOQtKSU+8ybsNOag//rRujtekeMvhL6uU1LmQ2JgyeM/I7uKHiSd8AhNnN
-	 BwibWeU9ceXU348dQ4GaGVUqmc5aZQxNjeDk4eP14/snaFU8rfC5eCEs83FG22xjhSFoN
-	 SLIadwNZeaB1CSFtHejGSQC1cam7T3GWjwrN1ChBUCHN4pFzsmrXDdki3R0ZxO9YtYk1l
-	 wS/NaVd8aKzJ/fHhDdAWX1jpG2MFMQkhjEtXBsbL/l5IWHVDicsKO31vYFFXUHDq41E46
-	 Q8bHT3ipc2ez4NJk1ww4ZVbW87GUgFI+yZ6+6jISAHYJnnlrDflMBLKZS/PWGkKTo9A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795877630;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=aI2gMYXr4Fr9UA8l7dKR+kfhYjOBstwSOO9QT5PWflQ=;
+	b=MPmJxeHOqVjxULwnl2ameOJAnAdG0HY2ZFz8AFDipAyW+eP+qde3oGgJAWVbqmsVk0BH
+	 rhQ/y3UzHO8yHQKOxnW9QuU4H1QNvvwKribXiYn82+qem32tlRS9bjooTytPlFV9hO7rS
+	 fFHl1jyMeX071rPtnUFvkhtB/VPe4+TjFvADB/r3rmDg+l4HTBzH7Mp0EOOTg17WiHGRF
+	 lYDfzpj2Si7vc02tKfe1ktQMhLHvDf9cl6ZUT4euM6us9cOtelFs5xvspjClJlUSl9nla
+	 3ntIb8rceDBTWlhsR7aIHrWDZQkoKlroqAp3PTp8mkbDRreypRm5fO7GqzmBPpXPrXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R1lZZ1+5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OGMdQCk3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10EB0606A31F;
-	Sat, 28 Nov 2026 14:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679A9606A31C;
+	Sat, 28 Nov 2026 14:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R1lZZ1+5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3311F000C1;
-	Sat, 28 Nov 2026 14:20:01 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OGMdQCk3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3722F1F00897;
+	Sat, 28 Nov 2026 14:53:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795875605;
-	bh=p6RETe2n9nSFkgmwbwxPDMILbC3h00DQnWP3gt1J/Cc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R1lZZ1+5qbv/4e6EYQ1EuQ88gqj55hacUhJhSUdHikUvDIGnQ9reUDAB5COBBreMV
-	 HiUbgm01XKP8cTP37qjSoCQBYfezxXwFuIJ4cQ3jGSOVShcjKtAvcpoWLNZCh7eS9y
-	 DYfD49PJt7XKe70Kc8znYEt9exh4qHmXBnaafS4OxAjlqFiYLKe0NzPBP0TX151imb
-	 wtGXGprxf088A7aAclFYzvwqXs0ujaZM8mYe6XFgWN9wwFk+Jm/RsKe5lX4v9cdDQd
-	 s4j/dHWbNG3Rash9P8vauADDjt7C7L8CtsLrAwq8mpbqKhhrHyygNrW5VBzheNGPz8
-	 w/2PMvr1tPSsw==
-Date: Sat, 28 Nov 2026 14:19:59 +0000
+	s=k20260515; t=1795877630;
+	bh=aI2gMYXr4Fr9UA8l7dKR+kfhYjOBstwSOO9QT5PWflQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=OGMdQCk313JzA3opu9ojMOiDlHsdxXWv2wdLi3+YE2aGdvAa99VJ9yIS3yTdOw1yF
+	 SB6LzBW8sFKWApa1beIULfWK2jbbwu/Kbp1k/SJ+idopxE+wc911pnltGYBZthODdi
+	 SMX0t2NEYyWsUVlEGIYJq/NdYAfjRRmflyNFRVU7/b/SMn8V03rmL/q8YpupHaG6k1
+	 rHdfNsjiIgtqCILyF6uwlWbeRPoEWJJ4qwDNIUEhieeups4z1uYbhnIDciZWZet7vt
+	 CBLIhcoUSyK7VGQmPRqQ46B21yKfKvlWQc5yAOz6A7QzWnO7kr7BZC6lThvcMAxJp+
+	 mC07l9PlZ3wZA==
 From: Mark Brown <broonie@kernel.org>
-To: Daniel Golle <daniel@makrotopia.org>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Kees Cook <kees+treewide@kernel.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Andre Przywara <andre.przywara@arm.com>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org, stable@vger.kernel.org,
-	Marcus Cooper <codekipper@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH 0/1] clk/ASoC: sunxi: fix H616 audio PLL and codec clock
- rates
-Message-ID: <7350b432-a04c-451f-8a1a-045d3f3a597b@sirena.org.uk>
-References: <cover.1795815223.git.daniel@makrotopia.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20261127114037.2010271-1-rf@opensource.cirrus.com>
+References: <20261127114037.2010271-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH 0/2] firmware: cs_dsp: Remove some more wasted bytes
+ per control
+Message-Id: <179579367141.838304.16317574193837468104.b4-ty@b4>
+Date: Fri, 27 Nov 2026 15:34:31 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -72,46 +59,57 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="layEJsjDVDBOgV60"
-Content-Disposition: inline
-In-Reply-To: <cover.1795815223.git.daniel@makrotopia.org>
-X-Cookie: I'm a Lisp variable -- bind me!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1584; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Dv3vrWIUzM8joyq/zWBE92AiB+MUkxoUIQEeKqC2N+g=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK5Xv3+8uuw2cFdorfXaIYzyDauunhSfx3PfP3v2X2bD
+ Sz3X5no11HKwiDGxSArpsgSl8X9sr7k9Rq+gwvbYOawMoEMYeDiFICJpGxlZDien3D9uVPSrYes
+ /7/zrFZkk9s6w3QCT3LU0aKH3Qe+rtjE8M/ox1LRHdtc8lZ/MT/8emZXy52vJixCHIp3j816d9f
+ LKpgNAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Fri, 27 Nov 2026 11:40:35 +0000, Richard Fitzgerald wrote:
+> firmware: cs_dsp: Remove some more wasted bytes per control
+> 
+> This series removes another 16 wasted bytes (on x86_64) per control from
+> struct cs_dsp_coeff_ctl.
+> 
+> Richard Fitzgerald (2):
+>   firmware: cs_dsp: Resize members of cs_dsp_coeff_ctl to save bytes
+>   firmware: cs_dsp: Store control cache data in struct cs_dsp_coeff_ctl
+> 
+> [...]
 
---layEJsjDVDBOgV60
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Fri, Nov 27, 2026 at 09:42:18PM +0000, Daniel Golle wrote:
-> The H616 CCU reports the audio PLL at half its real frequency since its
-> sigma-delta table was added, and the H616 codec support was tuned on
-> top of that, so the two errors cancel for the analogue codec. Other
-> users of the audio PLL run at the wrong rate: sun4i-spdif plays at
-> twice the requested rate once the codec has moved the PLL to its
-> sigma-delta setting, and an I2S driver for the Audio Hub that asks for
-> 24.576 MHz gets 49.152 MHz.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
-Please don't send cover letters for single patches, if there is anything
-that needs saying put it in the changelog of the patch or after the ---
-if it's administrative stuff.  This reduces mail volume and ensures that=20
-any important information is recorded in the changelog rather than being
-lost.=20
+Thanks!
 
---layEJsjDVDBOgV60
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/2] firmware: cs_dsp: Resize members of cs_dsp_coeff_ctl to save bytes
+      https://git.kernel.org/broonie/sound/c/6534c2bedf46
+[2/2] firmware: cs_dsp: Store control cache data in struct cs_dsp_coeff_ctl
+      https://git.kernel.org/broonie/sound/c/3bbfb78a99fc
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmsK4w4ACgkQJNaLcl1U
-h9AeuAf9G0qsxK6Y/sQ0f+9QCEUTP96FGYku7DdOZg2H7llUzXOXE2TqwowcOvsO
-LKpNWIHw9Z+rdh1kuqlVsyaJaUJcvK2zDol+/cKYXWnFixHCpMO5yyly45V9wXhX
-5woquNvg3DCV6XvGw5D0iAte6fD4/HuNh9yRTfzyMGA6UUoxFRRNUxN1N+FxY0mf
-/l81igCXEqTgZonnGRnQm/1WV31x7oNt1AiADDJj/aCtL/YOf5vcB9/JkwFhIZUb
-XmUSp/vfJ4lNdXnONWyVY9kz6AxHdAuQTOJNIseWnGOur9LqBopMLs8TD5soeslT
-4KLUrtT76f+UUGbzGExMdDpzaG96Sg==
-=O75m
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---layEJsjDVDBOgV60--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
