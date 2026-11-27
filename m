@@ -1,71 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.240.27.128
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795761984;
-	b=fo5S4hOJz4WseMoyROpQ6jKKE6yhWYwo30l/jmuBWeb7WnDK9lq0XBWG4SF1Vj+yzIYx
-	 rJ+fwgj+uFlRJPupuuMnp2lV9/sS/S93p3+s8m5i3apPw4FXydlolvXfwnrDWHbdBy7Kk
-	 jFChdN/J6m3JR5vS/yGbPiJa+Bpny4Gq28QxmoQ0CnZxWKYCSrpbPrCnNRFAltd1Qmejo
-	 C5IN9YEr5c45wYhyxKQb0KsaLrpPxBxtfnNYR30d6FRHWatlJQhh6rFpomUBcrIOohtnY
-	 uZr2vxINvhXWUDTgIF230Z4TIG+6ll1v0sBpixLKnp4Wxxk6at0aJKvFb28dnOtGgYw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795761984;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Subject:From:To:Cc:Date:
-	 Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:
-	 References:X-Mailer:Thread-Index:Thread-Topic:X-Original-Mailer:
-	 X-Wm-Sent-Timestamp:Message-ID:Feedback-ID:X-SES-Outgoing;
-	bh=UUrmEL4fj7DBJYDRPj0ZU1jj66ejxzXJDf0rYEb8jlw=;
-	b=zIIkyvzx4RGRCRIb4g0JdUgAPH2HmFUCUnbTZBgAiYhGfuez+WfEFHIf0d39kMKoZhRi
-	 osoPTD8O7Ri+IYaXM3/khLDb71PuLEo8Ygxqkoz+t1hQ64LSbm8P1ZJp/OHRBAsHR7Pol
-	 iIgyV02GaHRles6vRYGo+EJIGlDuzXW2NZGTsqFvwo9y2Z0CoOMJDWcFFr53t16VbY3OW
-	 wdZa0HvqVhqyuWAASdZoAz9gPDVLXg8VQtfnky01hw2LDixe5GyjZM+UGCpUQIhCaCpHt
-	 tiQVBzy/I9q+MnUv2QElzMD2taXCD+IsuDzpzENVxT8S/EGW5j5IhMh/So+212esgTw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=geek-masa.com;
-	spf=pass smtp.mailfrom=mail.geek-masa.com;
-	dkim=pass header.d=geek-masa.com header.i=@geek-masa.com header.a=rsa-sha256 header.s=mwholqyuytutcif2rgzxazuf7vd3euk6 header.b=lrbBfw5T;
-	dkim=pass header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FC6RUv2q;
-	arc=none smtp.remote-ip=54.240.27.128
-Received: from a27-128.smtp-out.us-west-2.amazonses.com (a27-128.smtp-out.us-west-2.amazonses.com [54.240.27.128])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795762077;
+	b=R6QxCTKl3hniQDA9wtWsuFleO1rJUwatk1stqXXeGO5rlkjadm4GoVSa3+atBEJ0j7Mc
+	 1AS4hkyFqCCcEsdnk01gTyPM6N6Eo0l2swhJwNOszx/mtTL50w7I3mjsz8Vwfs3MzF6DJ
+	 J10bfv/+uDSF4jTlI93Jcs3BmtFm9h1QkVppDtLuSMWMDsFMU3a1jcN5fX1Eq1jhjcSel
+	 dWzA8JBxHKG2NUbsNGRBatZYN9TVNEgHkti3zAaamU5tv+WcHnSiONNK0z8tcDLrfysnw
+	 jnwsydoK1uOgf7B3cOjX+wvM2PNxcqmFAKIgkb5R3IfRDgN+ch1mmmZGfbFT4ZjERng==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795762077;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=j6m7R+QoZXf0daSNyypH1YTXx+y64p+sMjzGTV/IfP8=;
+	b=GhuvA6Jtqv/oQy0TioGoC+9meNbdvzT/WpiUdSSOooa4rkSL4Nyhp0vT7HqDSMCCYbJj
+	 KULIXSQNo6eEMYB3JfTsiAguR4A7TCs/WizcTi96YUProFzmpq1FUWVtG4lsxHkPrsvNy
+	 bfmfOuZmwOKWFR32RwvkHL+T/SP3IMc8HepMWKQBWTcMCs9bDtLr8xiDz4Q/YnqhNrah/
+	 jryU5tM/I1Ni1H3bekLut49PUCsW+dQJeR0KFn2uXKv4LJMLygx6ICjT+xmbAdqPdkCup
+	 uNKyTQxk/X+k5HxixFwZHLTGhJyEag2JBeKXwnZYdbKifbzq00WLbU6JhMmfv5bekJA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PYnp0l8s;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AFA606A326;
+	Fri, 27 Nov 2026 06:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PYnp0l8s
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795762076;
+	b=eWFOBye8/oJsvsPmR5hWgVR8nw115YJHygavyFovXEue1zBlkIsWh61M5TK1DtvEppc5
+	 RJohAjGBVHoQLbEGX7OeiMzhFNLPCf48djoiut32Za9wsB0bwz3Y82tB0/TxO4Oli3mub
+	 PmgDSUwq902ywGUblzY/SGvPKIDhFcBVnl7XKGGOC9fmQaBwVa1T5zHYzbfIdxgX5BkiL
+	 finruOrvnyxXzT1o1fuKkSC6t9knMCPaLpcPb7iIi8DZaetFKV3ooZrdsqlZWh8UEOox6
+	 mPPzlfRjwezteQ5l5jJX50HmvSHqiHJlJxK+9l03K+q8S0ZOERxfiqwviJglaFqUy2g==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795762076;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=j6m7R+QoZXf0daSNyypH1YTXx+y64p+sMjzGTV/IfP8=;
+	b=xi+nnviyZhGerAwDJOZQ5SYI0/vyBx7rk/8YQjMzRBeniPoN2ZOVJesXWR4P8CaEsaHf
+	 izSvuPgpkBMx0p+cJdcDboAEC/gznK+vcGt64XIsmYGSAA+a37KIA5GVcv7K9FNMWmxKe
+	 e5jJqyi4Z+4zzdnxhjyjJxE7+eHAwHTA3O6jL8kN2SaBqsAgwrZLUkPw2PW8uYhFqCK2s
+	 AAwdUafh37c5reknGJgRhb+owoQksZpGEskRmUuidkklwUEl0YF+h3gyXavTtZJFyWR0V
+	 wDoaWb5T+47dp0TUO3uN92krepggrJ65OEaUYsG4XvUEJoYpH2olR/rrSYXglMVvsLg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C30606A31E;
-	Fri, 27 Nov 2026 06:46:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66C30606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=geek-masa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.geek-masa.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=geek-masa.com header.i=@geek-masa.com header.a=rsa-sha256 header.s=mwholqyuytutcif2rgzxazuf7vd3euk6 header.b=lrbBfw5T;
-	dkim=pass (1024-bit key, unprotected) header.d=amazonses.com header.i=@amazonses.com header.a=rsa-sha256 header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FC6RUv2q
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=mwholqyuytutcif2rgzxazuf7vd3euk6; d=geek-masa.com; t=1795761983;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=j452pPgXWbNkeLAE9DAUy1JgfKaEzF8HrEHs86FoXRA=;
-	b=lrbBfw5T5cGIpL1XtMEkwhrF8TjUh2NVb0m8HManf4EIwKcRIMXTqJfmYAgYCInu
-	58QxHyQ4PKX2/5qi1eErtutsn3RSjaYTdKBAxr3SThVIHoniyP4/CCEO8IpE15yawu/
-	CXASJcik9+n+SYLLI6gVaZeFZZKmMpwAF5H8FC0mhpHicrmUqDg0jxG5+VVgNYb+Ww4
-	XKV7UmiDdcmQcEu5utZ7VL9+u4RRS2qi9Xoq2eOcPIuIY/ArQl3zBizZtC/z760gC2m
-	fNmh0j7nTR82WVFb3UX0DlggqE82w7GWmqOdLdO0FNE82Ny8f618XvJ0rVaNwwn2Y1j
-	NkfDYt+NOA==
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795761983;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=j452pPgXWbNkeLAE9DAUy1JgfKaEzF8HrEHs86FoXRA=;
-	b=FC6RUv2q1aOeQW5EGteGdN9tSMtEV3ZsX6EMxTycgf9K1CpXnKdqmkGKwo2SMaa5
-	POWdKtgcvwRk5lN5H0wOFBHWNgDxhHieg+ja2vLsdPiJwvgxe8e1Ctj70mCC1+6ENir
-	TDBP9LfIXA8N7F7VYcUUZig8mCJyxiJ0TWfsH/bQ=
-Subject: [PATCH] ALSA: ua101: clamp playback packet sizes instead of
- rejecting UA-1000
-From: =?UTF-8?Q?Masanori_Suto?= <suto@geek-masa.com>
-To: =?UTF-8?Q?tiwai=40suse=2Ede?= <tiwai@suse.de>
-Cc: =?UTF-8?Q?londongrad=40gmail=2Ecom?= <londongrad@gmail.com>, 
-	=?UTF-8?Q?xmei5=40asu=2Eedu?= <xmei5@asu.edu>, 
-	=?UTF-8?Q?clemens=40ladisc?= =?UTF-8?Q?h=2Ede?= <clemens@ladisch.de>, 
-	=?UTF-8?Q?perex=40perex=2Ecz?= <perex@perex.cz>, 
-	=?UTF-8?Q?linux-sound=40vger=2Ekernel=2Eorg?= <linux-sound@vger.kernel.org>, 
-	=?UTF-8?Q?stable=40vger=2Ekernel=2Eorg?= <stable@vger.kernel.org>, 
-	=?UTF-8?Q?regressions=40lists=2Elinux=2Edev?= <regressions@lists.linux.dev>, 
-	=?UTF-8?Q?Masanori_Suto?= <suto@geek-masa.com>
-Date: Fri, 27 Nov 2026 06:46:23 +0000
+	by smtp.kernel.org (Postfix) with ESMTPS id AD3B51F0089B;
+	Fri, 27 Nov 2026 06:47:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795762076;
+	bh=j6m7R+QoZXf0daSNyypH1YTXx+y64p+sMjzGTV/IfP8=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=PYnp0l8syBeYyhAbju9tLXeOj7CD/KPcKIJcUeBAxCBFF4/NOuMnf5YIxoM1O9bAp
+	 tmOFE5cZG/jM6uL/6CEE+C6MqwoIuUeYMnJdMPcNt3aJ4FVgpZa+4ROw3nAspo3il/
+	 RvpLxfnPfemHRtv02mSXJnX1eU3cAEAKOxbFDvdyxsft01f4weRzm0JD9g1MM6wkZO
+	 reSjls8E+w9PnQW7bsmbUArS/YCFguvAbsofjMbHT0Xy1g/aJOu2oPjjsoJ8Fc17Cx
+	 9q+RbDYPh7exNcoVU/GeCXP7OB6jssPjqNpHxhbLbdeuZLjO7EYGEFCtpstyGqPuwo
+	 JawQ8pR+oMS6g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 2B5584B5B4;
+	Fri, 27 Nov 2026 06:47:46 +0000 (UTC)
+From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
+Date: Fri, 27 Nov 2026 05:35:37 +0000
+Subject: [PATCH 6.6.y] ALSA: seq: Don't leak the extension cell pointer in
+ the bounce payload
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -74,112 +82,125 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <CANd6TdKdRftWyo5Cg_85-fBVGW3oHAntEY-DdCpQCDSyRpOprw@mail.gmail.com>
-References: 
- <CANd6TdKdRftWyo5Cg_85-fBVGW3oHAntEY-DdCpQCDSyRpOprw@mail.gmail.com> 
- <20261127064615.40817-1-suto@geek-masa.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHdfjsDkETvySPpTqK7zfeNAGe9Jw==
-Thread-Topic: [PATCH] ALSA: ua101: clamp playback packet sizes instead of
- rejecting UA-1000
-X-Original-Mailer: git-send-email 2.56.1
-X-Wm-Sent-Timestamp: 1795761982
-Message-ID: <010101a21bc150d7-627da1ea-4ebf-499d-9ae0-edf88db3e063-000000@us-west-2.amazonses.com>
-Feedback-ID: ::1.us-west-2.An468LAV0jCjQDrDLvlZjeAthld7qrhZr+vow8irkvU=:AmazonSES
-X-SES-Outgoing: 2026.11.27-54.240.27.128
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261127-so5-alsa-66-v1-1-e6baeea4106a@certik.com>
+X-B4-Tracking: v=1; b=H4sIAKgWCWsC/02NSw7CMAxEr1J5jQsJJQiugljk41KjKqnigkBV7
+ 04CG5bzNPNmAaHMJHBuFsj0ZOEUS1CbBvxg442QQ8mgd9oopY8o6YB2FIvGIPWOgjrtfUcdlMW
+ UqefX13YB05r2Ddcfloe7k5+rqRadFUKXbfRDRUIxzCmNWPn27wHW9QPWIRLiogAAAA==
+X-Change-ID: 20261127-so5-alsa-66-efbed193c4e4
+To: stable@vger.kernel.org
+Cc: HyeongJun An <sammiee5311@gmail.com>, Takashi Iwai <tiwai@suse.de>, 
+ linux-sound@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795757736; l=4003;
+ i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
+ bh=nGJ91NaFovr+BISLWd06H/MX3/Mv38Fa6V8EKicAbJ4=;
+ b=ZlYd1JYkTfkU4c4meREjx9iDEgpue9uA7XF0TuuIpDNQqouvJ9FY8KlhMqzT3mr0baCEvwwUT
+ xswXe7PBP8ADbGbuuSQBvqgKWCS3TzxPWNTf6kuDYeuqNpd/l9m3lX+
+X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
+ pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
+X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
+ auth_id=1647
+X-Original-From: Dickson Wu <dickson.wu@certik.com>
+Reply-To: dickson.wu@certik.com
 
-Commit 86f86e6fdedc ("ALSA: ua101: reject mismatched capture/playback=0D=0A=
-packet sizes") rejects a device at probe time when a capture packet of=0D=
-=0AwMaxPacketSize bytes would carry more frames than fit into a playback=0D=
-=0Apacket.  It assumed that genuine hardware declares proportional packet=
-=0D=0Asizes, but the UA-1000 does not:=0D=0A=0D=0A  capture  EP 0x81: 12 =
-ch x 4 bytes, wMaxPacketSize 720 -> 15 frames=0D=0A  playback EP 0x02: 10=
- ch x 4 bytes, wMaxPacketSize 560 -> 14 frames=0D=0A=0D=0Aso the UA-1000 =
-now fails to probe with=0D=0A=0D=0A  playback packet size 560 too small f=
-or 15 capture frames=0D=0A=0D=0AIn practice the device sends about rate/8=
-000 frames per packet at high=0D=0Aspeed (6 at 48 kHz, 12 at 96 kHz), whi=
-ch always fits the playback=0D=0Apacket.=0D=0A=0D=0AThe out-of-bounds wri=
-te has a single source: capture_urb_complete()=0D=0Astores the received f=
-rame count in rate_feedback[], and both=0D=0Astart_usb_playback() and pla=
-yback_work() take their packet sizes only=0D=0Afrom that FIFO.  Clamp the=
- value there to what fits into one playback=0D=0Apacket, so the playback =
-URB buffer cannot be overrun whatever the=0D=0Adescriptors say, and relax=
- the probe check to require only that one=0D=0Apacket at the nominal rate=
- fits.=0D=0A=0D=0ATested on a UA-1000 (0582:0044): the device probes agai=
-n, and playback=0D=0Aand capture both work.=0D=0A=0D=0AFixes: 86f86e6fded=
-c ("ALSA: ua101: reject mismatched capture/playback packet sizes")=0D=0AC=
-c: stable@vger.kernel.org=0D=0AReported-by: London grad <londongrad@gmail=
-=2Ecom>=0D=0ACloses: https://lore.kernel.org/all/CANd6Td+b6ituLFzkhvX09vr=
-icCY541fQapNOk3rTa=3D74zWA5LA@mail.gmail.com/=0D=0ACloses: https://bugzil=
-la.kernel.org/show_bug.cgi=3Fid=3D222261=0D=0ASigned-off-by: Suto, Masano=
-ri <suto@geek-masa.com>=0D=0A---=0D=0AHi Takashi,=0D=0A=0D=0ATo answer yo=
-ur question earlier in this thread: on my UA-1000=0D=0A(0582:0044, bcdDev=
-ice 1.07), reverting 86f86e6fdedc alone makes the=0D=0Adevice work again.=
- It is registered in /proc/asound/cards, and playback=0D=0Aand capture bo=
-th work. Without the revert it fails to probe with=0D=0A"playback packet =
-size 560 too small for 15 capture frames", as in the=0D=0Aearlier report.=
- So the commit is confirmed as the cause.=0D=0A=0D=0AA plain revert would=
- reopen CVE-2026-98741, so this patch keeps the=0D=0Aprotection by clampi=
-ng the packet size where it is produced instead of=0D=0Arejecting the dev=
-ice. With this patch applied, playback and capture also=0D=0Aboth work. T=
-ested on linux-zen 7.3.6-zen1; sound/usb/misc/ua101.c there=0D=0Ais ident=
-ical to mainline.=0D=0A=0D=0ATo check that the 15-frame worst case does n=
-ot happen on real hardware,=0D=0AI captured the isochronous traffic with =
-usbmon: 60 s of simultaneous=0D=0Aplayback and capture at each rate the U=
-A-1000 supports, about 480000=0D=0Apackets each. Frames per packet, from =
-the actual capture length=0D=0A(EP 0x81) and the submitted playback lengt=
-h (EP 0x02):=0D=0A=0D=0A  rate       capture frames per packet           =
-max=0D=0A  44.1 kHz    5: 48.76%   6: 51.24%                6=0D=0A  48 k=
-Hz      5:  1.14%   6: 97.74%   7: 1.12%     7=0D=0A  88.2 kHz   10:  1.0=
-4%  11: 95.45%  12: 3.52%    12=0D=0A  96 kHz     11:  0.08%  12: 99.86% =
- 13: 0.06%    13=0D=0A=0D=0APlayback used exactly the same distribution a=
-t every rate. The maximum=0D=0Ais 13 frames at 96 kHz, which fits the 14-=
-frame playback packet. The=0D=0A15 frames assumed from wMaxPacketSize nev=
-er occur: the device stays=0D=0Awithin one frame of rate/8000. The clamp =
-warning added by this patch=0D=0Anever appeared in the kernel log during =
-these runs.=0D=0A=0D=0AThe same breakage was also reported on LinuxMusici=
-ans:=0D=0Ahttps://linuxmusicians.com/viewtopic.php=3Fp=3D189180=0D=0A=0D=0A=
-#regzbot ^introduced: 86f86e6fdedc=0D=0A=0D=0A sound/usb/misc/ua101.c | 3=
-0 +++++++++++++++++++++++++-----=0D=0A 1 file changed, 25 insertions(+), =
-5 deletions(-)=0D=0A=0D=0Adiff --git a/sound/usb/misc/ua101.c b/sound/usb=
-/misc/ua101.c=0D=0Aindex bd8e0ed..196a588 100644=0D=0A--- a/sound/usb/mis=
-c/ua101.c=0D=0A+++ b/sound/usb/misc/ua101.c=0D=0A@@ -371,7 +371,7 @@ stat=
-ic void capture_urb_complete(struct urb *urb)=0D=0A =09struct ua101_urb *=
-ua_urb =3D urb->context;=0D=0A =09struct ua101 *ua =3D ua_urb->ua;=0D=0A =
-=09struct ua101_stream *stream =3D &ua->capture;=0D=0A-=09unsigned int fr=
-ames, write_ptr;=0D=0A+=09unsigned int frames, max_frames, write_ptr;=0D=0A=
- =09bool do_period_elapsed;=0D=0A =09int err;=0D=0A=20=0D=0A@@ -402,6 +40=
-2,21 @@ static void capture_urb_complete(struct urb *urb)=0D=0A =09=09=09=
-=09goto stream_stopped;=0D=0A =09=09=09}=0D=0A=20=0D=0A+=09=09=09/*=0D=0A=
-+=09=09=09 * The playback stream reuses this packet size, but its=0D=0A+=09=
-=09=09 * URB buffers hold only playback.max_packet_bytes.  The=0D=0A+=09=09=
-=09 * capture packet size comes from the device, so clamp it=0D=0A+=09=09=
-=09 * to what fits into one playback packet.=0D=0A+=09=09=09 */=0D=0A+=09=
-=09=09max_frames =3D ua->playback.max_packet_bytes /=0D=0A+=09=09=09=09  =
-   ua->playback.frame_bytes;=0D=0A+=09=09=09if (unlikely(frames > max_fra=
-mes)) {=0D=0A+=09=09=09=09dev_warn_ratelimited(&ua->dev->dev,=0D=0A+=09=09=
-=09=09=09=09     "capture packet of %u frames clamped\n",=0D=0A+=09=09=09=
-=09=09=09     frames);=0D=0A+=09=09=09=09frames =3D max_frames;=0D=0A+=09=
-=09=09}=0D=0A+=0D=0A =09=09=09/* append packet size to FIFO */=0D=0A =09=09=
-=09write_ptr =3D ua->rate_feedback_start;=0D=0A =09=09=09add_with_wraparo=
-und(ua, &write_ptr, ua->rate_feedback_count);=0D=0A@@ -1031,12 +1046,17 @=
-@ static int detect_usb_format(struct ua101 *ua)=0D=0A =09ua->playback.us=
-b_pipe =3D usb_sndisocpipe(ua->dev, usb_endpoint_num(epd));=0D=0A =09ua->=
-playback.max_packet_bytes =3D usb_endpoint_maxp(epd);=0D=0A=20=0D=0A-=09i=
-f (ua->capture.max_packet_bytes / ua->capture.frame_bytes *=0D=0A+=09/*=0D=
-=0A+=09 * capture_urb_complete() clamps the packet sizes passed to the pl=
-ayback=0D=0A+=09 * stream to playback.max_packet_bytes, so only the nomin=
-al rate must=0D=0A+=09 * fit here.  wMaxPacketSize of the capture endpoin=
-t may legitimately=0D=0A+=09 * be larger (e.g. UA-1000).=0D=0A+=09 */=0D=0A=
-+=09if (DIV_ROUND_UP(ua->rate, ua->packets_per_second) *=0D=0A =09    ua-=
->playback.frame_bytes > ua->playback.max_packet_bytes) {=0D=0A =09=09dev_=
-err(&ua->dev->dev,=0D=0A-=09=09=09"playback packet size %u too small for =
-%u capture frames\n",=0D=0A-=09=09=09ua->playback.max_packet_bytes,=0D=0A=
--=09=09=09ua->capture.max_packet_bytes / ua->capture.frame_bytes);=0D=0A+=
-=09=09=09"playback packet size %u too small for %u Hz\n",=0D=0A+=09=09=09=
-ua->playback.max_packet_bytes, ua->rate);=0D=0A =09=09return -ENXIO;=0D=0A=
- =09}=0D=0A =09return 0;=0D=0A--=20=0D=0A2.43.0=0D=0A=0D=0A
+From: HyeongJun An <sammiee5311@gmail.com>
+
+commit 59e1592d3c270ff4642d5d6dc55c545306eb0693 upstream.
+
+The bounce_error_event() embeds the failed event in the bounce payload
+by pointing data.ext.ptr at it.  When that event is a queued
+variable-length event, its own data.ext.ptr holds the address of its
+first extension cell, put there by snd_seq_event_dup().  The payload
+goes out verbatim through snd_seq_expand_var_event(), so the address
+reaches userspace.
+
+That is the same address commit 705dd6dcbc0e ("ALSA: seq: Clear
+variable event pointer on read") removed from the event header.  The
+read path still clears it there, just above the call that expands the
+payload.
+
+Embed a sanitised copy instead, treated exactly as snd_seq_read()
+treats the header.  A stack copy is enough because delivery is
+synchronous and snd_seq_event_dup() copies before returning.
+
+An unprivileged client reaches this by setting SNDRV_SEQ_FILTER_BOUNCE,
+queueing a variable-length event to a port that does not exist and
+reading the bounce back.  Eight bytes on 64-bit, from its own pool.
+
+Fixes: efc86691e4d8 ("ALSA: seq: Fix kernel heap address leak in bounce_error_event()")
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+Link: https://patch.msgid.link/20260811131835.3837024-1-sammiee5311@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Dickson Wu <dickson.wu@certik.com>
+---
+6.1.y, 6.12.y and newer already have this fix.
+
+Tested on v6.6.163:
+- x86_64 allmodconfig W=1 build of sound/core/seq/seq_clientmgr.o,
+  base vs patched, no new warnings
+- booted the patched kernel under QEMU/KVM with snd-seq-dummy, passed a
+  note between two ports and checked the error bounce for a rejected
+  fixed-length event. I didn't run a variable-length bounce.
+
+The backport and the test runs were prepared with AI coding tools
+(OpenAI Codex agents, with review by Claude). I went over the result
+before signing off.
+
+sound/core/seq/seq_clientmgr.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+---
+ sound/core/seq/seq_clientmgr.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
+index f039fd6ee3a7..de17b66cd16b 100644
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -578,7 +578,7 @@ static int bounce_error_event(struct snd_seq_client *client,
+ 			      struct snd_seq_event *event,
+ 			      int err, int atomic, int hop)
+ {
+-	struct snd_seq_event bounce_ev;
++	struct snd_seq_event bounce_ev, quoted;
+ 	int result;
+ 
+ 	if (client == NULL ||
+@@ -594,15 +594,19 @@ static int bounce_error_event(struct snd_seq_client *client,
+ 		 * For user clients, send SNDRV_SEQ_EVENT_BOUNCE with the
+ 		 * original event embedded as variable-length data.  This
+ 		 * avoids exposing data.quote.event (a kernel pointer) to
+-		 * userspace.  The variable-length path in snd_seq_event_dup()
+-		 * copies the event data from data.ext.ptr into chained cells,
+-		 * and snd_seq_expand_var_event() copies only the data content
+-		 * -- never the pointer -- to userspace.
++		 * userspace.  Sanitise the embedded copy too - a queued
++		 * variable-length event carries the address of its own
++		 * extension cell, and the payload goes out verbatim.
+ 		 */
++		quoted = *event;
++		if (snd_seq_ev_is_variable(&quoted)) {
++			quoted.data.ext.len &= ~SNDRV_SEQ_EXT_MASK;
++			quoted.data.ext.ptr = NULL;
++		}
+ 		bounce_ev.type = SNDRV_SEQ_EVENT_BOUNCE;
+ 		bounce_ev.flags = SNDRV_SEQ_EVENT_LENGTH_VARIABLE;
+ 		bounce_ev.data.ext.len = sizeof(struct snd_seq_event);
+-		bounce_ev.data.ext.ptr = (char *)event;
++		bounce_ev.data.ext.ptr = (char *)&quoted;
+ 	} else {
+ 		/*
+ 		 * For kernel clients, quote the event pointer directly.
+
+---
+base-commit: e2bb30811e063ce0db964484357973b855b06572
+change-id: 20261127-so5-alsa-66-efbed193c4e4
+
+Best regards,
+--  
+Dickson Wu <dickson.wu@certik.com>
+
+
