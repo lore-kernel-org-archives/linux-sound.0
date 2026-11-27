@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795799182;
-	b=r5wYJQOitnWkeGL6uNQ/jQ1uDIOinz10shIrAmTQwoJu2CFHHYBWY/XX8s00QT3jIJjD
-	 L1Kmbz0E9AJ3V2KHHCFSTxAMhc6mpjRdwNOGw8tnETTcEnrbISfO4GQOM50PZi992iidi
-	 AN1WgxgDgCRq3xneX6k3iiypr1/x3BIOjG/FkCbZ0in/1AAm1PJ4HvXPCJRLT5fknmDu2
-	 5xj9kdSVD6FYJx7pUZZ2NoLJ8d8BMoiDy4kPVCURAeetgc+nZDBMh03gp4FSBCLJrYnGs
-	 ua2l9SZptMyMOmtRlNlxkcCgU4EEHZ7gaH5FcqzeeKK3hsQuKUPtASZHBPZLUnSVdtw==
+	t=1795799184;
+	b=kxCny3CgnIkH4GztnwQtMudLtycCnh0BRqIxygtZnclWri4FPuVg3px1IfERPDp6JKtW
+	 a6WdcjhOEj7Sd3HEviTaG7RtHLj3W5xAUKfJ3OYWQxYfoEWYAT3us6KvHJoJSFCw2Qtal
+	 /Zqb7lEaVtXfmmDXv/e6JcozJTwKMtlxwRCJJnn6DwN6dvylum4ukECLyKAMwIpN5oaXH
+	 vpHm7CiCUs9Fn9kBGLwppOlnUbrAxg2331Q2ZoBPs/HSaGbKi3d92LIJRWzq18Yh4iZmY
+	 oEsmBMuo7jcau9rK29+kS2naOCaGEQeGw+jrVeDLVbLcic2flLzB5D1rMLVck7XlrAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795799182;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795799184;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=g1KQmw9HEAIV75UKtQgFIwtTmsEH/I6XD9iictGjPFs=;
-	b=FWLNJNDC1UGCsVTizIXjJU1BqxDWk9i7rBkONGjVb7Z59jPGrT9kHf1naSqLu6WDQIfm
-	 7fHaEuxilkKy+VXieqStwM57/t2mXtT+M09YxvS6LOlsYjdcxmrTFv8R+lT4cjunNOZb2
-	 bpBiTdYHTiAXcqAg/eASG3lc5mZ1ARv++29F41tgg8x2h8VM3eAozhxt4hQDo5L7YfUte
-	 IfQgcxwRMQacSvd4/O3XYqNaonH0EiKkC9kVeLxSoVbYM6Ry2JpFV/ZO8LtBKgXMWs40U
-	 +WIZWjSCCxKuiciyc7xmvLVe4x42P9eY8GIqKtxH+9xKnSQme/MwG3eqP3MOes2AVxA==
+	bh=DFW2Ct2DsSBGcZ/nnkFJSQ/DuIGXSSTrp6mc5E+tLnk=;
+	b=nJDCwgwwUo6dONnE/lcTkKKwAg96F2kpdk3ykEbhrk4OUIBO/88H3C1jDhPVvPVFeO4W
+	 sc0ADBVsp+vyivISd6ZfDUL2dtDkyH42482pxJLB171kfCrwLkGBRj5jyWiMtjV3rJ+pf
+	 EaYMddK/bpYgTynGnF/aiiKqfJX2jbBPLCMYVVuaSmVIRp7enRlEMD+oU44DXsHKxbsuL
+	 WnQfowL8rhgCKCXhuA75gyFK8Hf1nZJ0bmhYwcYkABH4SGsFoCN6JfqPe1/QPXkuuOGpm
+	 LGHYYkUKTjnsSus8brZvlj/wW2UIAXjXHgdtsUmfWQrUFpKNup9JGBU+Q6ZSJQ4yWyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VWNFIC84;
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WDRiR70n;
+	arc=none smtp.remote-ip=209.85.221.51
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6809B606A321
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:06:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6809B606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8EE606A327
+	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 17:06:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C8EE606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VWNFIC84
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4aa5833c263so7998937f8f.2
-        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 09:06:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WDRiR70n
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4a358881793so4415785f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 09:06:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795799181; x=1796403981; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795799183; x=1796403983; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=g1KQmw9HEAIV75UKtQgFIwtTmsEH/I6XD9iictGjPFs=;
-        b=VWNFIC84OhJEVgXGSOwIpVM2bJAY0l2A6L/QADtOLadrGJKpafRkcyne+ATWZ1O8fX
-         tRC8CSqMDh8bQj3/1VOrJZ5yXTAHYZ7teRJvBe0KKZfu5bbDLSBEQmKeidV+3SInrbeY
-         n7Whdiv7nRLkfWL9HgabGFfVzlGem6+zihaOYweVpSDoQo758P2GaZ+A3Cx1nIGiWm+l
-         VjLhT5bj3dxO1rdDjwleNsyBqzhdB4vIcz467dG417yp24vVq80QOaqVo4HcJFwROw/M
-         Ga9UxLdx2KSniycMoCYntQb5EfYt7yRzrTKdX4Ut5UVQdH4jdQhQfEtmtjt6pt87KNC5
-         i+8w==
+        bh=DFW2Ct2DsSBGcZ/nnkFJSQ/DuIGXSSTrp6mc5E+tLnk=;
+        b=WDRiR70nTbs+a3mS8DcqF5vUJ1R4C88ODijKOheo3DAC3JiyUwGn8F7DCZrZhjggGW
+         Maf2LEXyybkRnp7/B5GGxWm2UFD46NR+ETfXL+KpPAlYU8BtW0IZwk2QSAQZ8UF/Ekr0
+         OVf13XkBhWt12cYBxpvYqMPOmk4+AkrCwrC4jvWsLg3gG0YuuQ449OozFDkfJpW5AezS
+         l7eF+iumn+RHZuSqA0TBqxnX9VOWi6CI5XWfoxXmC4uLMKQa0xEuQLppT/KMt3MMaJkR
+         wSEJmv6zePbcRDnjQeuftBh8m2arYd1OZ6gG7riHaAPFaG9OUfpuP9DnrXqu5W+wQ87r
+         joQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795799181; x=1796403981;
+        d=1e100.net; s=20260707; t=1795799183; x=1796403983;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g1KQmw9HEAIV75UKtQgFIwtTmsEH/I6XD9iictGjPFs=;
-        b=ZNbmX7a0u/yO6XsRvKIo8Y4QohT8OX+KuLvgh8s5etHGhVYeKrUOFk4AbeBx6717bD
-         6KxHGpORWqc7ol9z4BoYuHsjt4T2PkMk4Plef0FFhAHDc5ihNBY/JRFW3XPB4aD1fKCL
-         P38XGzYBL9cI8fT44Z62rAhcWU4v5yln8kgXAnSEuwt4A2rPIBiBKnSnfSUedZfLNbEz
-         yIgtx/fVc3Fq2q8pseqJm73k5ez+puLCUk5Vaci7vurtOqlYT4mahLY18gXGGm/QwUqy
-         2fvIPCM3MWuwkObtJJ0kQFXhkqXROusfdes3mU/chz4Nm1FOwyprJpr0klW/5xZY07qg
-         ZmZA==
-X-Forwarded-Encrypted: i=1; AL+hErGcVW2mL1u/htDWIbiQuTVMHqpRF+ITPYUM8j5SKHCSOgLdogDm8nK9yjUG5/2ranir3bG9nH0rQo9nFA==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/7457dX5x9Blj7IYVRB46Fp46kBGiJu3mN7cIn/f/1xPMRLFBE
-	OM4PLfJi1D92JmStUeV4iut1BPVOMX3QpWGv/RPneFYBlqs3Ufehr3w7
-X-Gm-Gg: AZFdTZfF3ZqblzYfnP3JKtTxa0Jh5oM4LGLpUEEaxGmWbh7SZ2pN3HVmjxWTfhYKs2M
-	9z1VGHlmCLmN4pptn5qj4l1djfpLVAVLqzk9qOWGG6FjgGhLlltuX9KG43l7uErA4FPk23nff7C
-	eMahYDYHMdhgkCYOV03zM1b9D3/3N5DMIvgyClpbz8A1F0A0rKakDM6sGAv94JhoOFsbybO6EPt
-	4AZgyqUyKBkKbcNsl6DPVTCgn1od3O9/9boubgjXBuru6qrPxmxy03dY9etdsxuPTaMi5KWgDKn
-	8Uor3FYfTnOYSg5UAQq7WkU0ZA0p+RbPrXICLy+kv5Oy1Hwxp0MpdWGGG4EWB+i7He51y1Qyo9Y
-	ZmfKq2MBQGGCtQ4zzdSIF7gSsf4DefjCjpIxP3/Fc3QEAVzHrVYcYlnq7HalyT8ykZXKtIYV0Mn
-	h26FEO7ApJZO58OVd4lbRHmNY2Lyrs5RZA86y4VaZYey5Ns3Q5pdpGTDPo0xOix4Ib47YONoxMe
-	swo6Bx2RRuLSux0L5CfrW8kryfcN7kh3dpWBn1LnUnixcdJ2WNX73+upYaGbp354qrURDYwyb62
-	HV9//HCMR1ZomhI16HDfha+5AQOTF0m5wPjpjR9lsOLm7t5ZWCTWjpRtjQ==
-X-Received: by 2002:a5d:5d0d:0:b0:4b7:66fb:b098 with SMTP id ffacd0b85a97d-4b766fbb5abmr28304884f8f.20.1795799180462;
-        Fri, 27 Nov 2026 09:06:20 -0800 (PST)
+        bh=DFW2Ct2DsSBGcZ/nnkFJSQ/DuIGXSSTrp6mc5E+tLnk=;
+        b=DSJyAuoBvMJgWT1j6YTigcJjkPXquCuTJ9Q0w32Vf0IwvwpurGOxYHapgAVgVXulkA
+         PZbvvJ3hDHv6LpeYYWYPS1skYBz2COzQA5ov0WAbSX8NSOobaWa/Ca8cJxzEj1LcMFGf
+         dyJnB/mK2CCmLA1fSxSwCe5aOE07nAY660+csxjsf9i35i16Z0ikgCbnwAPDkQhTcffo
+         xSCdxXGKMf6ad9yqcxaXCZceOUYHxqQiWKldhwSpiTTAGFsXan3SVy10ZCkRq00rzlxD
+         fbKs/u+PC+LBzJkgWNYhPmB9vXNhpvFI0Qk0DhQk48tK6qfjvV06Xi08+WCT7kt01Wwv
+         YF+Q==
+X-Forwarded-Encrypted: i=1; AL+hErFa/MYWQS8czPbVqgm9VDU3OAOxqCxnQBnkRCwKkSZDHmKQYReXoU9LbcP3nQ8vD9mi7DL53efropjgqA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/9R3SNqsHeK84BGA5ARDGU13ogSPQV1/PoJgOZK3a9Wmw6OQtl
+	TCQq13Rk4XJI8vYP6jMTGmmoVyA+y8salXAVkechQxSBqVV1WVgBm5um
+X-Gm-Gg: AZFdTZfP8R2YmGpU35Tx1h7FiGvCp1q6/0o7AQ0G1F7Xwloa6EoygVQcgAAF3IVp4Kz
+	WIBXGGZnYs/bhMgIqfaJT7FykdVd59hVsQCyiD2tye3qi2vx95+wfdNhYG19i56BNedct9N6AiJ
+	2M5rm93kEMq0ZHUhhFlhOAyt9OXDryS/5TlTmuMdkde3WS0gt5q4/QsPBCztXfgplfXQMmDPT7+
+	6XJw849KPmOLiyiyQDSxLnhywOZavvczyJ1M/nBHWd7CVi6uLsUne9s1ADdiPwXTVqCvAl2eFUb
+	Qkq7aQvovo4QWOpNDtBKRXh9/FMGIyqF5i4qd6Ak2Z5Ix6j4zE7HfQsnlsUEVuRG3bqDwkRo/4E
+	M+rUsHKqcHjGchV5Onk2Njtg3/b5zRIHTLNgqN2Upilfv4O0a6KIzY6R3sx6uwptMEmf+LmBmyb
+	ZQH69YRzpll5YImTHxLOoV0GRNO8TQYUxABOOR0baKosr88oYuQf0Y62mY0sSXTL30GWklub1Mz
+	0k0GL2WmbY10hQAFSNJp392TmWcWxdBdfgKb+otEMxjK359JYwtSpnh6QDDJWO3d1ZS7v/MOg6M
+	glY+akPXJzXv2FZIGRC4cOq5e7Lm5J7m3Rq/NZvrwEVj5Ym90uqKakaV4Q==
+X-Received: by 2002:a05:6000:2283:b0:4af:e519:cccc with SMTP id ffacd0b85a97d-4b546663d5bmr31920336f8f.12.1795799182654;
+        Fri, 27 Nov 2026 09:06:22 -0800 (PST)
 Received: from SMW032656.wbi.nxp.com ([128.77.115.158])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2d60sm49324759f8f.3.2026.11.27.09.06.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab658e2d60sm49324759f8f.3.2026.11.27.09.06.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:06:20 -0800 (PST)
+        Fri, 27 Nov 2026 09:06:22 -0800 (PST)
 From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -88,9 +88,9 @@ To: Liam Girdwood <lgirdwood@gmail.com>,
 Cc: patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] ASoC: wm8962: implement GPIO .get callback
-Date: Fri, 27 Nov 2026 19:00:37 +0200
-Message-ID: <20261127170039.663-2-laurentiumihalcea111@gmail.com>
+Subject: [PATCH 2/3] ASoC: wm8962: add GPIO interrupt controller support
+Date: Fri, 27 Nov 2026 19:00:38 +0200
+Message-ID: <20261127170039.663-3-laurentiumihalcea111@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261127170039.663-1-laurentiumihalcea111@gmail.com>
 References: <20261127170039.663-1-laurentiumihalcea111@gmail.com>
@@ -107,93 +107,252 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-The WM8962 codec provides two GPIO pins: GPIO5 and GPIO6, which can be
-used as inputs. Implement the GPIO .get callback to allow consumers to
-make use of them.
+The WM8962 codec provides two GPIO pins: GPIO5/GPIO6 which can act as
+interrupt sources. Therefore, in the context of Linux, GPIO consumer
+devices (e.g. in this case, the sound card), could make use of these two
+pins to handle certain events (e.g. HP detection).
 
-One important detail to remember is that the get() callback will not
-function correctly if the input pins have debouncing enabled and DBCLK
-is not enabled. In particular, for MR-NAVQ95 where GPIO5 is used for
-headphone detection (LOW = unplugged, HIGH = plugged), what would happen
-is the get() function would always return 0 even if the headphones were
-plugged in. This would happen whenever DBCLK wasn't enabled (or, rather,
-when SYSCLK wasn't enabled since DBCLK should be enabled automatically).
-
-We might be able to get around the aforementioned limitation by force
-enabling SYSCLK before reading the pin's state. See TODO from the code.
+Add support for this by modelling the WM8962 codec as a GPIO interrupt
+controller.
 
 Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 ---
- sound/soc/codecs/wm8962.c | 51 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ sound/soc/codecs/wm8962.c | 132 +++++++++++++++++++++++++++++++++-----
+ 1 file changed, 115 insertions(+), 17 deletions(-)
 
 diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
-index 1832685aca40..7122d93a742c 100644
+index 7122d93a742c..3bbaacb08aaf 100644
 --- a/sound/soc/codecs/wm8962.c
 +++ b/sound/soc/codecs/wm8962.c
-@@ -3505,12 +3505,63 @@ static int wm8962_gpio_direction_out(struct gpio_chip *chip,
- 	return 0;
+@@ -3141,13 +3141,34 @@ static void wm8962_mic_work(struct work_struct *work)
+ 			    WM8962_MICD_IRQ_POL, irq_pol);
  }
  
-+/*
-+ * If your input pins have debouncing enabled, then make sure DBCLK is enabled
-+ * before using this function! Otherwise, the value returned by this function
-+ * may not be correct!
-+ *
-+ * TODO: can we work around this limitation by force enabling SYSCLK before
-+ * attempting to read the pin's state? Is SYSCLK's source clock guaranteed
-+ * to be configured by the time this function is called?
-+ */
-+static int wm8962_gpio_get(struct gpio_chip *chip, unsigned int offset)
++static int wm8962_irq_status_masked(struct wm8962_priv *wm8962,
++				    unsigned int status_reg,
++				    unsigned int mask_reg,
++				    unsigned int *status)
 +{
-+	struct wm8962_priv *wm8962 = gpiochip_get_data(chip);
-+	struct snd_soc_component *component = wm8962->component;
-+	unsigned int val;
 +	int ret;
++	unsigned int mask;
 +
-+	/*
-+	 * only GPIO5/GPIO6 can be used as inputs! Note the difference between the GPIO
-+	 * index and the register offset.
-+	 */
-+	if (offset != 4 && offset != 5) {
-+		dev_err(component->dev, "Only GPIO5/GPIO6 can be used as inputs!\n");
-+		return -EINVAL;
-+	}
-+
-+	/*
-+	 * we are forced to resume the device and bypass the regmap cache for the
-+	 * read operation. This is because the GPIO level could change at any time.
-+	 * Remember that the GPIO registers are still marked as cacheable. This is
-+	 * because the configuration bits and the GPIO LVL bits share the same registers.
-+	 */
-+	ret = pm_runtime_resume_and_get(component->dev);
-+	if (ret < 0) {
-+		dev_err(component->dev, "Failed to resume device: %d\n", ret);
++	ret = regmap_read(wm8962->regmap, mask_reg, &mask);
++	if (ret != 0)
 +		return ret;
-+	}
 +
-+	ret = regmap_read_bypassed(component->regmap, WM8962_GPIO_BASE + offset, &val);
-+	if (ret < 0) {
-+		dev_err(component->dev, "Failed to read GP%d_LVL: %d\n", offset + 1, ret);
-+		pm_runtime_put(component->dev);
++	ret = regmap_read(wm8962->regmap, status_reg, status);
++	if (ret != 0)
 +		return ret;
++
++	*status &= ~mask;
++
++	return 0;
++}
++
+ static irqreturn_t wm8962_irq(int irq, void *data)
+ {
+ 	struct device *dev = data;
+ 	struct wm8962_priv *wm8962 = dev_get_drvdata(dev);
+-	unsigned int mask;
+-	unsigned int active;
+-	int reg, ret;
++	unsigned int active_1, active_2;
++	struct gpio_chip *gc = &wm8962->gpio_chip;
++	int reg, ret, nirq;
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0) {
+@@ -3155,43 +3176,51 @@ static irqreturn_t wm8962_irq(int irq, void *data)
+ 		return IRQ_NONE;
+ 	}
+ 
+-	ret = regmap_read(wm8962->regmap, WM8962_INTERRUPT_STATUS_2_MASK,
+-			  &mask);
++	ret = wm8962_irq_status_masked(wm8962,
++				       WM8962_INTERRUPT_STATUS_1,
++				       WM8962_INTERRUPT_STATUS_1_MASK,
++				       &active_1);
+ 	if (ret != 0) {
+ 		pm_runtime_put(dev);
+-		dev_err(dev, "Failed to read interrupt mask: %d\n",
++		dev_err(dev, "Failed to read interrupt 1: %d\n",
+ 			ret);
+ 		return IRQ_NONE;
+ 	}
+ 
+-	ret = regmap_read(wm8962->regmap, WM8962_INTERRUPT_STATUS_2, &active);
++	ret = wm8962_irq_status_masked(wm8962,
++				       WM8962_INTERRUPT_STATUS_2,
++				       WM8962_INTERRUPT_STATUS_2_MASK,
++				       &active_2);
+ 	if (ret != 0) {
+ 		pm_runtime_put(dev);
+-		dev_err(dev, "Failed to read interrupt: %d\n", ret);
++		dev_err(dev, "Failed to read interrupt 2: %d\n",
++			ret);
+ 		return IRQ_NONE;
+ 	}
+ 
+-	active &= ~mask;
+-
+-	if (!active) {
++	if (!active_1 && !active_2) {
+ 		pm_runtime_put(dev);
+ 		return IRQ_NONE;
+ 	}
+ 
+ 	/* Acknowledge the interrupts */
+-	ret = regmap_write(wm8962->regmap, WM8962_INTERRUPT_STATUS_2, active);
++	ret = regmap_write(wm8962->regmap, WM8962_INTERRUPT_STATUS_1, active_1);
++	if (ret != 0)
++		dev_warn(dev, "Failed to ack interrupt 1: %d\n", ret);
++
++	ret = regmap_write(wm8962->regmap, WM8962_INTERRUPT_STATUS_2, active_2);
+ 	if (ret != 0)
+-		dev_warn(dev, "Failed to ack interrupt: %d\n", ret);
++		dev_warn(dev, "Failed to ack interrupt 2: %d\n", ret);
+ 
+-	if (active & WM8962_FLL_LOCK_EINT) {
++	if (active_2 & WM8962_FLL_LOCK_EINT) {
+ 		dev_dbg(dev, "FLL locked\n");
+ 		complete(&wm8962->fll_lock);
+ 	}
+ 
+-	if (active & WM8962_FIFOS_ERR_EINT)
++	if (active_2 & WM8962_FIFOS_ERR_EINT)
+ 		dev_err(dev, "FIFO error\n");
+ 
+-	if (active & WM8962_TEMP_SHUT_EINT) {
++	if (active_2 & WM8962_TEMP_SHUT_EINT) {
+ 		dev_crit(dev, "Thermal shutdown\n");
+ 
+ 		ret = regmap_read(wm8962->regmap,
+@@ -3212,7 +3241,7 @@ static irqreturn_t wm8962_irq(int irq, void *data)
+ 			dev_crit(dev, "Speaker thermal warning\n");
+ 	}
+ 
+-	if (active & (WM8962_MICSCD_EINT | WM8962_MICD_EINT)) {
++	if (active_2 & (WM8962_MICSCD_EINT | WM8962_MICD_EINT)) {
+ 		dev_dbg(dev, "Microphone event detected\n");
+ 
+ #ifndef CONFIG_SND_SOC_WM8962_MODULE
+@@ -3226,6 +3255,22 @@ static irqreturn_t wm8962_irq(int irq, void *data)
+ 				   msecs_to_jiffies(250));
+ 	}
+ 
++	if (active_1 & WM8962_GP5_EINT) {
++		nirq = irq_find_mapping(gc->irq.domain, 4);
++		if (likely(nirq > 0))
++			handle_nested_irq(nirq);
++		else
++			dev_warn(dev, "Unmapped GP5 interrupt\n");
 +	}
 +
-+	pm_runtime_put(component->dev);
++	if (active_1 & WM8962_GP6_EINT) {
++		nirq = irq_find_mapping(gc->irq.domain, 5);
++		if (likely(nirq > 0))
++			handle_nested_irq(nirq);
++		else
++			dev_warn(dev, "Unmapped GP6 interrupt\n");
++	}
 +
-+	/* mask is intentional! We (ab)use the fact that GPn_LVL fields share the same mask */
-+	return (val & WM8962_GP5_LVL) >> WM8962_GP5_LVL_SHIFT;
+ 	pm_runtime_put(dev);
+ 
+ 	return IRQ_HANDLED;
+@@ -3555,6 +3600,18 @@ static int wm8962_gpio_get(struct gpio_chip *chip, unsigned int offset)
+ 	return (val & WM8962_GP5_LVL) >> WM8962_GP5_LVL_SHIFT;
+ }
+ 
++static int wm8962_init_valid_mask(struct gpio_chip *chip,
++				  unsigned long *valid_mask,
++				  unsigned int ngpios)
++{
++	bitmap_zero(valid_mask, ngpios);
++
++	/* only GPIO5/GPIO6 can be used as interrupt sources! */
++	bitmap_set(valid_mask, 4, 2);
++
++	return 0;
 +}
 +
  static const struct gpio_chip wm8962_template_chip = {
  	.label			= "wm8962",
  	.owner			= THIS_MODULE,
- 	.request		= wm8962_gpio_request,
+@@ -3562,13 +3619,42 @@ static const struct gpio_chip wm8962_template_chip = {
  	.direction_output	= wm8962_gpio_direction_out,
  	.set			= wm8962_gpio_set,
-+	.get			= wm8962_gpio_get,
+ 	.get			= wm8962_gpio_get,
++	.init_valid_mask	= wm8962_init_valid_mask,
  	.can_sleep		= 1,
  };
+ 
++/*
++ * TODO: implement mask()/unmask()/bus_sync() if required. At the moment, we
++ * operate under the assumption that the pins' function is set to IRQ using
++ * the "gpio-cfg" DT property. The interrupts are unmasked regardless of the
++ * pins' function!
++ */
++static const struct irq_chip wm8962_irq_chip = {
++	.flags			= IRQCHIP_IMMUTABLE,
++	GPIOCHIP_IRQ_RESOURCE_HELPERS,
++};
++
++static void wm8962_init_gpio_irq(struct wm8962_priv *wm8962)
++{
++	unsigned int val = ~(WM8962_IM_GP5_EINT | WM8962_IM_GP6_EINT);
++	unsigned int mask = WM8962_IM_GP5_EINT | WM8962_IM_GP6_EINT;
++
++	if (!(wm8962->pdata.gpio_init[4] & WM8962_GPIO_FN_IRQ))
++		val |= WM8962_IM_GP5_EINT;
++
++	if (!(wm8962->pdata.gpio_init[5] & WM8962_GPIO_FN_IRQ))
++		val |= WM8962_IM_GP6_EINT;
++
++	regmap_update_bits(wm8962->regmap,
++			   WM8962_INTERRUPT_STATUS_1_MASK,
++			   mask, val);
++}
++
+ static void wm8962_init_gpio(struct snd_soc_component *component)
+ {
+ 	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
+ 	struct wm8962_pdata *pdata = &wm8962->pdata;
++	struct gpio_irq_chip *girq;
+ 	int ret;
+ 
+ 	wm8962->gpio_chip = wm8962_template_chip;
+@@ -3580,6 +3666,11 @@ static void wm8962_init_gpio(struct snd_soc_component *component)
+ 	else
+ 		wm8962->gpio_chip.base = -1;
+ 
++	girq = &wm8962->gpio_chip.irq;
++	girq->threaded = true;
++
++	gpio_irq_chip_set_chip(girq, &wm8962_irq_chip);
++
+ 	ret = gpiochip_add_data(&wm8962->gpio_chip, wm8962);
+ 	if (ret != 0)
+ 		dev_err(component->dev, "Failed to add GPIOs: %d\n", ret);
+@@ -3599,6 +3690,10 @@ static void wm8962_init_gpio(struct snd_soc_component *component)
+ static void wm8962_free_gpio(struct snd_soc_component *component)
+ {
+ }
++
++static void wm8962_init_gpio_irq(struct wm8962_priv *wm8962)
++{
++}
+ #endif
+ 
+ static int wm8962_probe(struct snd_soc_component *component)
+@@ -3940,6 +4035,9 @@ static int wm8962_i2c_probe(struct i2c_client *i2c)
+ 					   WM8962_FLL_LOCK_EINT |
+ 					   WM8962_TEMP_SHUT_EINT |
+ 					   WM8962_FIFOS_ERR_EINT, 0);
++
++			/* enable GPIO IRQs if need be */
++			wm8962_init_gpio_irq(wm8962);
+ 		}
+ 	}
  
 -- 
 2.53.0
