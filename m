@@ -1,56 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=84.42.129.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=141.14.17.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795791768;
-	b=O7Dbxm1WsbGZ4e0uSCeHJ+5dmvM14/LLZcopx5AggvmJe0GxmJmu/vzkKkY6MFyaZknI
-	 6+gl3tinzGZsT4c2ZcJNqT9e8YshemKhXfhEhmfRGtQ/SkW3laPNge+uS2aRHTvfArm3Q
-	 J80NRsTF/KVY+bjC5IEPhOOcRVveQTsir0WYSs1sCTyOOrTkTifxtlc9qXtiS66ay29Eg
-	 +JpJTN6b9m4F+M0ydA9Q9dmihqAdPqxYkx/H1ggieDAJnCrFgh6Bv74j449qxpxFZcjuB
-	 6UqnKFs/Nzn1WYBNjNQcg6WDm/rn9D2ZQggJSxqF3bVW3F9kcB1L8qipFF3ce6Ln3yg==
+	t=1795791802;
+	b=umM5YQNviAHZRsJMrGNwyztGdDiQRE+9HAuIClDYx9xk+LAKCiGqXkrAwt0desu3f11c
+	 smNCcA+hKBRtcPa+okjU9/iYKaeiU2izGTpMFGBcf8nhB3DKpNa6NYEmTsw1nYsFARBhE
+	 bD6B4nZllTRCK9s6rsMuIfXOXpoVQBnT3Q9BODSo6y+ACPvJ30CubsRk9EkrG1I4lh9nS
+	 jejQgWxu77x75er2u/JS2tIuOmsky9wv6PqDgyEoVp6X4IhPuIedWEsZxuS6QGGMp2uyE
+	 yIPckqkhyT+Bj73whQSDdnA0FmGjmX8XuK7yA1wP6VtliifXuKprG5BiHe/kMz240Kg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795791768;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=onDhl6RsecVlyNP/9RWRWVuN3lsmBMqoUnPI1wwAWi0=;
-	b=YVhByqc3JrH+qziiKm5c/banhnl3upe2OlTTqQBb5K+HCKsUIrK1aZHXlDvi2TiM+ppB
-	 0VH2LGiWcZy/cpus0w0lNQl8AEf/x6gqPL7z/CuIBcYv2E5qdzT0Gr15ykdFPqxjqsplO
-	 VGUvp5q68buZLlObB08Pht8EYoEamlZuWHbOiglImciAWDyNK4cEq6W2jAu4eFCAUDB+B
-	 pmU3EcmwXukiUgrAD8PNNGiLflCS13hCtQzQhovjqHoMH04n3NR3ppZnWK7NDyqckTDvu
-	 AI8R8Or7fQcq+jbSOBv/zrKLdgnIJZOPNrlyOGCKxZflvWSXzvCXi6dQv2GUncoKP3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795791802;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:DKIM-Signature;
+	bh=fLagGyz9f4PWucsYik9AhnenopQ/f/gFg1DETE/XelQ=;
+	b=hU20F0Nr5Gm39utfiiQfSh4vSS9aKI0VVMo1kFls/w9Cn+FVC22+oqJ1FGtwmQ++EKr5
+	 jszk2JAp9jWLw9dqLQvmqdgsSiw4GphWLepYcDhgBONJ+fvNo/Fp2MkP+QFqvMN1MBaEX
+	 0fKwcHtAeHa3LSFF38u/IKdWpHCtefivBOvMaLt2cZIJu1vF5lZyhra2hOyUZKmYm+7xG
+	 rYVWxZuUXZgiP5KwnWJT2x5NFaLPcRE5fcFXlEh7sgaMn9bypJlLyh+E1OCJnEERdTXyF
+	 e6LSAFtPlYxluQCyOVH0URhLjVtV7XLDN+tCzOYPNem6kgR+mfz0tkPo8+YJWsp3zQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ixit.cz;
-	spf=pass smtp.mailfrom=ixit.cz;
-	dkim=pass header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=EptLPe2q;
-	arc=none smtp.remote-ip=84.42.129.46
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+	dmarc=pass header.from=molgen.mpg.de;
+	spf=pass smtp.mailfrom=molgen.mpg.de;
+	dkim=pass header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=eYyWB5dU;
+	arc=none smtp.remote-ip=141.14.17.11
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AE7606A31C;
-	Fri, 27 Nov 2026 15:02:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45AE7606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8C1606A31C;
+	Fri, 27 Nov 2026 15:03:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F8C1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=EptLPe2q
-Received: from [IPV6:2a02:8308:209:d600::5a9a] (unknown [IPv6:2a02:8308:209:d600::5a9a])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
+	dkim=pass (2048-bit key) header.d=molgen.mpg.de header.i=@molgen.mpg.de header.a=rsa-sha256 header.s=20260906 header.b=eYyWB5dU
+Received: from abreu.molgen.mpg.de (g44.guest.molgen.mpg.de [141.14.220.44])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 88E6A5340322;
-	Fri, 27 Nov 2026 16:02:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1795791765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=onDhl6RsecVlyNP/9RWRWVuN3lsmBMqoUnPI1wwAWi0=;
-	b=EptLPe2qMPqoF2UrRSGGAZNr2zSiLCF562MYqzzn6mKWA0mO+ibU81ZDXNJOMbHwuRG95Z
-	kRuc/hR4uM744fctF+kHyg7C/+f7KHlUTsJt4DVBJvCE5bZB93MOBIenfBUX5Oki8d2sEW
-	qrURMKgjHLT+PcCGi0DrL5z9a/rPViM=
-Message-ID: <b8a6d6da-da6b-4788-b6fa-dca9d4eb9d1b@ixit.cz>
-Date: Fri, 27 Nov 2026 16:02:44 +0100
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id A9FBE4C442F953;
+	Fri, 27 Nov 2026 16:02:09 +0100 (CET)
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+To: Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] soundwire: Suspend and resume managers and peripherals asynchronously
+Date: Fri, 27 Nov 2026 16:00:56 +0100
+Message-ID: <20261127150101.48880-2-pmenzel@molgen.mpg.de>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261127150101.48880-1-pmenzel@molgen.mpg.de>
+References: <20261127150101.48880-1-pmenzel@molgen.mpg.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,115 +62,84 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/2] arm64: dts: qcom: sdm845-google: Add basic audio
- support
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- David Rhodes <drhodes@opensource.cirrus.com>,
- Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>
-Cc: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20261111-pixel3-audio-v7-0-ecf28efc5c33@ixit.cz>
- <20261111-pixel3-audio-v7-1-ecf28efc5c33@ixit.cz>
- <765f3451-0f2e-4783-9a7e-893c06b2a735@oss.qualcomm.com>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <765f3451-0f2e-4783-9a7e-893c06b2a735@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=molgen.mpg.de; s=20260906; 
+	t=1795791729; 
+	h=from:from:subject:date:message-id:mime-version:content-type:content-transfer-encoding; 
+	bh=fLagGyz9f4PWucsYik9AhnenopQ/f/gFg1DETE/XelQ=; 
+	b=eYyWB5dUYL6P6kdN+ix5U4jkVvT+0MTdZ0N8hb4nE6ZLKKkxkXwCB01GxBHaPdUO4U5aLVRY946t
+	0ab1XvGLYQZdTwSEv7uguEgSXWfzumsd+lLrQJcbfDW1ooIdAnGdsWGBnpt707eNkhqAl03CRc3gY1
+	GIOfW202yP1Rse9NoWq6ZjixGtVai6FjfFJDrx93H34Ayjm/ROhA/dcrXqSfCesC4bWYVqmUAkLrhT
+	+1HjHs6NyPEr2Mnez2BSH4gWbwv36xU7wy1muo1C4QqQ7PmKMqCg81iP8kx+R0jThOh8S0mUL8cq3m
+	kzytoF4FlFjAhv9U72aarwvW2PjqhECg==
 
-On 27/11/2026 13:27, Konrad Dybcio wrote:
-> On 11/11/26 6:41 PM, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> Introduce support for sound card and wire two CS35L36 audio codecs for
->> top and bottom speakers.
-> 
-> [...]
-> 
->> +&sound {
->> +	compatible = "qcom,sdm845-sndcard";
->> +	model = "Pixel 3";
->> +	pinctrl-0 = <&quat_mi2s_active>, <&quat_mi2s_sd0_active>,
->> +		    <&quat_mi2s_sd1_active>;
->> +	pinctrl-names = "default";
->> +
->> +	/* mm[0-9]-dai-link nodes must be positioned first regardless of sorting */
-> 
-> Could you try the patch in
-> 
-> https://lore.kernel.org/linux-arm-msm/655212ed-4812-4747-ba5a-f0093bf05411@oss.qualcomm.com/
-> 
-> ?
+On system resume, the resume callback of a SoundWire peripheral driver
+usually waits until the manager has enumerated the peripheral again and the
+driver’s update_status callback has re-initialized it. The PM core runs the
+callbacks of devices without the async flag one after another in dpm_list
+order, so the peripherals on different links wait for each other, and each
+of them also waits for all synchronous devices before it in that list.
 
-Sure, I'll test today.
+Apart from the parent-child relation, which the PM core respects for
+asynchronous devices, the manager and peripheral devices do not depend on
+other devices in the system sleep transitions. Codec drivers that need
+their peripherals active, like wcd937x, wcd938x and wcd939x, add device
+links, which the PM core respects too. So enable asynchronous suspend and
+resume for the managers and the peripherals.
 
-Thou, changing this patch without precursor being merged would mean +- delaying 
-patch inclusion at least by one merging window*.
+On a Dell XPS 9315 (Alder Lake, SOF), in one cycle, the RT1316 amplifier on
+link 2 took 16.3 ms in its resume callback, and the RT714 DMIC codec on
+link 3 took 9.9 ms after it. Together with the next patch for the Intel
+link devices, the resume callbacks of the two links and the two codecs now
+overlap, and their span shrinks from 28.9 ms to 17.1 ms (median of five
+s2idle cycles each).
 
-I'm very much fine thou bind to this patch and when included send sorting for 
-all sdm845-* devices.
+Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+---
 
-*still having patches for Pixel 3 camera in my fork ~ 4 month from these patches 
-has been reviewed and ready for merge, due to recommendation to use header which 
-didn't got in Linux in time.
+Notes:
+    The analysis (sleepgraph device callback timings, function traces of the
+    link start-up), the patch and this commit message were drafted with
+    claude-opus-5-5 (Claude Code), asked to cut the s2idle resume time of
+    this laptop, see Documentation/process/generated-content.rst. The tests
+    are in the commit message and the cover letter.
 
-David
+ drivers/soundwire/master.c | 3 +++
+ drivers/soundwire/slave.c  | 6 ++++++
+ 2 files changed, 9 insertions(+)
 
-> 
-> Konrad
+diff --git a/drivers/soundwire/master.c b/drivers/soundwire/master.c
+index 440bfc52ccba5..54ce317ab1628 100644
+--- a/drivers/soundwire/master.c
++++ b/drivers/soundwire/master.c
+@@ -147,6 +147,9 @@ int sdw_master_device_add(struct sdw_bus *bus, struct device *parent,
+ 
+ 	dev_set_name(&md->dev, "sdw-master-%d-%d", bus->controller_id, bus->link_id);
+ 
++	/* the managers of different links can resume in parallel */
++	device_enable_async_suspend(&md->dev);
++
+ 	ret = device_register(&md->dev);
+ 	if (ret) {
+ 		dev_err(parent, "Failed to add master: ret %d\n", ret);
+diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
+index a7d2938b031d0..3e77c9c586d17 100644
+--- a/drivers/soundwire/slave.c
++++ b/drivers/soundwire/slave.c
+@@ -84,6 +84,12 @@ int sdw_slave_add(struct sdw_bus *bus,
+ 	sdca_lookup_interface_revision(slave);
+ 	sdca_lookup_functions(slave);
+ 
++	/*
++	 * Peripherals wait for their re-initialization on resume, which can
++	 * be done for all of them in parallel.
++	 */
++	device_enable_async_suspend(&slave->dev);
++
+ 	ret = device_register(&slave->dev);
+ 	if (ret) {
+ 		dev_err(bus->dev, "Failed to add slave: ret %d\n", ret);
+-- 
+2.54.0
 
