@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795796417;
-	b=Tuw8TaET2A1Fjjl5wGmYv/qugy/JfIyAlR4JUHAqvegn4XQlwQv5lBLIez9d+W/heHbf
-	 SaOYFRzuMlch1oWnqzC+gsRm0anawmo4OGSqqX1EFgB3PsKLq1rJTGOBzZXpZc67iRgUQ
-	 tnavsk+WUj4Dc8VmxPcKFHl2mq2KZ4y5EYBK1Ok6XGt5ciP4JeA0H2hmjmleAMTlbOlO/
-	 wbROGef3nH1QBLS48ImFD9dMZMfs3aV8U75L/9FV0B1prFt5VtNpFvWtJ48L2RIQ5K9L2
-	 RxsR1WY8fjrq8Cid4xIzi3aJkvnNewib00p+uvLrJu5BZ0VXb2NZMYZxBPZgvofRzwQ==
+	t=1795796646;
+	b=28uGQI+uMn11gBKWhi9UzHljpPo9TCQd+QFCUIjpB3i9dP28hCEx9r/3LqeOiM84YREL
+	 ZC7jlljO8RZtUroCqbxmscCxErdA8x+qscr70sfY1g5+csM2vcsDxAspXi8wJjvxaN07w
+	 xiUWD7SEyKXIvR+stR8haTMDpYabMOACy6c0PIHRHkprxbGFNhrepMQGMCEKhNCuWBzrE
+	 gnL8+CtUU3wuwczhuH1OlU9A2/ta3IVkrdzTqMutp50ubaQbNWVYIbZqG4vNfBhgiRMq4
+	 QmChXwIAH51/hwjnbabtLCEzNP5JxPjkn9BE/8Pl2vRLD91+jnOFiAeBNbNmCdRZuBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795796417;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=1vXTXQCs0X9N8jrDwyfagQIKQlTafSyTHo5dQMe7GJU=;
-	b=LK8UxpbMbQ5apmZzMa4jyhnfCxFnCNJ6SL4qOAUuQyf7cXnVy5UZBpHQWkqO5sHy86YM
-	 Cj9za/IvPF03jRKwrWYZeg5FH2L7N6JJCx3L052YGRp/yx5mwJ5ULZA6B0G2kh4yD/eei
-	 MvmvdL9R99uQvvuhopr5llnu7n8nywt+DJ7ToAZwl5xXaAqLDv2dFIXYfW99sYPzYLPdS
-	 HkqT+vVWGkR6ihNQFd38S7sh39/BSBKq8ephuK0UmKVDbzvPAb1/SmwD4lJewP3iJr9T/
-	 ki0W9yiGAMa8YEMcaY8cVUFXJxSgJ5r5Fyd/c+PHke0i29lXo4dKfiUX7bDlGBNaycQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795796646;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=av8pVWNqy9lbjAOhn1Utpk20LZzg11BArgF7FGJJIBw=;
+	b=dM0sRutG9cJyq4cLSOTbbIDuglJSEpSaBqbI99owkb297ldmaZ3NpuBjrH8UcAkHHlz9
+	 Aj1PWoCQpCjxF+B0wW8YQs58A4QzaQmr2xyq3miflxQwg/Da9U2zx4oTFfHNEtPfcLi28
+	 2Pm/nhCCxZMLlQWphxfbOKolBh0zDsovXMxViJVadrLmi5C6QLEW09wxLW82ZBYDzA0UY
+	 6Je4Na9F+dVo8XG/PUFIRZT+QdO+um1sQQRhgLUrEbcVOvUqrpX7DhBFZZSAHyEjiyUAS
+	 MUbBqevbj4bp3JVaNDYBlX2svMmI4eg3pPpGxo6JPrb3LaO7svMcOcG9V6GYgn4+9dQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NMX1uB/+";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NbQI+mHA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF32606A31C;
-	Fri, 27 Nov 2026 16:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B267606A31E;
+	Fri, 27 Nov 2026 16:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NMX1uB/+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7E9E1F00893;
-	Fri, 27 Nov 2026 16:20:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NbQI+mHA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A63801F00898;
+	Fri, 27 Nov 2026 16:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795796417;
-	bh=1vXTXQCs0X9N8jrDwyfagQIKQlTafSyTHo5dQMe7GJU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NMX1uB/+kiyIvoWG6RhYboNlbhluLwD3LZPD/i7qCY/GIvpApZK41W0hJOzM8kjgy
-	 wN2e5XEollAUpCwvAxbts6Tg+ExjzlZ9c+edBgdEQCWMyPaSm4xMRjPGIFgAxXNJhF
-	 gxxbjjrrYY43V28ACxpgG0WFF4O9J7kIjrq18/te7P/W+NqNKp4VX74MVbkQbRMUyS
-	 b2sHDmI8H6YfN/mhYgig/V5V8M9U2wmUy8O3AmFp9gbgZwETS27OREwN9nBjBJPEpC
-	 0VyBq7Q6eO4nmi2lAzmjvkTr1V8P8J8MOoOrABmTtGcaz8j7oWVlsvCsx4U2p0tEuR
-	 Vup/ra8P4sQeg==
-Message-ID: <sashiko-outbox-237869@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/7] arm64: dts: qcom: glymur: add LPASS macros and
- RX/TX SoundWire
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Srinivas Kandagatla" <srinivas.kandagatla@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-sound@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261127155520.358909-2-srinivas.kandagatla@oss.qualcomm.com>
-References: <20261127155520.358909-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261127155520.358909-2-srinivas.kandagatla@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Nov 2026 16:20:16 +0000
+	s=k20260515; t=1795796646;
+	bh=av8pVWNqy9lbjAOhn1Utpk20LZzg11BArgF7FGJJIBw=;
+	h=From:To:Cc:Subject:Date;
+	b=NbQI+mHAmgeLVSY63nOMeYi1nY2B8Rlj0ZmbpqkFGHSHCCgpYaOHC6LZbl+bztLkF
+	 2w/237mo122h28qq5aiqdjwkmsjGgx7sm18Un8RxviXMEHiuh43TobcCvbeCLXVlcQ
+	 MjeI3iNE7Iv+aDkSKcTbBaGY2mEBQlBw5CSzupFvGKPhc0vbJn6f/ZSJ0MYtpQ+jZZ
+	 O36fXSfEQbPQF7gEN8diOIvSBRtuHpQxK00K9BcZuL+TSBQp/+maz8ciTkmOI+/3Bd
+	 H0a3fPJjD486EV2huIBYizA0If+vzYxTbeItWJKtvmF5P+WICy3+ZAHvlNIfE9J/5y
+	 nVl7ocUl3z4Mg==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH v4 0/4] soundwire: qcom: Fix teardown, clock, IRQ mask, and broadcast races
+Date: Fri, 27 Nov 2026 16:23:40 +0000
+Message-ID: <20261127162402.3074271-1-lee@kernel.org>
+X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -60,147 +60,38 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] arm64: dts: qcom: glymur: unmatched lpasscc compatibles defer
-  swr1 and swr2
-- [High] arm64: dts: qcom: glymur: lpass_rxmacro fails probe due to
-  unhandled codec version 2.9
-- [Low] arm64: dts: qcom: glymur: undocumented lpass-rx-macro and
-  lpass-tx-macro compatibles
---
+These issues were reported by Sashiko.
 
-commit 8d403c82a4073e4e3d1e793a05a1ce2568c6a1a7
-Author: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+This v4 series contains the remaining four Qualcomm SoundWire fixes
+from v3, rebased onto soundwire/next now that patches 01-06 have been
+applied and multi-master support has landed.
 
-arm64: dts: qcom: glymur: add LPASS macros and RX/TX SoundWire
+v3 => v4:
+ - Drop patches 01-06 which have been applied to soundwire/next.
+ - Rebase the remaining four Qualcomm patches onto soundwire/next with multi-master and MMIO support.
 
-This commit adds the LPASS RX/TX macro codecs, the LPASS audio and reset
-clock controllers, and the swr1 and swr2 SoundWire controller nodes to
-glymur.dtsi.
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-sound@vger.kernel.org
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Srinivas Kandagatla <srini@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>
 
-> diff --git a/arch/arm64/boot/dts/qcom/glymur.dtsi b/arch/arm64/boot/dts/q=
-com/glymur.dtsi
-> index 165dfa11f17f5..9cb7506656fba 100644
-> --- a/arch/arm64/boot/dts/qcom/glymur.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/glymur.dtsi
-> @@ -4669,6 +4669,66 @@ q6prmcc: clock-controller {
->  			};
->  		};
-> =20
-> +		lpass_rxmacro: codec@6a70000 {
-> +			compatible =3D "qcom,glymur-lpass-rx-macro", "qcom,sm8550-lpass-rx-ma=
-cro";
-> +			reg =3D <0 0x06a70000 0 0x1000>;
-> +			clocks =3D <&q6prmcc LPASS_CLK_ID_RX_CORE_TX_MCLK LPASS_CLK_ATTRIBUTE=
-_COUPLE_NO>,
-> +				 <&q6prmcc LPASS_HW_MACRO_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
-> +				 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
-> +				 <&lpass_vamacro>;
-> +			clock-names =3D "mclk",
-> +				      "macro",
-> +				      "dcodec",
-> +				      "fsgen";
-> +
-> +			#clock-cells =3D <0>;
-> +			clock-output-names =3D "mclk";
-> +			#sound-dai-cells =3D <1>;
-> +		};
+Lee Jones (4):
+  soundwire: qcom: Disable runtime PM and avoid clock underflow in
+    qcom_swrm_remove()
+  soundwire: qcom: Check clk_prepare_enable() return value
+  soundwire: qcom: Serialise ctrl->intr_mask updates
+  soundwire: qcom: Prevent stale broadcast IRQ from completing
+    subsequent command
 
-[Severity: High]
-Will lpass_rxmacro fail to probe with -EINVAL on Glymur?
+ drivers/soundwire/qcom.c | 88 ++++++++++++++++++++++++++++++++++------
+ 1 file changed, 75 insertions(+), 13 deletions(-)
 
-When lpass_vamacro probes first as the fsgen clock provider,
-va_macro_set_lpass_codec_version() sets the global LPASS codec version to
-LPASS_CODEC_VERSION_2_9.  Unlike the VA and WSA macro drivers,
-rx_macro_probe() in sound/soc/codecs/lpass-rx-macro.c does not handle
-LPASS_CODEC_VERSION_2_9 in its switch (rx->codec_version) statement and
-falls into the default branch, returning -EINVAL before registering the
-lpass_rxmacro DAI or the iface clock needed by swr1.
+-- 
+2.56.1.839.g22a8290db9-goog
 
-> +
-> +		swr1: soundwire@6a80000 {
-> +			compatible =3D "qcom,soundwire-v3.1.0";
-> +			reg =3D <0 0x06a80000 0 0x10000>;
-> +			clocks =3D <&lpass_rxmacro>;
-> +			clock-names =3D "iface";
-> +			interrupts =3D <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> +			label =3D "RX";
-> +
-> +			pinctrl-0 =3D <&rx_swr_active>;
-> +			pinctrl-names =3D "default";
-> +
-> +			resets =3D <&lpass_audiocc 0>;
-> +			reset-names =3D "swr_audio_cgcr";
-> +
-> +			#address-cells =3D <2>;
-> +			#size-cells =3D <0>;
-> +			status =3D "disabled";
-> +		};
-> +
-> +		lpass_txmacro: codec@6a90000 {
-> +			compatible =3D "qcom,glymur-lpass-tx-macro", "qcom,sm8550-lpass-tx-ma=
-cro";
-
-[Severity: Low]
-Are "qcom,glymur-lpass-rx-macro" and "qcom,glymur-lpass-tx-macro"
-documented in the Devicetree bindings?  Neither compatible appears in
-Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml or
-Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml, which
-will cause dtbs_check warnings.
-
-[ ... ]
-
-> +		lpass_audiocc: clock-controller@6a94000 {
-> +			compatible =3D "qcom,glymur-lpassaudiocc";
-> +			reg =3D <0 0x06a94000 0 0x1000>;
-> +			#clock-cells =3D <1>;
-> +			#reset-cells =3D <1>;
-> +		};
-
-[ ... ]
-
-> @@ -4772,6 +4832,37 @@ lpass_lpicx_noc: interconnect@7420000 {
->  			#interconnect-cells =3D <2>;
->  		};
-> =20
-> +		swr2: soundwire@7630000 {
-> +			compatible =3D "qcom,soundwire-v3.1.0";
-> +			reg =3D <0 0x07630000 0 0x10000>;
-> +			interrupts =3D <GIC_SPI 761 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&lpass_txmacro>;
-> +			clock-names =3D "iface";
-> +			label =3D "TX";
-> +
-> +			resets =3D <&lpasscc 0>;
-> +			reset-names =3D "swr_audio_cgcr";
-
-[ ... ]
-
-> @@ -4787,6 +4878,13 @@ lpass_vamacro: codec@7660000 {
->  			#sound-dai-cells =3D <1>;
->  		};
-> =20
-> +		lpasscc: clock-controller@7680000 {
-> +			compatible =3D "qcom,glymur-lpasscc";
-> +			reg =3D <0 0x07680000 0 0x10000>;
-> +			#clock-cells =3D <1>;
-> +			#reset-cells =3D <1>;
-> +		};
-
-[Severity: High]
-Should lpass_audiocc and lpasscc include "qcom,sc8280xp-lpassaudiocc" and
-"qcom,sc8280xp-lpasscc" fallback compatibles (and be documented in
-Documentation/devicetree/bindings/clock/qcom,sc8280xp-lpasscc.yaml)?
-
-No driver matches "qcom,glymur-lpassaudiocc" or "qcom,glymur-lpasscc"
-(drivers/clk/qcom/lpasscc-sc8280xp.c only matches the sc8280xp compatibles).
-When a board enables swr1 and swr2, qcom_swrm_probe() requests the
-"swr_audio_cgcr" reset from lpass_audiocc and lpasscc, and
-__fwnode_reset_control_get() will return -EPROBE_DEFER indefinitely because
-neither reset provider ever binds.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261127155520.3589=
-09-1-srinivas.kandagatla@oss.qualcomm.com?part=3D1
