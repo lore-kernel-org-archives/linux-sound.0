@@ -1,45 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795795415;
-	b=P2GASZmEStT2oR5hkYAqtIlaIrrGnlkOsflLCcZJw08slFI224j1xxFDi1mEtmFtlWl2
-	 eTd4e5jfKIpSZw0QUyM/KvgT0lsSku+hu9XAeSgV7M5qsNAseUMlzjl3rHYhBpdhVGXai
-	 L7X9EsRIUwJRV9fMx7YPbpvoeF0BdXljrLP6WAe+radbYV3NDu6/VsQRmLJFvPHI2cY42
-	 Y/+px/VjT5oFqKIHRx9RTmgUQYzRcxA702YXUL5cs/MNUvpkGN7TN66QC2NttRLfyZeuK
-	 FDkvxXH/cx2B/boAJtV4pbT4BLS2St9qtEKqkB6kWpFgpsHuL1Qui5Id1Uq8xHbp+PQ==
+	t=1795796369;
+	b=JrEkRI7dBIW8hr3obS8ESXEgqSe/W1f0NJpHn5hsMaPyxJPYK6s0NJpWKsRTsWjrbQ+K
+	 bc1SgcjGP4DAS81HDbX1QBX6StTtvbN6RgH/jw0tn1N9LvUSuGUGLxYBbozWcJVwhx3Q4
+	 qAaXmwBiXexVlrqUGCF7KVgG+oCDgAd4KEus/EDMzenE+3QDzmV1de5j5aYXcBR7RBjEW
+	 oIUckGWipMghNr8wZTnDsMbgz3wDl9WyVXB16MWpgnz8XVywrZFf93AFv9wKXUlWT6JlJ
+	 y5wZxIFbZ4Yi+LJJfkQNz/ifE5KN45z7dsZDDXXXC+YR9ZG0VyVMfi/mz925cwn2OEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795795415;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ke4ndCOLUx/oK+pv7zfO70W2UHjwjDcUZFoIoIFqfsU=;
-	b=UuZ7nT5uetu3RiYvATCKcRm+0kiC8nYeK2b5gaz+1TFKTvhCqtQFHE04mITDNjVqevF7
-	 76bBwWE9c7cBBJxctJ5amKmYtq39o62ebQbAFoj0SVeIFCOTRhk95F1y2qlJp5DXjbnUR
-	 RBuj7IFBRoN2Nu0lL4SsvYgGOi3UO7FRIATnd9LN7c77FKP44t5a5IdzD28mDyZMlog1y
-	 nLsFOdKDLAA5qRG5FI+AtnFiaAwv5aOFPEnxdk69gxrH0/kSC5e+PkIbqKzI/Vbcn8xd5
-	 8oX0X3WLZHfMX5Ju4ZXXeWMUFs1PvBokqJ03k4h/ms/oAmkMweGfchmp04ha/v2SAnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795796369;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ZhAdBr4eVeyR1uUc5erg64Zui9aCY3dokPGCUAwmYzI=;
+	b=2Lz6gEHU5J8yQioLGTo3d+061XIggV1xTvWNm9LhX3C3XRB/QU7nNNT5tLrHHTA/aSLd
+	 ZtL/G4u/ByhGe9OGZmDD0cdARM19OsnMeicvSVyDG+nUMbs9xnxfFIX0Gon9KXfTHDsED
+	 bRBbeGKPAF4VpeRJWqgTiLaqegRrVD1rnNpkiBmqyuWr/pADfolGq9Q3GMYY/quLwyNXs
+	 3lTuefA5pMqRDBJCMA2CjGbbIpaCIaqY6hDjRmy9iHg/7NQAbIMxUdlMm1WiZrCkd51Lt
+	 1OWQa3ntyNgXeTodd1VQ1gIEvCr/ETAe7iOmPu8NttnISd/zTAzNLfRLHCIxuCEm7eg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QyuNEpdo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O6fwI4S5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB5B606A31F
-	for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 16:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3183C606A31C;
+	Fri, 27 Nov 2026 16:19:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QyuNEpdo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0DD11F0089F;
-	Fri, 27 Nov 2026 16:03:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O6fwI4S5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA441F0089B;
+	Fri, 27 Nov 2026 16:19:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795795414;
-	bh=ke4ndCOLUx/oK+pv7zfO70W2UHjwjDcUZFoIoIFqfsU=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=QyuNEpdoXGVqT9WH19i5877oRd1ZVDcWqpHgb1mCEVKBp0d09UHVeG9le7jva3Wcx
-	 TkyJpT8gtFsG0y6Aw9cZv5Nj7xrfdOpr2TBKiNfwTqqy/vRpdieI+stEmdiFMvwziw
-	 Xi039q/5jvdd393hCNyYf6E8W3KcO4kqiOPP5y750KhjWECqPR+jCmCbRqT41Sa6Nt
-	 1EQd3v9BISrcjNAFiz2KEhryfr20EoMpEevXow6PJLppA8VMR07SkO2dQWWgU6lLXR
-	 s4k+oq3Z73Nb0jjnG1eMdBmt7p3/7YzRd19ZpJUVm05nMVfIU03fY7j62KQ/wc1vgM
-	 ERtQ7VuwmJtgw==
+	s=k20260515; t=1795796368;
+	bh=ZhAdBr4eVeyR1uUc5erg64Zui9aCY3dokPGCUAwmYzI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=O6fwI4S57tnyDAlF2E26/bFmoteZ6IGKWuI3ynDi/g2p5Ir8Nc/vrd4fbstbrdoZh
+	 0wv1wIY1xc9+06RaYaiVE8gslMSGWbsTp35GSVdZCfCLWkF+OPamLrBR6RvDly+tzM
+	 cSPoqUZEJPrP7meYxglZbWe9keFqaXstDf2w/aSiIrXEpWbYs7EeJ+YrODqEO4bwQp
+	 538XBiNH//MIEQZRofha3OPqvF7YVkhaguBPdu55lNhnSK9Ffa4q61Do/L2rNVGmwi
+	 0QbxOELGqQg7CcOLzdnrKGoRRTQjb2cFexyQ9Fif7cjRik1HohZYV4f5k+y6ARPcNk
+	 odnCnKkxf6oXA==
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20261127094617.1932934-1-rf@opensource.cirrus.com>
+References: <20261127094617.1932934-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56: Volume/Mute/Posture controls don't need
+ to wait for dsp_work
+Message-Id: <179579271405.838304.8365070984179886880.b4-ty@b4>
+Date: Fri, 27 Nov 2026 15:18:34 +0000
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -51,38 +61,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v1] ASoC: tas2781: read TAS2573 status registers by
- entry length
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>
-Cc: broonie@kernel.org, tiwai@suse.de, 13916275206@139.com, perex@perex.cz, 
- lgirdwood@gmail.com, linux-sound@vger.kernel.org, baojun.xu@ti.com, 
- k-lu@ti.com
-In-Reply-To: <20261127042856.1672-1-shenghao-ding@ti.com>
-References: <20261127042856.1672-1-shenghao-ding@ti.com>
-Date: Fri, 27 Nov 2026 16:03:29 +0000
-Message-Id: <179579540991.838304.12941896797247364748.b4-review@b4>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=624; i=broonie@kernel.org;
- h=from:subject:message-id; bh=xcLiUptVtNNVIqRdibSpYVilq2C1b4ueH1tFhUY9AIE=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI5V15msuvaaTtZyfIW55yPTjZFRvdtJm68FaPMHxZyn
- u94GeeyjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzkHDMjw/yfz81WZnQY7q+I
- Un2dqR90Z+ntd3kZBaYThBc/UTyyPYKR4c47kVeiF7Vjeeyneh6aknqRIXZewfPVu86eY6z6ndX
- XzQIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1174; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=vZey22rggcpM5y9QG/7KyRSPl53JfaqCYiVSPZF11o0=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLI51/YezWzY0T57qtqhKzW7mcPXVU9lyvK5rdr8t9b+a
+ nLm6+IjHaUsDGJcDLJiiixxWdwv60ter+E7uLANZg4rE8gQBi5OAZjI+4mMDC17dt0R/HF8d8A+
+ h0ums6J0Ew/znVlcJtF8akWXWq4+/zaG/x7rivW8/h5fc8J304n9lTFWm+YyKi9VeLG2nuXvrAc
+ b1zECAA==
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-> The TAS2573 status kcontrols read registers through a shared descriptor
-> that assumes the first register is one byte and all others are four
-> bytes. The assumption is position dependent, so a one-byte register can
-> only be described by moving it to the front of the table.
+On Fri, 27 Nov 2026 09:46:17 +0000, Richard Fitzgerald wrote:
+> ASoC: cs35l56: Volume/Mute/Posture controls don't need to wait for dsp_work
 
-> +/* Register Array for the speaker calibration */
-> +static const __maybe_unused struct tasdev_reg_entry fct_status_regs[] = {
-> +	TASDEV_REG_ENTRY(TAS2573_FCT_INT_LATCH),
+Applied to
 
-Sashiko suggest sthis should be TASDEV_REG_ENTRY_B1()?  There was also
-another thing that might be worth checking out.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.5
 
--- 
-Mark Brown <broonie@kernel.org>
+Thanks!
+
+[1/1] ASoC: cs35l56: Volume/Mute/Posture controls don't need to wait for dsp_work
+      https://git.kernel.org/broonie/sound/c/fbf1f115ba41
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
