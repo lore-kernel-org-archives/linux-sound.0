@@ -1,67 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795769337;
-	b=k5y7HOIwsEbxvf4mfV79z8JI4zlkzWXF9uObY7owFJHot2+PQJZEd2N1ZPWARJkWMRsF
-	 4bdWxiL/06S8t3FzZcxY4+eWJkTKom6LSE39fzAfwTMMZy7u0LKUyccwFFEXwnfkMkyr8
-	 h1zvMZSOpr9OrbpYc1lAw5GCVHSF69voBkrXDWAKiVHs0OhSxFk8+f7H4pZBf/d7VUXi1
-	 UA2hUUx0p5TOnBBZfh0Shdf29ORGfVN8qswAB5a6A3pCuk3DFADkxX6qMEPOgsao/8WN8
-	 VKod8X55ZKGXib27m0YPMRhYQZJCR/4oij8ohQdHHuXjLB5ixhYCesGQnSldGIeiOIw==
+	t=1795769338;
+	b=cMOVARfXk9E547Eq+mxwVnqPlPEKnR4zvmoJ9I5ptnPPoKxv4m7sEu+Itf+befkoXSrh
+	 wLx8TeRK6CU/7bXK2xB6d95aG6S0bsxcFHG6D1NtFLs2kawK1e6RbS/mEi4N8xjsJ3C+6
+	 XMCgoKHJMrwCklaotwMbGgwRg5dy95R6lnCuAQp490BSbbBMZ4EXgTYu3YhwOuK5BhRjn
+	 2oey57fi4+MXWl6YDSk3mqtuCRCQ3dCfPYfByrkG87ywlUY4v+63WR08ehJUA06xOcr8x
+	 jf1F25tn+IeKXBwt//GqO/Dh1PR+LM2f0+RC5SAWhZA5ZVwkDt3O9YB0jEvkRkZ5ENQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795769337;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795769338;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
 	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:
 	 X-Proofpoint-Reinject:X-QCInternal:X-QCInternal:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Authority-Analysis:X-Proofpoint-GUID:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=JkFeBAeIFGXP9H+b0e/Iowj6DYNaFp8sLF647Rx6ZZg=;
-	b=UqFfNRYLAfVaKx2xM/7BpZOaySVSaKygkH+fd+Avc0h0ooMBeZ9fzFuTl94vLRu4P4OB
-	 eC8i5kVsxc3Ur4XD1rTZAvt69pD50ZUmIn8dYf4q1sW7kXPkYdaSMcvT8BDcgfMFE+Cyv
-	 Ud2oF5tXWfnlAXs4y2yEU1x46I6go47x8hR45yO+rwEA3gnHOqWK7qy/ND1Dq03sFFNzh
-	 V/tDQs1cTIC4f5YMX0kbvX8msYP/kG9meMDtE7fc45mjOKqJpOlQiesqH/UZRc0pyBIvP
-	 lOA2kxVfSppSog6eQgVekGCWP5fUegbg1SHmEHtgdHSBGsxkUHu0LhywwvRuIW7l4rg==
+	bh=T0RD0WwfqIa7YjQQ9gKb568oPICNUDCT07bgLzvcvWc=;
+	b=zc8StOe1p389j3GtuEtlC8oFil2C/eWGKLXOEt7ty9wfyw1WISSvHe60XnQRXKBJrb8P
+	 m0ju3YNrpPYfUKQOE/PtSA2wX2RtEHPywMPwSkVlxJBoL9FF33BoH73hr9Yc1Ex54jbDH
+	 Bq0b2pkpLaK29Vxt3Mx0nK+1hyHqz800HiyV+MG4r59GJwjbdEnFrzJdf5sfdPV95nNwY
+	 avqEFvN7/dFgqTBjubh7C8iLOciPm66didocFyTcW0f3ASAgc09whFky1mDbwHMKc0XkP
+	 5ox3GA472tV9RG0YDHY2eTxdxusqQ8aTn7YEpK4hyKWTYXlHRqEunhydEJc4z2kdd+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YRYjCWbz;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nVzCSNEI;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C513B606A335;
-	Fri, 27 Nov 2026 08:48:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C513B606A335
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60085606A331;
+	Fri, 27 Nov 2026 08:48:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60085606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YRYjCWbz
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR7GbMs3759042;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=nVzCSNEI
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR7H1Is1076489;
 	Fri, 27 Nov 2026 08:48:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=JkFeBAeIFGX
-	P9H+b0e/Iowj6DYNaFp8sLF647Rx6ZZg=; b=YRYjCWbzaY2dpjoew6GWqSJ8fls
-	4y6zl8l3QLVZ6sHElAqZlbrepe+fSqfLHoHQqhBdOI7nlrJ9e1YxPVLP+mt/xuCz
-	EWMNBYoB981Z/6UHdXdlX4BdjEvH1SPZ4v0TJ5eXCPhSRRMJPVRSizdMKOPUO6NC
-	Aa5/8N9cb9xjqBsf76aLfURRyTfGF620UNuZoHhtUkfe3Nglu8vkeoISn11Ym+JH
-	X+wnCIDONFtPg0/GZ9ySdPT/qErcaNAg6YNMNlvvNoHdQUz85TkJAY88KfKE7l6G
-	onLOnZI06hSQbo4YgX1dHV3YtLvJqLNbi6A8kaAMnejOUAy5uk4WuyE0mQw==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=T0RD0WwfqIa
+	7YjQQ9gKb568oPICNUDCT07bgLzvcvWc=; b=nVzCSNEI1j6k7CiiPwH+8GFyFa5
+	hrDtf7yjKPh7oIA8dmA9qau0IzTT3ebkBGeO3KQQYs0LlHmQ9+NIERtG5rY+uBIc
+	BU7HP3uiqzi/SoyjA521oG8bKf2LyO7EAWyu1FHPWOt6EgQxBcePY7+gWekN5Yw+
+	eec7K66BltlFH6a34sFYhwHol3SeVMx6MW6kApHA57bgmm8Dfz3YEuo+HVtQSCi6
+	BbGK+62mUcCddLKoUm0p5JPwQDbL1SliCTXzgeum17j/srsxK/GDpFc/w/sBD0jN
+	E6h+2P/yCeS+rqGXPYAu5D6pEcVRJV47H6NB+VX+nfp2jCkPzGpNgT8cFyw==
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j74g6rhvj-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j6u55t24p-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 27 Nov 2026 08:48:31 +0000 (GMT)
+	Fri, 27 Nov 2026 08:48:30 +0000 (GMT)
 Received: from pps.filterd (apblrppmta01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR8mSTR003713;
+	by APBLRPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR8jeHB4193794;
 	Fri, 27 Nov 2026 08:48:28 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-mohis-hyd.qualcomm.com [10.147.253.64])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 6AR8mRem003697
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 6AR8mRer003696
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Fri, 27 Nov 2026 08:48:27 +0000 (GMT)
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4840500)
-	id 9B81A6AE; Fri, 27 Nov 2026 14:18:26 +0530 (+0530)
+	id 908A266B; Fri, 27 Nov 2026 14:18:26 +0530 (+0530)
 From: Mohit Sharma <mohit.sharma@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -79,13 +79,12 @@ Cc: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
         iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org,
         Mohit Sharma <mohit.sharma@oss.qualcomm.com>
-Subject: [PATCH v2 4/4] ASoC: qcom: q6apm-dai: Allow the mDSP IOMMU path
-Date: Fri, 27 Nov 2026 14:18:26 +0530
-Message-Id: <20261127084826.916361-5-mohit.sharma@oss.qualcomm.com>
+Subject: [PATCH v2 0/4] Fix Shikra q6apm DAI under KVM/EL2
+Date: Fri, 27 Nov 2026 14:18:22 +0530
+Message-Id: <20261127084826.916361-1-mohit.sharma@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261127084826.916361-1-mohit.sharma@oss.qualcomm.com>
+In-Reply-To: <20261119164705.1594066-1-mohit.sharma@oss.qualcomm.com>
 References: <20261119164705.1594066-1-mohit.sharma@oss.qualcomm.com>
- <20261127084826.916361-1-mohit.sharma@oss.qualcomm.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -99,73 +98,78 @@ Content-Transfer-Encoding: 8bit
 X-Proofpoint-Reinject: loops=2 maxloops=12
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-ORIG-GUID: pru62GRbObx_Ac9MDrkJvZ0-zh5stAFf
-X-Authority-Analysis: v=2.4 cv=U5kHnuru c=1 sm=1 tr=0 ts=6b0943df cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDAzNCBTYWx0ZWRfX2OcOYGRhhVm9
+ BjrU/2SZBZHpLGUoWB8LFi/7J4TLzsIhut6AZCoVP3Ux3tx97SRJnW0CiHxfVbiIL9yImwO3m6V
+ MeAjTgCVmeNMkGDjnGy8v1dKKk1VE6I=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDAzNCBTYWx0ZWRfX1fkQ2ktmgT6+
+ BTR7poARSRcRAKTzMALA8H6LbE/bR4EZWYO+v26H/toLsuvagU8aWcC7HzNCnZA8Z7qFJrVNgR4
+ MrdbSpcklp1+dFdCnQnwG4MUltlfxNft6YhsWa7iF3s3+eZILmBoAY2gLQFmnV63jJ8Q4OsHm+p
+ HtQF6BkuuRq02xysyy2f+JnOUzydhm1sGNRKCa1lusn8N3mygboUSAfrgVooKbHdSZ84TSzwykd
+ mCj4rifxZi5qxQtLMS85Znss0vjVKpuCUnFS8vKKY5P8z4Y1TxgAcpdoHlzPXU4HUYTxBhlPROh
+ 0pn6UVHmUErkJmJOHJFPmJG0OO5/AbwJjk403VEypCVicV9tPFHMXLXFQwYRkmNd1Z3U6tjdal/
+ 6cD/UEow1PE/BfGXOXLPUnnin5RezPvmrXf9V9Z3AFlxf4S3280gSBJ3NgXgCYxOh3GJmyZeYuV
+ tzadPn4LyM3C+FGVDQw==
+X-Proofpoint-ORIG-GUID: YRGWH0lEQquLN7lfs9ppjk7QUVkvzBEk
+X-Authority-Analysis: v=2.4 cv=Z795j3RA c=1 sm=1 tr=0 ts=6b0943de cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8 a=2pjKgLFfhSI-GXVsdeUA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDAzNCBTYWx0ZWRfX/WKZLsHxIRnm
- 4mGtX8Kd7yelUOiKOlnUhqXBEKoZUkbyJn8a5+RiTvFZLo8ovQef6SJTxKT/FHnKHsIcWsFV5mf
- etl/CAFnmw9FCOm4tdN+jyoTP1ld/qo=
-X-Proofpoint-GUID: pru62GRbObx_Ac9MDrkJvZ0-zh5stAFf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDAzNCBTYWx0ZWRfXwW9Cw+uaFoXj
- HriDMrKsXgw4muBzqaSPbSVbUFJ9Ts/BYDhp82iQAlpEs3sCCmy0BsYOAFlh29iOO73vsFlX5fK
- Z3nO3yKKHDHlrFN6geJlUPV7Q5ppU+tOQ90Wv75ZUji44mOQ2/fJdGWbTMqo65GwR0GEKMrmUls
- sPvAFiBL66ux1Ca5X2p8K01A40TvPL9YC6UOzp1IMTpFYg68OPcR+1Bj/SsS7VkKq5K2mPRCcf2
- KrgEQoj1+JbIfG1YWV1cUk/3wmiPP8BAFXfubcTVdJlI88m5Lqr32C7Mj//mSgoqeCx5EwIPOeY
- at5kA8T4wO626cOVXH1QxcMQSqukD0UjMDwABYklpToNON5bQzHt6L8K6wWFtDUAHRdt1GyvMjo
- WmCfgvNAAvWYYeVrniK9l7/BP0cIpPtipgt0BHz7P6T6xtlcL3GbuYHPMhLe3cxygSLcVOcSTz4
- ZIVfoY2iax1tkY9CTdg==
+ a=yx91gb_oNiZeI1HMLzn7:22 a=FdZBeAntQVJhsXRJsjQA:9
+X-Proofpoint-GUID: YRGWH0lEQquLN7lfs9ppjk7QUVkvzBEk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-27_01,2026-11-26_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
- adultscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
+ phishscore=0 suspectscore=0 malwarescore=0 clxscore=1015 priorityscore=1501
+ adultscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270034
 
-The q6apm DAI currently selects SCM buffer assignment solely from the GPR
-domain.  This prevents an mDSP-backed DAI from using an IOMMU, even when
-the device tree provides an iommus property for environments where the
-mDSP stream is routed through the apps SMMU.
+Shikra's q6apm DAI is hosted on the modem DSP. In the hypervisor
+configuration its shared memory is assigned directly, but when Linux runs
+at EL2 it owns the apps SMMU and the audio stream must be described and
+mapped there. Using the normal translating domain causes context faults
+because the firmware consumes SID-tagged physical addresses.
 
-Use the parsed stream ID to distinguish the two memory access models.  An
-mDSP DAI without an IOMMU continues to use SCM-assigned buffers, while an
-mDSP DAI with an IOMMU follows the existing DMA/IOMMU path.  This also
-avoids requiring SCM availability for the IOMMU configuration.
+Shikra also retains its reserved-memory carveout as the backing pool for
+the audio DMA heap. The EL2 overlay adds an IOMMU description over the
+base DTB, so the resulting DAI node contains both memory-region and
+iommus. Allow both properties while continuing to require at least one.
 
-Fixes: bb8afd437d79 ("ASoC: qcom: q6apm-dai: add SCM buffer assignment for mDSP platforms")
-Co-developed-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Signed-off-by: Mohit Sharma <mohit.sharma@oss.qualcomm.com>
----
- sound/soc/qcom/qdsp6/q6apm-dai.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+Select an identity domain for the Shikra q6apm DAI. Also allow
+modem-domain q6apm DAIs carrying an IOMMU specifier to use the DMA/IOMMU
+path, while retaining SCM assignment for modem-domain DAIs without an
+IOMMU.
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm-dai.c b/sound/soc/qcom/qdsp6/q6apm-dai.c
-index afa4bb095e09..94302837b93b 100644
---- a/sound/soc/qcom/qdsp6/q6apm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6apm-dai.c
-@@ -1221,16 +1221,11 @@ static int q6apm_dai_probe(struct platform_device *pdev)
- 	}
- 
- 	if (apm && apm->gdev &&
--	    apm->gdev->domain_id == GPR_DOMAIN_ID_MODEM) {
-+	    apm->gdev->domain_id == GPR_DOMAIN_ID_MODEM &&
-+	    pdata->sid < 0) {
- 		if (!qcom_scm_is_available())
- 			return -EPROBE_DEFER;
- 
--		if (pdata->sid >= 0) {
--			dev_err(dev,
--				"iommus and mDSP SCM path are mutually exclusive\n");
--			return -EINVAL;
--		}
--
- 		pdata->use_scm_assign = true;
- 
- 		rc = devm_add_action_or_reset(dev, q6apm_dai_scm_cleanup,
+The series is ordered as follows:
+
+  1. Add the Shikra-specific compatible and allow both memory properties.
+  2. Select an identity domain for that compatible.
+  3. Add the compatible to the Shikra q6apm DAI node.
+  4. Select SCM or IOMMU operation from the presence of an IOMMU stream.
+
+The Shikra EL2 overlay is expected to provide the q6apm DAI SMMU stream
+description. That overlay change is maintained separately from this
+series.
+
+Validated on a Shikra EVK booted under KVM/EL2. The q6apm DAI probes
+through the IOMMU path without the previous SCM/IOMMU mutual-exclusion
+failure, and playback and capture use the per-stream identity domain.
+
+Changes in v2:
+- Follow the established subject-line style for each subsystem.
+- Permit memory-region and iommus together for the Shikra EL2 audio path.
+
+Mohit Sharma (4):
+  ASoC: dt-bindings: qcom,q6apm-dai: Add Shikra support
+  iommu/arm-smmu-qcom: Use identity domain for Shikra q6apm DAI
+  arm64: dts: qcom: shikra: Add q6apm DAI compatible
+  ASoC: qcom: q6apm-dai: Allow the mDSP IOMMU path
+
+ .../devicetree/bindings/sound/qcom,q6apm-dai.yaml        | 8 ++++++--
+ arch/arm64/boot/dts/qcom/shikra.dtsi                     | 3 ++-
+ drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c               | 1 +
+ sound/soc/qcom/qdsp6/q6apm-dai.c                         | 9 ++-------
+ 4 files changed, 11 insertions(+), 10 deletions(-)
+
 -- 
 2.34.1
-
