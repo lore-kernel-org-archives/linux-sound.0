@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795853651;
-	b=VerZQW4alH5pIqekzxYc0eAF7mkJzblSH0vqQKJOu30ZaSzn8fqmK+0RiTgUNZwx7MKz
-	 JF0OLLcx2zzgPuTWDB6YsTUNrmAQd5LLJnC4lj3hzwgY7T7bcCtPqojV4FUnir0NHXVtW
-	 JucO6h86ks5qXyuV6f/mtssOigP2sFNM+TKtOErwEkBhMQMhauJzSlwGS49VuMxNp6Xw5
-	 zYDIjEvKYk+eKxLLYIwlQmuf63+CRXwF5FGgYvaZkHSLMpUlWIqyVnoYcGDm+7tNhyLYl
-	 k2xmZZhGVnoI0tPhIDGDVLfXNHv2q7FSvdnS3TnBZg7/yBireYabZnEozu0hEMKd7kQ==
+	t=1795853799;
+	b=upSXpaVCz7Nc5uWfa+e9C/K+u8yNkSuIrfQH6lRRQB3sBBi7gWc0RyYq37ZUdZ6cGCaO
+	 PPcxGR4r/pMdFrLnJvTVedIm1lWBALFC4IjU2WGkgi531nMQNO9RKXzvpmRwjCPR2KSCB
+	 0yF+MP3QqOZkclLi0VkRxwMGFSalZVtMbn/X2fBMeQQ6AfmUqVi/XMn8UsMTbDkDWbQ9S
+	 RDQKCgM9XQ/hlr2KkhuOVaGToPYy/nz8B6FgpLqX8xXWtXAs8+TBfgfiz/fztECtoVZCv
+	 wvaRruCjWFjGrAE+AXe+/SXxNruqafXWm3rVCHf60qAtvriqWTPoUUfs3cjhb/djLQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795853651;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795853799;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
 	bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-	b=3RJn9QmvUJJ5Y6G8qtBEm2ZPDJaudh1wdwqc0+qRKJgMLgA7lcaakoOI9/kPwBZXDeWY
-	 fynj+SWZiuefrJTAaxwgBspMaGBhy6zBFtID1gfEeqRJscUfdCx9zJvgo+gfu0c9MWMcl
-	 Dm0G6P8LdRLgxPSUcxbfqnkH4Do5v/IMlN7fCLHbKIa71w1a7L3eZ6V4N6YLWj13UCK3X
-	 57eU/GZQeuTfoCO9oEP+FqABljmZYadFFkW1qH+dwnXpSl175Xj1mFy2zd6o2Qe8HYSSu
-	 3dTbCI+mjoRT+maG3jZi9WeEteAAJpcni6yBdqYekKr/nDvk4fRbcJZKMieV/XYq7QA==
+	b=bHLWkFfiY839RRMvY0sRGtkwoSwGP1yi5cequXNnj5Y9TJjyavdjDAwyU2ItUqCafwdX
+	 /XuBv+y8zFUVOjilagUG/DxED38403fXTxTwY3tkZKAk9zBRwhlHN5EyLpK85r+dTVSFS
+	 N0gLE8cTYxITOuFOa/k4+0F5RCCDj8s8u/M+ryTGLewQ8w2KU4F1J/+pwuzhPEpnovd+u
+	 U0gaj/RSCs0yO3Sip7vXj2Xt2G4zVJUDRLuXiugvDccZw8bSm3nHz0OeqJpIp05QyMWI6
+	 40BZCw6Piyv8uUGsdRY11wYsgDKDVstwpsHm3VcTX7NmqRnUTNA/4bSw91vhj+Qt+vA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0LkFHR+h;
-	arc=none smtp.remote-ip=74.125.82.182
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ulv1stUt;
+	arc=none smtp.remote-ip=74.125.82.42
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716CD606A321
-	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 08:14:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 716CD606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAA2606A31C
+	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 08:16:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAAA2606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0LkFHR+h
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-386ab9ab619so12471659eec.1
-        for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 00:14:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ulv1stUt
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1b546061d58so20736363c88.1
+        for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 00:16:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795853650; x=1796458450; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1795853798; x=1796458598; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=0LkFHR+hbGSu2gI3IDGcRw0jA4AabyAmC/x4bSWTV50NzBwS1B9nqK30kMEcSHMN1Q
-         mYfGHnRyrmAQ2HRXZZyDKhLgBRpCqjUBnCk2IMaQICVlg23sFOyU2HZp46TdZyzYejAd
-         kus18h3lhSKl3mmKUwJom9w1fVgXVzif983/B6GieSZ8LqLmm1V/w/zs+oTVaFxVmELl
-         4c15LYZMEj2ld+8owI0SF9tjWlFOw0eTc3IFgjY7P2MaCm/yf85W/sD477u9b5U0wveK
-         4CbRrbbuPrEUUfQ13R6kVsIbDRWylbY/dxvm8p9yrVY5/v638GkEntjyUnHRuBCFMzKJ
-         Aq7Q==
+        b=ulv1stUtqpRQtsCqjEdHlIZAi7l3/dvdBPm4zrW3i/KDRbOi1q+/HP7TpeWpckp9Jp
+         NVPZ2ibQmUFlRtNnSEgBgQ10SGfVPGFaAikxdh54UDoUcKz60vOwghLJbAlQkEd0HBxt
+         iLrG5/GMKoK6dvHNy3EBI8dhgd5THdmoO6cyQ4FcZ74EKAbsT08d7LSDPaUx4MJNrNkH
+         S8WqBZ8hmXsVqtsmH6VTBtWtEK/MzH3hKlEZ/fOnkPGJhWFvWgZujjE7ToKZq9L6nG93
+         YEXN49Unr7fDKBXgCDIcZ07vDcM0YgOHFotd63hshtol6pthIxXEwCTC82xgkpyBHW+U
+         FJTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795853650; x=1796458450;
+        d=1e100.net; s=20260707; t=1795853798; x=1796458598;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
         bh=yKYud9p8+aP8cT7V12zkUbmCop1ErkdHEczU+hWaU/k=;
-        b=yID0djYX5Rt8QfKj0FP9jmcNACd5put192ZbVbPDM8DY8tT27PnpkVC50t75N3jiET
-         +zEukRUuVjpZgWvzrJMn8nS1Ks3Waz9lnizuvAZxC9XAfXHGeyNFvZ6JagkEWXm64BY/
-         mq1joKrMMHc6QbLiH+4li310hFaGBlnzVEcl/A/Lgx4oLV45JFccN/clWkZ7QgCZ1cGb
-         EHoi3pMb1rdZtZGJfC8wykPMnZXPYxNojavv4xTq+5fSHDl7U55sCLo3dgv6+McsxbjL
-         smu6TsSsdleSdYB4syLlu2MSVW6hyhJh5xD6GTRppoDCTLSLKFqPZmYhSdVClBbMsNln
-         DRuw==
-X-Forwarded-Encrypted: i=1; AL+hErHliv1nWUJjTN6Ny2NsCvXkHtok5kkAPDK1fWPMCoqy4NHavj18AVnmLdHf8Vg1MieX3yQ22wRkt3eEsQ==@vger.kernel.org
-X-Gm-Message-State: APuU4Z/s8INO/F3STJHUjF0t1BKnlBIcWDJjnOFhLFeM6D7xMd2E4nrw
-	RhGI0MmUZOUpK4wDiMKcq5cuCSU9L1MNz1JxKkrkrydBMiVkFquCwehf
-X-Gm-Gg: AZFdTZe4/wU2xg1x/qKccnZZWpSKsEDyXbsiLh14mWcJfaOBH1ylOtMwwBr7feUE358
-	tyqXR94PfUu/Yj7qrFXx1I5+XBdWeBR8MffCRMiwEgjHvm3IlpYcz/V9Z3wgmE0dlKd2EHqaJ0A
-	V2va+zadwvwPeXFIJsKTI81ugw5/PJlIMCL8Qof6PAw/ZJiD6A402GqupBehlaa2vQxb1CNwTrN
-	I1Smrrozjtblb6A0Z/BWfz4lC0kU/v1DSV8cmlJpf9oTDZa5yu5eELbD15mOtno6AsDS57uRGlc
-	b/9A6d4VuK6EmMAqghbiYGiN0bc0huuwzcLxjMVZEwNZdX3fjZWHhEFO0jYtvvSk2KcFghjd1/u
-	wYDMkdFmgikO4Gu2vBDv4TUxeveMOi01PddvecqO6U8yJDUsS+3llbbhcWs0+vTv7F2b2I8jk8B
-	85hmIpV/6W0Ng0BSzJXvxggjvCkhGxAqXnlPlNVJEFFQ7ZGOuMTX5uJSW3sOkkTeg2ojOrSWZ5n
-	kGbBv4tEVk4hon8E6hrkeQzP9QWXGOqfs+wRj+NC4xBcB5tBdwWRbwu6LTEEHI4tZx+tKpuRwML
-	MLTnSj7wpHyKYAji8mXVLHQSOzE0iGcdoHjBiJgeMrWBdRrcoKgn
-X-Received: by 2002:a05:7301:6908:b0:382:f0d4:1e77 with SMTP id 5a478bee46e88-38571219f03mr26765984eec.36.1795853650596;
-        Sat, 28 Nov 2026 00:14:10 -0800 (PST)
+        b=v+In/54VBkRwhDau8HAg73Jr2Kj5LGVWA4oJdTYQ4tlozsLT6n89YgtdNIm71hDkI2
+         F5HbSkWcmKlqZk1mDVCn74J9bfPqDb22QsHYttkCE4xuCpNpXfKsEYO9KiW5QUOwG/u1
+         0fC7DGsKnY4c1YxHoqRzCZIwwT75y0nZydW/VonqRDG7kILs+Pqx/bjwrlO2wDyY1OXU
+         ZmelypllnXNZ4bL8K2l9Gt2WboMQcEn+ksOqygjJl6q+pJ1lG92jGumsWLYZfQ1dbBMu
+         I9iSa/WCu7Q91maWI9pv6kkcL6t3qlaJthVcnA87k047xXYgIUNc7eszv8U4hIH35ZzK
+         0hYA==
+X-Forwarded-Encrypted: i=1; AL+hErEEb/gnk2n6aG5xdkLnY+ODIbDgC+4L4u2ggGVTZZFiu+WrSZ1euluP22MspgxnjbrRStoBaeRBhXjOcQ==@vger.kernel.org
+X-Gm-Message-State: APuU4Z89gbQe/3jfnIoctMyjxti6+RvKIUuzLFqlnSP9acsFdAfAwE5W
+	hzqhZwQu0MSSxDimUrHRfELqkFtFPiQ1WSzVmHjhhtTyv317sElJAvQH
+X-Gm-Gg: AZFdTZddZ6V+jhvX6r63sIbWfL6PO3vIQmueGw5j5VgHGEBjT/jVnvkfD1HJHgUEJEl
+	giLh5GceXig0/PcRAIRvAGMRyDSRqtFYyuFlxlGfZFbONTgwmpn30nz76dCfCysDkqD50kL4kFN
+	rM8ECZjh/kYLMDUoKGtixF0xdXGyOhNFFXLBDhyE30e3N4ncWrBQaHz54BMcs6jRic7URHst1Cu
+	cmHY3gZKwt+sqqtXG9WBoOWBkzMFvqtNj//DCUTpl37BCZRHZCMsp3yv1nLTgjaYPG5wHdYKmIH
+	MvTtFIIwAYnEe1o+iNZWoBdFAS+tfKjlGVbx9zo4n3ZD5tzpJsgCWRPQXARe5dvalIgjCMRnJ7S
+	WvytBxrXHVZyitT0Z/eC8sVeSkEyJIrS5quo571g7kebxFLNXVIWsXYX0KYnLbBvWL12NbU6tzy
+	9hPO24fHd7kMFc+J3uscTgIhZDcXsJ/cz3S1FTZpgf52bNm9S1ZMCwuWMWcWWvbNqXirJ/8Ox4Q
+	kROWW05KCgMz9UUt4SqFcAp9Gs+OfjPUtlmItW/MWHJvVnOASH7b9Pgq+cN4uK7FaKzKTnRmHyN
+	0sy7X5jzzKpXxuCKyj1s2VoJgNOYqrFltG8f+y/TtEyG8pN4IGs4
+X-Received: by 2002:a05:7022:ea46:20b0:1b5:23c0:4f15 with SMTP id a92af1059eb24-1b556918196mr25488342c88.39.1795853797765;
+        Sat, 28 Nov 2026 00:16:37 -0800 (PST)
 Received: from localhost.localdomain ([103.179.230.121])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385c6830815sm72360114eec.20.2026.11.28.00.14.08
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567e2bd1sm60323430c88.3.2026.11.28.00.16.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 00:14:10 -0800 (PST)
+        Sat, 28 Nov 2026 00:16:37 -0800 (PST)
 From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
 To: tiwai@suse.de
 Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	perex@perex.cz,
 	sreekuttan2156239@gmail.com
-Subject: Re: [PATCH v2] ALSA: vmaster: Restore follower values on put failure
-Date: Sat, 28 Nov 2026 08:13:46 +0000
-Message-ID: <20261128081346.3007-1-sreekuttan2156239@gmail.com>
+Subject: Re: [PATCH] ALSA: vmaster: Check follower callback errors
+Date: Sat, 28 Nov 2026 08:16:13 +0000
+Message-ID: <20261128081613.3067-1-sreekuttan2156239@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87ik1imbb8.wl-tiwai@suse.de>
-References: <87ik1imbb8.wl-tiwai@suse.de>
+In-Reply-To: <87h5h2mba6.wl-tiwai@suse.de>
+References: <87h5h2mba6.wl-tiwai@suse.de>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
