@@ -1,62 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.142.180.65
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795815772;
-	b=UvgVobd6L0IYtYXOMTbt/bszuN2oY5j+z8NXQEnz7LWcEhkr4IO+hukIl7fcAWtbYpWz
-	 D8NIB4ydNnmLxNzKT2KyqCpxyrH3rhH5Rc+G5cd2WBsJO4EvubIRpH5MNM/PaxqM+V5AU
-	 nOWuNA2zGHpMCSiDakugmHCI1hfWMLKbPmkvy2hbiVbC/diZ9lDg1ZakhxwFtfd1d2aSp
-	 vRpRuk9EL3tHjC34kImQ8inOLNu5I314NrQ3SF/Xcukls8UZ2JqUoYEU39/xFBHyVG2Yz
-	 rf5cSaJ57oPt02IYsAKRzj8IShMzx5IGA7ppJCpMuYG4mllu8zPeoSq5zlJxuZDJXrQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795815772;
-	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=0ZYgNUiDFfhKnL3/ciwpgFJhJOXc7waapLIK1GJZ/ZQ=;
-	b=zbvVJHUu+jL3uXeiNVQUfEQezauZp3NKqMQWywO5Zu2KZbieVOenX3Ah2g9kBgOGrMSw
-	 zhCw7jdv4Sl09gQvfkgcx8I5jN6jxv6ALtHA1TnP0PUjG+mG4m+TFrcOhEj2/eaACruDH
-	 mlnIIdr0wePseWUBk7WnmPlq8XUa4b4lu2mZ2x5X4/8ljhkja3Y3Ga8IoC0CdgPX1Q8ZB
-	 DiBImDl8OabKs7bqjQrKWxiS2klRuTt7f0PToE7TTvnhYGsLJIu1mQfVqG+Um046CdFA3
-	 A6zNzMKsSfOMPFXEAr2EmGBZRZHU5V0+0nHa8hFmapHOLlZeFkC1MQdVK527bud7MeA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=makrotopia.org;
-	spf=pass smtp.mailfrom=makrotopia.org;
-	arc=none smtp.remote-ip=185.142.180.65
-Received: from pidgin.makrotopia.org (pidgin.makrotopia.org [185.142.180.65])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795828009;
+	b=ZlElmw6zHxL8CEGpJyt4lpF0+0HtoxYFmpCJ1zZ8QGtdgFNbVUCPUyTdWnPr1ZLyY6Br
+	 dwd/MKmRD8+CYPr49byr6VfcTmn0/OKQoJtA8JeHGcPI9Uy6dy8hqnoJTwZcM9qhYTtRz
+	 syjGX8jtwmvqMKjn3mHYUhVioZ0vIEpv1PORJUO2sv9iVhGziBxZaGV2ClWe5hEMDef6N
+	 9ov6wLYum2WpOYGMvWu+ALWH8NFDbC/bGrfpjS0xR2oq162itIy56DTB7RmimHs+6+sfW
+	 HpYRFD8G0+rb/AdYsCh/MbA/lwDjN1xYo8oLbyOfA1ojSYZ3ZBpGYvqzkOX5JV/336g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795828009;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=aguOstNiNosKFJOAXsnYWl5uoiVa6iE06IgtXJTe9mM=;
+	b=NvY8IV3sT8k1VLJ8AmZi5UhM5I3qjLfYJP4EvoNV/m4PHEjQ3cclEodeSmD53TK/RFfC
+	 dYbM/kGHlSgdsFbvfXGkb32n+q0NZBFY6dPqTg87JdznbR/ThCGXiA+rrhwAGhtqNA0gf
+	 O5G7SuDKhx+T+/P120EyqX8wPppuHa/m/1K1SaiS6VUVBw6GRmnR9bYOjMO506rvttCYj
+	 ZUgkChS2SdIB0AtdRTrE+9hohUX7slifrCvqfuvkMpmHsLB2OOJc9Gnvx2nY2GImSZ09M
+	 4DWWcwkKxYfC2YjonUXjL63Op1F6LabbcFrEndgFVhhsiotgQ715TfipQReRc0COVqQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TwBJoXSP;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4A7606A31C;
+	Sat, 28 Nov 2026 01:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TwBJoXSP
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795828008;
+	b=f8H+e5SwiP/eYqn4INZZxKhO8+rzxGfrKQpWFr7iihQRWry6vTV+82CL7X74XUZFromn
+	 zgtzsyT4Pjkh5yUg/SkKtHs/sXPUjV0VGUq/gDlKtYUu8fvhX51XXMe4qGU2AqWZjd7Jt
+	 jpfX1WoGeQyOyN5L0dbZRJtcMN8DmKqga+oGQgV2da0retpsCCqc605wwfZ1E9YqohDeL
+	 lEghVan5YTAbqZjXtvOmwCfRhrBK2FKyKFImOJ1TDyMNhlXNvdHYWVdfb8gfI8U8RVaot
+	 f5FGmNAYgfeYr12J+cg94bYX0y9M5GIz++UAzs5rxHSSftE7yegB3BBoJyYlqtP3epw==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795828008;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
+	 Content-Transfer-Encoding;
+	bh=aguOstNiNosKFJOAXsnYWl5uoiVa6iE06IgtXJTe9mM=;
+	b=S3LBMYzHoAYm88k7XCJ8AG4m0TDyQ15ymFClcV2L7I3aOV9KFxEJDnCYi782DKbaP8Wg
+	 gR+Mj7ZiENZz6VG86UEoxYmMa+LTffqzvYaBSvsYb4aGqp6OQ7yjBx9nfLf0LSiC2No08
+	 FnuDcwPiKBL/RHeiHECHaL3GV0c+p64Uz+vr0LFsYhcEf5deNDNP1nDuUPaVNH+psfTAp
+	 C4+q75/Jia/S7iu+GRzE2gZgBYtQJOm3WVfVt5neZpb2ZQvfE2GwxDxJXjwY0PaJIjU0h
+	 JFQHAIY/zTrIVQ40c/V0ssM8XYSDHwxv0+5s03FnlG/9InuDuVQTJRVoybbzZ/HYZNw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A51B606A31E;
-	Fri, 27 Nov 2026 21:42:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A51B606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=makrotopia.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makrotopia.org
-Received: from local
-	by pidgin.makrotopia.org with esmtpsa (TLS1.3:TLS_AES_256_GCM_SHA384:256:X25519MLKEM768)
-	 (Exim 4.100.1)
-	(envelope-from <daniel@makrotopia.org>)
-	id 1xX3iR-0000000008m-2Kgz;
-	Fri, 27 Nov 2026 21:42:47 +0000
-Date: Fri, 27 Nov 2026 21:42:44 +0000
-From: Daniel Golle <daniel@makrotopia.org>
-To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, bui duc phuc <phucduc.bui@gmail.com>,
-	Kees Cook <kees+treewide@kernel.org>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Ryan Walklin <ryan@testtoast.com>,
-	Andre Przywara <andre.przywara@arm.com>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org
-Cc: stable@vger.kernel.org, Marcus Cooper <codekipper@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 1/1] clk: sunxi-ng: h616: fix audio PLL and codec clock rates
-Message-ID: <9b134cf8ba90d4524188d4b5977fd1d8335dc751.1795815223.git.daniel@makrotopia.org>
-References: <cover.1795815223.git.daniel@makrotopia.org>
+	by smtp.kernel.org (Postfix) with ESMTPS id 56BCD1F000C1;
+	Sat, 28 Nov 2026 01:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795828008;
+	bh=aguOstNiNosKFJOAXsnYWl5uoiVa6iE06IgtXJTe9mM=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=TwBJoXSPZB4npE8z1hJ/eEqSP/fckt7RkTpEF0Av8fRAHqWkIjCDwGtEfZftwSbuE
+	 cRUL9AaeHaUQK9ZUg+OcHL4mIbt0AkIuHi1aVFOIOIMLWr/4gZC8XyxhQjTcWLgTjM
+	 Wz1qA7Av9FpH+2TxCEUmfCKCHlI5X/ohS+OlUp410ESr/dHnWm3tjzjkFsuujoAMlS
+	 ecpIx/BFYXxlXQmjIju5d+KxI92JSwVx6VruO0TkVrvD6PC2U1qvQTwYwFNoV5iGU3
+	 xhVdjR17BCW4EYV/u2thtmrcNzNMgg4Awm34meyxqdPGcZ9h4ZErJ6YGSNPaMDkfFe
+	 7hprf3hx+w24Q==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id D96044DED5;
+	Sat, 28 Nov 2026 01:06:47 +0000 (UTC)
+From: Igor Velkov via B4 Relay <devnull+iav.iav.lv@kernel.org>
+Date: Sat, 28 Nov 2026 03:06:46 +0200
+Subject: [PATCH] ASoC: rk817: Do not free the regmap of the parent PMIC
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -66,128 +82,82 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1795815223.git.daniel@makrotopia.org>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261128-rk817-keep-parent-regmap-v1-1-de515c2899ed@iav.lv>
+X-B4-Tracking: v=1; b=H4sIACUpCmsC/x3MQQqDMBBG4avIrB1oorXRq4iLaH/tIMYwKUUQ7
+ 27o8lu8d1KCChJ1xUmKnyTZQ4YpC5o+PixgeWeTfdjGGOtYV2devAKRo1eELyuWzUeunrV3YzO
+ 1s2sp51Exy/Ff98N13VMNwg9qAAAA
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Chris Morgan <macromorgan@hotmail.com>, Lee Jones <lee@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-sound@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Igor Velkov <iav@iav.lv>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1879; i=iav@iav.lv;
+ h=from:subject:message-id;
+ bh=VRMDAVdATty+o32CLZkZxbTwRbwASeEGt2T/3vL6z4Y=;
+ b=owGbwMvMwCVmNH1q96v4SmbG02pJDNlcmmq6V7Y55yq95pH6bOB2/VrVltPnfaJua2g0RRyyE
+ D6121Gho5SFQYyLQVZMkWXCIY1bGUuu/vX3MH8AM4eVCWQIAxenAEwkIp2R4dIPw4sGhl26lcrR
+ 32RUZiZcjEratrHA33P2tYfBf8Q4VjEyPPl6Us76z0XbCZVexY9jhAs/tPUek+ezWvE6qvmp05+
+ jDAA=
+X-Developer-Key: i=iav@iav.lv; a=openpgp;
+ fpr=90C228DA68A4D5FD4F4837E03297958BEA5F7903
+X-Endpoint-Received: by B4 Relay for iav@iav.lv/default with auth_id=1060
+X-Original-From: Igor Velkov <iav@iav.lv>
+Reply-To: iav@iav.lv
+Content-Transfer-Encoding: 7bit
 
-The sigma-delta table of the H616 audio PLL holds the PLL_AUDIO(4X)
-rates of 90.3168 and 98.304 MHz, which already include the M0 output
-divider of 2, and ccu_nm divides the table rate by fixed_post_div once
-more. The PLL and the 4x, 2x and 1x clocks derived from it are therefore
-reported at half their real frequency: N = 40, P = 5, M0 = 2 and
-pattern 0xc001eb85 (a fractional N of 40.96) give 24 MHz * 40.96 / 5 /
-2 = 98.304 MHz for PLL_AUDIO(4X). Store the rates in front of the post
-divider.
+From: Igor Velkov <iav@iav.lv>
 
-The H616 codec only played at the right speed because of this: its DAC
-needs a module clock of 49.152 MHz for the 48 kHz family and 45.1584 MHz
-for the 44.1 kHz family, and the 24.576 MHz requested by the sun4i-codec
-rate table landed on pll-audio-2x running at 49.152 MHz. Request twice
-the table rate on the H616, in the same change, as either half on its
-own leaves the codec playing at the wrong speed.
+The codec uses the regmap of its RK817/RK809 PMIC parent, which the
+PMIC core, RTC and regulator drivers use too. rk817_remove() calls
+snd_soc_component_exit_regmap(), so removing the component, on a card
+unbind or a failed bind, runs regmap_exit() on that shared regmap. The
+other users are left with a freed regmap, and devm runs regmap_exit()
+on it again when the PMIC goes away.
 
-Fixes: d0c322b6e4bf ("clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL")
-Fixes: 9155c321a1d0 ("ASoC: sun4i-codec: support allwinner H616 codec")
-Cc: stable@vger.kernel.org
-Cc: Ryan Walklin <ryan@testtoast.com>
-Cc: Andre Przywara <andre.przywara@arm.com>
-Cc: Marcus Cooper <codekipper@gmail.com>
-Cc: Philippe Simons <simons.philippe@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Signed-off-by: Daniel Golle <daniel@makrotopia.org>
+Clear the pointer instead, as commit 6d66c5ccf5cb ("ASoC: mediatek:
+mt6359: Fix unexpected error in bind/unbind flow") does for mt6359.
+
+On an ODROID-M1 (RK3568, RK809) the PMIC regmap (3-0020) disappears
+from debugfs after unbinding the card, and a later hybrid sleep oopsed
+in regmap_update_bits_base() called from rk808_rtc_readtime(). With
+this change the regmap stays, the RTC reads and binding the card again
+works.
+
+Fixes: 0d6a04da9b25 ("ASoC: Add Rockchip rk817 audio CODEC support")
+Signed-off-by: Igor Velkov <iav@iav.lv>
 ---
-Measurements on an H618 (X98H TV box), DAC drain rate from AC_DAC_CNT
-and aplay run time of a 4 s 48 kHz stereo file:
+mt6660 has a similar issue: mt6660_component_remove() calls
+snd_soc_component_exit_regmap() on a regmap created with
+devm_regmap_init(). Not tested, I have no such hardware.
+---
+ sound/soc/codecs/rk817_codec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  kernel           CODEC_1X_CLK  real module clock  drain    run time
-  unpatched        mux 2X        49.152 MHz         96360/s  4.06 s
-  CCU fix only     mux 1X        24.576 MHz         48160/s  8.03 s
-  CCU fix, 2X mux  mux 2X        49.152 MHz         96360/s  real time
-  this patch       mux 2X        49.152 MHz         -        4.06 s
-
-With this patch the 44.1 kHz family runs at 45.1584 MHz and also plays
-in real time. Codec streams of either family keep their rate when they
-alternate with streams of the out-of-tree Audio Hub HDMI driver, which
-retunes the PLL between the two settings. A guitar tuner held to
-headphones on the line out read 440 Hz for 60 s sines of 440 Hz at 48
-and at 44.1 kHz, and 880 Hz on the right channel only for a 60 s 880 Hz
-right-channel sine at 48 kHz.
-
-The real rates follow the PLL_AUDIO_CTRL formula of the H616 manual
-(3.3.5.12) from the register contents (0xb9042701 with pattern
-0xc001eb85 for the 48 kHz family, 0xb9021501 with 0xc001288d for 44.1
-kHz). The same halving made sun4i-spdif run at twice its rate whenever
-the codec had moved the PLL to its sigma-delta setting first (a 4 s
-file played in 2.01 s). With the fix it plays in real time whenever the
-PLL already runs in the rate family of the stream; the spdif clock
-cannot retune the PLL itself, which is a separate problem.
+diff --git a/sound/soc/codecs/rk817_codec.c b/sound/soc/codecs/rk817_codec.c
+index 2c0fe1dfd842..c7804b2b559c 100644
+--- a/sound/soc/codecs/rk817_codec.c
++++ b/sound/soc/codecs/rk817_codec.c
+@@ -434,7 +434,7 @@ static int rk817_probe(struct snd_soc_component *component)
+ 
+ static void rk817_remove(struct snd_soc_component *component)
+ {
+-	snd_soc_component_exit_regmap(component);
++	component->regmap = NULL;
+ }
+ 
+ static const struct snd_soc_component_driver soc_codec_dev_rk817 = {
 
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 4 ++--
- sound/soc/sunxi/sun4i-codec.c          | 8 ++++++++
- 2 files changed, 10 insertions(+), 2 deletions(-)
+base-commit: a6c7e545d8abac8ad0b48da4c8b4ca5ef8ea8eda
+change-id: 20261128-rk817-keep-parent-regmap-354a8b6c9f89
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-index 955c614830fae..6af0c1318ccf2 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-@@ -223,8 +223,8 @@ static struct ccu_nkmp pll_de_clk = {
-  * frequencies with less error.
-  */
- static struct ccu_sdm_setting pll_audio_sdm_table[] = {
--	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
--	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
-+	{ .rate = 180633600, .pattern = 0xc001288d, .m = 3, .n = 22 },
-+	{ .rate = 196608000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
- };
- 
- #define SUN50I_H616_PLL_AUDIO_REG	0x078
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 9d5bc3d7b4dfa..759343bec42a8 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -333,6 +333,7 @@ struct sun4i_codec {
- 	struct reset_control *rst;
- 	struct gpio_desc *gpio_pa;
- 	struct gpio_desc *gpio_hp;
-+	bool double_mod_freq;
- 
- 	/* ADC_FIFOC register is at different offset on different SoCs */
- 	struct regmap_field *reg_adc_fifoc;
-@@ -661,6 +662,9 @@ static int sun4i_codec_hw_params(struct snd_pcm_substream *substream,
- 	if (!clk_freq)
- 		return -EINVAL;
- 
-+	if (scodec->double_mod_freq)
-+		clk_freq *= 2;
-+
- 	ret = clk_set_rate(scodec->clk_module, clk_freq);
- 	if (ret)
- 		return ret;
-@@ -2147,6 +2151,7 @@ struct sun4i_codec_quirks {
- 	unsigned int reg_adc_rxdata;	/* RX FIFO offset for DMA config */
- 	bool has_reset;
- 	bool playback_only;
-+	bool double_mod_freq;
- 	u32 dma_max_burst;
- };
- 
-@@ -2237,6 +2242,7 @@ static const struct sun4i_codec_quirks sun50i_h616_codec_quirks = {
- 	.reg_dac_txdata	= SUN8I_H3_CODEC_DAC_TXDATA,
- 	.has_reset	= true,
- 	.playback_only	= true,
-+	.double_mod_freq = true,
- 	.dma_max_burst	= SUN4I_DMA_MAX_BURST,
- };
- 
-@@ -2365,6 +2371,8 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 		return dev_err_probe(&pdev->dev, PTR_ERR(scodec->reg_dac_fifoc),
- 				     "Failed to create regmap fields\n");
- 
-+	scodec->double_mod_freq = quirks->double_mod_freq;
-+
- 	/* DMA configuration for TX FIFO */
- 	scodec->playback_dma_data.addr = res->start + quirks->reg_dac_txdata;
- 	scodec->playback_dma_data.maxburst = quirks->dma_max_burst;
+Best regards,
 -- 
-2.56.1
+Igor Velkov <iav@iav.lv>
+
+
