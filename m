@@ -1,97 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.252.153.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795856003;
-	b=e93v5jkkc2u9E20fu8rE0aCpj1rfN4W09PvVpAgFOw0HUg/tr9dbyfsUocbupKTN1mQo
-	 nTFBP2scza9El4SiC8L/hJry4DAHKBncOiL2GaB/LY1c0n1YKLGuCBNxN27WsnMKwP+Oj
-	 DBArLwtoCmUFiXM6NM2A1cPuvVoBcBY5yG5bbOeMtkJ2A19WZp76biYcqKqvoT/vajQ56
-	 pmjFWDpHCgoOF070uI9T8RidvLzs7FLGlp3BjU0OQ1gI6SPvA3Ebjenj5a5GR9iw6KFTY
-	 g16KxAzAcFxJJjkm5/SYLvNcUOgDsF/M6FtJkiz9hqM4tEdbANUBd8aNcR96zXhCsYQ==
+	t=1795857763;
+	b=kxmAtWyQABhRxbuxrHs2m61bBDDqLiz/G/qHbwrXg9WggKe5B2MIp8J9MjtC7Qiiwh0j
+	 /2X6MldbSSODBcEfMzXOoeZ/n46KH5+ZHM5g7xPn73NLydi1kOSmOw9vyDlpvdPkZEgRJ
+	 Rfc9+Bwk0aHfNdFRZ4HpouZUy5X5RGKYRQ81bPmfmdt/lS/1fUX+7RmATwQU17EhZ92H4
+	 7QGehkdUKM+GnFVCX/JLDOM0KPigEixC4YyyT/ED5AZIvrxS7gOnyuU8m46mJHjfrTOK4
+	 16HIneoS9jtfI79NUePuwlqkOAIlvunOwBlpDWo/khrKTDSn40tuOGE+OcqYkRJ49JA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795856003;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=pYdZRMDlVtYaaI0y/9/AHPDxXWjl0VbWZbrTCTv4mq8=;
-	b=MDzeRPSSeR58zGLUvpaZHrE+GRVi0rTJdpRttuh4Ui/8TVePWZMZ1+Kl4YlBW7KXrKn6
-	 7Rn2YPkvO9eMsmoCJWjOnGXt8vvJP8usBawODWVi5kifw6U3mp1ErbP/sW4dE2WCjL2UJ
-	 RQA2sApeBinTvJx1zcKsfO8Ul+s/WNNaFunDAm6EpEDVcTByaw4IKrehA7iqgn7XxIk6v
-	 Yad9lQx1Sn9Dn8tg0KlYuv1jUdR0D7SaGIkkw2GQNIq7JPAes15Bl4Cp6+MrKrgI8Xvcg
-	 lVKVbejf4NwK+UzfahBjgs4AMyTdHzOHTzGfHwhl0AwR4Ff9iGgQr06GsMHxIQ6ECfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795857763;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Riseup-User-ID:Received:From:
+	 To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0VV6Ki8ww4ciolnUuuso1zfhvBfGpPEScyCrFGUeX1o=;
+	b=y22kijXhorWyfCylGvUKXExlRbv9lggNiDs1GXAbIdcc8lK+SlQVsGfh8XwBOgjASdSR
+	 Gso3QngTw4xvE1Zqujoq8PP71cFpFgX+vV6+Me0tf2l+JgUzNDeaMzgOTuVlA7dQ4I2Ir
+	 3sMJxq+VxmJuAODyyEKx8vkpKjsOTB9QcKp/fDJtCwZwAopE0PfDxiBJlwKrb/CMKMelp
+	 7Md6khmAsGU1InVG99rm+u3VTSdYHtV7Ae9DAbO7wS6AH/F3TTo2oTqBDaBDMYj4+idW7
+	 76L3GsUcJ0THRFFQgx/+jaoCpeJ7We9rI5qhf5QJE0pmUqtYMvE6+5ZNXMMsELahzCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="B9QaEyJ/";
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=riseup.net;
+	spf=pass smtp.mailfrom=riseup.net;
+	dkim=pass header.d=riseup.net header.i=@riseup.net header.a=rsa-sha256 header.s=squak header.b=pKgdQiyd;
+	arc=none smtp.remote-ip=198.252.153.6
+Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2750606A323
-	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 08:53:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2750606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C0F606A31C
+	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 09:22:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61C0F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B9QaEyJ/
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-386cf1041cdso6470076eec.0
-        for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 00:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795856001; x=1796460801; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pYdZRMDlVtYaaI0y/9/AHPDxXWjl0VbWZbrTCTv4mq8=;
-        b=B9QaEyJ/UNb0DLh6SFOodGgCVwFujZmItQv3OuKj/r59L9+h/AV7FWGRsP1nzGh6J4
-         tkb+akswE33jEFf++tlxEGFHj/FCa1C0wy4HLoqLOT05myiodKKbNrL4dQ4amOIbNr8t
-         abID9wL9UdWtP2x6Jb35Hu89JDNb6kN4xz1lrFJLR5dCBZm2iIBFZEze+d+y/O4GlMdA
-         pxhkDR6qxQ+jnGv983cyZ2q+YQhXLcOc7p2hxLlU2xdLZzKgMb7rHFhq5bRApLw1Ex/W
-         thqYQRz5CtQK2iK1Zrc8ae0jaJzUV/FhZG4490A2MVbOC9a4yeKTz4AyE5q3tx4R/Ig+
-         KVqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795856001; x=1796460801;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pYdZRMDlVtYaaI0y/9/AHPDxXWjl0VbWZbrTCTv4mq8=;
-        b=CBLRoW1yiodYSB3m64g98O0cD7q3xCgROPlkSiBnkIvpjsqRnyC9bsdwwJsvzbErUs
-         O/5ccefAiki/dRg5yyFNOr8Uw2F3HxLmcfiw5qvAr09FVdXyEOmy30QmxSAYwQU5HJ1/
-         HMZv9E/IrcZQQsTQ/vJ5ADmqOEcCt1CzQy7/sWeoPgyZ4GJ8iLcFRIMQnSsoMKap2Rjh
-         DcAD2wX33DmXqpwFAKATv+atevi8uuQuC5ekn3UmGCBzuMwezAmFJ2Ja+GWQ4GzEdxdC
-         B9arpRlqVH4T9mW+35u5mx1nVRtgIZwQYiNX+TNod9S5C5G60Zuf3neGxyAGQm4btWU+
-         uS6Q==
-X-Forwarded-Encrypted: i=1; AL+hErHpcrEk9RvWAG8dKP+HARhabOGArBdKv6y3FBKypIG4dqgjl5SMAWJGaF+XXQstEGwfIgqjO76W7TKRkw==@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ZRlEG4ANqKwrRZOz4HQ4bv0eJYERu8cRMYgTJjrkZozMJ/yFR
-	HMgoMfZ76cuzoA0TTNqDNo5NfzWsNIgY/w6j/qjRre7NSUNGnTkPwGQ7
-X-Gm-Gg: AZFdTZeFOERdTVtBGu/Xe6xgshuKj8RwCrAh5LzVboDlyE2wtTjZjipoSbd/cI5DpsO
-	fYYeEs1aCtlsbs9B+ZueTjfT2u4EnsKXp26To1QX2SkCWYRsBkJTaUCyxstkf8iEY6ZQ3od/s4v
-	4YC/nRICtJq9hTS8DN6ZM/z2Yiy+DB1NVeLXd/W/9gx3F/FFkX3gnEyyJHrQkiqdB/Q7UOKwN6s
-	D0LcimqdMe/ewHFsKTA8J89nKzbvYrQ7ZK9gurl4Wipr63uA2lZ4/4+B5QDahrt705R6jClCzol
-	0U6xVJKu9GiUsbA8CihIHFuHt+H/BMDTxWOEbVYoJ+AQ9qMFTrF+tGmNXmd4DEQ2RDyVtlNsYK3
-	k2Q3jKjALajgw77r+Dt3Tq+TyfnTPh2MwsA/EZ+va94Ors6a38Np1ZdtxBigoR3rhnusvS2nPAI
-	eIGBM9EIHnayileHYtp1neF1bdwxBZD7DYp0cYnGFWg9TVQm3Fai1a6Ibb3iVXJ0bpfK+b7ySvh
-	NBrbJiLX2BitQyr89VdZvKga/pWp/REKYFL9Rtg8RaBlAu5BCMrMBCeMcm2U+GnkPPdKYh1gYQL
-	p3pQ8ljhIrGui3Pad8aLDUbRMK5pWigEKYfCiT3yOFJ1KLadocpg
-X-Received: by 2002:a05:693c:4001:b0:370:d6e4:e8aa with SMTP id 5a478bee46e88-38570b34fecmr28389543eec.41.1795856001579;
-        Sat, 28 Nov 2026 00:53:21 -0800 (PST)
-Received: from localhost.localdomain ([103.179.230.121])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38566cd46c5sm99952622eec.11.2026.11.28.00.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 00:53:21 -0800 (PST)
-From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
-To: sreekuttan2156239@gmail.com,
-	johannes@sipsolutions.net,
-	perex@perex.cz,
-	tiwai@suse.de
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH v2] ALSA: aoa: Fix codec unregister handling
-Date: Sat, 28 Nov 2026 08:52:35 +0000
-Message-ID: <20261128085235.2984-1-sreekuttan2156239@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261128081025.2878-1-sreekuttan2156239@gmail.com>
-References: <20261128081025.2878-1-sreekuttan2156239@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=riseup.net header.i=@riseup.net header.a=rsa-sha256 header.s=squak header.b=pKgdQiyd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
+	t=1795857756; bh=0VV6Ki8ww4ciolnUuuso1zfhvBfGpPEScyCrFGUeX1o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=pKgdQiydCWZ1KSGiFEa9ldFj6FcpMprYQm7UgqAnIxhBuvK21x1C7d454J0P2WoJg
+	 K5Hhc5s9pjmjKocXtXRJcdPsb5c5bCwdbloRJBtMrSZnNFwc6zMa84Rmz3WP2DLdfm
+	 E8q43XPqmQffhVJPgs7kcqoDMXFbGTyRWmCNacfU=
+Received: from fews03-sea.riseup.net (fews03-sea-pn.riseup.net [10.0.1.153])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4jc4Z40mtqz9s6Y;
+	Sat, 28 Nov 2026 09:22:36 +0000 (UTC)
+X-Riseup-User-ID: A1E5E4DC2CE36F8501F4A25DA413625D31003BCD730FF82ED577C8D6C7F2F133
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews03-sea.riseup.net (Postfix) with ESMTPSA id 4jc4Z16sr9z1y1c;
+	Sat, 28 Nov 2026 09:22:33 +0000 (UTC)
+From: Rafael Diniz <rafael@riseup.net>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: wm8731: power the converters together, activate the interface last
+Date: Sat, 28 Nov 2026 09:22:21 +0000
+Message-ID: <20261128092224.1565965-1-rafael@riseup.net>
+In-Reply-To: <awAc35H1iSr7fk5Z@opensource.cirrus.com>
+References: <20261120080825.2078162-1-rafael@riseup.net> <awAc35H1iSr7fk5Z@opensource.cirrus.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -103,58 +73,32 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix aoa_codec_unregister() to use the codec's own fabric pointer
-when removing a codec.
+On Fri, Nov 20, 2026 at 10:11:43AM +0000, Charles Keepax wrote:
+> Would it be slightly neater to use an OUT_DRV widget instead?
+> The wm8731 doesn't have any of the widgets that run after it (nor
+> is it likely to acquire any) and it would allow for a slightly
+> more symmetrical handling of the ACTIVE bit rather than splitting
+> it across two widgets.
 
-Previously, the function checked the global fabric pointer instead
-of codec->fabric. This could call the fabric's remove_codec()
-callback for a codec that was never attached to the fabric.
+Thanks, and for the follow-up about the ADC going down before the
+OUT_DRVs.  v3 keeps ACTIVE in a single widget another way: the supply
+that powers the ADC and DAC sets ACTIVE in its POST_PMU
+event and clears it in PRE_PMD.  That is symmetrical, it runs on any
+power change rather than only on stream start and stop (as the POST
+widget did), and as a supply it runs before the output mixer going up
+and after it going down, which also takes care of Mark's point about
+OUTPD.
 
-The function also called module_put() unconditionally, even when
-attach_codec_to_fabric() had not acquired a module reference.
-This could cause an incorrect module reference count.
+> Should symmetric_rate not cover the SRATE case? And would adding
+> setting symmetric_sample_bits fix the bit depth? Probably be
+> nicer to split this into two patches, one for the power issues,
+> one for this stuff. Better to have one patch per logic change.
 
-Use aoa_fabric_unlink_codec() to detach an attached codec. This
-helper calls exit(), remove_codec(), and module_put() and clears
-codec->fabric. These operations are now performed only when the
-codec is actually attached to a fabric.
+Yes, symmetric_rate is already set, so the rate can't differ, and the
+-EBUSY check goes.  v3 sets symmetric_sample_bits in a patch of its
+own.  Rewriting SRATE and IFACE with the values already there under an
+active interface was harmless on this hardware (12 of 12 trials), so
+hw_params is otherwise left as it is.
 
-This also prevents releasing the module reference a second time
-when codec initialization fails and the attach path has already
-cleaned up.
-
-Fixes: f3d9478b2ce4 ("[ALSA] snd-aoa: add snd-aoa")
-Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
----
-v2:
- - Reuse aoa_fabric_unlink_codec() to detach the codec instead of
-   duplicating the cleanup code.
- - Call the helper only when codec->fabric is set.
- - Add Fixes trailer.
-
- sound/aoa/core/core.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/sound/aoa/core/core.c b/sound/aoa/core/core.c
-index 99b032a4081f..09eeadba4277 100644
---- a/sound/aoa/core/core.c
-+++ b/sound/aoa/core/core.c
-@@ -72,12 +72,9 @@ EXPORT_SYMBOL_GPL(aoa_codec_register);
- void aoa_codec_unregister(struct aoa_codec *codec)
- {
- 	list_del(&codec->list);
--	if (codec->fabric && codec->exit)
--		codec->exit(codec);
--	if (fabric && fabric->remove_codec)
--		fabric->remove_codec(codec);
--	codec->fabric = NULL;
--	module_put(codec->owner);
-+
-+	if (codec->fabric)
-+		aoa_fabric_unlink_codec(codec);
- }
- EXPORT_SYMBOL_GPL(aoa_codec_unregister);
- 
--- 
-2.55.0
-
+Thanks,
+Rafael
