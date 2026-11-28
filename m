@@ -1,101 +1,121 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795848771;
-	b=yGrptcBsjE78vU7qX7eIecxXlzDZYDjYYez63rl8SqoW6KrR2KNCEvcps9P+mo204ZR9
-	 Jw0hSz76mptCco3+vh4uVAYr92QGJci8xvq/UmzDAsaqw71gDR0AKQA9U/6EuR62AATBF
-	 J1JlbGknNmS2IoJcTbplqc+EocfGPpKSykL5d2cSWo5uAf2hjwV7XsMqj3iuIhLSYL1NW
-	 GcS0/IsgWT0Gmlu4cPm+YYzWtkgdxtRN0gT77gYLHkEWO+9csPespmEMtv3HQv6P/xPWo
-	 mWiMbrwbKBPcpw3rLLP1vhfwkLlJAig02ff8IbkVTDoU44g95b6sd5KCe42ZkN7eTSg==
+	t=1795849753;
+	b=Ebsi3ov02NUYGipxVwSjyOIvPlPQm8Hf99SBMEC8bWjS1lrQJNtJGZunVMvTLLrJkyov
+	 AZ3wVCJ+zcBGbUKZXwNiuWYgVxDxKbiAQ54HzynAaLp65aGgjoS2lHBjYsPplAm87bFZP
+	 3tvXJZv2K8cHVy7bzg6Ydl9YmS0Ez8ER2xaJFAewIVQh3DRnfB+gFyiPXMk3iuehdgJFG
+	 jEewp6LXckXzSimAcxijm19i4wXI8A4RxKznOMlLWRAfY+9JBgHloLgZhyg5I/H8XySZi
+	 KONTiZTZR/U7vWrWE11OO2NtWgaIIdVlzsKaCvkphVPQJZr43indXrqvbGkXXibC4Mw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795848771;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=LTcZKKzHAeS7Mwx/kr7PKAioen5WcsycTXqL7tdd7kk=;
-	b=U7hfBKI4WfEU4Lc7oKTL3Sg+RPh3Y2IZZDqJ1HOtv7/LVMS9M21eG29JMhY7Nn/Z8PCY
-	 NBY44bU0XL2eeuNkxkT5SyirYMbqeO721Mjw9EcAm1DAoadDNrmRVwlLPXpnsnNk66Pny
-	 xB0KGFbDDMXUFdboF1T0mtKRNm+s0xTwtFdfMKFS+7x4TFXMaaZz11XWBsWiLEne6MXGm
-	 3ANkkkmbWrFwjLIPCkwdH6pmDg2qBxs/NryusJwoOPkUyh096+ruOR8ALfwzeTlaGzcLv
-	 dyYIblf8Vc4SiIG1xkezIjwudY3ABO0+t8ZZjMiBmde+dKofXyJXXmS6qeOcC3ngCbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795849753;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=+frJhA5zcIV6hnLz17sMj4USifPldAOiBN2xX/VQuJ0=;
+	b=D3IiA89tT5AMq9iETj/tGPRlQfvJd8EJh5BiOXNAssgHkeOse/jyrBDKxFXOmRUmpXHM
+	 Ltfe2DI6FPtXp3psqRiHG999GEkJvWG2S5w4wP+HWtzGSgIZ5D/o0Pn3qtI9vxAw5MgRe
+	 EaZdEK4FNv9fmEgl4kWSSFhP4AgN+onpLBUCVN52GvCTrVQmFEKoJqzHdadxzDQrg+kbn
+	 BAIxTUlftwlaxMlIQZ55sUIsvvomackNrZSvdRGl4bvxvYtnvYzyfULO1iJH2B0G746qh
+	 Q5mZhpkRIX20T8+tf8jkvGRkEIaiUFy5vpckPMT9s6oVyxe62yO5apkp3RCojb7/ooA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Wgw5NiQZ;
-	arc=none smtp.remote-ip=209.85.216.47
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=sakamocchi.jp;
+	spf=pass smtp.mailfrom=sakamocchi.jp;
+	dkim=pass header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b=VGY3ixS3;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=D02nf2W6;
+	arc=none smtp.remote-ip=103.168.172.153
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E880606A32E
-	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 06:52:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E880606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE96606A31F
+	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 07:09:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DE96606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Wgw5NiQZ
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3b542b4d7bcso372752a91.0
-        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 22:52:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795848765; x=1796453565; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LTcZKKzHAeS7Mwx/kr7PKAioen5WcsycTXqL7tdd7kk=;
-        b=Wgw5NiQZUceuxOQxc2tauQLWvq3tcPn2/7gmKBB95k4EKFQTfCBOp/nCTx0SEi8fRu
-         3Mkjrtzh24NiMd4aY4SLUqQPntrXmnV4ZaY+X+i5MG2oBaThN1sBnKhDdZY2Ef8N90Pc
-         lc8gsJ7BWjFz9YL5DZMcNXAG2H69eJW5gCcSSsRV3sx6B2WLe0+widcEZMjcI45zD12H
-         ox8htxy2pnkKedOX38tft8B0I8YiR3svHqOA+qS4mbbf3tEdCSC1B0sfLzlJSxH5uyWa
-         DpsI3tRY02tBmmwDeXpiiJLURqAxV8vx/M3KHSEHXJ0ORNbOeDnQmK4z8V47e1vU/18Y
-         sewA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795848765; x=1796453565;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LTcZKKzHAeS7Mwx/kr7PKAioen5WcsycTXqL7tdd7kk=;
-        b=Oic3HR1rST2XSvshl9IxybndYIBiL1PBLSLIAhz/2eksMKH8LA6ODXqULv505Gp5iz
-         2vgyfp1l/2B/EiMmmnMMUgfObfDDgnYuJSkCgEd5WxIUwCsI+UiksKWC1q7HbxGOoGcH
-         SOLUnxkMnCB617bOldc0tK62RJFTdpaXeS0nSjM2znfTsTFmr9bqKY4wtNBxh+Q8WTP6
-         7NlefoFmfIsXV04tCAWzSAjdadAHSzWFJGYPII7fDM2Q14QZYYqlVBKmwpypDgZEFWsW
-         upOnKWETOwNbDlI1mQt6s1cHxk+hDWhH+knszvzKHRhoEWeGeBTIQtExABbPPuQsY+Qy
-         GjSQ==
-X-Forwarded-Encrypted: i=1; AL+hErGsx2pGIUZnbenL4j6oBP/XwEXTswBclWoYYkvoOqzpOqtjp+F/t0LeaFgc/0ZFFGokd0cBe7UWZy1+Cg==@vger.kernel.org
-X-Gm-Message-State: APuU4Z8yymNcD6lzVEacF2jFPKKWt8WYZgI6aeMCDFjSatF1nGmQzKMW
-	l0h7VoWOIgs/imjciyl5qfm02mxJ+ojfS5nAaC+/qiRAlV0V1mFHvHpC
-X-Gm-Gg: AZFdTZfZdu94HPovPoStAlH1pWFlZqZOTWOecUngNw3qxhkFcyb0r7vUuevmlS+aEyU
-	4fvFd36wtq22/lJikO36dSb0XnkZKOLyd0ZasYagQW1G8vd6VFiPo+fIUeWfbM85NHw0lJFk+44
-	Lzsk1Yylyh8lfrvVIwBGALqROUQmVcEhbRssq3JjP3NZ9n1SvLWPHofHyOT7rGIRC7tM2znchBD
-	dI35q2nd0/zpRBPDWk0RjC1JiYxxuP44uRFGy7iRUToaOWyCCNS1wioymVxnHHeJG+9ytWm+X7d
-	9VI0UPakDBsygLalBC52MshQQYV0mjOWRUGH/5gy9U/o6+kh4KTvHgwG7D/pYBV5mnLp0geKcIv
-	AvKZ2VPJEZ4DECBx7HI2uSTWaoGqgpnAApMFXHzHEixV8KKB5U028M78TLVjWu4pgqwRJ0ucKIt
-	r1zTHUfjzNBZNKF00HWvmWRHEGKCmgftIiUPxBi45W1H8Z3eKHAOSoWq/EGmUvQ163AkmRAOHwq
-	jZZmeD3ajAFcSZ/a27AN+XD8u2AIvFVCPrFDfP+LCAZntuT/o9bVgCXVTcs6RjsGz0HayLSR8H9
-	TqE0dqBvcqUsBYtHcrY8s7qAL/I19jcMyvekZL88DZUpnlrUq2pCOSoAoLXpyTwE29UlOgh+Y/Q
-	qtJleNn1EZfHBpZ4RC9D575Qg7bZcOz/MsRCjtfBxyLyiTDu7oSXdyK96NiWGZA==
-X-Received: by 2002:a17:90b:268f:b0:3b3:a421:7e00 with SMTP id 98e67ed59e1d1-3b41c8d4831mr25103895a91.16.1795848764542;
-        Fri, 27 Nov 2026 22:52:44 -0800 (PST)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b40a878d50sm44372965a91.11.2026.11.27.22.52.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 22:52:44 -0800 (PST)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: broonie@kernel.org,
-	tiwai@suse.com
-Cc: perex@perex.cz,
-	shuah@kernel.org,
-	ivan.orlov0322@gmail.com,
-	ben.copeland@linaro.org,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH v2 2/2] selftests: ALSA: pcmtest: Load the module when it is missing
-Date: Sat, 28 Nov 2026 15:52:27 +0900
-Message-ID: <20261128065228.3628550-3-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261126035526.1779288-1-sammiee5311@gmail.com>
-References: <20261126035526.1779288-1-sammiee5311@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b=VGY3ixS3;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=D02nf2W6
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 8F5921400318
+	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 02:09:11 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Sat, 28 Nov 2026 02:09:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1795849751; x=
+	1795936151; bh=+frJhA5zcIV6hnLz17sMj4USifPldAOiBN2xX/VQuJ0=; b=V
+	GY3ixS3CchDsdvzileLMnmX14a/AXcFpGR00GNOhDejoY8XM59gD0uftvI+A1YTZ
+	p1e+56yvxGc2ZG1Rc7yRxVD9+ZebNuSo4PEi5vmKC9erV5PcXrKzUqKpmOKCflRL
+	GTy5OIeWGSzUQNOKUorAx05CjomLIt/Hs7LZacoVa0xJ355KCQ/Rvu03d+pQxaK6
+	9MdGDdk0+QH6/q/PuGzXJS5MG816dLvqb3kmfJf/PZvSL5N7kHEUs+JF1t9rrjdH
+	6EDtQvxxJAV/XkseddhSbP/0u5eOp9CjYshYAjhASy1K1YREsesIQ+PucJ4LZo8e
+	ClVOLnZeTtac4062O66Pg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1795849751; x=1795936151; bh=+frJhA5zcIV6hnLz17sMj4USifPldAOiBN2
+	xX/VQuJ0=; b=D02nf2W6huqSpNx1Rof1Us5vxnci74KAh4aN3ur9TbPkr4QMEVQ
+	SPasEIiDnIj1IrqVSemC7G3LzVvzP0ojuF06hD36lVrwyY+q3RX7cEv4RgioNIyo
+	UPwE6DZFklUkzsDRjdC2y/cQ7yCqeKtFDrdM4kUc94s3c6P7IVq1bwy/b/G5JSQx
+	PuMG/xPgV7tLA2i3lTfK/bf0Vi6TRC008D16FyrpyDRIUGLztLz8Cy0i2oC8CpHd
+	zOllt4H45cq7S48H6Xo/D3C3/GppUrgRgFKIwj/WuvMypHf4PrpMVe6hzIZR6yBs
+	GtTwIFDgPnIllsz7kNvTCCynwwePwz5Yo8Q==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=sakamocchi.jp a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795849751; d=sakamocchi.jp;
+	mf=PG8tdGFrYXNoaUBzYWthbW9jY2hpLmpwPg==;
+	rt=PGxpbnV4LXNvdW5kQHZnZXIua2VybmVsLm9yZz4=;
+	s=fm3:rsa-sha256:bkl2dRALKlKqL2PhDUtoa2S6Pk7rL4gs+R+fAtexaSsl7vo
+	c98Dnmr8oYAMReAclbKOYiUexpBUmQBq8EV3tx5QyhCnWQkl59ygmhqo8YfyV9Qh
+	AKaH/l/7o3hDv+ZDZycmYYSKhA6U+eTmK1rirHiG6ecWr223gE693QgHEa8Y0rOg
+	ltxyGhElkSFxDKLzj4NNvPjdoBQsuruSj4hVlrzWk8bF/0NmoCV5NPE18NIS1An5
+	6O5jdHpPNrI08JGf3fFP8CVq6xM1tCsucSoaGc0jw+X7CHHLz7itianN87c4b8yw
+	z1x/fxJ1lyMqGFLb8OKrOY1LNjNN5WJE7gj57vw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:4eIHAzxUDOZbubWuqbwViWAjn72C4pydkB4NbeRapdA=:faWgTroi3I2wGwABHClzoxA/B9fZ7VkTcZei+E0NV18=;
+X-ME-Sender: <xms:Fn4Ka5FXrAzTAgGTbhkJsrzVn_rfnYPIuwtnhDH_Ps5lRLU7cWpLUg>
+    <xme:Fn4Ka3r-ppey1wsokl8pf1RL78Zg-oBWJcNrdvdvaYdRLR7cIpSHrdal7_iVFFFds
+    ZyUM3F275zvP0lEDEbh8qnKnlRjxGT_yi5qUqzyE6oeKzdq_eQHXx3w>
+X-ME-Received: <xmr:Fn4KaybFqWUvEl1caU8ch8MSmYPNLFVH5sOsKFswH5fT81pZHefN4At8kpCyMKaSZkCxgXk8EqSvVbMFOuqLu6o_KE9b4uI>
+X-ME-Proxy-Cause: dmFkZTGeDN2v3u5ZZvh7XT2Ap623SiXr7ExrrNxlnUzkXyQ4MQmD5jwVQc2cRlZoEXOtNM
+    67x1FEbKTfEvpshQ5uxFn3Ws8UmhUaecGdkQww1AviRjV0yBTXQqA04YlcQyBZgRsIzWOT
+    x1JePIxxXdOmpYZJaRbJOEXVnnDKnDCzoD6iM/tgsoNRNy7iTY90H1dVdgjq4Cujco4KyT
+    UpzxMWUaC+RZhAQMuj3qs05tqsphebV4p7T+3SC069X4MxfT61k24uXBbuVliMRxUx5hSU
+    jl59Z5yQkxeONKqH7P2jBfB5+fQ80AlvdpC5MRfHVEVlOSCowlGPN8xxtN5vZi+vHz7vGS
+    N74wy7+4S9CF0WhXeNPWOFugYWaGys8n0YWsTENzmrc7PHuS71M4ILu+E0KQ15DzunLVcM
+    sxwwv7A5pscE3PGRPJmjiwmvXsTdeOEgkjKfSgS4tqnLoMWNQsOZsb1kckiwJDB86PHCxM
+    uVz4y+fDhpWTtkXPz/a7TaMxoAypdBoyTuzsHGQH0obpG23sRl4FTAXYwiqRbDPXuKwODH
+    VaxS8WYcjeKqli4WwV+ShNb/dljuJlpTYRxge9QnHMnXd1pKnZjvLzyskrtGyZac+ECjcp
+    87jJfskSXFh0S5V+qZhma6hExXuf76uF5wahneCSMqgp5K0FhQ9ZpQVkz4tw
+X-ME-Proxy: <xmx:Fn4KawU0oRK7rsdFqLMYqPVZBqh9qUEbPe8IL5SfZjZnGDJi51giIw>
+    <xmx:Fn4Ka78aBBxMlNYOi2ekgdigFf2phi0npLqlyzL8DbqXsm9ROMw8cA>
+    <xmx:Fn4Ka58BqeYZjmlEDTdTFiWgroRGbNySHK4nm9PdO3rZFYSiZ3WKQQ>
+    <xmx:Fn4Ka7RmQlksWp1RCKTexE6XKtsOZqhVEphycpfj6Z1iK3pujpmiSw>
+    <xmx:F34Ka8-zCdloXzVrcNza9ipTzRvNA-ZeOUirOMNIZv0iCo3aBF-tpcmd>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 28 Nov 2026 02:09:09 -0500 (EST)
+Date: Sat, 28 Nov 2026 16:09:06 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: Clemens Ladisch <clemens@ladisch.de>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 3/3] ALSA: oxfw: bound the stream format entries to the
+ response length
+Message-ID: <20261128070906.GA47735@sakamocchi.jp>
+References: <20261125121238.1602172-1-maoyixie.tju@gmail.com>
+ <20261125121238.1602172-4-maoyixie.tju@gmail.com>
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -105,71 +125,102 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125121238.1602172-4-maoyixie.tju@gmail.com>
 
-test-pcmtest-driver skips when the pcmtest debugfs files are missing.
-The driver has no device to bind to, so nothing loads the module, and the
-test skips even on a kernel that builds it.
+Hi,
 
-Run modprobe once before skipping, as the net pktgen test does. Each test
-runs in a child process, so record whether the module was loaded before
-the tests start, and unload it at exit if the tests loaded it.
+Thank you for suggesting the change. I think the changes in the other two
+patches are good, however for this patch I have a concern about adding the
+new function.
 
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
-A built-in pcmtest creates its debugfs files at boot, so read_patterns()
-succeeds and modprobe is not run. If debugfs is not mounted, modprobe of
-a built-in module returns 0, the second read fails, and the test skips as
-before.
+On Wed, Nov 25, 2026 at 08:12:38PM +0800, Maoyi Xie wrote:
+> snd_oxfw_stream_parse_format() takes the number of two-byte entries of
+> a stream format from format[4] and never sees the length of the
+> response. A count of 254 or 255 can read past the 512-byte response
+> buffer. An accepted format is stored with the length of its response
+> and parsed again later. A count that needs more than that length reads
+> past the copy.
+> 
+> Check the length of a response against its entry count before the
+> format is parsed or stored. Formats other than AM824 compound still
+> reach the parser and get -ENXIO.
+> 
+> Found with a CodeQL-based static analysis tool. Reproduced in a
+> userspace harness under AddressSanitizer. Not tested on hardware.
+> 
+> Fixes: 5cd1d3f47a63 ("ALSA: oxfw: Change the way to make PCM rules/constraints")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+> ---
+> I used an LLM to help write the harness and this patch.
+> 
+>  sound/firewire/oxfw/oxfw-stream.c | 22 ++++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+> 
+> diff --git a/sound/firewire/oxfw/oxfw-stream.c b/sound/firewire/oxfw/oxfw-stream.c
+> index 5e36d7153a7b..d8fe136369d8 100644
+> --- a/sound/firewire/oxfw/oxfw-stream.c
+> +++ b/sound/firewire/oxfw/oxfw-stream.c
+> @@ -484,6 +484,19 @@ void snd_oxfw_stream_update_duplex(struct snd_oxfw *oxfw)
+>  	}
+>  }
+>  
+> +/*
+> + * A format of AM824 compound has five bytes, followed by two bytes for each of its entries.
+> + * A response can be shorter than that. The parser rejects every other format before it reads
+> + * an entry.
+> + */
+> +static bool format_has_all_entries(const u8 *format, unsigned int len)
+> +{
+> +	if (len < 2 || format[0] != 0x90 || format[1] != 0x40)
+> +		return true;
+> +
+> +	return len >= 5 && len >= 5 + format[4] * 2;
+> +}
+> +
+>  int snd_oxfw_stream_get_current_formation(struct snd_oxfw *oxfw,
+>  				enum avc_general_plug_dir dir,
+>  				struct snd_oxfw_stream_formation *formation)
 
- .../selftests/alsa/test-pcmtest-driver.c      | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Could we perform the length check in snd_oxfw_stream_parse_format() instead
+of inserting format_has_all_entries()? The former is called immediately
+after the latter with your patch.
 
-diff --git a/tools/testing/selftests/alsa/test-pcmtest-driver.c b/tools/testing/selftests/alsa/test-pcmtest-driver.c
-index b796a5613c6f..3bd6f75ac6f6 100644
---- a/tools/testing/selftests/alsa/test-pcmtest-driver.c
-+++ b/tools/testing/selftests/alsa/test-pcmtest-driver.c
-@@ -6,6 +6,7 @@
-  * Copyright 2023 Ivan Orlov <ivan.orlov0322@gmail.com>
-  */
- #include <errno.h>
-+#include <stdlib.h>
- #include <string.h>
- #include <unistd.h>
- #include <alsa/asoundlib.h>
-@@ -149,6 +150,22 @@ static int setup_handle(snd_pcm_t **handle, snd_pcm_sw_params_t *swparams,
- 	return 0;
- }
- 
-+static bool module_was_loaded;
-+
-+/* remember whether snd-pcmtest was loaded before the tests ran */
-+static void __attribute__((constructor)) check_module(void)
-+{
-+	module_was_loaded = !access("/sys/module/snd_pcmtest", F_OK);
-+}
-+
-+/* each test runs in a child, so unload in the parent once all are done */
-+static void __attribute__((destructor)) unload_module(void)
-+{
-+	if (!module_was_loaded && !access("/sys/module/snd_pcmtest", F_OK) &&
-+	    system("modprobe -r -q snd-pcmtest"))
-+		ksft_print_msg("Failed to unload snd-pcmtest\n");
-+}
-+
- FIXTURE(pcmtest) {
- 	int card;
- 	snd_pcm_sw_params_t *swparams;
-@@ -171,6 +188,9 @@ FIXTURE_SETUP(pcmtest) {
- 		SKIP(return, "This test needs root to run!");
- 
- 	err = read_patterns();
-+	/* nothing loads the module on its own, so ask for it */
-+	if (err && !system("modprobe -q snd-pcmtest"))
-+		err = read_patterns();
- 	if (err)
- 		SKIP(return, "Can't read patterns. Probably, module isn't loaded");
- 
--- 
-2.43.0
+> @@ -501,7 +514,7 @@ int snd_oxfw_stream_get_current_formation(struct snd_oxfw *oxfw,
+>  
+>  		err = avc_stream_get_format_single(oxfw->unit, dir, 0, format, &len);
+>  		if (err >= 0) {
+> -			if (len < 3)
+> +			if (len < 3 || !format_has_all_entries(format, len))
+>  				err = -EIO;
+>  			else
+>  				err = snd_oxfw_stream_parse_format(format, formation);
+> @@ -662,6 +675,11 @@ assume_stream_formats(struct snd_oxfw *oxfw, enum avc_general_plug_dir dir,
+>  		*len = 7;
+>  	}
+>  
+> +	if (!format_has_all_entries(buf, *len)) {
+> +		err = -EIO;
+> +		goto end;
+> +	}
+> +
+>  	/* parse and set stream format */
+>  	eid = 0;
+>  	err = snd_oxfw_stream_parse_format(buf, &formation);
+> @@ -740,7 +758,7 @@ static int fill_stream_formats(struct snd_oxfw *oxfw,
+>  	/* LIST subfunction is implemented */
+>  	while (eid < SND_OXFW_STREAM_FORMAT_ENTRIES) {
+>  		/* The format is too short. */
+> -		if (len < 3) {
+> +		if (len < 3 || !format_has_all_entries(buf, len)) {
+>  			err = -EIO;
+>  			break;
+>  		}
+> -- 
+> 2.34.1
 
+Thanks
+
+Takashi Sakamoto
