@@ -1,56 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795853345;
-	b=NQZnXLegMmjUlIqQBbW/esOLkOUQard4Bcx032N5gKr7sNAlEh8kE6GIG2jTUohtNae0
-	 sjP1WqxhRi/wrrpXXVdkJNrixL8IMkAPH8WsxZj7ixhh/WhlqVia6rqUucJD6GwOTq0pK
-	 U29ZINp7DlSADq9sY2yO/FdlT3U1p6swIDjkId44aEmUFN/4f9pnTMMQcJsaiyqW3hxNu
-	 WlCxc8U/CDxO/aHne0sA2ooW7EHSZFhzppFdPlQxgznv1rYoUgsW3+L9AYNUt0FpsQZp7
-	 4EZXlK07jxpCn2F3xncR/qOPAYUn35B0rqp3lwxya68MBYDd/AJiG2apgcRCkpu/wrw==
+	t=1795853469;
+	b=sa5if9mdJH3YVVC+yBe56zmNPZ2SbxES89Vk/aXENV362sRP37ck4Phgn4alk/dzZm/R
+	 GEHY76T2lQisbES6kiZUhJSnWKhf+s9m2bGr+QArinstivOF/YTvLo1hrg/VGtl/GoXdc
+	 PLipAECu5dJmDHbg7TqhWjc/WuCw/2JHxkAFyo7+Rb6sJh5JTmJQJBZs9KzRMHKeWUocm
+	 O7f8B8rDV2qZUyUS0iT+5WAuELlaPtQoVyvNj8giPYoPtX+Cq9GDsN2VZ8GxWwXoWSKtA
+	 xAME7Pjjs7je61tkTu8fE9dEfRUGHaAN0RAdgr619uwJ/kCyEUNaR8jIdsr000U5dEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795853345;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=yu5nMs4crTTi2JKNDCCmS3jHztDneaW9AniqNFxRb3M=;
-	b=YLxy+oo3Tmtl/6M+YauHQ0lDgcM6O1o2Nr9hh716TRccRF9J2AgXxcQdFMBK5y/8T7SP
-	 hyZUYfJu+joWuJEJM4rkHrCVR7KtnimyDcrk8lWzcb8oeSoS9hQ+k6X1JmRsJUAmPf/oU
-	 qHCxXUsiwmH8WgAsLoOlsBoIMu4HjjvZzPDoifdK9JHcO7r6+z3Hg+Co5WfBcQiEPbuvq
-	 8L218OON9MixDzk/ERmfbG/e7vz/zkrPqSmLhndoZsqv4dqooPjZBotuPN7x90+6yh1d6
-	 oABgzHdhgn92TNrb9+FHOOvAwPGD9tBZzY3t/FcCScJSlPf9G4PPMk01wn2BGWdjzUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795853469;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=/NKgGI4baMEt3ekgY9p12tXsFBBeGRj9nnWHy6cARGA=;
+	b=qCVWQZUDFUMQxe4MWd2/OBYIJd4uss5ft0ObF2yTfix3nKPBIc4DHxCEWH4EPB0nFGFc
+	 fdFu8GJsUxfwY6LhsSAshkr2YiHE/pJy3z7EXo7Ub+nM2mc1hWFnvHw9AH2kxbWFiYipa
+	 rFxczjglOUu9TZOwfgr7gSXS42lZMW6DhlYDNqrAUiIffVFgI6ois9VjCP1y1+20mVuhW
+	 zR41EPTxvqzXY3u/5Ev6HXeMfEDc4iVnXoKiU4Okq6Xtbp+MQaWkUcxboRmGNQWuKn9VY
+	 /7ws1TaHMllOGMM/FJVQL3YfOFDa8/ul5073BqdIJ0prr6NBo3Hha1q9D312FaQdSbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E6mEdy2C;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="s/frIY+x";
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27C4606A31C
-	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 08:09:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18DE606A31C
+	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 08:11:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D18DE606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E6mEdy2C
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1F31F00893;
-	Sat, 28 Nov 2026 08:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795853345;
-	bh=yu5nMs4crTTi2JKNDCCmS3jHztDneaW9AniqNFxRb3M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=E6mEdy2CsyqsclpWHQaHPz18I5sIEg96AiNsISowRTUMoyMPVG7yUXDspd00653VM
-	 fSPiVfrTtYRdTBnwJGZUoF4o3rqgifzwfb/2GJAe3gBviVkTzkM7zpEV8Fu2BXtmkC
-	 7RjQCVJGAnGAqrmBBbqjUvwDunYEvA8BKMqBykOUTCifppuB41TBfBCn5RIAsAgi0V
-	 p0OzWgaZYSw1CQhBWd+B7SLey9g7yf86O4xYbZyAVLDzECOV3SCKhhs7PPQ/hZ70FI
-	 yQE8rdoFOu3opQ0pk+408L2aVQjASo23MOEm+lUUgE1AcxEQyAxXGwKRUNz0FZwP6v
-	 /hKvhRKxMl8EQ==
-Message-ID: <sashiko-outbox-238531@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] soundwire: qcom: re-arm the controller interrupt after
- gating the clock
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Gopi Chandra Sekhar Reddy Kanala" <gopi.kanala@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20261128-sdw-qcom-irq-v1-1-d053ac530faa@oss.qualcomm.com>
-References: <20261128-sdw-qcom-irq-v1-1-d053ac530faa@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 28 Nov 2026 08:09:04 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=s/frIY+x
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-38190551625so16788669eec.1
+        for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 00:11:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795853468; x=1796458268; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/NKgGI4baMEt3ekgY9p12tXsFBBeGRj9nnWHy6cARGA=;
+        b=s/frIY+xdUnqUWX2PGNcV4XTjxeqcBdbvf7pP16W1uLXqyfhFX+t+muWMK0eNwuz4S
+         dh5RLB2E6yauBykK+xC09CC+W8pGiaZTyssxl5WUuYDFqr3qVsjto67xn+F9vLDkv1q0
+         IJi3ceWg9i+86JqWIpk4ETv63A1XOsODniUoEa9k1OuhM6mhL1D/T9VB6/X0kaQMv1Q8
+         /jebq2ctg+LJTBqu+yXQELal7prns9V+GvVSxNCidKYa4P3cKx+2dOGSyk0tsU6wgZRC
+         3yNth/XZa0GtO5Ys1zPQzSqMNCeKYIuH4VBIXccFMZ2AVE8r69bVS+9zvyjPSoHKwXFC
+         KySQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795853468; x=1796458268;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/NKgGI4baMEt3ekgY9p12tXsFBBeGRj9nnWHy6cARGA=;
+        b=dT8zjGnnVJ7Aq6FpnGiGGMs5BvIEMiiFcBX1tblgiU5ZvnenFaohy2vJbrHlrgKjjg
+         Vd5kF5Ju2q64oLQqsYBmeSuzbIiGfdvyRYVjhpjXlkSaXV2A1dd1W2SHHeVRR3V0w+Jn
+         /j17W4z+mupSsAXazcAil1oOdXe4b6WA0Ysis2l+NASIvxDaM1nhS8p5AfrOzIcuJd4a
+         rVDlTlZ6d+L8Xm8gW3STkr4Bhq7Ju5Sh3aMjA27Nnavv7d0DAMCUlnmnCHkKSG91ifXI
+         nXISr0Qzd6JOTy7mlB8oGQM7p218l4ZdFYTa3IgUUX/nkHPEI8ACZURKT9uWqJNdmqdC
+         0PFg==
+X-Forwarded-Encrypted: i=1; AL+hErGb3SXN4gj+b94ekYOQTge8TJ7Oq6R9QfjmDhTq9Tlk84ATm0/n9o+T/OZ/11u7D5+rdgvS7T9YmBXalw==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/yNzHU39/4k6wzECuvsICDdObo2cuvNFBemRcF7kvMzSASw0dU
+	8Xi+ITCT2+lZQCcN3H3F3Tqm/f/GTeoTqVzC+OUp4qjNvDVAGbpf6HFf
+X-Gm-Gg: AZFdTZedmDdNd/mUgNwyyCYVUuFwnJbDsJxxXj9PDEb7o2VAvaYH23ynEdmr/M1EIXQ
+	pjtWMdE4oNacwviQHJbqubVU3vBYeLlA/kgXHqx6/O42pCFd0gnS1lJzxraHdO7jTeIm3bJacy8
+	97SwwcLhXxnofMd28Q+WMg6KNyP2RuDFYje2biuVJVgrdB0cFlu+ffR2asL8KARRlTl2xqviqEL
+	ycqg6IU12os4YKQFox0oVtyHlBOr5E7MQ2wqMJH0XDEmmbUvqhBC2XQPRw5+sb+DGQ3LbOw4lJM
+	pbIbnljxNKQjz9y8Dfltz369mfiKxcV79dsssB/Hs3HaGNw4T4DoT19CbUfPCMSE2vu/HVjsPDN
+	SVFjruj7GrSt3DLV+/kSbeUX2Zazw0/gWuV3Qxm+qmjt2nFkUa63kMNbk7tfZlceGlc/F5pOxzu
+	39lkajl4GchEA+nm5aPnvnvYeCwSRl5CXKD2njM6mq/9euciXwKcbN74bC2462l0QL8XwzAykoB
+	jpgxDvx6uVqOo8Iue3h90Q1Ilmfzb4HuW9YTWW1giL828PM3XJWUD3ieYEdz6Xcft+5VADt17Cm
+	kUGAzw3OUM0ETr7dM1MLFWabHzNT6KGbhsQoV6SfcKQBOOVtRwjM
+X-Received: by 2002:a05:7300:601e:b0:386:1e2e:ce0a with SMTP id 5a478bee46e88-3861e2ed1bcmr26545761eec.27.1795853467909;
+        Sat, 28 Nov 2026 00:11:07 -0800 (PST)
+Received: from localhost.localdomain ([103.179.230.121])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386b9bdafb5sm47038711eec.9.2026.11.28.00.11.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Nov 2026 00:11:07 -0800 (PST)
+From: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+To: johannes@sipsolutions.net,
+	perex@perex.cz,
+	tiwai@suse.de
+Cc: linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+Subject: [PATCH] aoa: Fix codec unregister handling
+Date: Sat, 28 Nov 2026 08:10:25 +0000
+Message-ID: <20261128081025.2878-1-sreekuttan2156239@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -59,87 +97,62 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] soundwire: qcom: pending CLK_STOP_FINISHED_V2 replay in
-  swrm_runtime_suspend()
---
+Fix aoa_codec_unregister() to use the codec's own fabric pointer
+when removing a codec.
 
-commit 650a30f5b562334bca4f136e5ca1ea065589e930
-Author: Gopi Chandra Sekhar Reddy Kanala <gopi.kanala@oss.qualcomm.com>
+Previously, the function checked the global fabric pointer instead
+of codec->fabric. This could call the fabric's remove_codec()
+callback for a codec that was never attached to the fabric.
 
-soundwire: qcom: re-arm the controller interrupt after gating the clock
+The function also called module_put() unconditionally, even when
+no module reference had been acquired by attach_codec_to_fabric().
+This could cause an incorrect module reference count.
 
-This commit re-enables the SoundWire controller IRQ at the end of
-swrm_runtime_suspend() after gating hclk and removes the corresponding
-enable_irq() from swrm_runtime_resume() so that peripheral alerts can
-wake the controller while the clock is stopped.
+Save codec->fabric before unregistering the codec, and call
+exit(), remove_codec(), and module_put() only when the codec is
+actually attached to a fabric.
 
-> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index a4cb62897192e..05ef7bb2c5f7f 100644
-> --- a/drivers/soundwire/qcom.c
-> +++ b/drivers/soundwire/qcom.c
-[ ... ]
-> @@ -1893,6 +1892,8 @@ static int __maybe_unused swrm_runtime_suspend(stru=
-ct device *dev)
-> =20
->  	usleep_range(300, 305);
-> =20
-> +	enable_irq(ctrl->irq);
-> +
->  	if (ctrl->wake_irq > 0) {
->  		if (irqd_irq_disabled(irq_get_irq_data(ctrl->wake_irq)))
->  			enable_irq(ctrl->wake_irq);
+This also prevents releasing the module reference a second time
+when codec initialization has already failed and the attach path
+has cleaned up.
 
-[Severity: High]
-Can calling enable_irq(ctrl->irq) here replay a pending
-SWRM_INTERRUPT_STATUS_CLK_STOP_FINISHED_V2 interrupt and pulse ctrl->hclk
-while the bus is in Clock Stop Mode 0?
+Signed-off-by: Sreeraj S Kurup <sreekuttan2156239@gmail.com>
+---
+ sound/aoa/core/core.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-swrm_runtime_suspend() only masks SWRM_INTERRUPT_STATUS_MASTER_CLASH_DET
-in SWRM_REG_INTERRUPT_CPU_EN, leaving
-SWRM_INTERRUPT_STATUS_CLK_STOP_FINISHED_V2 enabled, and ctrl->irq is
-requested with IRQF_TRIGGER_RISING.  When sdw_bus_clk_stop() broadcasts
-ClockStopNow, SWRM_INTERRUPT_STATUS_SPECIAL_CMD_ID_FINISHED wakes
-qcom_swrm_irq_handler() and completes ctrl->broadcast, while
-CLK_STOP_FINISHED_V2 can assert at the frame boundary after
-disable_irq(ctrl->irq) and before clk_disable_unprepare(ctrl->hclk)
-finishes gating the clock:
+diff --git a/sound/aoa/core/core.c b/sound/aoa/core/core.c
+index 99b032a4081f..41a3b79ca93a 100644
+--- a/sound/aoa/core/core.c
++++ b/sound/aoa/core/core.c
+@@ -71,13 +71,18 @@ EXPORT_SYMBOL_GPL(aoa_codec_register);
+ 
+ void aoa_codec_unregister(struct aoa_codec *codec)
+ {
++	struct aoa_fabric *codec_fabric = codec->fabric;
++
+ 	list_del(&codec->list);
+-	if (codec->fabric && codec->exit)
+-		codec->exit(codec);
+-	if (fabric && fabric->remove_codec)
+-		fabric->remove_codec(codec);
+-	codec->fabric = NULL;
+-	module_put(codec->owner);
++	if (codec_fabric) {
++		if (codec->exit)
++			codec->exit(codec);
++		if (codec_fabric->remove_codec)
++			codec_fabric->remove_codec(codec);
++
++		codec->fabric = NULL;
++		module_put(codec->owner);
++	}
+ }
+ EXPORT_SYMBOL_GPL(aoa_codec_unregister);
+ 
+-- 
+2.55.0
 
-CPU0                              CPU1
-swrm_runtime_suspend()            qcom_swrm_irq_handler()
-  sdw_bus_clk_stop()
-                                    complete(&ctrl->broadcast)
-                                    ...
-  disable_irq(ctrl->irq)
-                                  <hardirq: CLK_STOP_FINISHED_V2>
-                                    handle_fasteoi_irq()
-                                      /* sets IRQS_PENDING, masks line */
-  clk_disable_unprepare(ctrl->hclk)
-  usleep_range(300, 305)
-  enable_irq(ctrl->irq)
-    check_irq_resend()
-                                  qcom_swrm_irq_handler()
-                                    clk_prepare_enable(ctrl->hclk)
-                                    /* CLK_STOP_FINISHED_V2 is a no-op */
-                                    clk_disable_unprepare(ctrl->hclk)
-                                      <-- pulses bus clock while stopped
-
-Because SWRM_INTERRUPT_STATUS_CLK_STOP_FINISHED_V2 is a no-op in
-qcom_swrm_irq_handler() and does not resume the controller, the replayed
-handler toggles ctrl->hclk on and off without a clock-stop exit or entry
-sequence.  On platforms such as x1e80100 and glymur where hclk is the
-SoundWire bus clock itself, pulsing the clock while peripherals are in
-clock stop corrupts peripheral state and causes subsequent clock-stop
-exit failures (bus clash, parity errors, AUTO_ENUM_FAILED).
-
-Masking SWRM_INTERRUPT_STATUS_CLK_STOP_FINISHED_V2 alongside
-SWRM_INTERRUPT_STATUS_MASTER_CLASH_DET in SWRM_REG_INTERRUPT_CPU_EN
-before issuing sdw_bus_clk_stop() (or leaving only SLAVE_PEND_IRQ
-enabled during clock stop) would prevent CLK_STOP_FINISHED_V2 from being
-latched while ctrl->irq is disabled.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261128-sdw-qcom-i=
-rq-v1-1-d053ac530faa@oss.qualcomm.com?part=3D1
