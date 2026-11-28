@@ -1,78 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795828967;
-	b=wPUtP8ijOuac/q6rVqnG8jTpV1xyUgrXa8E4RVScgQ8IwaBq1EdFP1vF+geky079wioJ
-	 xkP2RBp6JOqd4E+QuiCbNGDA7/4NKjDhntTeJMyz3U+NsHOgbsFTgQUhZoVEjA2YAYLHI
-	 eynWK6ZGlKTYDtVPVUZqRjbiLLXPE4ZukFEuyQIdUae1CAgXMRS7+WUMEz4alvx9QY/uC
-	 aRteYsyXk7mOViacSTgXFh5RU2lwnudLUJaCSBDDXleRe0S+S0a3v67rtCn/OaZ3pYgbI
-	 ZE7FXsBJybFM464togtYtja1uhCM+Xf0BxSqG/t9OF5swVjJlimTs3e+VYgLLyRzq4g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795828967;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cFBbiXkN5r28OvuYPToLrq7vCtbDjfKbRh3y/3moQBI=;
-	b=AgooQ7UHFX503sfvlXvjEY2GGNhzJfmSWS7N4GCvYXojAlFZmPvFjqiHSwCnIlu+k7AC
-	 /XnIL5YjCa+/JWqDVbNbDQMD0HaUjTVwMGWTVi48+VF4CojR20n1wi0YAmVqni3Q6qa9u
-	 kn4F/BsOhADBEc/7F00VvQipi59Hz8MYU0wdPmrlo/KFWq1uwwqOYf5dsrkYyucoLbu1e
-	 ikBmiNF+gW7Irv7ihPVPUT6qs2QodvkoVuwt/Jso2SslQuWOmH/P8nCPnO/mglSNyvthR
-	 FZpDh99OiMoGdnsFS52FbV4TPL9Qo/QR67w7zUreMgnIRl33TB326ke8wfPfnDQM64Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NjlkenYE;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CFC606A31C;
-	Sat, 28 Nov 2026 01:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NjlkenYE
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795828966;
-	b=L7TpsyzMNYrXdSyDzjS30QSdWK0526H0+RsVdrhIGo80+IN5b6qVbMMwO8CB/44+d1It
-	 bqDNRayXpYmL0KlPovxHjzjnoJQJr9rKnv8XrW22EMF10gVzvopVonjphoQ7VWMn4weer
-	 029pWWLnG4f4uGfHm95Y4ykUPmlpCGDCzRkthmTceIghXxEmElaf0z8gDapA0t7JMylv7
-	 5rMZz6KwNwTW5XsQMh/MClNypM7IlRTKK41wdc41kmKliCc6p9gAJiSKDJahmJybrOm0L
-	 u2V5IpZI/5gI5G3bKqDTnSjEGHwFH5MZ3DQ+SAmZIvc8RNI9w4hJmjSclVFVXvRpZHA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795828966;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cFBbiXkN5r28OvuYPToLrq7vCtbDjfKbRh3y/3moQBI=;
-	b=Psjx8C65Y2NHMaanNvzcEWgPdhALQ+qXOywI2opTOtpqVxt3LODQhdvBi2Ve5svH15O7
-	 pd5j2YnWRs5HNCS1CH3rmeGHhjpb5dSU5iVuX4Cfd0zLR+XaLQGpN4u1gu/MGH72WtMz5
-	 wevGoS/1sfMsHz9+OVpBhAkHH79fmsAc684PfCMNaDQ5ZCUsZAVOvn4TsZS7EBawph2hd
-	 UwbSqv4a4UZ1qCr/3kONC2OnWts6mQVR3mNxX6adu68Ne020TF9e+2TU/id53MaeqkR2f
-	 1twRmYQCm9wS5o2D6LIwDVk7EWuMEXCf6gmfoE7l4Cob1kXt/cJrD4UlpcXMOWIhL5w==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.177
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795837338;
+	b=d9RjEI0dw+O0sVtazZhQNFO6LkaNKMVnK8Ut4Dru3NU3O5NT+cmcRb8ROIzXTrTshO5n
+	 IgJEcwZEFKxzAGq93F3zzPBGcFwtWfMVQhVd2a5aGHKMXCcCSK89gQ5luUxGyt4YKgfSs
+	 tDRjIA2RLjWZmQmF7OM3YCS0TWXvxDzizYKhJicZ0fyjImA/T90pBGMGl7+hAaK2ZPTPc
+	 Qo+ADLyRzGVe9AxFSyLYrpU1/KVKPeBfXD5LjNPoLz/k5vGJgQVGEGbEHsuU4hhkSbb/i
+	 RR1465xy9GnJcVSv3DbfuYCnoz1aOAREnPSAOqIKP786nVJI09wB1bWCr+JPlhMhNfg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795837338;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=kWwklMq2u8/SctGcEuICjrB5XV5JOccfY4onwd9F9NQ=;
+	b=P0pvwiwluvGGnEG3t+vJ4sd6Ua1pLG4FRfgAOJNAkRqZifbMkpwDlnk7b3j+G3ckv/Fh
+	 dHJT3FuxQQSt1Ebz3OaDEM/jh7op8+Kt5KpUNihaLSUG4NeFNle253z8GkbILtSzLEjJM
+	 sxRjbKMgaWzFq+W1gFgl/CEOFzxZ08b73qwkd0JfpAl3RGr6/67a/ZVqHGEqNLbK+pFrX
+	 9q8QZrsd+eE+IGkAPDhW5lZLqJBeAdIoDwkRj8ve/fW96xIvBLR+7mPj07DvSoqYjpBWq
+	 5ALFgvVHflqclAIHNZ2SUxxGBYFo5/zhIP1WumoPPypb4rLC3JVWgzzKqPIq0bJ//yQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bhFG9Eha;
+	arc=none smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3B0991F00893;
-	Sat, 28 Nov 2026 01:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795828966;
-	bh=cFBbiXkN5r28OvuYPToLrq7vCtbDjfKbRh3y/3moQBI=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=NjlkenYEc627NDQ1slSHvi7z1MNX1G6CWPBBuWHwRmdtXHTH4DfxHaUZ0JgVNLJNC
-	 MOMRZDzcjvCe1i+hKrKiasxv6U537ISIz6Nl3+xyVzSDGESDKT+7bN2YZ3HaCUgQTf
-	 VFnD3U+PuIcDYf/KQBupwHuOSDUij0CAmKzTc5CxWy9K3VgUoHIo8FUlf2aFwnWTHf
-	 Tf2uNXL9sfZHCvfvZOMHPIUSThQ699akR/oPUA6KPQ1vyneLH29yn6oW4YMkgwbWWk
-	 FeIhorGY1n+Al4g11rIGdQQF5bHzO/3S9G1LBA2fRFqbGaOw1s9e7q9v2Hf/1UAYgd
-	 u5LLaIqv4rsdA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 91B1B4DEF4;
-	Sat, 28 Nov 2026 01:22:45 +0000 (UTC)
-From: Silvio Unkovic via B4 Relay <devnull+silvio.unkovic.pm.me@kernel.org>
-Date: Sat, 28 Nov 2026 02:22:30 +0100
-Subject: [PATCH] ALSA: usb-audio: Add quirks for Sony PlayStation Eye
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66F0606A31C
+	for <linux-sound@vger.kernel.org>; Sat, 28 Nov 2026 03:42:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E66F0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bhFG9Eha
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2f066274caeso41763155ad.2
+        for <linux-sound@vger.kernel.org>; Fri, 27 Nov 2026 19:42:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795837337; x=1796442137; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kWwklMq2u8/SctGcEuICjrB5XV5JOccfY4onwd9F9NQ=;
+        b=bhFG9Ehao97BTtnkSupaQXbbI53kjo9550B81Yid0Oqtm8slxQfNUkvX6KdfP0vZ3T
+         d+4twaWhyE2RWOQp4EbMimO6CVnt+bAukd3hseSrqy+nfrJrxgIBFAwTD/L52HEt+hJk
+         TNL72OJ8AUb+v9oNVWECaICj0xeiHT7wCPuluJrIiWbpkpJdZUBsx5x3xl+oPlbQkC/i
+         ALheGPnVRniIDmaZAEP2udiJ9LWSAbCnlO3Fcfq0vKJTmK3avKHFiVOnGNL+U5Qbi8jb
+         UcaXIImpTwekOHzThz1rvnn7VDFX7w5T6x0l7M7hrRIe0n5fyhjABmLQ6/YHiEkE3J8m
+         2fHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795837337; x=1796442137;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kWwklMq2u8/SctGcEuICjrB5XV5JOccfY4onwd9F9NQ=;
+        b=cnqoDXhiTEodcDeN+Jx/UW7RRfnnzw67HXPJK/llAAzBpEHcuGgLwaTD88QLkL7TkF
+         M1ur+BSaZBymzvAgmK4UqxCOwMpzMdjm87uAONg+Eoq7Hth7lYzdbdK8cSVtpXfiIlpu
+         4Kxbxuw3qNZDQ83w8y0KyYF5N5OxdBT8EI4W9ZyZeFGLA+DstUF9r+gTY2cLO+QhCX1j
+         I4wV/4A+U4gUh9PRIBTPHHVOyaZdtQB28Di5DOmMLShtbHc9a5zAAuhiCIw3Zh1KneUf
+         4HpECg81yT0x2YCfFsHH1GGF+1hJpelffeH+SqkLAiDTRb4xYAWhf3vE9T+zA9pwdxDT
+         5nwg==
+X-Forwarded-Encrypted: i=1; AL+hErG7MyLtyb9Ip680aOEbH2gRx8hCjo5oiiQCcKSOUEGXFmxfzGiFTqNPeFxGasX/yKsTD1hJKHYmrxzFqA==@vger.kernel.org
+X-Gm-Message-State: APuU4Z/mcLPClUHXUnP0DwGmDJO7/1N70qSKnXp+WTgjj2LuGmm+kN9Q
+	9y4KW4vDL2ZKwE6kkMbcJmo79bkN1CBU6ekJuVFOWpxBPK/ybp/UR/oE
+X-Gm-Gg: AZFdTZda/BnI4MWNyvdqEcNHeBRrMnPy3wRCrj/kwUjW9bMvrC6JEWMxfjYKNkxBgn/
+	1HH+UJnV9r4ZCX6UiGLrjgh15cd+mJR91o16vfo4h7TM5Yh8er1Tjms2hu4QOy1Lb74opx+xiCr
+	/LKn6TBmSUJiMlDnLF7IS8Zw7Mqz6YdVZrX6Oc5hgl+N6kcK4gMv6ISoSUZ7MFJjDpavBkQVL4H
+	/VlMEpHl6hNmERLO5d3O7GnJjgbZFTdJ+L5O+vrJ5mctifo1kbcmkzeeAj0R/28romq+NrdyB24
+	0ID183uUIqyBuxx5GGbp4EQZmIqHENcqpyODlaET8S084RMYorCKJtY1oqqTCLbtCGEu7LQt6Oi
+	zwjNToIHetLiepQlBxvgW6aDNCitSe5EDv/+VbUaZEeSgqVO+q4cmSUbpe8R3z7LjA0EdQUEiCv
+	2ftGg1OO8lxlO1q29hzLLQZYKWcgzHb/W+gIzBZ3wTX+FG+jL5JcfoaMR/BkrK2PL8tUdKB6SKw
+	HxFe9NGnFBjqz+ZTFo6xnxsFVVp9JG3FZR7Zf3fvz/Tunj2h33YaaBKOOynBNqDFVCf8TRyQu10
+	/g0NJRUgPC0bglN3+kCAabuTpq4=
+X-Received: by 2002:a17:90b:3810:b0:3b3:cb3b:1965 with SMTP id 98e67ed59e1d1-3b41c8fe1f8mr26427976a91.16.1795837337195;
+        Fri, 27 Nov 2026 19:42:17 -0800 (PST)
+Received: from debian.. ([192.227.246.212])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b792474sm19491352a91.3.2026.11.27.19.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 19:42:16 -0800 (PST)
+From: Harry Bit <idleassetsd@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Daniel Drake <drake@endlessm.com>,
+	Katsuhiro Suzuki <katsuhiro@katsuster.net>,
+	Matteo Martelli <matteomartelli3@gmail.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Harry Bit <idleassetsd@gmail.com>
+Subject: [PATCH] ASoC: es8316: fix MCLK_DIV clearing and 20dB mic boost routing
+Date: Sat, 28 Nov 2026 11:42:10 +0800
+Message-ID: <20261128034210.746029-1-idleassetsd@gmail.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Post: <mailto:linux-sound@vger.kernel.org>
@@ -82,128 +102,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-sound+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261128-pseye-audio-v1-1-b751d7911847@pm.me>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ5EQBBG4atIrXWimkjHVSazQP8oC6SLyYi4u
- 8byW7x3kCIIlKrkoICfqMxTBKcJtUM99TDio8lmtmS2ziyKHabevMzGOVuUyJi73FMsloBO/s/
- t832tWzOiXe8FnecFI2Qgg28AAAA=
-X-Change-ID: 20261128-pseye-audio-88246e011f3d
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Silvio Unkovic <silvio.unkovic@pm.me>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795828965; l=3921;
- i=silvio.unkovic@pm.me; s=20261128; h=from:subject:message-id;
- bh=JrLnAEHr27j9SpqNizQ3trGT7b8Z6DBmJXWrIsAhv18=;
- b=PDxWC7aricQBhCiifOAYidPVGV3Hgzfp56TCkwXuwUR8T6pHIwgr19ZkDOIjmcEKE8ZH9N7di
- hjC7+Cvw6jMBH5X5A1ven+shB6IcgvYxZfFp4ABmGtcPlyJ11W7zHd+
-X-Developer-Key: i=silvio.unkovic@pm.me; a=ed25519;
- pk=EnRsDjntfFouyIMyaboNgoB+wQ65iMW873YmPIjPiII=
-X-Endpoint-Received: by B4 Relay for silvio.unkovic@pm.me/20261128 with
- auth_id=1673
-X-Original-From: Silvio Unkovic <silvio.unkovic@pm.me>
-Reply-To: silvio.unkovic@pm.me
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Silvio Unkovic <silvio.unkovic@pm.me>
+Clear ES8316_CLKMGR_CLKSW_MCLK_DIV when switching from a halved MCLK
+back to an unhalved MCLK rate, and wire the missing 20 dB microphone
+boost Differential Mux DAPM routes for MIC1 and MIC2.
 
-The Sony PlayStation Eye camera (1415:2000) has a UAC1 four-microphone
-array capture interface with a single 16 kHz rate.
-
-Reading back the sampling frequency from its endpoint returns garbage
-(e.g. 33186, 17004 or 2199316 instead of 16000), producing a "current
-rate ... is different from the runtime rate" warning on every stream
-start.  This was already reported in 2012 [1].  Set
-QUIRK_FLAG_GET_SAMPLE_RATE to skip the read.
-
-Its feature unit 3 advertises a per-channel volume control, but the
-device answers GET_MIN, GET_MAX, GET_RES and GET_CUR with a single zero
-byte instead of two bytes, so the driver logs "cannot get min/max
-values" and creates a "Mic Capture Volume" control with a fallback 0..1
-range that returns -EINVAL on read.  SET_CUR is accepted for any value,
-but the capture level does not change: with a fixed range forced in the
-driver, recordings stayed at the same level for every setting from
--80 dB to +60 dB.  Skip the control via a mixer map.
-
-[1] "Usb audio - unsuported sampling rates", alsa-devel, 2012-07-10
-
-Assisted-by: Claude:claude-fable-5-2
-Signed-off-by: Silvio Unkovic <silvio.unkovic@pm.me>
+Fixes: b8b88b70875a ("ASoC: add es8316 codec driver")
+Fixes: 869f30782cda ("ASoC: es8316: Enable support for MCLK div by 2")
+Signed-off-by: Harry Bit <idleassetsd@gmail.com>
 ---
-Tested on a PlayStation Eye (1415:2000, bcdDevice 2.00, product string
-"USB Camera-B4.09.24.1") on 7.3.4 with snd-usb-audio rebuilt with this
-patch: no "current rate" or "cannot get min/max values" messages on
-plug-in or stream start, the control is gone, and 4-channel 16 kHz
-capture works as before.
+ sound/soc/codecs/es8316.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-The volume findings come from sending the FU 3 requests through usbfs
-with the control interface unbound, and from a test build that gave the
-control a fixed -80..+60 dB range and stepped it with amixer while
-recording, in a quiet room and with music playing.
-
-Tool use: an AI coding assistant (Claude Code) did the investigation of
-the driver code, wrote the patch and the test scripts, and drafted this
-changelog, working on my machine with the camera attached.  I ran the
-tests on the hardware and reviewed the change and the results.
----
- sound/usb/mixer_maps.c | 16 ++++++++++++++++
- sound/usb/quirks.c     |  2 ++
- 2 files changed, 18 insertions(+)
-
-diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
-index 9218ca631..26319ed0a 100644
---- a/sound/usb/mixer_maps.c
-+++ b/sound/usb/mixer_maps.c
-@@ -562,6 +562,17 @@ static const struct usbmix_name_map avermedia_gc553pro_map[] = {
- 	{}
- };
+diff --git a/sound/soc/codecs/es8316.c b/sound/soc/codecs/es8316.c
+index 334ac9119c..f329771bf9 100644
+--- a/sound/soc/codecs/es8316.c
++++ b/sound/soc/codecs/es8316.c
+@@ -305,6 +305,8 @@ static const struct snd_soc_dapm_route es8316_dapm_routes[] = {
  
-+/*
-+ * Sony PlayStation Eye: FU 3 advertises per-channel volume for the four
-+ * microphones, but the device answers GET_MIN, GET_MAX and GET_CUR with a
-+ * single zero byte, and SET_CUR is accepted without changing the capture
-+ * level.  Skip the control.
-+ */
-+static const struct usbmix_name_map sony_ps_eye_map[] = {
-+	{ 3, NULL, UAC_FU_VOLUME },
-+	{}
-+};
-+
- /*
-  * Control map entries
-  */
-@@ -640,6 +651,11 @@ static const struct usbmix_ctl_map usbmix_ctl_maps[] = {
- 		.id = USB_ID(0x13e5, 0x0001),
- 		.map = scratch_live_map,
- 	},
-+	{
-+		/* Sony PlayStation Eye */
-+		.id = USB_ID(0x1415, 0x2000),
-+		.map = sony_ps_eye_map,
-+	},
- 	{
- 		.id = USB_ID(0x200c, 0x1018),
- 		.map = ebox44_map,
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index bd00db820..ff2bfe850 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2713,6 +2713,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_PLAYBACK_FIRST | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x13e5, 0x0001, /* Serato Phono */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
-+	DEVICE_FLG(0x1415, 0x2000, /* Sony PlayStation Eye */
-+		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x152a, 0x85dd, /* SMSL USB DAC */
- 		   QUIRK_FLAG_DSD_RAW | QUIRK_FLAG_DISABLE_AUTOSUSPEND |
- 		   QUIRK_FLAG_SKIP_IFACE_SETUP),
-
----
-base-commit: e1aff4d4241057636394751508e633a92f1cbbab
-change-id: 20261128-pseye-audio-88246e011f3d
-
-Best regards,
---  
-Silvio Unkovic <silvio.unkovic@pm.me>
-
+ 	{"Differential Mux", "lin1-rin1", "MIC1"},
+ 	{"Differential Mux", "lin2-rin2", "MIC2"},
++	{"Differential Mux", "lin1-rin1 with 20db Boost", "MIC1"},
++	{"Differential Mux", "lin2-rin2 with 20db Boost", "MIC2"},
+ 	{"Line input PGA", NULL, "Differential Mux"},
+ 
+ 	{"Mono ADC", NULL, "ADC Clock"},
+@@ -514,11 +516,10 @@ static int es8316_pcm_hw_params(struct snd_pcm_substream *substream,
+ 		}
+ 	} while (!clk_valid);
+ 
+-	if (clk != es8316->sysclk) {
+-		snd_soc_component_update_bits(component, ES8316_CLKMGR_CLKSW,
+-					      ES8316_CLKMGR_CLKSW_MCLK_DIV,
+-					      ES8316_CLKMGR_CLKSW_MCLK_DIV);
+-	}
++	snd_soc_component_update_bits(component, ES8316_CLKMGR_CLKSW,
++				      ES8316_CLKMGR_CLKSW_MCLK_DIV,
++				      clk != es8316->sysclk ?
++				      ES8316_CLKMGR_CLKSW_MCLK_DIV : 0);
+ 
+ 	lrck_divider = clk / params_rate(params);
+ 	bclk_divider = lrck_divider / 4;
+-- 
+2.47.3
 
